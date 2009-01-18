@@ -18,10 +18,7 @@
 # limitations under the License.
 #
 # Get prerequisite recipes.
-include_recipe "iptables"
 include_recipe "subversion"
 include_recipe "mysql::server"
 
 runit_service "redmine"
-
-iptables_rule "port_redmine"

@@ -16,7 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "iptables"
 
 include_recipe "mysql::client"
 
@@ -29,14 +28,12 @@ service "mysql" do
   action :enable
 end
 
-iptables_rule "port_mysql"
-
 if (node[:ec2] && ! FileTest.directory?(node[:mysql_ec2_path]))
   
   mysql_server_path = ""
   
   case node[:platform]
-  when "Ubuntu","Debian"
+  when "ubuntu","debian"
     mysql_server_path = "/var/lib/mysql"
   else
     mysql_server_path = "/var/mysql"

@@ -18,13 +18,13 @@
 #
 
 case node[:platform]
-when "Ubuntu","Debian"
+when "ubuntu","debian"
   %w{build-essential binutils-doc}.each do |pkg|
     package pkg do
       action :install
     end
   end
-when "CentOS"
+when "centos"
   package "gcc" do
     action :install
   end

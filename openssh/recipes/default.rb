@@ -17,10 +17,8 @@
 # limitations under the License.
 #
 
-include_recipe "iptables"
-
 packages = case node[:platform]
-  when "CentOS","RedHat","Fedora"
+  when "centos","redhat","fedora"
     %w{openssh-clients openssh}
   else
     %w{openssh-client openssh-server}
@@ -32,7 +30,7 @@ end
 
 service "ssh" do
   case node[:platform]
-  when "CentOS","RedHat","Fedora"
+  when "centos","redhat","fedora"
     service_name "sshd"
   else
     service_name "ssh"
@@ -40,6 +38,4 @@ service "ssh" do
   supports :restart => true
   action [ :enable, :start ]
 end
-
-iptables_rule "port_ssh"
 

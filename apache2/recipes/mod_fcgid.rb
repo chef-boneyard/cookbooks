@@ -17,9 +17,9 @@
 # limitations under the License.
 #
 
-if platform?("Debian", "Ubuntu")
+if platform?("debian", "ubuntu")
   package "libapache2-mod-fcgid"
-elsif platform?("CentOS", "RedHat", "SuSE")
+elsif platform?("centos", "redhat", "suse")
   apache_lib_path = node[:architecture] == "i386" ? "/usr/lib/httpd" : "/usr/lib64/httpd"
   package "httpd-devel"
   bash "install-fcgid" do

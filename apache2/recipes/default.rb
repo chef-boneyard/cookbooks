@@ -17,13 +17,11 @@
 # limitations under the License.
 #
 
-include_recipe "iptables"
-
 package "apache2" do
   case node[:platform]
-  when "CentOS","RedHat","Fedora","SuSE"
+  when "centos","redhat","fedora","suse"
     name "httpd"
-  when "Debian","Ubuntu"
+  when "debian","ubuntu"
     name "apache2"
   end
   action :install
@@ -31,16 +29,16 @@ end
 
 service "apache2" do
   case node[:platform]
-  when "CentOS","RedHat","Fedora","SuSE"
+  when "centos","redhat","fedora","suse"
     name "httpd"
-  when "Debian","Ubuntu"
+  when "debian","ubuntu"
     name "apache2"
   end
   supports :restart => true
   action :enable
 end
 
-if platform?("CentOS", "RedHat", "Fedora", "SuSE")
+if platform?("centos", "redhat", "fedora", "suse")
   directory node[:apache][:log_dir] do
     mode 0755
     action :create
@@ -86,9 +84,9 @@ end
 
 template "apache2.conf" do
   case node[:platform]
-  when "CentOS","RedHat","Fedora"
+  when "centos","redhat","fedora"
     path "#{node[:apache][:dir]}/conf/httpd.conf"
-  when "Debian","Ubuntu"
+  when "debian","ubuntu"
     path "#{node[:apache][:dir]}/apache2.conf"
   end
   source "apache2.conf.erb"
@@ -103,13 +101,6 @@ template "#{node[:apache][:dir]}/ports.conf" do
   owner "root"
   variables :apache_listen_ports => node[:apache][:listen_ports]
   mode 0644
-end
-
-node[:apache][:listen_ports].each do |port|
-  iptables_rule "port_#{port}" do
-    source "port_apache.erb"
-    variables :port => port
-  end
 end
 
 template "#{node[:apache][:dir]}/sites-available/default" do
@@ -134,7 +125,7 @@ include_recipe "apache2::mod_env"
 include_recipe "apache2::mod_mime"
 include_recipe "apache2::mod_negotiation"
 include_recipe "apache2::mod_setenvif"
-include_recipe "apache2::mod_log_config" if platform?("CentOS", "RedHat", "SuSE")
+include_recipe "apache2::mod_log_config" if platform?("centos", "redhat", "suse")
 
 service "apache2" do
   action :start

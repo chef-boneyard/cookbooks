@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "iptables"
-
 package "munin-node" 
 
 service "munin-node" do
@@ -37,5 +35,3 @@ template "/etc/munin/munin-node.conf" do
   variables :munin_server_regexs => munin_server_regexs
   notifies :restart, resources(:service => "munin-node")
 end
-
-iptables_rule "port_munin"

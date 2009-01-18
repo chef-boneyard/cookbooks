@@ -19,7 +19,7 @@
 
 package "mysql-devel" do
   package_name value_for_platform(
-    [ "CentOS", "RedHat", "SuSE" ] => { "default" => "mysql-devel" },
+    [ "centos", "redhat", "suse" ] => { "default" => "mysql-devel" },
     "default" => 'libmysqlclient15-dev'
   )
   action :install
@@ -27,7 +27,7 @@ end
 
 package "mysql-client" do
   package_name value_for_platform(
-    [ "CentOS", "RedHat", "SuSE" ] => { "default" => "mysql" },
+    [ "centos", "redhat", "suse" ] => { "default" => "mysql" },
     "default" => "mysql-client"
   )
   action :install

@@ -22,13 +22,13 @@ package "subversion" do
 end
 
 extra_packages = case node[:platform]
-  when "Ubuntu","Debian"
+  when "ubuntu","debian"
     if node[:platform_version].to_f < 8.04
       %w{subversion-tools libsvn-core-perl}
     else
       %w{subversion-tools libsvn-perl}
     end
-  when "CentOS","RedHat","Fedora"
+  when "centos","redhat","fedora"
     %w{subversion-devel subversion-perl}
   end
 

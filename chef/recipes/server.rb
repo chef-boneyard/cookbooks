@@ -34,7 +34,3 @@ end
 
 runit_service "chef-indexer" 
 runit_service "chef-server"
-
-["couchdb", "chef"].each do |port|
-  iptables_rule "port_#{port}"
-end
