@@ -22,7 +22,7 @@ package "zsh" do
 end
 
 case node[:platform]
-when "Ubuntu"
+when "ubuntu"
   package "zsh-doc" do
     action :install
   end

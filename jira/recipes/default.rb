@@ -31,7 +31,7 @@ include_recipe "java"
 include_recipe "apache2"
 include_recipe "apache2::mod_proxy"
 include_recipe "apache2::mod_proxy_http"
-include_recipe "apacheA2::mod_ssl"
+include_recipe "apache2::mod_ssl"
 
 unless FileTest.exists?(node[:jira_install_path])
   remote_file "jira" do

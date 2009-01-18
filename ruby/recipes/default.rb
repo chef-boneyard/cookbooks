@@ -22,7 +22,7 @@ package "ruby" do
 end
 
 extra_packages = case node[:platform]
-  when "Ubuntu","Debian"
+  when "ubuntu","debian"
     %w{
       ruby1.8
       ruby1.8-dev

@@ -18,6 +18,6 @@
 #
 
 case node[:platform]
-when "Ubuntu","Debian"
+when "ubuntu","debian"
   package "man-db"
 end
