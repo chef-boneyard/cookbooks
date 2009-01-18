@@ -18,10 +18,10 @@
 #
 
 java_pkg = value_for_platform(
-  "Ubuntu" => {
+  "ubuntu" => {
     "default" => "sun-java6-jdk"
   },
-  "Debian" => {
+  "debian" => {
     "default" => "sun-java6-jdk"
   },
   "default" => "sun-java6-jdk"
