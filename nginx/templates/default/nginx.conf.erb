@@ -1,0 +1,37 @@
+user <%= @node[:nginx_user] %>;
+worker_processes  <%= @node[:nginx_worker_processes] %>;
+
+error_log  <%= @node[:nginx_log_dir] %>/error.log;
+pid        /var/run/nginx.pid;
+
+events {
+  worker_connections  <%= @node[:nginx_worker_connections] %>;
+}
+
+http {
+  include       /etc/nginx/mime.types;
+  default_type  application/octet-stream;
+
+  access_log	<%= @node[:nginx_log_dir] %>/access.log;
+
+  sendfile on;
+  tcp_nopush on;
+  tcp_nodelay on;
+
+  <% if @node[:nginx_keepalive] == "on" %>
+  keepalive_timeout  <%= @node[:nginx_keepalive_timeout] %>;
+  <% end %>
+
+  gzip  <%= @node[:nginx_gzip] %>;
+  <% if @node[:nginx_gzip] == "on" %>
+  gzip_http_version <%= @node[:nginx_gzip_http_version] %>;
+  gzip_comp_level <%= @node[:nginx_gzip_comp_level] %>;
+  gzip_proxied <%= @node[:nginx_gzip_proxied] %>;
+  gzip_types <%= @node[:nginx_gzip_types].join(' ') %>;
+  <% end %>
+
+  server_names_hash_bucket_size <%= @node[:nginx_server_names_hash_bucket_size] %>;
+
+  include /etc/nginx/conf.d/*.conf;
+  include /etc/nginx/sites-enabled/*;
+}
