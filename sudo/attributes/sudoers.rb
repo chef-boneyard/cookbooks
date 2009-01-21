@@ -26,5 +26,5 @@ unless authorization[:sudo].has_key?(:groups)
 end
 
 unless authorization[:sudo].has_key?(:users)
-  authorization[:sudo][:users] = Array.new unless
+  authorization[:sudo][:users] = Array.new
 end
