@@ -19,7 +19,7 @@
 
 template "/etc/apt/sources.list" do
   mode 0644
-  variables :code_name => node[:lsbdistcodename]
+  variables :code_name => node[:lsb][:codename]
   source "sources.list.erb"
 end
 
