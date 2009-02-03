@@ -49,19 +49,17 @@ define :runit_service, :directory => nil, :only_if => false do
     source "sv-#{params[:name]}-log-run.erb"
   end
   
-  link "sv-#{params[:name]}" do
-    source_file node[:runit_sv_bin]
-    target_file "/etc/init.d/#{params[:name]}"
+  link "/etc/init.d/#{params[:name]}" do
+    to node[:runit_sv_bin]
   end
   
-  link "service-#{params[:name]}" do
-    target_file "#{node[:runit_service_dir]}/#{params[:name]}"
-    source_file "#{sv_dir_name}"
+  link "#{node[:runit_service_dir]}/#{params[:name]}" do 
+    to "#{sv_dir_name}"
   end
   
   service params[:name] do
     supports :restart => true, :status => true
-    action :enable
+    action :nothing
   end
   
   #execute "#{params[:name]}-down" do
