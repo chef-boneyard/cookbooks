@@ -18,6 +18,7 @@
 # limitations under the License.
 #
 include_recipe "build-essential"
+include_recipe "runit"
 
 bash "install_djbdns" do
   user "root"
