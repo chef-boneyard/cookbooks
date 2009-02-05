@@ -23,16 +23,16 @@ execute "/usr/local/bin/tinydns-conf tinydns dnslog /etc/tinydns #{node[:djbdns]
   only_if "/usr/bin/test ! -d /etc/tinydns-internal"
 end
 
-template "/etc/tinydns-internal/root/data" do
-  source "tinydns-internal-data.erb"
-  mode 644
-  notifies :action, resources("execute[build-tinydns-internal-data]")
-end
-
 execute "build-tinydns-internal-data" do
   cwd "/etc/tinydns-internal/root"
   command "make"
-  notify_only true
+  action :nothing
+end
+
+template "/etc/tinydns-internal/root/data" do
+  source "tinydns-internal-data.erb"
+  mode 644
+  notifies :run, resources("execute[build-tinydns-internal-data]")
 end
 
 template "/etc/tinydns-internal/run" do
