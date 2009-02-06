@@ -1,7 +1,7 @@
 #
-# Cookbook Name:: djbdns
-# Recipe:: default
 # Author:: Joshua Timberman (<joshua@opscode.com>)
+# Cookbook Name:: djbdns
+# Recipe:: internal_server
 #
 # Copyright 2009, Opscode, Inc
 #
