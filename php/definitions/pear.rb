@@ -18,24 +18,26 @@
 # limitations under the License.
 #
 
-define :pear_module, :enable => true, :module do
+define :pear_module, :module, :enable => true do
   
   include_recipe "php::pear"
   
   if params[:enable]
-    execute "/usr/bin/pear install -a #{params[:module]}"
-    only_if "/bin/sh -c '! /usr/bin/pear info #{params[:module]} 2>&1 1>/dev/null"
+    execute "/usr/bin/pear install -a #{params[:module]}" do
+      only_if "/bin/sh -c '! /usr/bin/pear info #{params[:module]} 2>&1 1>/dev/null"
+    end
   end
   
 end
 
-define :pear_channel, :enable => true, :channel do
+define :pear_channel, :channel, :enable => true do
   
   include_recipe "php::pear"
   
   if params[:enable]
-    execute "/usr/bin/pear channel-discover #{params[:channel]}"
-    only_if "/bin/sh -c '! /usr/bin/pear/channel-info #{params[:channel]} 2>&1 1>/dev/null"
+    execute "/usr/bin/pear channel-discover #{params[:channel]}" do
+      only_if "/bin/sh -c '! /usr/bin/pear/channel-info #{params[:channel]} 2>&1 1>/dev/null"
+    end
   end
   
 end
