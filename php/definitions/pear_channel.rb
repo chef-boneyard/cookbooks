@@ -1,7 +1,7 @@
 #
 # Author::  Joshua Timberman (<joshua@opscode.com>)
 # Cookbook Name:: php
-# Recipe:: php_app
+# Recipe:: pear_channel
 #
 # Copyright 2009, Opscode, Inc.
 #
@@ -18,24 +18,14 @@
 # limitations under the License.
 #
 
-define :php_app, :docroot => nil, :canonical_hostname => nil, :template => "php/php.conf.erb" do
+define :pear_channel, :channel => nil, :enable => true do
   
-  application_name = params[:name]
+  include_recipe "php::pear"
   
-  include_recipe "apache2"
-  include_recipe "apache2::mod_rewrite"
-  include_recipe "apache2::mod_deflate"
-  include_recipe "apache2::mod_headers"
-  
-  template "/etc/apache2/sites-available/#{params[:name]}.conf" do
-    source "#{params[:template]}"
-    variables :docroot => params[:docroot], :canonical_hostname => params[:canonical_hostname]
-    owner "root"
-    group "root"
-    mode 0644
-    notifies :reload, resources("service[apache2]"), :delayed
+  if params[:enable]
+    execute "/usr/bin/pear channel-discover #{params[:channel]}" do
+      only_if "/bin/sh -c '! /usr/bin/pear/channel-info #{params[:channel]} 2>&1 1>/dev/null"
+    end
   end
-  
-  apache_site "#{params[:name]}.conf"
   
 end

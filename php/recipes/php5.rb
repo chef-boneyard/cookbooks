@@ -27,6 +27,7 @@ include_recipe "php::module_pgsql"
 include_recipe "php::pear"
 
 remote_file "/etc/php5/apache2/php.ini" do
+  source "apache2-php5.ini"
   owner "root"
   group "root"
   mode 0644

@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-define :pear_module, :module, :enable => true do
+define :pear_module, :module => nil, :enable => true do
   
   include_recipe "php::pear"
   
@@ -30,7 +30,7 @@ define :pear_module, :module, :enable => true do
   
 end
 
-define :pear_channel, :channel, :enable => true do
+define :pear_channel, :channel => nil, :enable => true do
   
   include_recipe "php::pear"
   
