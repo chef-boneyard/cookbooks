@@ -1,7 +1,7 @@
 #
 # Author:: Joshua Timberman <joshua@opscode.com>
-# Cookbook Name:: chef
-# Recipe:: server
+# Cookbook Name:: couchdb
+# Recipe:: default
 #
 # Copyright 2008, OpsCode, Inc
 #
@@ -17,28 +17,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "runit"
-include_recipe "couchdb"
-include_recipe "stompserver" 
+package "couchdb"
 
-directory "/etc/chef" do
-  owner "root"
-  mode 0755
+directory "/var/lib/couchdb" do
+  owner "couchdb"
+  group "couchdb"
+  recursive true
 end
 
-template "/etc/chef/server.rb" do
-  owner "root"
-  mode 0644
-  source "server.rb.erb"
-  action :create
+service "couchdb" do
+  supports :restart => true, :status => true
+  action :enable
 end
-
-template "/etc/chef/client.rb" do
-  owner "root"
-  mode 0644
-  source "client.rb.erb"
-  action :create
-end
-
-runit_service "chef-indexer" 
-runit_service "chef-server"

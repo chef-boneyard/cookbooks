@@ -1,7 +1,7 @@
 #
 # Author:: Joshua Timberman <joshua@opscode.com>
-# Cookbook Name:: chef
-# Recipe:: server
+# Cookbook Name:: stompserver
+# Recipe:: default
 #
 # Copyright 2008, OpsCode, Inc
 #
@@ -18,27 +18,9 @@
 # limitations under the License.
 
 include_recipe "runit"
-include_recipe "couchdb"
-include_recipe "stompserver" 
 
-directory "/etc/chef" do
-  owner "root"
-  mode 0755
+gem_package "stompserver" do
+  action :install
 end
 
-template "/etc/chef/server.rb" do
-  owner "root"
-  mode 0644
-  source "server.rb.erb"
-  action :create
-end
-
-template "/etc/chef/client.rb" do
-  owner "root"
-  mode 0644
-  source "client.rb.erb"
-  action :create
-end
-
-runit_service "chef-indexer" 
-runit_service "chef-server"
+runit_service "stompserver"
