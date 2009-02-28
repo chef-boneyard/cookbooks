@@ -49,8 +49,8 @@ if (node[:ec2] && ! FileTest.directory?(node[:mysql_ec2_path]))
     not_if do FileTest.directory?(node[:mysql_ec2_path]) end
   end
   
-  link node[:mysql_ec2_path] do
-    target_file mysql_server_path
+  link mysql_server_path do
+   to node[:mysql_ec2_path]
   end
   
   service "mysql" do

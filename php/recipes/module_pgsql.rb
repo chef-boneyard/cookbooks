@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: ubuntu
-# Recipe:: default
+# Author::  Joshua Timberman (<joshua@opscode.com>)
+# Cookbook Name:: php
+# Recipe:: module_pgsql
 #
-# Copyright 2008, OpsCode, Inc.
+# Copyright 2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,10 +18,6 @@
 # limitations under the License.
 #
 
-template "/etc/apt/sources.list" do
-  mode 0644
-  variables :code_name => node[:lsb][:codename]
-  source "sources.list.erb"
+package "php5-pgsql" do
+  action :upgrade
 end
-
-include_recipe "apt"

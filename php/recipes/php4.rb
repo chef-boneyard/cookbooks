@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: ubuntu
+# Author::  Joshua Timberman (<joshua@opscode.com>)
+# Cookbook Name:: php
 # Recipe:: default
 #
-# Copyright 2008, OpsCode, Inc.
+# Copyright 2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,10 +18,8 @@
 # limitations under the License.
 #
 
-template "/etc/apt/sources.list" do
-  mode 0644
-  variables :code_name => node[:lsb][:codename]
-  source "sources.list.erb"
+%w{ php4 php4-mysql php4-ldap php4-gd }.each do |pkg|
+  package pkg do
+    action :upgrade
+  end
 end
-
-include_recipe "apt"
