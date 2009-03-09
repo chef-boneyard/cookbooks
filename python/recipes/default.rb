@@ -34,6 +34,7 @@ bash "install-nltk" do
   pwd "/tmp"
   code <<-EOH
   wget http://nltk.googlecode.com/files/nltk-0.9.8.zip
+  unzip nltk-0.9.8.zip
   cd nltk-0.9.8
   python setup.py install
   EOH
