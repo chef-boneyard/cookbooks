@@ -25,7 +25,7 @@ service "maradns" do
   action :enable
   supports(
     :restart => true,
-    :status => true,
+    :status => true
   )
 end
 
