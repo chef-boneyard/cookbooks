@@ -1,7 +1,6 @@
 #
-# Author::  Joshua Timberman (<joshua@opscode.com>)
-# Cookbook Name:: php
-# Recipe:: php_app
+# Cookbook Name:: django
+# Definition:: django_app
 #
 # Copyright 2009, Opscode, Inc.
 #
@@ -17,26 +16,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# php_app will be deprecated for web_app (apache2 cookbook).
 
-define :php_app, :docroot => nil, :canonical_hostname => nil, :template => "php/php.conf.erb" do
+define :django_app, :path => nil, :settings_module => nil, 
+  :canonical_hostname => nil, :template => "django/django.conf.erb", 
+  :python_path_extra => "", :owner => "root", :group => root do
   
   application_name = params[:name]
-  
-  include_recipe "apache2"
+  include_recipe "django"
   include_recipe "apache2::mod_rewrite"
   include_recipe "apache2::mod_deflate"
   include_recipe "apache2::mod_headers"
   
-  template "/etc/apache2/sites-available/#{params[:name]}.conf" do
-    source "#{params[:template]}"
-    variables :docroot => params[:docroot], :canonical_hostname => params[:canonical_hostname]
-    owner "root"
-    group "root"
-    mode 0644
-    notifies :reload, resources("service[apache2]"), :delayed
-  end
   
-  apache_site "#{params[:name]}.conf"
   
 end
