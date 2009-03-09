@@ -30,7 +30,7 @@ end
 end
 
 bash "install-nltk" do
-  not_if do File.exists?("/usr/lib/python2.5/site-packages/nltk-0.9.8.egg-info")
+  not_if do File.exists?("/usr/lib/python2.5/site-packages/nltk-0.9.8.egg-info") end
   pwd "/tmp"
   code <<-EOH
   wget http://nltk.googlecode.com/files/nltk-0.9.8.zip
