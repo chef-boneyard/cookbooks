@@ -17,19 +17,21 @@
 # limitations under the License.
 #
 
-define :cap_setup, :path => nil, :owner => "root", :group => "deploy", :appowner => "nobody" do
+define :cap_setup, :path => nil, :owner => "root", :group => "root", :appowner => "nobody" do
+  include_recipe "capistrano"
 
   directory params[:path] do
     owner params[:owner]
     group params[:group]
     mode 0755
   end
-
+  
+  # after chef-174 fixed, change mode to 2775
   %w{ releases shared }.each do |dir|
     directory "#{params[:path]}/#{dir}" do
       owner params[:owner]
       group params[:group]
-      mode 2775
+      mode 0775
     end
   end
   
@@ -37,7 +39,7 @@ define :cap_setup, :path => nil, :owner => "root", :group => "deploy", :appowner
     directory "#{params[:path]}/shared/#{dir}" do
       owner params[:appowner]
       group params[:group]
-      mode 2775
+      mode 0775
     end
   end  
   
