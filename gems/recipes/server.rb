@@ -19,8 +19,17 @@
 
 include_recipe "apache2"
 
-template "#{node[:apache2][:dir]}/sites-available/gem_server.conf" do
+gem_package "builder" do
+  action :install
+end
+
+template "#{node[:apache][:dir]}/sites-available/gem_server.conf" do
   source "gem_server.conf.erb"
+  variables(
+    :virtual_host_name => node[:gem_server][:virtual_host_name],
+    :virtual_host_alias => node[:gem_server][:virtual_host_alias],
+    :gem_directory => node[:gem_server][:directory]
+  )
   owner "root"
   mode 0755
 end
@@ -32,7 +41,7 @@ execute "index-gem-repository" do
   action :nothing
 end
 
-directory "#{node[:gem_server][:direcctory]}" do
+directory "#{node[:gem_server][:directory]}" do
   owner "root"
   group "root"
   mode 0755
