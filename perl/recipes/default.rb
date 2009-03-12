@@ -34,7 +34,7 @@ package "libperl-dev" do
   when "centos"
     action :nothing
   else
-    action :latest
+    action :upgrade
   end
 end
 
