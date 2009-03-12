@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :memcached_instance, :memcache_memory => 64, :memcache_port => 11211, :memcache_user => nobody do
+define :memcached_instance, :memcache_memory => 64, :memcache_port => 11211, :memcache_user => "nobody" do
   include_recipe "runit"
   include_recipe "memcached"
   
