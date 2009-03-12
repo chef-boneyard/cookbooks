@@ -25,7 +25,7 @@ package "libmemcache-dev" do
   action :upgrade
 end
 
-service "memcached" 
+service "memcached" do
   action :disable
 end
 
