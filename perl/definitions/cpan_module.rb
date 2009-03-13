@@ -17,16 +17,15 @@
 # limitations under the License.
 #
 
-define :cpan_module, :force => false do
+define :cpan_module, :force => nil do
   if params[:force]
-    execute "echo force install #{params[:name]} | /usr/bin/cpan" do
-      cwd "/root"
-      path [ "/usr/local/bin", "/usr/bin", "/bin" ]
-    end
-  else
-    execute "/usr/local/bin/cpan_install #{params[:name]}" do
-      cwd "/root"
-      path [ "/usr/local/bin", "/usr/bin", "/bin" ]
-    end
+    force = "force"
+  end
+
+  execute "install-#{params[:name]}" do
+    command "echo #{force} install #{params[:name]} | /usr/bin/cpan"
+    cwd "/root"
+    path [ "/usr/local/bin", "/usr/bin", "/bin" ]
+    not_if "perl -m#{params[:name]} ''"
   end
 end
