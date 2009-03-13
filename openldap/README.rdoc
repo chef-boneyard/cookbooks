@@ -1,0 +1,62 @@
+== DESCRIPTION:
+
+Configures a server to be an OpenLDAP master, OpenLDAP replication slave, or OpenLDAP client.
+
+== REQUIREMENTS:
+
+=== Platform:
+
+Ubuntu is best supported. Debian may work. CentOS and Red Hat are not fully supported, but we take patches.
+
+=== Recipes:
+
+* openssh 
+* nscd
+
+== ATTRIBUTES:
+
+Be aware of the attributes used by this cookbook and adjust the defaults for your environment where required, in attributes/openldap.rb.
+
+=== Auth & Client node attributes
+
+* openldap[:server] 
+* openldap[:auth_binddn]
+* openldap[:auth_bindpw]
+* openldap[:auth_url] 
+
+=== Server node attributes
+
+* openldap[:slapd_type] = master | slave
+* openldap[:slapd_rid] = unique integer ID, required if type is slave.
+* openldap[:slapd_master] = hostname of slapd master, attempts to search for slapd_type master.
+
+== USAGE:
+
+Edit Rakefile variables for SSL certificate.
+
+On client systems, 
+
+  include_recipe "openldap::auth"
+  
+This will get the required packages and configuration for client systems 
+
+On server systems, set the server node attributes in the Chef node, or in a JSON attributes file. Include the openldap::server recipe:
+
+  include_recipe "openldap::server"
+
+== LICENSE:
+
+Author:: Joshua Timberman (<joshua@opscode.com>)
+Copyright:: 2009, Opscode, Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
