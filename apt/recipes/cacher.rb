@@ -21,8 +21,8 @@ package "apt-cacher" do
 end
 
 service "apt-cacher" do
-  supports :restart => true
-  action :enable
+  supports :restart => true, :status => false
+  action [ :enable, :start ]
 end
 
 remote_file "/etc/apt-cacher/apt-cacher.conf" do
