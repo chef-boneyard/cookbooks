@@ -21,8 +21,8 @@ package "apt-proxy" do
 end
 
 service "apt-proxy" do
-  supports :restart => true
-  action :enable
+  supports :restart => true, :status => false
+  action [ :enable, :start ]
 end
 
 remote_file "/etc/apt-proxy/apt-proxy-v2.conf" do
