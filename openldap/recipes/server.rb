@@ -32,6 +32,13 @@ package "db4.2-util" do
   action :upgrade
 end
 
+remote_file "/var/cache/local/preseeding/slapd.seed" do
+  source "slapd.seed"
+  mode 0600 
+  owner "root"
+  group "root"
+end
+
 package "slapd" do
   case node[:platform]
   when "debian","ubuntu"
