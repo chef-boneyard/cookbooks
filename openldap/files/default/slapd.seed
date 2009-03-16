@@ -1,0 +1,21 @@
+slapd	slapd/password1	password	
+slapd	slapd/internal/adminpw	password	
+slapd	slapd/password2	password	
+slapd	slapd/allow_ldap_v2	boolean	false
+slapd	slapd/password_mismatch	note	
+slapd	slapd/suffix_change	boolean	false
+slapd	slapd/fix_directory	boolean	true
+slapd	slapd/invalid_config	boolean	true
+slapd	slapd/slave_databases_require_updateref	note	
+slapd	shared/organization	string	monkey
+slapd	slapd/upgrade_slapcat_failure	note	
+slapd	slapd/dump_database_destdir	string	/var/backups/slapd-VERSION
+slapd	slapd/autoconf_modules	boolean	true
+slapd	slapd/purge_database	boolean	false
+slapd	slapd/domain	string	monkey.com
+slapd	slapd/backend	select	BDB
+slapd	slapd/no_configuration	boolean	false
+slapd	slapd/migrate_ldbm_to_bdb	boolean	true
+slapd	slapd/move_old_database	boolean	true
+slapd	slapd/dump_database	select	when needed
+slapd	slapd/upgrade_slapadd_failure	note	
