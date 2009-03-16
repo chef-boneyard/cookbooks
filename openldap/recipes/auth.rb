@@ -49,6 +49,7 @@ end
 
 %w{ account auth password session }.each do |pam|
   remote_file "/etc/pam.d/common-#{pam}" do
+    source "common-#{pam}"
     mode 0644
     owner "root"
     group "root"
