@@ -16,3 +16,41 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include_recipe "openldap::client"
+
+# need certificates for @node[:fqdn]
+
+case node [:platform]
+when "debian","ubuntu"
+  remote_file "/var/cache/local/preseeding/slapd.seed" do
+    source "slapd.seed"
+    mode 0600
+    owner "root"
+    group "root"
+  end
+end
+
+package "db4.2-util" do
+  action :upgrade
+end
+
+package "slapd" do
+  case node[:platform]
+  when "debian","ubuntu"
+    response_file "/var/cache/local/preseeding/slapd.seed"
+  end
+  action :upgrade
+end
+
+service "slapd" do
+  action [:enable, :start]
+end
+
+template "#{node[:openldap][:dir]}/slapd.conf" do
+  source "slapd.conf.erb"
+  mode 0640
+  owner "root"
+  group "root"
+  notifies :restart, resources(:service => "slapd")
+end
+

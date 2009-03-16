@@ -43,6 +43,10 @@ This will get the required packages and configuration for client systems
 On server systems, set the server node attributes in the Chef node, or in a JSON attributes file. Include the openldap::server recipe:
 
   include_recipe "openldap::server"
+  
+== PASSWORDS:
+
+Change the rootpw directive in slapd.conf.erb for your site. The default is a random 16 character string. 
 
 == LICENSE:
 

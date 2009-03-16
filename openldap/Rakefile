@@ -10,7 +10,7 @@ SSL_STATE_NAME = "State"
 SSL_LOCALITY_NAME = "City"
 SSL_ORGANIZATIONAL_UNIT_NAME = "Operations"
 SSL_EMAIL_ADDRESS = "operations@example.com"
-CADIR = File.expand_path(File.join(File.dirname(__FILE__), "files", "default"))
+CADIR = File.expand_path(File.join(File.dirname(__FILE__), "files", "default", "ssl"))
 
 desc "Create a new self-signed SSL certificate for FQDN=foo.example.com"
 task :ssl_cert do
