@@ -21,7 +21,6 @@ nss_base_automount ou=automount,<%= @node[:openldap][:basedn] %>
 # TLS Options
 ssl start_tls
 tls_checkpeer no
-tls_cacertfile <%= @node[:openldap][:dir] %>/ssl/ca.crt
 
 # Password options
 pam_password md5

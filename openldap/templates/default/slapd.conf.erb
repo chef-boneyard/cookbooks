@@ -57,7 +57,7 @@ backend		bdb
 database        bdb
 suffix          "<%= @node[:openldap][:basedn] %>"
 rootdn          "cn=admin,<%= @node[:openldap][:basedn] %>"
-rootpw		      {SSHA}SUErsTyZMkHxejpYj0MJA0c//IjWAOhj
+rootpw		      {MD5}csrHCr90SzPi0uNb4YrLXA==
 directory       "/var/lib/ldap"
 lastmod         on
 

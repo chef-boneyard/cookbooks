@@ -29,14 +29,14 @@ package "libpam-ldap" do
   action :upgrade
 end
 
-%w{ ldap.conf libnss-ldap.conf }.each do |cfg|
-  template "/etc/#{cfg}" do
-    source "#{cfg}.erb"
+# %w{ ldap.conf libnss-ldap.conf }.each do |cfg|
+  template "/etc/ldap.conf" do
+    source "ldap.conf.erb"
     mode 0644
     owner "root"
     group "root"
   end    
-end
+# end
 
 remote_file "/etc/nsswitch.conf" do
   source "nsswitch.conf"
