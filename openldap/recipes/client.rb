@@ -17,8 +17,7 @@
 # limitations under the License.
 #
 
-package "openldap-clients" do
-  name "ldap-utils"
+package "ldap-utils" do
   action :upgrade
 end
 
