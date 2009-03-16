@@ -18,9 +18,7 @@
 #
 include_recipe "openldap::client"
 
-# need certificates for @node[:fqdn]
-
-case node [:platform]
+case node[:platform]
 when "debian","ubuntu"
   remote_file "/var/cache/local/preseeding/slapd.seed" do
     source "slapd.seed"
@@ -40,6 +38,15 @@ package "slapd" do
     response_file "/var/cache/local/preseeding/slapd.seed"
   end
   action :upgrade
+end
+
+%w{ crt key }.each do |pem|
+  remote_file "#{node[:openldap][:ssl_dir]}/#{node[:fqdn]}.#{pem}" do
+    source "ssl/#{node[:fqdn]}.#{pem}"
+    mode 0644
+    owner "root"
+    group "root"
+  end
 end
 
 service "slapd" do
