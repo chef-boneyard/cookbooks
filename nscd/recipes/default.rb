@@ -27,7 +27,7 @@ end
 
 %w{ passwd group }.each do |cmd| 
   execute "nscd-clear-#{cmd}" do
-    command "/usr/sbin/nsscd -i #{cmd}"
+    command "/usr/sbin/nscd -i #{cmd}"
     action :nothing
   end
 end
