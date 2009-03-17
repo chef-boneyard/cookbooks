@@ -10,8 +10,9 @@
 allow bind_v2
 
 # TLS configuration
-TLSCertificateFile     <%= @node[:openldap][:dir] %>/ssl/<%= @node[:fqdn] %>.crt
-TLSCertificateKeyFile  <%= @node[:openldap][:dir] %>/ssl/<%= @node[:fqdn] %>.key
+TLSCACertificateFile   <%= @node[:openldap][:dir] %>/ssl/<%= @node[:fqdn] %>.pem
+TLSCertificateFile     <%= @node[:openldap][:dir] %>/ssl/<%= @node[:fqdn] %>.pem
+TLSCertificateKeyFile  <%= @node[:openldap][:dir] %>/ssl/<%= @node[:fqdn] %>.pem
 
 # Schema and objectClass definitions
 include         <%= @node[:openldap][:dir] %>/schema/core.schema
