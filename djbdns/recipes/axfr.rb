@@ -33,24 +33,8 @@ user "axfrdns" do
   home "/home/axfrdns"
 end
 
-execute "#{node[:djbdns][:bin_dir]}/axfrdns-conf axfrdns dnslog /etc/axfrdns /etc/tinydns #{node[:djbdns][:axfrdns_ipaddress]}" do
-  only_if "/usr/bin/test ! -d /etc/axfrdns"
+execute "#{node[:djbdns][:bin_dir]}/axfrdns-conf axfrdns dnslog #{node[:runit_sv_dir]}/axfrdns #{node[:runit_sv_dir]}/tinydns #{node[:djbdns][:axfrdns_ipaddress]}" do
+  only_if "/usr/bin/test ! -d #{node[:runit_sv_dir]}/axfrdns"
 end
 
-template "/etc/axfrdns/run" do
-  source "sv-axfr-run.erb"
-  mode 0755
-end
-
-template "/etc/axfrdns/log/run" do
-  source "sv-axfr-log-run.erb"
-  mode 0755
-end
-
-link "#{node[:runit_service_dir]}/axfrdns" do
-  to "/etc/axfrdns"
-end
-
-link "/etc/init.d/axfrdns" do
-  to node[:runit_sv_bin]
-end
+runit_service "axfrdns"
