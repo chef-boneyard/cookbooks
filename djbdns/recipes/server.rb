@@ -31,7 +31,7 @@ end
 
 template "#{node[:runit_sv_dir]}/tinydns/root/data" do
   source "tinydns-data.erb"
-  mode 644
+  mode 0644
   notifies :run, resources("execute[build-tinydns-data]")
 end
 
