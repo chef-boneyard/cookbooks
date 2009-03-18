@@ -47,7 +47,7 @@ package "slapd" do
   action :upgrade
 end
 
-%w{ crt key }.each do |pem|
+%w{ crt key pem }.each do |pem|
   remote_file "#{node[:openldap][:ssl_dir]}/#{node[:fqdn]}.#{pem}" do
     source "ssl/#{node[:fqdn]}.#{pem}"
     mode 0644
@@ -60,11 +60,37 @@ service "slapd" do
   action [:enable, :start]
 end
 
-template "#{node[:openldap][:dir]}/slapd.conf" do
-  source "slapd.conf.erb"
-  mode 0640
-  owner "root"
-  group "root"
-  notifies :restart, resources(:service => "slapd")
+case node[:lsb][:codename]
+when "intrepid"
+  directory "#{node[:openldap][:dir]}/slapd.d" do
+    recursive true
+    owner "openldap"
+    group "openldap"
+    action :create
+  end
+  
+  execute "slapd-config-convert" do
+    command "slaptest -f #{node[:openldap][:dir]}/slapd.conf -F #{node[:openldap][:dir]}/slapd.d/"
+    user "openldap"
+    action :nothing
+    notifies :start, resources(:service => "slapd"), :immediately
+  end
+  
+  template "#{node[:openldap][:dir]}/slapd.conf" do
+    source "slapd.conf.erb"
+    mode 0640
+    owner "openldap"
+    group "openldap"
+    notifies :stop, resources(:service => "slapd"), :immediately
+    notifies :run, resources(:execute => "slapd-config-convert")
+  end
+else
+  template "#{node[:openldap][:dir]}/slapd.conf" do
+    source "slapd.conf.erb"
+    mode 0640
+    owner "openldap"
+    group "openldap"
+    notifies :restart, resources(:service => "slapd")
+  end
 end
 

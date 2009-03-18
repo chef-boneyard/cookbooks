@@ -8,7 +8,7 @@
 <% rootgroup = @node[:hostname].sub(/^(.+?)\d+(.+)$/, '\1-\2-root') -%>
 
 +:root:ALL
-+:sysadmin:ALL
++:admin:ALL
 +:<%= logingroup %>:ALL
 +:<%= rootgroup %>:ALL
 

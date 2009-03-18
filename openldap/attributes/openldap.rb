@@ -18,8 +18,9 @@
 
 openldap Mash.new unless attribute?("openldap")
 
-openldap[:basedn] = nil unless openldap.has_key?(:basedn)
+openldap[:basedn] = "dc=#{domain.split('.').join(",dc=")}" unless openldap.has_key?(:basedn)
 openldap[:server] = "ldap.#{domain}" unless openldap.has_key?(:server)
+openldap[:rootpw] = nil unless openldap.has_key?(:rootpw)
 
 # File and directory locations for openldap.
 case platform
@@ -40,12 +41,6 @@ end
 openldap[:ssl_dir] = "#{openldap[:dir]}/ssl"
 openldap[:cafile] = "#{openldap[:ssl_dir]}/ca.crt"
 
-# Auth & Client settings.
-openldap[:auth_type] = "openldap"
-openldap[:auth_binddn] = nil unless openldap.has_key?(:auth_binddn)
-openldap[:auth_bindpw] = nil unless openldap.has_key?(:auth_bindpw)
-openldap[:auth_url] = nil unless openldap.has_key?(:auth_url)
-
 # Server settings.
 openldap[:slapd_type] = nil unless openldap.has_key?(:slapd_type)
 
@@ -55,3 +50,9 @@ if openldap[:slapd_type] == "slave"
   openldap[:slapd_replpw] = nil unless openldap.has_key?(:slapd_replpw)
   openldap[:slapd_rid] = 102 unless openldap.has_key?(:slapd_rid)
 end
+
+# Auth settings for Apache.
+openldap[:auth_type] = "openldap"
+openldap[:auth_binddn] = nil unless openldap.has_key?(:auth_binddn)
+openldap[:auth_bindpw] = nil unless openldap.has_key?(:auth_bindpw)
+openldap[:auth_url] = nil unless openldap.has_key?(:auth_url)

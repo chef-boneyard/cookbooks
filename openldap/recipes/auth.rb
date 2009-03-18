@@ -29,21 +29,19 @@ package "libpam-ldap" do
   action :upgrade
 end
 
-remote_file "#{node[:openldap][:ssl_dir]}/#{node[:openldap][:server]}.pem" do
-  source "ssl/#{node[:openldap][:server]}.pem"
+template "/etc/ldap.conf" do
+  source "ldap.conf.erb"
+  mode 0644
+  owner "root"
+  group "root"
+end    
+
+template "/etc/ldap/ldap.conf" do
+  source "ldap-ldap.conf.erb"
   mode 0644
   owner "root"
   group "root"
 end
-
-# %w{ ldap.conf libnss-ldap.conf }.each do |cfg|
-  template "/etc/ldap.conf" do
-    source "ldap.conf.erb"
-    mode 0644
-    owner "root"
-    group "root"
-  end    
-# end
 
 remote_file "/etc/nsswitch.conf" do
   source "nsswitch.conf"
