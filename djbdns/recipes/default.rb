@@ -84,6 +84,3 @@ user "tinydns" do
   shell "/bin/false"
   home "/home/tinydns"
 end
-
-# if using iptables recipe, uncomment:
-#iptables_rule "port_dns"
