@@ -23,3 +23,10 @@ djbdns[:tinydns_ipaddress] = "127.0.0.1" unless djbdns.has_key?(:tinydns_ipaddre
 djbdns[:tinydns_internal_ipaddress] = "127.0.0.1" unless djbdns.has_key?(:tinydns_internal_ipaddress)
 djbdns[:axfrdns_ipaddress] = "127.0.0.1" unless djbdns.has_key?(:axfrdns_ipaddress)
 djbdns[:public_dnscache_ipaddress] = ipaddress unless djbdns.has_key?(:public_dnscache_ipaddress)
+
+case lsb[:codename]
+when "intrepid"
+  djbdns[:bin_dir] = "/usr/bin"
+else
+  djbdns[:bin_dir] = "/usr/local/bin"
+end

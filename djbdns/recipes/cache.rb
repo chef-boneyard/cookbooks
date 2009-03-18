@@ -21,11 +21,11 @@ include_recipe "djbdns"
 
 execute "public_cache_update" do
   cwd "/etc/public-dnscache"
-  command "/usr/local/bin/dnsip `/usr/local/bin/dnsqr ns . | awk '/answer:/ { print \$5 ; }' | sort` > root/servers/@"
+  command "#{node[:djbdns][:bin_dir]}/dnsip `#{node[:djbdns][:bin_dir]}/dnsqr ns . | awk '/answer:/ { print \$5 ; }' | sort` > root/servers/@"
   action :nothing
 end
 
-execute "/usr/local/bin/dnscache-conf dnscache dnslog /etc/public-dnscache #{node[:djbdns][:public_dnscache_ipaddress]}" do
+execute "#{node[:djbdns][:bin_dir]}/dnscache-conf dnscache dnslog /etc/public-dnscache #{node[:djbdns][:public_dnscache_ipaddress]}" do
   only_if "/usr/bin/test ! -d /etc/public-dnscache"
   notifies :run, resources("execute[public_cache_update]")
 end
