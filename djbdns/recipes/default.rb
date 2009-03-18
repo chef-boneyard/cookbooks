@@ -39,7 +39,7 @@ else
     (cd /tmp/djbdns-1.05; perl -pi -e 's/extern int errno;/\#include <errno.h>/' error.h)
     (cd /tmp/djbdns-1.05; make setup check)
     EOH
-    only_if "/usr/bin/test ! -f /usr/local/bin/tinydns"
+    only_if "/usr/bin/test ! -f #{node[:djbdns][:bin_dir]}/tinydns"
   end
 end
 

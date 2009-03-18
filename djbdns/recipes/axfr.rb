@@ -33,7 +33,7 @@ user "axfrdns" do
   home "/home/axfrdns"
 end
 
-execute "/usr/local/bin/axfrdns-conf axfrdns dnslog /etc/axfrdns /etc/tinydns #{node[:djbdns][:axfrdns_ipaddress]}" do
+execute "#{node[:djbdns][:bin_dir]}/axfrdns-conf axfrdns dnslog /etc/axfrdns /etc/tinydns #{node[:djbdns][:axfrdns_ipaddress]}" do
   only_if "/usr/bin/test ! -d /etc/axfrdns"
 end
 
