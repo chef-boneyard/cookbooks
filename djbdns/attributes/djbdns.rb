@@ -2,6 +2,7 @@
 # Cookbook Name:: djbdns
 # Recipe:: default
 # Author:: Joshua Timberman (<joshua@opscode.com>)
+# Author:: Joshua Sierles (<joshua@37signals.com>)
 #
 # Copyright 2009, Opscode, Inc
 #
@@ -23,6 +24,9 @@ djbdns[:tinydns_ipaddress] = "127.0.0.1" unless djbdns.has_key?(:tinydns_ipaddre
 djbdns[:tinydns_internal_ipaddress] = "127.0.0.1" unless djbdns.has_key?(:tinydns_internal_ipaddress)
 djbdns[:axfrdns_ipaddress] = "127.0.0.1" unless djbdns.has_key?(:axfrdns_ipaddress)
 djbdns[:public_dnscache_ipaddress] = ipaddress unless djbdns.has_key?(:public_dnscache_ipaddress)
+
+djbdns[:public_dnscache_allowed_networks] = [ipaddress.split(".")[0,2].join(".")] unless djbdns.has_key?(:public_dnscache_allowed_networks)
+djbdns[:tinydns_internal_resolved_domain] = domain unless djbdns.has_key?(:tinydns_internal_resolved_domain)
 
 case lsb[:codename]
 when "intrepid"
