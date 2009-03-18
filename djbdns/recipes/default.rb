@@ -20,20 +20,27 @@
 include_recipe "build-essential"
 include_recipe "runit"
 
-bash "install_djbdns" do
-  user "root"
-  cwd "/tmp"
-  command <<-EOH
-  (cd /tmp; wget http://cr.yp.to/ucspi-tcp/ucspi-tcp-0.88.tar.gz)
-  (cd /tmp; tar zxvf ucspi-tcp-0.88.tar.gz)
-  (cd /tmp/ucspi-tcp-0.88; perl -pi -e 's/extern int errno;/\#include <errno.h>/' error.h)
-  (cd /tmp/ucspi-tcp-0.88; make setup check)
-  (cd /tmp; wget http://cr.yp.to/djbdns/djbdns-1.05.tar.gz)
-  (cd /tmp; tar xzvf djbdns-1.05.tar.gz)
-  (cd /tmp/djbdns-1.05; perl -pi -e 's/extern int errno;/\#include <errno.h>/' error.h)
-  (cd /tmp/djbdns-1.05; make setup check)
-  EOH
-  only_if "/usr/bin/test ! -f /usr/local/bin/tinydns"
+case node[:lsb][:codename]
+when "intrepid"
+  package "djbdns" do
+    action :install
+  end
+else
+  bash "install_djbdns" do
+    user "root"
+    cwd "/tmp"
+    command <<-EOH
+    (cd /tmp; wget http://cr.yp.to/ucspi-tcp/ucspi-tcp-0.88.tar.gz)
+    (cd /tmp; tar zxvf ucspi-tcp-0.88.tar.gz)
+    (cd /tmp/ucspi-tcp-0.88; perl -pi -e 's/extern int errno;/\#include <errno.h>/' error.h)
+    (cd /tmp/ucspi-tcp-0.88; make setup check)
+    (cd /tmp; wget http://cr.yp.to/djbdns/djbdns-1.05.tar.gz)
+    (cd /tmp; tar xzvf djbdns-1.05.tar.gz)
+    (cd /tmp/djbdns-1.05; perl -pi -e 's/extern int errno;/\#include <errno.h>/' error.h)
+    (cd /tmp/djbdns-1.05; make setup check)
+    EOH
+    only_if "/usr/bin/test ! -f /usr/local/bin/tinydns"
+  end
 end
 
 user "dnscache" do
