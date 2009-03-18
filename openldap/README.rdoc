@@ -53,10 +53,15 @@ On server systems, set the server node attributes in the Chef node, or in a JSON
   
 When initially installing a brand new LDAP master server on Ubuntu 8.10, the configuration directory may need to be removed and recreated before slapd will start successfully. Doing this programmatically may cause other issues, so fix the directory manually :-).
 
-  $ sudo rm -rf /etc/ldap/slapd.d/ /etc/ldap/slapd.conf
-  
-Removing the conf file will cause the recipe to recreate the file. slapd might not get started, this may be a bug in chef.
+  $ sudo slaptest -F /etc/ldap/slapd.d
+  str2entry: invalid value for attributeType objectClass #1 (syntax 1.3.6.1.4.1.1466.115.121.1.38)
+  => ldif_enum_tree: failed to read entry for /etc/ldap/slapd.d/cn=config/olcDatabase={1}bdb.ldif
+  slaptest: bad configuration directory!
 
+Simply remove the configuration, rerun chef-client. For some reason slapd isn't getting started even though the service resource is notified to start, so start it manually. 
+
+  $ sudo rm -rf /etc/ldap/slapd.d/ /etc/ldap/slapd.conf
+  $ sudo chef-client
   $ sudo /etc/init.d/slapd start
   
 === A note about certificates
