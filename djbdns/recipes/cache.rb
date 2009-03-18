@@ -1,5 +1,6 @@
 #
 # Author:: Joshua Timberman (<joshua@opscode.com>)
+# Author:: Joshua Sierles (<joshua@37signals.com>)
 # Cookbook Name:: djbdns
 # Recipe:: cache
 #
@@ -20,30 +21,23 @@
 include_recipe "djbdns"
 
 execute "public_cache_update" do
-  cwd "/etc/public-dnscache"
+  cwd "#{node[:runit_sv_dir]}/public-dnscache"
   command "#{node[:djbdns][:bin_dir]}/dnsip `#{node[:djbdns][:bin_dir]}/dnsqr ns . | awk '/answer:/ { print \$5 ; }' | sort` > root/servers/@"
   action :nothing
 end
 
-execute "#{node[:djbdns][:bin_dir]}/dnscache-conf dnscache dnslog /etc/public-dnscache #{node[:djbdns][:public_dnscache_ipaddress]}" do
-  only_if "/usr/bin/test ! -d /etc/public-dnscache"
+execute "#{node[:djbdns][:bin_dir]}/dnscache-conf dnscache dnslog #{node[:runit_sv_dir]}/public-dnscache #{node[:djbdns][:public_dnscache_ipaddress]}" do
+  only_if "/usr/bin/test ! -d #{node[:runit_sv_dir]}/public-dnscache"
   notifies :run, resources("execute[public_cache_update]")
 end
 
-template "/etc/public-dnscache/run" do
-  source "sv-cache-run.erb"
-  mode 0755
+runit_service "public-dnscache"
+
+file "#{node[:runit_sv_dir]}/public-dnscache/root/ip/#{node[:djbdns][:public_dnscache_allowed_networks]}" do
+  mode 0644
 end
 
-template "/etc/public-dnscache/log/run" do
-  source "sv-cache-log-run.erb"
-  mode 0755
-end
-
-link "#{node[:runit_service_dir]}/public-dnscache" do
-  to "/etc/public-dnscache"
-end
-
-link "/etc/init.d/public-dnscache" do
-  to node[:runit_sv_bin]
+template "#{node[:runit_sv_dir]}/public-dnscache/root/servers/#{node[:djbdns][:tinydns_internal_resolved_domain]}" do
+  source "dnscache-servers.erb"
+  mode 0644
 end
