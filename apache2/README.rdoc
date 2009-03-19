@@ -1,0 +1,51 @@
+= DESCRIPTION:
+
+Complete Debian/Ubuntu style Apache2 configuration.
+
+= REQUIREMENTS:
+
+Debian or Ubuntu preferred.
+
+Red Hat/CentOS and Fedora can be used, 
+
+= ATTRIBUTES:
+
+The file attributes/apache.rb contains the following attribute types:
+
+* platform specific locations and settings.
+* general settings
+* prefork attributes
+* worker attributes
+
+General settings and prefork/worker attributes are tunable.
+
+= USAGE:
+
+Include the apache2 recipe to install Apache2 and get 'sane' default settings. Configuration is modularized through Apache vhost sites a la Debian style configuration.
+
+== Defines:
+
+* apache_module: sets up an Apache module.
+* apache_site: sets up a vhost site. The conf file must be available.
+* web_app: copies the template for a web app and enables it as a site via apache_site.
+
+== Web Apps:
+
+Various applications that can be set up with Apache as the front end, such as PHP, Django, Rails and others can use the web_app define to set up the template and the Apache site. The define is kind of dumb, so the template needs have the application implementation settings, since we don't know what your app is or what is needed from Apache.
+
+= LICENSE & AUTHOR:
+
+Author:: Joshua Timberman (<joshua@opscode.com>)
+Copyright:: 2009, Opscode, Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
