@@ -35,6 +35,7 @@ service "zoneserver" do
 end
 
 template "/etc/maradns/mararc" do
+  source "mararc.erb"
   mode 0644
   owner "root"
   group "root"
@@ -48,5 +49,3 @@ template "/etc/maradns/db.#{node[:domain]}" do
   group "root"
   notifies :restart, resources(:service => "maradns")
 end  
-
-# iptables_rule "port_dns"
