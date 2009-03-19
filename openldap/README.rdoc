@@ -1,34 +1,34 @@
-== DESCRIPTION:
+= DESCRIPTION:
 
 Configures a server to be an OpenLDAP master, OpenLDAP replication slave, or OpenLDAP client.
 
-== REQUIREMENTS:
+= REQUIREMENTS:
 
-=== Platform:
+== Platform:
 
 Ubuntu 8.10 was primarily used in testing this cookbook. Other Ubuntu versions and Debian may work. CentOS and Red Hat are not fully supported, but we take patches.
 
-=== Recipes:
+== Recipes:
 
 * openssh 
 * nscd
 
-== ATTRIBUTES:
+= ATTRIBUTES:
 
 Be aware of the attributes used by this cookbook and adjust the defaults for your environment where required, in attributes/openldap.rb.
 
-=== Client node attributes
+== Client node attributes
 
 * openldap[:basedn] - basedn 
 * openldap[:server] - the LDAP server fully qualified domain name, default 'ldap'.node[:domain].
 
-=== Server node attributes
+== Server node attributes
 
 * openldap[:slapd_type] - master | slave
 * openldap[:slapd_rid] - unique integer ID, required if type is slave.
 * openldap[:slapd_master] - hostname of slapd master, attempts to search for slapd_type master.
 
-=== Apache configuration attributes
+== Apache configuration attributes
 
 Attributes useful for Apache authentication with LDAP.
 
@@ -37,7 +37,7 @@ Attributes useful for Apache authentication with LDAP.
 * openldap[:auth_binddn] - AuthLDAPBindDN
 * openldap[:auth_bindpw] - AuthLDAPBindPassword
 
-== USAGE:
+= USAGE:
 
 Edit Rakefile variables for SSL certificate.
 
@@ -81,7 +81,7 @@ Set the password, openldap[:rootpw] for the rootdn in the node's attributes. Thi
   
 Set this by default in the attributes file, or on the node's entry in the webui.  
   
-== LICENSE:
+== LICENSE & AUTHOR:
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
 Copyright:: 2009, Opscode, Inc
