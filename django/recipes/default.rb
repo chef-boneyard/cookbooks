@@ -27,14 +27,3 @@ end
 package "python-django" do
   action :install
 end
-
-# To create a django web app configuration, in a site-cookbook:
-# create attributes file with
-# node[:django_app][:path]
-# node[:django_app][:python_path_extra]
-
-# in the recipe, create the web app resource. don't forget the template:
-# web_app "app_name" do
-#   docroot "/srv/app_name"
-#   template "app_name.conf.erb"
-# end

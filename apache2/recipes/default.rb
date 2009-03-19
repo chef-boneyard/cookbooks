@@ -34,7 +34,7 @@ service "apache2" do
   when "debian","ubuntu"
     name "apache2"
   end
-  supports :restart => true
+  supports :restart => true, :reload => true
   action :enable
 end
 

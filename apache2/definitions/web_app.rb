@@ -17,9 +17,7 @@
 # limitations under the License.
 #
 
-
-
-define :web_app, :docroot => nil, :canonical_hostname => false, :template => "web_app.conf.erb", :app_type => nil, :variables => nil do
+define :web_app, :docroot => nil, :canonical_hostname => nil, :template => nil do
   
   application_name = params[:name]
 
@@ -28,12 +26,16 @@ define :web_app, :docroot => nil, :canonical_hostname => false, :template => "we
   include_recipe "apache2::mod_deflate"
   include_recipe "apache2::mod_headers"
   
-  template "#{node[:apache][:dir]}/sites-available/#{application_name}" do
-    source :template
+  template "#{node[:apache][:dir]}/sites-available/#{application_name}.conf" do
+    source params[:template]
     owner "root"
     group "root"
     mode 0644
-    variables :variables
+    variables(
+      :docroot => params[:docroot], 
+      :canonical_hostname => params[:canonical_hostname],
+      :application_name => application_name
+    )
     notifies :reload, resources(:service => "apache2"), :delayed
   end
   
