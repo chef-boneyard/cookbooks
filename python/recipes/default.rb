@@ -24,14 +24,14 @@ end
   dev imaging matplotlib matplotlib-data matplotlib-doc mysqldb 
   numpy numpy-ext paramiko scipy setuptools sqlite
 }.each do |pkg|
-  package pkg do
+  package "python-#{pkg}" do
     action :install
   end
 end
 
 bash "install-nltk" do
   not_if do File.exists?("/usr/lib/python2.5/site-packages/nltk-0.9.8.egg-info") end
-  pwd "/tmp"
+  cwd "/tmp"
   code <<-EOH
   wget http://nltk.googlecode.com/files/nltk-0.9.8.zip
   unzip nltk-0.9.8.zip
