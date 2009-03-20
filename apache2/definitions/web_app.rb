@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :web_app :template = nil do
+define :web_app, :template => nil do
   
   application_name = params[:name]
 
