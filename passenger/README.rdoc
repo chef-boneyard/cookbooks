@@ -37,6 +37,7 @@ For example, to run a Rails application on passenger:
     docroot "/srv/myproj/public"
     server_name "myproj.#{node[:domain]}"
     server_aliases [ "myproj", node[:hostname] ]
+    rails_env "production"
   end
 
 Use the passenger_web_app.conf.erb template as an example to get started with your own vhost template for your application.
