@@ -18,6 +18,7 @@ end
 desc "Create a new cookbook (with COOKBOOK=name)"
 task :new_cookbook do
   create_cookbook(File.join(TOPDIR, "cookbooks"))
+  create_readme(File.join(TOPDIR, "cookbooks"))
 end
 
 def create_cookbook(dir)
@@ -56,6 +57,31 @@ EOH
 #
 EOH
       end
+    end
+  end
+end
+
+def create_readme(dir)
+  raise "Must provide a COOKBOOK=" unless ENV["COOKBOOK"]
+  puts "** Creating README for cookbook: #{ENV["COOKBOOK"]}"
+  unless File.exists?(File.join(dir, ENV["COOKBOOK"], "README.rdoc"))
+    open(File.join(dir, ENV["COOKBOOK"], "README.rdoc"), "w") do |file|
+      file.puts <<-EOH
+= DESCRIPTION:
+
+= REQUIREMENTS:
+
+== Platform:
+
+== Cookbooks:
+
+= ATTRIBUTES: 
+
+= USAGE:
+
+= LICENSE and AUTHOR:
+      
+EOH
     end
   end
 end

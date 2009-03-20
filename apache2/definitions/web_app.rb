@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :web_app, :docroot => nil, :canonical_hostname => nil, :template => nil do
+define :web_app :template = nil do
   
   application_name = params[:name]
 
@@ -32,13 +32,14 @@ define :web_app, :docroot => nil, :canonical_hostname => nil, :template => nil d
     group "root"
     mode 0644
     variables(
-      :docroot => params[:docroot], 
-      :canonical_hostname => params[:canonical_hostname],
-      :application_name => application_name
+      :application_name => application_name,
+      :params => params
     )
     notifies :reload, resources(:service => "apache2"), :delayed
   end
   
-  apache_site "#{params[:name]}.conf"
-
+  apache_site "#{params[:name]}.conf" do
+    enable enable_setting
+    only_if { File.exists?("#{node[:apache][:dir]}/sites-available/#{application_name}") }
+  end
 end

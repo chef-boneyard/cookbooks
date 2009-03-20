@@ -33,6 +33,14 @@ Include the apache2 recipe to install Apache2 and get 'sane' default settings. C
 
 Various applications that can be set up with Apache as the front end, such as PHP, Django, Rails and others can use the web_app define to set up the template and the Apache site. The define is kind of dumb, so the template needs have the application implementation settings, since we don't know what your app is or what is needed from Apache.
 
+We only prototype one parameter for the web_app define, "template". This is used to specify the name of the template to use in the current cookbook. When you use web_app, you can set up any parameters you want to use in your template. They will get passed to the template through the params hash. For example, the sample web_app.conf.erb template in this cookbook makes use of these.
+
+* docroot
+* server_name
+* server_aliases
+
+These are available as @params[:docroot], @params[:server_name], @params[:server_aliases] within the template. 
+
 = LICENSE & AUTHOR:
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
