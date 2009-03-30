@@ -1,0 +1,63 @@
+= DESCRIPTION:
+
+Sets up user and environment for running solr instances.
+
+= REQUIREMENTS:
+
+== Platform and Application Environment:
+
+Tested on Ubuntu 8.10. May work on other platforms, esp Ubuntu/Debian.
+
+Requires solr installed, such as a vendor plugin for a Rails application. Assumes 'start.jar' exists. Also requires ssh keys for solr user. See usage.
+
+== Cookbooks:
+
+Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
+
+* capistrano (capistrano_setup)
+* java
+* runit (runit_service)
+
+= ATTRIBUTES: 
+
+No specific attributes are used. See Parameters under usage.
+
+= USAGE:
+
+To create a solr instance for an application, use the solr_instance define:
+
+  solr_instance "my_app" 
+
+The recipe assumes that id_rsa ssh key pair has been created for the solr user. The files should be located in the cookbook where the solr_instance is used (for example a site-cookbook)
+
+== Parameters:
+
+The following parameters are prototyped for usage.
+
+* params[:path] - Location where this instance lives. 
+* params[:xms] - Initial java heap size.
+* params[:xmx] - Maximum java heap size.
+* params[:user] - User for the instance process.
+* params[:uid] - UID for user.
+* params[:group] - Group for the instance process.
+* params[:gid] - GID for group.
+* params[:type] - master or false. Not currently used.
+
+Optionally specify a cookbook where the ssh keypair is located, otherwise generate keys and put the files in the solr cookbook. Empty files are located there for placeholders.
+
+= LICENSE and AUTHOR:
+      
+Author:: Joshua Timberman (<joshua@opscode.com>)
+Copyright:: 2009, Opscode, Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

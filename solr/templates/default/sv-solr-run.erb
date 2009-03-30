@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export JAVA_HOME=/usr/java/jdk
+cd <%= @params[:path] %>/current
+exec 2>&1
+exec \
+	chpst -u <%= @node[:solr][:user] %> /usr/bin/java -Xms<%= @params[:xms] %> -Xmx<%= @params[:xmx] %> \
+	-jar start.jar
