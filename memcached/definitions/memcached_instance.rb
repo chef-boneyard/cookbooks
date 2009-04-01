@@ -21,5 +21,21 @@ define :memcached_instance, :memcache_memory => 64, :memcache_port => 11211, :me
   include_recipe "runit"
   include_recipe "memcached"
   
-  runit_service "memcached-#{params[:name]}" 
+  runit_service "memcached-#{params[:name]}" do
+    options({:memory => params[:memcache_memory],
+             :port => params[:memcache_port], :user => params[:memcache_user]})
+  end
+end 
+
+define :memcached_instance, do
+  include_recipe "runit"
+  include_recipe "memcached"
+  
+  runit_service "memcached-#{params[:name]}" do
+    options({
+      :memory => node[:memcached][:memory],
+      :port => node[:memcached][:port], 
+      :user => node[:memcached][:user].merge(params)
+   )
+  end
 end

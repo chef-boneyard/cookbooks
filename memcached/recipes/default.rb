@@ -28,6 +28,3 @@ end
 service "memcached" do
   action :disable
 end
-
-# Uncomment if using iptables.
-# iptables_rule "port_memcached"

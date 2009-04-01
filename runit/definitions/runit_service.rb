@@ -18,7 +18,7 @@
 #
 
 
-define :runit_service, :directory => nil, :only_if => false do
+define :runit_service, :directory => nil, :only_if => false, :options => Hash.new do
   
   params[:directory] ||= node[:runit_sv_dir]
   
@@ -42,11 +42,17 @@ define :runit_service, :directory => nil, :only_if => false do
   template "#{sv_dir_name}/run" do
     mode 0755
     source "sv-#{params[:name]}-run.erb"
+    if params[:options].class == Hash
+      variables :options => params[:options]
+    end
   end
   
   template "#{sv_dir_name}/log/run" do
     mode 0755
     source "sv-#{params[:name]}-log-run.erb"
+    if params[:options].class == Hash
+      variables :options => params[:options]
+    end
   end
   
   link "/etc/init.d/#{params[:name]}" do
