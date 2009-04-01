@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :god_monitor, :config => "god/mongrel.god.erb", :max_memory => 100, :cpu => 50 do
+define :god_monitor, :config => "mongrel.god.erb", :max_memory => 100, :cpu => 50 do
   include_recipe "god"
   
   template "/etc/god/conf.d/#{params[:name]}.god" do

@@ -1,27 +1,35 @@
 = DESCRIPTION:
 
+Installs god gem, sets up modular configuration directory and provides a define to monitor processes.
 
 = REQUIREMENTS:
 
 == Platform and Application Environment:
 
-Tested on Ubuntu 8.10. May work on other platforms, esp Ubuntu/Debian.
-
+Tested on Ubuntu 8.10. May work on other platforms, esp Ubuntu/Debian. Sample configuration file uses mongrel_runit for managing mongrels via runit. 
 
 == Cookbooks:
 
 Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
 
-* 
+* ruby
+* runit
+
+Opscode does not yet have a mongrel_runit cookbook.
 
 = ATTRIBUTES: 
 
+No attributes are used.
 
 = USAGE:
 
+This recipe is designed to be used through the god_monitor define. Create a god configuration file in your application's cookbook and then call god_monitor:
 
-== Parameters:
+  god_monitor "myproj" do
+    config "myproj.god.erb"
+  end
 
+A sample mongrel.god.erb is provided, though it assumes mongrel_runit is used. This can be used as a baseline for customization.
 
 = LICENSE and AUTHOR:
       
