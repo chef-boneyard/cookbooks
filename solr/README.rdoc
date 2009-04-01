@@ -20,7 +20,10 @@ Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
 
 = ATTRIBUTES: 
 
-No specific attributes are used. See Parameters under usage.
+* solr[:user] - username for solr process and files/dirs.
+* solr[:uid] - UID for solr user.
+* solr[:group] - group name for solr files/dirs.
+* solr[:gid] - GID for solr group.
 
 = USAGE:
 
@@ -28,20 +31,11 @@ To create a solr instance for an application, use the solr_instance define:
 
   solr_instance "my_app" 
 
-The recipe assumes that id_rsa ssh key pair has been created for the solr user. The files should be located in the cookbook where the solr_instance is used (for example a site-cookbook)
+The recipe assumes that id_rsa ssh key pair has been created for the solr user. The files should be located in the cookbook where the solr_instance is used (for example a site-cookbook). 
+
+Also create the runit run and log run templates. For now the directory to cd into needs to be specified in the run template. See the sample in this cookbook.
 
 == Parameters:
-
-The following parameters are prototyped for usage.
-
-* params[:path] - Location where this instance lives. 
-* params[:xms] - Initial java heap size.
-* params[:xmx] - Maximum java heap size.
-* params[:user] - User for the instance process.
-* params[:uid] - UID for user.
-* params[:group] - Group for the instance process.
-* params[:gid] - GID for group.
-* params[:type] - master or false. Not currently used.
 
 Optionally specify a cookbook where the ssh keypair is located, otherwise generate keys and put the files in the solr cookbook. Empty files are located there for placeholders.
 

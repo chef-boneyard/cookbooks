@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :solr_instance, :path => "/srv", :xms => "128M", :xmx => "1024M", :type => "master" do
+define :solr_instance, :path => "/srv", :type => "master" do
   include_recipe "solr"
   
   cap_setup "#{params[:name]}" do
@@ -41,9 +41,8 @@ define :solr_instance, :path => "/srv", :xms => "128M", :xmx => "1024M", :type =
     end
   end
   
-  runit_service params[:name] 
+  runit_service "#{params[:name]}_solr"
   
-  # directory for ssh, files for ssh keys
   directory "#{params[:path]}/#{params[:name]}/.ssh" do
     owner node[:solr][:user]
     group node[:solr][:group]

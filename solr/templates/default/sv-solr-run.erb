@@ -1,8 +1,8 @@
 #!/bin/sh
 
 export JAVA_HOME=/usr/java/jdk
-cd <%= @params[:path] %>/current
+cd # for now need the directory specified.
 exec 2>&1
 exec \
-	chpst -u <%= @node[:solr][:user] %> /usr/bin/java -Xms<%= @params[:xms] %> -Xmx<%= @params[:xmx] %> \
+	chpst -u <%= @node[:solr][:user] %> /usr/bin/java -Xms128M -Xmx1024M \
 	-jar start.jar
