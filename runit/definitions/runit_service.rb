@@ -17,7 +17,6 @@
 # limitations under the License.
 #
 
-
 define :runit_service, :directory => nil, :only_if => false, :options => Hash.new do
   
   params[:directory] ||= node[:runit_sv_dir]
