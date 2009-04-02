@@ -26,9 +26,7 @@ The following are node attributes passed to the template for the runit service.
 
 Use the define, memcached_instance, to set up a runit service for the named memcached instance.
 
-  memcached_instance "myproj" do
-
-  end
+  memcached_instance "myproj" 
 
 = LICENSE and AUTHOR:
 
