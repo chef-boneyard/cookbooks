@@ -1,4 +1,4 @@
-#
+#/postgresql.conf.
 # Cookbook Name:: postgresql
 # Recipe:: server
 #
@@ -16,3 +16,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+package "postgresql"
+
+service "postgresql"
+  case node[:platform]
+  when "debian","ubuntu"
+    service_name "postgresql-8.3"
+  end
+  supports :restart => true, :status => true, :reload => true
+  action :nothing
+end
+
+template "#{node[:postgresql][:dir]}/pg_hba.conf" do
+  source "pg_hba.conf.erb"
+  owner "postgres"
+  group "postgres"
+  mode 0600
+  notifies :reload, resources(:service => "postgresql")
+end
+
+template "#{node[:postgresql][:dir]}/postgresql.conf" do
+  source "postgresql.conf.erb"
+  owner "postgres"
+  group "postgres"
+  mode 0600
+  notifies :restart, resources(:service => "postgresql")
+end

@@ -12,7 +12,17 @@ Tested on Ubuntu 8.10, but adapted from Red Hat Enterprise 5.0 based recipes.
 
 = ATTRIBUTES: 
 
+* postgresql[:dir] - configuration file location.
+
 = USAGE:
+
+For clients:
+
+  include_recipe "postgresql::client"
+  
+For server: 
+
+  include_recipe "postgresql::server"
 
 = LICENSE and AUTHOR:
       
