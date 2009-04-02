@@ -17,9 +17,11 @@
 # limitations under the License.
 #
 
+include_recipe "postgresql::client" 
+
 package "postgresql"
 
-service "postgresql"
+service "postgresql" do
   case node[:platform]
   when "debian","ubuntu"
     service_name "postgresql-8.3"

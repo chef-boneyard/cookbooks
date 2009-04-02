@@ -23,6 +23,8 @@ For clients:
 For server: 
 
   include_recipe "postgresql::server"
+  
+(client is already included by server)
 
 = LICENSE and AUTHOR:
       
