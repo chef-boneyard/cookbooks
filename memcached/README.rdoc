@@ -1,19 +1,42 @@
 = DESCRIPTION:
 
+Installs memcached and provides a define to set up an instance of memcache via runit.
+
 = REQUIREMENTS:
 
 == Platform:
 
+Tested on Ubuntu 8.10. Uses the memcached package but disables the service and uses runit, see below.
+
 == Cookbooks:
+
+Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
+
+* runit
 
 = ATTRIBUTES: 
 
+The following are node attributes passed to the template for the runit service.
+
+* memcached[:memory] - maximum memory for memcached instances.
+* memcached[:user] - user to run memcached as.
+* memcached[:port] - port for memcached to listen on.
+
 = USAGE:
+
+Use the define, memcached_instance, to set up a runit service for the named memcached instance.
+
+  memcached_instance "myproj" do
+
+  end
 
 = LICENSE and AUTHOR:
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
+Author:: Joshua Sierles (<joshua@37signals.com>)
+
 Copyright:: 2009, Opscode, Inc
+Copyright:: 2009, 37signals
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
