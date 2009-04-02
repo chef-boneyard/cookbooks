@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :memcached_instance, do
+define :memcached_instance do
   include_recipe "memcached"
   
   runit_service "memcached-#{params[:name]}" do
