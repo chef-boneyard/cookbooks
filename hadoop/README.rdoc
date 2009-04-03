@@ -28,6 +28,10 @@ You may wish to add more attributes for tuning the configuration file templates.
 
 This cookbook performs the tasks described in the Hadoop Quick Start[1] to get the software installed. You should copy this to a site-cookbook and modify the templates to meet your requirements. 
 
+Once the recipe is run, the distributed filesystem can be formated using the script /usr/bin/hadoop. 
+
+  /usr/bin/hadoop namenode -format
+
 For running various hadoop processes as services, we suggest runit. A sample 'run' script is provided as an example. These could be wrapped in a define.
 
 * datanode
