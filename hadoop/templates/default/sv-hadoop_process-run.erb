@@ -1,0 +1,4 @@
+#!/bin/sh
+export HADOOP_LOG_DIR=/var/log/hadoop/<%= @params[:name] %>
+exec 2>&1
+exec chpst -u hadoop -o 16384 -e /etc/hadoop/env /usr/bin/hadoop <%= @params[:name] %>
