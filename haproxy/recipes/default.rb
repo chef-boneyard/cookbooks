@@ -21,8 +21,8 @@ package "haproxy" do
   action :install
 end
 
-remote_file "/etc/default/haproxy" do
-  source "haproxy-default"
+template "/etc/default/haproxy" do
+  source "haproxy-default.erb"
   owner "root"
   group "root"
   mode 0644
