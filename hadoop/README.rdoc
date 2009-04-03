@@ -30,14 +30,17 @@ This cookbook performs the tasks described in the Hadoop Quick Start[1] to get t
 
 Once the recipe is run, the distributed filesystem can be formated using the script /usr/bin/hadoop. 
 
-  /usr/bin/hadoop namenode -format
+  sudo -u hadoop /usr/bin/hadoop namenode -format
+  
+You may need to set up SSH keys for hadoop management commands. 
 
-For running various hadoop processes as services, we suggest runit. A sample 'run' script is provided as an example. These could be wrapped in a define.
+Note that this is not the 'default' config per se, so using the start-all.sh script won't start the processes because the config files live elsewhere. For running various hadoop processes as services, we suggest runit. A sample 'run' script is provided. The HADOOP_LOG_DIR in the run script must exist for each process. These could be wrapped in a define. 
 
 * datanode
 * jobtracker
 * namenode
 * tasktracker
+
 
 [1] http://hadoop.apache.org/core/docs/current/quickstart.html
 
