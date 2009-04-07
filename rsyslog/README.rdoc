@@ -14,6 +14,7 @@ Tested on Ubuntu 8.10.
 
 * rsyslog[:log_dir] - specify the directory to store logs (applicable to server only)
 * rsyslog[:server] - specify the remote rsyslog server.
+* rsyslog[:protocol] - specify whether to use udp or tcp for remote log transmission. tcp is default.
 
 = USAGE:
 
@@ -25,9 +26,15 @@ To set up a client with a remote [r]syslog server:
 
   include_recipe "rsyslog::client"
   
-Note, the remote server must support syslog on TCP, so set up a server with:
+By default, this cookbook will use TCP so the server should be configured for TCP. This can be done easily with the server recipe:
 
   include_recipe "rsyslog::server"
+
+To switch to UDP, change the rsyslog[:protocol] attribute. Note this needs to be done on each client as well.
+
+Also, the server configuration will set up log_dir for each client, by date. Structure:
+
+  <%= @log_dir %>/YEAR/MONTH/DAY/HOSTNAME/"logfile"
 
 = LICENSE and AUTHOR:
       

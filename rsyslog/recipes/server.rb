@@ -27,11 +27,18 @@ end
 
 template "/etc/rsyslog.d/server.conf" do
   source "server.conf.erb"
-  variables :log_dir => node[:rsyslog][:log_dir]
+  backup false
+  variables :log_dir => node[:rsyslog][:log_dir], :protocol => node[:rsyslog][:protocol]
   owner "root"
   group "root"
-  mode 0755
+  mode 0644
   notifies :restart, resources(:service => "rsyslog"), :delayed
+end
+
+file "/etc/rsyslog.d/remote.conf" do
+  action :delete
+  notifies :reload, resources(:service => "rsyslog"), :delayed
+  only_if do File.exists?("/etc/rsyslog.d/remote.conf") end
 end
 
 cron "rsyslog_gz" do
