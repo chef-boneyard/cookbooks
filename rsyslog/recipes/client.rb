@@ -19,13 +19,20 @@
 
 include_recipe "rsyslog"
 
-rsyslog_server = node[:rsyslog][:server] ? node[:rsyslog][:server] : search(:node, "recipe:rsyslog::server").first["fqdn"]
+rsyslog_server = node[:rsyslog][:server] ? node[:rsyslog][:server] : search(:node, "recipe:rsyslog::server").map { |n| n["fqdn"] }
 
 template "/etc/rsyslog.d/remote.conf" do
   source "remote.conf.erb"
-  variables :server => rsyslog_server
+  backup false
+  variables :server => rsyslog_server, :protocol => node[:rsyslog][:protocol]
   owner "root"
   group "root"
   mode 0644
   notifies :restart, resources(:service => "rsyslog"), :delayed
+end
+
+file "/etc/rsyslog.d/server.conf" do
+  action :delete
+  notifies :reload, resources(:service => "rsyslog"), :delayed
+  only_if do File.exists?("/etc/rsyslog.d/server.conf") end
 end
