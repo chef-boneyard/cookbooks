@@ -25,7 +25,7 @@ hadoop[:gid] = 65534        unless hadoop.has_key?(:gid)
 
 case platform
 when "redhat","centos","fedora"
-  hadoop[:java_home] = "/usr/lib/jvm/jre-#{languages[:java][:version].gsub(/_0/, '-openjdk')}" unless hadoop.has_key?(:java_home)
+  hadoop[:java_home] = "/usr/lib/jvm/jre-#{languages[:java][:version].gsub(/_0/, '-openjdk') if languages.has_key?(:java)}" unless hadoop.has_key?(:java_home)
 when "debian","ubuntu"
-  hadoop[:java_home] = "/usr/lib/jvm/java-6-sun-#{languages[:java][:version].gsub(/_/, '.')}" unless hadoop.has_key?(:java_home)
+  hadoop[:java_home] = "/usr/lib/jvm/java-6-sun-#{languages[:java][:version].gsub(/_/, '.') if languages.has_key?(:java)}" unless hadoop.has_key?(:java_home)
 end
