@@ -1,0 +1,69 @@
+#!/usr/bin/perl -w
+#
+# Install CPAN modules unattended
+#
+
+package CPAN::Override;
+
+$ENV{PERL_MM_USE_DEFAULT} = 1;
+
+my $orig = CPAN::Distribution->can('new');
+
+my $replace = sub {
+  my $dist = $orig->(@_);
+  my @bits = split('-', (split('/', $dist->normalize))[-1]);
+  pop(@bits);
+  my $o_pack = join('::', 'CPAN::Override::Distribution', @bits);
+  if ($o_pack->isa('CPAN::Distribution')) {
+    bless($dist, $o_pack);
+  }
+  return $dist;
+};
+
+{
+  no warnings 'redefine';
+  *CPAN::Distribution::new = \&$replace;
+}
+
+package CPAN::Override::Distribution::Module::Install;
+
+use base qw/CPAN::Distribution/;
+
+sub make {
+  my $self = shift;
+  $self->get;
+  my $builddir = $self->dir;
+  chdir($builddir) && (!-f 'Makefile') && do {
+    my $perl = $self->perl;
+    my $re_code = 's/^auto_install_now.*//; s/.*prerequisites_policy.*//;';
+    if ($^O eq 'MSWin32') {
+      $re_code .= ' s/^.*ExtUtils::ParseXS.*$//;';
+       system(qq!$perl -p -i.bak -e "s/\n/\r\n/;" Makefile.PL!);
+    }
+    system(qq!$perl -p -i.bak -e "${re_code}" Makefile.PL!);
+  };
+  return $self->SUPER::make(@_);
+}
+
+1;
+
+package main;
+
+use CPAN;
+use ExtUtils::Installed;
+
+CPAN::Config->load;
+
+unless(scalar(@ARGV)) {
+    print "Must supply a perl module to install!\n\n";
+    print <<EOH;
+$0 CPAN::Module ...
+EOH
+    exit 1;
+}
+
+#This check will only catch CPAN installed modules!
+my $instmod = ExtUtils::Installed->new();
+foreach $arg (@ARGV) {
+   install($arg) unless grep(/$arg/, $instmod->modules());
+}
