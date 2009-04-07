@@ -18,14 +18,14 @@
 #
 
 define :cpan_module, :force => nil do
-  if params[:force]
-    force = "force"
-  end
-
   execute "install-#{params[:name]}" do
-    command "echo #{force} install #{params[:name]} | /usr/bin/cpan"
+    if params[:force] 
+      command "echo force install #{params[:name]} | /usr/bin/cpan"
+    else
+      command "/usr/local/bin/cpan_install #{params[:name]}"
+    end
     cwd "/root"
     path [ "/usr/local/bin", "/usr/bin", "/bin" ]
-    not_if "perl -m#{params[:name]} ''"
+    not_if "perl -m#{params[:name]} -e ''"
   end
 end
