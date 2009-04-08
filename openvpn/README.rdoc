@@ -1,0 +1,69 @@
+= DESCRIPTION:
+
+Installs OpenVPN and sets up a fairly basic configuration. Since OpenVPN is very complex, we provide a baseline, but your site will need probably need to customize.
+
+= REQUIREMENTS:
+
+== Platform:
+
+Tested on Ubuntu 8.10, but should work anywhere that has a package for OpenVPN.
+
+== Cookbooks:
+
+No other cookbooks are required.
+
+= ATTRIBUTES: 
+
+These attributes are set by the cookbook by default. 
+
+* openvpn[:local] - IP to listen on, defaults to node[:ipaddress]
+* openvpn[:proto] - Valid values are 'udp' or 'tcp', defaults to 'udp'.
+* openvpn[:type] - Valid values are 'server' or 'server-bridge'. Default is 'server' and it will create a routed IP tunnel, and use the 'tun' device. 'server-bridge' will create an ethernet bridge and requires a tap0 device bridged with the ethernet interface, and is beyond the scope of the cookbook at this time.
+* openvpn[:subnet] - Used for server mode to configure a VPN subnet to draw client addresses. Default is 10.8.0.0, which is what the sample OpenVPN config package uses.
+* openvpn[:netmask] - Netmask for the subnet, default is 255.255.0.0.
+
+= USAGE:
+
+OpenVPN uses SSL certificates for authentication. We provide a Rakefile to make it easier to set everything up. The rake tasks need to be run before deploying the cookbook so the configured server has the proper certificate files. These tasks wrap around the easy-rsa scripts provided with OpenVPN.
+
+Be sure to edit the 'vars' file, files/default/easy-rsa/vars, to set site-specific SSL certificate parameters.
+
+This cookbook also provides an 'up' script that runs when OpenVPN is started. This script is for setting up firewall rules and kernel networking parameters as needed for your environment. For example, you'll probably want to enable IP forwarding (sample Linux setting is commented out).
+
+== Server:
+
+Use the rake task from the easy-rsa directory in this cookbook.
+
+  cd files/default/easy-rsa
+  . vars 
+  rake server
+  
+This will create the certificates in files/default/keys.
+
+== Client:
+
+For security reasons, certificates should be generated on a per-user basis. The client task requires two variables, the username and the VPN gateway hostname.
+
+  cd files/default/easy-rsa
+  . vars
+  rake client name="username" gateway="vpn_gateway.example.com"
+  
+This will create a ZIP file, /tmp/"username".zip. This file should be sent to the user and removed from the server where generated.
+
+= LICENSE and AUTHOR:
+      
+Author:: Joshua Timberman (<joshua@opscode.com>)
+
+Copyright:: 2009, Opscode, Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
