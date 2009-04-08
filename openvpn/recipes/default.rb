@@ -22,7 +22,7 @@ package "openvpn" do
 end
 
 service "openvpn" do
-  action [ :enable, :start ]
+  action :nothing
 end
 
 remote_directory "/etc/openvpn/keys" do
@@ -52,6 +52,7 @@ template "/etc/openvpn/server.up.sh" do
   owner "root"
   group "root"
   mode 0755
+  notifies :restart, resources(:service => "openvpn"), :delayed
 end
 
 template "/etc/openvpn/server.conf" do
@@ -60,5 +61,5 @@ template "/etc/openvpn/server.conf" do
   owner "root"
   group "root"
   mode 0644
-  notifies :restart, resources(:service => "openvpn")
+  notifies :restart, resources(:service => "openvpn"), :delayed
 end
