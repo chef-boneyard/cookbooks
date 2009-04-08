@@ -1,0 +1,59 @@
+= DESCRIPTION:
+
+Installs OpenVPN and sets up a fairly basic configuration. Since OpenVPN is very complex, we provide a baseline, but your site will need probably need to customize.
+
+= REQUIREMENTS:
+
+== Platform:
+
+Tested on Ubuntu 8.10, but should work anywhere that has a package for OpenVPN.
+
+== Cookbooks:
+
+No other cookbooks are required.
+
+= ATTRIBUTES: 
+
+These attributes are set by the cookbook by default. 
+
+* openvpn[:local] - IP to listen on, defaults to node[:ipaddress]
+* openvpn[:proto] - Valid values are 'udp' or 'tcp', defaults to 'udp'.
+* openvpn[:type] - Valid values are 'server' or 'server-bridge'. Default is 'server' and it will create a routed IP tunnel, and use the 'tun' device. 'server-bridge' will create an ethernet bridge and requires a tap0 device bridged with the ethernet interface, and is beyond the scope of the cookbook at this time.
+* openvpn[:subnet] - Used for server mode to configure a VPN subnet to draw client addresses. Default is 10.8.0.0, which is what the sample OpenVPN config package uses.
+* openvpn[:netmask] - Netmask for the subnet, default is 255.255.0.0.
+
+= USAGE:
+
+As mentioned above, this cookbook provides a basic configuration to get started. We also provide a helper Rakefile in the cookbook directory to assist with certificate creation tasks. Certificates for the server need to be generated before it will work.
+
+The cookbook includes an 'up' script that will get run when OpenVPN is started. This script is for setting up firewall rules and kernel networking parameters as needed for your enviornment. 
+
+== Certificates:
+
+Server certificates are stored in /etc/openvpn/keys when deployed. To generate server certificates, run the 'server_cert' rake task from the cookbooks/openvpn directory.
+
+  rake server_cert
+  
+Client certificates, for users to log into the VPN should be stored only on each user's system in a secured location once generated, to prevent unauthorized access. To create a ZIP file for a user containing their certificates, use the 'client' rake task. For security purposes, the ZIP file will be created in /tmp, and read-only by root. 
+
+  rake client
+
+The client rake task will also create a client configuration file.
+
+= LICENSE and AUTHOR:
+      
+Author:: Joshua Timberman (<joshua@opscode.com>)
+
+Copyright:: 2009, Opscode, Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
