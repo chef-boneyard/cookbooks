@@ -34,7 +34,11 @@ service "apache2" do
   when "debian","ubuntu"
     name "apache2"
   end
-  supports :restart => true, :reload => true
+  supports value_for_platform(
+    "debian" => { "4.0" => [ :restart, :reload ], "default" => [ :restart, :reload, :status ] },
+    "ubuntu" => { "default" => [ :restart, :reload, :status ] },
+    "default" => { "default" => [:restart, :reload ] }
+  )
   action :enable
 end
 
