@@ -21,7 +21,7 @@
 	RewriteCond %{SCRIPT_FILENAME} !maintenance.html  
 	RewriteRule ^/(.*)$ /system/maintenance.html [L]
 
-	<Directory <%= @docroot %>>
+	<Directory <%= @params[:docroot] %>>
     Options FollowSymLinks
     AllowOverride None
     Order allow,deny
