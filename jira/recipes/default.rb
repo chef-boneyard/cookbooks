@@ -29,6 +29,7 @@
 include_recipe "runit"
 include_recipe "java"
 include_recipe "apache2"
+include_recipe "apache2::mod_rewrite"
 include_recipe "apache2::mod_proxy"
 include_recipe "apache2::mod_proxy_http"
 include_recipe "apache2::mod_ssl"
@@ -63,27 +64,28 @@ unless FileTest.exists?(node[:jira][:install_path])
   end
 end
 
+directory "#{node[:jira][:install_path]}" do
+  recursive true
+  owner "www-data"
+end
+
 remote_file "#{node[:jira][:install_path]}/bin/startup.sh" do
   source "startup.sh"
-  owner "root"
   mode 0755
 end
   
 remote_file "#{node[:jira][:install_path]}/bin/catalina.sh" do
   source "catalina.sh"
-  owner "root"
   mode 0755
 end
 
 template "#{node[:jira][:install_path]}/conf/server.xml" do
   source "server.xml.erb"
-  owner "root"
   mode 0755
 end
   
 template "#{node[:jira][:install_path]}/atlassian-jira/WEB-INF/classes/entityengine.xml" do
   source "entityengine.xml.erb"
-  owner "root"
   mode 0755
 end
 
@@ -91,7 +93,6 @@ runit_service "jira"
 
 template "#{node[:apache][:dir]}/sites-available/jira.conf" do
   source "apache.conf.erb"
-  owner "root"
   mode 0644
 end
 
