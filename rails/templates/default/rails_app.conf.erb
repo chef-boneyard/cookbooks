@@ -1,7 +1,7 @@
 <VirtualHost *:80>
 	ServerName <%= @params[:server_name] %>
   DocumentRoot <%= @params[:docroot] %>
-	RailsAllowModRewrite on
+
   RailsBaseURI /
   RailsMaxPoolSize <%= @node[:rails][:max_pool_size] %>
   RailsPoolIdleTime 3600
