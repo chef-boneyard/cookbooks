@@ -21,7 +21,7 @@ include_recipe "build-essential"
 include_recipe "runit"
 
 case node[:lsb][:codename]
-when "intrepid"
+when "intrepid","jaunty"
   package "djbdns" do
     action :install
   end
@@ -29,7 +29,7 @@ else
   bash "install_djbdns" do
     user "root"
     cwd "/tmp"
-    command <<-EOH
+    code <<-EOH
     (cd /tmp; wget http://cr.yp.to/ucspi-tcp/ucspi-tcp-0.88.tar.gz)
     (cd /tmp; tar zxvf ucspi-tcp-0.88.tar.gz)
     (cd /tmp/ucspi-tcp-0.88; perl -pi -e 's/extern int errno;/\#include <errno.h>/' error.h)
