@@ -19,17 +19,17 @@
 #
 include_recipe "djbdns"
 
-execute "#{node[:djbdns][:bin_dir]}/tinydns-conf tinydns dnslog #{node[:runit_sv_dir]}/tinydns #{node[:djbdns][:tinydns_ipaddress]}" do
-  only_if "/usr/bin/test ! -d #{node[:runit_sv_dir]}/tinydns"
+execute "#{node[:djbdns][:bin_dir]}/tinydns-conf tinydns dnslog #{node[:runit][:sv_dir]}/tinydns #{node[:djbdns][:tinydns_ipaddress]}" do
+  only_if "/usr/bin/test ! -d #{node[:runit][:sv_dir]}/tinydns"
 end
 
 execute "build-tinydns-data" do
-  cwd "#{node[:runit_sv_dir]}/tinydns/root"
+  cwd "#{node[:runit][:sv_dir]}/tinydns/root"
   command "make"
   action :nothing
 end
 
-template "#{node[:runit_sv_dir]}/tinydns/root/data" do
+template "#{node[:runit][:sv_dir]}/tinydns/root/data" do
   source "tinydns-data.erb"
   mode 0644
   notifies :run, resources("execute[build-tinydns-data]")

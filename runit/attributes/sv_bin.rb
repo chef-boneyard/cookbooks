@@ -17,11 +17,12 @@
 # limitations under the License.
 #
 
+runit Mash.new 
 
-runit_sv_bin `which sv`.chomp!
+runit[:sv_bin] `which sv`.chomp!
 
 case platform
 when "ubuntu","debian"
-  runit_service_dir "/etc/service"
-  runit_sv_dir "/etc/sv"
+  runit[:service_dir] "/etc/service"
+  runit[:sv_dir] "/etc/sv"
 end
