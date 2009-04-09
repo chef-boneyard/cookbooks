@@ -33,8 +33,8 @@ user "axfrdns" do
   home "/home/axfrdns"
 end
 
-execute "#{node[:djbdns][:bin_dir]}/axfrdns-conf axfrdns dnslog #{node[:runit_sv_dir]}/axfrdns #{node[:runit_sv_dir]}/tinydns #{node[:djbdns][:axfrdns_ipaddress]}" do
-  only_if "/usr/bin/test ! -d #{node[:runit_sv_dir]}/axfrdns"
+execute "#{node[:djbdns][:bin_dir]}/axfrdns-conf axfrdns dnslog #{node[:runit][:sv_dir]}/axfrdns #{node[:runit][:sv_dir]}/tinydns #{node[:djbdns][:axfrdns_ipaddress]}" do
+  only_if "/usr/bin/test ! -d #{node[:runit][:sv_dir]}/axfrdns"
 end
 
 runit_service "axfrdns"

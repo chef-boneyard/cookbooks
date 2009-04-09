@@ -21,23 +21,23 @@
 include_recipe "djbdns"
 
 execute "public_cache_update" do
-  cwd "#{node[:runit_sv_dir]}/public-dnscache"
+  cwd "#{node[:runit][:sv_dir]}/public-dnscache"
   command "#{node[:djbdns][:bin_dir]}/dnsip `#{node[:djbdns][:bin_dir]}/dnsqr ns . | awk '/answer:/ { print \$5 ; }' | sort` > root/servers/@"
   action :nothing
 end
 
-execute "#{node[:djbdns][:bin_dir]}/dnscache-conf dnscache dnslog #{node[:runit_sv_dir]}/public-dnscache #{node[:djbdns][:public_dnscache_ipaddress]}" do
-  only_if "/usr/bin/test ! -d #{node[:runit_sv_dir]}/public-dnscache"
+execute "#{node[:djbdns][:bin_dir]}/dnscache-conf dnscache dnslog #{node[:runit][:sv_dir]}/public-dnscache #{node[:djbdns][:public_dnscache_ipaddress]}" do
+  only_if "/usr/bin/test ! -d #{node[:runit][:sv_dir]}/public-dnscache"
   notifies :run, resources("execute[public_cache_update]")
 end
 
 runit_service "public-dnscache"
 
-file "#{node[:runit_sv_dir]}/public-dnscache/root/ip/#{node[:djbdns][:public_dnscache_allowed_networks]}" do
+file "#{node[:runit][:sv_dir]}/public-dnscache/root/ip/#{node[:djbdns][:public_dnscache_allowed_networks]}" do
   mode 0644
 end
 
-template "#{node[:runit_sv_dir]}/public-dnscache/root/servers/#{node[:djbdns][:tinydns_internal_resolved_domain]}" do
+template "#{node[:runit][:sv_dir]}/public-dnscache/root/servers/#{node[:djbdns][:tinydns_internal_resolved_domain]}" do
   source "dnscache-servers.erb"
   mode 0644
 end
