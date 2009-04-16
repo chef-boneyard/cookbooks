@@ -32,7 +32,7 @@ include_recipe "ruby"
 end
 
 gem_package "passenger" do
-  version node[:passenger_version]
+  version node[:passenger][:version]
 end
 
 execute "passenger_module" do
