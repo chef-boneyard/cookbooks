@@ -51,6 +51,6 @@ remote_directory "#{node[:gem_server][:directory]}/gems" do
   source "packages"
   owner "root"
   group "root"
-  mode 0644
+  mode "755"
   notifies :run, resources(:execute => "index-gem-repository")
 end
