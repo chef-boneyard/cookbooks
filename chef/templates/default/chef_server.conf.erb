@@ -1,0 +1,41 @@
+<VirtualHost *:443>
+  ServerName <%= @params[:server_name] %>
+  ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
+  DocumentRoot <%= @params[:docroot] %>
+
+  PassengerDefaultUser chef
+
+  LogLevel info
+  ErrorLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-error.log
+  CustomLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
+  
+  SSLEngine On
+  SSLCertificateFile <%= @node[:chef][:path] %>/certificates/chef.<%= @node[:domain] %>.crt
+  SSLCertificateKeyFile <%= @node[:chef][:path] %>/certificates/chef.<%= @node[:domain] %>.key
+</VirtualHost>
+
+# Uncomment the following and modify the Location stanza to configure
+# htaccess authentication.
+
+# <VirtualHost *:444>
+#   ServerName chefadmin.<%= @node[:domain] %>
+#   ServerAlias chefadmin
+#   DocumentRoot <%= @params[:docroot] %>
+# 
+#   PassengerDefaultUser chef
+# 
+#   LogLevel info
+#   ErrorLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-error.log
+#   CustomLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
+# 
+#   SSLEngine On
+#   SSLCertificateFile <%= @node[:chef][:path] %>/certificates/chef.<%= @node[:domain] %>.crt
+#   SSLCertificateKeyFile <%= @node[:chef][:path] %>/certificates/chef.<%= @node[:domain] %>.key
+#   
+#   <Location />
+#     AuthType Basic
+#     AuthName "Chef Server"
+#     AuthUserFile "/etc/chef/htpasswd.user"
+#     Require valid-user
+#   </Location>
+# </VirtualHost>
