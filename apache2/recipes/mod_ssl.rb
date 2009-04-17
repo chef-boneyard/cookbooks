@@ -18,3 +18,11 @@
 #
 
 apache_module "ssl"
+
+ports = node[:apache][:listen_ports].include?("443") ? node[:apache][:listen_ports] : [node[:apache][:listen_ports], "443"].flatten
+
+template "#{node[:apache][:dir]}/ports.conf" do
+  source "ports.conf.erb"
+  variables :apache_listen_ports => ports
+  notifies :restart, resources(:service => "apache2")
+end
