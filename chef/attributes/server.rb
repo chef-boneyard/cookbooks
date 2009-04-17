@@ -1,9 +1,11 @@
 #
 # Author:: Joshua Timberman <joshua@opscode.com>
+# Author:: Joshua Sierles <joshua@37signals.com>
 # Cookbook Name:: chef
 # Attributes:: server
 #
 # Copyright 2008-2009, Opscode, Inc
+# Copyright 2009, 37signals
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +19,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-chef Mash.new unless attribute?("chef")
+# change to languages[:ruby][:gems_dir] when ohai is updated
+gems_path %x{gem env gemdir}.chomp!
 
-chef[:path] = "/srv/chef" unless chef.has_key?(:path)
+chef Mash.new unless attribute?("chef")
+chef[:server_version] = "0.5.7"  unless chef.has_key?(:server_version)
+chef[:server_log] = "/var/log/chef/server.log" unless chef.has_key?(:server_log)
+chef[:server_path] = "#{gems_path}/gems/chef-server-#{chef[:server_version]}" 
