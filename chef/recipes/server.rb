@@ -42,6 +42,12 @@ directory "/etc/chef" do
   mode 0755
 end
 
+directory "/var/chef" do
+  owner "chef"
+  group "chef"
+  mode 0775
+end
+
 template "/etc/chef/server.rb" do
   owner "chef"
   mode 0644
