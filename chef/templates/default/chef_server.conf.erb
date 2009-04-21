@@ -3,6 +3,12 @@
   ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
   DocumentRoot <%= @params[:docroot] %>
 
+  Alias /facebox /usr/lib/ruby/gems/1.8/gems/chef-server-slice-0.5.7/public/facebox
+  Alias /images /usr/lib/ruby/gems/1.8/gems/chef-server-slice-0.5.7/public/images
+  Alias /javascripts /usr/lib/ruby/gems/1.8/gems/chef-server-slice-0.5.7/public/javascripts
+  Alias /stylesheets /usr/lib/ruby/gems/1.8/gems/chef-server-slice-0.5.7/public/stylesheets
+  Alias /web-app-theme /usr/lib/ruby/gems/1.8/gems/chef-server-slice-0.5.7/public/web-app-theme
+  
   PassengerDefaultUser chef
 
   LogLevel info
@@ -22,6 +28,12 @@
 #   ServerAlias chefadmin
 #   DocumentRoot <%= @params[:docroot] %>
 # 
+#   Alias /facebox /usr/lib/ruby/gems/1.8/gems/chef-server-slice-0.5.7/public/facebox
+#   Alias /images /usr/lib/ruby/gems/1.8/gems/chef-server-slice-0.5.7/public/images
+#   Alias /javascripts /usr/lib/ruby/gems/1.8/gems/chef-server-slice-0.5.7/public/javascripts
+#   Alias /stylesheets /usr/lib/ruby/gems/1.8/gems/chef-server-slice-0.5.7/public/stylesheets
+#   Alias /web-app-theme /usr/lib/ruby/gems/1.8/gems/chef-server-slice-0.5.7/public/web-app-theme
+#
 #   PassengerDefaultUser chef
 # 
 #   LogLevel info
