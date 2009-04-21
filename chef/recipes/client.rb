@@ -44,6 +44,12 @@ directory "/etc/chef" do
   mode "775"
 end
 
+directory node[:chef][:path] do
+  owner "chef"
+  group "chef"
+  mode "775"
+end
+
 directory "/var/log/chef" do
   owner "chef"
   group "chef"
