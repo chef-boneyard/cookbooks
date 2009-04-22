@@ -56,12 +56,29 @@ directory "/var/log/chef" do
   mode "775"
 end
 
-%w{ openid cache search_index openid/cstore certificates }.each do |dir|
+%w{ openid cache search_index openid/cstore }.each do |dir|
   directory "#{node[:chef][:path]}/#{dir}" do
     owner "chef"
     group "chef"
     mode "775"
   end
+end
+
+directory "/etc/chef/certificates" do
+  owner "chef"
+  group "chef"
+  mode 0700
+end
+
+bash "Create SSL Certificates" do
+  cwd "/etc/chef/certificates"
+  code <<-EOH
+  umask 077
+  openssl genrsa 2048 > chef.#{node[:domain]}.key
+  openssl req -subj "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=chef.example.com/emailAddress=ops@example.com" -new -x509 -nodes -sha1 -days 3650 -key chef.#{node[:domain]}.key > chef.#{node[:domain]}.crt
+  cat chef.#{node[:domain]}.key chef.#{node[:domain]}.crt > chef.#{node[:domain]}.pem
+  EOH
+  not_if { File.exists?("/etc/chef/certificates/chef.#{node[:domain]}.pem") }
 end
 
 runit_service "chef-indexer" 
