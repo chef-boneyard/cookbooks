@@ -37,11 +37,6 @@ if node[:chef][:server_version] >= "0.5.7"
   end
 end
 
-directory "/etc/chef" do
-  owner "chef"
-  mode 0755
-end
-
 directory "/var/chef" do
   owner "chef"
   group "chef"
