@@ -16,8 +16,8 @@
   CustomLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
   
   SSLEngine On
-  SSLCertificateFile <%= @node[:chef][:path] %>/certificates/chef.<%= @node[:domain] %>.crt
-  SSLCertificateKeyFile <%= @node[:chef][:path] %>/certificates/chef.<%= @node[:domain] %>.key
+  SSLCertificateFile /etc/chef/certificates/chef.<%= @node[:domain] %>.pem
+  SSLCertificateKeyFile /etc/chef/certificates/chef.<%= @node[:domain] %>.pem
 </VirtualHost>
 
 # Uncomment the following and modify the Location stanza to configure
@@ -41,8 +41,8 @@
 #   CustomLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
 # 
 #   SSLEngine On
-#   SSLCertificateFile <%= @node[:chef][:path] %>/certificates/chef.<%= @node[:domain] %>.crt
-#   SSLCertificateKeyFile <%= @node[:chef][:path] %>/certificates/chef.<%= @node[:domain] %>.key
+#   SSLCertificateFile /etc/chef/certificates/chef.<%= @node[:domain] %>.crt
+#   SSLCertificateKeyFile /etc/chef/certificates/chef.<%= @node[:domain] %>.key
 #   
 #   <Location />
 #     AuthType Basic
