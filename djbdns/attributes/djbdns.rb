@@ -29,7 +29,7 @@ djbdns[:public_dnscache_allowed_networks] = [ipaddress.split(".")[0,2].join(".")
 djbdns[:tinydns_internal_resolved_domain] = domain unless djbdns.has_key?(:tinydns_internal_resolved_domain)
 
 case lsb[:codename]
-when "intrepid"
+when "intrepid","jaunty"
   djbdns[:bin_dir] = "/usr/bin"
 else
   djbdns[:bin_dir] = "/usr/local/bin"
