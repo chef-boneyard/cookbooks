@@ -41,8 +41,8 @@
 #   CustomLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
 # 
 #   SSLEngine On
-#   SSLCertificateFile /etc/chef/certificates/chef.<%= @node[:domain] %>.crt
-#   SSLCertificateKeyFile /etc/chef/certificates/chef.<%= @node[:domain] %>.key
+#   SSLCertificateFile /etc/chef/certificates/chef.<%= @node[:domain] %>.pem
+#   SSLCertificateKeyFile /etc/chef/certificates/chef.<%= @node[:domain] %>.pem
 #   
 #   <Location />
 #     AuthType Basic
