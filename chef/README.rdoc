@@ -1,0 +1,73 @@
+= DESCRIPTION:
+
+Use this cookbook to configure a chef client or server. The primary purpose is to be used with the chef-solo command to bootstrap a chef-server, per the Chef Wiki.
+
+= REQUIREMENTS:
+
+The passenger stack requires Chef 0.5.7+.
+
+== Platform:
+
+Best tested on Ubuntu 8.10, 9.04. See the Chef Wiki for up to date installation procedures for other platforms.
+
+== Cookbooks:
+
+Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
+
+* apache2
+* runit
+* couchdb
+* stompserver
+* passenger
+* ruby
+
+Note: These cookbooks are already included with the chef-solo bootstrap installer.
+
+= ATTRIBUTES: 
+
+* chef[:path] - Base directory for Chef files/directories. Default is /srv/chef (more FHS-y).
+
+== Client:
+
+* chef[:client_version] - For 'chef' gem, the client can be different than the server, though keeping versions the same is recommended.
+* chef[:client_interval] - Number of seconds between chef-client daemon runs. Default 1800 (30 minutes).
+* chef[:client_splay] - Random range of seconds added to interval. Default 20.
+* chef[:client_log] - Where the client should log. 
+
+== Server:
+
+* chef[:server_version] - For 'chef-server' and 'chef-server-slice' gems.
+* chef[:server_log] - Where the server should log. Default /var/log/chef/server.log.
+* chef[:server_path] - Merb root directory for the chef-server merb app. Default is the gem installation directory, needs to be updated on servers using other installation methods.
+
+= USAGE:
+
+This cookbook is primarily designed to bootstrap a chef server and clients via chef-solo per the Chef Wiki Installation page. It can also be used for ongoing configuration of Chef.
+
+For clients, the cookbook will set up a runit service for the chef-client. You can automatically validate a node by first creating /etc/chef/validation_token, with contents equal to the validation_token set in /etc/chef/server.rb (change the default value for your site). The client recipe will then remove the token file if it exists after the node is validated.
+
+For servers, the cookbook will set up a runit service for chef-indexer, and will set up chef-server itself as a Rack app under Apache+Passenger. The server will listen only for HTTPS by default, see "SSL Certificates" below for more. The server can optionally protect the page via simple htauth, and be accessed via port 444. Remember to add the port to the node attribute apache[:listen_ports].
+
+== SSL Certificates: 
+
+The default configuration sets up the server to use HTTPS. The server recipe will generate a self-signed PEM certificate on the first run (normally via chef-solo). You should generate your own site-specific certificate, or purchase a certificate and replace the example after installation.
+
+= LICENSE and AUTHOR:
+
+Author:: Joshua Timberman <joshua@opscode.com>
+Author:: Joshua Sierles <joshua@37signals.com>
+
+Copyright 2008-2009, Opscode, Inc
+Copyright 2009, 37signals
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
