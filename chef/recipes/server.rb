@@ -37,7 +37,7 @@ end
 include_recipe "stompserver" 
 include_recipe "apache2"
 include_recipe "apache2::mod_ssl"
-include_recipe "passenger"
+include_recipe "apache2::mod_rails"
 include_recipe "chef::client"
 
 gem_package "chef-server" do
