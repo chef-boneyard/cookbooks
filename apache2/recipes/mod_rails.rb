@@ -22,19 +22,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "ruby"
+include_recipe "passenger"
 
-%w{ apache2-prefork-dev libapr1-dev }.each do |pkg|
-  package pkg do
-    action :upgrade
-  end
+template "#{node[:apache][:dir]}/mods-available/passenger.load" do
+  cookbook "passenger"
+  source "passenger.load.erb"
+  owner "root"
+  group "root"
+  mode 0755
 end
 
-gem_package "passenger" do
-  version node[:passenger][:version]
+template "#{node[:apache][:dir]}/mods-available/passenger.conf" do
+  cookbook "passenger"
+  source "passenger.conf.erb"
+  owner "root"
+  group "root"
+  mode 0755
 end
 
-execute "passenger_module" do
-  command 'echo -en "\n\n\n\n" | passenger-install-apache2-module'
-  creates node[:passenger][:module_path]
-end
+apache_module "passenger"

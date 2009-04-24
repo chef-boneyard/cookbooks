@@ -20,7 +20,12 @@
 case node[:platform]
 when "debian","ubuntu"
   execute "start-runsvdir" do
-    command "start runsvdir"
+    case node[:platform]
+    when "debian"
+      command "runsvdir-start"
+    else
+      command "start runsvdir"
+    end
     action :nothing
   end
   
@@ -29,7 +34,7 @@ when "debian","ubuntu"
     notifies :run, resources(:execute => "start-runsvdir")
   end
     
-  if node[:platform_version].to_f < 8.04
+  if node[:platform_version].to_f < 8.04 && node[:platform] =~ /ubuntu/i
     remote_file "/etc/event.d/runsvdir" do
       source "runsvdir"
       mode 0644
