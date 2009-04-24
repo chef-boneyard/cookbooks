@@ -20,7 +20,20 @@
 # limitations under the License.
 
 include_recipe "runit"
-include_recipe "couchdb"
+
+case node[:platform]
+when "ubuntu"
+  if node[:platform_version].to_f >= 8.10
+    include_recipe "couchdb"
+  end
+when "debian"
+  if node[:platform_version].to_f >= 5.0
+    include_recipe "couchdb"
+  end
+# when "centos","redhat","fedora"
+#   include_recipe "couchdb"
+end
+
 include_recipe "stompserver" 
 include_recipe "apache2"
 include_recipe "apache2::mod_ssl"
