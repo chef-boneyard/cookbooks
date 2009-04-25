@@ -50,12 +50,6 @@ if node[:chef][:server_version] >= "0.5.7"
   end
 end
 
-directory "/var/chef" do
-  owner "chef"
-  group "chef"
-  mode 0775
-end
-
 template "/etc/chef/server.rb" do
   owner "chef"
   mode 0644
@@ -88,7 +82,7 @@ bash "Create SSL Certificates" do
   code <<-EOH
   umask 077
   openssl genrsa 2048 > chef.#{node[:domain]}.key
-  openssl req -subj "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=chef.example.com/emailAddress=ops@example.com" -new -x509 -nodes -sha1 -days 3650 -key chef.#{node[:domain]}.key > chef.#{node[:domain]}.crt
+  openssl req -subj "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=chef.#{node[:domain]}/emailAddress=ops@#{node[:domain]}" -new -x509 -nodes -sha1 -days 3650 -key chef.#{node[:domain]}.key > chef.#{node[:domain]}.crt
   cat chef.#{node[:domain]}.key chef.#{node[:domain]}.crt > chef.#{node[:domain]}.pem
   EOH
   not_if { File.exists?("/etc/chef/certificates/chef.#{node[:domain]}.pem") }
