@@ -63,6 +63,12 @@ template "/etc/chef/client.rb" do
   mode "644"
 end
 
+directory "/var/chef" do
+  owner "chef"
+  group "chef"
+  mode 0775
+end
+
 execute "Register client node with Chef Server" do
   command "/usr/bin/env chef-client -t \`cat /etc/chef/validation_token\`"
   only_if { File.exists?("/etc/chef/validation_token") }
