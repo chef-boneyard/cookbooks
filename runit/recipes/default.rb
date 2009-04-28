@@ -34,7 +34,7 @@ when "debian","ubuntu"
     notifies :run, resources(:execute => "start-runsvdir")
   end
     
-  if node[:platform_version].to_f < 8.04 && node[:platform] =~ /ubuntu/i
+  if node[:platform_version].to_f <= 8.04 && node[:platform] =~ /ubuntu/i
     remote_file "/etc/event.d/runsvdir" do
       source "runsvdir"
       mode 0644
