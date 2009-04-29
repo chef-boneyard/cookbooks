@@ -112,6 +112,6 @@ task :build_bootstrap do
   end
 
   chdir(tmp_dir) do
-    sh %{tar zcvf ../bootstrap.tar.gz cookbooks}
+    sh %{tar zcvf bootstrap.tar.gz cookbooks}
   end
 end
