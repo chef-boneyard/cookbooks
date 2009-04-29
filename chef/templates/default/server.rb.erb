@@ -6,11 +6,11 @@
 log_level          :info
 log_location       "<%= @node[:chef][:server_log] %>"
 ssl_verify_mode    :verify_none
-registration_url   "https://chef.<%= @node[:domain] %>"
-openid_url         "https://chef.<%= @node[:domain] %>"
-template_url       "https://chef.<%= @node[:domain] %>"
-remotefile_url     "https://chef.<%= @node[:domain] %>"
-search_url         "https://chef.<%= @node[:domain] %>"
+registration_url   "https://<%= @node[:chef][:server_fqdn] %>"
+openid_url         "https://<%= @node[:chef][:server_fqdn] %>"
+template_url       "https://<%= @node[:chef][:server_fqdn]%>"
+remotefile_url     "https://<%= @node[:chef][:server_fqdn]%>"
+search_url         "https://<%= @node[:chef][:server_fqdn]%>"
 
 validation_token   "change_this_token"
 

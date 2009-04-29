@@ -119,8 +119,8 @@ end
 web_app "chef_server" do
   docroot "#{node[:chef][:server_path]}/public"
   template "chef_server.conf.erb"
-  server_name "chef.#{node[:domain]}"
-  server_aliases "chef"
+  server_name node[:chef][:server_fqdn]
+  server_aliases node[:chef][:server_hostname]
   gems_path node[:gems_path]
   version node[:chef][:server_version]
 end
