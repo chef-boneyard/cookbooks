@@ -23,6 +23,6 @@ openid_store_path  "<%= @node[:chef][:path] %>/openid/store"
 openid_cstore_path "<%= @node[:chef][:path] %>/openid/cstore"
 search_index_path  "<%= @node[:chef][:path] %>/search_index"
 
-#openid_providers   [ "https://chef.<%= @node[:chef][:server_fqdn]%>", "https://chef", "myopenid.com" ]
+#openid_providers   [ "https://<%= @node[:chef][:server_fqdn]%>", "https://chef", "myopenid.com" ]
 
 Chef::Log::Formatter.show_time = true
