@@ -19,10 +19,9 @@
 
 runit Mash.new 
 
-runit[:sv_bin] = %x{which sv}.chomp!
-
 case platform
 when "ubuntu","debian"
+  runit[:sv_bin] = "/usr/bin/sv"
   runit[:service_dir] = "/etc/service"
   runit[:sv_dir] = "/etc/sv"
 end
