@@ -16,4 +16,4 @@ search_url         "https://chef.<%= @node[:domain]%>"
 file_store_path    "<%= @node[:chef][:path] %>/file_store"
 file_cache_path    "<%= @node[:chef][:path] %>/cache"
 
-Chef::Log::Formatter.show_time = false
+Chef::Log::Formatter.show_time = true
