@@ -29,7 +29,6 @@ extra_packages = case node[:platform]
       rdoc1.8
       ri1.8
       libopenssl-ruby
-      rake
     }
   when
     %w{
