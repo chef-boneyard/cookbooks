@@ -61,7 +61,7 @@ service "slapd" do
 end
 
 case node[:lsb][:codename]
-when "intrepid"
+when "intrepid","jaunty"
   directory "#{node[:openldap][:dir]}/slapd.d" do
     recursive true
     owner "openldap"
