@@ -84,7 +84,24 @@ when "intrepid","jaunty"
     notifies :stop, resources(:service => "slapd"), :immediately
     notifies :run, resources(:execute => "slapd-config-convert")
   end
+  
+  template "/etc/default/slapd" do
+    source "default_slapd.erb"
+    owner "root"
+    group "root"
+    mode 0644
+  end
 else
+  case node[:platform]
+  when "debian","ubuntu"
+    template "/etc/default/slapd" do
+      source "default_slapd.erb"
+      owner "root"
+      group "root"
+      mode 0644
+    end
+  end
+  
   template "#{node[:openldap][:dir]}/slapd.conf" do
     source "slapd.conf.erb"
     mode 0640
