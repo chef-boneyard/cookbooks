@@ -47,13 +47,11 @@ package "slapd" do
   action :upgrade
 end
 
-%w{ crt key pem }.each do |pem|
-  remote_file "#{node[:openldap][:ssl_dir]}/#{node[:fqdn]}.#{pem}" do
-    source "ssl/#{node[:fqdn]}.#{pem}"
-    mode 0644
-    owner "root"
-    group "root"
-  end
+remote_file "#{node[:openldap][:ssl_dir]}/#{node[:openldap][:server]}.pem" do
+  source "ssl/#{node[:openldap][:server]}.#{pem}"
+  mode 0644
+  owner "root"
+  group "root"
 end
 
 service "slapd" do
@@ -62,6 +60,13 @@ end
 
 case node[:lsb][:codename]
 when "intrepid","jaunty"
+  template "/etc/default/slapd" do
+    source "default_slapd.erb"
+    owner "root"
+    group "root"
+    mode 0644
+  end
+
   directory "#{node[:openldap][:dir]}/slapd.d" do
     recursive true
     owner "openldap"
@@ -83,13 +88,6 @@ when "intrepid","jaunty"
     group "openldap"
     notifies :stop, resources(:service => "slapd"), :immediately
     notifies :run, resources(:execute => "slapd-config-convert")
-  end
-  
-  template "/etc/default/slapd" do
-    source "default_slapd.erb"
-    owner "root"
-    group "root"
-    mode 0644
   end
 else
   case node[:platform]
