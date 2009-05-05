@@ -20,9 +20,9 @@
 package "apache2" do
   case node[:platform]
   when "centos","redhat","fedora","suse"
-    name "httpd"
+    package_name "httpd"
   when "debian","ubuntu"
-    name "apache2"
+    package_name "apache2"
   end
   action :install
 end
@@ -30,9 +30,9 @@ end
 service "apache2" do
   case node[:platform]
   when "centos","redhat","fedora","suse"
-    name "httpd"
+    service_name "httpd"
   when "debian","ubuntu"
-    name "apache2"
+    service_name "apache2"
   end
   supports value_for_platform(
     "debian" => { "4.0" => [ :restart, :reload ], "default" => [ :restart, :reload, :status ] },
