@@ -65,7 +65,13 @@ if platform?("centos", "redhat", "fedora", "suse")
   end
     
   execute "generate-module-list" do
-    command "/usr/local/bin/apache2_module_conf_generate.pl /usr/#{node[:architecture]}/httpd/modules /etc/httpd/mods-available"  
+    if File.exist?("/usr/lib64/httpd/modules")
+      libdir = "lib64"
+    else 
+      libdir = "lib"
+    end
+    command "/usr/local/bin/apache2_module_conf_generate.pl /usr/#{libdir}/httpd/modules /etc/httpd/mods-available"
+    
     action :run
   end
   
