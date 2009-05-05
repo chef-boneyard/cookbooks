@@ -69,7 +69,7 @@ if platform?("centos", "redhat", "fedora", "suse")
     action :run
   end
   
-  %w{a2ensite a2dissite s2enmod s2dismod}.each do |modscript|
+  %w{a2ensite a2dissite a2enmod a2dismod}.each do |modscript|
     template "/usr/sbin/#{modscript}" do
       source "#{modscript}.erb"
       mode 0755
