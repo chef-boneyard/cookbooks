@@ -86,6 +86,11 @@ if platform?("centos", "redhat", "fedora", "suse")
       group "root"
     end  
   end
+
+  # installed by default on centos/rhel, remove in favour of mods-enabled
+  file "#{node[:apache][:dir]}/conf.d/proxy_ajp.conf" do
+    action :delete
+  end
 end
 
 directory "#{node[:apache][:dir]}/ssl" do
