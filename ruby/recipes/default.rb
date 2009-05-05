@@ -30,7 +30,7 @@ extra_packages = case node[:platform]
       ri1.8
       libopenssl-ruby
     }
-  when
+  when "centos","redhat","fedora"
     %w{
       ruby-libs
       ruby-devel
