@@ -68,7 +68,7 @@ if platform?("centos", "redhat", "fedora", "suse")
   end
     
   execute "generate-module-list" do
-    if File.exist?("/usr/lib64/httpd/modules")
+    if node[:kernel][:machine] == "x86_64" 
       libdir = "lib64"
     else 
       libdir = "lib"
