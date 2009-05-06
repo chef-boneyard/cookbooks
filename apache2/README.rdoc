@@ -6,7 +6,7 @@ Complete Debian/Ubuntu style Apache2 configuration.
 
 Debian or Ubuntu preferred.
 
-Red Hat/CentOS and Fedora can be used, 
+Red Hat/CentOS and Fedora can be used but will be converted to a Debian/Ubuntu style Apache.
 
 = ATTRIBUTES:
 
