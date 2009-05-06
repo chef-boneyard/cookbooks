@@ -20,7 +20,9 @@
 if platform?("debian", "ubuntu")
   package "libapache2-mod-fcgid"
 elsif platform?("centos", "redhat", "fedora")
-  package "mod_fcgid"
+  package "mod_fcgid" do
+    notifies :run, resources(:execute => "generate-module-list"), :immediately
+  end
 elsif platform?("suse")
   apache_lib_path = node[:architecture] == "i386" ? "/usr/lib/httpd" : "/usr/lib64/httpd"
   package "httpd-devel"
