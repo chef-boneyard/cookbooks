@@ -4,7 +4,7 @@
 
 Generates Ubuntu style module.load files.
  
-./apache2_module_conf_genereate.pl /usr/lib64/httpd/modules /etc/httpd/mods-available
+./apache2_module_conf_generate.pl /usr/lib64/httpd/modules /etc/httpd/mods-available
 
 ARGV[0] is the apache modules directory, ARGV[1] is where you want 'em.
 
@@ -23,8 +23,8 @@ find(
     wanted => sub {
       return 1 if $File::Find::name !~ /\.so$/;
       my $modfile = $_;
-      $modfile =~ /mod_(.+)\.so$/;
-      my $modname  = $1;
+      $modfile =~ /(lib|mod_)(.+)\.so$/;
+      my $modname  = $2;
       my $filename = "$ARGV[1]/$modname.load";
       unless ( -f $filename ) {
         open( FILE, ">", $filename ) or die "Cannot open $filename";
