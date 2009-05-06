@@ -19,7 +19,9 @@
 
 if platform?("debian", "ubuntu")
   package "libapache2-mod-fcgid"
-elsif platform?("centos", "redhat", "suse")
+elsif platform?("centos", "redhat", "fedora")
+  package "mod_fcgid"
+elsif platform?("suse")
   apache_lib_path = node[:architecture] == "i386" ? "/usr/lib/httpd" : "/usr/lib64/httpd"
   package "httpd-devel"
   bash "install-fcgid" do
