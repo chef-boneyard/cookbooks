@@ -24,7 +24,10 @@ define :apache_site, :enable => true do
     execute "a2ensite #{params[:name]}" do
       command "/usr/sbin/a2ensite #{params[:name]}"
       notifies :restart, resources(:service => "apache2")
-      not_if do File.symlink?("#{node[:apache][:dir]}/sites-enabled/#{params[:name]}") end
+      not_if do 
+        File.symlink?("#{node[:apache][:dir]}/sites-enabled/#{params[:name]}") or
+          File.symlink?("#{node[:apache][:dir]}/sites-enabled/000-#{params[:name]}")
+      end
     end
   else
     execute "a2dissite #{params[:name]}" do
