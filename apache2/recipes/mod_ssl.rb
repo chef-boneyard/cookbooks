@@ -17,7 +17,13 @@
 # limitations under the License.
 #
 
-apache_module "ssl"
+case node[:platform]
+when "centos", "redhat", "fedora"
+  package "mod_ssl" do
+    action :install
+    notifies :run, resources(:execute => "generate-module-list"), :immediately
+  end
+end
 
 ports = node[:apache][:listen_ports].include?("443") ? node[:apache][:listen_ports] : [node[:apache][:listen_ports], "443"].flatten
 
@@ -26,3 +32,5 @@ template "#{node[:apache][:dir]}/ports.conf" do
   variables :apache_listen_ports => ports
   notifies :restart, resources(:service => "apache2")
 end
+
+apache_module "ssl"
