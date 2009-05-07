@@ -54,6 +54,11 @@ apache[:keepalive] = "On"            unless apache.has_key?(:keepalive)
 apache[:keepaliverequests] = 100     unless apache.has_key?(:keepaliverequests)
 apache[:keepalivetimeout] = 5        unless apache.has_key?(:keepalivetimeout)
 
+# Security
+apache[:servertokens] = "Prod"  unless apache.has_key?(:servertokens)
+apache[:serversignature] = "On" unless apache.has_key?(:serversignature)
+apache[:traceenable] = "On"     unless apache.has_key?(:traceenable)
+
 # Prefork Attributes
 apache[:prefork] = Mash.new unless apache.has_key?(:prefork)
 apache[:prefork][:startservers] = 16      unless apache[:prefork].has_key?(:startservers)
