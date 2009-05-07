@@ -17,10 +17,8 @@
 # limitations under the License.
 #
 
-if platform?("centos", "redhat", "fedora")
-  template "#{node[:apache][:dir]}/mods-available/deflate.conf" do
-    source "mods/deflate.conf.erb"
-  end
+template "#{node[:apache][:dir]}/mods-available/deflate.conf" do
+  source "mods/deflate.conf.erb"
 end
 
 apache_module "deflate"

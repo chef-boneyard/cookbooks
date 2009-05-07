@@ -17,10 +17,8 @@
 # limitations under the License.
 #
 
-if platform?("centos", "redhat", "fedora")
-  template "#{node[:apache][:dir]}/mods-available/proxy.conf" do
-    source "mods/proxy.conf.erb"
-  end
+template "#{node[:apache][:dir]}/mods-available/proxy.conf" do
+  source "mods/proxy.conf.erb"
 end
 
 apache_module "proxy"

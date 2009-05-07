@@ -17,11 +17,11 @@
 # limitations under the License.
 #
 
-if platform?("centos", "redhat", "fedora")
-  template "#{node[:apache][:dir]}/mods-available/ssl.conf" do
-    source "mods/ssl.conf.erb"
-  end
+template "#{node[:apache][:dir]}/mods-available/ssl.conf" do
+  source "mods/ssl.conf.erb"
+end
 
+if platform?("centos", "redhat", "fedora")
   package "mod_ssl" do
     action :install
     notifies :run, resources(:execute => "generate-module-list"), :immediately

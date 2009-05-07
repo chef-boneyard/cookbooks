@@ -17,10 +17,8 @@
 # limitations under the License.
 #
 
-if platform?("centos", "redhat", "fedora")
-  template "#{node[:apache][:dir]}/mods-available/negotiation.conf" do
-    source "mods/negotiation.conf.erb"
-  end
+template "#{node[:apache][:dir]}/mods-available/negotiation.conf" do
+  source "mods/negotiation.conf.erb"
 end
 
 apache_module "negotiation"
