@@ -17,6 +17,10 @@
 # limitations under the License.
 #
 
+template "#{node[:apache][:dir]}/mods-available/fcgid.conf" do
+  source "mods/fcgid.conf.erb"
+end
+
 if platform?("debian", "ubuntu")
   package "libapache2-mod-fcgid"
 elsif platform?("centos", "redhat", "fedora")
