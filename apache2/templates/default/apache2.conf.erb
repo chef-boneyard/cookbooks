@@ -62,6 +62,7 @@ KeepAliveTimeout <%= @node[:apache][:keepalivetimeout] %>
     StartServers          <%= @node[:apache][:prefork][:startservers] %>
     MinSpareServers       <%= @node[:apache][:prefork][:minspareservers] %>
     MaxSpareServers       <%= @node[:apache][:prefork][:maxspareservers] %>
+    ServerLimit           <%= @node[:apache][:prefork][:serverlimit] %>
     MaxClients            <%= @node[:apache][:prefork][:maxclients] %>
     MaxRequestsPerChild   <%= @node[:apache][:prefork][:maxrequestsperchild] %>
 </IfModule>
