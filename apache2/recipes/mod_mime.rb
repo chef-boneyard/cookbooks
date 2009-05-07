@@ -17,4 +17,10 @@
 # limitations under the License.
 #
 
+if platform?("centos", "redhat", "fedora")
+  template "#{node[:apache][:dir]}/mods-available/mime.conf" do
+    source "mods/mime.conf.erb"
+  end
+end
+
 apache_module "mime"

@@ -17,11 +17,18 @@
 # limitations under the License.
 #
 
-case node[:platform]
-when "centos", "redhat", "fedora"
+if platform?("centos", "redhat", "fedora")
+  template "#{node[:apache][:dir]}/mods-available/ssl.conf" do
+    source "mods/ssl.conf.erb"
+  end
+
   package "mod_ssl" do
     action :install
     notifies :run, resources(:execute => "generate-module-list"), :immediately
+  end
+
+  file "#{node[:apache][:dir]}/conf.d/ssl.conf" do
+    action :delete
   end
 end
 

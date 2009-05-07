@@ -17,4 +17,10 @@
 # limitations under the License.
 #
 
+if platform?("centos", "redhat", "fedora")
+  template "#{node[:apache][:dir]}/mods-available/dir.conf" do
+    source "mods/dir.conf.erb"
+  end
+end
+
 apache_module "dir"

@@ -17,4 +17,10 @@
 # limitations under the License.
 #
 
+if platform?("centos", "redhat", "fedora")
+  template "#{node[:apache][:dir]}/mods-available/autoindex.conf" do
+    source "mods/autoindex.conf.erb"
+  end
+end
+
 apache_module "autoindex"

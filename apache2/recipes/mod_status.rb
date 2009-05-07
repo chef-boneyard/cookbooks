@@ -17,4 +17,10 @@
 # limitations under the License.
 #
 
+if platform?("centos", "redhat", "fedora")
+  template "#{node[:apache][:dir]}/mods-available/status.conf" do
+    source "mods/status.conf.erb"
+  end
+end
+
 apache_module "status"

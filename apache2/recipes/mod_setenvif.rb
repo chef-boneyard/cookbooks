@@ -17,4 +17,10 @@
 # limitations under the License.
 #
 
+if platform?("centos", "redhat", "fedora")
+  template "#{node[:apache][:dir]}/mods-available/setenvif.conf" do
+    source "mods/setenvif.conf.erb"
+  end
+end
+
 apache_module "setenvif"

@@ -17,4 +17,10 @@
 # limitations under the License.
 #
 
+if platform?("centos", "redhat", "fedora")
+  template "#{node[:apache][:dir]}/mods-available/alias.conf" do
+    source "mods/alias.conf.erb"
+  end
+end
+
 apache_module "alias"
