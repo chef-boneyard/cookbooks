@@ -56,12 +56,12 @@ apache[:keepalivetimeout] = 5        unless apache.has_key?(:keepalivetimeout)
 
 # Prefork Attributes
 apache[:prefork] = Mash.new unless apache.has_key?(:prefork)
-apache[:prefork][:startservers] = 16      unless apache[:prefork].has_key?(:prefork_startservers)
-apache[:prefork][:minspareservers] = 16   unless apache[:prefork].has_key?(:prefork_minspareservers)
-apache[:prefork][:maxspareservers] = 32   unless apache[:prefork].has_key?(:prefork_maxspareservers)
-apache[:prefork][:serverlimit] = 400      unless apache[:prefork].has_key?(:prefork_serverlimit)
-apache[:prefork][:maxclients] = 400       unless apache[:prefork].has_key?(:prefork_maxclients)
-apache[:prefork][:maxrequestsperchild] = 10000 unless apache[:prefork].has_key?(:prefork_maxrequestsperchild)
+apache[:prefork][:startservers] = 16      unless apache[:prefork].has_key?(:startservers)
+apache[:prefork][:minspareservers] = 16   unless apache[:prefork].has_key?(:minspareservers)
+apache[:prefork][:maxspareservers] = 32   unless apache[:prefork].has_key?(:maxspareservers)
+apache[:prefork][:serverlimit] = 400      unless apache[:prefork].has_key?(:serverlimit)
+apache[:prefork][:maxclients] = 400       unless apache[:prefork].has_key?(:maxclients)
+apache[:prefork][:maxrequestsperchild] = 10000 unless apache[:prefork].has_key?(:maxrequestsperchild)
 
 # Worker Attributes
 apache[:worker] = Mash.new unless apache.has_key?(:worker)
