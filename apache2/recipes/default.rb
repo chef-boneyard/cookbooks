@@ -90,6 +90,17 @@ if platform?("centos", "redhat", "fedora", "suse")
   # installed by default on centos/rhel, remove in favour of mods-enabled
   file "#{node[:apache][:dir]}/conf.d/proxy_ajp.conf" do
     action :delete
+    backup false
+  end
+  file "#{node[:apache][:dir]}/conf.d/README" do
+    action :delete
+    backup false
+  end
+  
+  # welcome page moved to the default-site.rb temlate
+  file "#{node[:apache][:dir]}/conf.d/welcome.conf" do
+    action :delete
+    backup false
   end
 end
 
@@ -111,6 +122,24 @@ template "apache2.conf" do
   owner "root"
   group "root"
   mode 0644
+end
+
+template "security" do
+  path "#{node[:apache][:dir]}/conf.d/security"
+  source "security.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  backup false
+end
+
+template "charset" do
+  path "#{node[:apache][:dir]}/conf.d/charset"
+  source "charset.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  backup false
 end
 
 template "#{node[:apache][:dir]}/ports.conf" do
@@ -145,6 +174,9 @@ include_recipe "apache2::mod_mime"
 include_recipe "apache2::mod_negotiation"
 include_recipe "apache2::mod_setenvif"
 include_recipe "apache2::mod_log_config" if platform?("centos", "redhat", "suse")
+
+# uncomment to get working example site on centos/redhat/fedora
+#apache_site "default"
 
 service "apache2" do
   action :start
