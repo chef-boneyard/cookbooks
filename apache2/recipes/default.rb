@@ -122,6 +122,7 @@ template "apache2.conf" do
   owner "root"
   group "root"
   mode 0644
+  notifies :restart, resources(:service => "apache2")
 end
 
 template "security" do
@@ -131,6 +132,7 @@ template "security" do
   group "root"
   mode 0644
   backup false
+  notifies :restart, resources(:service => "apache2")
 end
 
 template "charset" do
@@ -140,6 +142,7 @@ template "charset" do
   group "root"
   mode 0644
   backup false
+  notifies :restart, resources(:service => "apache2")
 end
 
 template "#{node[:apache][:dir]}/ports.conf" do
