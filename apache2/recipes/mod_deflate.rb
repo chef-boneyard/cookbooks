@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-template "#{node[:apache][:dir]}/mods-available/deflate.conf" do
-  source "mods/deflate.conf.erb"
+apache_module "deflate" do
+  conf true
 end
-
-apache_module "deflate"

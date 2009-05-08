@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-template "#{node[:apache][:dir]}/mods-available/proxy.conf" do
-  source "mods/proxy.conf.erb"
+apache_module "proxy" do
+  conf true
 end
-
-apache_module "proxy"

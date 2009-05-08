@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-template "#{node[:apache][:dir]}/mods-available/status.conf" do
-  source "mods/status.conf.erb"
+apache_module "status" do
+  conf true
 end
-
-apache_module "status"

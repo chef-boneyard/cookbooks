@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-template "#{node[:apache][:dir]}/mods-available/setenvif.conf" do
-  source "mods/setenvif.conf.erb"
+apache_module "setenvif" do
+  conf true
 end
-
-apache_module "setenvif"

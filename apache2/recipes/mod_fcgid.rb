@@ -17,15 +17,16 @@
 # limitations under the License.
 #
 
-template "#{node[:apache][:dir]}/mods-available/fcgid.conf" do
-  source "mods/fcgid.conf.erb"
-end
-
 if platform?("debian", "ubuntu")
   package "libapache2-mod-fcgid"
 elsif platform?("centos", "redhat", "fedora")
   package "mod_fcgid" do
     notifies :run, resources(:execute => "generate-module-list"), :immediately
+  end
+
+  file "#{node[:apache][:dir]}/conf.d/fcgid.conf" do
+    action :delete
+    backup false 
   end
 elsif platform?("suse")
   apache_lib_path = node[:architecture] == "i386" ? "/usr/lib/httpd" : "/usr/lib64/httpd"
@@ -40,4 +41,6 @@ EOH
   end
 end
 
-apache_module "fcgid"
+apache_module "fcgid" do
+  conf true
+end

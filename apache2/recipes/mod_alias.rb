@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-template "#{node[:apache][:dir]}/mods-available/alias.conf" do
-  source "mods/alias.conf.erb"
+apache_module "alias" do
+  conf true
 end
-
-apache_module "alias"

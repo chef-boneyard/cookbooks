@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-template "#{node[:apache][:dir]}/mods-available/negotiation.conf" do
-  source "mods/negotiation.conf.erb"
+apache_module "negotiation" do
+  conf true
 end
-
-apache_module "negotiation"

@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-template "#{node[:apache][:dir]}/mods-available/autoindex.conf" do
-  source "mods/autoindex.conf.erb"
+apache_module "autoindex" do
+  conf true
 end
-
-apache_module "autoindex"

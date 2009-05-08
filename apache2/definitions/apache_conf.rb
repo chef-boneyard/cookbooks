@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: apache2
-# Recipe:: dir 
+# Definition:: apache_conf
 #
 # Copyright 2008, OpsCode, Inc.
 #
@@ -17,6 +17,9 @@
 # limitations under the License.
 #
 
-apache_module "dir" do 
-  conf true
+define :apache_conf do
+  template "#{node[:apache][:dir]}/mods-available/#{params[:name]}.conf" do
+    source "mods/#{params[:name]}.conf.erb"
+    notifies :restart, resources(:service => "apache2")
+  end
 end

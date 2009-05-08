@@ -17,10 +17,6 @@
 # limitations under the License.
 #
 
-template "#{node[:apache][:dir]}/mods-available/ssl.conf" do
-  source "mods/ssl.conf.erb"
-end
-
 if platform?("centos", "redhat", "fedora")
   package "mod_ssl" do
     action :install
@@ -29,6 +25,7 @@ if platform?("centos", "redhat", "fedora")
 
   file "#{node[:apache][:dir]}/conf.d/ssl.conf" do
     action :delete
+    backup false 
   end
 end
 
@@ -40,4 +37,6 @@ template "#{node[:apache][:dir]}/ports.conf" do
   notifies :restart, resources(:service => "apache2")
 end
 
-apache_module "ssl"
+apache_module "ssl" do
+  conf true
+end
