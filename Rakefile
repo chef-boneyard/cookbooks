@@ -88,3 +88,30 @@ end
 
 task :default => [ :test ]
 
+desc "Build a bootstrap.tar.gz"
+task :build_bootstrap do
+  bootstrap_files = Rake::FileList.new
+  %w(apache2 runit couchdb stompserver chef passenger ruby).each do |cookbook|
+    bootstrap_files.include "#{cookbook}/**/*"
+  end
+
+  tmp_dir = "tmp"
+  cookbooks_dir = File.join(tmp_dir, "cookbooks")
+  rm_rf tmp_dir
+  mkdir_p cookbooks_dir
+  bootstrap_files.each do |fn|
+    f = File.join(cookbooks_dir, fn)
+    fdir = File.dirname(f)
+    mkdir_p(fdir) if !File.exist?(fdir)
+    if File.directory?(fn)
+      mkdir_p(f)
+    else
+      rm_f f
+      safe_ln(fn, f)
+    end
+  end
+
+  chdir(tmp_dir) do
+    sh %{tar zcvf bootstrap.tar.gz cookbooks}
+  end
+end
