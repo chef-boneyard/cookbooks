@@ -82,7 +82,7 @@ bash "Create SSL Certificates" do
   code <<-EOH
   umask 077
   openssl genrsa 2048 > #{node[:chef][:server_fqdn]}.key
-  openssl req -subj "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=#{node[:chef][:server_fqdn]}/emailAddress=ops@#{node[:domain]}" -new -x509 -nodes -sha1 -days 3650 -key #{node[:chef][:server_fqdn]}.key > #{node[:chef][:server_fqdn]}.crt
+  openssl req -subj "#{node[:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key #{node[:chef][:server_fqdn]}.key > #{node[:chef][:server_fqdn]}.crt
   cat #{node[:chef][:server_fqdn]}.key #{node[:chef][:server_fqdn]}.crt > #{node[:chef][:server_fqdn]}.pem
   EOH
   not_if { File.exists?("/etc/chef/certificates/#{node[:chef][:server_fqdn]}.pem") }
