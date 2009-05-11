@@ -81,11 +81,11 @@ bash "Create SSL Certificates" do
   cwd "/etc/chef/certificates"
   code <<-EOH
   umask 077
-  openssl genrsa 2048 > chef.#{node[:domain]}.key
-  openssl req -subj "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=chef.#{node[:domain]}/emailAddress=ops@#{node[:domain]}" -new -x509 -nodes -sha1 -days 3650 -key chef.#{node[:domain]}.key > chef.#{node[:domain]}.crt
-  cat chef.#{node[:domain]}.key chef.#{node[:domain]}.crt > chef.#{node[:domain]}.pem
+  openssl genrsa 2048 > #{node[:chef][:server_fqdn]}.key
+  openssl req -subj "#{node[:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key #{node[:chef][:server_fqdn]}.key > #{node[:chef][:server_fqdn]}.crt
+  cat #{node[:chef][:server_fqdn]}.key #{node[:chef][:server_fqdn]}.crt > #{node[:chef][:server_fqdn]}.pem
   EOH
-  not_if { File.exists?("/etc/chef/certificates/chef.#{node[:domain]}.pem") }
+  not_if { File.exists?("/etc/chef/certificates/#{node[:chef][:server_fqdn]}.pem") }
 end
 
 runit_service "chef-indexer" 
@@ -119,8 +119,8 @@ end
 web_app "chef_server" do
   docroot "#{node[:chef][:server_path]}/public"
   template "chef_server.conf.erb"
-  server_name "chef.#{node[:domain]}"
-  server_aliases "chef"
+  server_name node[:chef][:server_fqdn]
+  server_aliases node[:chef][:server_hostname]
   gems_path node[:gems_path]
   version node[:chef][:server_version]
 end

@@ -81,4 +81,4 @@ execute "Remove the validation token" do
             # File.exists?("#{node[:chef][:path]}/cache/registration") }
 end
 
-runit_service "chef-client" 
+runit_service "chef-client"
