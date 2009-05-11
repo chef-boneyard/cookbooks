@@ -22,23 +22,23 @@ apache Mash.new unless attribute?("apache")
 # Where the various parts of apache are
 case platform
 when "redhat","centos","fedora","suse"
-  apache[:dir]     = "/etc/httpd"
-  apache[:log_dir] = "/var/log/httpd"
-  apache[:user]    = "apache"
-  apache[:binary]  = "/usr/sbin/httpd"
-  apache[:icondir] = "/var/www/icons/"
+  apache[:dir]     = "/etc/httpd"               unless apache.has_key?(:dir)
+  apache[:log_dir] = "/var/log/httpd"           unless apache.has_key?(:log_dir)
+  apache[:user]    = "apache"                   unless apache.has_key?(:user)
+  apache[:binary]  = "/usr/sbin/httpd"          unless apache.has_key?(:binary)
+  apache[:icondir] = "/var/www/icons/"          unless apache.has_key?(:icondir)
 when "debian","ubuntu"
-  apache[:dir]     = "/etc/apache2" 
-  apache[:log_dir] = "/var/log/apache2"
-  apache[:user]    = "www-data"
-  apache[:binary]  = "/usr/sbin/apache2"
-  apache[:icondir] = "/usr/share/apache2/icons"
+  apache[:dir]     = "/etc/apache2"             unless apache.has_key?(:dir)
+  apache[:log_dir] = "/var/log/apache2"         unless apache.has_key?(:log_dir)
+  apache[:user]    = "www-data"                 unless apache.has_key?(:user)
+  apache[:binary]  = "/usr/sbin/apache2"        unless apache.has_key?(:binary)
+  apache[:icondir] = "/usr/share/apache2/icons" unless apache.has_key?(:icondir)
 else
-  apache[:dir]     = "/etc/apache2" 
-  apache[:log_dir] = "/var/log/apache2"
-  apache[:user]    = "www-data"
-  apache[:binary]  = "/usr/sbin/apache2"
-  apache[:icondir] = "/usr/share/apache2/icons"
+  apache[:dir]     = "/etc/apache2"             unless apache.has_key?(:dir)
+  apache[:log_dir] = "/var/log/apache2"         unless apache.has_key?(:log_dir)
+  apache[:user]    = "www-data"                 unless apache.has_key?(:user)
+  apache[:binary]  = "/usr/sbin/apache2"        unless apache.has_key?(:binary)
+  apache[:icondir] = "/usr/share/apache2/icons" unless apache.has_key?(:icondir)
 end
 
 ###
