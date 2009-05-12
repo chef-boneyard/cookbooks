@@ -7,10 +7,7 @@
 # $Id:$
 ####
 
-allow bind_v2
-
 # TLS configuration
-TLSCACertificateFile   <%= @node[:openldap][:dir] %>/ssl/<%= @node[:fqdn] %>.pem
 TLSCertificateFile     <%= @node[:openldap][:dir] %>/ssl/<%= @node[:fqdn] %>.pem
 TLSCertificateKeyFile  <%= @node[:openldap][:dir] %>/ssl/<%= @node[:fqdn] %>.pem
 
@@ -33,7 +30,7 @@ loglevel        0
 <% unless @node[:platform] == "centos" -%>
 # Where the dynamically loaded modules are stored
 modulepath	<%= @node[:openldap][:module_dir] %>
-moduleload	back_bdb
+moduleload	back_hdb
 <% if @node[:openldap][:slapd_type] == "master" -%>
 moduleload  syncprov
 <% end -%>
@@ -47,15 +44,15 @@ sizelimit 500
 tool-threads 1
 
 #######################################################################
-# Specific Backend Directives for bdb:
+# Specific Backend Directives for hdb:
 # Backend specific directives apply to this backend until another
 # 'backend' directive occurs
-backend		bdb
+backend		hdb
 
 #####
 # Database
 #####
-database        bdb
+database        hdb
 suffix          "<%= @node[:openldap][:basedn] %>"
 rootdn          "cn=admin,<%= @node[:openldap][:basedn] %>"
 rootpw		      <%= @node[:openldap][:rootpw] %>
@@ -104,7 +101,6 @@ syncrepl rid=<%= @node[:openldap][:slapd_rid] %>
 # admin entry below
 # These access lines apply to database #1 only
 access to attrs=userPassword,shadowLastChange
-        by dn="cn=admin,<%= @node[:openldap][:basedn] %>" write
         by group.exact="cn=administrators,<%= @node[:openldap][:basedn] %>" write
         by dn="cn=syncrole,<%= @node[:openldap][:basedn] %>" read
         by anonymous auth
@@ -125,7 +121,6 @@ access to dn.base="" by * read
 # The admin dn has full write access, everyone else
 # can read everything.
 access to *
-        by dn="cn=admin,<%= @node[:openldap][:basedn] %>" write
         by group.exact="cn=administrators,<%= @node[:openldap][:basedn] %>" write
         by dn="cn=syncrole,<%= @node[:openldap][:basedn] %>" read
         by * read
