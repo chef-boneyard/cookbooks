@@ -48,7 +48,7 @@ package "slapd" do
 end
 
 remote_file "#{node[:openldap][:ssl_dir]}/#{node[:openldap][:server]}.pem" do
-  source "ssl/#{node[:openldap][:server]}.#{pem}"
+  source "ssl/#{node[:openldap][:server]}.pem"
   mode 0644
   owner "root"
   group "root"
