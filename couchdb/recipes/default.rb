@@ -26,6 +26,10 @@ directory "/var/lib/couchdb" do
 end
 
 service "couchdb" do
-  supports :restart => true, :status => true
-  action :enable
+  if platform?("centos","redhat","fedora")
+    start_command "/sbin/service couchdb start &> /dev/null"
+    stop_command "/sbin/service couchdb stop &> /dev/null"
+  end
+  supports [ :restart, :status ]
+  action [ :enable, :start ]
 end
