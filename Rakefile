@@ -91,7 +91,7 @@ task :default => [ :test ]
 desc "Build a bootstrap.tar.gz"
 task :build_bootstrap do
   bootstrap_files = Rake::FileList.new
-  %w(apache2 runit couchdb stompserver chef passenger ruby).each do |cookbook|
+  %w(apache2 runit couchdb stompserver chef passenger ruby packages).each do |cookbook|
     bootstrap_files.include "#{cookbook}/**/*"
   end
 
