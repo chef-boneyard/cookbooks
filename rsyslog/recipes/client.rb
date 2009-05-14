@@ -19,7 +19,7 @@
 
 include_recipe "rsyslog"
 
-rsyslog_server = node[:rsyslog][:server] ? node[:rsyslog][:server] : search(:node, "recipe:rsyslog::server").map { |n| n["fqdn"] }
+rsyslog_server = node[:rsyslog][:server] ? node[:rsyslog][:server] : search(:node, "rsyslog_server:true").map { |n| n["fqdn"] }
 
 template "/etc/rsyslog.d/remote.conf" do
   source "remote.conf.erb"
