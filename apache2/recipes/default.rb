@@ -31,6 +31,11 @@ service "apache2" do
   case node[:platform]
   when "centos","redhat","fedora","suse"
     service_name "httpd"
+    # If restarted/reloaded too quickly httpd has a habit of failing.
+    # This may happen with multiple recipes notifying apache to restart - like
+    # during the initial bootstrap.
+    restart_command "/sbin/service httpd restart && sleep 1"
+    reload_command "/sbin/service httpd reload && sleep 1"
   when "debian","ubuntu"
     service_name "apache2"
   end
