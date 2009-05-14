@@ -28,6 +28,7 @@ define :apache_site, :enable => true do
         File.symlink?("#{node[:apache][:dir]}/sites-enabled/#{params[:name]}") or
           File.symlink?("#{node[:apache][:dir]}/sites-enabled/000-#{params[:name]}")
       end
+      only_if do File.exists?("#{node[:apache][:dir]}/sites-available/#{params[:name]}") end
     end
   else
     execute "a2dissite #{params[:name]}" do

@@ -42,6 +42,5 @@ define :web_app, :template => nil do
   
   apache_site "#{params[:name]}.conf" do
     enable enable_setting
-    only_if { File.exists?("#{node[:apache][:dir]}/sites-available/#{application_name}") }
   end
 end
