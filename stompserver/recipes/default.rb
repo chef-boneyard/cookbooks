@@ -17,6 +17,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+include_recipe "packages"
+
+if platform?("centos","redhat") and dist_only?
+  package "rubygem-stompserver"
+
+  service "stompserver" do
+    supports [ :restart, :reload, :status ]
+    action [ :enable, :start ]
+  end
+
+  return
+end
+
 include_recipe "runit"
 
 gem_package "stompserver" do

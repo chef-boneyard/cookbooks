@@ -22,7 +22,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+include_recipe "packages"
 include_recipe "ruby"
+
+if platform?("centos","redhat") and dist_only?
+  # just the gem, we'll install the apache module within apache2
+  package "rubygem-passenger"
+
+  return
+end
 
 %w{ apache2-prefork-dev libapr1-dev }.each do |pkg|
   package pkg do

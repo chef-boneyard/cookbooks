@@ -19,7 +19,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "runit"
+include_recipe "packages"
+
+# no runit here!
+if ! platform?("centos","redhat")
+  include_recipe "runit"
+end
 
 case node[:platform]
 when "ubuntu"
@@ -30,8 +35,8 @@ when "debian"
   if node[:platform_version].to_f >= 5.0
     include_recipe "couchdb"
   end
-# when "centos","redhat","fedora"
-#   include_recipe "couchdb"
+when "centos","redhat","fedora"
+  include_recipe "couchdb"
 end
 
 include_recipe "stompserver" 
@@ -40,13 +45,33 @@ include_recipe "apache2::mod_ssl"
 include_recipe "apache2::mod_rails"
 include_recipe "chef::client"
 
-gem_package "chef-server" do
-  version node[:chef][:server_version]
-end
+if platform?("centos","redhat") and dist_only?
+  package "rubygem-chef-server"
+  package "rubygem-chef-server-slice"
 
-if node[:chef][:server_version] >= "0.5.7"
-  gem_package "chef-server-slice" do
+  template "/etc/init.d/chef-indexer" do
+    owner "chef"
+    mode 0755
+    source "chef-indexer.init.erb"
+    action :create
+    backup false 
+  end
+
+  template "/etc/chef/indexer.rb" do
+    owner "chef"
+    mode 0644
+    source "indexer.conf.erb"
+    action :create
+  end
+else
+  gem_package "chef-server" do
     version node[:chef][:server_version]
+  end
+
+  if node[:chef][:server_version] >= "0.5.7"
+    gem_package "chef-server-slice" do
+      version node[:chef][:server_version]
+    end
   end
 end
 
@@ -88,7 +113,14 @@ bash "Create SSL Certificates" do
   not_if { File.exists?("/etc/chef/certificates/#{node[:chef][:server_fqdn]}.pem") }
 end
 
-runit_service "chef-indexer" 
+if platform?("centos","redhat") and dist_only?
+  service "chef-indexer" do
+    supports [ :restart, :reload, :status ]
+    action [ :enable, :start ]
+  end
+else
+  runit_service "chef-indexer" 
+end
 
 template "#{node[:chef][:server_path]}/config.ru" do
   source "config.ru.erb"

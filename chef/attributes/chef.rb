@@ -20,3 +20,4 @@
 chef Mash.new unless attribute?("chef")
 
 chef[:path] = "/srv/chef" unless chef.has_key?(:path)
+chef[:run_path] = "/var/run/chef" unless chef.has_key?(:run_path)
