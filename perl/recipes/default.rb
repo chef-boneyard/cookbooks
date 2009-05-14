@@ -48,12 +48,19 @@ end
 
 remote_file "CPAN-Config.pm" do
   case node[:platform]
-  when "centos"
-    path "/usr/lib/perl5/#{node[:languages][:perl][:version]}/CPAN/Config.pm"
+  when "centos","redhat"
+    path "/usr/lib/perl5/5.8.8/CPAN/Config.pm"
   else
     path "/etc/perl/CPAN/Config.pm"
   end
-  source "Config-#{node[:languages][:perl][:version]}.pm"
+  # workaround until change for OHAI-75 is in stable release.
+  # source "Config-#{node[:languages][:perl][:version]}.pm"
+  case node[:platform]
+  when "debian","ubuntu"
+    source "Config-5.10.0.pm"
+  when "centos","redhat"
+    source "Config-5.8.8.pm"
+  end
   owner "root"
   group "root"
   mode 0644
