@@ -17,6 +17,7 @@
 # limitations under the License.
 
 include_recipe "git"
+include_recipe "runit"
 
 directory "/srv/git" do
   owner "root"
