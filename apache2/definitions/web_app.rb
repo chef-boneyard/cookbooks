@@ -35,7 +35,9 @@ define :web_app, :template => nil do
       :application_name => application_name,
       :params => params
     )
-    notifies :reload, resources(:service => "apache2"), :delayed
+    if File.exists?("#{node[:apache][:dir]}/sites-enabled/#{application_name}.conf")
+      notifies :reload, resources(:service => "apache2"), :delayed
+    end
   end
   
   apache_site "#{params[:name]}.conf" do
