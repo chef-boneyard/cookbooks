@@ -6,7 +6,7 @@ Complete Debian/Ubuntu style Apache2 configuration.
 
 Debian or Ubuntu preferred.
 
-Red Hat/CentOS and Fedora can be used but will be converted to a Debian/Ubuntu style Apache.
+Red Hat/CentOS and Fedora can be used but will be converted to a Debian/Ubuntu style Apache as it's far easier to manage with chef. 
 
 = ATTRIBUTES:
 
@@ -23,9 +23,12 @@ General settings and prefork/worker attributes are tunable.
 
 Include the apache2 recipe to install Apache2 and get 'sane' default settings. Configuration is modularized through Apache vhost sites a la Debian style configuration.
 
+For Red Hat, CentOS and Fedora you should first disable selinux as it's not supported (yet), then remove the stock httpd and all it's dependencies prior to attempting to use this recipe. Many packages in these distributions drop conflicting configs into conf.d, all of which haven't been accounted for yet. Starting from scratch will also make it far easier to debug.
+
 == Defines:
 
 * apache_module: sets up an Apache module.
+* apache_conf: sets up a config file for an apache module.
 * apache_site: sets up a vhost site. The conf file must be available.
 * web_app: copies the template for a web app and enables it as a site via apache_site.
 
