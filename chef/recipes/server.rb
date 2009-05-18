@@ -158,3 +158,9 @@ web_app "chef_server" do
   gems_path node[:languages][:ruby][:gems_dir]
   version node[:chef][:server_version]
 end
+
+cron "compact chef couchDB" do
+  command "curl -X POST http://localhost:5984/chef/_compact >> /var/log/cron.log 2>&1"
+  hour "5"
+  minute "0"
+end
