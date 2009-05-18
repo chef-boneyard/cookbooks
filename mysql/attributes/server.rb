@@ -19,3 +19,14 @@
 
 mysql Mash.new unless attribute?("mysql")
 mysql[:server_root_password] = "change_this_password" unless mysql.has_key?(:server_root_password)
+mysql[:bind_address] = ipaddress unless mysql.has_key?(:bind_address)
+mysql[:datadir] = "/srv/mysql" unless mysql.has_key?(:datadir)
+
+mysql[:key_buffer]          = "250M" unless mysql.has_key?(:key_buffer)
+mysql[:max_connections]     = "800" unless mysql.has_key?(:max_connections)
+mysql[:wait_timeout]        = "180" unless mysql.has_key?(:wait_timeout)
+mysql[:net_write_timeout]   = "30" unless mysql.has_key?(:net_write_timeout)
+mysql[:net_write_timeout]   = "30" unless mysql.has_key?(:net_write_timeout)
+mysql[:back_log]            = "128" unless mysql.has_key?(:back_log)
+mysql[:table_cache]         = "128" unless mysql.has_key?(:table_cache)
+mysql[:max_heap_table_size] = "32M" unless mysql.has_key?(:max_heap_table_size)
