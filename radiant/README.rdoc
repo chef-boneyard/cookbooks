@@ -32,7 +32,17 @@ Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
 
 = USAGE:
 
-The first time the application is deployed, rake db:bootstrap needs to be done. At this time there's no automation for that, as it prompts for user input. 
+This recipe uses SQLite3 for the database by default. To set up the default database to get Radiant rolling, run a db:bootstrap by changing the radiant[:migrate] command to the following in the webui:
+
+  yes | rake production db:bootstrap \
+    ADMIN_NAME=Administrator \
+    ADMIN_USERNAME=admin \
+    ADMIN_PASSWORD=radiant \
+    DATABASE_TEMPLATE=empty.yml
+
+Change as required for your environment. If the target system doesn't have /usr/bin/yes, use echo 'yes' instead.
+
+Radiant supports other database backends. We don't yet have automation ready to set up a database user and grant privileges, or creating the database itself.
 
 = LICENSE and AUTHOR:
 
