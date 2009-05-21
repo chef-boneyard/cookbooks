@@ -17,4 +17,6 @@
 # limitations under the License.
 #
 
-apache_module "status"
+apache_module "status" do
+  conf true
+end

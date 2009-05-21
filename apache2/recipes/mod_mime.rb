@@ -17,4 +17,6 @@
 # limitations under the License.
 #
 
-apache_module "mime"
+apache_module "mime" do
+  conf true
+end

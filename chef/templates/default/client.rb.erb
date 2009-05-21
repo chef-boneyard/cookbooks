@@ -16,4 +16,6 @@ search_url         "https://<%= @node[:chef][:server_fqdn] %>"
 file_store_path    "<%= @node[:chef][:path] %>/file_store"
 file_cache_path    "<%= @node[:chef][:path] %>/cache"
 
+pid_file           "<%= @node[:chef][:run_path] %>/chef-client.pid"
+
 Chef::Log::Formatter.show_time = true

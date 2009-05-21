@@ -17,9 +17,13 @@
 # limitations under the License.
 #
 
-define :apache_module, :enable => true do
+define :apache_module, :enable => true, :conf => false do
   include_recipe "apache2"
-  
+ 
+  if params[:conf]
+    apache_conf params[:name]
+  end
+ 
   if params[:enable]
     execute "a2enmod #{params[:name]}" do
       command "/usr/sbin/a2enmod #{params[:name]}"

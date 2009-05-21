@@ -17,4 +17,6 @@
 # limitations under the License.
 #
 
-apache_module "alias"
+apache_module "alias" do
+  conf true
+end

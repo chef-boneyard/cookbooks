@@ -17,4 +17,6 @@
 # limitations under the License.
 #
 
-apache_module "proxy"
+apache_module "proxy" do
+  conf true
+end

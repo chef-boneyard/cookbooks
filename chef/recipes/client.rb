@@ -19,10 +19,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "runit"
+# no runit here!
+if ! platform?("centos","redhat")
+  include_recipe "runit"
+end
 
-gem_package "chef" do
-  version node[:chef][:client_version]
+if platform?("centos","redhat") and dist_only?
+  package "rubygem-chef"
+else
+  gem_package "chef" do
+    version node[:chef][:client_version]
+  end
 end
 
 group "chef" do
@@ -37,6 +44,17 @@ user "chef" do
   supports :manage_home => false
   shell "/bin/bash"
 end
+
+if platform?("centos","redhat") and dist_only?
+  template "/etc/init.d/chef-client" do
+    owner "chef"
+    mode 0755
+    source "chef-client.init.erb"
+    action :create
+    backup false 
+  end
+end
+
 
 directory "/etc/chef" do
   owner "chef"
@@ -63,10 +81,10 @@ template "/etc/chef/client.rb" do
   mode "644"
 end
 
-directory "/var/chef" do
+directory node[:chef][:run_path] do
   owner "chef"
   group "chef"
-  mode 0775
+  mode "755"
 end
 
 execute "Register client node with Chef Server" do
@@ -81,4 +99,11 @@ execute "Remove the validation token" do
             # File.exists?("#{node[:chef][:path]}/cache/registration") }
 end
 
-runit_service "chef-client"
+if platform?("centos","redhat") and dist_only?
+  service "chef-client" do
+    supports [ :restart, :reload, :status ]
+    action [ :enable, :start ]
+  end
+else
+  runit_service "chef-client"
+end

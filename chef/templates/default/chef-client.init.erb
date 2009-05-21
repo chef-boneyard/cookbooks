@@ -1,0 +1,69 @@
+#!/bin/bash
+# Startup script for chef-client. This version is deployed by chef itself.
+#
+# chkconfig: - 98 02
+# description: Client component of the Chef systems integration framework.
+# processname: chef-client
+#
+# pidfile: <%= @node[:chef][:run_path] %>/chef-client.pid
+
+# Source function library
+. /etc/init.d/functions
+
+prog="chef-client"
+pidfile=<%= @node[:chef][:run_path] %>/chef-client.pid
+lockfile=/var/lock/subsys/$prog
+config=/etc/chef/client.rb
+
+start() {
+    echo -n "Starting $prog:"
+    daemon chef-client -d -c "$config" -i <%= @node[:chef][:client_interval] %> -s <%= @node[:chef][:client_splay] %> -L <%= @node[:chef][:client_log] %> "&>/dev/null"
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch ${lockfile}
+    return $RETVAL
+}
+
+stop() {
+    echo -n "Stopping $prog: "
+    if [ -f $pidfile ]; then
+        killproc chef-client
+        RETVAL=$?
+        if [ $RETVAL -ne 0 ]; then
+            failure;
+        fi;
+    else
+        RETVAL=1
+        failure;
+    fi
+    rm -f $lockfile
+    echo
+    return $RETVAL
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+        stop
+        start
+        ;;
+  condrestart)
+        if [ -f $lockfile ]; then
+            stop
+            start
+        fi
+        ;;
+  status)
+        status chef-client
+        ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|condrestart|status}"
+    exit 1
+esac
+
+exit $RETVAL

@@ -20,9 +20,9 @@
 package "apache2" do
   case node[:platform]
   when "centos","redhat","fedora","suse"
-    name "httpd"
+    package_name "httpd"
   when "debian","ubuntu"
-    name "apache2"
+    package_name "apache2"
   end
   action :install
 end
@@ -30,13 +30,21 @@ end
 service "apache2" do
   case node[:platform]
   when "centos","redhat","fedora","suse"
-    name "httpd"
+    service_name "httpd"
+    # If restarted/reloaded too quickly httpd has a habit of failing.
+    # This may happen with multiple recipes notifying apache to restart - like
+    # during the initial bootstrap.
+    restart_command "/sbin/service httpd restart && sleep 1"
+    reload_command "/sbin/service httpd reload && sleep 1"
   when "debian","ubuntu"
-    name "apache2"
+    service_name "apache2"
   end
   supports value_for_platform(
     "debian" => { "4.0" => [ :restart, :reload ], "default" => [ :restart, :reload, :status ] },
     "ubuntu" => { "default" => [ :restart, :reload, :status ] },
+    "centos" => { "default" => [ :restart, :reload, :status ] },
+    "redhat" => { "default" => [ :restart, :reload, :status ] },
+    "fedora" => { "default" => [ :restart, :reload, :status ] },
     "default" => { "default" => [:restart, :reload ] }
   )
   action :enable
@@ -65,17 +73,39 @@ if platform?("centos", "redhat", "fedora", "suse")
   end
     
   execute "generate-module-list" do
-    command "/usr/local/bin/apache2_module_conf_generate.pl /usr/#{node[:architecture]}/httpd/modules /etc/httpd/mods-available"  
+    if node[:kernel][:machine] == "x86_64" 
+      libdir = "lib64"
+    else 
+      libdir = "lib"
+    end
+    command "/usr/local/bin/apache2_module_conf_generate.pl /usr/#{libdir}/httpd/modules /etc/httpd/mods-available"
+    
     action :run
   end
   
-  %w{a2ensite a2dissite s2enmod s2dismod}.each do |modscript|
+  %w{a2ensite a2dissite a2enmod a2dismod}.each do |modscript|
     template "/usr/sbin/#{modscript}" do
       source "#{modscript}.erb"
       mode 0755
       owner "root"
       group "root"
     end  
+  end
+
+  # installed by default on centos/rhel, remove in favour of mods-enabled
+  file "#{node[:apache][:dir]}/conf.d/proxy_ajp.conf" do
+    action :delete
+    backup false
+  end
+  file "#{node[:apache][:dir]}/conf.d/README" do
+    action :delete
+    backup false
+  end
+  
+  # welcome page moved to the default-site.rb temlate
+  file "#{node[:apache][:dir]}/conf.d/welcome.conf" do
+    action :delete
+    backup false
   end
 end
 
@@ -97,6 +127,27 @@ template "apache2.conf" do
   owner "root"
   group "root"
   mode 0644
+  notifies :restart, resources(:service => "apache2")
+end
+
+template "security" do
+  path "#{node[:apache][:dir]}/conf.d/security"
+  source "security.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  backup false
+  notifies :restart, resources(:service => "apache2")
+end
+
+template "charset" do
+  path "#{node[:apache][:dir]}/conf.d/charset"
+  source "charset.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  backup false
+  notifies :restart, resources(:service => "apache2")
 end
 
 template "#{node[:apache][:dir]}/ports.conf" do
@@ -131,6 +182,9 @@ include_recipe "apache2::mod_mime"
 include_recipe "apache2::mod_negotiation"
 include_recipe "apache2::mod_setenvif"
 include_recipe "apache2::mod_log_config" if platform?("centos", "redhat", "suse")
+
+# uncomment to get working example site on centos/redhat/fedora
+#apache_site "default"
 
 service "apache2" do
   action :start

@@ -22,23 +22,23 @@ apache Mash.new unless attribute?("apache")
 # Where the various parts of apache are
 case platform
 when "redhat","centos","fedora","suse"
-  apache[:dir]     = "/etc/httpd"
-  apache[:log_dir] = "/var/log/httpd"
-  apache[:user]    = "apache"
-  apache[:binary]  = "/usr/sbin/httpd"
-  apache[:icondir] = "/var/www/icons"
+  apache[:dir]     = "/etc/httpd"               unless apache.has_key?(:dir)
+  apache[:log_dir] = "/var/log/httpd"           unless apache.has_key?(:log_dir)
+  apache[:user]    = "apache"                   unless apache.has_key?(:user)
+  apache[:binary]  = "/usr/sbin/httpd"          unless apache.has_key?(:binary)
+  apache[:icondir] = "/var/www/icons/"          unless apache.has_key?(:icondir)
 when "debian","ubuntu"
-  apache[:dir]     = "/etc/apache2" 
-  apache[:log_dir] = "/var/log/apache2"
-  apache[:user]    = "www-data"
-  apache[:binary]  = "/usr/sbin/apache2"
-  apache[:icondir] = "/usr/share/apache2/icons"
+  apache[:dir]     = "/etc/apache2"             unless apache.has_key?(:dir)
+  apache[:log_dir] = "/var/log/apache2"         unless apache.has_key?(:log_dir)
+  apache[:user]    = "www-data"                 unless apache.has_key?(:user)
+  apache[:binary]  = "/usr/sbin/apache2"        unless apache.has_key?(:binary)
+  apache[:icondir] = "/usr/share/apache2/icons" unless apache.has_key?(:icondir)
 else
-  apache[:dir]     = "/etc/apache2" 
-  apache[:log_dir] = "/var/log/apache2"
-  apache[:user]    = "www-data"
-  apache[:binary]  = "/usr/sbin/apache2"
-  apache[:icondir] = "/usr/share/apache2/icons"
+  apache[:dir]     = "/etc/apache2"             unless apache.has_key?(:dir)
+  apache[:log_dir] = "/var/log/apache2"         unless apache.has_key?(:log_dir)
+  apache[:user]    = "www-data"                 unless apache.has_key?(:user)
+  apache[:binary]  = "/usr/sbin/apache2"        unless apache.has_key?(:binary)
+  apache[:icondir] = "/usr/share/apache2/icons" unless apache.has_key?(:icondir)
 end
 
 ###
@@ -47,20 +47,26 @@ end
 ###
 
 # General settings
-apache[:listen_ports] = [ "80" ]     unless apache.has_key?(:listen_ports)
+apache[:listen_ports] = [ "80","443" ]     unless apache.has_key?(:listen_ports)
 apache[:contact] = "ops@example.com" unless apache.has_key?(:contact)
 apache[:timeout] = 300               unless apache.has_key?(:timeout)
 apache[:keepalive] = "On"            unless apache.has_key?(:keepalive)
 apache[:keepaliverequests] = 100     unless apache.has_key?(:keepaliverequests)
 apache[:keepalivetimeout] = 5        unless apache.has_key?(:keepalivetimeout)
 
+# Security
+apache[:servertokens] = "Prod"  unless apache.has_key?(:servertokens)
+apache[:serversignature] = "On" unless apache.has_key?(:serversignature)
+apache[:traceenable] = "On"     unless apache.has_key?(:traceenable)
+
 # Prefork Attributes
 apache[:prefork] = Mash.new unless apache.has_key?(:prefork)
-apache[:prefork][:startservers] = 16      unless apache[:prefork].has_key?(:prefork_startservers)
-apache[:prefork][:minspareservers] = 16   unless apache[:prefork].has_key?(:prefork_minspareservers)
-apache[:prefork][:maxspareservers] = 32   unless apache[:prefork].has_key?(:prefork_maxspareservers)
-apache[:prefork][:maxclients] = 400       unless apache[:prefork].has_key?(:prefork_maxclients)
-apache[:prefork][:maxrequestsperchild] = 10000 unless apache[:prefork].has_key?(:prefork_maxrequestsperchild)
+apache[:prefork][:startservers] = 16      unless apache[:prefork].has_key?(:startservers)
+apache[:prefork][:minspareservers] = 16   unless apache[:prefork].has_key?(:minspareservers)
+apache[:prefork][:maxspareservers] = 32   unless apache[:prefork].has_key?(:maxspareservers)
+apache[:prefork][:serverlimit] = 400      unless apache[:prefork].has_key?(:serverlimit)
+apache[:prefork][:maxclients] = 400       unless apache[:prefork].has_key?(:maxclients)
+apache[:prefork][:maxrequestsperchild] = 10000 unless apache[:prefork].has_key?(:maxrequestsperchild)
 
 # Worker Attributes
 apache[:worker] = Mash.new unless apache.has_key?(:worker)
