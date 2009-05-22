@@ -20,7 +20,11 @@
 mysql Mash.new unless attribute?("mysql")
 mysql[:server_root_password] = "change_this_password" unless mysql.has_key?(:server_root_password)
 mysql[:bind_address]         = ipaddress unless mysql.has_key?(:bind_address)
-mysql[:datadir]              = "/srv/mysql" unless mysql.has_key?(:datadir)
+mysql[:datadir]              = "/var/lib/mysql" unless mysql.has_key?(:datadir)
+
+if ec2 
+  mysql[:ec2_path] = "/mnt/mysql" unless mysql.has_key?(:ec2_path)
+end
 
 # Tunables
 mysql[:tunable] = Mash.new unless mysql.has_key?(:tunable)

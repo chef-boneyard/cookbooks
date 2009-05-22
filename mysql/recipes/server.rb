@@ -2,7 +2,7 @@
 # Cookbook Name:: mysql
 # Recipe:: default
 #
-# Copyright 2008, Opscode, Inc.
+# Copyright 2008, OpsCode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -46,33 +46,22 @@ service "mysql" do
   action :enable
 end
 
-if (node[:ec2] && ! FileTest.directory?(node[:mysql_ec2_path]))
-  
-  mysql_server_path = ""
-  
-  case node[:platform]
-  when "ubuntu","debian"
-    mysql_server_path = "/var/lib/mysql"
-  else
-    mysql_server_path = "/var/mysql"
-  end
+if (node[:ec2] && ! FileTest.directory?(node[:mysql][:ec2_path]))
   
   service "mysql" do
-    supports :status => true, :restart => true, :reload => true
     action :stop
   end
   
   execute "install-mysql" do
-    command "mv #{mysql_server_path} #{node[:mysql_ec2_path]}"
-    not_if do FileTest.directory?(node[:mysql_ec2_path]) end
+    command "mv #{node[:mysql][:datadir]} #{node[:mysql][:ec2_path]}"
+    not_if do FileTest.directory?(node[:mysql][:ec2_path]) end
   end
   
-  link mysql_server_path do
-   to node[:mysql_ec2_path]
+  link node[:mysql][:datadir] do
+   to node[:mysql][:ec2_path]
   end
   
   service "mysql" do
-    supports :status => true, :restart => true, :reload => true
     action :start
   end
   
