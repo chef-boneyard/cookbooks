@@ -17,13 +17,15 @@
 # limitations under the License.
 #
 
-package "mysql-devel" do
+p = package "mysql-devel" do
   package_name value_for_platform(
     [ "centos", "redhat", "suse" ] => { "default" => "mysql-devel" },
     "default" => 'libmysqlclient15-dev'
   )
-  action :install
+  action :nothing
 end
+
+p.run_action(:install)
 
 package "mysql-client" do
   package_name value_for_platform(
