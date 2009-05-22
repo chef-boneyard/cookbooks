@@ -68,13 +68,13 @@ myisam-recover          = BACKUP
 #max_connections        = 100
 #table_cache            = 64
 #thread_concurrency     = 10
-max_connections         = <%= @node[:mysql][:max_connections] %>
-wait_timeout            = <%= @node[:mysql][:wait_timeout] %>
-net_read_timeout        = <%= @node[:mysql][:net_read_timeout] %>
-net_write_timeout       = <%= @node[:mysql][:net_write_timeout] %>
-back_log                = <%= @node[:mysql][:back_log] %>
-table_cache             = <%= @node[:mysql][:table_cache] %>
-max_heap_table_size     = <%= @node[:mysql][:max_heap_table_size] %>
+max_connections         = <%= @node[:mysql][:tunable][:max_connections] %>
+wait_timeout            = <%= @node[:mysql][:tunable][:wait_timeout] %>
+net_read_timeout        = <%= @node[:mysql][:tunable][:net_read_timeout] %>
+net_write_timeout       = <%= @node[:mysql][:tunable][:net_write_timeout] %>
+back_log                = <%= @node[:mysql][:tunable][:back_log] %>
+table_cache             = <%= @node[:mysql][:tunable][:table_cache] %>
+max_heap_table_size     = <%= @node[:mysql][:tunable][:max_heap_table_size] %>
 
 #
 # * Query Cache Configuration
