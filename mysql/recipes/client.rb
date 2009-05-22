@@ -33,4 +33,9 @@ package "mysql-client" do
   action :install
 end
 
-gem_package "mysql"
+r = gem_package "mysql" do
+  version "2.7"
+  action :nothing
+end
+
+r.run_action(:install)
