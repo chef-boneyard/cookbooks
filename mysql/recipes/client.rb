@@ -32,3 +32,5 @@ package "mysql-client" do
   )
   action :install
 end
+
+gem_package "mysql"
