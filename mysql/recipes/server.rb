@@ -46,6 +46,14 @@ service "mysql" do
   action :enable
 end
 
+template "/etc/mysql/my.cnf" do
+  source "my.cnf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :restart, resources(:service => "mysql"), immediately
+end
+
 if (node[:ec2] && ! FileTest.directory?(node[:mysql][:ec2_path]))
   
   service "mysql" do
