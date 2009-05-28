@@ -2,7 +2,7 @@
 # Cookbook Name:: mysql
 # Recipe:: client
 #
-# Copyright 2008, OpsCode, Inc.
+# Copyright 2008, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,13 +17,15 @@
 # limitations under the License.
 #
 
-package "mysql-devel" do
+p = package "mysql-devel" do
   package_name value_for_platform(
     [ "centos", "redhat", "suse" ] => { "default" => "mysql-devel" },
     "default" => 'libmysqlclient15-dev'
   )
-  action :install
+  action :nothing
 end
+
+p.run_action(:install)
 
 package "mysql-client" do
   package_name value_for_platform(
@@ -32,3 +34,10 @@ package "mysql-client" do
   )
   action :install
 end
+
+r = gem_package "mysql" do
+  version "2.7"
+  action :nothing
+end
+
+r.run_action(:install)

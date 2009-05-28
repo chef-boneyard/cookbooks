@@ -1,0 +1,82 @@
+= DESCRIPTION:
+
+Installs and configures MySQL client or server.
+
+= REQUIREMENTS:
+
+== Platform:
+
+Best tested on Ubuntu 9.04.
+
+= ATTRIBUTES: 
+
+* mysql[:server_root_password] - Set the server's root password with this, default is a randomly generated password.
+* mysql[:bind_address] - Listen address for MySQLd, default is node's ipaddress.
+* mysql[:datadir] - Location for mysql data directory, default is "/var/lib/mysql" 
+* mysql[:ec2_path] - location of mysql datadir on EC2 nodes, default "/mnt/mysql" 
+
+Performance tuning attributes, each corresponds to the same-named parameter in my.cnf; default values listed
+
+* mysql[:tunable][:key_buffer]          = "250M"
+* mysql[:tunable][:max_connections]     = "800" 
+* mysql[:tunable][:wait_timeout]        = "180" 
+* mysql[:tunable][:net_write_timeout]   = "30" 
+* mysql[:tunable][:net_write_timeout]   = "30" 
+* mysql[:tunable][:back_log]            = "128" 
+* mysql[:tunable][:table_cache]         = "128" 
+* mysql[:tunable][:max_heap_table_size] = "32M" 
+
+= USAGE:
+
+On client nodes,
+
+  include_recipe "mysql::client"
+  
+As the common use case is on systems with Ruby, we also install the MySQL RubyGem. Because we may want to be able to use the gem within another Chef recipe, we make sure the mysql development package and gem are installed first. The key is this:
+
+  r = package ... do
+    action :nothing
+  end
+  
+  r.run_action(:install)
+  
+This creates a resource object for the package and does the installation before other recipes are parsed. You'll need to have the C compiler and such (ie, build-essential on Ubuntu) before running the recipes, but we already do that when installing Chef :-). If you want to be able to access a MySQL database via Ruby within another recipe, you could do so, like so:
+
+  Gem.clear_paths # needed for Chef to find the gem...
+  require 'mysql' # requires the mysql gem
+
+  execute "create #{node[:railsapp][:db][:database]} database" do
+    command "/usr/bin/mysqladmin -u root -p#{node[:mysql][:server_root_password]} create #{node[:railsapp][:db][:database]}"
+    not_if do
+      m = Mysql.new("localhost", "root", @node[:mysql][:server_root_password])
+      m.list_dbs.include?(@node[:railsapp][:db][:database])
+    end
+  end
+
+On server nodes, 
+
+  include_recipe "mysql::server"
+  
+On Debian/Ubuntu this will preseed the MySQL package with the randomly generated root password. You can of course change the password afterward, but this makes sure that there's a good password set. You can view it in the node data in the Chef Server webui. 
+
+On EC2 nodes, we also look for a mounted filesystem (eg, EBS) and move the datadir there if it exists. 
+
+The client recipe is already included by server and 'default' recipes.
+
+= LICENSE and AUTHOR:
+      
+Author:: Joshua Timberman (<joshua@opscode.com>)
+
+Copyright:: 2009, Opscode, Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

@@ -19,6 +19,24 @@
 
 include_recipe "mysql::client"
 
+case node[:platform]
+when "debian","ubuntu"
+  include_recipe "apt"
+  
+  execute "preseed mysql-server" do
+    command "debconf-set-selections /var/cache/local/preseeding/mysql-server.seed"
+    action :nothing
+  end
+
+  template "/var/cache/local/preseeding/mysql-server.seed" do
+    source "mysql-server.seed.erb"
+    owner "root"
+    group "root"
+    mode "0600"
+    notifies :run, resources(:execute => "preseed mysql-server"), :immediately
+  end
+end
+
 package "mysql-server" do
   action :install
 end
@@ -28,33 +46,30 @@ service "mysql" do
   action :enable
 end
 
-if (node[:ec2] && ! FileTest.directory?(node[:mysql_ec2_path]))
-  
-  mysql_server_path = ""
-  
-  case node[:platform]
-  when "ubuntu","debian"
-    mysql_server_path = "/var/lib/mysql"
-  else
-    mysql_server_path = "/var/mysql"
-  end
+template "/etc/mysql/my.cnf" do
+  source "my.cnf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :restart, resources(:service => "mysql"), :immediately
+end
+
+if (node[:ec2] && ! FileTest.directory?(node[:mysql][:ec2_path]))
   
   service "mysql" do
-    supports :status => true, :restart => true, :reload => true
     action :stop
   end
   
   execute "install-mysql" do
-    command "mv #{mysql_server_path} #{node[:mysql_ec2_path]}"
-    not_if do FileTest.directory?(node[:mysql_ec2_path]) end
+    command "mv #{node[:mysql][:datadir]} #{node[:mysql][:ec2_path]}"
+    not_if do FileTest.directory?(node[:mysql][:ec2_path]) end
   end
   
-  link mysql_server_path do
-   to node[:mysql_ec2_path]
+  link node[:mysql][:datadir] do
+   to node[:mysql][:ec2_path]
   end
   
   service "mysql" do
-    supports :status => true, :restart => true, :reload => true
     action :start
   end
   
