@@ -8,8 +8,8 @@
 ####
 
 # TLS configuration
-TLSCertificateFile     <%= @node[:openldap][:dir] %>/ssl/<%= @node[:fqdn] %>.pem
-TLSCertificateKeyFile  <%= @node[:openldap][:dir] %>/ssl/<%= @node[:fqdn] %>.pem
+TLSCertificateFile     <%= @node[:openldap][:dir] %>/ssl/<%= @node[:openldap][:server] %>.pem
+TLSCertificateKeyFile  <%= @node[:openldap][:dir] %>/ssl/<%= @node[:openldap][:server] %>.pem
 
 # Schema and objectClass definitions
 include         <%= @node[:openldap][:dir] %>/schema/core.schema
