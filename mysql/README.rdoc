@@ -57,9 +57,11 @@ On server nodes,
 
   include_recipe "mysql::server"
   
-On Debian/Ubuntu this will preseed the MySQL package with the randomly generated root password. You can of course change the password afterward, but this makes sure that there's a good password set. You can view it in the node data in the Chef Server webui.
+On Debian/Ubuntu this will preseed the MySQL package with the randomly generated root password. You can of course change the password afterward, but this makes sure that there's a good password set. You can view it in the node data in the Chef Server webui. 
 
-Client is already included by server or the 'default' recipe.
+On EC2 nodes, we also look for a mounted filesystem (eg, EBS) and move the datadir there if it exists. 
+
+The client recipe is already included by server and 'default' recipes.
 
 = LICENSE and AUTHOR:
       
