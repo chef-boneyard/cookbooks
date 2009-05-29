@@ -12,7 +12,7 @@ template_url       "https://<%= @node[:chef][:server_fqdn] %>"
 remotefile_url     "https://<%= @node[:chef][:server_fqdn] %>"
 search_url         "https://<%= @node[:chef][:server_fqdn] %>"
 
-validation_token   "<%= @node[:chef][:validation_token] %>"
+validation_token   "<%= @node[:chef][:server_token] %>"
 
 cookbook_path      [ "<%= @node[:chef][:path] %>/site-cookbooks", "<%= @node[:chef][:path] %>/cookbooks" ]
 
