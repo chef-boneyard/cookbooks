@@ -48,8 +48,8 @@ remote_file "/etc/nsswitch.conf" do
   mode 0644
   owner "root"
   group "root"
-  notifies :restart, resources(:service => "nscd")
-  notifies :run, resources(:execute => "nscd-clear-passwd", :execute => "nscd-clear-group")
+  notifies :restart, resources(:service => "nscd"), :immediately
+  notifies :run, resources(:execute => "nscd-clear-passwd", :execute => "nscd-clear-group"), :immediately
 end
 
 %w{ account auth password session }.each do |pam|
