@@ -12,7 +12,7 @@ template_url       "https://<%= @node[:chef][:server_fqdn] %>"
 remotefile_url     "https://<%= @node[:chef][:server_fqdn] %>"
 search_url         "https://<%= @node[:chef][:server_fqdn] %>"
 
-validation_token   "change_this_token"
+validation_token   "<%= @node[:chef][:validation_token] %>"
 
 cookbook_path      [ "<%= @node[:chef][:path] %>/site-cookbooks", "<%= @node[:chef][:path] %>/cookbooks" ]
 
@@ -23,6 +23,9 @@ openid_store_path  "<%= @node[:chef][:path] %>/openid/store"
 openid_cstore_path "<%= @node[:chef][:path] %>/openid/cstore"
 search_index_path  "<%= @node[:chef][:path] %>/search_index"
 
+# uncomment and modify to allow specific openid providers
 #openid_providers   [ "https://<%= @node[:chef][:server_fqdn]%>", "https://chef", "myopenid.com" ]
+# uncomment and modify to lock down openid identifiers, ie 'some_user.myopenid.com'
+#authorized_openid_identifiers [ "" ]
 
 Chef::Log::Formatter.show_time = true
