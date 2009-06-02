@@ -1,0 +1,24 @@
+# Configuration file for varnish
+#
+# /etc/init.d/varnish expects the variable $DAEMON_OPTS to be set from this
+# shell script fragment.
+#
+
+# Maximum number of open files (for ulimit -n)
+NFILES=131072
+
+# Default varnish instance name is the local nodename.  Can be overridden with
+# the -n switch, to have more instances on a single server.
+INSTANCE=$(uname -n)
+
+#
+# Listen on port 80, administration on localhost:6082, and forward to
+# one content server selected by the vcl file, based on the request.  Use a
+# fixed-size cache file.
+#
+
+
+DAEMON_OPTS="-a :80 \
+              -T localhost:6082 \
+              -f /etc/varnish/default.vcl \
+              -s file,/srv/varnish/storage.bin,1G"
