@@ -55,8 +55,8 @@ if openldap[:slapd_type] == "slave"
 end
 
 # Auth settings for Apache.
-if openldap[:basedn]
-  openldap[:auth_type] = "ldap"
+if openldap[:basedn] && openldap[:server]
+  openldap[:auth_type] = "openldap"
   openldap[:auth_binddn] = "ou=people,#{openldap[:basedn]}" unless openldap.has_key?(:auth_binddn)
   openldap[:auth_bindpw] = nil unless openldap.has_key?(:auth_bindpw)
   openldap[:auth_url] = "ldap://#{openldap[:server]}/#{openldap[:auth_binddn]}?uid?sub?(objecctClass=*)" unless openldap.has_key?(:auth_url)
