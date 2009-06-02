@@ -32,6 +32,8 @@ Be aware of the attributes used by this cookbook and adjust the defaults for you
 
 Attributes useful for Apache authentication with LDAP.
 
+COOK-128 - set automatically based on openldap[:server] and openldap[:basedn] if those attributes are set. openldap[:auth_bindpw] remains nil by default as a default value is not easily predicted.
+
 * openldap[:auth_type] - determine whether binddn and bindpw are required (openldap no, ad yes)
 * openldap[:auth_url] - AuthLDAPURL
 * openldap[:auth_binddn] - AuthLDAPBindDN
