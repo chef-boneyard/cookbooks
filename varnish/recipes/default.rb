@@ -19,14 +19,14 @@
 
 package "varnish"
 
-template "#{node[:varnish_dir]}default.vcl" do
-  source "default_vcl.erb"
+template "#{node[:varnish][:dir]}default.vcl" do
+  source "default.vcl.erb"
   owner "root"
   group "root"
   mode 0644
 end
 
-template "#{node[:varnish_default]}" do
+template "#{node[:varnish][:default]}" do
   source "ubuntu-default.erb"
   owner "root"
   group "root"
@@ -34,11 +34,11 @@ template "#{node[:varnish_default]}" do
 end
 
 service "varnish" do
-  supports :status => true, :restart => true, :reload => true
+  supports :restart => true, :reload => true
   action [ :enable, :start ]
 end
 
 service "varnishlog" do
-  supports :status => true, :restart => true, :reload => true
+  supports :restart => true, :reload => true
   action [ :enable, :start ]
 end
