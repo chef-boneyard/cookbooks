@@ -1,6 +1,5 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Configures screen"
-long_description  "Configures#{cookbook.name}"
+description       "Installs screen"
 version           "0.7"

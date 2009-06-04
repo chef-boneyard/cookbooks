@@ -1,6 +1,6 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Configures subversion"
-long_description  "Configures#{cookbook.name}"
+description       "Installs subversion"
 version           "0.7"
+

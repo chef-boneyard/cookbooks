@@ -1,12 +1,15 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Configures maradns"
-long_description  "Configures#{cookbook.name}"
+description       "Installs and configures maradns"
 version           "0.7"
 
-attribute         "maradns",
-  :display_name => "",
-  :description => "",
-  :recipes => [ "maradns" ],
+attribute "maradns",
+  :display_name => "MaraDNS",
+  :description => "Hash of MaraDNS attributes",
+  :type => "hash"
+
+attribute "maradns/recursive_acl",
+  :display_name => "MaraDNS Recursive ACL",
+  :description => "Sets the recursive_acl setting in mararc.erb",
   :default => ""

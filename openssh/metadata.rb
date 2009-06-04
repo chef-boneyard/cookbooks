@@ -1,6 +1,6 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Configures openssh"
-long_description  "Configures#{cookbook.name}"
+description       "Installs openssh"
 version           "0.7"
+

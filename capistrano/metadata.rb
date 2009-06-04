@@ -1,6 +1,6 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Configures capistrano"
-long_description  "Configures#{cookbook.name}"
+description       "Installs Capistrano gem and provides a define to set up deployment for an application"
 version           "0.7"
+recipe            "capistrano", "Installs Capistrano gem"

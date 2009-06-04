@@ -1,12 +1,9 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Configures redmine"
-long_description  "Configures#{cookbook.name}"
+description       "Installs and configures redmine as a Rails app in passenger"
 version           "0.7"
 
-attribute         "redmine_settings",
-  :display_name => "",
-  :description => "",
-  :recipes => [ "redmine" ],
-  :default => ""
+%w{ apache2 rails passenger mysql sqlite }.each do |cb|
+  depends cb
+end

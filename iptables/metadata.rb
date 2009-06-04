@@ -1,6 +1,5 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Configures iptables"
-long_description  "Configures#{cookbook.name}"
+description       "Sets up iptables to use a script to maintain rules"
 version           "0.7"

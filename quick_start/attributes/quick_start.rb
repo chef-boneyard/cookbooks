@@ -1,1 +1,1 @@
-deep_though "If a tree falls in the forest..."
+deep_thought "If a tree falls in the forest..."

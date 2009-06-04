@@ -1,6 +1,10 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Configures ruby"
-long_description  "Configures#{cookbook.name}"
+description       "Installs ruby packages"
 version           "0.7"
+
+%w{ centos redhat fedora ubuntu debian }.each do |os|
+  supports os
+end
+

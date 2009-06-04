@@ -1,12 +1,28 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Configures sudo"
-long_description  "Configures#{cookbook.name}"
+description       "Installs and configures sudo"
 version           "0.7"
 
-attribute         "sudoers",
-  :display_name => "",
-  :description => "",
-  :recipes => [ "sudo" ],
+attribute "authorization",
+  :display_name => "Authorization",
+  :description => "Hash of Authorization attributes",
+  :type => "hash"
+
+attribute "authorization/sudoers",
+  :display_name => "Authorization Sudoers",
+  :description => "Hash of Authorization/Sudoers attributes",
+  :type => "hash"
+
+attribute "authorization/sudoers/users",
+  :display_name => "Sudo Users",
+  :description => "Users who are allowed sudo ALL",
+  :type => "array"
   :default => ""
+
+attribute "authorization/sudoers/groups",
+  :display_name => "Sudo Groups",
+  :description => "Groups who are allowed sudo ALL",
+  :type => "array"
+  :default => ""
+
