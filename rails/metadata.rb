@@ -11,7 +11,7 @@ end
 
 attribute "rails",
   :display_name => "Rails",
-  :description => "Hash of Rails attributes"
+  :description => "Hash of Rails attributes",
   :type => "hash"
 
 attribute "rails/version",

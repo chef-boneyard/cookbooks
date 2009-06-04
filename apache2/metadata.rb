@@ -110,7 +110,7 @@ attribute "apache/servertokens",
   :description => "Server response header",
   :default => "Prod"
 
-attribute "apache/serversignature"
+attribute "apache/serversignature",
   :display_name => "Apache Server Signature",
   :description => "Configure footer on server-generated documents",
   :default => "On"

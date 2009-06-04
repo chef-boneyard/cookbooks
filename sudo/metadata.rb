@@ -17,12 +17,12 @@ attribute "authorization/sudoers",
 attribute "authorization/sudoers/users",
   :display_name => "Sudo Users",
   :description => "Users who are allowed sudo ALL",
-  :type => "array"
+  :type => "array",
   :default => ""
 
 attribute "authorization/sudoers/groups",
   :display_name => "Sudo Groups",
   :description => "Groups who are allowed sudo ALL",
-  :type => "array"
+  :type => "array",
   :default => ""
 

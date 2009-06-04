@@ -6,4 +6,4 @@ version           "0.7"
 
 attribute "ec2_metadata",
   :display_name => "EC2 Metadata",
-  :description => "Retrieve EC2 instance metadata",
+  :description => "Retrieve EC2 instance metadata"

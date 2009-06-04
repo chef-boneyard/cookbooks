@@ -27,7 +27,7 @@ attribute "jira/virtual_host_alias",
 attribute "jira/version",
   :display_name => "Jira Version",
   :description => "Version of Jira to download and install",
-  :default => "enterprise-3.13.1",
+  :default => "enterprise-3.13.1"
 
 attribute "jira/install_path",
   :display_name => "Jira Install Path",

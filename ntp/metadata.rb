@@ -26,6 +26,6 @@ attribute "ntp/is_server",
 attribute "ntp/servers",
   :display_name => "NTP Servers",
   :description => "Array of servers we should talk to",
-  :type => "array"
+  :type => "array",
   :default => ["0.us.pool.ntp.org", "1.us.pool.ntp.org"]
 

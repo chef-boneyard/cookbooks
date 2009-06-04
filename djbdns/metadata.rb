@@ -45,7 +45,7 @@ attribute "djbdns/public_dnscache_allowed_networks",
 
 attribute "djbdns/tinydns_internal_resolved_domain",
   :display_name => "DJB DNS TinyDNS Internal Resolved Domain",
-  :description => "Internal domain TinyDNS is resolver"
+  :description => "Internal domain TinyDNS is resolver",
   :default => "domain"
 
 attribute "djbdns/bin_dir",

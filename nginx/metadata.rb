@@ -51,7 +51,7 @@ attribute "nginx/gzip_proxied",
 attribute "nginx/gzip_types",
   :display_name => "Nginx Gzip Types",
   :description => "Supported MIME-types for gzip",
-  :type => "array"
+  :type => "array",
   :default => [ "text/plain", "text/html", "text/css", "application/x-javascript", "text/xml", "application/xml", "application/xml+rss", "text/javascript" ]
 
 attribute "nginx/keepalive",
