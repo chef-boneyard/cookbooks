@@ -7,7 +7,7 @@ version           "0.7"
 recipe            "chef::client", "Sets up a client to talk to a chef-server"
 recipe            "chef::server", "Configures a chef-server as a passenger application"
 
-%w{ runit packages couchdb stompserver apache2 }.each do |cb|
+%w{ runit packages couchdb stompserver apache2 passenger }.each do |cb|
   depends cb
 end
 
