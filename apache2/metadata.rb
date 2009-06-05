@@ -42,7 +42,7 @@ recipe            "apache2::mod_status", "Apache module 'status' with config fil
   supports os
 end
 
-suggests "passenger"
+depends "passenger"
 
 attribute "apache",
   :display_name => "Apache Hash",
