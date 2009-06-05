@@ -130,23 +130,24 @@ template "#{node[:chef][:server_path]}/config.ru" do
   notifies :restart, resources(:service => "apache2")
 end
 
-template "#{node[:chef][:server_path]}/config/environments/production.rb" do
-  source "merb-production.rb.erb"
-  action :create
-  owner "root"
-  group "root"
-  mode "664"
-  notifies :restart, resources(:service => "apache2")
-end
+# No longer needed with Chef 0.7.0
+# template "#{node[:chef][:server_path]}/config/environments/production.rb" do
+#   source "merb-production.rb.erb"
+#   action :create
+#   owner "root"
+#   group "root"
+#   mode "664"
+#   notifies :restart, resources(:service => "apache2")
+# end
 
-template "#{node[:chef][:server_path]}/config/init.rb" do
-  source "chef-server.init.rb.erb"
-  action :create
-  owner "root"
-  group "root"
-  mode "664"
-  notifies :restart, resources(:service => "apache2")
-end
+# template "#{node[:chef][:server_path]}/config/init.rb" do
+#   source "chef-server.init.rb.erb"
+#   action :create
+#   owner "root"
+#   group "root"
+#   mode "664"
+#   notifies :restart, resources(:service => "apache2")
+# end
 
 web_app "chef_server" do
   docroot "#{node[:chef][:server_path]}/public"
