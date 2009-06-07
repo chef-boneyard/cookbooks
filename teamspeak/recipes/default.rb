@@ -17,6 +17,49 @@
 # limitations under the License.
 
 package "teamspeak-server"
+
 service "teamspeak-server" do
   action :enable
+end
+
+ts_server = "teamspeak.#{domain}"
+
+include_recipe "php::php5"
+include_recipe "apache2::mod_php5"
+
+directory "/srv/www/tsdisplay" do
+  action :create
+  recursive true
+  owner "www-data"
+  group "www-data"
+  mode "755"
+end
+
+bash "install tsdisplay" do
+  cwd "/srv/www/tsdisplay"
+  code <<-EOH
+wget http://softlayer.dl.sourceforge.net/sourceforge/tsdisplay/TeamspeakDisplay-PR3.zip
+unzip TeamSpeakDisplay-PR3.zip  
+EOH
+  not_if { File.exists?("/srv/www/tsdisplay/TeamspeakDisplay-PR3.zip") }
+end
+
+template "/srv/www/tsdisplay/demo.php" do
+  source "demo.php.erb"
+  owner "www-data"
+  group "www-data"
+  mode "644"
+  variables :ts_server => ts_server
+end
+
+template "/etc/apache2/sites-available/teamspeak.conf" do
+  source "teamspeak.conf.erb"
+  owner "root"
+  group "root"
+  mode "644"
+  variables :virtual_host_name => ts_server, :docroot => "/srv/www/tsdisplay"
+end
+
+apache_site "teamspeak.conf" do
+  enable :true
 end
