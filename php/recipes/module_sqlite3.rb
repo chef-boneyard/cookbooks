@@ -18,6 +18,6 @@
 # limitations under the License.
 #
 
-package "php5-sqlite3" do
+package "php5-sqlite" do
   action :upgrade
 end

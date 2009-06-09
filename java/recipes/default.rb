@@ -42,6 +42,3 @@ package java_pkg do
 end
 
 package "ant"
-
-
-

@@ -21,7 +21,6 @@ package "teamspeak-server"
 service "teamspeak-server" do
   action :enable
 end
-
 ts_server = "teamspeak.#{domain}"
 
 include_recipe "php::php5"

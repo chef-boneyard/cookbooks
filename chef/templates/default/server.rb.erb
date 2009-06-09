@@ -11,6 +11,7 @@ openid_url         "https://<%= @node[:chef][:server_fqdn] %>"
 template_url       "https://<%= @node[:chef][:server_fqdn] %>"
 remotefile_url     "https://<%= @node[:chef][:server_fqdn] %>"
 search_url         "https://<%= @node[:chef][:server_fqdn] %>"
+role_url           "https://<%= @node[:chef][:server_fqdn] %>"
 
 validation_token   "<%= @node[:chef][:server_token] %>"
 
@@ -22,6 +23,7 @@ node_path          "<%= @node[:chef][:path] %>/nodes"
 openid_store_path  "<%= @node[:chef][:path] %>/openid/store"
 openid_cstore_path "<%= @node[:chef][:path] %>/openid/cstore"
 search_index_path  "<%= @node[:chef][:path] %>/search_index"
+role_path          "<%= @node[:chef][:path] %>/roles"
 
 # uncomment and modify to allow specific openid providers
 #openid_providers   [ "https://<%= @node[:chef][:server_fqdn]%>", "https://chef", "myopenid.com" ]
