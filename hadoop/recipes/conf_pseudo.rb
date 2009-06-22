@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: hadoop
-# Recipe:: default
+# Recipe:: conf_pseudo 
 #
 # Copyright 2009, Opscode, Inc.
 #
@@ -17,22 +17,13 @@
 # limitations under the License.
 #
 
-include_recipe "java"
+include_recipe "hadoop"
 
-execute "apt-get update" do
-  action :nothing
+package "hadoop-conf-pseudo"
+
+%{namenode secondarynamenode datanode jobtracker tasktracker}.each do |d|
+  service "hadoop-#{d}" do
+    action [ :start, :enable ]
+  end
 end
-
-template "/etc/apt/sources.list.d/cloudera.list" do
-  owner "root"
-  mode "0644"
-  source "cloudera.list.erb"
-  notifies :run, resources("execute[apt-get update]"), :immediately
-end
-
-execute "curl -s http://archive.cloudera.com/debian/archive.key | apt-key add -" do
-  not_if "apt-key export 'Cloudera Apt Repository'"
-end
-
-package "hadoop"
 
