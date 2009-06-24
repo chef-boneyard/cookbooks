@@ -19,6 +19,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+client_log = node[:chef][:client_log] == "STDOUT" ? "STDOUT" : node[:chef][:client_log]
+
 # no runit here!
 if ! platform?("centos","redhat")
   include_recipe "runit"
@@ -79,6 +81,7 @@ template "/etc/chef/client.rb" do
   owner "chef"
   group "chef"
   mode "644"
+  variables(:client_log => client_log)
 end
 
 directory node[:chef][:run_path] do

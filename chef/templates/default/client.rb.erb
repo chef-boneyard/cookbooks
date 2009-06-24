@@ -5,11 +5,7 @@
 #
 
 log_level          :info
-<% if @node[:chef][:client_log] == "STDOUT" -%>
-log_location       STDOUT
-<% else -%>
-log_location       "<%= @node[:chef][:client_log] %>"
-<% end -%>
+log_location       "<%= @client_log %>"
 ssl_verify_mode    :verify_none
 registration_url   "https://<%= @node[:chef][:server_fqdn] %>"
 openid_url         "https://<%= @node[:chef][:server_fqdn] %>"
