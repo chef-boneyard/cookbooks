@@ -19,7 +19,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-client_log = node[:chef][:client_log] == "STDOUT" ? "STDOUT" : node[:chef][:client_log]
+if node[:chef][:client_log] == "STDOUT"
+  client_log = node[:chef][:client_log]
+  show_time  = "false"
+else
+  client_log = "\"#{node[:chef][:client_log]}\""
+  show_time  = "true"
+end
 
 # no runit here!
 if ! platform?("centos","redhat")
@@ -81,7 +87,10 @@ template "/etc/chef/client.rb" do
   owner "chef"
   group "chef"
   mode "644"
-  variables(:client_log => client_log)
+  variables(
+    :client_log => client_log,
+    :show_time  => show_time
+  )
 end
 
 directory node[:chef][:run_path] do
