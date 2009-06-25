@@ -5,7 +5,7 @@
 #
 
 log_level          :info
-log_location       "<%= @client_log %>"
+log_location       <%= @client_log %>
 ssl_verify_mode    :verify_none
 registration_url   "https://<%= @node[:chef][:server_fqdn] %>"
 openid_url         "https://<%= @node[:chef][:server_fqdn] %>"
@@ -19,4 +19,4 @@ file_cache_path    "<%= @node[:chef][:path] %>/cache"
 
 pid_file           "<%= @node[:chef][:run_path] %>/chef-client.pid"
 
-Chef::Log::Formatter.show_time = true
+Chef::Log::Formatter.show_time = <%= @show_time %>
