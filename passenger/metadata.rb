@@ -3,7 +3,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs passenger for Apache2"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.7"
+version           "0.8"
 
 %w{ packages ruby apache2 rails }.each do |cb|
   depends cb
@@ -26,7 +26,7 @@ attribute "ruby_path",
 attribute "passenger/version",
   :display_name => "Passenger Version",
   :description => "Version of Passenger to install",
-  :default => "2.2.2"
+  :default => "2.2.4"
 
 attribute "passenger/root_path",
   :display_name => "Passenger Root Path",
