@@ -17,22 +17,14 @@
 # limitations under the License.
 #
 
-# Whether to use LVM for Ephemeral storage
-ec2_use_lvm_ephemeral true unless attribute?("ec2_lvm_ephemeral")
-
-# Where to mount the LVM Ephemeral Storage 
-ec2_lvm_ephemeral_mountpoint "/mnt" unless attribute?("ec2_lvm_ephemeral_mountpoint")
-
-# What to name the LVM volume group
-ec2_lvm_ephemeral_volume_group "ephemeral" unless attribute?("ec2_lvm_ephemeral_volume_group")
-
-# What to name the LVM logical volume
-ec2_lvm_ephemeral_logical_volume "store" unless attribute?("ec2_lvm_ephemeral_logical_volume")
-
-# Which devices to use for LVM Ephemeral Storage
-ec2_ephemeral_devices({
+ec2 Mash.new unless attribute?("ec2")
+ec2[:lvm] Mash.new unless ec2.has_key?(:lvm)
+ec2[:lvm][:use_ephemeral]  = true unless ec2[:lvm].has_key?(:use_ephemeral)
+ec2[:lvm][:ephemeral_mountpoint] = "/mnt" unless ec2[:lvm].has_key?(:ephemeral_mountpoint)
+ec2[:lvm][:ephemeral_volume_group] = "ephemeral" unless ec2[:lvm].has_key?(:ephemeral_volume_group)
+ec2[:lvm][:ephemeral_logical_volume] = "store" unless ec2[:lvm].has_key?(:ephemeral_logical_volume)
+ec2[:lvm][:ephemeral_devices] = {
   "m1.small"  => [ "/dev/sda2" ],
   "m1.large"  => [ "/dev/sdb", "/dev/sdc" ],
   "m1.xlarge" => [ "/dev/sdb", "/dev/sdc", "/dev/sdd", "/dev/sde" ],
-}) unless attribute?("ec2_ephemeral_devices")
-
+} unless ec2[:lvm].has_key?(:ephemeral_devices)
