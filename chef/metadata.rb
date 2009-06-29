@@ -43,7 +43,7 @@ attribute "chef/client_splay",
 attribute "chef/client_log",
   :display_name => "Chef Client Log",
   :description => "Location of the chef client log",
-  :default => "/var/log/chef/client.log"
+  :default => "STDOUT"
 
 attribute "chef/indexer_log",
   :display_name => "Chef Indexer Log ",
