@@ -3,7 +3,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures chef client and server"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.8"
+version           "0.9"
 recipe            "chef::client", "Sets up a client to talk to a chef-server"
 recipe            "chef::server", "Configures a chef-server as a passenger application"
 
@@ -63,7 +63,7 @@ attribute "chef/server_log",
 attribute "chef/server_path",
   :display_name => "Chef Server Path",
   :description => "Location of the Chef Server assets",
-  :default => "gems_path/gems/chef-server-chef_server_version"
+  :default => "gem_dir/gems/chef-server-chef_server_version"
 
 attribute "chef/server_hostname",
   :display_name => "Chef Server Hostname",

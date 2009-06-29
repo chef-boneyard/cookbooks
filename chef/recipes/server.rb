@@ -155,6 +155,6 @@ web_app "chef_server" do
   template "chef_server.conf.erb"
   server_name node[:chef][:server_fqdn]
   server_aliases node[:chef][:server_hostname]
-  gems_path node[:gems_path]
+  gems_path node[:languages][:ruby][:gems_dir]
   version node[:chef][:server_version]
 end
