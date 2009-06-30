@@ -35,6 +35,8 @@ Or use the source with gem_package resources in your chef recipes.
     source "http://gems"
   end
 
+Use the gems::mirror recipe to mirror RubyForge. This will take a long time because the repository is 28k+ gems and over 5.5G. It will also override the remote_directory resource to not notify gem generate_index, and instead handle that in the cron job that does the rsync.
+
 = LICENSE and AUTHOR:
       
 Author:: Joshua Timberman (<joshua@opscode.com>)
