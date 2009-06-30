@@ -18,7 +18,7 @@
 #
 
 ec2 Mash.new unless attribute?("ec2")
-ec2[:lvm] Mash.new unless ec2.has_key?(:lvm)
+ec2[:lvm] = Mash.new unless ec2.has_key?(:lvm)
 ec2[:lvm][:use_ephemeral]  = true unless ec2[:lvm].has_key?(:use_ephemeral)
 ec2[:lvm][:ephemeral_mountpoint] = "/mnt" unless ec2[:lvm].has_key?(:ephemeral_mountpoint)
 ec2[:lvm][:ephemeral_volume_group] = "ephemeral" unless ec2[:lvm].has_key?(:ephemeral_volume_group)
