@@ -35,6 +35,7 @@ bash "install_dynomite" do
   rake build_tarball
   (cd /usr/local && tar zxf /tmp/dynomite/build/dynomite.tar.tgz)
   EOH
+  not_if { FileTest.exists?("/usr/local/dynomite/bin/dynomite") }
 end
 
 gem_package "open4"
