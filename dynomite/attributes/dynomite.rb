@@ -28,6 +28,6 @@ dynomite[:ascii_port]   = 11221              unless dynomite.has_key?(:ascii_por
 dynomite[:thrift_port]  = 11222              unless dynomite.has_key?(:thrift_port)
 dynomite[:web_port]     = 1180               unless dynomite.has_key?(:web_port)
 
-master_node = search(:node, "dynomite_master:true").map { |n| n["fqdn"] }.first
+master_node = search(:node, "dynomite_master:true", "fqdn").first
 
 dynomite[:join_node]    = master_node        unless dynomite.has_key?(:join_node)
