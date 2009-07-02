@@ -21,6 +21,7 @@ include_recipe "git"
 include_recipe "erlang"
 
 gem_package "rake"
+gem_package "open4"
 
 bash "install_dynomite" do
   user "root"
@@ -36,8 +37,6 @@ bash "install_dynomite" do
   EOH
   not_if { FileTest.exists?("/usr/local/dynomite/bin/dynomite") }
 end
-
-gem_package "open4"
 
 gem_package "dynomite" do
   source "http://gems.opscode.com"
