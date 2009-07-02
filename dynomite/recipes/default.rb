@@ -21,7 +21,9 @@ include_recipe "git"
 include_recipe "erlang"
 include_recipe "thrift"
 
-bash_script "install_dynomite" do
+gem_package "rake"
+
+bash "install_dynomite" do
   user "root"
   cwd "/tmp"
   code <<-EOH
