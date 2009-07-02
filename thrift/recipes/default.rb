@@ -25,7 +25,7 @@ include_recipe "subversion"
   package pkg
 end
 
-bash_script "install_thrift" do
+bash "install_thrift" do
   user "root"
   cwd "/tmp"
   code <<-EOH
@@ -36,4 +36,5 @@ bash_script "install_thrift" do
     ./configure --with-boost=/usr/local --with-libevent=/usr/local --prefix=/usr/local
     make install
   EOH
+  not_if { FileTest.exists?("/usr/local/bin/thrift") }
 end
