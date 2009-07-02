@@ -1,8 +1,8 @@
-# Cookbook Name:: erlang
-# Recipe:: default
-# Author:: Joe Williams <joe@joetify.com>
 #
-# Copyright 2008, Joe Williams
+# Cookbook Name:: boost
+# Recipe:: default
+#
+# Copyright 2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,14 +15,5 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-case node[:platform]
-when "debian", "ubuntu"
-  erlpkg = node[:erlang][:gui_tools] ? "erlang" : "erlang-nox"
-  package erlpkg
-  package "erlang-manpages"
-else 
-  package "erlang"
-end
-
+package "libboost-dev"
