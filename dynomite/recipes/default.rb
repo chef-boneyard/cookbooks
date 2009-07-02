@@ -43,7 +43,7 @@ gem_package "dynomite" do
   source "http://gems.opscode.com"
 end
 
-directory node[:data_dir] do
+directory node[:dynomite][:data_dir] do
   recursive true
   owner "root"
   group "root"
