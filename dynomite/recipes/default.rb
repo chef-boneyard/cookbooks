@@ -19,7 +19,6 @@
 include_recipe "ruby"
 include_recipe "git"
 include_recipe "erlang"
-include_recipe "thrift"
 
 gem_package "rake"
 

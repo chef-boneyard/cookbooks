@@ -7,6 +7,6 @@ version          "0.1"
 
 supports "ubuntu"
 
-%w{ thrift ruby git erlang runit }.each do |cb|
+%w{ ruby git erlang runit }.each do |cb|
   depends cb
 end
