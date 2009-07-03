@@ -158,3 +158,9 @@ web_app "chef_server" do
   gems_path node[:languages][:ruby][:gems_dir]
   version node[:chef][:server_version]
 end
+
+http_request "compact chef couchDB" do
+  action :post
+  url "http://localhost:5984/chef/_compact"
+  only_if {JSON::parse(open("http://localhost:5984/chef").read)["disk_size"] > 100_000_000 }
+end
