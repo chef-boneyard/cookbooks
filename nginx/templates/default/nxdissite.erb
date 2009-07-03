@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-SYSCONFDIR='<%= @node[:nginx_dir] %>'
+SYSCONFDIR='<%= @node[:nginx][:dir] %>'
 
 if [ -z $1 ]; then
         echo "Which site would you like to disable?"
