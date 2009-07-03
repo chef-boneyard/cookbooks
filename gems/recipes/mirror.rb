@@ -18,18 +18,34 @@
 #
 # Set up a mirror for RubyForge
 
-include_recipe "gems::server"
+
+directory "#{node[:gem_server][:directory]}" do
+  owner "root"
+  group "root"
+  mode "0755"
+end
+
+directory "#{node[:gem_server][:directory]}/gems" do
+  owner "root"
+  group "root"
+  mode "0755"
+end
 
 cron "mirror_rubyforge" do
-  command "rsync -av rsync://master.mirror.rubyforge.org/gems/ /srv/gems/gems && gem generate_index -d #{node[:gem_server][:directory]}" 
+  command "rsync -av rsync://master.mirror.rubyforge.org/gems/ #{node[:gem_server][:rf_directory]}/gems && gem generate_index -d #{node[:gem_server][:rf_directory]}" 
   hour "2"
   minute "0"
 end
 
-# Sync but don't notify generating the index
-remote_directory "#{node[:gem_server][:directory]}/gems" do
-  source "packages"
+template "#{node[:apache][:dir]}/sites-available/rubyforge_mirror.conf" do
+  source "gem_server.conf.erb"
+  variables(
+    :virtual_host_name => node[:gem_server][:rf_virtual_host_name],
+    :virtual_host_alias => node[:gem_server][:rf_virtual_host_alias],
+    :gem_directory => node[:gem_server][:rf_directory]
+  )
   owner "root"
-  group "root"
-  mode "755"
+  mode 0755
 end
+
+apache_site "rubyforge_mirror.conf"
