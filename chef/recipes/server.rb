@@ -159,8 +159,8 @@ web_app "chef_server" do
   version node[:chef][:server_version]
 end
 
-http_request "compact chef couchDB" do
-  action :post
-  url "http://localhost:5984/chef/_compact"
-  only_if {JSON::parse(open("http://localhost:5984/chef").read)["disk_size"] > 100_000_000 }
+cron "compact chef couchdb" do
+  command "curl http://localhost:5984/chef 2>&1 | grep -q 'db_name.*chef' && curl -X POST http://localhost:5984/chef/_compact >> /var/log/cron.log 2>&1"
+  hour "5"
+  minute "0"
 end
