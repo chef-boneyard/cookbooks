@@ -9,9 +9,9 @@
 production:
   adapter: mysql
   database: redmine
-  host: localhost
-  username: root
-  password:
+  host: <%= @database_server %>
+  username: <%= @node[:redmine][:db][:user] %>
+  password: <%= @node[:redmine][:db][:password] %>
   encoding: utf8
  
 development:

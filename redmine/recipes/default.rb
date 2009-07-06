@@ -17,8 +17,42 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Get prerequisite recipes.
-include_recipe "subversion"
-include_recipe "mysql::server"
 
-runit_service "redmine"
+case node[:redmine][:db][:type]
+when "sqlite"
+  include_recipe "sqlite"
+  gem_package "sqlite3-ruby" 
+when "mysql"
+  include_recipe "mysql::client"
+end
+
+include_recipe "rails"
+include_recipe "apache2"
+include_recipe "apache2::mod_rewrite"
+include_recipe "passenger::mod_rails"
+
+bash "install_redmine" do
+  cwd "/srv"
+  user "root"
+  code <<-EOH
+    wget http://rubyforge.org/frs/download.php/#{node[:redmine][:dl_id]}/redmine-#{node[:redmine][:version]}.tar.gz
+    ln -sf /srv/redmine-#{node[:redmine][:version]} /srv/redmine
+  EOH
+end
+
+database_server = search(:node, "database_master:true").map {|n| n['fqdn']}.first
+
+template "/srv/redmine-#{node[:redmine][:version]}/config/database.yml" do
+  owner "root"
+  group "root"
+  variables :database_server => database_server
+  mode "0664"
+end
+
+web_app "redmine" do
+  docroot "/srv/redmine/public"
+  template "redmine.conf.erb"
+  server_name "redmine.#{node[:domain]}"
+  server_aliases [ "redmine", node[:hostname] ]
+  rails_env "production"
+end
