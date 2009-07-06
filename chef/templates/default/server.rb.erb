@@ -7,7 +7,7 @@ log_level          :info
 log_location       "<%= @node[:chef][:server_log] %>"
 ssl_verify_mode    :verify_none
 registration_url   "https://<%= @node[:chef][:server_fqdn] %>"
-openid_url         "https://<%= @node[:chef][:server_fqdn] %>"
+openid_url         "https://<%= @node[:chef][:server_fqdn] %>:444"
 template_url       "https://<%= @node[:chef][:server_fqdn] %>"
 remotefile_url     "https://<%= @node[:chef][:server_fqdn] %>"
 search_url         "https://<%= @node[:chef][:server_fqdn] %>"

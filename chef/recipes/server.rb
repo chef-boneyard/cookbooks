@@ -39,6 +39,8 @@ when "centos","redhat","fedora"
   include_recipe "couchdb"
 end
 
+node[:apache][:listen_ports] << "444" unless node[:apache][:listen_ports].include?("444")
+
 include_recipe "stompserver" 
 include_recipe "apache2"
 include_recipe "apache2::mod_ssl"
