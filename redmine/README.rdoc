@@ -27,7 +27,7 @@ Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
 * redmine[:db][:type] - type of database to use, default is sqlite. mysql or postgresql can be used, but the recipe will need to modified, and the next three attributes adjusted. 
 * redmine[:db][:user] - database user to connect as, default is redmine.
 * redmine[:db][:password] - password for the user, default is a random string.
-* redmine[:db][:hostname] - hostname of database server, default is the first node with attribute database_master true.
+* redmine[:db][:hostname] - hostname of database server, default is localhost.
 
 = USAGE:
 
@@ -35,7 +35,9 @@ Including this recipe in a run_list, role or on a node will install Redmine as a
 
   include_recipe "redmine"
 
-You'll probably want to customize it to fit your environment, as a site-cookbook, especially if you want to use something besides sqlite as the database backend.
+You'll probably want to customize it to fit your environment, as a site-cookbook, especially if you want to use something besides sqlite as the database backend. The attributes file has database_master commented out as an example start on using a node search to determine a database host. See the Chef wiki regarding searches for more information.
+
+  http://wiki.opscode.com/display/chef/Search+Indexes
 
 = LICENSE and AUTHOR:
 

@@ -19,7 +19,7 @@ db_password = ""
 chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 20.times { |i| db_password << chars[rand(chars.size-1)] }
 
-database_server = search(:node, "database_master:true").map {|n| n['fqdn']}.first
+#database_server = search(:node, "database_master:true").map {|n| n['fqdn']}.first
 
 redmine Mash.new unless attribute?("redmine")
 redmine[:dl_id]   = "56909" unless redmine.has_key?(:dl_id)
@@ -30,4 +30,4 @@ redmine[:db] = Mash.new unless redmine.has_key?(:db)
 redmine[:db][:type]     = "sqlite"        unless redmine[:db].has_key?(:type)
 redmine[:db][:user]     = "redmine"       unless redmine[:db].has_key?(:user)
 redmine[:db][:password] = db_password     unless redmine[:db].has_key?(:password)
-redmine[:db][:hostname] = database_master unless redmine[:db].has_key?(:hostname)
+redmine[:db][:hostname] = "localhost"     unless redmine[:db].has_key?(:hostname)

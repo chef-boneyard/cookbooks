@@ -18,19 +18,6 @@
 # limitations under the License.
 #
 
-case node[:redmine][:db][:type]
-when "sqlite"
-  include_recipe "sqlite"
-  gem_package "sqlite3-ruby" 
-  file "/srv/radiant-#{node[:redmine][:version]}/db/production.db" do
-    owner "root"
-    group "root"
-    mode "0644"
-  end
-when "mysql"
-  include_recipe "mysql::client"
-end
-
 include_recipe "rails"
 include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
@@ -43,17 +30,31 @@ bash "install_redmine" do
     wget http://rubyforge.org/frs/download.php/#{node[:redmine][:dl_id]}/redmine-#{node[:redmine][:version]}.tar.gz
     tar xf redmine-#{node[:redmine][:version]}.tar.gz
   EOH
+  not_if { File.exists?("/srv/redmine-#{node[:redmine][:version]}/Rakefile") }
 end
 
 link "/srv/redmine" do
   to "/srv/redmine-#{node[:redmine][:version]}"
 end
 
+case node[:redmine][:db][:type]
+when "sqlite"
+  include_recipe "sqlite"
+  gem_package "sqlite3-ruby"
+  file "/srv/redmine-#{node[:redmine][:version]}/db/production.db" do
+    owner node[:apache][:user]
+    group node[:apache][:user]
+    mode "0644"
+  end
+when "mysql"
+  include_recipe "mysql::client"
+end
+
 template "/srv/redmine-#{node[:redmine][:version]}/config/database.yml" do
   source "database.yml.erb"
   owner "root"
   group "root"
-  variables :database_server => database_server
+  variables :database_server => node[:redmine][:db][:hostname]
   mode "0664"
 end
 
