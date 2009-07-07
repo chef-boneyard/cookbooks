@@ -22,6 +22,11 @@ case node[:redmine][:db][:type]
 when "sqlite"
   include_recipe "sqlite"
   gem_package "sqlite3-ruby" 
+  file "/srv/radiant-#{node[:redmine][:version]}/db/production.db" do
+    owner "root"
+    group "root"
+    mode "0644"
+  end
 when "mysql"
   include_recipe "mysql::client"
 end
@@ -29,20 +34,23 @@ end
 include_recipe "rails"
 include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
-include_recipe "passenger::mod_rails"
+include_recipe "passenger_apache2::mod_rails"
 
 bash "install_redmine" do
   cwd "/srv"
   user "root"
   code <<-EOH
     wget http://rubyforge.org/frs/download.php/#{node[:redmine][:dl_id]}/redmine-#{node[:redmine][:version]}.tar.gz
-    ln -sf /srv/redmine-#{node[:redmine][:version]} /srv/redmine
+    tar xf redmine-#{node[:redmine][:version]}.tar.gz
   EOH
 end
 
-database_server = search(:node, "database_master:true").map {|n| n['fqdn']}.first
+link "/srv/redmine" do
+  to "/srv/redmine-#{node[:redmine][:version]}"
+end
 
 template "/srv/redmine-#{node[:redmine][:version]}/config/database.yml" do
+  source "database.yml.erb"
   owner "root"
   group "root"
   variables :database_server => database_server

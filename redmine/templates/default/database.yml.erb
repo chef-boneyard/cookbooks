@@ -6,6 +6,8 @@
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 
+<% case @node[:redmine][:db][:type] -%>
+<% when "mysql" -%>
 production:
   adapter: mysql
   database: redmine
@@ -13,35 +15,8 @@ production:
   username: <%= @node[:redmine][:db][:user] %>
   password: <%= @node[:redmine][:db][:password] %>
   encoding: utf8
- 
-development:
-  adapter: mysql
-  database: redmine_development
-  host: localhost
-  username: root
-  password:
-  encoding: utf8
-
-test:
-  adapter: mysql
-  database: redmine_test
-  host: localhost
-  username: root
-  password:
-  encoding: utf8
-
-test_pgsql:
-  adapter: postgresql
-  database: redmine_test
-  host: localhost
-  username: postgres
-  password: "postgres"
-
-test_sqlite3:
+<% when "sqlite" -%>
+production:
   adapter: sqlite3
-  dbfile: db/test.db
-  
-demo:
-  adapter: sqlite3
-  dbfile: db/demo.db
-  
+  dbfile: db/production.db
+<% end -%>
