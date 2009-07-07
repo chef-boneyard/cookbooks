@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: passenger
+# Cookbook Name:: passenger_apache2
 # Recipe:: default
 #
 # Author:: Joshua Timberman (<joshua@opscode.com>)

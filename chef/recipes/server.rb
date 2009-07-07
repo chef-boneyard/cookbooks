@@ -44,7 +44,7 @@ node[:apache][:listen_ports] << "444" unless node[:apache][:listen_ports].includ
 include_recipe "stompserver" 
 include_recipe "apache2"
 include_recipe "apache2::mod_ssl"
-include_recipe "apache2::mod_rails"
+include_recipe "passenger_apache2::mod_rails"
 include_recipe "chef::client"
 
 if platform?("centos","redhat") and dist_only?

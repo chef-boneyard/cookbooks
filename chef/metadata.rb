@@ -3,11 +3,11 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures chef client and server"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.9"
+version           "0.10"
 recipe            "chef::client", "Sets up a client to talk to a chef-server"
 recipe            "chef::server", "Configures a chef-server as a passenger application"
 
-%w{ runit packages couchdb stompserver apache2 passenger }.each do |cb|
+%w{ runit packages couchdb stompserver apache2 passenger_apache2 }.each do |cb|
   depends cb
 end
 

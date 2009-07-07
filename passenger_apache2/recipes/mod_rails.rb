@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: passenger
+# Cookbook Name:: passenger_apache2
 # Recipe:: default
 #
 # Author:: Joshua Timberman (<joshua@opscode.com>)
@@ -22,7 +22,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "passenger"
+include_recipe "passenger_apache2"
 
 if platform?("centos","redhat") and dist_only?
   package "mod_passenger" do
@@ -35,7 +35,7 @@ if platform?("centos","redhat") and dist_only?
   end
 else  
   template "#{node[:apache][:dir]}/mods-available/passenger.load" do
-    cookbook "passenger"
+    cookbook "passenger_apache2"
     source "passenger.load.erb"
     owner "root"
     group "root"
@@ -44,7 +44,7 @@ else
 end
 
 template "#{node[:apache][:dir]}/mods-available/passenger.conf" do
-  cookbook "passenger"
+  cookbook "passenger_apache2"
   source "passenger.conf.erb"
   owner "root"
   group "root"
