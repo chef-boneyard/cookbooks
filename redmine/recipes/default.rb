@@ -29,6 +29,7 @@ bash "install_redmine" do
   code <<-EOH
     wget http://rubyforge.org/frs/download.php/#{node[:redmine][:dl_id]}/redmine-#{node[:redmine][:version]}.tar.gz
     tar xf redmine-#{node[:redmine][:version]}.tar.gz
+    chown -R #{node[:apache][:user]} redmine-#{node[:redmine][:version]}
   EOH
   not_if { File.exists?("/srv/redmine-#{node[:redmine][:version]}/Rakefile") }
 end
@@ -56,6 +57,12 @@ template "/srv/redmine-#{node[:redmine][:version]}/config/database.yml" do
   group "root"
   variables :database_server => node[:redmine][:db][:hostname]
   mode "0664"
+end
+
+execute "rake db:migrate RAILS_ENV='production'" do
+  user node[:apache][:user]
+  cwd "/srv/redmine-#{node[:redmine][:version]}"
+  not_if { File.exists?("/srv/redmine-#{node[:redmine][:version]}/db/schema.rb") }
 end
 
 web_app "redmine" do
