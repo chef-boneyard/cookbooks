@@ -17,14 +17,14 @@
 # limitations under the License.
 #
 
-ec2 Mash.new unless attribute?("ec2")
-ec2[:lvm] = Mash.new unless ec2.has_key?(:lvm)
-ec2[:lvm][:use_ephemeral]  = true unless ec2[:lvm].has_key?(:use_ephemeral)
-ec2[:lvm][:ephemeral_mountpoint] = "/mnt" unless ec2[:lvm].has_key?(:ephemeral_mountpoint)
-ec2[:lvm][:ephemeral_volume_group] = "ephemeral" unless ec2[:lvm].has_key?(:ephemeral_volume_group)
-ec2[:lvm][:ephemeral_logical_volume] = "store" unless ec2[:lvm].has_key?(:ephemeral_logical_volume)
-ec2[:lvm][:ephemeral_devices] = {
+ec2opts Mash.new unless attribute?("ec2opts")
+ec2opts[:lvm] = Mash.new unless ec2opts.has_key?(:lvm)
+ec2opts[:lvm][:use_ephemeral]  = true unless ec2opts[:lvm].has_key?(:use_ephemeral)
+ec2opts[:lvm][:ephemeral_mountpoint] = "/mnt" unless ec2opts[:lvm].has_key?(:ephemeral_mountpoint)
+ec2opts[:lvm][:ephemeral_volume_group] = "ephemeral" unless ec2opts[:lvm].has_key?(:ephemeral_volume_group)
+ec2opts[:lvm][:ephemeral_logical_volume] = "store" unless ec2opts[:lvm].has_key?(:ephemeral_logical_volume)
+ec2opts[:lvm][:ephemeral_devices] = {
   "m1.small"  => [ "/dev/sda2" ],
   "m1.large"  => [ "/dev/sdb", "/dev/sdc" ],
   "m1.xlarge" => [ "/dev/sdb", "/dev/sdc", "/dev/sdd", "/dev/sde" ],
-} unless ec2[:lvm].has_key?(:ephemeral_devices)
+} unless ec2opts[:lvm].has_key?(:ephemeral_devices)
