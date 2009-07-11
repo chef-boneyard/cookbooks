@@ -42,11 +42,13 @@ package "mysql-server" do
 end
 
 service "mysql" do
+  service_name value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "mysqld"}, "default" => "mysql")
+  
   supports :status => true, :restart => true, :reload => true
   action :enable
 end
 
-template "/etc/mysql/my.cnf" do
+template value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "/etc/my.cnf"}, "default" => "/etc/mysql/my.cnf") do
   source "my.cnf.erb"
   owner "root"
   group "root"

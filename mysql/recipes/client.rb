@@ -35,9 +35,17 @@ package "mysql-client" do
   action :install
 end
 
-r = gem_package "mysql" do
-  version "2.7"
-  action :nothing
-end
+case node[:platform]
+when "centos","redhat", "suse"
+  package "ruby-mysql" do
+    action :install
+  end
 
-r.run_action(:install)
+else
+  r = gem_package "mysql" do
+    version "2.7"
+    action :nothing
+  end
+
+  r.run_action(:install)
+end
