@@ -26,7 +26,7 @@ include_recipe "php::module_gd"
 include_recipe "php::module_pgsql"
 include_recipe "php::pear"
 
-remote_file "/etc/php5/apache2/php.ini" do
+remote_file value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "/etc/php.ini"}, "default" => "/etc/php5/apache2/php.ini") do
   source "apache2-php5.ini"
   owner "root"
   group "root"
