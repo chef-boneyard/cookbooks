@@ -21,7 +21,13 @@ include_recipe "mysql::client"
 
 case node[:platform]
 when "debian","ubuntu"
-  include_recipe "apt"
+
+  directory "/var/cache/local/preseeding" do
+    owner "root"
+    group "root"
+    mode "755"
+    recursive true
+  end
   
   execute "preseed mysql-server" do
     command "debconf-set-selections /var/cache/local/preseeding/mysql-server.seed"
