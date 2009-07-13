@@ -6,15 +6,15 @@ Build /etc/ssh/known_hosts based on search indexes and build it based on data re
 
 == Platform: Doesn't matter, should work on anything.
 
-= ATTRIBUTES:
+= USAGE:
 
-= USAGE: Generates /etc/ssh/known_hosts based on search indexes.
+Generates /etc/ssh/known_hosts based on search indexes for RSA keys.
 
 = LICENSE and AUTHOR: 
 
 Author:: Scott M. Likens (<scott@likens.us>)
 
-Copyright:: 2009, Opscode, Inc
+Copyright:: 2009, Scott M. Likens
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
