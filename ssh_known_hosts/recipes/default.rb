@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: apache2
+# Cookbook Name:: ssh_known_hosts
 # Recipe:: default
 #
 # Copyright 2008, OpsCode, Inc.
