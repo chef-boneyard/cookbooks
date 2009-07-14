@@ -23,6 +23,13 @@ service "teamspeak-server" do
 end
 ts_server = "teamspeak.#{domain}"
 
+template "/etc/teamspeak-server/server.ini" do
+  source "server.ini.erb"
+  owner "root"
+  group "root"
+  mode "0600"
+end
+
 include_recipe "php::php5"
 include_recipe "apache2::mod_php5"
 
