@@ -24,6 +24,7 @@
 
 include_recipe "packages"
 include_recipe "ruby"
+include_recipe "apache2"
 
 if platform?("centos","redhat") and dist_only?
   # just the gem, we'll install the apache module within apache2
