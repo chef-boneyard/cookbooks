@@ -18,7 +18,7 @@ if [ -x /usr/sbin/apache2 ]; then
         PREFORK=`/usr/sbin/apache2 -l | grep prefork || true`
 fi
 
-if [ -e $SYSCONFDIR/mods-enabled/$MODNAME.load ]; then
+if [ -e $SYSCONFDIR/mods-enabled/$MODNAME.load && -e $SYSCONFDIR/mods-enabled/$MODNAME.conf ]; then
         echo "This module is already enabled!"
         exit 0 
 fi
