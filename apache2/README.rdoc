@@ -46,6 +46,10 @@ These are available as @params[:docroot], @params[:server_name], @params[:server
 
 If 'cookbook' and 'template' are not specified, the current cookbook's templates/default/web_app.conf.erb will be used. If this template is not suitable for your application, copy it to your cookbook and customize as needed.
 
+== God Monitor:
+
+There's a new recipe, apache2::god_monitor. You will need to make sure to include the 'god' recipe before using the apache2::god_monitor recipe in your cookbook.
+
 = LICENSE & AUTHOR:
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
