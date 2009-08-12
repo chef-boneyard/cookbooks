@@ -21,7 +21,7 @@
 
 chef Mash.new unless attribute?("chef")
 # chef[:client_path] = `which chef-client`.chomp
-chef[:client_version] = "0.7.4" unless chef.has_key?(:client_version)
+chef[:client_version] = "0.7.8" unless chef.has_key?(:client_version)
 chef[:client_interval] = "1800" unless chef.has_key?(:client_interval)
 chef[:client_splay] = "20"      unless chef.has_key?(:client_splay)
 
