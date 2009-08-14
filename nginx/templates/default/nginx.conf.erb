@@ -9,7 +9,7 @@ events {
 }
 
 http {
-  include       <%= @nginx[:dir] %>/mime.types;
+  include       <%= @node[:nginx][:dir] %>/mime.types;
   default_type  application/octet-stream;
 
   access_log	<%= @node[:nginx][:log_dir] %>/access.log;
@@ -32,6 +32,6 @@ http {
 
   server_names_hash_bucket_size <%= @node[:nginx][:server_names_hash_bucket_size] %>;
 
-  include <%= @nginx[:dir] %>/conf.d/*.conf;
-  include <%= @nginx[:dir] %>/sites-enabled/*;
+  include <%= @node[:nginx][:dir] %>/conf.d/*.conf;
+  include <%= @node[:nginx][:dir] %>/sites-enabled/*;
 }
