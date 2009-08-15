@@ -105,6 +105,11 @@ max_binlog_size         = 100M
 #binlog_do_db           = include_database_name
 #binlog_ignore_db       = include_database_name
 #
+# * BerkeleyDB
+#
+# Using BerkeleyDB is now discouraged as its support will cease in 5.1.12.
+skip-bdb
+#
 # * InnoDB
 #
 # InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.
@@ -130,8 +135,6 @@ skip-federated
 # ssl-cert=/etc/mysql/server-cert.pem
 # ssl-key=/etc/mysql/server-key.pem
 
-
-
 [mysqldump]
 quick
 quote-names
@@ -153,10 +156,8 @@ key_buffer              = 16M
 #
 # [MYSQL_CLUSTER]
 # ndb-connectstring=127.0.0.1
-
-
 #
 # * IMPORTANT: Additional settings that can override those from this file!
 #   The files must end with '.cnf', otherwise they'll be ignored.
 #
-!includedir /etc/mysql/conf.d/
+<%= "!includedir /etc/mysql/conf.d/" unless ["centos", "redhat","suse"].include?(@node[:platform]) %>

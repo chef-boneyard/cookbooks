@@ -16,8 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# = Requirements
-# * ohai 0.2.1, patched for ticket OHAI-75
 
 package "perl" do
   action :upgrade
@@ -53,14 +51,7 @@ remote_file "CPAN-Config.pm" do
   else
     path "/etc/perl/CPAN/Config.pm"
   end
-  # workaround until change for OHAI-75 is in stable release.
-  # source "Config-#{node[:languages][:perl][:version]}.pm"
-  case node[:platform]
-  when "debian","ubuntu"
-    source "Config-5.10.0.pm"
-  when "centos","redhat"
-    source "Config-5.8.8.pm"
-  end
+  source "Config-#{node[:languages][:perl][:version]}.pm"
   owner "root"
   group "root"
   mode 0644

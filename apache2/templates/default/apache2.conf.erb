@@ -20,6 +20,8 @@ LockFile logs/accept.lock
 #
 <% if @node[:platform] == "debian" || @node[:platform] == "ubuntu" -%>
 PidFile /var/run/apache2.pid
+<% elsif @node[:platform] == "centos" -%>
+PidFile /var/run/httpd.pid
 <% else -%>
 PidFile logs/httpd.pid
 <% end -%>
@@ -155,8 +157,8 @@ LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combine
 LogFormat "%h %l %u %t \"%r\" %>s %b" common
 LogFormat "%{Referer}i -> %U" referer
 LogFormat "%{User-agent}i" agent
-
 #
+
 # Customizable error responses come in three flavors:
 # 1) plain text 2) local redirects 3) external redirects
 #

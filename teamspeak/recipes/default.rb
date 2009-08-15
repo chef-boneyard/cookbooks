@@ -21,7 +21,15 @@ package "teamspeak-server"
 service "teamspeak-server" do
   action :enable
 end
-ts_server = "teamspeak.#{domain}"
+
+ts_server = "teamspeak.#{node[:domain]}"
+
+template "/etc/teamspeak-server/server.ini" do
+  source "server.ini.erb"
+  owner "root"
+  group "root"
+  mode "0600"
+end
 
 include_recipe "php::php5"
 include_recipe "apache2::mod_php5"

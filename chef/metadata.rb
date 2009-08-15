@@ -3,11 +3,11 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures chef client and server"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.7"
+version           "0.11"
 recipe            "chef::client", "Sets up a client to talk to a chef-server"
 recipe            "chef::server", "Configures a chef-server as a passenger application"
 
-%w{ runit packages couchdb stompserver apache2 passenger }.each do |cb|
+%w{ runit packages couchdb stompserver apache2 passenger_apache2 }.each do |cb|
   depends cb
 end
 
@@ -28,7 +28,7 @@ attribute "chef/run_path",
 attribute "chef/client_version",
   :display_name => "Chef Client Version",
   :description => "Set the version of the client gem to install",
-  :default => "0.6.2"
+  :default => "0.7.8"
 
 attribute "chef/client_interval",
   :display_name => "Chef Client Interval ",
@@ -43,7 +43,7 @@ attribute "chef/client_splay",
 attribute "chef/client_log",
   :display_name => "Chef Client Log",
   :description => "Location of the chef client log",
-  :default => "/var/log/chef/client.log"
+  :default => "STDOUT"
 
 attribute "chef/indexer_log",
   :display_name => "Chef Indexer Log ",
@@ -53,7 +53,7 @@ attribute "chef/indexer_log",
 attribute "chef/server_version",
   :display_name => "Chef Server Version",
   :description => "Set the version of the server and server-slice gems to install",
-  :default => "0.6.2"
+  :default => "0.7.8"
 
 attribute "chef/server_log",
   :display_name => "Chef Server Log",
@@ -63,7 +63,7 @@ attribute "chef/server_log",
 attribute "chef/server_path",
   :display_name => "Chef Server Path",
   :description => "Location of the Chef Server assets",
-  :default => "gems_path/gems/chef-server-chef_server_version"
+  :default => "gem_dir/gems/chef-server-chef_server_version"
 
 attribute "chef/server_hostname",
   :display_name => "Chef Server Hostname",

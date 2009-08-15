@@ -32,7 +32,7 @@ Note: These cookbooks are already included with the chef-solo bootstrap installe
 * chef[:client_version] - For 'chef' gem, the client can be different than the server, though keeping versions the same is recommended.
 * chef[:client_interval] - Number of seconds between chef-client daemon runs. Default 1800 (30 minutes).
 * chef[:client_splay] - Random range of seconds added to interval. Default 20.
-* chef[:client_log] - Where the client should log. 
+* chef[:client_log] - Where the client should log. By default, STDOUT with no timestamp because we use runit.
 
 == Server:
 

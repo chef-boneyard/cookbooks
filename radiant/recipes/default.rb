@@ -26,7 +26,7 @@ include_recipe "sqlite"
 include_recipe "rails"
 include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
-include_recipe "apache2::mod_rails"
+include_recipe "passenger_apache2::mod_rails"
 
 gem_package "sqlite3-ruby" 
 

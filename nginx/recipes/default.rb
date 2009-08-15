@@ -20,9 +20,9 @@
 
 package "nginx"
 
-directory node[:nginx_log_dir] do
+directory node[:nginx][:log_dir] do
   mode 0755
-  owner node[:nginx_user]
+  owner node[:nginx][:user]
   action :create
 end
 
@@ -36,14 +36,14 @@ end
 end
 
 template "nginx.conf" do
-  path "#{node[:nginx_dir]}/nginx.conf"
+  path "#{node[:nginx][:dir]}/nginx.conf"
   source "nginx.conf.erb"
   owner "root"
   group "root"
   mode 0644
 end
 
-template "#{node[:nginx_dir]}/sites-available/default" do
+template "#{node[:nginx][:dir]}/sites-available/default" do
   source "default-site.erb"
   owner "root"
   group "root"

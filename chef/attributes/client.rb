@@ -21,7 +21,13 @@
 
 chef Mash.new unless attribute?("chef")
 # chef[:client_path] = `which chef-client`.chomp
-chef[:client_version] = "0.7.0" unless chef.has_key?(:client_version)
+chef[:client_version] = "0.7.8" unless chef.has_key?(:client_version)
 chef[:client_interval] = "1800" unless chef.has_key?(:client_interval)
 chef[:client_splay] = "20"      unless chef.has_key?(:client_splay)
-chef[:client_log] = "/var/log/chef/client.log" unless chef.has_key?(:client_log)
+
+case platform
+when "redhat","centos"
+  chef[:client_log] = "/var/log/chef/client.log" unless chef.has_key?(:client_log)
+else
+  chef[:client_log] = "STDOUT"                   unless chef.has_key?(:client_log)
+end

@@ -7,7 +7,7 @@ log_level          :info
 log_location       "<%= @node[:chef][:server_log] %>"
 ssl_verify_mode    :verify_none
 registration_url   "https://<%= @node[:chef][:server_fqdn] %>"
-openid_url         "https://<%= @node[:chef][:server_fqdn] %>"
+openid_url         "https://<%= @node[:chef][:server_fqdn] %>:444"
 template_url       "https://<%= @node[:chef][:server_fqdn] %>"
 remotefile_url     "https://<%= @node[:chef][:server_fqdn] %>"
 search_url         "https://<%= @node[:chef][:server_fqdn] %>"
@@ -26,7 +26,7 @@ search_index_path  "<%= @node[:chef][:path] %>/search_index"
 role_path          "<%= @node[:chef][:path] %>/roles"
 
 # uncomment and modify to allow specific openid providers
-#openid_providers   [ "https://<%= @node[:chef][:server_fqdn]%>", "https://chef", "myopenid.com" ]
+#authorized_openid_providers   [ "https://<%= @node[:chef][:server_fqdn]%>", "https://chef", "myopenid.com" ]
 # uncomment and modify to lock down openid identifiers, ie 'some_user.myopenid.com'
 #authorized_openid_identifiers [ "" ]
 

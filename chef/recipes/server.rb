@@ -39,10 +39,12 @@ when "centos","redhat","fedora"
   include_recipe "couchdb"
 end
 
+node[:apache][:listen_ports] << "444" unless node[:apache][:listen_ports].include?("444")
+
 include_recipe "stompserver" 
 include_recipe "apache2"
 include_recipe "apache2::mod_ssl"
-include_recipe "apache2::mod_rails"
+include_recipe "passenger_apache2::mod_rails"
 include_recipe "chef::client"
 
 if platform?("centos","redhat") and dist_only?
@@ -155,6 +157,14 @@ web_app "chef_server" do
   template "chef_server.conf.erb"
   server_name node[:chef][:server_fqdn]
   server_aliases node[:chef][:server_hostname]
-  gems_path node[:gems_path]
+  gems_path node[:languages][:ruby][:gems_dir]
   version node[:chef][:server_version]
+end
+
+package "curl"
+
+cron "compact chef couchdb" do
+  command "curl http://localhost:5984/chef 2>&1 | grep -q 'db_name.*chef' && curl -X POST http://localhost:5984/chef/_compact >> /var/log/cron.log 2>&1"
+  hour "5"
+  minute "0"
 end

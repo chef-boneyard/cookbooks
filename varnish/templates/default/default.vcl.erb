@@ -1,0 +1,11 @@
+backend default {
+        .host = "localhost";
+        .port = "8080";
+}
+
+sub vcl_fetch {
+        # force minimum ttl of 120 seconds
+        if (obj.ttl < 120s) {
+                set obj.ttl = 120s;
+        }
+}

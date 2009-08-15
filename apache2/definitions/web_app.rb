@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :web_app, :template => nil do
+define :web_app, :template => "web_app.conf.erb" do
   
   application_name = params[:name]
 
@@ -31,6 +31,9 @@ define :web_app, :template => nil do
     owner "root"
     group "root"
     mode 0644
+    if params[:cookbook]
+      cookbook params[:cookbook]
+    end
     variables(
       :application_name => application_name,
       :params => params

@@ -41,7 +41,7 @@ define :runit_service, :directory => nil, :only_if => false, :options => Hash.ne
   template "#{sv_dir_name}/run" do
     mode 0755
     source "sv-#{params[:name]}-run.erb"
-    if params[:options].class == Hash
+    if params[:options].respond_to?(:has_key?)
       variables :options => params[:options]
     end
   end
@@ -49,7 +49,7 @@ define :runit_service, :directory => nil, :only_if => false, :options => Hash.ne
   template "#{sv_dir_name}/log/run" do
     mode 0755
     source "sv-#{params[:name]}-log-run.erb"
-    if params[:options].class == Hash
+    if params[:options].respond_to?(:has_key?)
       variables :options => params[:options]
     end
   end
