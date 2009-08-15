@@ -21,7 +21,7 @@ include_recipe "hadoop"
 
 package "hadoop-conf-pseudo"
 
-%{namenode secondarynamenode datanode jobtracker tasktracker}.each do |d|
+%w{namenode secondarynamenode datanode jobtracker tasktracker}.each do |d|
   service "hadoop-#{d}" do
     action [ :start, :enable ]
   end
