@@ -26,16 +26,19 @@ include_recipe "packages"
 include_recipe "ruby"
 include_recipe "apache2"
 
-if platform?("centos","redhat") and dist_only?
-  # just the gem, we'll install the apache module within apache2
-  package "rubygem-passenger"
-
-  return
-end
-
-%w{ apache2-prefork-dev libapr1-dev }.each do |pkg|
-  package pkg do
-    action :upgrade
+if platform?("centos","redhat")
+  if dist_only?
+    # just the gem, we'll install the apache module within apache2
+    package "rubygem-passenger"
+    return
+  else
+    package "httpd-devel"
+  end
+else
+  %w{ apache2-prefork-dev libapr1-dev }.each do |pkg|
+    package pkg do
+      action :upgrade
+    end
   end
 end
 
