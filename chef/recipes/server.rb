@@ -124,34 +124,6 @@ else
   runit_service "chef-indexer" 
 end
 
-# No longer needed with Chef 0.7.0
-
-# template "#{node[:chef][:server_path]}/config.ru" do
-#   source "config.ru.erb"
-#   owner "chef"
-#   group "chef"
-#   mode "644"
-#   notifies :restart, resources(:service => "apache2")
-# end
-
-# template "#{node[:chef][:server_path]}/config/environments/production.rb" do
-#   source "merb-production.rb.erb"
-#   action :create
-#   owner "root"
-#   group "root"
-#   mode "664"
-#   notifies :restart, resources(:service => "apache2")
-# end
-
-# template "#{node[:chef][:server_path]}/config/init.rb" do
-#   source "chef-server.init.rb.erb"
-#   action :create
-#   owner "root"
-#   group "root"
-#   mode "664"
-#   notifies :restart, resources(:service => "apache2")
-# end
-
 web_app "chef_server" do
   docroot "#{node[:chef][:server_path]}/public"
   template "chef_server.conf.erb"
@@ -161,10 +133,15 @@ web_app "chef_server" do
   version node[:chef][:server_version]
 end
 
-package "curl"
-
-cron "compact chef couchdb" do
-  command "curl http://localhost:5984/chef 2>&1 | grep -q 'db_name.*chef' && curl -X POST http://localhost:5984/chef/_compact >> /var/log/cron.log 2>&1"
-  hour "5"
-  minute "0"
+http_request "compact chef couchDB" do
+  action :post
+  url "http://localhost:5984/chef/_compact"
+  only_if do
+    begin
+      open("#{Chef::Config[:couchdb_url]}/chef")
+      JSON::parse(open("#{Chef::Config[:couchdb_url]}/chef").read)["disk_size"] > 100_000_000
+    rescue OpenURI::HTTPError
+      nil
+    end
+  end
 end
