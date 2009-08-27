@@ -18,7 +18,7 @@
 #
 include_recipe "imagemagick"
 
-case platform
+case node[:platform]
 when "redhat", "centos", "fedora"
   package "ImageMagick-devel"
 when "debian", "ubuntu"
