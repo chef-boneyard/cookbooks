@@ -1,0 +1,43 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Installs java",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "suggestions": {
+
+  },
+  "platforms": {
+    "ubuntu": [
+
+    ],
+    "debian": [
+
+    ]
+  },
+  "version": "0.7.0",
+  "recipes": {
+    "java": ""
+  },
+  "name": "java",
+  "conflicting": {
+
+  },
+  "attributes": {
+
+  },
+  "providing": {
+    "java": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
+}

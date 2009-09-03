@@ -1,0 +1,49 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Installs CouchDB package and starts service",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "suggestions": {
+
+  },
+  "platforms": {
+    "rhel": [
+
+    ],
+    "ubuntu": [
+      ">= 8.10"
+    ],
+    "fedora": [
+
+    ],
+    "centos": [
+
+    ]
+  },
+  "version": "0.7.0",
+  "recipes": {
+    "couchdb": ""
+  },
+  "name": "couchdb",
+  "conflicting": {
+
+  },
+  "attributes": {
+
+  },
+  "providing": {
+    "couchdb": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "Installs the CouchDB package if it is available from an package repository on\nthe node. If the package repository is not available, CouchDB needs to be \ninstalled via some other method, either a backported package, or compiled \ndirectly from source.\n",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
+}

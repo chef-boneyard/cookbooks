@@ -1,0 +1,38 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Installs and configures fail2ban",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "suggestions": {
+
+  },
+  "platforms": {
+
+  },
+  "version": "0.7.0",
+  "recipes": {
+    "fail2ban": ""
+  },
+  "name": "fail2ban",
+  "conflicting": {
+
+  },
+  "attributes": {
+
+  },
+  "providing": {
+    "fail2ban": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
+}

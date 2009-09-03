@@ -1,0 +1,38 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Sets up iptables to use a script to maintain rules",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "suggestions": {
+
+  },
+  "platforms": {
+
+  },
+  "version": "0.7.0",
+  "recipes": {
+    "iptables": ""
+  },
+  "name": "iptables",
+  "conflicting": {
+
+  },
+  "attributes": {
+
+  },
+  "providing": {
+    "iptables": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
+}

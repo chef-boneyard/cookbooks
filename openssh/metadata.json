@@ -1,0 +1,38 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Installs openssh",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "suggestions": {
+
+  },
+  "platforms": {
+
+  },
+  "version": "0.7.0",
+  "recipes": {
+    "openssh": ""
+  },
+  "name": "openssh",
+  "conflicting": {
+
+  },
+  "attributes": {
+
+  },
+  "providing": {
+    "openssh": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
+}

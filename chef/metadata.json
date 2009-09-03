@@ -1,0 +1,227 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Installs and configures chef client and server",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "suggestions": {
+
+  },
+  "platforms": {
+    "ubuntu": [
+
+    ],
+    "rhel": [
+
+    ],
+    "centos": [
+
+    ],
+    "debian": [
+
+    ]
+  },
+  "version": "0.11.0",
+  "recipes": {
+    "chef": "",
+    "chef::server": "Configures a chef-server as a passenger application",
+    "chef::client": "Sets up a client to talk to a chef-server"
+  },
+  "name": "chef",
+  "conflicting": {
+
+  },
+  "attributes": {
+    "chef\/server_ssl_req": {
+      "default": "\/C=US\/ST=Several\/L=Locality\/O=Example\/OU=Operations\/CN=chef_server_fqdn\/emailAddress=ops@domain",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Data to pass for creating the SSL certificate",
+      "display_name": "Chef Server SSL Request",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/server_path": {
+      "default": "gem_dir\/gems\/chef-server-chef_server_version",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Location of the Chef Server assets",
+      "display_name": "Chef Server Path",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/run_path": {
+      "default": "\/var\/run\/chef",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Filesystem location for Chef 'run' files",
+      "display_name": "Chef Run Path",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/client_log": {
+      "default": "STDOUT",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Location of the chef client log",
+      "display_name": "Chef Client Log",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/path": {
+      "default": "\/srv\/chef",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Filesystem location for Chef files",
+      "display_name": "Chef Path",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/server_log": {
+      "default": "\/var\/log\/chef\/server.log",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Location of the Chef server log",
+      "display_name": "Chef Server Log",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/client_splay": {
+      "default": "20",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Random number of seconds to add to interval",
+      "display_name": "Chef Client Splay ",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/client_version": {
+      "default": "0.7.8",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Set the version of the client gem to install",
+      "display_name": "Chef Client Version",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/server_fqdn": {
+      "default": "hostname.domain",
+      "type": "string",
+      "multiple_values": false,
+      "description": "FQDN of the Chef server for Apache vhost and SSL certificate and clients",
+      "display_name": "Chef Server Fully Qualified Domain Name",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/server_version": {
+      "default": "0.7.8",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Set the version of the server and server-slice gems to install",
+      "display_name": "Chef Server Version",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/indexer_log": {
+      "default": "\/var\/log\/chef\/indexer.log",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Location of the chef-indexer log",
+      "display_name": "Chef Indexer Log ",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/client_interval": {
+      "default": "1800",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Poll chef client process to run on this interval in seconds",
+      "display_name": "Chef Client Interval ",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/server_token": {
+      "default": "randomly generated",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Value of the validation_token",
+      "display_name": "Chef Server Validation Token",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "chef\/server_hostname": {
+      "default": "hostname",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Hostname for the chef server, for building FQDN",
+      "display_name": "Chef Server Hostname",
+      "recipes": [
+
+      ],
+      "required": false
+    }
+  },
+  "providing": {
+    "chef::server": [
+
+    ],
+    "chef": [
+
+    ],
+    "chef::client": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "= DESCRIPTION:\n\nUse this cookbook to configure a chef client or server. The primary purpose is to be used with the chef-solo command to bootstrap a chef-server, per the Chef Wiki.\n\n= REQUIREMENTS:\n\nThe passenger stack requires Chef 0.5.7+.\n\n== Platform:\n\nBest tested on Ubuntu 8.10, 9.04. See the Chef Wiki for up to date installation procedures for other platforms.\n\n== Cookbooks:\n\nOpscode cookbooks, http:\/\/github.com\/opscode\/cookbooks\/tree\/master:\n\n* apache2\n* runit\n* couchdb\n* stompserver\n* passenger\n* ruby\n\nNote: These cookbooks are already included with the chef-solo bootstrap installer.\n\n= ATTRIBUTES: \n\n* chef[:path] - Base directory for Chef files\/directories. Default is \/srv\/chef (more FHS-y).\n\n== Client:\n\n* chef[:client_version] - For 'chef' gem, the client can be different than the server, though keeping versions the same is recommended.\n* chef[:client_interval] - Number of seconds between chef-client daemon runs. Default 1800 (30 minutes).\n* chef[:client_splay] - Random range of seconds added to interval. Default 20.\n* chef[:client_log] - Where the client should log. By default, STDOUT with no timestamp because we use runit.\n\n== Server:\n\n* chef[:server_version] - For 'chef-server' and 'chef-server-slice' gems.\n* chef[:server_log] - Where the server should log. Default \/var\/log\/chef\/server.log.\n* chef[:server_path] - Merb root directory for the chef-server merb app. Default is the gem installation directory, needs to be updated on servers using other installation methods.\n\n= USAGE:\n\nThis cookbook is primarily designed to bootstrap a chef server and clients via chef-solo per the Chef Wiki Installation page. It can also be used for ongoing configuration of Chef.\n\nFor clients, the cookbook will set up a runit service for the chef-client. You can automatically validate a node by first creating \/etc\/chef\/validation_token, with contents equal to the validation_token set in \/etc\/chef\/server.rb (change the default value for your site). The client recipe will then remove the token file if it exists after the node is validated.\n\nFor servers, the cookbook will set up a runit service for chef-indexer, and will set up chef-server itself as a Rack app under Apache+Passenger. The server will listen only for HTTPS by default, see \"SSL Certificates\" below for more. \n\n== HTTP Authentication \n\nThe server can optionally protect the page via simple htauth, and be accessed via port 444. Remember to add the port to the node attribute apache[:listen_ports]. The password file is \/etc\/chef\/htpasswd.user by default, but you can also use LDAP instead. Be sure to include the appropriate Apache module.\n\n== SSL Certificates: \n\nThe default configuration sets up the server to use HTTPS. The server recipe will generate a self-signed PEM certificate on the first run (normally via chef-solo). You should generate your own site-specific certificate, or purchase a certificate and replace the example after installation.\n\n== Runit Installations:\n\nFor older configurations where runit was the default for chef-server, this cookbook can be used to replace that configuration with chef-server under Passenger. \n\nThe advantages to using Passenger are that authentication can be added, and the restart bug with merb workers no longer exists. \n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman <joshua@opscode.com>\nAuthor:: Joshua Sierles <joshua@37signals.com>\n\nCopyright 2008-2009, Opscode, Inc\nCopyright 2009, 37signals\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http:\/\/www.apache.org\/licenses\/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "replacing": {
+
+  },
+  "dependencies": {
+    "passenger_apache2": [
+
+    ],
+    "stompserver": [
+
+    ],
+    "packages": [
+
+    ],
+    "runit": [
+
+    ],
+    "couchdb": [
+
+    ],
+    "apache2": [
+
+    ]
+  }
+}

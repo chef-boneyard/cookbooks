@@ -1,0 +1,40 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Installs logwatch, a nice log analyzer",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "suggestions": {
+
+  },
+  "platforms": {
+
+  },
+  "version": "0.1.0",
+  "recipes": {
+    "logwatch": ""
+  },
+  "name": "logwatch",
+  "conflicting": {
+
+  },
+  "attributes": {
+
+  },
+  "providing": {
+    "logwatch": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES: \n\n= USAGE:\n\n",
+  "replacing": {
+
+  },
+  "dependencies": {
+    "perl": [
+
+    ]
+  }
+}

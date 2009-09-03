@@ -41,6 +41,6 @@ task :build_bootstrap do
 end
 
 # remove unnecessary tasks
-%w{update install roles ssl_cert metadata}.each do |t|
+%w{update install roles ssl_cert}.each do |t|
   Rake.application.instance_variable_get('@tasks').delete(t.to_s)
 end

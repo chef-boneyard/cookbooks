@@ -1,0 +1,40 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Installs but does not configure heartbeat",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "suggestions": {
+    "drbd": [
+
+    ]
+  },
+  "platforms": {
+
+  },
+  "version": "0.7.0",
+  "recipes": {
+    "heartbeat": ""
+  },
+  "name": "heartbeat",
+  "conflicting": {
+
+  },
+  "attributes": {
+
+  },
+  "providing": {
+    "heartbeat": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
+}

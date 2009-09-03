@@ -1,0 +1,58 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Installs and configures maradns",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "suggestions": {
+
+  },
+  "platforms": {
+
+  },
+  "version": "0.7.0",
+  "recipes": {
+    "maradns": ""
+  },
+  "name": "maradns",
+  "conflicting": {
+
+  },
+  "attributes": {
+    "maradns\/recursive_acl": {
+      "default": "",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Sets the recursive_acl setting in mararc.erb",
+      "display_name": "MaraDNS Recursive ACL",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "maradns": {
+      "type": "hash",
+      "multiple_values": false,
+      "description": "Hash of MaraDNS attributes",
+      "display_name": "MaraDNS",
+      "recipes": [
+
+      ],
+      "required": false
+    }
+  },
+  "providing": {
+    "maradns": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
+}

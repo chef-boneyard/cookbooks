@@ -1,0 +1,40 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Installs teamspeak and enables service",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "suggestions": {
+
+  },
+  "platforms": {
+
+  },
+  "version": "0.8.0",
+  "recipes": {
+    "teamspeak": ""
+  },
+  "name": "teamspeak",
+  "conflicting": {
+
+  },
+  "attributes": {
+
+  },
+  "providing": {
+    "teamspeak": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+    "php": [
+
+    ]
+  }
+}
