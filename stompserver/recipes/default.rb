@@ -19,8 +19,13 @@
 
 include_recipe "packages"
 
-if platform?("centos","redhat") and dist_only?
-  package "rubygem-stompserver"
+if platform?("centos","redhat","debian","ubuntu") and dist_only?
+  package value_for_platform(
+    "centos" => { "default" => "rubygem-stompserver" },
+    "redhat" => { "default" => "rubygem-stompserver" },
+    "debian" => { "default" => "stompserver" },
+    "ubuntu" => { "default" => "stompserver" }
+  )
 
   service "stompserver" do
     supports [ :restart, :reload, :status ]
