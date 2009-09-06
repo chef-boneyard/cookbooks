@@ -22,7 +22,7 @@
 
     ]
   },
-  "version": "0.11.0",
+  "version": "0.12.0",
   "recipes": {
     "chef": "",
     "chef::server": "Configures a chef-server as a passenger application",
@@ -111,7 +111,7 @@
       "required": false
     },
     "chef\/client_version": {
-      "default": "0.7.8",
+      "default": "0.7.10",
       "type": "string",
       "multiple_values": false,
       "description": "Set the version of the client gem to install",
@@ -133,7 +133,7 @@
       "required": false
     },
     "chef\/server_version": {
-      "default": "0.7.8",
+      "default": "0.7.10",
       "type": "string",
       "multiple_values": false,
       "description": "Set the version of the server and server-slice gems to install",

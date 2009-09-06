@@ -44,5 +44,5 @@ end
 cron "rsyslog_gz" do
   minute "0"
   hour "4"
-  command "find #{node[:rsyslog][:log_dir]}/`date +%Y` -type f -mtime +1 -exec gzip {} \;"
+  command "find #{node[:rsyslog][:log_dir]}/$(date +\\%Y) -type f -mtime +1 -exec gzip -q {} \\;"
 end
