@@ -24,7 +24,7 @@ chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 20.times { |i| validation_token << chars[rand(chars.size-1)] }
 
 chef Mash.new unless attribute?("chef")
-chef[:server_version]  = "0.7.8"  unless chef.has_key?(:server_version)
+chef[:server_version]  = "0.7.10"  unless chef.has_key?(:server_version)
 chef[:server_log]      = "/var/log/chef/server.log" unless chef.has_key?(:server_log)
 chef[:server_path]     = "#{languages[:ruby][:gems_dir]}/gems/chef-server-#{chef[:server_version]}"
 chef[:server_hostname] = hostname unless chef.has_key?(:server_hostname)
