@@ -26,8 +26,8 @@ ts_server = "teamspeak.#{node[:domain]}"
 
 template "/etc/teamspeak-server/server.ini" do
   source "server.ini.erb"
-  owner "root"
-  group "root"
+  owner "teamspeak-server"
+  group "teamspeak-server"
   mode "0600"
 end
 
