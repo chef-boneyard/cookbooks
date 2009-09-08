@@ -28,30 +28,31 @@ include_recipe "passenger_apache2::mod_rails"
 
 gem_package "sqlite3-ruby" 
 
-%w{config log pids sqlite system}.each do |dir|
-  directory "/srv/#{appname}/shared/#{dir}" do
-    recursive true
+if edge?
+  
+  %w{config log pids sqlite system}.each do |dir|
+    directory "/srv/#{appname}/shared/#{dir}" do
+      recursive true
+      owner "railsdev"
+      group "railsdev"
+      mode "0775"
+    end
+  end
+
+  template "/srv/#{appname}/shared/config/database.yml" do
+    source "database.yml.erb"
     owner "railsdev"
     group "railsdev"
-    mode "0775"
+    variables :appname => appname
+    mode "0664"
   end
-end
 
-template "/srv/#{appname}/shared/config/database.yml" do
-  source "database.yml.erb"
-  owner "railsdev"
-  group "railsdev"
-  variables :appname => appname
-  mode "0664"
-end
-
-file "/srv/#{appname}/shared/sqlite/production.sqlite3" do
-  owner "railsdev"
-  group "railsdev"
-  mode "0664"
-end
-
-if edge?
+  file "/srv/#{appname}/shared/sqlite/production.sqlite3" do
+    owner "railsdev"
+    group "railsdev"
+    mode "0664"
+  end
+  
   deploy "/srv/#{appname}" do
     repo "git://github.com/radiant/radiant.git"
     branch node[:radiant][:branch]
@@ -66,7 +67,15 @@ if edge?
     restart_command "touch tmp/restart.txt"
   end
 else
+  directory "/srv/#{appname}/current/" do
+    recursive true
+    owner "railsdev"
+    group "railsdev"
+    mode "0775"
+  end
+  
   gem_package "radiant"
+  
   execute "radiant_generate" do
     command "radiant -d sqlite3 /srv/#{appname}/current/"
     creates "/srv/#{appname}/current"
