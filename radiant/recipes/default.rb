@@ -68,7 +68,7 @@ if edge?
 else
   gem_package "radiant"
   execute "radiant_generate" do
-    command "radiant -d sqlite3 /srv/#{appname}/current/ && rm /srv/#{appname}/current/public/.htaccess"
+    command "radiant -d sqlite3 /srv/#{appname}/current/"
     creates "/srv/#{appname}/current"
     user "railsdev"
   end
