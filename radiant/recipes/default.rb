@@ -90,12 +90,12 @@ if bootstrap?
   #:database_template => ENV['DATABASE_TEMPLATE']
   execute "radiant boostrap" do
     command "rake db:bootstrap"
-    environment { "ADMIN_NAME"        => node[:radiant][:admin_name],
-                  "ADMIN_USERNAME"    => node[:radiant][:admin_username],
-                  "ADMIN_PASSWORD"    => node[:radiant][:admin_password],
-                  "DATABASE_TEMPLATE" => node[:radiant][:database_template],
-                  "OVERWRITE"         => "true",
-                  "RAILS_ENV"         => node[:radiant][:environment]}
+    environment "ADMIN_NAME"        => node[:radiant][:admin_name],
+                "ADMIN_USERNAME"    => node[:radiant][:admin_username],
+                "ADMIN_PASSWORD"    => node[:radiant][:admin_password],
+                "DATABASE_TEMPLATE" => node[:radiant][:database_template],
+                "OVERWRITE"         => "true",
+                "RAILS_ENV"         => node[:radiant][:environment]
     cwd "/srv/#{appname}/current"
     user "railsdev"
   end
