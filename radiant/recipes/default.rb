@@ -28,7 +28,7 @@ include_recipe "passenger_apache2::mod_rails"
 
 gem_package "sqlite3-ruby" 
 
-if edge?
+if radiant_edge?
   
   %w{config log pids sqlite system}.each do |dir|
     directory "/srv/#{appname}/shared/#{dir}" do
@@ -79,25 +79,6 @@ else
   execute "radiant_generate" do
     command "radiant -d sqlite3 /srv/#{appname}/current/"
     creates "/srv/#{appname}/current/public"
-    user "railsdev"
-  end
-end
-
-if bootstrap?
-  #:admin_name => ENV['ADMIN_NAME'],
-  #:admin_username => ENV['ADMIN_USERNAME'],
-  #:admin_password => ENV['ADMIN_PASSWORD'],
-  #:database_template => ENV['DATABASE_TEMPLATE']
-  execute "radiant boostrap" do
-    # this produces too much output for popen4 to handle, so get rid of it
-    command "rake db:bootstrap > /dev/null"
-    environment "ADMIN_NAME"        => node[:radiant][:admin_name],
-                "ADMIN_USERNAME"    => node[:radiant][:admin_username],
-                "ADMIN_PASSWORD"    => node[:radiant][:admin_password],
-                "DATABASE_TEMPLATE" => node[:radiant][:database_template],
-                "OVERWRITE"         => "true",
-                "RAILS_ENV"         => node[:radiant][:environment]
-    cwd "/srv/#{appname}/current"
     user "railsdev"
   end
 end
