@@ -19,8 +19,6 @@
 
 appname = "radiant"
 
-require "chef-deploy"
-
 include_recipe "git"
 include_recipe "sqlite"
 include_recipe "rails"
@@ -53,18 +51,27 @@ file "/srv/#{appname}/shared/sqlite/production.sqlite3" do
   mode "0664"
 end
 
-deploy "/srv/#{appname}" do
-  repo "git://github.com/radiant/radiant.git"
-  branch node[:radiant][:branch]
-  user "railsdev"
-  enable_submodules false
-  migrate node[:radiant][:migrate]
-  migration_command node[:radiant][:migrate_command]
-  environment node[:radiant][:environment]
-  shallow_clone true
-  revision node[:radiant][:revision]
-  action node[:radiant][:action].to_sym
-  restart_command "touch tmp/restart.txt"
+if edge?
+  deploy "/srv/#{appname}" do
+    repo "git://github.com/radiant/radiant.git"
+    branch node[:radiant][:branch]
+    user "railsdev"
+    enable_submodules false
+    migrate node[:radiant][:migrate]
+    migration_command node[:radiant][:migrate_command]
+    environment node[:radiant][:environment]
+    shallow_clone true
+    revision node[:radiant][:revision]
+    action node[:radiant][:action].to_sym
+    restart_command "touch tmp/restart.txt"
+  end
+else
+  gem_package "radiant"
+  execute "radiant_generate" do
+    command "radiant -d sqlite3 /srv/#{appname}/current/ && rm /srv/#{appname}/current/public/.htaccess"
+    creates "/srv/#{appname}/current"
+    user "railsdev"
+  end
 end
 
 web_app "#{appname}" do
