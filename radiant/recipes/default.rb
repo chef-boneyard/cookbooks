@@ -83,6 +83,24 @@ else
   end
 end
 
+if bootstrap?
+  #:admin_name => ENV['ADMIN_NAME'],
+  #:admin_username => ENV['ADMIN_USERNAME'],
+  #:admin_password => ENV['ADMIN_PASSWORD'],
+  #:database_template => ENV['DATABASE_TEMPLATE']
+  execute "radiant boostrap" do
+    command "rake db:bootstrap"
+    environment { "ADMIN_NAME"        => node[:radiant][:admin_name],
+                  "ADMIN_USERNAME"    => node[:radiant][:admin_username],
+                  "ADMIN_PASSWORD"    => node[:radiant][:admin_password],
+                  "DATABASE_TEMPLATE" => node[:radiant][:database_template],
+                  "OVERWRITE"         => "true",
+                  "RAILS_ENV"         => node[:radiant][:environment]}
+    cwd "/srv/#{appname}/current"
+    user "railsdev"
+  end
+end
+
 web_app "#{appname}" do
   docroot "/srv/#{appname}/current/public"
   template "#{appname}.conf.erb"
