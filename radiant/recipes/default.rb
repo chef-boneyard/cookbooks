@@ -78,7 +78,7 @@ else
   
   execute "radiant_generate" do
     command "radiant -d sqlite3 /srv/#{appname}/current/"
-    creates "/srv/#{appname}/current"
+    creates "/srv/#{appname}/current/public"
     user "railsdev"
   end
 end
