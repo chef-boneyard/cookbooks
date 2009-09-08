@@ -89,7 +89,8 @@ if bootstrap?
   #:admin_password => ENV['ADMIN_PASSWORD'],
   #:database_template => ENV['DATABASE_TEMPLATE']
   execute "radiant boostrap" do
-    command "rake db:bootstrap"
+    # this produces too much output for popen4 to handle, so get rid of it
+    command "rake db:bootstrap > /dev/null"
     environment "ADMIN_NAME"        => node[:radiant][:admin_name],
                 "ADMIN_USERNAME"    => node[:radiant][:admin_username],
                 "ADMIN_PASSWORD"    => node[:radiant][:admin_password],
