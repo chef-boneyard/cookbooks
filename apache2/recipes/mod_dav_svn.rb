@@ -42,4 +42,5 @@ end
 
 execute "create htpasswd file" do
   command "htpasswd -scb /srv/svn/htpasswd subversion subversion"
+  creates "/srv/svn/htpasswd"
 end
