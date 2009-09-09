@@ -20,3 +20,26 @@
 package "libapache2-svn"
 
 apache_module "dav_svn"
+
+directory "/srv/svn" do
+  recursive true
+  owner "www-data"
+  group "www-data"
+  mode "0755"
+end
+
+web_app "subversion" do
+  template "subversion.conf.erb"
+  server_name "svn.#{node[:domain]}"
+end
+
+execute "svnadmin create repo" do
+  command "svnadmin create /srv/svn/repo"
+  creates "/srv/svn/repo"
+  user "www-data"
+  group "www-data"
+end
+
+execute "create htpasswd file" do
+  command "htpasswd -scb /srv/svn/htpasswd subversion subversion"
+end
