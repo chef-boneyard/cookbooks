@@ -1,0 +1,70 @@
+= DESCRIPTION:
+
+This cookbook bootstraps a Chef client or server when Chef is installed via RubyGems. If installing Chef from OS distribution packages, please see the 'chef' cookbook. 
+
+= REQUIREMENTS:
+
+This cookbook requires Chef installed from RubyGems.
+
+== Platform:
+
+Tested on Ubuntu 9.10, 9.04, 8.10 and 8.04, Debian 5.0, CentOS 5.3. Other platforms where Chef was installed from Gems should work.
+
+== Cookbooks:
+
+Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
+
+= ATTRIBUTES:
+
+Attributes are under 'bootstrap[:chef]' - eg: 'bootstrap[:chef][:client_version]'. You may wish to change some of these locations to customize for your environment. For the bootstrap process this is done with a JSON data file passed to chef-solo.
+
+* init_style: specifies the init style used. Default 'runit'. Other possible values 'init', 'bsd'.
+* path: location where chef will store its associated data. Default '/srv/chef'.
+* run_path: location for pidfiles on systems using init scripts. Default '/var/run/chef'.
+* server_version, client_version: set the version of the Gems to install. This can be used to upgrade Chef automatically[0]
+* client_interval: number of seconds to run chef-client periodically. Default '1800' (30 minutes).
+* client_splay: splay interval to randomly add to interval. Default '20'.
+* log_dir: directory where logs are stored. Default '/var/log/chef'.
+* client_log: location of the client log. Default 'STDOUT' on systems with runit, '/var/log/chef/client.log' on other systems.
+* indexer_log: location of the indexer log. Default 'STDOUT' on systems with runit, '/var/log/chef/indexer.log' on other systems.
+* server_path: location where chef-server is installed, used for setting DocumentRoot in Apache configurations. Default is the gem install path as detected by Ohai.
+* server_log: location of the server (merb) log. Default '/var/log/chef/server.log'.
+* server_fqdn: fully qualified domain name of the server. Default is the current node's fqdn as detected by Ohai.
+* server_ssl_req: SSL certificate request string, used to generate a self-signed certificate. Default should be changed for your environment. Alternately generate or purchase your own certificate.
+* server_token: validation_token used to automatically authorize chef-clients. Default is a random string generated every time chef-solo runs.
+
+[0] http://blog.opscode.com/2009/08/cool-chef-tricks-upgrade-chef-with-chef.html
+
+= USAGE:
+
+== Clients:
+
+This cookbook will set up a client with sane default paths created based on common practices and FHS guidelines. Paths are tunable with attributes as listed above.
+
+== Servers:
+
+This cookbook can set up a Chef Server with two different front-end "stacks" using Apache.
+
+* Proxy (mod_proxy)
+* Passenger (mod_rails)
+
+To use a different web server or stack, you will need to either customize these recipes or write your own.
+
+= LICENSE and AUTHOR:
+
+Author:: Joshua Timberman <joshua@opscode.com>
+Author:: Joshua Sierles <joshua@37signals.com>
+
+Copyright 2008-2009, Opscode, Inc
+Copyright 2009, 37signals
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and

@@ -27,76 +27,20 @@ else
   show_time  = "true"
 end
 
-# no runit here!
-if ! platform?("centos","redhat")
-  include_recipe "runit"
-end
-
-if platform?("centos","redhat") and dist_only?
-  package "rubygem-chef"
-else
-  gem_package "chef" do
-    version node[:chef][:client_version]
-  end
-end
-
-group "chef" do
-  gid 8000
-end
-
-user "chef" do
-  comment "Chef user"
-  gid "chef"
-  uid 8000
-  home node[:chef][:path]
-  supports :manage_home => false
-  shell "/bin/bash"
-end
-
-if platform?("centos","redhat") and dist_only?
-  template "/etc/init.d/chef-client" do
-    owner "chef"
-    mode 0755
-    source "chef-client.init.erb"
-    action :create
-    backup false 
-  end
-end
-
-
-directory "/etc/chef" do
-  owner "chef"
-  group "chef"
-  mode "775"
-end
-
-directory node[:chef][:path] do
-  owner "chef"
-  group "chef"
-  mode "775"
-end
-
-directory "/var/log/chef" do
-  owner "chef"
-  group "chef"
-  mode "775"
+service "chef-client" do
+  action :nothing
 end
 
 template "/etc/chef/client.rb" do
   source "client.rb.erb"
-  owner "chef"
-  group "chef"
+  owner "root"
+  group "root"
   mode "644"
   variables(
     :client_log => client_log,
     :show_time  => show_time
   )
-end
-
-directory node[:chef][:run_path] do
-  owner "chef"
-  group "chef"
-  mode "755"
+  notifies :restart, resources(:service => "chef-client"), :delayed
 end
 
 execute "Register client node with Chef Server" do
@@ -108,14 +52,4 @@ end
 execute "Remove the validation token" do
   command "rm /etc/chef/validation_token"
   only_if { File.exists?("/etc/chef/validation_token") }
-            # File.exists?("#{node[:chef][:path]}/cache/registration") }
-end
-
-if platform?("centos","redhat") and dist_only?
-  service "chef-client" do
-    supports [ :restart, :reload, :status ]
-    action [ :enable, :start ]
-  end
-else
-  runit_service "chef-client"
 end
