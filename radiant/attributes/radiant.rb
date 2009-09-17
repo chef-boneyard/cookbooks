@@ -25,4 +25,4 @@ default.radiant.migrate_command = "rake db:migrate"
 default.radiant.environment     = "production"
 default.radiant.revision        = "HEAD"
 default.radiant.action          = "nothing"
-default.radiant.radiant_edge    = false
+default.radiant.edge            = false
