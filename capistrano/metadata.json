@@ -13,8 +13,8 @@
   },
   "version": "0.7.0",
   "recipes": {
-    "capistrano": "Installs Capistrano gem",
-    "capistrano": ""
+    "capistrano": "",
+    "capistrano": "Installs Capistrano gem"
   },
   "name": "capistrano",
   "conflicting": {

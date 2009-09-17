@@ -4,51 +4,146 @@ This cookbook bootstraps a Chef client or server when Chef is installed via Ruby
 
 = REQUIREMENTS:
 
-This cookbook requires Chef installed from RubyGems.
+This cookbook requires Chef installed from RubyGems. Chef v0.7.10, for attribute syntax.
 
 == Platform:
 
-Tested on Ubuntu 9.10, 9.04, 8.10 and 8.04, Debian 5.0, CentOS 5.3. Other platforms where Chef was installed from Gems should work.
+Server bootstrap is tested on Ubuntu 9.10, 9.04, 8.10 and 8.04, Debian 5.0.
+
+Client bootstrap is tested on the above, plus CentOS 5.3, Fedora 10, OpenBSD 4.6, FreeBSD 7.1 and Gentoo.
 
 == Cookbooks:
 
-Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
+Opscode cookbooks, http://github.com/opscode/cookbooks:
+
+Both clients and servers:
+
+* runit
+
+Servers only:
+
+* couchdb
+* stompserver
+
+The couchdb and stompserver recipes may be somewhat naive depending on the platform. You should view them online at the github repository to see if your platform is supported. If not, you'll need to manually install them, and remove the "include_recipe" statements from the bootstrap::server recipe.
 
 = ATTRIBUTES:
 
 Attributes are under 'bootstrap[:chef]' - eg: 'bootstrap[:chef][:client_version]'. You may wish to change some of these locations to customize for your environment. For the bootstrap process this is done with a JSON data file passed to chef-solo.
 
-* init_style: specifies the init style used. Default 'runit'. Other possible values 'init', 'bsd'.
-* path: location where chef will store its associated data. Default '/srv/chef'.
-* run_path: location for pidfiles on systems using init scripts. Default '/var/run/chef'.
-* server_version, client_version: set the version of the Gems to install. This can be used to upgrade Chef automatically[0]
-* client_interval: number of seconds to run chef-client periodically. Default '1800' (30 minutes).
-* client_splay: splay interval to randomly add to interval. Default '20'.
-* log_dir: directory where logs are stored. Default '/var/log/chef'.
-* client_log: location of the client log. Default 'STDOUT' on systems with runit, '/var/log/chef/client.log' on other systems.
-* indexer_log: location of the indexer log. Default 'STDOUT' on systems with runit, '/var/log/chef/indexer.log' on other systems.
-* server_path: location where chef-server is installed, used for setting DocumentRoot in Apache configurations. Default is the gem install path as detected by Ohai.
-* server_log: location of the server (merb) log. Default '/var/log/chef/server.log'.
-* server_fqdn: fully qualified domain name of the server. Default is the current node's fqdn as detected by Ohai.
-* server_ssl_req: SSL certificate request string, used to generate a self-signed certificate. Default should be changed for your environment. Alternately generate or purchase your own certificate.
-* server_token: validation_token used to automatically authorize chef-clients. Default is a random string generated every time chef-solo runs.
+== url_type
+
+Set up the URLs the client should connect to with this. Default is 'http', which tells the client to connect to 'http://server:4000'. If you set up your chef-server to use an SSL front-end, set this to 'https' and the URLs will be 'https://server/'. 
+
+== init_style
+
+Specifies the init style to use. Default 'runit'. Other possible values 'init', 'bsd', any other string will be treated as unknown.
+
+If your platform doesn't have a 'runit' package or if the cookbook doesn't detect it, but you stil want to use runit, set init_style to 'none' and install runit separately.
+
+== path
+
+This is the base location where chef will store its associated data. Default '/srv/chef' for RubyGems installed systems. The location preference varies by platform. The default is a filesystem hiearchy standard suggestion[1]. Some other locations you may consider, by platform:
+
+Debian and Red Hat based Linux distros (Ubuntu, CentOS, Fedora, etc):
+
+* /var/lib/chef
+
+Any BSD and Gentoo:
+
+* /var/chef
+
+== run_path
+
+Location for pidfiles on systems using init scripts. Default '/var/run/chef'.
+
+If init_style is 'init', this is used, and should match what the init script itself uses for the PID files.
+
+== cache_path
+
+Location where the client will cache cookbooks and other data. Default is 'cache' underneath the bootstrap[:chef][:path] location. Some Linux distributions might prefer /var/cache/chef instead.
+
+== serve_path
+
+Used by the Chef server as the base location to "serve" cookbooks, roles and other assets. Default is /srv/chef.
+
+== server_version, client_version
+
+Set the version of the Gems to install. This can be used to upgrade Chef automatically[0]. The chef gems are not managed by the Opscode Chef cookbook, however.
+
+== client_interval
+
+Number of seconds to run chef-client periodically. Default '1800' (30 minutes).
+
+== client_splay
+
+Splay interval to randomly add to interval. Default '20'.
+
+== log_dir
+
+Directory where logs are stored if logs are not sent to STDOUT. Systems using runit should send logs to STDOUT as runit manages log output. Default '/var/log/chef'.
+
+== client_log, indexer_log, server_log
+
+Location of the client, indexer and server logs, respectively. Default 'STDOUT' on systems with runit, '/var/log/chef/{client,indexer,server}.log' on other systems.
+
+== server_fqdn
+
+Fully qualified domain name of the server. Default is the current node's fqdn as detected by Ohai. For clients, set this to the hostname of your environment's Chef Server.
+
+== server_token
+
+The validation_token used to automatically authorize chef-clients. Default is a random string generated every time chef-solo runs. Use chef-client -t 'validation_token' to automatically validate the client.
 
 [0] http://blog.opscode.com/2009/08/cool-chef-tricks-upgrade-chef-with-chef.html
+[1] http://www.pathname.com/fhs/
 
 = USAGE:
 
+Opscode stores this cookbook and some others (see the requirements above) on S3. Use chef-solo:
+
+    sudo chef-solo -j chef.json -c solo.rb -r http://s3.amazonaws.com/chef-repo/bootstrap.tar.gz
+
+You set the attributes through the chef.json file, and tell Solo where to put them with solo.rb.
+
 == Clients:
 
-This cookbook will set up a client with sane default paths created based on common practices and FHS guidelines. Paths are tunable with attributes as listed above.
+Common attributes you may wish to adjust for the client:
+
+{
+  "bootstrap": {
+    "chef": {
+      "url_type": "http",
+      "init_style": "runit",
+      "path": "/srv/chef",
+      "server_fqdn": "localhost.localdomain",
+    }
+  },
+  "recipes": "bootstrap::client"
+}
 
 == Servers:
 
-This cookbook can set up a Chef Server with two different front-end "stacks" using Apache.
+Common attributes you may wish to adjust for the server:
 
-* Proxy (mod_proxy)
-* Passenger (mod_rails)
+{
+  "bootstrap": {
+    "chef": {
+      "url_type": "http",
+      "init_style": "runit",
+      "path": "/srv/chef",
+      "serve_path": "/srv/chef",
+      "server_fqdn": "localhost.localdomain",
+    }
+  },
+  "recipes": "bootstrap::server"
+}
 
-To use a different web server or stack, you will need to either customize these recipes or write your own.
+Note that the server recipe includes the client recipe as well, since we recommend managing the chef-server with Chef.
+
+For more information on usage and next steps, please see the Chef wiki.
+
+    http://wiki.opscode.com/display/chef/Home
 
 = LICENSE and AUTHOR:
 

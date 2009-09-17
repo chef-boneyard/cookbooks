@@ -2,7 +2,7 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Helper library to determine whether distribution-only packages are installed"
-version           "0.7"
+version           "0.8"
 
 attribute "packages",
   :display_name => "Packages",

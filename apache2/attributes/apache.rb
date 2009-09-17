@@ -2,14 +2,14 @@
 # Cookbook Name:: apache2
 # Attributes:: apache
 #
-# Copyright 2008, OpsCode, Inc.
+# Copyright 2008, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,28 +17,26 @@
 # limitations under the License.
 #
 
-apache Mash.new unless attribute?("apache")
-
 # Where the various parts of apache are
 case platform
 when "redhat","centos","fedora","suse"
-  apache[:dir]     = "/etc/httpd"               unless apache.has_key?(:dir)
-  apache[:log_dir] = "/var/log/httpd"           unless apache.has_key?(:log_dir)
-  apache[:user]    = "apache"                   unless apache.has_key?(:user)
-  apache[:binary]  = "/usr/sbin/httpd"          unless apache.has_key?(:binary)
-  apache[:icondir] = "/var/www/icons/"          unless apache.has_key?(:icondir)
+  set[:apache][:dir]     = "/etc/httpd"
+  set[:apache][:log_dir] = "/var/log/httpd"
+  set[:apache][:user]    = "apache"
+  set[:apache][:binary]  = "/usr/sbin/httpd"
+  set[:apache][:icondir] = "/var/www/icons/"
 when "debian","ubuntu"
-  apache[:dir]     = "/etc/apache2"             unless apache.has_key?(:dir)
-  apache[:log_dir] = "/var/log/apache2"         unless apache.has_key?(:log_dir)
-  apache[:user]    = "www-data"                 unless apache.has_key?(:user)
-  apache[:binary]  = "/usr/sbin/apache2"        unless apache.has_key?(:binary)
-  apache[:icondir] = "/usr/share/apache2/icons" unless apache.has_key?(:icondir)
+  set[:apache][:dir]     = "/etc/apache2"
+  set[:apache][:log_dir] = "/var/log/apache2"
+  set[:apache][:user]    = "www-data"
+  set[:apache][:binary]  = "/usr/sbin/apache2"
+  set[:apache][:icondir] = "/usr/share/apache2/icons"
 else
-  apache[:dir]     = "/etc/apache2"             unless apache.has_key?(:dir)
-  apache[:log_dir] = "/var/log/apache2"         unless apache.has_key?(:log_dir)
-  apache[:user]    = "www-data"                 unless apache.has_key?(:user)
-  apache[:binary]  = "/usr/sbin/apache2"        unless apache.has_key?(:binary)
-  apache[:icondir] = "/usr/share/apache2/icons" unless apache.has_key?(:icondir)
+  set[:apache][:dir]     = "/etc/apache2"
+  set[:apache][:log_dir] = "/var/log/apache2"
+  set[:apache][:user]    = "www-data"
+  set[:apache][:binary]  = "/usr/sbin/apache2"
+  set[:apache][:icondir] = "/usr/share/apache2/icons"
 end
 
 ###
@@ -47,32 +45,30 @@ end
 ###
 
 # General settings
-apache[:listen_ports] = [ "80","443" ]     unless apache.has_key?(:listen_ports)
-apache[:contact] = "ops@example.com" unless apache.has_key?(:contact)
-apache[:timeout] = 300               unless apache.has_key?(:timeout)
-apache[:keepalive] = "On"            unless apache.has_key?(:keepalive)
-apache[:keepaliverequests] = 100     unless apache.has_key?(:keepaliverequests)
-apache[:keepalivetimeout] = 5        unless apache.has_key?(:keepalivetimeout)
+default[:apache][:listen_ports] = [ "80","443" ]
+default[:apache][:contact] = "ops@example.com"
+default[:apache][:timeout] = 300
+default[:apache][:keepalive] = "On"
+default[:apache][:keepaliverequests] = 100
+default[:apache][:keepalivetimeout] = 5
 
 # Security
-apache[:servertokens] = "Prod"  unless apache.has_key?(:servertokens)
-apache[:serversignature] = "On" unless apache.has_key?(:serversignature)
-apache[:traceenable] = "On"     unless apache.has_key?(:traceenable)
+default[:apache][:servertokens] = "Prod"
+default[:apache][:serversignature] = "On"
+default[:apache][:traceenable] = "On"
 
 # Prefork Attributes
-apache[:prefork] = Mash.new unless apache.has_key?(:prefork)
-apache[:prefork][:startservers] = 16      unless apache[:prefork].has_key?(:startservers)
-apache[:prefork][:minspareservers] = 16   unless apache[:prefork].has_key?(:minspareservers)
-apache[:prefork][:maxspareservers] = 32   unless apache[:prefork].has_key?(:maxspareservers)
-apache[:prefork][:serverlimit] = 400      unless apache[:prefork].has_key?(:serverlimit)
-apache[:prefork][:maxclients] = 400       unless apache[:prefork].has_key?(:maxclients)
-apache[:prefork][:maxrequestsperchild] = 10000 unless apache[:prefork].has_key?(:maxrequestsperchild)
+default[:apache][:prefork][:startservers] = 16
+default[:apache][:prefork][:minspareservers] = 16
+default[:apache][:prefork][:maxspareservers] = 32
+default[:apache][:prefork][:serverlimit] = 400
+default[:apache][:prefork][:maxclients] = 400
+default[:apache][:prefork][:maxrequestsperchild] = 10000
 
 # Worker Attributes
-apache[:worker] = Mash.new unless apache.has_key?(:worker)
-apache[:worker][:startservers] = 4        unless apache[:worker].has_key?(:startservers)
-apache[:worker][:maxclients] = 1024       unless apache[:worker].has_key?(:maxclients)
-apache[:worker][:minsparethreads] = 64    unless apache[:worker].has_key?(:minsparethreads)
-apache[:worker][:maxsparethreads] = 192   unless apache[:worker].has_key?(:maxsparethreads)
-apache[:worker][:threadsperchild] = 64    unless apache[:worker].has_key?(:threadsperchild)
-apache[:worker][:maxrequestsperchild] = 0 unless apache[:worker].has_key?(:maxrequestsperchild)
+default[:apache][:worker][:startservers] = 4
+default[:apache][:worker][:maxclients] = 1024
+default[:apache][:worker][:minsparethreads] = 64
+default[:apache][:worker][:maxsparethreads] = 192
+default[:apache][:worker][:threadsperchild] = 64
+default[:apache][:worker][:maxrequestsperchild] = 0

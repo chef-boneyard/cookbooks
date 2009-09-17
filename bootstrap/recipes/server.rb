@@ -21,6 +21,12 @@
 # limitations under the License.
 #
 
+root_group = value_for_platform(
+  "openbsd" => { "default" => "wheel" },
+  "freebsd" => { "default" => "wheel" },
+  "default" => "root"
+)
+
 include_recipe "bootstrap::client"
 include_recipe "stompserver"
 
@@ -45,8 +51,6 @@ end
   end
 end
 
-gem_package "thin"
-
 if node[:bootstrap][:chef][:server_log] == "STDOUT"
   server_log = node[:bootstrap][:chef][:server_log]
   show_time  = "false"
@@ -59,7 +63,7 @@ end
 template "/etc/chef/server.rb" do
   source "server.rb.erb"
   owner "root"
-  group "root"
+  group root_group
   mode "600"
   variables(
     :server_log => server_log,
@@ -70,20 +74,20 @@ end
 %w{ openid cache search_index openid/cstore openid/store }.each do |dir|
   directory "#{node[:bootstrap][:chef][:path]}/#{dir}" do
     owner "root"
-    group "root"
+    group root_group
     mode "755"
   end
 end
 
 directory "/etc/chef/certificates" do
   owner "root"
-  group "root"
+  group root_group
   mode "700"
 end
 
 directory node[:bootstrap][:chef][:run_path] do
   owner "root"
-  group "root"
+  group root_group
   mode "755"
 end
 
@@ -92,6 +96,9 @@ when "runit"
   include_recipe "runit"
   runit_service "chef-indexer"
   runit_service "chef-server"
+  service "chef-server" do
+    restart_command "sv int chef-server"
+  end
 when "init"
   show_time  = "true"
 
@@ -104,7 +111,7 @@ when "init"
   end
 
   Chef::Log.info("You specified service style 'init'.")
-  Chef::Log.info("'init' scripts available in #{languages[:ruby][:gems_dir]}/gems/chef-#{node[:bootstrap][:chef][:client_version]}/distro")
+  Chef::Log.info("'init' scripts available in #{node[:languages][:ruby][:gems_dir]}/gems/chef-#{node[:bootstrap][:chef][:client_version]}/distro")
 when "bsd"
   Chef::Log.info("You specified service style 'bsd'. You will need to set up your rc.local file for chef-indexer and chef-server.")
   Chef::Log.info("Server startup command: chef-server -c2 -d")

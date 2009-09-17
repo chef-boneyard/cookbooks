@@ -25,8 +25,8 @@
   "version": "0.7.0",
   "recipes": {
     "djbdns::internal_server": "Sets up internal TinyDNS",
-    "djbdns": "",
     "djbdns": "Installs djbdns from package or source and creates users",
+    "djbdns": "",
     "djbdns::axfr": "Sets up djbdns AXFR service",
     "djbdns::server": "Sets up external TinyDNS",
     "djbdns::cache": "Sets up public dnscache service"

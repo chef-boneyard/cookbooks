@@ -24,8 +24,9 @@
   },
   "version": "0.12.0",
   "recipes": {
-    "chef": "",
     "chef::server": "Configures a chef-server as a passenger application",
+    "chef": "",
+    "chef::server_proxy": "",
     "chef::client": "Sets up a client to talk to a chef-server"
   },
   "name": "chef",
@@ -190,6 +191,9 @@
   },
   "providing": {
     "chef::server": [
+
+    ],
+    "chef::server_proxy": [
 
     ],
     "chef": [

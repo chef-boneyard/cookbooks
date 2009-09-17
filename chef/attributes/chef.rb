@@ -21,19 +21,19 @@ validation_token = ""
 chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 20.times { |i| validation_token << chars[rand(chars.size-1)] }
 
-default[:chef][:init_style] = "runit"
 default[:chef][:url_type]   = "http"
+default[:chef][:init_style] = "runit"
 
 case platform
 when "openbsd","freebsd"
   default[:chef][:path]       = "/var/chef"
   default[:chef][:run_path]   = "/var/run"
-  default[:chef][:cache_path] = "/var/chef"
+  default[:chef][:cache_path] = "/var/chef/cache"
   default[:chef][:serve_path] = "/var/chef"
 else
   default[:chef][:path]       = "/srv/chef"
   default[:chef][:run_path]   = "/var/run/chef"
-  default[:chef][:cache_path] = "/srv/chef"
+  default[:chef][:cache_path] = "#{chef[:path]}/cache"
   default[:chef][:serve_path] = "/srv/chef"
 end
 
@@ -54,7 +54,6 @@ else
   default[:chef][:server_log]  = "#{chef[:log_dir]}/server.log"
 end
 
-set[:chef][:server_path]         = "#{languages[:ruby][:gems_dir]}/gems/chef-server-#{chef[:server_version]}"
 default[:chef][:server_fqdn]     = "#{fqdn}"
 default[:chef][:server_token]    = validation_token
 default[:chef][:server_ssl_req]  = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/" +

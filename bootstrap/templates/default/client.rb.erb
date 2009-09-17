@@ -23,7 +23,7 @@ search_url         "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
 role_url           "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
 <% end -%>
 
-file_cache_path    "<%= @node[:bootstrap][:chef][:path] %>/cache"
+file_cache_path    "<%= @node[:bootstrap][:chef][:cache_path] %>"
 
 pid_file           "<%= @node[:bootstrap][:chef][:run_path] %>/chef-client.pid"
 

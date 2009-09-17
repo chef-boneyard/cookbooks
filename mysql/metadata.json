@@ -14,8 +14,8 @@
   "version": "0.9.0",
   "recipes": {
     "mysql::client": "Installs packages required for mysql clients using run_action magic",
-    "mysql": "",
-    "mysql::server": "Installs packages required for mysql servers w\/o manual intervention"
+    "mysql::server": "Installs packages required for mysql servers w\/o manual intervention",
+    "mysql": ""
   },
   "name": "mysql",
   "conflicting": {

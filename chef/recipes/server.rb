@@ -19,6 +19,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+root_group = value_for_platform(
+  "openbsd" => { "default" => "wheel" },
+  "freebsd" => { "default" => "wheel" },
+  "default" => "root"
+)
+
 include_recipe "chef::client"
 
 service "chef-indexer" do
@@ -27,13 +33,28 @@ end
 
 service "chef-server" do
   action :nothing
+  if node[:chef][:init_style] == "runit"
+    restart_command "sv int chef-server"
+  end
+end
+
+if node[:chef][:server_log] == "STDOUT"
+  server_log = node[:chef][:server_log]
+  show_time  = "false"
+else
+  server_log = "\"#{node[:chef][:server_log]}\""
+  show_time  = "true"
 end
 
 template "/etc/chef/server.rb" do
   source "server.rb.erb"
   owner "root"
-  group "root"
+  group root_group
   mode "644"
+  variables(
+    :server_log => server_log,
+    :show_time  => show_time
+  )
   notifies :restart, resources(
     :service => "chef-indexer",
     :service => "chef-server"

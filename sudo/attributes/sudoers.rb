@@ -17,14 +17,5 @@
 # limitations under the License.
 #
 
-authorization Mash.new unless attribute?("authorization")
-
-authorization[:sudo] = Mash.new unless authorization.has_key?(:sudo)
-
-unless authorization[:sudo].has_key?(:groups)
-  authorization[:sudo][:groups] = Array.new 
-end
-
-unless authorization[:sudo].has_key?(:users)
-  authorization[:sudo][:users] = Array.new
-end
+default[:authorization][:sudo][:groups] = Array.new 
+default[:authorization][:sudo][:users] = Array.new

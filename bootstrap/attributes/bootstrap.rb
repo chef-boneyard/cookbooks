@@ -21,10 +21,12 @@ validation_token = ""
 chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 20.times { |i| validation_token << chars[rand(chars.size-1)] }
 
-default[:bootstrap][:chef][:init_style]  = "runit"
-default[:bootstrap][:chef][:path]        = "/srv/chef"
-default[:bootstrap][:chef][:run_path]    = "/var/run/chef"
-default[:bootstrap][:chef][:url_type]    = "http"
+default[:bootstrap][:chef][:url_type]   = "http"
+default[:bootstrap][:chef][:init_style] = "runit"
+default[:bootstrap][:chef][:path]       = "/srv/chef"
+default[:bootstrap][:chef][:run_path]   = "/var/run/chef"
+default[:bootstrap][:chef][:cache_path] = "/#{bootstrap[:chef][:path]}/cache"
+default[:bootstrap][:chef][:serve_path] = "/srv/chef"
 
 default[:bootstrap][:chef][:server_version]  = "0.7.10"
 default[:bootstrap][:chef][:client_version]  = "0.7.10"
@@ -43,6 +45,5 @@ else
   default[:bootstrap][:chef][:indexer_log] = "#{bootstrap[:chef][:log_dir]}/indexer.log"
 end
 
-set[:bootstrap][:chef][:server_path]      = "#{languages[:ruby][:gems_dir]}/gems/chef-server-#{bootstrap[:chef][:server_version]}"
 default[:bootstrap][:chef][:server_fqdn]  = "#{fqdn}"
 default[:bootstrap][:chef][:server_token] = validation_token

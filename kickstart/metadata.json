@@ -13,8 +13,8 @@
   },
   "version": "0.2.0",
   "recipes": {
-    "kickstart": "",
-    "kickstart::server": ""
+    "kickstart::server": "",
+    "kickstart": ""
   },
   "name": "kickstart",
   "conflicting": {

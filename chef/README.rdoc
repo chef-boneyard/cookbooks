@@ -4,7 +4,7 @@ Use this cookbook to configure a chef client or server. The primary purpose is t
 
 = REQUIREMENTS:
 
-The passenger stack requires Chef 0.5.7+.
+Chef v0.7.10, for attribute syntax.
 
 == Platform:
 
@@ -12,7 +12,7 @@ Best tested on Ubuntu 8.10, 9.04. See the Chef Wiki for up to date installation 
 
 == Cookbooks:
 
-Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
+Opscode cookbooks, http://github.com/opscode/cookbooks:
 
 * apache2
 * runit

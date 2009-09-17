@@ -19,6 +19,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+root_group = value_for_platform(
+  "openbsd" => { "default" => "wheel" },
+  "freebsd" => { "default" => "wheel" },
+  "default" => "root"
+)
+
 if node[:chef][:client_log] == "STDOUT"
   client_log = node[:chef][:client_log]
   show_time  = "false"
@@ -34,7 +40,7 @@ end
 template "/etc/chef/client.rb" do
   source "client.rb.erb"
   owner "root"
-  group "root"
+  group root_group
   mode "644"
   variables(
     :client_log => client_log,

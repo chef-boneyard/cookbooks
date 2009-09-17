@@ -18,9 +18,9 @@
   },
   "version": "0.8.0",
   "recipes": {
-    "hadoop": "",
     "hadoop::doc": "",
     "hadoop::pig": "",
+    "hadoop": "",
     "hadoop::hive": "",
     "hadoop::conf_pseudo": ""
   },

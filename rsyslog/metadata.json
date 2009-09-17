@@ -14,8 +14,8 @@
   "version": "0.7.0",
   "recipes": {
     "rsyslog::server": "Sets up an rsyslog server",
-    "rsyslog": "",
-    "rsyslog::client": "Sets up a client to log to a remote rsyslog server"
+    "rsyslog::client": "Sets up a client to log to a remote rsyslog server",
+    "rsyslog": ""
   },
   "name": "rsyslog",
   "conflicting": {

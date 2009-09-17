@@ -17,6 +17,12 @@
 # limitations under the License.
 #
 
+root_group = value_for_platform(
+  "openbsd" => { "default" => "wheel" },
+  "freebsd" => { "default" => "wheel" },
+  "default" => "root"
+)
+
 gem_package "chef" do
   version node[:bootstrap][:chef][:client_version]
 end
@@ -34,7 +40,7 @@ when "init"
   directory node[:bootstrap][:chef][:run_path] do
     action :create
     owner "root"
-    group "root"
+    group root_group
     mode "755"
   end
 
@@ -43,11 +49,15 @@ when "init"
   end
 
   Chef::Log.info("You specified service style 'init'.")
-  Chef::Log.info("'init' scripts available in #{languages[:ruby][:gems_dir]}/gems/chef-#{node[:bootstrap][:chef][:client_version]}/distro")
+  Chef::Log.info("'init' scripts available in #{node[:languages][:ruby][:gems_dir]}/gems/chef-#{node[:bootstrap][:chef][:client_version]}/distro")
 when "bsd"
+  client_log = node[:bootstrap][:chef][:client_log]
+  show_time  = "false"
   Chef::Log.info("You specified service style 'bsd'. You will need to set up your rc.local file.")
-  Chef::Log.info("Hint: chef-client -i #{bootstrap[:chef][:client_interval]} -s #{bootstrap[:chef][:client_splay]}")
+  Chef::Log.info("Hint: chef-client -i #{node[:bootstrap][:chef][:client_interval]} -s #{node[:bootstrap][:chef][:client_splay]}")
 else
+  client_log = node[:bootstrap][:chef][:client_log]
+  show_time  = "false"
   Chef::Log.info("Could not determine service init style, manual intervention required to start up the client service.")
 end
 
@@ -60,7 +70,7 @@ chef_dirs = [
 chef_dirs.each do |dir|
   directory dir do
     owner "root"
-    group "root"
+    group root_group
     mode "755"
   end
 end
@@ -68,7 +78,7 @@ end
 template "/etc/chef/client.rb" do
   source "client.rb.erb"
   owner "root"
-  group "root"
+  group root_group
   mode "644"
   variables(
     :client_log => client_log,

@@ -15,10 +15,10 @@
   "recipes": {
     "php::module_fpdf": "Install the php-fpdf package",
     "php::php5-cgi": "Install the php5-cgi package",
-    "php": "",
     "php::module_sqlite3": "Install the php5-sqlite3 package",
     "php::module_gd": "Install the php5-gd package",
     "php::module_ldap": "Install the php5-ldap package",
+    "php": "",
     "php::module_curl": "Install the php5-curl package",
     "php::module_mysql": "Install the php5-mysql package",
     "php::module_apc": "Install the php5-apc package",

@@ -12,17 +12,26 @@
     "rhel": [
 
     ],
+    "freebsd": [
+
+    ],
     "ubuntu": [
       ">= 8.10"
+    ],
+    "openbsd": [
+
     ],
     "fedora": [
 
     ],
     "centos": [
 
+    ],
+    "debian": [
+      ">= 5.0"
     ]
   },
-  "version": "0.7.0",
+  "version": "0.8.0",
   "recipes": {
     "couchdb": ""
   },
@@ -39,7 +48,7 @@
     ]
   },
   "license": "Apache 2.0",
-  "long_description": "Installs the CouchDB package if it is available from an package repository on\nthe node. If the package repository is not available, CouchDB needs to be \ninstalled via some other method, either a backported package, or compiled \ndirectly from source.\n",
+  "long_description": "Installs the CouchDB package if it is available from an package repository on\nthe node. If the package repository is not available, CouchDB needs to be \ninstalled via some other method, either a backported package, or compiled \ndirectly from source. CouchDB is available on Red Hat-based systems through\nthe EPEL Yum Repository.\n",
   "replacing": {
 
   },

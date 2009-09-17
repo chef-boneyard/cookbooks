@@ -27,8 +27,8 @@
   },
   "version": "0.1.0",
   "recipes": {
-    "imagemagick": "",
-    "imagemagick::rmagick": ""
+    "imagemagick::rmagick": "",
+    "imagemagick": ""
   },
   "name": "imagemagick",
   "conflicting": {

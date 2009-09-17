@@ -1,0 +1,57 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Configures RubyGems-installed Chef",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "suggestions": {
+
+  },
+  "platforms": {
+
+  },
+  "version": "0.1.0",
+  "recipes": {
+    "bootstrap::client": "",
+    "bootstrap": "",
+    "bootstrap::server": ""
+  },
+  "name": "bootstrap",
+  "conflicting": {
+
+  },
+  "attributes": {
+
+  },
+  "providing": {
+    "bootstrap": [
+
+    ],
+    "bootstrap::client": [
+
+    ],
+    "bootstrap::server": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "= DESCRIPTION:\n\nThis cookbook bootstraps a Chef client or server when Chef is installed via RubyGems. If installing Chef from OS distribution packages, please see the 'chef' cookbook. \n\n= REQUIREMENTS:\n\nThis cookbook requires Chef installed from RubyGems.\n\n== Platform:\n\nTested on Ubuntu 9.10, 9.04, 8.10 and 8.04, Debian 5.0.\n\n== Cookbooks:\n\nOpscode cookbooks, http:\/\/github.com\/opscode\/cookbooks\/tree\/master:\n\nBoth clients and servers:\n\n* runit\n\nServers only:\n\n* couchdb\n* stompserver\n\n= ATTRIBUTES:\n\nAttributes are under 'bootstrap[:chef]' - eg: 'bootstrap[:chef][:client_version]'. You may wish to change some of these locations to customize for your environment. For the bootstrap process this is done with a JSON data file passed to chef-solo.\n\n* init_style: specifies the init style used. Default 'runit'. Other possible values 'init', 'bsd'.\n* path: location where chef will store its associated data. Default '\/srv\/chef'.\n* run_path: location for pidfiles on systems using init scripts. Default '\/var\/run\/chef'.\n* server_version, client_version: set the version of the Gems to install. This can be used to upgrade Chef automatically[0]\n* client_interval: number of seconds to run chef-client periodically. Default '1800' (30 minutes).\n* client_splay: splay interval to randomly add to interval. Default '20'.\n* log_dir: directory where logs are stored. Default '\/var\/log\/chef'.\n* client_log: location of the client log. Default 'STDOUT' on systems with runit, '\/var\/log\/chef\/client.log' on other systems.\n* indexer_log: location of the indexer log. Default 'STDOUT' on systems with runit, '\/var\/log\/chef\/indexer.log' on other systems.\n* server_path: location where chef-server is installed, used for setting DocumentRoot in Apache configurations. Default is the gem install path as detected by Ohai.\n* server_log: location of the server (merb) log. Default '\/var\/log\/chef\/server.log'.\n* server_fqdn: fully qualified domain name of the server. Default is the current node's fqdn as detected by Ohai.\n* server_ssl_req: SSL certificate request string, used to generate a self-signed certificate. Default should be changed for your environment. Alternately generate or purchase your own certificate.\n* server_token: validation_token used to automatically authorize chef-clients. Default is a random string generated every time chef-solo runs.\n\n[0] http:\/\/blog.opscode.com\/2009\/08\/cool-chef-tricks-upgrade-chef-with-chef.html\n\n= USAGE:\n\n== Clients:\n\nThis cookbook will set up a client with sane default paths created based on common practices and FHS guidelines. Paths are tunable with attributes as listed above.\n\n== Servers:\n\nThis cookbook can set up a Chef Server with two different front-end \"stacks\" using Apache.\n\n* Proxy (mod_proxy)\n* Passenger (mod_rails)\n\nTo use a different web server or stack, you will need to either customize these recipes or write your own.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman <joshua@opscode.com>\nAuthor:: Joshua Sierles <joshua@37signals.com>\n\nCopyright 2008-2009, Opscode, Inc\nCopyright 2009, 37signals\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http:\/\/www.apache.org\/licenses\/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\n",
+  "replacing": {
+
+  },
+  "dependencies": {
+    "stompserver": [
+
+    ],
+    "runit": [
+
+    ],
+    "couchdb": [
+
+    ],
+    "apache2": [
+
+    ]
+  }
+}

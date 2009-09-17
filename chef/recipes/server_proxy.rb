@@ -17,6 +17,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+root_group = value_for_platform(
+  "openbsd" => { "default" => "wheel" },
+  "freebsd" => { "default" => "wheel" },
+  "default" => "root"
+)
+
 node[:apache][:listen_ports] << "444" unless node[:apache][:listen_ports].include?("444")
 
 include_recipe "chef::server"
@@ -30,7 +36,7 @@ include_recipe "apache2::mod_headers"
 
 directory "/etc/chef/certificates" do
   owner "root"
-  group "root"
+  group root_group
   mode "700"
 end
 

@@ -15,9 +15,9 @@ role_url           "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
 
 validation_token   "<%= @node[:bootstrap][:chef][:server_token] %>"
 
-cookbook_path      [ "<%= @node[:bootstrap][:chef][:path] %>/site-cookbooks", "<%= @node[:bootstrap][:chef][:path] %>/cookbooks" ]
+cookbook_path      [ "<%= @node[:bootstrap][:chef][:serve_path] %>/site-cookbooks", "<%= @node[:bootstrap][:chef][:serve_path] %>/cookbooks" ]
 
-file_cache_path    "<%= @node[:bootstrap][:chef][:cache_path] %>/cache"
+file_cache_path    "<%= @node[:bootstrap][:chef][:cache_path] %>"
 node_path          "<%= @node[:bootstrap][:chef][:serve_path] %>/nodes"
 openid_store_path  "<%= @node[:bootstrap][:chef][:path] %>/openid/store"
 openid_cstore_path "<%= @node[:bootstrap][:chef][:path] %>/openid/cstore"
