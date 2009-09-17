@@ -17,6 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include_recipe "apache2::mod_dav_svn"
+include_recipe "subversion::client"
 
 directory node[:subversion][:repo_dir] do
   recursive true
