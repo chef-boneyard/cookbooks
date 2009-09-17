@@ -40,6 +40,6 @@ execute "svnadmin create repo" do
 end
 
 execute "create htpasswd file" do
-  command "htpasswd -scb #{node[:subversion][:repo_name]}/htpasswd subversion subversion"
+  command "htpasswd -scb #{node[:subversion][:repo_name]}/htpasswd #{node[:subversion][:user]} #{node[:subversion][:password]}"
   creates "#{node[:subversion][:repo_name]}/htpasswd"
 end

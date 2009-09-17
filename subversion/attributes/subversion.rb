@@ -18,6 +18,8 @@
 #
 
 subversion Mash.new unless attribute?("subversion")
-default.subversion.repo_dir "/srv/svn"
-default.subversion.repo_name "repo"
-default.subversion.server_name "svn"    # hostname of apache virtual host
+default.subversion.repo_dir     "/srv/svn"
+default.subversion.repo_name    "repo"
+default.subversion.server_name  "svn"         # hostname of apache virtual host
+default.subversion.user         "subversion"
+default.subversion.password     "subversion"  # please override this :)
