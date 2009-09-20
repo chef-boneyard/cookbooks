@@ -54,7 +54,7 @@ else
   default[:chef][:server_log]  = "#{chef[:log_dir]}/server.log"
 end
 
-default[:chef][:server_fqdn]     = "#{fqdn}"
+default[:chef][:server_fqdn]     = domain ? "chef.#{domain}" : "chef"
 default[:chef][:server_token]    = validation_token
 default[:chef][:server_ssl_req]  = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/" +
   "CN=#{chef[:server_fqdn]}/emailAddress=ops@#{domain}"

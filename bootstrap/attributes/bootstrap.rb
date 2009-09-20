@@ -45,5 +45,5 @@ else
   default[:bootstrap][:chef][:indexer_log] = "#{bootstrap[:chef][:log_dir]}/indexer.log"
 end
 
-default[:bootstrap][:chef][:server_fqdn]  = "#{fqdn}"
+default[:bootstrap][:chef][:server_fqdn]  = domain ? "chef.#{domain}" : "chef"
 default[:bootstrap][:chef][:server_token] = validation_token
