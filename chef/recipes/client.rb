@@ -33,7 +33,10 @@ else
   show_time  = "true"
 end
 
-service "chef-client" do
+ruby_block "reload_client_config" do
+  block do
+    Chef::Config.from_file("/etc/chef/client.rb")
+  end
   action :nothing
 end
 
@@ -46,7 +49,7 @@ template "/etc/chef/client.rb" do
     :client_log => client_log,
     :show_time  => show_time
   )
-  notifies :restart, resources(:service => "chef-client"), :delayed
+  notifies :create, resources(:ruby_block => "reload_client_config")
 end
 
 execute "Register client node with Chef Server" do
