@@ -4,7 +4,7 @@ The attributes have been consolidated into one file, chef.rb, rather than split 
 
 == Client:
 
-This cookbook no longer manages the chef package version, it manages /etc/chef/client.rb, restarts the service if the template changes, and can auto-validate a client if /etc/chef/validation_token exists.
+This cookbook no longer manages the chef package version, it manages /etc/chef/client.rb, reloads the configuration if the template changes, and can auto-validate a client if /etc/chef/validation_token exists.
 
 == Server:
 
@@ -122,15 +122,21 @@ Used by the server_proxy recipe, this attribute can be used to set up a self-sig
 
 = USAGE:
 
-This cookbook is primarily designed to configure a Chef client or server with the /etc/chef/ configuration files. The services should be restarted when the config file changes.
+This cookbook is primarily designed to configure a Chef client or server with the /etc/chef/ configuration files. Server services should be restarted when the config file changes. The running client configuration will get reloaded from the template if it changes.
 
-== Passenger Not Used:
+=== Passenger Not Used:
 
 As mentioned above, Passenger is no longer used as the default.
 
+== Server Notes
+
+By default, the server is setup to run as a standard Merb application with the Mongrel adapter, using the package installation or the bootstrap cookbook. The chef::server recipe can be used to maintain the configuration.
+
+Optionally, the chef::server_proxy recipe can be added to provide SSL encryption. If you use this, clients should have "url_type" set to "https" so the right URLs are used in the configuration.
+
 == SSL Certificates: 
 
-The default configuration sets up the server to use HTTPS. The server recipe will generate a self-signed PEM certificate on the first run. If you use opscode's chef-repo, you can use rake to generate your own site-specific certificate instead. You can also use a purchased certificate to replace the one generated through this cookbook, but it must be named by the fully qualified domain name unless the recipe is modified.
+The server_proxy recipe will generate a self-signed PEM certificate on the first run. If you use opscode's chef-repo, you can use rake to generate your own site-specific certificate instead. You can also use a purchased certificate to replace the one generated through this cookbook, but it must be named by the fully qualified domain name unless the recipe is modified.
 
 = LICENSE and AUTHOR:
 
