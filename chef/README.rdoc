@@ -1,16 +1,26 @@
 = IMPORTANT CHANGES:
 
+First be aware of important changes in this version from previous versions.
+
+== General:
+
 The attributes have been consolidated into one file, chef.rb, rather than split amongst chef.rb, client.rb, indexer.rb and server.rb.
 
 == Client:
 
-This cookbook no longer manages the chef package version, it manages /etc/chef/client.rb, reloads the configuration if the template changes, and can auto-validate a client if /etc/chef/validation_token exists.
+This cookbook no longer manages the chef package version, it manages /etc/chef/client.rb, reloads the configuration using the new ruby_block resource if the template changes.
+
+The client service is not managed at all. It is assumed to be set up via init script or runit from package installation or bootstrap.
 
 == Server:
 
-This cookbook no longer configures a Chef Server under Passenger. 
+*This cookbook no longer configures a Chef Server under Passenger by default.* 
 
-The default server recipe (chef::server) sets up the client (chef::client), manages the chef-indexer and chef-server services, and configures both from /etc/chef/server.rb. It also compacts the Chef database in CouchDB if it is over 100Mb.
+The stompserver and couchdb cookbooks are not included by default. See below under Cookbooks requirements.
+
+The default server recipe (chef::server) sets up two Merb Mongrel workers for the webui/api (port 4000) and openid (port 4001).
+
+The default server recipe (chef::server), creates but does not manage the chef-indexer and chef-server services, and configures both from /etc/chef/server.rb. Some package installation methods (e.g., Debian) have a separate config file for chef-indexer.
 
 The chef::server_proxy recipe sets up an Apache proxy vhost to provide SSL in front of the chef-server running as a Merb application.
 
@@ -20,7 +30,7 @@ Use this cookbook to configure a chef client to connect to your preferred chef-s
 
 = REQUIREMENTS:
 
-Chef v0.7.10, for attribute syntax.
+Chef v0.7.10, for attribute 'default' syntax.
 
 == Platform:
 
@@ -32,29 +42,31 @@ Client is tested on the above, plus CentOS 5.3, Fedora 10, OpenBSD 4.6, FreeBSD 
 
 Client: 
 
-runit is suggested for RubyGem installations. No other cookbooks required for clients.
+runit is suggested for RubyGem installations. Clients do not require any other cookbooks.
 
 Server:
 
 couchdb and stompserver are suggested for RubyGem installations. On systems where Chef and dependencies were installed from platform packages, CouchDB and Stompserver should be installed and configured sufficiently. Localised configuration requires additional changes to the server recipe and may require changes when using the Opscode recipes.
 
-Server w/ Proxy:
+Server using server_proxy:
 
 * apache2 (opscode/cookbooks)
 
-= ATTRIBUTES: 
+= ATTRIBUTES:
 
-== url_type
+*A note about paths:* We try to stick with generally accepted FHS guidelines for path locations, but you might need to adjust these for your platform. See the filesystem hierarchy documentation for your operating system if you're not sure.
 
-Set up the URLs the client should connect to with this. Default is 'http', which tells the client to connect to 'http://server:4000'. If you set up your chef-server to use an SSL front-end, set this to 'https' and the URLs will be 'https://server/'. 
+=== url_type
 
-== init_style
+Set up the URLs the client should connect to with this. Default is 'http', which tells the client to connect to 'http://server:4000'. If you set up your chef-server to use an SSL front-end for example with chef::server_proxy, set this to 'https' and the URLs will be 'https://server/'. 
+
+=== init_style
 
 Specifies the init style to use. Default 'runit'. Other possible values 'init', 'bsd', any other string will be treated as unknown.
 
 If your platform doesn't have a 'runit' package or if the cookbook doesn't detect it, but you stil want to use runit, set init_style to 'none' and install runit separately.
 
-== path
+=== path
 
 This is the base location where chef will store its associated data. Default '/srv/chef' for RubyGems installed systems. The location preference varies by platform. The default is a filesystem hiearchy standard suggestion[1]. Some other locations you may consider, by platform:
 
@@ -66,49 +78,53 @@ Any BSD and Gentoo:
 
 * /var/chef
 
-== run_path
+=== run_path
 
 Location for pidfiles on systems using init scripts. Default '/var/run/chef'.
 
 If init_style is 'init', this is used, and should match what the init script itself uses for the PID files.
 
-== cache_path
+=== cache_path
 
-Location where the client will cache cookbooks and other data. Default is 'cache' underneath the bootstrap[:chef][:path] location. Some Linux distributions might prefer /var/cache/chef instead.
+Location where the client will cache cookbooks and other data. Default is 'cache' underneath the bootstrap[:chef][:path] location. Linux distributions might prefer /var/cache/chef instead.
 
-== serve_path
+=== serve_path
 
 Used by the Chef server as the base location to "serve" cookbooks, roles and other assets. Default is /srv/chef.
 
-== server_version, client_version
+=== server_version, client_version
 
-Set the version Chef. This is now unused in the chef cookbook but optionally override the opscode recipe with one that manages the specific version of Chef installed. Default is the latest Chef release.
+Set the version Chef. This is now unused in the chef cookbook for any specific configuration but you can optionally override the opscode recipe with one that manages the specific version of Chef installed. Default is the latest Chef release. Informational messages may be printed using the veresion, though.
 
-== client_interval
+=== client_interval
 
 Number of seconds to run chef-client periodically. Default '1800' (30 minutes).
 
-== client_splay
+=== client_splay
 
 Splay interval to randomly add to interval. Default '20'.
 
-== log_dir
+=== log_dir
 
-Directory where logs are stored if logs are not sent to STDOUT. Systems using runit should send logs to STDOUT as runit manages log output. Default '/var/log/chef'.
+Directory where logs are stored if logs are not sent to STDOUT. Systems using runit should send logs to STDOUT as runit manages log output. Default STDOUT when init_style is 'runit', otherwise the default is '/var/log/chef'.
 
-== client_log, indexer_log, server_log
+=== client_log, indexer_log, server_log
 
 Location of the client, indexer and server logs, respectively. Default 'STDOUT' on systems with runit, '/var/log/chef/{client,indexer,server}.log' on other systems.
 
-== server_fqdn
+=== server_fqdn
 
-Fully qualified domain name of the server. Default is the current node's fqdn as detected by Ohai. For clients, set this to the hostname of your environment's Chef Server.
+Fully qualified domain name of the server. Default is 'chef.domain' where domain is detected by Ohai. You should configure a DNS entry for your Chef Server.
 
-== server_token
+On servers, this specifies the URLs the server expects, plus it is used in the server_ssl_req as the canonical name (CN) and in server_proxy for the vhost name.
 
-The validation_token used to automatically authorize chef-clients. Default is a random string generated every time chef-solo runs. Use chef-client -t 'validation_token' to automatically validate the client.
+On clients, this specifies the URLs the client uses to connect to the server.
 
-== server_ssl_req
+=== server_token
+
+The validation_token used to automatically authorize chef-clients. Default is a random string generated every time chef-solo runs, and can be stored as a node attribute on the server. Use chef-client -t 'validation_token' to automatically validate the client.
+
+=== server_ssl_req
 
 Used by the server_proxy recipe, this attribute can be used to set up a self-signed SSL certificate automatically using openssl. Fields:
 
@@ -124,19 +140,65 @@ Used by the server_proxy recipe, this attribute can be used to set up a self-sig
 
 This cookbook is primarily designed to configure a Chef client or server with the /etc/chef/ configuration files. Server services should be restarted when the config file changes. The running client configuration will get reloaded from the template if it changes.
 
+The primary usage would be to set up a JSON file used with chef-client -j to set the run_list and attributes. The settings could alternately be put in a role, as well. When the JSON is used, node will have the run_list and attributes saved in the Chef Server it connected to.
+
+Example JSON to set up a client:
+
+    {
+      "chef": {
+        "url_type": "https",
+        "init_style": "init",
+        "server_fqdn": "chef.example.com"
+      },
+      "recipes": "chef::client"
+    }
+
+This will tell the client to use the https style URLs (see chef::client below), that we'll have init scripts set up, and to connect to the server "chef.example.com"
+
 === Passenger Not Used:
 
-As mentioned above, Passenger is no longer used as the default.
+As mentioned above, Passenger is no longer used as the default. Use the server_proxy recipe to create an SSL front-end.
 
-== Server Notes
+== Server Default (chef::server)
 
-By default, the server is setup to run as a standard Merb application with the Mongrel adapter, using the package installation or the bootstrap cookbook. The chef::server recipe can be used to maintain the configuration.
+By default, the server is setup to run as a standard Merb application with the Mongrel adapter, using the package installation or the bootstrap cookbook. The chef::server recipe is used to maintain the configuration.
 
-Optionally, the chef::server_proxy recipe can be added to provide SSL encryption. If you use this, clients should have "url_type" set to "https" so the right URLs are used in the configuration.
+When using chef::server only, clients can use the default value for url_type (http).
 
-== SSL Certificates: 
+== Server Proxy (chef::server_proxy)
 
-The server_proxy recipe will generate a self-signed PEM certificate on the first run. If you use opscode's chef-repo, you can use rake to generate your own site-specific certificate instead. You can also use a purchased certificate to replace the one generated through this cookbook, but it must be named by the fully qualified domain name unless the recipe is modified.
+If you would like to set up an SSL front end for your server, use the chef::server_proxy recipe.
+
+When using this recipe, clients should have the url_type attribute set to "https".
+
+You will need to edit the server_ssl_request attribute so the certificate is generated correctly.
+
+The recipe itself will set up the Apache proxy:
+
+* Add port 444 to the listen_ports (Apache's ports.conf), required for OpenID.
+* Enable Apache modules proxy proxy_http proxy_balancer ssl rewrite headers
+* Create the SSL certificate based on the server_ssl_req attribute.
+* Set up and enable virtual hosts on ports 443 and 444 in the site config "chef_server.conf".
+
+The proxy will send requests from port 443 to the Mongrel running on port 4000 (webui/api) and requests on port 444 to the Mongrel on port 4001 (openid). Be sure to adjust any firewall rules or security group settings appropriately for these ports (4000, 4001, 443, 444).
+
+=== SSL Certificates
+
+The server_proxy recipe will generate a self-signed PEM certificate on the first run. If you use opscode's chef-repo, use rake to generate your own site-specific certificate if you wish. You can also use a purchased certificate to replace the one generated through this cookbook, but it must be named by the fully qualified domain name as used in the server_fqdn attribute.
+
+== Client Default (chef::client)
+
+If your Chef Server's fully qualified domain name is not "chef.domain" where domain is the node attribute detected by ohai, then you'll need to specify the server_fqdn attribute for your clients. 
+
+You may want to adjust the path attributes as described above.
+
+Make sure you specify the correct url_type for your Chef Server. This will create the URLs in the client config file as so:
+
+http:: http://chef.domain:4000/
+
+https:: https://chef.domain/
+
+(the openid_url will be :4001 and :444 respectively.)
 
 = LICENSE and AUTHOR:
 
