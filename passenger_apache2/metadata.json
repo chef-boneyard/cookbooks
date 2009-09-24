@@ -22,7 +22,7 @@
 
     ]
   },
-  "version": "0.12.0",
+  "version": "0.14.0",
   "recipes": {
     "passenger_apache2": "",
     "passenger_apache2::mod_rails": ""
@@ -44,7 +44,7 @@
       "required": false
     },
     "passenger\/version": {
-      "default": "2.2.4",
+      "default": "2.2.5",
       "type": "string",
       "multiple_values": false,
       "description": "Version of Passenger to install",
