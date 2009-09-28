@@ -17,15 +17,13 @@
 # limitations under the License.
 #
 
-jira Mash.new unless attribute?("jira")
-
-jira[:virtual_host_name] = "jira.#{domain}" unless jira.has_key?(:virtual_host_name)
-jira[:virtual_host_alias] = "jira.#{domain}" unless jira.has_key?(:virtual_host_alias)
+default[:jira][:virtual_host_name]  = "jira.#{domain}"
+default[:jira][:virtual_host_alias] = "jira.#{domain}"
 # type-version-standalone
-jira[:version] = "enterprise-3.13.1"   unless jira.has_key?(:version)
-jira[:install_path] = "/srv/jira"      unless jira.has_key?(:install_path)
-jira[:run_user] = "www-data"           unless jira.has_key?(:run_user)
-jira[:database] = "mysql"              unless jira.has_key?(:database)
-jira[:database_host] = "localhost"     unless jira.has_key?(:database_host)
-jira[:database_user] = "jira"          unless jira.has_key?(:database_user)
-jira[:database_password] = "change_me" unless jira.has_key?(:database_password)
+default[:jira][:version]           = "enterprise-3.13.1"
+default[:jira][:install_path]      = "/srv/jira"
+default[:jira][:run_user]          = "www-data"
+default[:jira][:database]          = "mysql"
+default[:jira][:database_host]     = "localhost"
+default[:jira][:database_user]     = "jira"
+default[:jira][:database_password] = "change_me"

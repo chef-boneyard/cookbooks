@@ -20,19 +20,17 @@ db_password = ""
 chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 20.times { |i| db_password << chars[rand(chars.size-1)] }
 
-mysql Mash.new unless attribute?("mysql")
-mysql[:server_root_password] = db_password unless mysql.has_key?(:server_root_password)
-mysql[:bind_address]         = ipaddress unless mysql.has_key?(:bind_address)
-mysql[:datadir]              = "/var/lib/mysql" unless mysql.has_key?(:datadir)
-mysql[:ec2_path] = "/mnt/mysql" unless mysql.has_key?(:ec2_path)
+default[:mysql][:server_root_password] = db_password
+default[:mysql][:bind_address]         = ipaddress
+default[:mysql][:datadir]              = "/var/lib/mysql"
+default[:mysql][:ec2_path]             = "/mnt/mysql"
 
 # Tunables
-mysql[:tunable] = Mash.new unless mysql.has_key?(:tunable)
-mysql[:tunable][:key_buffer]          = "250M" unless mysql[:tunable].has_key?(:key_buffer)
-mysql[:tunable][:max_connections]     = "800" unless mysql[:tunable].has_key?(:max_connections)
-mysql[:tunable][:wait_timeout]        = "180" unless mysql[:tunable].has_key?(:wait_timeout)
-mysql[:tunable][:net_read_timeout]    = "30" unless mysql[:tunable].has_key?(:net_read_timeout)
-mysql[:tunable][:net_write_timeout]   = "30" unless mysql[:tunable].has_key?(:net_write_timeout)
-mysql[:tunable][:back_log]            = "128" unless mysql[:tunable].has_key?(:back_log)
-mysql[:tunable][:table_cache]         = "128" unless mysql[:tunable].has_key?(:table_cache)
-mysql[:tunable][:max_heap_table_size] = "32M" unless mysql[:tunable].has_key?(:max_heap_table_size)
+default[:mysql][:tunable][:key_buffer]          = "250M"
+default[:mysql][:tunable][:max_connections]     = "800"
+default[:mysql][:tunable][:wait_timeout]        = "180"
+default[:mysql][:tunable][:net_read_timeout]    = "30"
+default[:mysql][:tunable][:net_write_timeout]   = "30"
+default[:mysql][:tunable][:back_log]            = "128"
+default[:mysql][:tunable][:table_cache]         = "128"
+default[:mysql][:tunable][:max_heap_table_size] = "32M"

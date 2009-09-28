@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-rsyslog Mash.new unless attribute?("rsyslog")
-
-rsyslog[:log_dir] = "/srv/rsyslog" unless rsyslog.has_key?(:log_dir)
-rsyslog[:server] = false           unless rsyslog.has_key?(:server)
-rsyslog[:protocol] = "tcp"         unless rsyslog.has_key?(:protocol)
+default[:rsyslog][:log_dir] = "/srv/rsyslog"
+default[:rsyslog][:server] = false
+default[:rsyslog][:protocol] = "tcp"

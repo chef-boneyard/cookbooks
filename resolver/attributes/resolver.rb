@@ -1,4 +1,2 @@
-resolver Mash.new unless attribute?("resolver")
-
-resolver[:search] = domain      unless resolver.has_key?(:search)
-resolver[:nameservers] = [ "" ] unless resolver.has_key?(:nameservers)
+default[:resolver][:search] = domain
+default[:resolver][:nameservers] = [ "" ]

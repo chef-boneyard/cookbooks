@@ -17,11 +17,9 @@
 # limitations under the License.
 #
 
-
-radiant Mash.new unless attribute?("radiant")
-radiant[:branch] = "HEAD" unless radiant.has_key?(:branch)
-radiant[:migrate] = false unless radiant.has_key?(:migrate)
-radiant[:migrate_command] = "rake db:migrate" unless radiant.has_key?(:migrate)
-radiant[:environment] = "production" unless radiant.has_key?(:environment)
-radiant[:revision] = "HEAD" unless radiant.has_key?(:revision)
-radiant[:action] = "nothing" unless radiant.has_key?(:action)
+default[:radiant][:branch]          = "HEAD"
+default[:radiant][:migrate]         = false
+default[:radiant][:migrate_command] = "rake db:migrate"
+default[:radiant][:environment]     = "production"
+default[:radiant][:revision]        = "HEAD"
+default[:radiant][:action]          = "nothing"

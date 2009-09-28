@@ -17,10 +17,8 @@
 # limitations under the License.
 #
 
-openvpn Mash.new unless attribute?("openvpn")
-
-openvpn[:local] = ipaddress unless openvpn.has_key?(:local)
-openvpn[:proto] = "udp" unless openvpn.has_key?(:proto)
-openvpn[:type] = "server" unless openvpn.has_key?(:type)
-openvpn[:subnet] = "10.8.0.0" unless openvpn.has_key?(:subnet)
-openvpn[:netmask] = "255.255.0.0" unless openvpn.has_key?(:netmask)
+default[:openvpn][:local]   = ipaddress
+default[:openvpn][:proto]   = "udp"
+default[:openvpn][:type]    = "server"
+default[:openvpn][:subnet]  = "10.8.0.0"
+default[:openvpn][:netmask] = "255.255.0.0"

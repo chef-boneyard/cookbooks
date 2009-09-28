@@ -1,27 +1,33 @@
-nginx Mash.new unless attribute?("nginx")
-
 case platform
 when "debian","ubuntu"
-  nginx[:dir]     = "/etc/nginx"
-  nginx[:log_dir] = "/var/log/nginx"
-  nginx[:user]    = "www-data"
-  nginx[:binary]  = "/usr/sbin/nginx"
+  set[:nginx][:dir]     = "/etc/nginx"
+  set[:nginx][:log_dir] = "/var/log/nginx"
+  set[:nginx][:user]    = "www-data"
+  set[:nginx][:binary]  = "/usr/sbin/nginx"
 else   
-  nginx[:dir]     = "/etc/nginx"
-  nginx[:log_dir] = "/var/log/nginx"
-  nginx[:user]    = "www-data"
-  nginx[:binary]  = "/usr/sbin/nginx"
+  set[:nginx][:dir]     = "/etc/nginx"
+  set[:nginx][:log_dir] = "/var/log/nginx"
+  set[:nginx][:user]    = "www-data"
+  set[:nginx][:binary]  = "/usr/sbin/nginx"
 end
 
-nginx[:gzip] = "on"               unless attribute?("nginx_gzip")
-nginx[:gzip_http_version] = "1.0" unless attribute?("nginx_gzip_http_version")
-nginx[:gzip_comp_level] = "2"     unless attribute?("nginx_gzip_comp_level")
-nginx[:gzip_proxied] = "any"      unless attribute?("nginx_gzip_proxied")
-nginx[:gzip_types] = [ "text/plain", "text/html", "text/css", "application/x-javascript", "text/xml", "application/xml", "application/xml+rss", "text/javascript" ] unless attribute?("nginx_gzip_types")
+default[:nginx][:gzip] = "on"
+default[:nginx][:gzip_http_version] = "1.0"
+default[:nginx][:gzip_comp_level] = "2"
+default[:nginx][:gzip_proxied] = "any"
+default[:nginx][:gzip_types] = [
+  "text/plain",
+  "text/html",
+  "text/css",
+  "application/x-javascript",
+  "text/xml",
+  "application/xml",
+  "application/xml+rss",
+  "text/javascript"
+]
 
-nginx[:keepalive] = "on"       unless attribute?("nginx_keepalive")
-nginx[:keepalive_timeout] = 65 unless attribute?("nginx_keepalive_timeout")
-
-nginx[:worker_processes] = 1               unless attribute?("nginx_worker_processes")
-nginx[:worker_connections] = 1024          unless attribute?("nginx_worker_connections")
-nginx[:server_names_hash_bucket_size] = 64 unless attribute?("nginx_server_names_hash_bucket_size")
+default[:nginx][:keepalive]          = "on"
+default[:nginx][:keepalive_timeout]  = 65
+default[:nginx][:worker_processes]   = 1
+default[:nginx][:worker_connections] = 1024
+default[:nginx][:server_names_hash_bucket_size] = 64
