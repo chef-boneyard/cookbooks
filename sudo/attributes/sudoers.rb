@@ -17,5 +17,5 @@
 # limitations under the License.
 #
 
-default[:authorization][:sudo][:groups] = Array.new 
-default[:authorization][:sudo][:users] = Array.new
+set_unless[:authorization][:sudo][:groups] = Array.new 
+set_unless[:authorization][:sudo][:users] = Array.new

@@ -45,30 +45,30 @@ end
 ###
 
 # General settings
-default[:apache][:listen_ports] = [ "80","443" ]
-default[:apache][:contact] = "ops@example.com"
-default[:apache][:timeout] = 300
-default[:apache][:keepalive] = "On"
-default[:apache][:keepaliverequests] = 100
-default[:apache][:keepalivetimeout] = 5
+set_unless[:apache][:listen_ports] = [ "80","443" ]
+set_unless[:apache][:contact] = "ops@example.com"
+set_unless[:apache][:timeout] = 300
+set_unless[:apache][:keepalive] = "On"
+set_unless[:apache][:keepaliverequests] = 100
+set_unless[:apache][:keepalivetimeout] = 5
 
 # Security
-default[:apache][:servertokens] = "Prod"
-default[:apache][:serversignature] = "On"
-default[:apache][:traceenable] = "On"
+set_unless[:apache][:servertokens] = "Prod"
+set_unless[:apache][:serversignature] = "On"
+set_unless[:apache][:traceenable] = "On"
 
 # Prefork Attributes
-default[:apache][:prefork][:startservers] = 16
-default[:apache][:prefork][:minspareservers] = 16
-default[:apache][:prefork][:maxspareservers] = 32
-default[:apache][:prefork][:serverlimit] = 400
-default[:apache][:prefork][:maxclients] = 400
-default[:apache][:prefork][:maxrequestsperchild] = 10000
+set_unless[:apache][:prefork][:startservers] = 16
+set_unless[:apache][:prefork][:minspareservers] = 16
+set_unless[:apache][:prefork][:maxspareservers] = 32
+set_unless[:apache][:prefork][:serverlimit] = 400
+set_unless[:apache][:prefork][:maxclients] = 400
+set_unless[:apache][:prefork][:maxrequestsperchild] = 10000
 
 # Worker Attributes
-default[:apache][:worker][:startservers] = 4
-default[:apache][:worker][:maxclients] = 1024
-default[:apache][:worker][:minsparethreads] = 64
-default[:apache][:worker][:maxsparethreads] = 192
-default[:apache][:worker][:threadsperchild] = 64
-default[:apache][:worker][:maxrequestsperchild] = 0
+set_unless[:apache][:worker][:startservers] = 4
+set_unless[:apache][:worker][:maxclients] = 1024
+set_unless[:apache][:worker][:minsparethreads] = 64
+set_unless[:apache][:worker][:maxsparethreads] = 192
+set_unless[:apache][:worker][:threadsperchild] = 64
+set_unless[:apache][:worker][:maxrequestsperchild] = 0
