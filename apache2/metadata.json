@@ -1,28 +1,8 @@
 {
-  "maintainer": "Opscode, Inc.",
   "description": "Installs and configures all aspects of apache2 using Debian style symlinks with helper definitions",
-  "recommendations": {
+  "replacing": {
 
   },
-  "maintainer_email": "cookbooks@opscode.com",
-  "suggestions": {
-
-  },
-  "platforms": {
-    "ubuntu": [
-
-    ],
-    "centos": [
-
-    ],
-    "debian": [
-
-    ],
-    "redhat": [
-
-    ]
-  },
-  "version": "0.9.1",
   "recipes": {
     "apache2::mod_python": "Apache module 'python'",
     "apache2::mod_authn_file": "Apache module 'authn_file'",
@@ -33,6 +13,7 @@
     "apache2::mod_dav": "Apache module 'dav'",
     "apache2::mod_auth_basic": "Apache module 'auth_basic'",
     "apache2::mod_setenvif": "Apache module 'setenvif' with config file",
+    "apache2": "",
     "apache2::mod_authz_user": "Apache module 'authz_user'",
     "apache2::mod_deflate": "Apache module 'deflate' with config file",
     "apache2::mod_dav_svn": "Apache module 'dav_svn'",
@@ -59,13 +40,29 @@
     "apache2::mod_expires": "Apache module 'expires'",
     "apache2::mod_proxy_http": "Apache module 'proxy_http'",
     "apache2::mod_mime": "Apache module 'mime' with config file",
-    "apache2::mod_proxy_ajp": "Apache module 'proxy_ajp'",
-    "apache2": ""
+    "apache2::mod_proxy_ajp": "Apache module 'proxy_ajp'"
   },
-  "name": "apache2",
-  "conflicting": {
+  "platforms": {
+    "ubuntu": [
+
+    ],
+    "centos": [
+
+    ],
+    "debian": [
+
+    ],
+    "redhat": [
+
+    ]
+  },
+  "maintainer": "Opscode, Inc.",
+  "version": "0.9.1",
+  "recommendations": {
 
   },
+  "name": "apache2",
+  "maintainer_email": "cookbooks@opscode.com",
   "attributes": {
     "apache\/traceenable": {
       "default": "On",
@@ -73,10 +70,10 @@
       "multiple_values": false,
       "description": "Determine behavior of TRACE requests",
       "display_name": "Apache Trace Enable",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/timeout": {
       "default": "300",
@@ -84,10 +81,10 @@
       "multiple_values": false,
       "description": "Connection timeout value",
       "display_name": "Apache Timeout",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/icondir": {
       "default": "\/usr\/share\/apache2\/icons",
@@ -95,10 +92,10 @@
       "multiple_values": false,
       "description": "Directory location for icons",
       "display_name": "Apache Icondir",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/user": {
       "default": "www-data",
@@ -106,10 +103,10 @@
       "multiple_values": false,
       "description": "User Apache runs as",
       "display_name": "Apache User",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/worker\/threadsperchild": {
       "default": "64",
@@ -117,10 +114,10 @@
       "multiple_values": false,
       "description": "Constant number of worker threads in each server process",
       "display_name": "Apache Worker MPM ThreadsPerChild",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/worker\/maxclients": {
       "default": "1024",
@@ -128,20 +125,20 @@
       "multiple_values": false,
       "description": "Maximum number of simultaneous connections",
       "display_name": "Apache Worker MPM MaxClients",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/worker": {
       "type": "hash",
       "multiple_values": false,
       "description": "Hash of Apache prefork tuning attributes.",
       "display_name": "Apache Worker",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/contact": {
       "default": "ops@example.com",
@@ -149,10 +146,10 @@
       "multiple_values": false,
       "description": "Email address of webmaster",
       "display_name": "Apache Contact",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/prefork\/startservers": {
       "default": "16",
@@ -160,10 +157,10 @@
       "multiple_values": false,
       "description": "Number of MPM servers to start",
       "display_name": "Apache Prefork MPM StartServers",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/prefork\/minspareservers": {
       "default": "16",
@@ -171,10 +168,10 @@
       "multiple_values": false,
       "description": "Minimum number of spare server processes",
       "display_name": "Apache Prefork MPM MinSpareServers",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/keepalivetimeout": {
       "default": "5",
@@ -182,10 +179,10 @@
       "multiple_values": false,
       "description": "Time to wait for requests on persistent connection",
       "display_name": "Apache Keepalive Timeout",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/keepaliverequests": {
       "default": "100",
@@ -193,10 +190,10 @@
       "multiple_values": false,
       "description": "Number of requests allowed on a persistent connection",
       "display_name": "Apache Keepalive Requests",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/worker\/maxrequestsperchild": {
       "default": "0",
@@ -204,10 +201,10 @@
       "multiple_values": false,
       "description": "Maximum number of request a child process will handle",
       "display_name": "Apache Worker MPM MaxRequestsPerChild",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/listen_ports": {
       "default": [
@@ -218,10 +215,10 @@
       "multiple_values": false,
       "description": "Ports that Apache should listen on",
       "display_name": "Apache Listen Ports",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/dir": {
       "default": "\/etc\/apache2",
@@ -229,10 +226,10 @@
       "multiple_values": false,
       "description": "Location for Apache configuration",
       "display_name": "Apache Directory",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/worker\/maxsparethreads": {
       "default": "192",
@@ -240,10 +237,10 @@
       "multiple_values": false,
       "description": "Maximum number of spare worker threads",
       "display_name": "Apache Worker MPM MaxSpareThreads",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/prefork\/maxrequestsperchild": {
       "default": "10000",
@@ -251,10 +248,10 @@
       "multiple_values": false,
       "description": "Maximum number of request a child process will handle",
       "display_name": "Apache Prefork MPM MaxRequestsPerChild",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/prefork\/serverlimit": {
       "default": "400",
@@ -262,10 +259,10 @@
       "multiple_values": false,
       "description": "Upper limit on configurable server processes",
       "display_name": "Apache Prefork MPM ServerLimit",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/binary": {
       "default": "\/usr\/sbin\/apache2",
@@ -273,10 +270,10 @@
       "multiple_values": false,
       "description": "Apache server daemon program",
       "display_name": "Apache Binary",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/prefork\/maxspareservers": {
       "default": "32",
@@ -284,10 +281,10 @@
       "multiple_values": false,
       "description": "Maximum number of spare server processes",
       "display_name": "Apache Prefork MPM MaxSpareServers",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/keepalive": {
       "default": "On",
@@ -295,20 +292,20 @@
       "multiple_values": false,
       "description": "HTTP persistent connections",
       "display_name": "Apache Keepalive",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache": {
       "type": "hash",
       "multiple_values": false,
       "description": "Hash of Apache attributes",
       "display_name": "Apache Hash",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/worker\/startservers": {
       "default": "4",
@@ -316,10 +313,10 @@
       "multiple_values": false,
       "description": "Initial number of server processes to start",
       "display_name": "Apache Worker MPM StartServers",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/prefork\/maxclients": {
       "default": "400",
@@ -327,20 +324,20 @@
       "multiple_values": false,
       "description": "Maximum number of simultaneous connections",
       "display_name": "Apache Prefork MPM MaxClients",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/prefork": {
       "type": "hash",
       "multiple_values": false,
       "description": "Hash of Apache prefork tuning attributes.",
       "display_name": "Apache Prefork",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/servertokens": {
       "default": "Prod",
@@ -348,10 +345,10 @@
       "multiple_values": false,
       "description": "Server response header",
       "display_name": "Apache Server Tokens",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/worker\/minsparethreads": {
       "default": "64",
@@ -359,10 +356,10 @@
       "multiple_values": false,
       "description": "Minimum number of spare worker threads",
       "display_name": "Apache Worker MPM MinSpareThreads",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/serversignature": {
       "default": "On",
@@ -370,10 +367,10 @@
       "multiple_values": false,
       "description": "Configure footer on server-generated documents",
       "display_name": "Apache Server Signature",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "apache\/log_dir": {
       "default": "\/etc\/apache2",
@@ -381,11 +378,21 @@
       "multiple_values": false,
       "description": "Location for Apache logs",
       "display_name": "Apache Log Directory",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     }
+  },
+  "suggestions": {
+
+  },
+  "license": "Apache 2.0",
+  "conflicting": {
+
+  },
+  "dependencies": {
+
   },
   "providing": {
     "apache2::mod_python": [
@@ -497,12 +504,5 @@
 
     ]
   },
-  "license": "Apache 2.0",
-  "long_description": "= DESCRIPTION:\n\nComplete Debian\/Ubuntu style Apache2 configuration.\n\n= REQUIREMENTS:\n\nDebian or Ubuntu preferred.\n\nRed Hat\/CentOS and Fedora can be used but will be converted to a Debian\/Ubuntu style Apache as it's far easier to manage with chef. \n\n= ATTRIBUTES:\n\nThe file attributes\/apache.rb contains the following attribute types:\n\n* platform specific locations and settings.\n* general settings\n* prefork attributes\n* worker attributes\n\nGeneral settings and prefork\/worker attributes are tunable.\n\n= USAGE:\n\nInclude the apache2 recipe to install Apache2 and get 'sane' default settings. Configuration is modularized through Apache vhost sites a la Debian style configuration.\n\nFor Red Hat, CentOS and Fedora you should first disable selinux as it's not supported (yet), then remove the stock httpd and all it's dependencies prior to attempting to use this recipe. Many packages in these distributions drop conflicting configs into conf.d, all of which haven't been accounted for yet. Starting from scratch will also make it far easier to debug.\n\n== Defines:\n\n* apache_module: sets up an Apache module.\n* apache_conf: sets up a config file for an apache module.\n* apache_site: sets up a vhost site. The conf file must be available.\n* web_app: copies the template for a web app and enables it as a site via apache_site.\n\n== Web Apps:\n\nVarious applications that can be set up with Apache as the front end, such as PHP, Django, Rails and others can use the web_app define to set up the template and the Apache site. The define is kind of dumb, so the template needs have the application implementation settings, since we don't know what your app is or what is needed from Apache.\n\nWe only prototype one parameter for the web_app define, \"template\". This is used to specify the name of the template to use in the current cookbook. When you use web_app, you can set up any parameters you want to use in your template. They will get passed to the template through the params hash. For example, the sample web_app.conf.erb template in this cookbook makes use of these.\n\n* docroot\n* server_name\n* server_aliases\n\nThese are available as @params[:docroot], @params[:server_name], @params[:server_aliases] within the template. \n\nIf 'cookbook' and 'template' are not specified, the current cookbook's templates\/default\/web_app.conf.erb will be used. If this template is not suitable for your application, copy it to your cookbook and customize as needed.\n\n== God Monitor:\n\nThere's a new recipe, apache2::god_monitor. You will need to make sure to include the 'god' recipe before using the apache2::god_monitor recipe in your cookbook.\n\n= LICENSE & AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http:\/\/www.apache.org\/licenses\/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-  "replacing": {
-
-  },
-  "dependencies": {
-
-  }
+  "long_description": "= DESCRIPTION:\n\nComplete Debian\/Ubuntu style Apache2 configuration.\n\n= REQUIREMENTS:\n\nDebian or Ubuntu preferred.\n\nRed Hat\/CentOS and Fedora can be used but will be converted to a Debian\/Ubuntu style Apache as it's far easier to manage with chef. \n\n= ATTRIBUTES:\n\nThe file attributes\/apache.rb contains the following attribute types:\n\n* platform specific locations and settings.\n* general settings\n* prefork attributes\n* worker attributes\n\nGeneral settings and prefork\/worker attributes are tunable.\n\n= USAGE:\n\nInclude the apache2 recipe to install Apache2 and get 'sane' default settings. Configuration is modularized through Apache vhost sites a la Debian style configuration.\n\nFor Red Hat, CentOS and Fedora you should first disable selinux as it's not supported (yet), then remove the stock httpd and all it's dependencies prior to attempting to use this recipe. Many packages in these distributions drop conflicting configs into conf.d, all of which haven't been accounted for yet. Starting from scratch will also make it far easier to debug.\n\n== Defines:\n\n* apache_module: sets up an Apache module.\n* apache_conf: sets up a config file for an apache module.\n* apache_site: sets up a vhost site. The conf file must be available.\n* web_app: copies the template for a web app and enables it as a site via apache_site.\n\n== Web Apps:\n\nVarious applications that can be set up with Apache as the front end, such as PHP, Django, Rails and others can use the web_app define to set up the template and the Apache site. The define is kind of dumb, so the template needs have the application implementation settings, since we don't know what your app is or what is needed from Apache.\n\nWe only prototype one parameter for the web_app define, \"template\". This is used to specify the name of the template to use in the current cookbook. When you use web_app, you can set up any parameters you want to use in your template. They will get passed to the template through the params hash. For example, the sample web_app.conf.erb template in this cookbook makes use of these.\n\n* docroot\n* server_name\n* server_aliases\n\nThese are available as @params[:docroot], @params[:server_name], @params[:server_aliases] within the template. \n\nIf 'cookbook' and 'template' are not specified, the current cookbook's templates\/default\/web_app.conf.erb will be used. If this template is not suitable for your application, copy it to your cookbook and customize as needed.\n\n== God Monitor:\n\nThere's a new recipe, apache2::god_monitor. You will need to make sure to include the 'god' recipe before using the apache2::god_monitor recipe in your cookbook.\n\n= LICENSE & AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http:\/\/www.apache.org\/licenses\/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n"
 }

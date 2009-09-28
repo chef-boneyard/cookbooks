@@ -1,12 +1,15 @@
 {
-  "maintainer": "Opscode, Inc.",
   "description": "Installs djbdns and configures DNS services",
-  "recommendations": {
+  "replacing": {
 
   },
-  "maintainer_email": "cookbooks@opscode.com",
-  "suggestions": {
-
+  "recipes": {
+    "djbdns::internal_server": "Sets up internal TinyDNS",
+    "djbdns": "Installs djbdns from package or source and creates users",
+    "djbdns::axfr": "Sets up djbdns AXFR service",
+    "djbdns::server": "Sets up external TinyDNS",
+    "djbdns": "",
+    "djbdns::cache": "Sets up public dnscache service"
   },
   "platforms": {
     "rhel": [
@@ -22,19 +25,13 @@
 
     ]
   },
+  "maintainer": "Opscode, Inc.",
   "version": "0.7.0",
-  "recipes": {
-    "djbdns::internal_server": "Sets up internal TinyDNS",
-    "djbdns": "Installs djbdns from package or source and creates users",
-    "djbdns": "",
-    "djbdns::axfr": "Sets up djbdns AXFR service",
-    "djbdns::server": "Sets up external TinyDNS",
-    "djbdns::cache": "Sets up public dnscache service"
-  },
-  "name": "djbdns",
-  "conflicting": {
+  "recommendations": {
 
   },
+  "name": "djbdns",
+  "maintainer_email": "cookbooks@opscode.com",
   "attributes": {
     "djbdns\/axfrdns_ipaddress": {
       "default": "127.0.0.1",
@@ -42,10 +39,10 @@
       "multiple_values": false,
       "description": "Specify the IP address for AXFR service",
       "display_name": "DJB DNS AXFR IP Address",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "djbdns\/public_dnscache_allowed_networks": {
       "default": [
@@ -55,10 +52,10 @@
       "multiple_values": false,
       "description": "Networks allowed to query the public dnscache",
       "display_name": "DJB DNS Public DNS Cache Allowed Networks",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "djbdns\/tinydns_internal_ipaddress": {
       "default": "127.0.0.1",
@@ -66,10 +63,10 @@
       "multiple_values": false,
       "description": "Specify the IP address for internal TinyDNS",
       "display_name": "DJB DNS TinyDNS Internal IP Address",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "djbdns\/tinydns_internal_resolved_domain": {
       "default": "domain",
@@ -77,10 +74,10 @@
       "multiple_values": false,
       "description": "Internal domain TinyDNS is resolver",
       "display_name": "DJB DNS TinyDNS Internal Resolved Domain",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "djbdns\/public_dnscache_ipaddress": {
       "default": "ipaddress",
@@ -88,10 +85,10 @@
       "multiple_values": false,
       "description": "Specify the IP address for the public dnscache",
       "display_name": "DJB DNS Public DNS Cache IP Address",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "djbdns\/bin_dir": {
       "default": "\/usr\/local\/bin",
@@ -99,10 +96,10 @@
       "multiple_values": false,
       "description": "Location of the djbdns binaries",
       "display_name": "DJB DNS Binaries Directory",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "djbdns\/tinydns_ipaddress": {
       "default": "127.0.0.1",
@@ -110,11 +107,26 @@
       "multiple_values": false,
       "description": "Specify the IP address for TinyDNS",
       "display_name": "DJB DNS TinyDNS IP Address",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     }
+  },
+  "suggestions": {
+
+  },
+  "license": "Apache 2.0",
+  "conflicting": {
+
+  },
+  "dependencies": {
+    "runit": [
+
+    ],
+    "build-essential": [
+
+    ]
   },
   "providing": {
     "djbdns::internal_server": [
@@ -133,17 +145,5 @@
 
     ]
   },
-  "license": "Apache 2.0",
-  "long_description": "",
-  "replacing": {
-
-  },
-  "dependencies": {
-    "runit": [
-
-    ],
-    "build-essential": [
-
-    ]
-  }
+  "long_description": ""
 }

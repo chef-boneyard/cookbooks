@@ -1,34 +1,31 @@
 {
-  "maintainer": "Opscode, Inc.",
   "description": "Helper library to determine whether distribution-only packages are installed",
-  "recommendations": {
+  "replacing": {
 
   },
-  "maintainer_email": "cookbooks@opscode.com",
-  "suggestions": {
-
+  "recipes": {
+    "packages": ""
   },
   "platforms": {
 
   },
+  "maintainer": "Opscode, Inc.",
   "version": "0.8.0",
-  "recipes": {
-    "packages": ""
-  },
-  "name": "packages",
-  "conflicting": {
+  "recommendations": {
 
   },
+  "name": "packages",
+  "maintainer_email": "cookbooks@opscode.com",
   "attributes": {
     "packages": {
       "type": "hash",
       "multiple_values": false,
       "description": "Hash of Packages attributes",
       "display_name": "Packages",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     },
     "packages\/dist_only": {
       "default": "false",
@@ -36,23 +33,26 @@
       "multiple_values": false,
       "description": "Set to only use distribution-provided packages",
       "display_name": "Packages Distribution Only?",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     }
+  },
+  "suggestions": {
+
+  },
+  "license": "Apache 2.0",
+  "conflicting": {
+
+  },
+  "dependencies": {
+
   },
   "providing": {
     "packages": [
 
     ]
   },
-  "license": "Apache 2.0",
-  "long_description": "",
-  "replacing": {
-
-  },
-  "dependencies": {
-
-  }
+  "long_description": ""
 }

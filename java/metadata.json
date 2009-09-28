@@ -1,12 +1,10 @@
 {
-  "maintainer": "Opscode, Inc.",
   "description": "Installs java",
-  "recommendations": {
+  "replacing": {
 
   },
-  "maintainer_email": "cookbooks@opscode.com",
-  "suggestions": {
-
+  "recipes": {
+    "java": ""
   },
   "platforms": {
     "ubuntu": [
@@ -16,15 +14,24 @@
 
     ]
   },
+  "maintainer": "Opscode, Inc.",
   "version": "0.7.0",
-  "recipes": {
-    "java": ""
+  "recommendations": {
+
   },
   "name": "java",
+  "maintainer_email": "cookbooks@opscode.com",
+  "attributes": {
+
+  },
+  "suggestions": {
+
+  },
+  "license": "Apache 2.0",
   "conflicting": {
 
   },
-  "attributes": {
+  "dependencies": {
 
   },
   "providing": {
@@ -32,12 +39,5 @@
 
     ]
   },
-  "license": "Apache 2.0",
-  "long_description": "",
-  "replacing": {
-
-  },
-  "dependencies": {
-
-  }
+  "long_description": ""
 }

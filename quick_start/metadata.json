@@ -1,24 +1,21 @@
 {
-  "maintainer": "Opscode, Inc.",
   "description": "Example cookbook for quick_start wiki document",
-  "recommendations": {
+  "replacing": {
 
   },
-  "maintainer_email": "cookbooks@opscode.com",
-  "suggestions": {
-
+  "recipes": {
+    "quick_start": ""
   },
   "platforms": {
 
   },
+  "maintainer": "Opscode, Inc.",
   "version": "0.7.0",
-  "recipes": {
-    "quick_start": ""
-  },
-  "name": "quick_start",
-  "conflicting": {
+  "recommendations": {
 
   },
+  "name": "quick_start",
+  "maintainer_email": "cookbooks@opscode.com",
   "attributes": {
     "quick_start\/deep_thought": {
       "default": "If a tree falls in the forest...",
@@ -26,23 +23,26 @@
       "multiple_values": false,
       "description": "A deep thought",
       "display_name": "Quick Start Deep Thought",
+      "required": false,
       "recipes": [
 
-      ],
-      "required": false
+      ]
     }
+  },
+  "suggestions": {
+
+  },
+  "license": "Apache 2.0",
+  "conflicting": {
+
+  },
+  "dependencies": {
+
   },
   "providing": {
     "quick_start": [
 
     ]
   },
-  "license": "Apache 2.0",
-  "long_description": "",
-  "replacing": {
-
-  },
-  "dependencies": {
-
-  }
+  "long_description": ""
 }
