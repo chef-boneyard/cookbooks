@@ -18,29 +18,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-djbdns Mash.new unless attribute?("djbdns")
 
-djbdns[:tinydns_ipaddress] = "127.0.0.1" unless djbdns.has_key?(:tinydns_ipaddress)
-djbdns[:tinydns_internal_ipaddress] = "127.0.0.1" unless djbdns.has_key?(:tinydns_internal_ipaddress)
-djbdns[:axfrdns_ipaddress] = "127.0.0.1" unless djbdns.has_key?(:axfrdns_ipaddress)
-djbdns[:public_dnscache_ipaddress] = ipaddress unless djbdns.has_key?(:public_dnscache_ipaddress)
+set_unless[:djbdns][:tinydns_ipaddress]          = "127.0.0.1"
+set_unless[:djbdns][:tinydns_internal_ipaddress] = "127.0.0.1"
+set_unless[:djbdns][:public_dnscache_ipaddress]  = ipaddress
+set_unless[:djbdns][:axfrdns_ipaddress]          = "127.0.0.1"
 
-djbdns[:public_dnscache_allowed_networks] = [ipaddress.split(".")[0,2].join(".")] unless djbdns.has_key?(:public_dnscache_allowed_networks)
-djbdns[:tinydns_internal_resolved_domain] = domain unless djbdns.has_key?(:tinydns_internal_resolved_domain)
+set_unless[:djbdns][:public_dnscache_allowed_networks] = [ipaddress.split(".")[0,2].join(".")]
+set_unless[:djbdns][:tinydns_internal_resolved_domain] = domain
 
 case platform
 when "ubuntu"
   if platform_version >= "8.10"
-    djbdns[:bin_dir] = "/usr/bin"
+    set[:djbdns][:bin_dir] = "/usr/bin"
   else
-    djbdns[:bin_dir] = "/usr/local/bin"
+    set[:djbdns][:bin_dir] = "/usr/local/bin"
   end 
 when "debian"
   if platform_version >= "5.0"
-    djbdns[:bin_dir] = "/usr/bin"
+    set[:djbdns][:bin_dir] = "/usr/bin"
   else
-    djbdns[:bin_dir] = "/usr/local/bin"
+    set[:djbdns][:bin_dir] = "/usr/local/bin"
   end 
 else
-    djbdns[:bin_dir] = "/usr/local/bin"
+    set[:djbdns][:bin_dir] = "/usr/local/bin"
 end

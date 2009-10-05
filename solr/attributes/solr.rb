@@ -17,9 +17,7 @@
 # limitations under the License.
 #
 
-solr Mash.new unless attribute?("solr")
-
-solr[:user] = 'solr'  unless solr.has_key?(:user)
-solr[:uid] = 551      unless solr.has_key?(:uid)
-solr[:group] = 'solr' unless solr.has_key?(:group)
-solr[:gid] = 551      unless solr.has_key?(:gid)
+set_unless[:solr][:user] = 'solr'
+set_unless[:solr][:uid] = 551
+set_unless[:solr][:group] = 'solr'
+set_unless[:solr][:gid] = 551

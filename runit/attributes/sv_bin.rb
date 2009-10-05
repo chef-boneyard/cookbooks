@@ -17,11 +17,9 @@
 # limitations under the License.
 #
 
-runit Mash.new 
-
 case platform
 when "ubuntu","debian"
-  runit[:sv_bin] = "/usr/bin/sv"
-  runit[:service_dir] = "/etc/service"
-  runit[:sv_dir] = "/etc/sv"
+  set[:runit][:sv_bin] = "/usr/bin/sv"
+  set[:runit][:service_dir] = "/etc/service"
+  set[:runit][:sv_dir] = "/etc/sv"
 end

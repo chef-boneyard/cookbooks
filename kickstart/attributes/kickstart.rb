@@ -1,3 +1,2 @@
-kickstart Mash.new unless attribute?("kickstart")
-kickstart[:rootpw] = nil unless kickstart.has_key?(:rootpw)
-kickstart[:virtual_host_name] = "build.#{domain}" unless kickstart.has_key?(:virtual_host_name)
+set_unless[:kickstart][:rootpw] = nil
+set_unless[:kickstart][:virtual_host_name] = "build.#{domain}"

@@ -21,29 +21,29 @@ validation_token = ""
 chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 20.times { |i| validation_token << chars[rand(chars.size-1)] }
 
-default[:bootstrap][:chef][:url_type]   = "http"
-default[:bootstrap][:chef][:init_style] = "runit"
-default[:bootstrap][:chef][:path]       = "/srv/chef"
-default[:bootstrap][:chef][:run_path]   = "/var/run/chef"
-default[:bootstrap][:chef][:cache_path] = "/#{bootstrap[:chef][:path]}/cache"
-default[:bootstrap][:chef][:serve_path] = "/srv/chef"
+set_unless[:bootstrap][:chef][:url_type]   = "http"
+set_unless[:bootstrap][:chef][:init_style] = "runit"
+set_unless[:bootstrap][:chef][:path]       = "/srv/chef"
+set_unless[:bootstrap][:chef][:run_path]   = "/var/run/chef"
+set_unless[:bootstrap][:chef][:cache_path] = "/#{bootstrap[:chef][:path]}/cache"
+set_unless[:bootstrap][:chef][:serve_path] = "/srv/chef"
 
-default[:bootstrap][:chef][:server_version]  = "0.7.10"
-default[:bootstrap][:chef][:client_version]  = "0.7.10"
-default[:bootstrap][:chef][:client_interval] = "1800"
-default[:bootstrap][:chef][:client_splay]    = "20"
-default[:bootstrap][:chef][:log_dir]         = "/var/log/chef"
+set_unless[:bootstrap][:chef][:server_version]  = "0.7.10"
+set_unless[:bootstrap][:chef][:client_version]  = "0.7.10"
+set_unless[:bootstrap][:chef][:client_interval] = "1800"
+set_unless[:bootstrap][:chef][:client_splay]    = "20"
+set_unless[:bootstrap][:chef][:log_dir]         = "/var/log/chef"
 
 case bootstrap[:chef][:init_style]
 when "runit"
-  default[:bootstrap][:chef][:client_log]  = "STDOUT"
-  default[:bootstrap][:chef][:server_log]  = "STDOUT"
-  default[:bootstrap][:chef][:indexer_log] = "STDOUT"
+  set_unless[:bootstrap][:chef][:client_log]  = "STDOUT"
+  set_unless[:bootstrap][:chef][:server_log]  = "STDOUT"
+  set_unless[:bootstrap][:chef][:indexer_log] = "STDOUT"
 else
-  default[:bootstrap][:chef][:client_log]  = "#{bootstrap[:chef][:log_dir]}/client.log"
-  default[:bootstrap][:chef][:server_log]  = "#{bootstrap[:chef][:log_dir]}/server.log"
-  default[:bootstrap][:chef][:indexer_log] = "#{bootstrap[:chef][:log_dir]}/indexer.log"
+  set_unless[:bootstrap][:chef][:client_log]  = "#{bootstrap[:chef][:log_dir]}/client.log"
+  set_unless[:bootstrap][:chef][:server_log]  = "#{bootstrap[:chef][:log_dir]}/server.log"
+  set_unless[:bootstrap][:chef][:indexer_log] = "#{bootstrap[:chef][:log_dir]}/indexer.log"
 end
 
-default[:bootstrap][:chef][:server_fqdn]  = domain ? "chef.#{domain}" : "chef"
-default[:bootstrap][:chef][:server_token] = validation_token
+set_unless[:bootstrap][:chef][:server_fqdn]  = domain ? "chef.#{domain}" : "chef"
+set_unless[:bootstrap][:chef][:server_token] = validation_token
