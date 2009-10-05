@@ -17,9 +17,9 @@
 # limitations under the License.
 #
 
-default[:radiant][:branch]          = "HEAD"
-default[:radiant][:migrate]         = false
-default[:radiant][:migrate_command] = "rake db:migrate"
-default[:radiant][:environment]     = "production"
-default[:radiant][:revision]        = "HEAD"
-default[:radiant][:action]          = "nothing"
+set_unless[:radiant][:branch]          = "HEAD"
+set_unless[:radiant][:migrate]         = false
+set_unless[:radiant][:migrate_command] = "rake db:migrate"
+set_unless[:radiant][:environment]     = "production"
+set_unless[:radiant][:revision]        = "HEAD"
+set_unless[:radiant][:action]          = "nothing"

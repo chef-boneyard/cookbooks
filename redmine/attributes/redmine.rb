@@ -23,10 +23,10 @@ chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 
 set[:redmine][:dir] = "/srv/redmine-#{redmine[:version]}"
 
-default[:redmine][:dl_id]   = "56909"
-default[:redmine][:version] = "0.8.4"
+set_unless[:redmine][:dl_id]   = "56909"
+set_unless[:redmine][:version] = "0.8.4"
 
-default[:redmine][:db][:type]     = "sqlite"
-default[:redmine][:db][:user]     = "redmine"
-default[:redmine][:db][:password] = db_password
-default[:redmine][:db][:hostname] = "localhost"
+set_unless[:redmine][:db][:type]     = "sqlite"
+set_unless[:redmine][:db][:user]     = "redmine"
+set_unless[:redmine][:db][:password] = db_password
+set_unless[:redmine][:db][:hostname] = "localhost"

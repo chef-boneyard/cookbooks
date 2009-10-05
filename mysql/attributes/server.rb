@@ -20,17 +20,17 @@ db_password = ""
 chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 20.times { |i| db_password << chars[rand(chars.size-1)] }
 
-default[:mysql][:server_root_password] = db_password
-default[:mysql][:bind_address]         = ipaddress
-default[:mysql][:datadir]              = "/var/lib/mysql"
-default[:mysql][:ec2_path]             = "/mnt/mysql"
+set_unless[:mysql][:server_root_password] = db_password
+set_unless[:mysql][:bind_address]         = ipaddress
+set_unless[:mysql][:datadir]              = "/var/lib/mysql"
+set_unless[:mysql][:ec2_path]             = "/mnt/mysql"
 
 # Tunables
-default[:mysql][:tunable][:key_buffer]          = "250M"
-default[:mysql][:tunable][:max_connections]     = "800"
-default[:mysql][:tunable][:wait_timeout]        = "180"
-default[:mysql][:tunable][:net_read_timeout]    = "30"
-default[:mysql][:tunable][:net_write_timeout]   = "30"
-default[:mysql][:tunable][:back_log]            = "128"
-default[:mysql][:tunable][:table_cache]         = "128"
-default[:mysql][:tunable][:max_heap_table_size] = "32M"
+set_unless[:mysql][:tunable][:key_buffer]          = "250M"
+set_unless[:mysql][:tunable][:max_connections]     = "800"
+set_unless[:mysql][:tunable][:wait_timeout]        = "180"
+set_unless[:mysql][:tunable][:net_read_timeout]    = "30"
+set_unless[:mysql][:tunable][:net_write_timeout]   = "30"
+set_unless[:mysql][:tunable][:back_log]            = "128"
+set_unless[:mysql][:tunable][:table_cache]         = "128"
+set_unless[:mysql][:tunable][:max_heap_table_size] = "32M"

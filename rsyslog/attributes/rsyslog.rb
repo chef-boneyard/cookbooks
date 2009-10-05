@@ -17,6 +17,6 @@
 # limitations under the License.
 #
 
-default[:rsyslog][:log_dir] = "/srv/rsyslog"
-default[:rsyslog][:server] = false
-default[:rsyslog][:protocol] = "tcp"
+set_unless[:rsyslog][:log_dir] = "/srv/rsyslog"
+set_unless[:rsyslog][:server] = false
+set_unless[:rsyslog][:protocol] = "tcp"

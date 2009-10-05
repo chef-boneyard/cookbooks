@@ -1,2 +1,2 @@
-default[:resolver][:search] = domain
-default[:resolver][:nameservers] = [ "" ]
+set_unless[:resolver][:search] = domain
+set_unless[:resolver][:nameservers] = [ "" ]

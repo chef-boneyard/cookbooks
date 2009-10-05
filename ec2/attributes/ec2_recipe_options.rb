@@ -17,11 +17,11 @@
 # limitations under the License.
 #
 
-default[:ec2opts][:lvm][:use_ephemeral]  = true
-default[:ec2opts][:lvm][:ephemeral_mountpoint] = "/mnt"
-default[:ec2opts][:lvm][:ephemeral_volume_group] = "ephemeral"
-default[:ec2opts][:lvm][:ephemeral_logical_volume] = "store"
-default[:ec2opts][:lvm][:ephemeral_devices] = {
+set_unless[:ec2opts][:lvm][:use_ephemeral]  = true
+set_unless[:ec2opts][:lvm][:ephemeral_mountpoint] = "/mnt"
+set_unless[:ec2opts][:lvm][:ephemeral_volume_group] = "ephemeral"
+set_unless[:ec2opts][:lvm][:ephemeral_logical_volume] = "store"
+set_unless[:ec2opts][:lvm][:ephemeral_devices] = {
   "m1.small"  => [ "/dev/sda2" ],
   "m1.large"  => [ "/dev/sdb", "/dev/sdc" ],
   "m1.xlarge" => [ "/dev/sdb", "/dev/sdc", "/dev/sdd", "/dev/sde" ],

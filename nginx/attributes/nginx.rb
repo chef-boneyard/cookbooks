@@ -11,11 +11,11 @@ else
   set[:nginx][:binary]  = "/usr/sbin/nginx"
 end
 
-default[:nginx][:gzip] = "on"
-default[:nginx][:gzip_http_version] = "1.0"
-default[:nginx][:gzip_comp_level] = "2"
-default[:nginx][:gzip_proxied] = "any"
-default[:nginx][:gzip_types] = [
+set_unless[:nginx][:gzip] = "on"
+set_unless[:nginx][:gzip_http_version] = "1.0"
+set_unless[:nginx][:gzip_comp_level] = "2"
+set_unless[:nginx][:gzip_proxied] = "any"
+set_unless[:nginx][:gzip_types] = [
   "text/plain",
   "text/html",
   "text/css",
@@ -26,8 +26,8 @@ default[:nginx][:gzip_types] = [
   "text/javascript"
 ]
 
-default[:nginx][:keepalive]          = "on"
-default[:nginx][:keepalive_timeout]  = 65
-default[:nginx][:worker_processes]   = 1
-default[:nginx][:worker_connections] = 1024
-default[:nginx][:server_names_hash_bucket_size] = 64
+set_unless[:nginx][:keepalive]          = "on"
+set_unless[:nginx][:keepalive_timeout]  = 65
+set_unless[:nginx][:worker_processes]   = 1
+set_unless[:nginx][:worker_connections] = 1024
+set_unless[:nginx][:server_names_hash_bucket_size] = 64
