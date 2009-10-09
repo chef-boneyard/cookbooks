@@ -27,7 +27,7 @@ e.run_action(:run)
   directory dirname do
     owner "root"
     group "root"
-    mode  0644
+    mode  0755
     action :create
   end
 end
