@@ -102,7 +102,7 @@ The validation_token used to automatically authorize chef-clients. Default is a 
 
 Opscode stores this cookbook and some others (see the requirements above) on S3. Use chef-solo:
 
-    sudo chef-solo -j chef.json -c solo.rb -r http://s3.amazonaws.com/chef-solo/bootstrap.tar.gz
+    sudo chef-solo -j chef.json -c solo.rb -r http://s3.amazonaws.com/chef-solo/bootstrap-latest.tar.gz
 
 You set the attributes through the chef.json file, and tell Solo where to put them with solo.rb.
 
