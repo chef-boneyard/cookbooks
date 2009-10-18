@@ -231,5 +231,3 @@ class Chef
 end
  
 Chef::Platform.platforms[:default].merge! :tomcat_manager => Chef::Provider::TomcatManager
-    
-          

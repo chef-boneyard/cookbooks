@@ -2,7 +2,7 @@
 # Cookbook Name:: tomcat6
 # Recipe:: default
 #
-# Copyright 2009, Example Com
+# Copyright 2009, Edmund Haselwanter
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -195,4 +195,3 @@ end
 service "tomcat6" do
   action :start
 end
-

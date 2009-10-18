@@ -56,5 +56,3 @@ class Tomcat
   end
 
 end
-  
-  
