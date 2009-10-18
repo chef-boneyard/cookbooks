@@ -23,6 +23,4 @@ else
   package "git"
 end
 
-package "gitk"
-package "git-svn"
 package "git-email"

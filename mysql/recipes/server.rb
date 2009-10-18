@@ -25,7 +25,7 @@ when "debian","ubuntu"
   directory "/var/cache/local/preseeding" do
     owner "root"
     group "root"
-    mode "755"
+    mode 0755
     recursive true
   end
   
