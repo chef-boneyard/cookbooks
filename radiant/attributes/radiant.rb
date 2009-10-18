@@ -3,6 +3,7 @@
 # Attributes:: radiant
 #
 # Copyright 2009, Opscode, Inc.
+# Copyright 2009, Daniel DeLeo
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,3 +24,4 @@ set_unless[:radiant][:migrate_command] = "rake db:migrate"
 set_unless[:radiant][:environment]     = "production"
 set_unless[:radiant][:revision]        = "HEAD"
 set_unless[:radiant][:action]          = "nothing"
+set_unless[:radiant][:edge]            = false
