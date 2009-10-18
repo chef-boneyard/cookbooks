@@ -20,19 +20,17 @@ db_password = ""
 chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 20.times { |i| db_password << chars[rand(chars.size-1)] }
 
-mysql Mash.new unless attribute?("mysql")
-mysql[:server_root_password] = db_password unless mysql.has_key?(:server_root_password)
-mysql[:bind_address]         = ipaddress unless mysql.has_key?(:bind_address)
-mysql[:datadir]              = "/var/lib/mysql" unless mysql.has_key?(:datadir)
-mysql[:ec2_path] = "/mnt/mysql" unless mysql.has_key?(:ec2_path)
+set_unless[:mysql][:server_root_password] = db_password
+set_unless[:mysql][:bind_address]         = ipaddress
+set_unless[:mysql][:datadir]              = "/var/lib/mysql"
+set_unless[:mysql][:ec2_path]             = "/mnt/mysql"
 
 # Tunables
-mysql[:tunable] = Mash.new unless mysql.has_key?(:tunable)
-mysql[:tunable][:key_buffer]          = "250M" unless mysql[:tunable].has_key?(:key_buffer)
-mysql[:tunable][:max_connections]     = "800" unless mysql[:tunable].has_key?(:max_connections)
-mysql[:tunable][:wait_timeout]        = "180" unless mysql[:tunable].has_key?(:wait_timeout)
-mysql[:tunable][:net_read_timeout]    = "30" unless mysql[:tunable].has_key?(:net_read_timeout)
-mysql[:tunable][:net_write_timeout]   = "30" unless mysql[:tunable].has_key?(:net_write_timeout)
-mysql[:tunable][:back_log]            = "128" unless mysql[:tunable].has_key?(:back_log)
-mysql[:tunable][:table_cache]         = "128" unless mysql[:tunable].has_key?(:table_cache)
-mysql[:tunable][:max_heap_table_size] = "32M" unless mysql[:tunable].has_key?(:max_heap_table_size)
+set_unless[:mysql][:tunable][:key_buffer]          = "250M"
+set_unless[:mysql][:tunable][:max_connections]     = "800"
+set_unless[:mysql][:tunable][:wait_timeout]        = "180"
+set_unless[:mysql][:tunable][:net_read_timeout]    = "30"
+set_unless[:mysql][:tunable][:net_write_timeout]   = "30"
+set_unless[:mysql][:tunable][:back_log]            = "128"
+set_unless[:mysql][:tunable][:table_cache]         = "128"
+set_unless[:mysql][:tunable][:max_heap_table_size] = "32M"

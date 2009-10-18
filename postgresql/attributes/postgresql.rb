@@ -17,13 +17,11 @@
 # limitations under the License.
 #
 
-postgresql Mash.new unless attribute?("postgresql")
-
 case platform
 when "redhat","centos","fedora","suse"
-  postgresql[:dir]     = "/var/lib/pgsql/data"
+  set[:postgresql][:dir]     = "/var/lib/pgsql/data"
 when "debian","ubuntu"
-  postgresql[:dir]     = "/etc/postgresql/8.3/main" 
+  set[:postgresql][:dir]     = "/etc/postgresql/8.3/main"
 else
-  postgresql[:dir]     = "/etc/postgresql/8.3/main" 
+  set[:postgresql][:dir]     = "/etc/postgresql/8.3/main"
 end

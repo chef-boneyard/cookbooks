@@ -16,48 +16,46 @@
 # limitations under the License.
 #
 
-openldap Mash.new unless attribute?("openldap")
-
 if domain.length > 0
-  openldap[:basedn] = "dc=#{domain.split('.').join(",dc=")}" unless openldap.has_key?(:basedn)
-  openldap[:server] = "ldap.#{domain}" unless openldap.has_key?(:server)
+  set_unless[:openldap][:basedn] = "dc=#{domain.split('.').join(",dc=")}"
+  set_unless[:openldap][:server] = "ldap.#{domain}"
 end
 
-openldap[:rootpw] = nil unless openldap.has_key?(:rootpw)
+openldap[:rootpw] = nil
 
 # File and directory locations for openldap.
 case platform
 when "redhat","centos"
-  openldap[:dir] = "/etc/openldap"
-  openldap[:run_dir] = "/var/run/openldap"
-  openldap[:module_dir] = "/usr/lib64/openldap"  
+  set[:openldap][:dir]        = "/etc/openldap"
+  set[:openldap][:run_dir]    = "/var/run/openldap"
+  set[:openldap][:module_dir] = "/usr/lib64/openldap"  
 when "debian","ubuntu"
-  openldap[:dir] = "/etc/ldap"
-  openldap[:run_dir] = "/var/run/slapd"
-  openldap[:module_dir] = "/usr/lib/ldap"
+  set[:openldap][:dir]        = "/etc/ldap"
+  set[:openldap][:run_dir]    = "/var/run/slapd"
+  set[:openldap][:module_dir] = "/usr/lib/ldap"
 else
-  openldap[:dir] = "/etc/ldap"
-  openldap[:run_dir] = "/var/run/slapd"
-  openldap[:module_dir] = "/usr/lib/ldap"
+  set[:openldap][:dir]        = "/etc/ldap"
+  set[:openldap][:run_dir]    = "/var/run/slapd"
+  set[:openldap][:module_dir] = "/usr/lib/ldap"
 end
 
 openldap[:ssl_dir] = "#{openldap[:dir]}/ssl"
-openldap[:cafile] = "#{openldap[:ssl_dir]}/ca.crt"
+openldap[:cafile]  = "#{openldap[:ssl_dir]}/ca.crt"
 
 # Server settings.
-openldap[:slapd_type] = nil unless openldap.has_key?(:slapd_type)
+openldap[:slapd_type] = nil
 
 if openldap[:slapd_type] == "slave"
   master = search(:nodes, 'openldap_slapd_type:master') 
-  openldap[:slapd_master] = master unless openldap.has_key?(:slapd_master)
-  openldap[:slapd_replpw] = nil unless openldap.has_key?(:slapd_replpw)
-  openldap[:slapd_rid] = 102 unless openldap.has_key?(:slapd_rid)
+  set_unless[:openldap][:slapd_master] = master
+  set_unless[:openldap][:slapd_replpw] = nil
+  set_unless[:openldap][:slapd_rid]    = 102
 end
 
 # Auth settings for Apache.
 if openldap[:basedn] && openldap[:server]
-  openldap[:auth_type] = "openldap"
-  openldap[:auth_binddn] = "ou=people,#{openldap[:basedn]}" unless openldap.has_key?(:auth_binddn)
-  openldap[:auth_bindpw] = nil unless openldap.has_key?(:auth_bindpw)
-  openldap[:auth_url] = "ldap://#{openldap[:server]}/#{openldap[:auth_binddn]}?uid?sub?(objecctClass=*)" unless openldap.has_key?(:auth_url)
+  set_unless[:openldap][:auth_type]   = "openldap"
+  set_unless[:openldap][:auth_binddn] = "ou=people,#{openldap[:basedn]}"
+  set_unless[:openldap][:auth_bindpw] = nil
+  set_unless[:openldap][:auth_url]    = "ldap://#{openldap[:server]}/#{openldap[:auth_binddn]}?uid?sub?(objecctClass=*)"
 end

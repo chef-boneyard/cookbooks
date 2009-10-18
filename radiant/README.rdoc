@@ -2,15 +2,23 @@
 
 Installs RadiantCMS, a Ruby on Rails content management system.
 
+= CHANGELOG:
+
+Changes to note in this version (from COOK-117).
+
+* added gem install capabilities
+* default to gem install
+* removed dependency on ezmobius/chef-deploy (use deploy provider instead)
+* fixed tiny error in attributes.
+* updated attribute syntax
+
 = REQUIREMENTS:
 
 == Platform:
 
 Tested on Ubuntu 9.04, uses the Opscode Apache2 cookbook which is Ubuntu/Debian specific.
 
-Requires Ezra Zygmuntowicz's chef-deploy library to do the deployment within Chef. You can install it by:
-
-  sudo gem install --source http://gems.engineyard.com/ chef-deploy
+Requires Chef 0.7.12 for Deploy resource when installing from Radiant's git repo.
 
 == Cookbooks:
 
@@ -21,8 +29,9 @@ Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
 * rails
 * apache2
 
-= ATTRIBUTES: 
+= ATTRIBUTES:
 
+* radiant[:edge] - Do a deploy from github repo if true, use gems if false, default false.
 * radiant[:branch] - Branch to deploy from, default HEAD.
 * radiant[:migrate] - Whether to do a database migration, default false.
 * radiant[:migrate_command] - Command to do a database migration, default 'rake db:migrate'.
