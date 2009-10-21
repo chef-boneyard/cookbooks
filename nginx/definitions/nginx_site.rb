@@ -19,8 +19,6 @@
 #
 
 define :nginx_site, :enable => true do
-  include_recipe "nginx"
-
   if params[:enable]
     execute "nxensite #{params[:name]}" do
       command "/usr/sbin/nxensite #{params[:name]}"
