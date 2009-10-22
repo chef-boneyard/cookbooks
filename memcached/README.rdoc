@@ -6,7 +6,7 @@ Installs memcached and provides a define to set up an instance of memcache via r
 
 == Platform:
 
-Tested on Ubuntu 8.10. Uses the memcached package but disables the service and uses runit, see below.
+Tested on Ubuntu 8.10-9.10. Uses the memcached init script by default. A runit service can be set up for instances using the included define.
 
 == Cookbooks:
 
@@ -23,6 +23,8 @@ The following are node attributes passed to the template for the runit service.
 * memcached[:port] - port for memcached to listen on.
 
 = USAGE:
+
+Simply set the attributes and it will configure the /etc/memcached.conf file. If you want to use multiple memcached instances, you'll need to modify the recipe to disable the startup script and the template in the default recipe.
 
 Use the define, memcached_instance, to set up a runit service for the named memcached instance.
 
