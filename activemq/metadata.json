@@ -1,0 +1,40 @@
+{
+  "recipes": {
+    "activemq": ""
+  },
+  "conflicting": {
+
+  },
+  "description": "Installs\/Configures activemq",
+  "providing": {
+    "activemq": [
+
+    ]
+  },
+  "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES: \n\n= USAGE:\n\n",
+  "platforms": {
+
+  },
+  "version": "0.1.0",
+  "replacing": {
+
+  },
+  "name": "activemq",
+  "attributes": {
+
+  },
+  "maintainer": "Opscode, Inc.",
+  "recommendations": {
+
+  },
+  "license": "Apache 2.0",
+  "maintainer_email": "ops@example.com",
+  "suggestions": {
+
+  },
+  "dependencies": {
+    "java": [
+
+    ]
+  }
+}
