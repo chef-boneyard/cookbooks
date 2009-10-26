@@ -37,8 +37,8 @@ else
   set_unless[:chef][:serve_path] = "/srv/chef"
 end
 
-set_unless[:chef][:server_version]  = "0.7.12"
-set_unless[:chef][:client_version]  = "0.7.12"
+set_unless[:chef][:server_version]  = "0.7.14"
+set_unless[:chef][:client_version]  = "0.7.14"
 set_unless[:chef][:client_interval] = "1800"
 set_unless[:chef][:client_splay]    = "20"
 set_unless[:chef][:log_dir]         = "/var/log/chef"
