@@ -17,16 +17,44 @@
 # limitations under the License.
 #
 
-case node[:platform]
-when "debian", "ubuntu"
-  package "libapache2-mod-auth-openid" do
-    action :install
-  end
+%w{ libopkele-dev libopkele3 }.each do |pkg|
+  package pkg
+end
 
-  file "/var/cache/apache2/mod_auth_openid.db" do
-    owner node[:apache][:user]
-    mode 0600
-  end
+remote_file "/tmp/mod_auth_openid-0.4.tar.gz" do
+  source "http://butterfat.net/releases/mod_auth_openid/mod_auth_openid-0.4.tar.gz"
+  mode 0644
+end
+
+bash "install mod_auth_openid" do
+  cwd "/tmp"
+  code <<-EOH
+  tar zxvf mod_auth_openid-0.4.tar.gz
+  cd mod_auth_openid-0.4 && ./configure
+  perl -pi -e "s/-i -a -n 'authopenid'/-i -n 'authopenid'/g" Makefile
+  make && make install
+  EOH
+  not_if { File.exists?("/usr/lib/apache2/modules/mod_auth_openid.so") }
+end
+
+file "/var/cache/apache2/mod_auth_openid.db" do
+  owner node[:apache][:user]
+  mode 0600
+end
+
+template "#{node[:apache][:dir]}/mods-available/authopenid.load" do
+  source "mods/authopenid.load.erb"
+  owner "root"
+  group "root"
+  mode 0644
 end
 
 apache_module "authopenid"
+
+template "/usr/local/bin/mod_auth_openid.rb" do
+  source "mod_auth_openid.rb.erb"
+  owner node[:apache][:user]
+  group node[:apache][:user]
+  mode 0750
+  variables :allowed_openids => node[:apache][:allowed_openids]
+end

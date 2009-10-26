@@ -57,6 +57,9 @@ set_unless[:apache][:servertokens] = "Prod"
 set_unless[:apache][:serversignature] = "On"
 set_unless[:apache][:traceenable] = "On"
 
+# mod_auth_openids
+set_unless[:apache][:allowed_openids] = Array.new
+
 # Prefork Attributes
 set_unless[:apache][:prefork][:startservers] = 16
 set_unless[:apache][:prefork][:minspareservers] = 16

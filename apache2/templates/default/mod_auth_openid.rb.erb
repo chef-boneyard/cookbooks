@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+allowed_openids = <%= @allowed_openids %>
+
+allowed_openids.each do |id|
+  if id == ARGV[0]
+    exit 0
+  else
+    exit 1
+  end
+end
