@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 
 allowed_openids = <%= @allowed_openids %>
+requested_openid = ARGV[0]
 
 allowed_openids.each do |id|
-  if id == ARGV[0]
+  if requested_openid =~ /#{id}/
     exit 0
   else
     exit 1

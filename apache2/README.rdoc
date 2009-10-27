@@ -50,6 +50,16 @@ If 'cookbook' and 'template' are not specified, the current cookbook's templates
 
 There's a new recipe, apache2::god_monitor. You will need to make sure to include the 'god' recipe before using the apache2::god_monitor recipe in your cookbook.
 
+== OpenID Auth
+
+Installs the mod_auth_openid module from source. Specify an array of OpenIDs that are allowed to authenticate with the attribute apache[:allowed_openids]. Use the following in a vhost to protect with OpenID authentication:
+
+    AuthOpenIDEnabled On
+    AuthOpenIDDBLocation /var/cache/apache2/mod_auth_openid.db
+    AuthOpenIDUserProgram /usr/local/bin/mod_auth_openid.rb
+
+Change the DBLocation as appropriate for your platform. You'll need to change the file in the recipe to match. The UserProgram is optional if you don't want to limit access by certain OpenIDs.
+
 = LICENSE & AUTHOR:
 
 Author:: Joshua Timberman (<joshua@opscode.com>)

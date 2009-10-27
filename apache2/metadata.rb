@@ -3,11 +3,12 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures all aspects of apache2 using Debian style symlinks with helper definitions"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.9.1"
+version           "0.10.0"
 recipe            "apache2", "Main Apache configuration"
 recipe            "apache2::mod_alias", "Apache module 'alias' with config file"
 recipe            "apache2::mod_auth_basic", "Apache module 'auth_basic'"
 recipe            "apache2::mod_auth_digest", "Apache module 'auth_digest'"
+recipe            "apache2::mod_auth_openid", "Apache module 'authopenid'"
 recipe            "apache2::mod_authn_file", "Apache module 'authn_file'"
 recipe            "apache2::mod_authnz_ldap", "Apache module 'authnz_ldap'"
 recipe            "apache2::mod_authz_default", "Apache module 'authz_default'"
@@ -119,6 +120,11 @@ attribute "apache/traceenable",
   :display_name => "Apache Trace Enable",
   :description => "Determine behavior of TRACE requests",
   :default => "On"
+
+attribute "apache/allowed_openids",
+  :display_name => "Apache Allowed OpenIDs",
+  :description => "Array of OpenIDs allowed to authenticate",
+  :default => ""
 
 attribute "apache/prefork",
   :display_name => "Apache Prefork",
