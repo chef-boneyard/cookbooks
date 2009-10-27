@@ -7,7 +7,7 @@ version           "0.7"
 recipe            "postgresql::client", "Installs postgresql client package(s)"
 recipe            "postgresql::server", "Installs postgresql server packages, templates"
 
-%w{rhel centos ubuntu}.each do |os|
+%w{rhel centos ubuntu debian}.each do |os|
   supports os
 end
 

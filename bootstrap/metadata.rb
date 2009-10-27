@@ -5,6 +5,10 @@ description      "Configures RubyGems-installed Chef"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
 version          "0.1"
 
+%w{ ubuntu debian redhat centos fedora freebsd openbsd }.each do |os|
+  supports os
+end
+
 %w{ runit couchdb stompserver apache2 }.each do |cb|
   depends cb
 end

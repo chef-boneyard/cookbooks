@@ -7,6 +7,9 @@ version           "0.7"
 recipe            "rsyslog::client", "Sets up a client to log to a remote rsyslog server"
 recipe            "rsyslog::server", "Sets up an rsyslog server"
 
+supports          "ubuntu", ">= 8.10"
+supports          "debian", ">= 5.0"
+
 attribute "rsyslog",
   :display_name => "Rsyslog",
   :description => "Hash of Rsyslog attributes",

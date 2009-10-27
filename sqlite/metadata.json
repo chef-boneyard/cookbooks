@@ -1,32 +1,30 @@
 {
-  "description": "Installs sqlite",
-  "replacing": {
-
-  },
-  "recipes": {
-    "sqlite": ""
-  },
-  "platforms": {
-
-  },
   "maintainer": "Opscode, Inc.",
-  "version": "0.7.0",
+  "description": "Installs sqlite",
   "recommendations": {
 
   },
-  "name": "sqlite",
   "maintainer_email": "cookbooks@opscode.com",
-  "attributes": {
-
+  "recipes": {
+    "sqlite": ""
   },
   "suggestions": {
 
   },
-  "license": "Apache 2.0",
+  "platforms": {
+    "ubuntu": [
+
+    ],
+    "debian": [
+
+    ]
+  },
+  "version": "0.7.0",
+  "name": "sqlite",
   "conflicting": {
 
   },
-  "dependencies": {
+  "attributes": {
 
   },
   "providing": {
@@ -34,5 +32,12 @@
 
     ]
   },
-  "long_description": ""
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
 }

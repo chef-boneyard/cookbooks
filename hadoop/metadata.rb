@@ -9,4 +9,3 @@ depends           "java"
 %w{ debian ubuntu }.each do |os|
   supports os
 end
-

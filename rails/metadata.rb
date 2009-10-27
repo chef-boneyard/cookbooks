@@ -9,6 +9,10 @@ version           "0.8"
   depends cb
 end
 
+%w{ ubuntu debian centos redhat fedora}.each do |os|
+  supports os
+end
+
 attribute "rails",
   :display_name => "Rails",
   :description => "Hash of Rails attributes",

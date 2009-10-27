@@ -1,10 +1,15 @@
 {
+  "maintainer": "Opscode, Inc.",
   "description": "Installs ruby packages",
-  "replacing": {
+  "recommendations": {
 
   },
+  "maintainer_email": "cookbooks@opscode.com",
   "recipes": {
     "ruby": ""
+  },
+  "suggestions": {
+
   },
   "platforms": {
     "ubuntu": [
@@ -23,24 +28,12 @@
 
     ]
   },
-  "maintainer": "Opscode, Inc.",
   "version": "0.7.0",
-  "recommendations": {
-
-  },
   "name": "ruby",
-  "maintainer_email": "cookbooks@opscode.com",
-  "attributes": {
-
-  },
-  "suggestions": {
-
-  },
-  "license": "Apache 2.0",
   "conflicting": {
 
   },
-  "dependencies": {
+  "attributes": {
 
   },
   "providing": {
@@ -48,5 +41,12 @@
 
     ]
   },
-  "long_description": ""
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
 }

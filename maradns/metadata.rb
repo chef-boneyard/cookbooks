@@ -4,6 +4,10 @@ license           "Apache 2.0"
 description       "Installs and configures maradns"
 version           "0.7"
 
+%w{ ubuntu debian }.each do |os|
+  supports os
+end
+
 attribute "maradns",
   :display_name => "MaraDNS",
   :description => "Hash of MaraDNS attributes",

@@ -9,6 +9,10 @@ version           "0.9"
   depends cb
 end
 
+%w{ ubuntu debian }.each do |os|
+  supports os
+end
+
 attribute "radiant/branch",
   :display_name => "Radiant Branch",
   :description => "Branch from Git to use",

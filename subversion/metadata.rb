@@ -4,3 +4,6 @@ license           "Apache 2.0"
 description       "Installs subversion"
 version           "0.7"
 
+%w{ redhat centos fedora ubuntu debian }.each do |os|
+  supports os
+end

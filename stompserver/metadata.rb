@@ -8,3 +8,6 @@ version           "0.7"
   depends cb
 end
 
+%w{ ubuntu debian }.each do |os|
+  supports os
+end

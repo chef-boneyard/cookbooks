@@ -9,4 +9,3 @@ recipe            "glassfish", "Main Glassfish configuration"
 %w{redhat centos debian ubuntu}.each do |os|
   supports os
 end
-

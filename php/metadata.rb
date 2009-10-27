@@ -19,3 +19,6 @@ recipe            "php::php4", "Install packages for PHP version 4"
 recipe            "php::php5-cgi", "Install the php5-cgi package"
 recipe            "php::php5", "Install php5 packages and php.ini config file"
 
+%w{ubuntu debian}.each do |os|
+  supports os
+end

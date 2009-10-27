@@ -8,4 +8,3 @@ version           "0.8"
 %w{ ubuntu debian centos redhat }.each do |os|
   supports os
 end
-

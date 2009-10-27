@@ -9,6 +9,10 @@ recipe            "gems::mirror", "Crons an rsync of rubyforge"
 depends           "apache2"
 suggests          "ruby" # :-)
 
+%w{ ubuntu debian }.each do |os|
+  supports os
+end
+
 attribute "gem_server",
   :display_name => "Gem Server",
   :description => "Hash of Gem Server attributes",

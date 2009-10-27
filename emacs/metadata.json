@@ -1,32 +1,36 @@
 {
-  "description": "Installs emacs",
-  "replacing": {
-
-  },
-  "recipes": {
-    "emacs": ""
-  },
-  "platforms": {
-
-  },
   "maintainer": "Opscode, Inc.",
-  "version": "0.7.0",
+  "description": "Installs emacs",
   "recommendations": {
 
   },
-  "name": "emacs",
   "maintainer_email": "cookbooks@opscode.com",
-  "attributes": {
-
+  "recipes": {
+    "emacs": ""
   },
   "suggestions": {
 
   },
-  "license": "Apache 2.0",
+  "platforms": {
+    "ubuntu": [
+
+    ],
+    "centos": [
+
+    ],
+    "redhat": [
+
+    ],
+    "debian": [
+
+    ]
+  },
+  "version": "0.7.0",
+  "name": "emacs",
   "conflicting": {
 
   },
-  "dependencies": {
+  "attributes": {
 
   },
   "providing": {
@@ -34,5 +38,12 @@
 
     ]
   },
-  "long_description": ""
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
 }

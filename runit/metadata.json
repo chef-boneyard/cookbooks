@@ -1,10 +1,15 @@
 {
+  "maintainer": "Opscode, Inc.",
   "description": "Installs runit and provides runit_service definition",
-  "replacing": {
+  "recommendations": {
 
   },
+  "maintainer_email": "cookbooks@opscode.com",
   "recipes": {
     "runit": ""
+  },
+  "suggestions": {
+
   },
   "platforms": {
     "ubuntu": [
@@ -14,13 +19,11 @@
 
     ]
   },
-  "maintainer": "Opscode, Inc.",
   "version": "0.7.0",
-  "recommendations": {
+  "name": "runit",
+  "conflicting": {
 
   },
-  "name": "runit",
-  "maintainer_email": "cookbooks@opscode.com",
   "attributes": {
     "runit\/service_dir": {
       "default": "\/etc\/service",
@@ -28,10 +31,10 @@
       "multiple_values": false,
       "description": "Symlinks to services managed under runit",
       "display_name": "Runit service directory",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "runit\/sv_bin": {
       "default": "\/usr\/bin\/sv",
@@ -39,20 +42,20 @@
       "multiple_values": false,
       "description": "Location of the sv binary",
       "display_name": "Runit sv bin",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "runit": {
       "type": "hash",
       "multiple_values": false,
       "description": "Hash of runit attributes",
       "display_name": "Runit",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "runit\/sv_dir": {
       "default": "\/etc\/sv",
@@ -60,26 +63,23 @@
       "multiple_values": false,
       "description": "Location of services managed by runit",
       "display_name": "Runit sv directory",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     }
-  },
-  "suggestions": {
-
-  },
-  "license": "Apache 2.0",
-  "conflicting": {
-
-  },
-  "dependencies": {
-
   },
   "providing": {
     "runit": [
 
     ]
   },
-  "long_description": ""
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
 }

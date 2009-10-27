@@ -5,6 +5,10 @@ description       "Installs and configures jira"
 version           "0.7"
 recommends        "mysql"
 
+%w{ ubuntu debian }.each do |os|
+  supports os
+end
+
 %w{ runit java apache2 }.each do |cb|
   depends cb
 end
@@ -58,4 +62,3 @@ attribute "jira/database_password",
   :display_name => "Jira Database Password",
   :description => "Password for the Jira Database User",
   :default => "change_me"
-

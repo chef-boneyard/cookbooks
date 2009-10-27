@@ -4,6 +4,10 @@ license           "Apache 2.0"
 description       "Configures /etc/resolv.conf"
 version           "0.7"
 
+%w{ ubuntu debian fedora centos redhat freebsd openbsd macosx }.each do |os|
+  supports os
+end
+
 attribute "resolver",
   :display_name => "Resolver",
   :description => "Hash of Resolver attributes",

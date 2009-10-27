@@ -7,6 +7,9 @@ version           "0.10"
 recipe            "mysql::client", "Installs packages required for mysql clients using run_action magic"
 recipe            "mysql::server", "Installs packages required for mysql servers w/o manual intervention"
 
+%w{ debian ubuntu }.each do |os|
+  supports os
+end
 attribute "mysql/server_root_password",
   :display_name => "MySQL Server Root Password",
   :description => "Randomly generated password for the mysqld root user",

@@ -5,7 +5,9 @@ description       "Installs memcached and provides a define to set up an instanc
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
 version           "0.8"
 depends           "runit"
-
+%w{ ubuntu debian }.each do |os|
+  supports os
+end
 attribute "memcached/memory",
   :display_name => "Memcached Memory",
   :description => "Memory allocated for memcached instance",

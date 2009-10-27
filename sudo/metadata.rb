@@ -4,6 +4,10 @@ license           "Apache 2.0"
 description       "Installs and configures sudo"
 version           "0.7"
 
+%w{redhat centos fedora ubuntu debian freebsd}.each do |os|
+  supports os
+end
+
 attribute "authorization",
   :display_name => "Authorization",
   :description => "Hash of Authorization attributes",
@@ -25,4 +29,3 @@ attribute "authorization/sudoers/groups",
   :description => "Groups who are allowed sudo ALL",
   :type => "array",
   :default => ""
-

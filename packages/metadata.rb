@@ -4,6 +4,10 @@ license           "Apache 2.0"
 description       "Helper library to determine whether distribution-only packages are installed"
 version           "0.8"
 
+%w{redhat centos}.each do |os|
+  supports os
+end
+
 attribute "packages",
   :display_name => "Packages",
   :description => "Hash of Packages attributes",

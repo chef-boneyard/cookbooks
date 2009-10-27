@@ -5,6 +5,10 @@ description       "Installs and configures postfix for client or outbound relayh
 version           "0.7"
 recipe            "postfix::sasl_auth", "Set up postfix to auth to a server with sasl"
 
+%w{ubuntu debian}.each do |os|
+  supports os
+end
+
 attribute "postfix",
   :display_name => "Postfix",
   :description => "Hash of Postfix attributes",

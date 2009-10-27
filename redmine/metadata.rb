@@ -7,3 +7,7 @@ version           "0.8"
 %w{ apache2 rails passenger_apache2 mysql sqlite }.each do |cb|
   depends cb
 end
+
+%w{ ubuntu debian }.each do |os|
+  supports os
+end

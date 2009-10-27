@@ -5,6 +5,10 @@ description       "Installs and configures openvpn"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
 version           "0.7"
 
+%w{ redhat centos fedora ubuntu debian }.each do |os|
+  supports os
+end
+
 attribute "openvpn/local",
   :display_name => "OpenVPN Local",
   :description => "Local interface (ip) to listen on",

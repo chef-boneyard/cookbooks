@@ -7,4 +7,3 @@ version           "0.7"
 %w{ centos redhat fedora ubuntu debian }.each do |os|
   supports os
 end
-

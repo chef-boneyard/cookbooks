@@ -1,10 +1,15 @@
 {
+  "maintainer": "Opscode, Inc.",
   "description": "Installs and configures nginx",
-  "replacing": {
+  "recommendations": {
 
   },
+  "maintainer_email": "cookbooks@opscode.com",
   "recipes": {
     "nginx": ""
+  },
+  "suggestions": {
+
   },
   "platforms": {
     "ubuntu": [
@@ -14,13 +19,11 @@
 
     ]
   },
-  "maintainer": "Opscode, Inc.",
   "version": "0.8.0",
-  "recommendations": {
+  "name": "nginx",
+  "conflicting": {
 
   },
-  "name": "nginx",
-  "maintainer_email": "cookbooks@opscode.com",
   "attributes": {
     "nginx\/user": {
       "default": "www-data",
@@ -28,10 +31,10 @@
       "multiple_values": false,
       "description": "User nginx will run as",
       "display_name": "Nginx User",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/gzip_types": {
       "default": [
@@ -48,10 +51,10 @@
       "multiple_values": false,
       "description": "Supported MIME-types for gzip",
       "display_name": "Nginx Gzip Types",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/gzip_proxied": {
       "default": "any",
@@ -59,10 +62,10 @@
       "multiple_values": false,
       "description": "Whether gzip is proxied",
       "display_name": "Nginx Gzip Proxied",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/dir": {
       "default": "\/etc\/nginx",
@@ -70,20 +73,20 @@
       "multiple_values": false,
       "description": "Location of nginx configuration files",
       "display_name": "Nginx Directory",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/keepalive_timeout": {
       "default": "65",
       "type": "string",
       "multiple_values": false,
       "display_name": "Nginx Keepalive Timeout",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/gzip_comp_level": {
       "default": "2",
@@ -91,10 +94,10 @@
       "multiple_values": false,
       "description": "Amount of compression to use",
       "display_name": "Nginx Gzip Compression Level",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/binary": {
       "default": "\/usr\/sbin\/nginx",
@@ -102,10 +105,10 @@
       "multiple_values": false,
       "description": "Location of the nginx server binary",
       "display_name": "Nginx Binary",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/worker_processes": {
       "default": "1",
@@ -113,10 +116,10 @@
       "multiple_values": false,
       "description": "Number of worker processes",
       "display_name": "Nginx Worker Processes",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/gzip_http_version": {
       "default": "1.0",
@@ -124,20 +127,20 @@
       "multiple_values": false,
       "description": "Version of HTTP Gzip",
       "display_name": "Nginx Gzip HTTP Version",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/server_names_hash_bucket_size": {
       "default": "64",
       "type": "string",
       "multiple_values": false,
       "display_name": "Nginx Server Names Hash Bucket Size",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/log_dir": {
       "default": "\/var\/log\/nginx",
@@ -145,10 +148,10 @@
       "multiple_values": false,
       "description": "Location for nginx logs",
       "display_name": "Nginx Log Directory",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/keepalive": {
       "default": "on",
@@ -156,10 +159,10 @@
       "multiple_values": false,
       "description": "Whether to enable keepalive",
       "display_name": "Nginx Keepalive",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/gzip": {
       "default": "on",
@@ -167,10 +170,10 @@
       "multiple_values": false,
       "description": "Whether gzip is enabled",
       "display_name": "Nginx Gzip",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     },
     "nginx\/worker_connections": {
       "default": "1024",
@@ -178,26 +181,23 @@
       "multiple_values": false,
       "description": "Number of connections per worker",
       "display_name": "Nginx Worker Connections",
-      "required": false,
       "recipes": [
 
-      ]
+      ],
+      "required": false
     }
-  },
-  "suggestions": {
-
-  },
-  "license": "Apache 2.0",
-  "conflicting": {
-
-  },
-  "dependencies": {
-
   },
   "providing": {
     "nginx": [
 
     ]
   },
-  "long_description": ""
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
 }
