@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-allowed_openids = <%= @allowed_openids %>
-requested_openid = ARGV[0]
+allowed_openids = Array.new
+<% @node[:apache][:allowed_openids].each do |id| -%>
+allowed_openids << "<%= id %>"
+<% end -%>
 
-allowed_openids.each do |id|
-  if requested_openid =~ /#{id}/
-    exit 0
-  else
-    exit 1
-  end
+if allowed_openids.grep(ARGV[0])
+  exit 0
+else
+  exit 1
 end

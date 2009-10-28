@@ -56,5 +56,4 @@ template "/usr/local/bin/mod_auth_openid.rb" do
   owner node[:apache][:user]
   group node[:apache][:user]
   mode 0750
-  variables :allowed_openids => node[:apache][:allowed_openids]
 end
