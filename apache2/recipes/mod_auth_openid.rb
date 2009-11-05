@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-%w{ libopkele-dev libopkele3 }.each do |pkg|
+%w{ apache2-prefork-dev libopkele-dev libopkele3 }.each do |pkg|
   package pkg
 end
 
