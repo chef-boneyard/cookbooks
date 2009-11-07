@@ -25,17 +25,25 @@ include_recipe "rabbitmq"
 # SETUPS. SEE CHEF-666 (NO JOKE) FOR MORE DETAILS
 Chef::Log.info("Configuring nanite *SPECIFICALLY FOR CHEF*. See CHEF-666 for more info")
 
-execute "rabbitmqctl add_vhost /nanite"
+execute "rabbitmqctl add_vhost /nanite" do
+  not_if "rabbitmqctl list_vhosts| grep /nanite"
+end
 
 # create 'mapper' and 'nanite' users, give them each the password 'testing'
 %w[mapper nanite].each do |agent|
-  execute "rabbitmqctl add_user #{agent} testing"
+  execute "rabbitmqctl add_user #{agent} testing" do
+    not_if "rabbitmqctl list_users |grep #{agent}"
+  end
 end
 
 # grant the mapper user the ability to do anything with the /nanite vhost
 # the three regex's map to config, write, read permissions respectively
-execute 'rabbitmqctl set_permissions -p /nanite mapper ".*" ".*" ".*"'
+execute 'rabbitmqctl set_permissions -p /nanite mapper ".*" ".*" ".*"' do
+  not_if 'rabbitmqctl list_user_permissions mapper|grep /nanite'
+end
 
 # should set permissions more restrictive for the nanite user, but can't
 # because of limitation in chef.
-execute 'rabbitmqctl set_permissions -p /nanite nanite ".*" ".*" ".*"'
+execute 'rabbitmqctl set_permissions -p /nanite nanite ".*" ".*" ".*"' do
+  not_if 'rabbitmqctl list_user_permissions nanite|grep /nanite'
+end
