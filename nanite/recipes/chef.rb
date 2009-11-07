@@ -34,8 +34,8 @@ end
 
 # grant the mapper user the ability to do anything with the /nanite vhost
 # the three regex's map to config, write, read permissions respectively
-execute "rabbitmqctl set_permissions -p /nanite mapper ".*" ".*" ".*""
+execute 'rabbitmqctl set_permissions -p /nanite mapper ".*" ".*" ".*"'
 
 # should set permissions more restrictive for the nanite user, but can't
 # because of limitation in chef.
-execute "rabbitmqctl set_permissions -p /nanite nanite ".*" ".*" ".*""
+execute 'rabbitmqctl set_permissions -p /nanite nanite ".*" ".*" ".*"'
