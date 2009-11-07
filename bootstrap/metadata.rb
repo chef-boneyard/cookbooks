@@ -9,6 +9,6 @@ version          "0.1"
   supports os
 end
 
-%w{ runit couchdb stompserver apache2 }.each do |cb|
+%w{ runit couchdb rabbitmq apache2 nanite }.each do |cb|
   depends cb
 end

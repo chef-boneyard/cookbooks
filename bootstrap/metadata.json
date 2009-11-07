@@ -61,9 +61,12 @@
 
   },
   "dependencies": {
-    "stompserver": [
+    "rabbitmq": [
 
     ],
+		"nanite": [
+		
+		],
     "runit": [
 
     ],

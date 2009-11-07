@@ -21,6 +21,8 @@
 # limitations under the License.
 #
 
+CHEF_08_GEMS_RELEASED = false
+
 root_group = value_for_platform(
   "openbsd" => { "default" => "wheel" },
   "freebsd" => { "default" => "wheel" },
@@ -28,7 +30,9 @@ root_group = value_for_platform(
 )
 
 include_recipe "bootstrap::client"
-include_recipe "stompserver"
+include_recipe "rabbitmq"
+include_recipe "nanite::chef"
+include_recipe "java"
 
 case node[:platform]
 when "ubuntu"
@@ -45,9 +49,11 @@ else
   Chef::Log.info("Unknown platform for CouchDB. Manual installation of CouchDB required.")
 end
 
-%w{ chef-server chef-server-slice }.each do |gem|
-  gem_package gem do
-    version node[:bootstrap][:chef][:server_version]
+if CHEF_08_GEMS_RELEASED
+  %w{ chef-server chef-server-slice chef-solr }.each do |gem|
+    gem_package gem do
+      version node[:bootstrap][:chef][:server_version]
+    end
   end
 end
 
@@ -94,7 +100,8 @@ end
 case node[:bootstrap][:chef][:init_style]
 when "runit"
   include_recipe "runit"
-  runit_service "chef-indexer"
+  runit_service "chef-solr"
+  runit_service "chef-solr-indexer"
   runit_service "chef-server"
   service "chef-server" do
     restart_command "sv int chef-server"
@@ -102,7 +109,11 @@ when "runit"
 when "init"
   show_time  = "true"
 
-  service "chef-indexer" do
+  service "chef-solr" do
+    action :nothing
+  end
+
+  service "chef-solr-indexer" do
     action :nothing
   end
 

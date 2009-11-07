@@ -1,3 +1,9 @@
+= WARNING, YES, RLY!!
+This is an alpha (or pre-alpha even) version of a bootstrap for Chef 0.8.0, which is also in a alpha release. Unless you're ready to solve perplexing bugs and deal with general alpha-release issues, stick to the GA 0.7.x series.
+
+Since gems for Chef 0.8 are not available from the regular sources, start by cloning chef 0.8 from github and running '[sudo] rake install' then add this bootstrap to chef-solo's json and run chef-solo.
+
+Also, the below information is for the 0.7.x series; some of it is wrong.
 = DESCRIPTION:
 
 This cookbook bootstraps a Chef client or server when Chef is installed via RubyGems. If installing Chef from OS distribution packages, please see the 'chef' cookbook. 
