@@ -31,7 +31,7 @@ when "debian","ubuntu"
     action :install
     notifies value_for_platform(
       "debian" => { "4.0" => :run, "default" => :nothing  },
-      "ubuntu" => { "default" => :run }
+      "ubuntu" => { "default" => :run, "9.10" => :nothing }
     ), resources(:execute => "start-runsvdir")
   end
     
