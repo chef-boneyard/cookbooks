@@ -12,6 +12,7 @@ template_url       "http://<%= @node[:chef][:server_fqdn] %>:4000"
 remotefile_url     "http://<%= @node[:chef][:server_fqdn] %>:4000"
 search_url         "http://<%= @node[:chef][:server_fqdn] %>:4000"
 role_url           "http://<%= @node[:chef][:server_fqdn] %>:4000"
+client_url           "http://<%= @node[:chef][:server_fqdn] %>:4000"
 
 validation_token   "<%= @node[:chef][:server_token] %>"
 

@@ -14,6 +14,7 @@ template_url       "https://<%= @node[:chef][:server_fqdn] %>"
 remotefile_url     "https://<%= @node[:chef][:server_fqdn] %>"
 search_url         "https://<%= @node[:chef][:server_fqdn] %>"
 role_url           "https://<%= @node[:chef][:server_fqdn] %>"
+client_url           "https://<%= @node[:chef][:server_fqdn] %>"
 <% else -%>
 registration_url   "http://<%= @node[:chef][:server_fqdn] %>:4000"
 openid_url         "http://<%= @node[:chef][:server_fqdn] %>:4001"
@@ -21,6 +22,7 @@ template_url       "http://<%= @node[:chef][:server_fqdn] %>:4000"
 remotefile_url     "http://<%= @node[:chef][:server_fqdn] %>:4000"
 search_url         "http://<%= @node[:chef][:server_fqdn] %>:4000"
 role_url           "http://<%= @node[:chef][:server_fqdn] %>:4000"
+client_url           "http://<%= @node[:chef][:server_fqdn] %>:4000"
 <% end -%>
 
 file_cache_path    "<%= @node[:chef][:cache_path] %>"
