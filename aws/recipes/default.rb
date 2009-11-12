@@ -17,3 +17,11 @@
 # limitations under the License.
 #
 
+r = gem_package "right_aws" do
+  action :nothing
+end
+
+r.run_action(:install)
+
+Gem.clear_paths
+require 'right_aws'

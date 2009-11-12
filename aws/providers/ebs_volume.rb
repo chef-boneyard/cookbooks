@@ -2,7 +2,7 @@ include Opscode::Aws::Ec2
 
 action :create do
   raise "Cannot create a volume with a specific id (EC2 chooses volume ids)" if new_resource.volume_id
-  
+
   nvid = volume_id_in_node_data
   if nvid
     # volume id is registered in the node data, so check that the volume in fact exists in EC2
@@ -32,7 +32,7 @@ end
 
 action :attach do
   vol = determine_volume
-  
+
   if vol[:aws_status] == "in-use"
     if vol[:aws_instance_id] != instance_id
       raise "Volume with id #{vol[:aws_id]} exists but is attached to instance #{vol[:aws_instance_id]}"
@@ -127,7 +127,7 @@ def create_volume(snapshot_id, size, availability_zone, timeout)
   rescue Timeout::Error
     raise "Timed out waiting for volume creation after #{timeout} seconds"
   end
-  
+
   nv[:aws_id]
 end
 
@@ -135,7 +135,7 @@ end
 def attach_volume(volume_id, instance_id, device, timeout)
   Chef::Log.debug("Attaching #{volume_id} as #{device}")
   ec2.attach_volume(volume_id, instance_id, device)
-  
+
   # block until attached
   begin
     Timeout::timeout(timeout) do
@@ -169,7 +169,7 @@ def detach_volume(volume_id, timeout)
   vol = volume_by_id(volume_id)
   orig_instance_id = vol[:aws_instance_id]
   ec2.detach_volume(volume_id)
-  
+
   # block until detached
   begin
     Timeout::timeout(timeout) do

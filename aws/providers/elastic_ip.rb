@@ -36,7 +36,7 @@ end
 
 def attach(ip, timeout)
   ec2.associate_address(instance_id, ip)
-  
+
   # block until attached
   begin
     Timeout::timeout(timeout) do
@@ -60,7 +60,7 @@ end
 
 def detach(ip, timeout)
   ec2.disassociate_address(ip)
-  
+
   # block until detached
   begin
     Timeout::timeout(timeout) do
