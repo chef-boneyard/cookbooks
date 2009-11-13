@@ -26,6 +26,7 @@ set_unless[:mysql][:datadir]              = "/var/lib/mysql"
 if ec2
   set_unless[:mysql][:ec2_path]    = "/mnt/mysql"
   set_unless[:mysql][:ebs_vol_dev] = "/dev/sdi"
+  set_unless[:mysql][:ebs_vol_size] = 50
 end
 
 # Tunables
