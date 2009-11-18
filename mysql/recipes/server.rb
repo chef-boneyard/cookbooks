@@ -28,7 +28,7 @@ when "debian","ubuntu"
     mode 0755
     recursive true
   end
-  
+
   execute "preseed mysql-server" do
     command "debconf-set-selections /var/cache/local/preseeding/mysql-server.seed"
     action :nothing
@@ -49,7 +49,7 @@ end
 
 service "mysql" do
   service_name value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "mysqld"}, "default" => "mysql")
-  
+
   supports :status => true, :restart => true, :reload => true
   action :enable
 end
@@ -63,22 +63,27 @@ template value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "/et
 end
 
 if (node[:ec2] && ! FileTest.directory?(node[:mysql][:ec2_path]))
-  
+
   service "mysql" do
     action :stop
   end
-  
+
   execute "install-mysql" do
     command "mv #{node[:mysql][:datadir]} #{node[:mysql][:ec2_path]}"
     not_if do FileTest.directory?(node[:mysql][:ec2_path]) end
   end
-  
+
+  directory node[:mysql][:ec2_path] do
+    owner "mysql"
+    group "mysql"
+  end
+
   link node[:mysql][:datadir] do
    to node[:mysql][:ec2_path]
   end
-  
+
   service "mysql" do
     action :start
   end
-  
+
 end
