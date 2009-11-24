@@ -1,0 +1,46 @@
+{
+  "license": "Apache 2.0",
+  "providing": {
+    "wordpress": [
+
+    ]
+  },
+  "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES: \n\n= USAGE:\n\n",
+  "dependencies": {
+    "mysql": [
+
+    ],
+    "php": [
+
+    ],
+    "apache2": [
+
+    ]
+  },
+  "replacing": {
+
+  },
+  "description": "Installs\/Configures wordpress",
+  "platforms": {
+
+  },
+  "maintainer": "Example Com",
+  "version": "0.1.0",
+  "recommendations": {
+
+  },
+  "maintainer_email": "ops@example.com",
+  "suggestions": {
+
+  },
+  "name": "wordpress",
+  "recipes": {
+    "wordpress": ""
+  },
+  "attributes": {
+
+  },
+  "conflicting": {
+
+  }
+}
