@@ -147,7 +147,7 @@ when "init"
   Chef::Log.info("'init' scripts available in #{node[:languages][:ruby][:gems_dir]}/gems/chef-#{node[:bootstrap][:chef][:client_version]}/distro")
 when "bsd"
   Chef::Log.info("You specified service style 'bsd'. You will need to set up your rc.local file for chef-indexer and chef-server.")
-  Chef::Log.info("Server startup command: chef-server -c2 -d")
+  Chef::Log.info("Server startup command: chef-server -d")
 else
   Chef::Log.info("Could not determine service init style, manual intervention required to set up indexer and server services.")
 end
