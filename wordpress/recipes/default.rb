@@ -91,7 +91,7 @@ end
 
 include_recipe %w{php::php5 php::module_mysql}
 
-web_app "wordpress.conf" do
+web_app "wordpress" do
     template "wordpress.conf.erb"
     docroot "#{node[:wordpress][:dir]}"
     server_name(
