@@ -23,8 +23,10 @@ root_group = value_for_platform(
   "default" => "root"
 )
 
-gem_package "chef" do
-  version node[:bootstrap][:chef][:client_version]
+if CHEF_08_GEMS_RELEASED
+  gem_package "chef" do
+    version node[:bootstrap][:chef][:client_version]
+  end
 end
 
 case node[:bootstrap][:chef][:init_style]
