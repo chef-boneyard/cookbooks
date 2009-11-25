@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+CHEF_08_GEMS_RELEASED = false
+
 root_group = value_for_platform(
   "openbsd" => { "default" => "wheel" },
   "freebsd" => { "default" => "wheel" },
