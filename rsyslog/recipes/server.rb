@@ -19,7 +19,7 @@
 
 include_recipe "rsyslog"
 
-directory "/srv/rsyslog" do
+directory node[:rsyslog][:log_dir] do
   owner "root"
   group "root"
   mode 0755
@@ -37,12 +37,15 @@ end
 
 file "/etc/rsyslog.d/remote.conf" do
   action :delete
+  backup false
   notifies :reload, resources(:service => "rsyslog"), :delayed
   only_if do File.exists?("/etc/rsyslog.d/remote.conf") end
 end
 
-cron "rsyslog_gz" do
-  minute "0"
-  hour "4"
-  command "find #{node[:rsyslog][:log_dir]}/$(date +\\%Y) -type f -mtime +1 -exec gzip -q {} \\;"
+template "/etc/cron.d/rsyslog_gz" do
+  source "rsyslog_gz.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  variables :log_dir => node[:rsyslog][:log_dir]
 end
