@@ -38,9 +38,10 @@ define :runit_service, :directory => nil, :only_if => false, :options => Hash.ne
     action :create
   end
 
+  params[:template_name] ||= params[:name]
   template "#{sv_dir_name}/run" do
     mode 0755
-    source "sv-#{params[:name]}-run.erb"
+    source "sv-#{params[:template_name]}-run.erb"
     cookbook params[:cookbook] if params[:cookbook]
     if params[:options].respond_to?(:has_key?)
       variables :options => params[:options]
@@ -49,7 +50,7 @@ define :runit_service, :directory => nil, :only_if => false, :options => Hash.ne
 
   template "#{sv_dir_name}/log/run" do
     mode 0755
-    source "sv-#{params[:name]}-log-run.erb"
+    source "sv-#{params[:template_name]}-log-run.erb"
     cookbook params[:cookbook] if params[:cookbook]
     if params[:options].respond_to?(:has_key?)
       variables :options => params[:options]
@@ -66,6 +67,8 @@ define :runit_service, :directory => nil, :only_if => false, :options => Hash.ne
 
   service params[:name] do
     supports :restart => true, :status => true
+    subscribes :restart, resources(:template => "#{sv_dir_name}/run")
+    subscribes :restart, resources(:template => "#{sv_dir_name}/log/run")
     action :nothing
   end
 
