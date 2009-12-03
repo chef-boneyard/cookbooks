@@ -19,8 +19,10 @@
 
 define :memcached_instance do
   include_recipe "memcached"
-  
+
   runit_service "memcached-#{params[:name]}" do
+    template_name "memcached"
+    cookbook "memcached"
     options({
       :memory => node[:memcached][:memory],
       :port => node[:memcached][:port],
