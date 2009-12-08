@@ -1,0 +1,146 @@
+{
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  },
+  "maintainer": "Benjamin Black",
+  "description": "Installs and configures RabbitMQ server",
+  "recipes": {
+    "rabbitmq": "",
+    "rabbitmq::cluster": "Set up RabbitMQ clustering."
+  },
+  "recommendations": {
+
+  },
+  "platforms": {
+    "ubuntu": [
+
+    ],
+    "debian": [
+
+    ]
+  },
+  "version": "0.1.0",
+  "maintainer_email": "b@b3k.us",
+  "name": "rabbitmq",
+  "suggestions": {
+
+  },
+  "conflicting": {
+
+  },
+  "attributes": {
+    "rabbitmq/port": {
+      "default": "5672",
+      "type": "string",
+      "multiple_values": false,
+      "description": "TCP port to bind.  The default is 5672.",
+      "display_name": "RabbitMQ server port",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "rabbitmq/nodename": {
+      "default": "rabbit",
+      "type": "string",
+      "multiple_values": false,
+      "description": "The Erlang node name for this server.  The default is rabbit.",
+      "display_name": "RabbitMQ Erlang node name",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "rabbitmq": {
+      "type": "hash",
+      "multiple_values": false,
+      "description": "Hash of RabbitMQ attributes",
+      "display_name": "RabbitMQ",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "rabbitmq/cluster": {
+      "default": "no",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Whether to activate clustering.  The default is no.",
+      "display_name": "RabbitMQ clustering",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "rabbitmq/mnesiadir": {
+      "default": "/var/lib/rabbitmq/mnesia",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Path to the directory for Mnesia database files.  The default is /var/lib/rabbitmq/mnesia.",
+      "display_name": "RabbitMQ Mnesia database directory",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "rabbitmq/logdir": {
+      "default": "/var/log/rabbitmq",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Path to the directory for log files.  The default is /var/log/rabbitmq.",
+      "display_name": "RabbitMQ log directory",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "rabbitmq/cluster_disk_nodes": {
+      "default": [
+
+      ],
+      "type": "array",
+      "multiple_values": false,
+      "description": "Array of member Erlang nodenames for the disk-based storage nodes in the cluster.  The default is [].",
+      "display_name": "RabbitMQ cluster disk nodes",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "rabbitmq/cluster_config": {
+      "default": "/etc/rabbitmq/rabbitmq_cluster.config",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Path to the clustering configuration file, if cluster is yes.  The default is /etc/rabbitmq/rabbitmq_cluster.config.",
+      "display_name": "RabbitMQ clustering configuration file",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "rabbitmq/address": {
+      "default": "0.0.0.0",
+      "type": "string",
+      "multiple_values": false,
+      "description": "IP address to bind.  The default is any.",
+      "display_name": "RabbitMQ server IP address",
+      "recipes": [
+
+      ],
+      "required": false
+    }
+  },
+  "providing": {
+    "rabbitmq": [
+
+    ],
+    "rabbitmq::cluster": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": ""
+}
