@@ -78,8 +78,11 @@ if (node[:ec2] && ! FileTest.directory?(node[:mysql][:ec2_path]))
     group "mysql"
   end
 
-  link node[:mysql][:datadir] do
-   to node[:mysql][:ec2_path]
+  mount node[:mysql][:datadir] do
+    device node[:mysql][:ec2_path]
+    fstype "none"
+    options "bind,rw"
+    action :mount
   end
 
   service "mysql" do

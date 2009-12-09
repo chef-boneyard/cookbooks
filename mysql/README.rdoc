@@ -6,7 +6,7 @@ Installs and configures MySQL client or server.
 
 == Platform:
 
-Best tested on Ubuntu 9.04.
+Best tested on Ubuntu 9.04. On EC2, requires platform that supports -o bind option for the 'mount' command.
 
 = ATTRIBUTES: 
 
