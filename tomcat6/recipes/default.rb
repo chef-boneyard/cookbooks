@@ -194,6 +194,14 @@ template "#{node[:tomcat6][:dir]}/tomcat6.conf" do
   notifies :restart, resources(:service => "tomcat6"), :immediately
 end
 
+template "#{node[:tomcat6][:dir]}/tomcat-users.xml" do
+  source "tomcat-users.xml.erb"
+  group "#{node[:tomcat6][:user]}"
+  owner "#{node[:tomcat6][:user]}"
+  mode 0600
+  notifies :restart, resources(:service => "tomcat6"), :immediately
+end
+
 service "tomcat6" do
   action :start
 end
