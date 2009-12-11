@@ -7,13 +7,13 @@
 log_level          :info
 log_location       <%= @client_log %>
 ssl_verify_mode    :verify_none
-registration_url    "<%= @node[:bootstrap][:chef][:url_type] %://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
-template_url        "<%= @node[:bootstrap][:chef][:url_type] %://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
-remotefile_url      "<%= @node[:bootstrap][:chef][:url_type] %://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
-search_url          "<%= @node[:bootstrap][:chef][:url_type] %://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
-role_url            "<%= @node[:bootstrap][:chef][:url_type] %://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
-client_url          "<%= @node[:bootstrap][:chef][:url_type] %://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
-chef_server_url     "<%= @node[:bootstrap][:chef][:url_type] %://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+registration_url    "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+template_url        "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+remotefile_url      "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+search_url          "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+role_url            "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+client_url          "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+chef_server_url     "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
 
 validation_key      "/etc/chef/validation.pem"
 client_key          "/etc/chef/client.pem"
