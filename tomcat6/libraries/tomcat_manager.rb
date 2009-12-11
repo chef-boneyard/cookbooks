@@ -35,6 +35,14 @@ class Chef
         )
       end
       
+      def with_snmp(arg=nil)
+        set_or_return(
+          :with_snmp,
+          arg,
+          :kind_of => [ TrueClass, FalseClass ]
+        )
+      end
+
       def admin(arg=nil)
         set_or_return(
           :admin,
@@ -178,6 +186,11 @@ class Chef
       end
 
       def ensure_tomcat_manager_running
+        unless @new_resource.with_snmp
+          poll_manger_until_running
+          return
+        end
+
         require 'snmp'
 
         snmp = Hash.new
