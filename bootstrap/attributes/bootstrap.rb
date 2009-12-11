@@ -27,7 +27,7 @@ set_unless[:bootstrap][:chef][:path]       = "/srv/chef"
 set_unless[:bootstrap][:chef][:run_path]   = "/var/run/chef"
 set_unless[:bootstrap][:chef][:cache_path] = "/#{bootstrap[:chef][:path]}/cache"
 set_unless[:bootstrap][:chef][:serve_path] = "/srv/chef"
-
+set_unless[:bootstrap][:chef][:server_port] = "4000"
 set_unless[:bootstrap][:chef][:server_version]  = "0.7.14"
 set_unless[:bootstrap][:chef][:client_version]  = "0.7.14"
 set_unless[:bootstrap][:chef][:client_interval] = "1800"

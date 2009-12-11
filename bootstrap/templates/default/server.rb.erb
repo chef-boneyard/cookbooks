@@ -6,16 +6,18 @@
 log_level          :info
 log_location       <%= @server_log %>
 ssl_verify_mode    :verify_none
-registration_url   "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
-openid_url         "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4001"
-template_url       "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
-remotefile_url     "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
-search_url         "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
-role_url           "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
+registration_url   "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+template_url       "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+remotefile_url     "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+search_url         "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+role_url           "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+chef_server_url    "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+client_url         "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+chef_server_url    "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+signing_ca_path    "<%= @node[:bootstrap][:chef][:path %>/ca"
+couchdb_database   'chef'
 
-validation_token   "<%= @node[:bootstrap][:chef][:server_token] %>"
-
-cookbook_path      [ "<%= @node[:bootstrap][:chef][:serve_path] %>/site-cookbooks", "<%= @node[:bootstrap][:chef][:serve_path] %>/cookbooks" ]
+cookbook_path      [ "<%= @node[:bootstrap][:chef][:serve_path] %>/cookbooks", "<%= @node[:bootstrap][:chef][:serve_path] %>/site-cookbooks" ]
 
 file_cache_path    "<%= @node[:bootstrap][:chef][:cache_path] %>"
 node_path          "<%= @node[:bootstrap][:chef][:serve_path] %>/nodes"
@@ -24,9 +26,16 @@ openid_cstore_path "<%= @node[:bootstrap][:chef][:path] %>/openid/cstore"
 search_index_path  "<%= @node[:bootstrap][:chef][:path] %>/search_index"
 role_path          "<%= @node[:bootstrap][:chef][:serve_path] %>/roles"
 
-# See http://wiki.opscode.com/display/chef/Securing+Chef+Server
-# For more information on these settings.
-#authorized_openid_providers   [ "https://<%= @node[:bootstrap][:chef][:server_fqdn]%>", "https://chef", "myopenid.com" ]
-#authorized_openid_identifiers [ "" ]
+validation_client_name "validator"
+validation_key   "/etc/chef/validation.key"
+client_key       "/etc/chef/client.pem"
+web_ui_client_name "chef-webui"
+web_ui_key "/etc/chef/webui.pem"
+supportdir = "<%= @node[:bootstrap][:chef][:path] %>/support"
+solr_jetty_path File.join(supportdir, "solr", "jetty")
+solr_heap_size "250M"
+solr_data_path File.join(supportdir, "solr", "data")
+solr_home_path File.join(supportdir, "solr", "home")
+solr_heap_size "256M"
 
 Chef::Log::Formatter.show_time = <%= @show_time %>

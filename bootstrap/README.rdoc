@@ -121,6 +121,7 @@ Common attributes you may wish to adjust for the client:
     "chef": {
       "url_type": "http",
       "init_style": "runit",
+      "server_port": "4000",
       "path": "/srv/chef",
       "server_fqdn": "localhost.localdomain",
     }
@@ -130,7 +131,10 @@ Common attributes you may wish to adjust for the client:
 
 == Servers:
 
+= Note server_port is a new attribute, you don't have to set it... but if you do, your clients need to know where it goes.
+
 Common attributes you may wish to adjust for the server:
+
 
 {
   "bootstrap": {
@@ -138,6 +142,7 @@ Common attributes you may wish to adjust for the server:
       "url_type": "http",
       "init_style": "runit",
       "path": "/srv/chef",
+      "server_port": "4000",
       "serve_path": "/srv/chef",
       "server_fqdn": "localhost.localdomain",
     }
