@@ -50,6 +50,6 @@ when "karmic"
     owner "root"
     group "root"
     mode "0644"
-    notifies :restart, resources(:service => "memcacched"), :immediately
+    notifies :restart, resources(:service => "memcached"), :immediately
   end
 end
