@@ -14,7 +14,7 @@ role_url           "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:boot
 chef_server_url    "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
 client_url         "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
 chef_server_url    "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
-signing_ca_path    "<%= @node[:bootstrap][:chef][:path %>/ca"
+signing_ca_path    "<%= @node[:bootstrap][:chef][:path] %>/ca"
 couchdb_database   'chef'
 
 cookbook_path      [ "<%= @node[:bootstrap][:chef][:serve_path] %>/cookbooks", "<%= @node[:bootstrap][:chef][:serve_path] %>/site-cookbooks" ]
