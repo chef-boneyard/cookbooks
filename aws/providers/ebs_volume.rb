@@ -58,7 +58,7 @@ action :snapshot do
   vol = determine_volume
   snapshot = ec2.create_snapshot(vol[:aws_id])
   new_resource.updated = true
-  Chef::Log.debug("Created snapshot of #{vol[:aws_id]} as #{snapshot[:aws_id]}")
+  Chef::Log.info("Created snapshot of #{vol[:aws_id]} as #{snapshot[:aws_id]}")
 end
 
 private
@@ -113,7 +113,7 @@ def create_volume(snapshot_id, size, availability_zone, timeout)
         vol = volume_by_id(nv[:aws_id])
         if vol && vol[:aws_status] != "deleting"
           if ["in-use", "available"].include?(vol[:aws_status])
-            Chef::Log.debug("Volume is available")
+            Chef::Log.info("Volume #{nv[:aws_id]} is available")
             break
           else
             Chef::Log.debug("Volume is #{vol[:aws_status]}")
@@ -144,7 +144,7 @@ def attach_volume(volume_id, instance_id, device, timeout)
         if vol && vol[:aws_status] != "deleting"
           if vol[:aws_attachment_status] == "attached"
             if vol[:aws_instance_id] == instance_id
-              Chef::Log.debug("Volume is attached")
+              Chef::Log.info("Volume #{volume_id} is attached to #{instance_id}")
               break
             else
               raise "Volume is attached to instance #{vol[:aws_instance_id]} instead of #{instance_id}"
@@ -177,7 +177,7 @@ def detach_volume(volume_id, timeout)
         vol = volume_by_id(volume_id)
         if vol && vol[:aws_status] != "deleting"
           if vol[:aws_instance_id] != orig_instance_id
-            Chef::Log.debug("Volume detached from #{orig_instance_id}")
+            Chef::Log.info("Volume detached from #{orig_instance_id}")
             break
           else
             Chef::Log.debug("Volume: #{vol.inspect}")

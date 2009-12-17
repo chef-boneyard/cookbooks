@@ -3,7 +3,7 @@
 begin
   require 'right_aws'
 rescue LoadError
-  Chef::Log.debug("Missing gem 'right_aws'")
+  Chef::Log.warn("Missing gem 'right_aws'")
 end
 
 require 'open-uri'
