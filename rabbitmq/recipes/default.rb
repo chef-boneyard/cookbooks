@@ -1,4 +1,5 @@
 #
+# Author:: Benjamin Black (<b@b3k.us>)
 # Cookbook Name:: rabbitmq
 # Recipe:: default
 #
