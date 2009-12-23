@@ -67,8 +67,10 @@ define :runit_service, :directory => nil, :only_if => false, :options => Hash.ne
 
   service params[:name] do
     supports :restart => true, :status => true
-    subscribes :restart, resources(:template => "#{sv_dir_name}/run")
-    subscribes :restart, resources(:template => "#{sv_dir_name}/log/run")
+    if FileTest.pipe?("#{sv_dir_name}/supervise/ok")
+      subscribes :restart, resources(:template => "#{sv_dir_name}/run")
+      subscribes :restart, resources(:template => "#{sv_dir_name}/log/run")
+    end
     action :nothing
   end
 
