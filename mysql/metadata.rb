@@ -3,13 +3,15 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures mysql for client or server"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.13"
+version           "0.14"
 recipe            "mysql::client", "Installs packages required for mysql clients using run_action magic"
 recipe            "mysql::server", "Installs packages required for mysql servers w/o manual intervention"
 
 %w{ debian ubuntu }.each do |os|
   supports os
 end
+
+depends "openssl"
 
 attribute "mysql/server_root_password",
   :display_name => "MySQL Server Root Password",

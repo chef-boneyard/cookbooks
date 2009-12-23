@@ -90,3 +90,16 @@ if (node[:ec2] && ! FileTest.directory?(node[:mysql][:ec2_path]))
   end
 
 end
+
+execute "mysql-install-privileges" do
+  command "/usr/bin/mysql -u root -p#{node[:mysql][:server_root_password]} < /etc/mysql/grants.sql"
+  action :nothing
+end
+
+template "/etc/mysql/grants.sql" do
+  source "grants.sql.erb"
+  owner "root"
+  group "root"
+  mode "0600"
+  notifies :run, resources(:execute => "mysql-install-privileges"), :immediately
+end
