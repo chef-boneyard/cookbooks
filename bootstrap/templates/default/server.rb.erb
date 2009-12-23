@@ -24,6 +24,8 @@ openid_cstore_path "<%= @node[:bootstrap][:chef][:path] %>/openid/cstore"
 search_index_path  "<%= @node[:bootstrap][:chef][:path] %>/search_index"
 role_path          "<%= @node[:bootstrap][:chef][:serve_path] %>/roles"
 
+umask <%= @node[:bootstrap][:chef][:umask] %>
+
 # See http://wiki.opscode.com/display/chef/Securing+Chef+Server
 # For more information on these settings.
 #authorized_openid_providers   [ "https://<%= @node[:bootstrap][:chef][:server_fqdn]%>", "https://chef", "myopenid.com" ]

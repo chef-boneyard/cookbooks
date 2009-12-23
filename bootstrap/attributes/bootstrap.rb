@@ -21,6 +21,7 @@ validation_token = ""
 chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 20.times { |i| validation_token << chars[rand(chars.size-1)] }
 
+set_unless[:bootstrap][:chef][:umask]      = 0022
 set_unless[:bootstrap][:chef][:url_type]   = "http"
 set_unless[:bootstrap][:chef][:init_style] = "runit"
 set_unless[:bootstrap][:chef][:path]       = "/srv/chef"
@@ -28,8 +29,8 @@ set_unless[:bootstrap][:chef][:run_path]   = "/var/run/chef"
 set_unless[:bootstrap][:chef][:cache_path] = "/#{bootstrap[:chef][:path]}/cache"
 set_unless[:bootstrap][:chef][:serve_path] = "/srv/chef"
 
-set_unless[:bootstrap][:chef][:server_version]  = "0.7.14"
-set_unless[:bootstrap][:chef][:client_version]  = "0.7.14"
+set_unless[:bootstrap][:chef][:server_version]  = "0.7.16"
+set_unless[:bootstrap][:chef][:client_version]  = "0.7.16"
 set_unless[:bootstrap][:chef][:client_interval] = "1800"
 set_unless[:bootstrap][:chef][:client_splay]    = "20"
 set_unless[:bootstrap][:chef][:log_dir]         = "/var/log/chef"
