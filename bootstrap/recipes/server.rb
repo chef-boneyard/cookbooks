@@ -31,7 +31,7 @@ root_group = value_for_platform(
 
 include_recipe "bootstrap::client"
 include_recipe "rabbitmq"
-include_recipe "nanite::chef"
+include_recipe "rabbitmq::chef"
 include_recipe "java"
 
 case node[:platform]
