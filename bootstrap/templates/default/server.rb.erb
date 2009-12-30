@@ -38,4 +38,4 @@ solr_data_path File.join(supportdir, "solr", "data")
 solr_home_path File.join(supportdir, "solr", "home")
 solr_heap_size "256M"
 
-Chef::Log::Formatter.show_time = <%= @show_time %>
+Mixlib::Log::Formatter.show_time = <%= @show_time %>
