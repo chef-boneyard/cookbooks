@@ -1,0 +1,4 @@
+= Unofficial Chef 0.8 Bootstrap Cookbooks
+I'm maintaining this branch of the cookbooks with bootstraps for Chef 0.8, which is currently pre-release. Chef 0.8 is still changing frequently, and those changes may break this bootstrap. 
+
+BTM maintains a gist showing the steps to get Chef 0.8 installed on Ubuntu Server "Karmic Koala" here: http://gist.github.com/242523
