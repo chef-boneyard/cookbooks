@@ -16,7 +16,7 @@ client_url          "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:boo
 chef_server_url     "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
 
 validation_client_name  "validator"
-validation_key      	"/etc/chef/validation.pem"
+validation_key      	"/etc/chef/validation.key"
 client_key          	"/etc/chef/client.pem"
 
 file_cache_path     "<%= @node[:bootstrap][:chef][:cache_path] %>"
