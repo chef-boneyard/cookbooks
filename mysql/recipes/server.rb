@@ -96,10 +96,18 @@ execute "mysql-install-privileges" do
   action :nothing
 end
 
-template "/etc/mysql/grants.sql" do
-  source "grants.sql.erb"
-  owner "root"
-  group "root"
-  mode "0600"
-  notifies :run, resources(:execute => "mysql-install-privileges"), :immediately
+begin
+  t = resources(:template => "/etc/mysql/grants.sql")
+  t.action(:create)
+rescue
+  Chef::Log.warn("Could not find previously defined grants.sql resource")
+  t = template "/etc/mysql/grants.sql" do
+    source "grants.sql.erb"
+    owner "root"
+    group "root"
+    mode "0600"
+    action :create
+  end
 end
+
+t.notifies :run, resources(:execute => "mysql-install-privileges"), :immediately
