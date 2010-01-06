@@ -25,6 +25,6 @@ role_url           "http://<%= @node[:chef][:server_fqdn] %>:4000"
 
 file_cache_path    "<%= @node[:chef][:cache_path] %>"
 
-pid_file           "<%= @node[:chef][:run_path] %>/chef-client.pid"
+pid_file           "<%= @node[:chef][:run_path] %>/client.pid"
 
 Chef::Log::Formatter.show_time = <%= @show_time %>
