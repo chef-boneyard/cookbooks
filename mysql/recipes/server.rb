@@ -91,14 +91,8 @@ if (node[:ec2] && ! FileTest.directory?(node[:mysql][:ec2_path]))
 
 end
 
-execute "mysql-install-privileges" do
-  command "/usr/bin/mysql -u root -p#{node[:mysql][:server_root_password]} < /etc/mysql/grants.sql"
-  action :nothing
-end
-
 begin
   t = resources(:template => "/etc/mysql/grants.sql")
-  t.action(:create)
 rescue
   Chef::Log.warn("Could not find previously defined grants.sql resource")
   t = template "/etc/mysql/grants.sql" do
@@ -110,4 +104,8 @@ rescue
   end
 end
 
-t.notifies :run, resources(:execute => "mysql-install-privileges"), :immediately
+execute "mysql-install-privileges" do
+  command "/usr/bin/mysql -u root -p#{node[:mysql][:server_root_password]} < /etc/mysql/grants.sql"
+  action :nothing
+  subscribes :run, resources(:template => "/etc/mysql/grants.sql")
+end
