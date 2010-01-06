@@ -1,0 +1,94 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Configures \/etc\/resolv.conf",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "recipes": {
+    "resolver": ""
+  },
+  "suggestions": {
+
+  },
+  "platforms": {
+    "freebsd": [
+
+    ],
+    "ubuntu": [
+
+    ],
+    "openbsd": [
+
+    ],
+    "fedora": [
+
+    ],
+    "macosx": [
+
+    ],
+    "centos": [
+
+    ],
+    "redhat": [
+
+    ],
+    "debian": [
+
+    ]
+  },
+  "version": "0.7.0",
+  "name": "resolver",
+  "conflicting": {
+
+  },
+  "attributes": {
+    "resolver\/nameservers": {
+      "default": [
+        ""
+      ],
+      "type": "array",
+      "multiple_values": false,
+      "description": "Default nameservers",
+      "display_name": "Resolver Nameservers",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "resolver": {
+      "type": "hash",
+      "multiple_values": false,
+      "description": "Hash of Resolver attributes",
+      "display_name": "Resolver",
+      "recipes": [
+
+      ],
+      "required": false
+    },
+    "resolver\/search": {
+      "default": "domain",
+      "type": "string",
+      "multiple_values": false,
+      "description": "Default domain to search",
+      "display_name": "Resolver Search",
+      "recipes": [
+
+      ],
+      "required": false
+    }
+  },
+  "providing": {
+    "resolver": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
+}

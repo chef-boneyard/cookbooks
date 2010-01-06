@@ -1,0 +1,43 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Instsalls and configures munin",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "recipes": {
+    "munin": ""
+  },
+  "suggestions": {
+
+  },
+  "platforms": {
+    "ubuntu": [
+
+    ],
+    "debian": [
+
+    ]
+  },
+  "version": "0.7.0",
+  "name": "munin",
+  "conflicting": {
+
+  },
+  "attributes": {
+
+  },
+  "providing": {
+    "munin": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
+}

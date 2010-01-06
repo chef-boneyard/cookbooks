@@ -1,0 +1,74 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Example cookbook for quick_start wiki document",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "recipes": {
+    "quick_start": ""
+  },
+  "suggestions": {
+
+  },
+  "platforms": {
+    "solaris": [
+
+    ],
+    "freebsd": [
+
+    ],
+    "ubuntu": [
+
+    ],
+    "openbsd": [
+
+    ],
+    "fedora": [
+
+    ],
+    "macosx": [
+
+    ],
+    "centos": [
+
+    ],
+    "debian": [
+
+    ],
+    "redhat": [
+
+    ]
+  },
+  "version": "0.7.0",
+  "name": "quick_start",
+  "conflicting": {
+
+  },
+  "attributes": {
+    "quick_start\/deep_thought": {
+      "default": "If a tree falls in the forest...",
+      "type": "string",
+      "multiple_values": false,
+      "description": "A deep thought",
+      "display_name": "Quick Start Deep Thought",
+      "recipes": [
+
+      ],
+      "required": false
+    }
+  },
+  "providing": {
+    "quick_start": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+
+  }
+}

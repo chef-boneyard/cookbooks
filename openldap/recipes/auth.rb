@@ -2,14 +2,14 @@
 # Cookbook Name:: openldap
 # Recipe:: auth
 #
-# Copyright 2008, Opscode, Inc.
+# Copyright 2008-2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,8 +48,8 @@ remote_file "/etc/nsswitch.conf" do
   mode 0644
   owner "root"
   group "root"
-  notifies :restart, resources(:service => "nscd")
-  notifies :run, resources(:execute => "nscd-clear-passwd", :execute => "nscd-clear-group")
+  notifies :restart, resources(:service => "nscd"), :immediately
+  notifies :run, resources(:execute => "nscd-clear-passwd", :execute => "nscd-clear-group"), :immediately
 end
 
 %w{ account auth password session }.each do |pam|

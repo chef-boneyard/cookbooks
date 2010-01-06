@@ -2,14 +2,14 @@
 # Cookbook Name:: solr
 # Attributes:: solr
 #
-# Copyright 2008, Opscode, Inc.
+# Copyright 2008-2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,9 +17,7 @@
 # limitations under the License.
 #
 
-solr Mash.new unless attribute?("solr")
-
-solr[:user] = 'solr'  unless solr.has_key?(:user)
-solr[:uid] = 551      unless solr.has_key?(:uid)
-solr[:group] = 'solr' unless solr.has_key?(:group)
-solr[:gid] = 551      unless solr.has_key?(:gid)
+set_unless[:solr][:user] = 'solr'
+set_unless[:solr][:uid] = 551
+set_unless[:solr][:group] = 'solr'
+set_unless[:solr][:gid] = 551

@@ -3,14 +3,14 @@
 # Recipe:: default
 # Author:: AJ Christensen <aj@junglist.gen.nz>
 #
-# Copyright 2008, OpsCode, Inc.
+# Copyright 2008-2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,9 +20,9 @@
 
 package "nginx"
 
-directory node[:nginx_log_dir] do
+directory node[:nginx][:log_dir] do
   mode 0755
-  owner node[:nginx_user]
+  owner node[:nginx][:user]
   action :create
 end
 
@@ -36,14 +36,14 @@ end
 end
 
 template "nginx.conf" do
-  path "#{node[:nginx_dir]}/nginx.conf"
+  path "#{node[:nginx][:dir]}/nginx.conf"
   source "nginx.conf.erb"
   owner "root"
   group "root"
   mode 0644
 end
 
-template "#{node[:nginx_dir]}/sites-available/default" do
+template "#{node[:nginx][:dir]}/sites-available/default" do
   source "default-site.erb"
   owner "root"
   group "root"

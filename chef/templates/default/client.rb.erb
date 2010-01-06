@@ -5,17 +5,26 @@
 #
 
 log_level          :info
-log_location       "<%= @node[:chef][:client_log] %>"
+log_location       <%= @client_log %>
 ssl_verify_mode    :verify_none
+<% if @node[:chef][:url_type] == "https" -%>
 registration_url   "https://<%= @node[:chef][:server_fqdn] %>"
-openid_url         "https://<%= @node[:chef][:server_fqdn] %>"
+openid_url         "https://<%= @node[:chef][:server_fqdn] %>:444"
 template_url       "https://<%= @node[:chef][:server_fqdn] %>"
 remotefile_url     "https://<%= @node[:chef][:server_fqdn] %>"
 search_url         "https://<%= @node[:chef][:server_fqdn] %>"
+role_url           "https://<%= @node[:chef][:server_fqdn] %>"
+<% else -%>
+registration_url   "http://<%= @node[:chef][:server_fqdn] %>:4000"
+openid_url         "http://<%= @node[:chef][:server_fqdn] %>:4001"
+template_url       "http://<%= @node[:chef][:server_fqdn] %>:4000"
+remotefile_url     "http://<%= @node[:chef][:server_fqdn] %>:4000"
+search_url         "http://<%= @node[:chef][:server_fqdn] %>:4000"
+role_url           "http://<%= @node[:chef][:server_fqdn] %>:4000"
+<% end -%>
 
-file_store_path    "<%= @node[:chef][:path] %>/file_store"
-file_cache_path    "<%= @node[:chef][:path] %>/cache"
+file_cache_path    "<%= @node[:chef][:cache_path] %>"
 
-pid_file           "<%= @node[:chef][:run_path] %>/chef-client.pid"
+pid_file           "<%= @node[:chef][:run_path] %>/client.pid"
 
-Chef::Log::Formatter.show_time = true
+Chef::Log::Formatter.show_time = <%= @show_time %>

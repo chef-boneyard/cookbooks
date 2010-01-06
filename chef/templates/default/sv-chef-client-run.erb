@@ -1,4 +1,0 @@
-#!/bin/sh
-# set memory limit to 250MB
-exec 2>&1
-exec chpst -m 262144000 /usr/bin/env chef-client -i <%= @node[:chef][:client_interval] %> -s <%= @node[:chef][:client_splay] %> -L <%= @node[:chef][:client_log] %>

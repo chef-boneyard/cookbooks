@@ -1,1 +1,0 @@
-mysql_ec2_path "/srv/mysql" unless attribute?("mysql_ec2_path")

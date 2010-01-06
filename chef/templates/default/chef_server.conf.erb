@@ -1,53 +1,65 @@
 <VirtualHost *:443>
   ServerName <%= @params[:server_name] %>
   ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
-  DocumentRoot <%= @params[:docroot] %>
 
-  Alias /facebox <%= @params[:gems_path] %>/gems/chef-server-slice-<%= @params[:version] %>/public/facebox
-  Alias /images <%= @params[:gems_path] %>/gems/chef-server-slice-<%= @params[:version] %>/public/images
-  Alias /javascripts <%= @params[:gems_path] %>/gems/chef-server-slice-<%= @params[:version] %>/public/javascripts
-  Alias /stylesheets <%= @params[:gems_path] %>/gems/chef-server-slice-<%= @params[:version] %>/public/stylesheets
-  Alias /web-app-theme <%= @params[:gems_path] %>/gems/chef-server-slice-<%= @params[:version] %>/public/web-app-theme
-  
-  PassengerDefaultUser chef
+  DocumentRoot <%= @node[:chef][:doc_root] %>
+
+  ExpiresActive On
+  ExpiresByType text/css "access plus <%= @node[:chef][:server_proxy][:css_expire_hours] %> hours"
+  ExpiresByType text/javascript "access plus <%= @node[:chef][:server_proxy][:js_expire_hours] %> hours"
+  ExpiresByType application/x-javascript "access plus <%= @node[:chef][:server_proxy][:js_expire_hours] %> hours"
+  ExpiresByType application/javascript "access plus <%= @node[:chef][:server_proxy][:js_expire_hours] %> hours"
+
+  <Proxy balancer://chef_server>
+    BalancerMember http://127.0.0.1:4000
+    Order deny,allow
+    Allow from all
+  </Proxy>
 
   LogLevel info
-  ErrorLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-error.log
-  CustomLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
-  
+  ErrorLog <%= @params[:log_dir] %>/<%= @params[:name] %>-error.log
+  CustomLog <%= @params[:log_dir] %>/<%= @params[:name] %>-access.log combined
+
   SSLEngine On
-  SSLCertificateFile /etc/chef/certificates/<%= @node[:chef][:server_fqdn] %>.pem
-  SSLCertificateKeyFile /etc/chef/certificates/<%= @node[:chef][:server_fqdn] %>.pem
+  SSLCertificateFile /etc/chef/certificates/<%= @params[:server_name] %>.pem
+  SSLCertificateKeyFile /etc/chef/certificates/<%= @params[:server_name] %>.pem
+
+  RequestHeader set X_FORWARDED_PROTO 'https'
+
+  RewriteEngine On
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteRule ^/(.*)$ balancer://chef_server%{REQUEST_URI} [P,QSA,L]
 </VirtualHost>
 
-# Uncomment the following and modify the Location stanza to configure
-# htaccess authentication.
+<VirtualHost *:444>
+  ServerName <%= @params[:server_name] %>
+  ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
 
-# <VirtualHost *:444>
-#   ServerName chefadmin.<%= @node[:domain] %>
-#   ServerAlias chefadmin
-#   DocumentRoot <%= @params[:docroot] %>
-# 
-#   Alias /facebox <%= @params[:gems_path] %>/gems/chef-server-slice-<%= @params[:version] %>/public/facebox
-#   Alias /images <%= @params[:gems_path] %>/gems/chef-server-slice-<%= @params[:version] %>/public/images
-#   Alias /javascripts <%= @params[:gems_path] %>/gems/chef-server-slice-<%= @params[:version] %>/public/javascripts
-#   Alias /stylesheets <%= @params[:gems_path] %>/gems/chef-server-slice-<%= @params[:version] %>/public/stylesheets
-#   Alias /web-app-theme <%= @params[:gems_path] %>/gems/chef-server-slice-<%= @params[:version] %>/public/web-app-theme
-#
-#   PassengerDefaultUser chef
-# 
-#   LogLevel info
-#   ErrorLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-error.log
-#   CustomLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
-# 
-#   SSLEngine On
-#   SSLCertificateFile /etc/chef/certificates/<%= @node[:chef][:server_fqdn] %>.pem
-#   SSLCertificateKeyFile /etc/chef/certificates/<%= @node[:chef][:server_fqdn] %>.pem
-#   
-#   <Location />
-#     AuthType Basic
-#     AuthName "Chef Server"
-#     AuthUserFile "/etc/chef/htpasswd.user"
-#     Require valid-user
-#   </Location>
-# </VirtualHost>
+  DocumentRoot <%= @node[:chef][:doc_root] %>
+
+  ExpiresActive On
+  ExpiresByType text/css "access plus <%= @node[:chef][:server_proxy][:css_expire_hours] %> hours"
+  ExpiresByType text/javascript "access plus <%= @node[:chef][:server_proxy][:js_expire_hours] %> hours"
+  ExpiresByType application/x-javascript "access plus <%= @node[:chef][:server_proxy][:js_expire_hours] %> hours"
+  ExpiresByType application/javascript "access plus <%= @node[:chef][:server_proxy][:js_expire_hours] %> hours"
+
+  <Proxy balancer://chef_server_openid>
+    BalancerMember http://127.0.0.1:4001
+    Order deny,allow
+    Allow from all
+  </Proxy>
+
+  LogLevel info
+  ErrorLog <%= @params[:log_dir] %>/<%= @params[:name] %>-error.log
+  CustomLog <%= @params[:log_dir] %>/<%= @params[:name] %>-access.log combined
+
+  SSLEngine On
+  SSLCertificateFile /etc/chef/certificates/<%= @params[:server_name] %>.pem
+  SSLCertificateKeyFile /etc/chef/certificates/<%= @params[:server_name] %>.pem
+
+  RequestHeader set X_FORWARDED_PROTO 'https'
+
+  RewriteEngine On
+  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
+  RewriteRule ^/(.*)$ balancer://chef_server_openid%{REQUEST_URI} [P,QSA,L]
+</VirtualHost>

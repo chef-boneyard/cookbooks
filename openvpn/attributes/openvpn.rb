@@ -7,9 +7,9 @@
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,10 +17,8 @@
 # limitations under the License.
 #
 
-openvpn Mash.new unless attribute?("openvpn")
-
-openvpn[:local] = ipaddress unless openvpn.has_key?(:local)
-openvpn[:proto] = "udp" unless openvpn.has_key?(:proto)
-openvpn[:type] = "server" unless openvpn.has_key?(:type)
-openvpn[:subnet] = "10.8.0.0" unless openvpn.has_key?(:subnet)
-openvpn[:netmask] = "255.255.0.0" unless openvpn.has_key?(:netmask)
+set_unless[:openvpn][:local]   = ipaddress
+set_unless[:openvpn][:proto]   = "udp"
+set_unless[:openvpn][:type]    = "server"
+set_unless[:openvpn][:subnet]  = "10.8.0.0"
+set_unless[:openvpn][:netmask] = "255.255.0.0"

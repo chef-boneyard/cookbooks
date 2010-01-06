@@ -1,11 +1,9 @@
-ntp Mash.new unless attribute?("ntp")
-
 case platform 
 when "ubuntu","debian"
-  ntp[:service] = "ntp"
+  set_unless[:ntp][:service] = "ntp"
 when "redhat","centos","fedora"
-  ntp[:service] = "ntpd"
-end unless ntp.has_key?(:service)
+  set_unless[:ntp][:service] = "ntpd"
+end
 
-ntp[:is_server] = false unless ntp.has_key?(:is_server)
-ntp[:servers] = ["0.us.pool.ntp.org", "1.us.pool.ntp.org"] unless ntp.has_key?(:servers)
+set_unless[:ntp][:is_server] = false
+set_unless[:ntp][:servers]   = ["0.us.pool.ntp.org", "1.us.pool.ntp.org"]

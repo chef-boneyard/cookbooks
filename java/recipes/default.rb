@@ -2,14 +2,14 @@
 # Cookbook Name:: java
 # Recipe:: default
 #
-# Copyright 2008, OpsCode, Inc.
+# Copyright 2008-2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,10 +28,9 @@ java_pkg = value_for_platform(
 )
 
 execute "update-java-alternatives" do
-  command "update-java-alternatives -s java-6-sun"
+  command "update-java-alternatives -s java-6-sun --jre"
   only_if do platform?("ubuntu", "debian") end
   ignore_failure true
-  returns 1
   action :nothing
 end
 
@@ -42,6 +41,3 @@ package java_pkg do
 end
 
 package "ant"
-
-
-

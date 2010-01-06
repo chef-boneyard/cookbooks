@@ -2,14 +2,14 @@
 # Cookbook Name:: sudo
 # Attribute File:: sudoers
 #
-# Copyright 2008, OpsCode, Inc.
+# Copyright 2008-2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,14 +17,5 @@
 # limitations under the License.
 #
 
-authorization Mash.new unless attribute?("authorization")
-
-authorization[:sudo] = Mash.new unless authorization.has_key?(:sudo)
-
-unless authorization[:sudo].has_key?(:groups)
-  authorization[:sudo][:groups] = Array.new 
-end
-
-unless authorization[:sudo].has_key?(:users)
-  authorization[:sudo][:users] = Array.new
-end
+set_unless[:authorization][:sudo][:groups] = Array.new 
+set_unless[:authorization][:sudo][:users] = Array.new
