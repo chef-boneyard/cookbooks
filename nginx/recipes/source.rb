@@ -29,6 +29,7 @@ end
 
 nginx_version = node[:nginx][:version]
 configure_flags = node[:nginx][:configure_flags].join(" ")
+node.set[:nginx][:daemon_disable] = true
 
 remote_file "/tmp/nginx-#{nginx_version}.tar.gz" do
   source "http://sysoev.ru/nginx/nginx-#{nginx_version}.tar.gz"
