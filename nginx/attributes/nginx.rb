@@ -1,6 +1,6 @@
 set_unless[:nginx][:version]      = "0.7.64"
 set_unless[:nginx][:install_path] = "/opt/nginx-#{nginx[:version]}"
-set_unelss[:nginx][:src_binary]   = "#{nginx[:install_path]}/sbin/nginx"
+set_unless[:nginx][:src_binary]   = "#{nginx[:install_path]}/sbin/nginx"
 
 case platform
 when "debian","ubuntu"
