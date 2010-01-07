@@ -21,6 +21,7 @@
 #
 
 include_recipe "build-essential"
+include_recipe "runit"
 
 %w{ libpcre3 libpcre3-dev libssl-dev}.each do |devpkg|
   package devpkg

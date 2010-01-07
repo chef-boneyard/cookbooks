@@ -8,7 +8,9 @@ version           "0.9"
   supports os
 end
 
-depends "build-essential"
+%w{ build-essential runit }.each do |cb|
+  depends cb
+end
 
 attribute "nginx/dir",
   :display_name => "Nginx Directory",
