@@ -22,8 +22,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "passenger_enterprise"
 include_recipe "nginx::source"
+include_recipe "passenger_enterprise"
 
 configure_flags = node[:nginx][:configure_flags].join(" ")
 nginx_install = node[:nginx][:install_path]
@@ -37,7 +37,8 @@ execute "passenger_nginx_module" do
       --nginx-source-dir=/tmp/nginx-#{nginx_version} \
       --extra-configure-flags='#{configure_flags}'
   }
-  creates "#{nginx_install}/sbin/nginx"
+  not_if "#{nginx_install}/sbin/nginx -V 2>&1 | grep '#{node[:ruby_enterprise][:gems_dir]}/gems/passenger-#{node[:passenger_enterprise][:version]}/ext/nginx'"
+  notifies :restart, resources(:service => "nginx")
 end
 
 template "#{nginx_dir}/conf.d/passenger.conf" do
@@ -45,4 +46,5 @@ template "#{nginx_dir}/conf.d/passenger.conf" do
   owner "root"
   group "root"
   mode "0644"
+  notifies :restart, resources(:service => "nginx")
 end

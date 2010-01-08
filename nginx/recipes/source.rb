@@ -95,5 +95,5 @@ remote_file "#{node[:nginx][:dir]}/mime.types" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :restart, resources(:service => "nginx")
+  notifies :restart, resources(:service => "nginx"), :immediately
 end
