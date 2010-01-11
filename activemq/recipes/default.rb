@@ -22,14 +22,15 @@ include_recipe "java"
 version = node[:activemq][:version]
 mirror = node[:activemq][:mirror]
 
-remote_file "/tmp/apache-activemq-#{version}-bin.tar.gz" do
-  source "#{mirror}/apache/activemq/apache-activemq/#{version}/apache-activemq-#{version}-bin.tar.gz"
-  mode "0644"
-end
+unless File.exists?("/opt/apache-activemq-#{version}/bin/activemq")
+  remote_file "/tmp/apache-activemq-#{version}-bin.tar.gz" do
+    source "#{mirror}/apache/activemq/apache-activemq/#{version}/apache-activemq-#{version}-bin.tar.gz"
+    mode "0644"
+  end
 
-execute "tar zxf /tmp/apache-activemq-#{version}-bin.tar.gz" do
-  cwd "/opt"
-  not_if { File.exists?("/opt/apache-activemq-#{version}/bin/activemq") }
+  execute "tar zxf /tmp/apache-activemq-#{version}-bin.tar.gz" do
+    cwd "/opt"
+  end
 end
 
 file "/opt/apache-activemq-#{version}/bin/activemq" do
