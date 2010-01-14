@@ -2,6 +2,9 @@ include Opscode::Aws::Ec2
 
 action :create do
   raise "Cannot create a volume with a specific id (EC2 chooses volume ids)" if new_resource.volume_id
+  if new_resource.snapshot_id =~ /vol/
+    new_resource.snapshot_id(find_snapshot_id(new_resource.snapshot_id))
+  end
 
   nvid = volume_id_in_node_data
   if nvid
@@ -61,6 +64,24 @@ action :snapshot do
   Chef::Log.info("Created snapshot of #{vol[:aws_id]} as #{snapshot[:aws_id]}")
 end
 
+action :prune do
+  vol = determine_volume
+  old_snapshots = Array.new
+  Chef::Log.info "Checking for old snapshots"
+  ec2.describe_snapshots.sort { |a,b| b[:aws_started_at] <=> a[:aws_started_at] }.each do |snapshot|
+    if snapshot[:aws_volume_id] == vol[:aws_id]
+      Chef::Log.info "Found old snapshot #{snapshot[:aws_id]} (#{snapshot[:aws_volume_id]}) #{snapshot[:aws_started_at]}"
+      old_snapshots << snapshot
+    end 
+  end
+  if old_snapshots.length >= new_resource.snapshots_to_keep 
+    old_snapshots[new_resource.snapshots_to_keep - 1, old_snapshots.length].each do |die|
+      Chef::Log.info "Deleting old snapshot #{die[:aws_id]}"
+      ec2.delete_snapshot(die[:aws_id])
+    end
+  end
+end
+
 private
 
 def volume_id_in_node_data
@@ -95,6 +116,9 @@ end
 
 # Returns true if the given volume meets the resource's attributes
 def volume_compatible_with_resource_definition?(volume)
+  if new_resource.snapshot_id =~ /vol/
+    new_resource.snapshot_id(find_snapshot_id(new_resource.snapshot_id))
+  end
   (new_resource.size.nil? || new_resource.size == volume[:aws_size]) &&
   (new_resource.availability_zone.nil? || new_resource.availability_zone == volume[:zone]) &&
   (new_resource.snapshot_id == volume[:snapshot_id])
