@@ -85,6 +85,12 @@ if (node[:ec2] && ! FileTest.directory?(node[:mysql][:ec2_path]))
     action :mount
   end
 
+  directory "#{node[:mysql][:datadir]}/logs" do
+    mode 0755
+    owner "mysql"
+    group "mysql"
+  end
+
   service "mysql" do
     action :start
   end
