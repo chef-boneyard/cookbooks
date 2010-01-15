@@ -30,6 +30,7 @@ action :create do
       node.set[:aws][:ebs_volume][new_resource.name][:volume_id] = nvid
       new_resource.updated = true
     end
+    node.save
   end
 end
 
@@ -46,6 +47,7 @@ action :attach do
     # attach the volume and register its id in the node data
     attach_volume(vol[:aws_id], instance_id, new_resource.device, new_resource.timeout)
     node.set[:aws][:ebs_volume][new_resource.name][:volume_id] = vol[:aws_id]
+    node.save
     new_resource.updated = true
   end
 end
