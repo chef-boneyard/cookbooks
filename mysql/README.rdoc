@@ -67,13 +67,18 @@ On Debian/Ubuntu this will preseed the MySQL package with the randomly generated
 
 Also sets up 'repl' user grants for replication slaves.
 
-On EC2 nodes, we also look for a mounted filesystem (eg, EBS) and move the datadir there if it exists. 
+On EC2 nodes,
+
+  include_recipe "mysql::server_ec2"
+  
+When the ec2_path doesn't exist we look for a mounted filesystem (eg, EBS) and move the datadir there.
 
 The client recipe is already included by server and 'default' recipes.
 
 = LICENSE and AUTHOR:
       
 Author:: Joshua Timberman (<joshua@opscode.com>)
+Author:: AJ Christensen (<aj@opscode.com>)
 
 Copyright:: 2009, Opscode, Inc
 
