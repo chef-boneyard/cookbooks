@@ -62,7 +62,6 @@ template value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "/et
   notifies :restart, resources(:service => "mysql"), :immediately
 end
 
-
 begin
   t = resources(:template => "/etc/mysql/grants.sql")
 rescue

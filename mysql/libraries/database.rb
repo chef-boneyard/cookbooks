@@ -13,4 +13,3 @@ module Opscode
     end
   end
 end
-
