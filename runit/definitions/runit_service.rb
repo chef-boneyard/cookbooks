@@ -38,9 +38,10 @@ define :runit_service, :directory => nil, :only_if => false, :options => Hash.ne
     action :create
   end
 
+  params[:template_name] ||= params[:name]
   template "#{sv_dir_name}/run" do
     mode 0755
-    source "sv-#{params[:name]}-run.erb"
+    source "sv-#{params[:template_name]}-run.erb"
     cookbook params[:cookbook] if params[:cookbook]
     if params[:options].respond_to?(:has_key?)
       variables :options => params[:options]
@@ -49,7 +50,7 @@ define :runit_service, :directory => nil, :only_if => false, :options => Hash.ne
 
   template "#{sv_dir_name}/log/run" do
     mode 0755
-    source "sv-#{params[:name]}-log-run.erb"
+    source "sv-#{params[:template_name]}-log-run.erb"
     cookbook params[:cookbook] if params[:cookbook]
     if params[:options].respond_to?(:has_key?)
       variables :options => params[:options]
@@ -64,8 +65,17 @@ define :runit_service, :directory => nil, :only_if => false, :options => Hash.ne
     to "#{sv_dir_name}"
   end
 
+  ruby_block "supervise_#{params[:name]}_sleep" do
+    block do
+      (1..6).each {|i| sleep 1 unless ::FileTest.pipe?("#{sv_dir_name}/supervise/ok") }
+    end
+    not_if { FileTest.pipe?("#{sv_dir_name}/supervise/ok") }
+  end
+
   service params[:name] do
     supports :restart => true, :status => true
+    subscribes :restart, resources(:template => "#{sv_dir_name}/run"), :delayed
+    subscribes :restart, resources(:template => "#{sv_dir_name}/log/run"), :delayed
     action :nothing
   end
 

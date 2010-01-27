@@ -1,5 +1,8 @@
 user <%= @node[:nginx][:user] %>;
 worker_processes  <%= @node[:nginx][:worker_processes] %>;
+<% if @node[:nginx][:daemon_disable] -%>
+daemon off;
+<% end -%>
 
 error_log  <%= @node[:nginx][:log_dir] %>/error.log;
 pid        /var/run/nginx.pid;

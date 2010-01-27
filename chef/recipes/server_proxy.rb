@@ -33,6 +33,8 @@ include_recipe "apache2::mod_proxy_http"
 include_recipe "apache2::mod_proxy_balancer"
 include_recipe "apache2::mod_rewrite"
 include_recipe "apache2::mod_headers"
+include_recipe "apache2::mod_expires"
+include_recipe "apache2::mod_deflate"
 
 directory "/etc/chef/certificates" do
   owner "root"

@@ -2,10 +2,14 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures nginx"
-version           "0.8"
+version           "0.10"
 
 %w{ ubuntu debian }.each do |os|
   supports os
+end
+
+%w{ build-essential runit }.each do |cb|
+  depends cb
 end
 
 attribute "nginx/dir",

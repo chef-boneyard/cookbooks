@@ -2,7 +2,6 @@ require 'rubygems'
 require 'chef'
 require 'json'
 
-load 'chef/tasks/chef_repo.rake'
 
 TOPDIR = File.expand_path(File.join(File.dirname(__FILE__), ".."))
 TEST_CACHE = File.expand_path(File.join(TOPDIR, ".rake_test_cache"))
@@ -10,6 +9,7 @@ COMPANY_NAME = "Opscode, Inc."
 SSL_EMAIL_ADDRESS = "cookbooks@opscode.com"
 NEW_COOKBOOK_LICENSE = :apachev2
 
+load 'chef/tasks/chef_repo.rake'
 task :default => [ :test ]
 
 desc "Build a bootstrap.tar.gz"

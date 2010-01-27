@@ -21,6 +21,6 @@
 case node[:platform]
 when "ubuntu"
   service "apparmor" do
-    action :disable
+    action [ :stop, :disable ]
   end
 end
