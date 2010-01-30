@@ -35,18 +35,6 @@ execute "untar-wordpress" do
     creates "#{node[:wordpress][:dir]}/wp-settings.php"  
 end
 
-include_recipe "mysql::server"
-Gem.clear_paths
-require 'mysql'
-
-execute "create #{node[:wordpress][:db][:database]} database" do
-    command "/usr/bin/mysqladmin -u root -p#{node[:mysql][:server_root_password]} create #{node[:wordpress][:db][:database]}"
-    not_if do
-      m = Mysql.new("localhost", "root", @node[:mysql][:server_root_password])
-      m.list_dbs.include?(@node[:wordpress][:db][:database])
-    end
-end
-
 execute "mysql-install-privileges" do
     command "/usr/bin/mysql -u root -p#{node[:mysql][:server_root_password]} < /etc/mysql/grants.sql"
     action :nothing
@@ -64,6 +52,19 @@ template "/etc/mysql/grants.sql" do
     )
     notifies :run, resources(:execute => "mysql-install-privileges"), :immediately
 end
+
+include_recipe "mysql::server"
+Gem.clear_paths
+require 'mysql'
+
+execute "create #{node[:wordpress][:db][:database]} database" do
+    command "/usr/bin/mysqladmin -u root -p#{node[:mysql][:server_root_password]} create #{node[:wordpress][:db][:database]}"
+    not_if do
+      m = Mysql.new("localhost", "root", @node[:mysql][:server_root_password])
+      m.list_dbs.include?(@node[:wordpress][:db][:database])
+    end
+end
+
 
 # save node data after writing the MYSQL root password, so that a failed chef-client run that gets this far doesn't cause an unknown password to get applied to the box without being saved in the node data.
 ruby_block "save node data" do

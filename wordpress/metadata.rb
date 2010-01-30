@@ -7,6 +7,7 @@ version          "0.1"
 depends          "php"
 depends          "apache2"
 depends          "mysql"
+depends          "openssl"
 
 %w{ debian ubuntu }.each do |os|
   supports os

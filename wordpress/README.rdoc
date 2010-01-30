@@ -15,8 +15,13 @@ Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
 * mysql
 * php
 * apache2
+* opensssl
 
-= ATTRIBUTES: 
+== Libraries:
+
+The openssl library is required for the openssl cookbook.
+
+= ATTRIBUTES:
 
 * wordpress[:dir] - Set the location to place wordpress files. Default is /var/www.
 * wordpress[:db][:database] - Wordpress will use this MySQL database to store its data.
@@ -29,6 +34,8 @@ Attributes will probably never need to change (these all default to randomly gen
 * wordpress[:keys][:secure_auth]
 * wordpress[:keys][:logged_in]
 * wordpress[:keys][:nonce]
+
+The random generation is handled with the secure_password method in the openssl cookbook which is a cryptographically secure random generator and not predictable like the random method in the ruby standard library.
 
 = USAGE:
 

@@ -1,4 +1,5 @@
 #
+# Author:: Barry Steinglass (<barry@opscode.com>)
 # Cookbook Name:: wordpress
 # Attributes:: wordpress
 #
@@ -22,25 +23,10 @@ set_unless[:wordpress][:dir] = "/var/www"
 set_unless[:wordpress][:db][:database] = "wordpressdb"
 set_unless[:wordpress][:db][:user] = "wordpressuser"
 
-db_password = ""
-chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-20.times { |i| db_password << chars[rand(chars.size-1)] }
-set_unless[:wordpress][:db][:password] = db_password 
+::Chef::Node.send(:include, Opscode::OpenSSL::Password)
 
-auth_key = ""
-secure_auth_key = ""
-logged_in_key = ""
-nonce_key = ""
-chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-20.times { |i| auth_key << chars[rand(chars.size-1)] }
-chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-20.times { |i| secure_auth_key << chars[rand(chars.size-1)] }
-chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-20.times { |i| logged_in_key << chars[rand(chars.size-1)] }
-chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-20.times { |i| nonce_key << chars[rand(chars.size-1)] }
-
-set_unless[:wordpress][:keys][:auth] = auth_key
-set_unless[:wordpress][:keys][:secure_auth] = secure_auth_key
-set_unless[:wordpress][:keys][:logged_in] = logged_in_key
-set_unless[:wordpress][:keys][:nonce] = nonce_key 
+set_unless[:wordpress][:db][:password] = secure_password
+set_unless[:wordpress][:keys][:auth] = secure_password
+set_unless[:wordpress][:keys][:secure_auth] = secure_password
+set_unless[:wordpress][:keys][:logged_in] = secure_password
+set_unless[:wordpress][:keys][:nonce] = secure_password
