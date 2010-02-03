@@ -34,7 +34,7 @@ template "/etc/postfix/sasl_passwd" do
   owner "root"
   group "root"
   mode 0400
-  notifies :run, resources(:execute => "postmap-sasl_passwd")
+  notifies :run, resources(:execute => "postmap-sasl_passwd"), :immediately
   notifies :restart, resources(:service => "postfix")
 end
 

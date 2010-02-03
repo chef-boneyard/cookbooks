@@ -50,8 +50,13 @@ else
 end
 
 if CHEF_08_GEMS_RELEASED
-  %w{ chef-server chef-server-slice chef-solr }.each do |gem|
+  %w{ chef-server chef-server-api chef-solr }.each do |gem|
     gem_package gem do
+      version node[:bootstrap][:chef][:server_version]
+    end
+  end
+  if node[:bootstrap][:chef][:webui_enabled]
+    gem_package "chef-server-webui" do
       version node[:bootstrap][:chef][:server_version]
     end
   end
@@ -128,6 +133,7 @@ when "runit"
   service "chef-server" do
     restart_command "sv int chef-server"
   end
+  runit_service "chef-server-webui"
 when "init"
   show_time  = "true"
 
@@ -140,6 +146,10 @@ when "init"
   end
 
   service "chef-server" do
+    action :nothing
+  end
+
+  service "chef-server-webui" do
     action :nothing
   end
 

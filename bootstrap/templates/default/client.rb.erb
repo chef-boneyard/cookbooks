@@ -20,7 +20,6 @@ validation_key      	"/etc/chef/validation.key"
 client_key          	"/etc/chef/client.pem"
 
 file_cache_path     "<%= @node[:bootstrap][:chef][:cache_path] %>"
-
 pid_file            "<%= @node[:bootstrap][:chef][:run_path] %>/chef-client.pid"
 
 Mixlib::Log::Formatter.show_time = <%= @show_time %>
