@@ -31,6 +31,8 @@ include_recipe "bootstrap::client"
 include_recipe "rabbitmq"
 include_recipe "rabbitmq::chef"
 include_recipe "java"
+include_recipe "zlib"
+include_recipe "xml"
 
 case node[:platform]
 when "ubuntu"
