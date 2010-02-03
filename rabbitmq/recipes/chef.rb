@@ -21,8 +21,6 @@
 
 include_recipe "rabbitmq"
 
-Chef::Log.info("Configuring rabbitmq for chef.")
-
 execute "rabbitmqctl add_vhost /chef" do
   not_if "rabbitmqctl list_vhosts| grep /chef"
 end
@@ -32,8 +30,8 @@ execute "rabbitmqctl add_user chef testing" do
   not_if "rabbitmqctl list_users |grep chef"
 end
 
-# grant the mapper user the ability to do anything with the /nanite vhost
+# grant the mapper user the ability to do anything with the /chef vhost
 # the three regex's map to config, write, read permissions respectively
 execute 'rabbitmqctl set_permissions -p /chef chef ".*" ".*" ".*"' do
-  not_if 'rabbitmqctl list_user_permissions mapper|grep /nanite'
+  not_if 'rabbitmqctl list_user_permissions mapper|grep /chef'
 end
