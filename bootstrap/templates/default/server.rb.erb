@@ -28,10 +28,14 @@ role_path          "<%= @node[:bootstrap][:chef][:serve_path] %>/roles"
 
 supportdir = "<%= @node[:bootstrap][:chef][:path] %>/support"
 validation_client_name "validator"
-web_ui_client_name     "chef-webui"
 validation_key         "/etc/chef/validation.key"
-web_ui_key             "/etc/chef/webui.pem"
 client_key             "/etc/chef/client.pem"
+
+<% if @node[:bootstrap][:chef][:webui_enabled] -%>
+web_ui_client_name     "chef-webui"
+web_ui_key             "/etc/chef/webui.pem"
+web_ui_admin_default_password "<%= @node[:bootstrap][:chef][:webui_admin_password] %>"
+<% end -%>
 
 solr_jetty_path File.join(supportdir, "solr", "jetty")
 solr_heap_size  "250M"

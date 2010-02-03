@@ -17,9 +17,7 @@
 # limitations under the License.
 #
 
-validation_token = ""
-chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-20.times { |i| validation_token << chars[rand(chars.size-1)] }
+::Chef::Node.send(:include, Opscode::OpenSSL::Password)
 
 set_unless[:bootstrap][:chef][:umask]      = 0022
 set_unless[:bootstrap][:chef][:url_type]   = "http"
@@ -31,6 +29,7 @@ set_unless[:bootstrap][:chef][:serve_path] = "/srv/chef"
 set_unless[:bootstrap][:chef][:server_port] = "4000"
 set_unless[:bootstrap][:chef][:webui_port]  = "4040"
 set_unless[:bootstrap][:chef][:webui_enabled]  = false
+set_unless[:bootstrap][:chef][:webui_admin_password]  = secure_password
 
 set_unless[:bootstrap][:chef][:server_version]  = "0.8.0"
 set_unless[:bootstrap][:chef][:client_version]  = "0.8.0"
@@ -50,4 +49,3 @@ else
 end
 
 set_unless[:bootstrap][:chef][:server_fqdn]  = domain ? "chef.#{domain}" : "chef"
-set_unless[:bootstrap][:chef][:server_token] = validation_token

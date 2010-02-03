@@ -21,8 +21,6 @@
 # limitations under the License.
 #
 
-CHEF_08_GEMS_RELEASED = false
-
 root_group = value_for_platform(
   "openbsd" => { "default" => "wheel" },
   "freebsd" => { "default" => "wheel" },
@@ -49,16 +47,26 @@ else
   Chef::Log.info("Unknown platform for CouchDB. Manual installation of CouchDB required.")
 end
 
-if CHEF_08_GEMS_RELEASED
-  %w{ chef-server chef-server-api chef-solr }.each do |gem|
-    gem_package gem do
-      version node[:bootstrap][:chef][:server_version]
-    end
+%w{ chef-server chef-server-api chef-solr }.each do |gem|
+  gem_package gem do
+    version node[:bootstrap][:chef][:server_version]
   end
-  if node[:bootstrap][:chef][:webui_enabled]
-    gem_package "chef-server-webui" do
-      version node[:bootstrap][:chef][:server_version]
-    end
+end
+
+if node[:bootstrap][:chef][:webui_enabled]
+  gem_package "chef-server-webui" do
+    version node[:bootstrap][:chef][:server_version]
+  end
+
+  bash "Create WebUI SSL Certificate" do
+    cwd "/etc/chef"
+    code <<-EOH
+    umask 077
+    openssl genrsa 2048 > webui.key
+    openssl req -subj "#{node[:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key webui.key > webui.crt
+    cat webui.key webui.crt > webui.pem
+    EOH
+    not_if { File.exists?("/etc/chef/webui.pem") }
   end
 end
 
@@ -80,17 +88,6 @@ template "/etc/chef/server.rb" do
     :server_log => server_log,
     :show_time  => show_time
   )
-end
-
-bash "Create WebUI SSL Certificate" do
-  cwd "/etc/chef"
-  code <<-EOH
-  umask 077
-  openssl genrsa 2048 > webui.key
-  openssl req -subj "#{node[:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key webui.key > webui.crt
-  cat webui.key webui.crt > webui.pem
-  EOH
-  not_if { File.exists?("/etc/chef/webui.pem") }
 end
 
 bash "Create Validation SSL Certificate" do
@@ -133,7 +130,7 @@ when "runit"
   service "chef-server" do
     restart_command "sv int chef-server"
   end
-  runit_service "chef-server-webui"
+  runit_service "chef-server-webui" if node[:bootstrap][:chef][:webui_enabled]
 when "init"
   show_time  = "true"
 
@@ -151,7 +148,7 @@ when "init"
 
   service "chef-server-webui" do
     action :nothing
-  end
+  end if node[:bootstrap][:chef][:webui_enabled]
 
   Chef::Log.info("You specified service style 'init'.")
   Chef::Log.info("'init' scripts available in #{node[:languages][:ruby][:gems_dir]}/gems/chef-#{node[:bootstrap][:chef][:client_version]}/distro")
