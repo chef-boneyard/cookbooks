@@ -30,6 +30,7 @@ set_unless[:bootstrap][:chef][:cache_path] = "/#{bootstrap[:chef][:path]}/cache"
 set_unless[:bootstrap][:chef][:serve_path] = "/srv/chef"
 set_unless[:bootstrap][:chef][:server_port] = "4000"
 set_unless[:bootstrap][:chef][:webui_port]  = "4040"
+set_unless[:bootstrap][:chef][:webui_enabled]  = false
 
 set_unless[:bootstrap][:chef][:server_version]  = "0.8.0"
 set_unless[:bootstrap][:chef][:client_version]  = "0.8.0"
