@@ -19,10 +19,6 @@
 # limitations under the License.
 #
 
-
-# Is this valid for all platforms? Is it not just rabbitmq on some platform?
-# Valid for ubuntu, *probably* debian and EL5
-# http://download.fedora.redhat.com/pub/epel/5/x86_64/repoview/letter_r.group.html
 package "rabbitmq-server"
 
 service "rabbitmq-server" do
@@ -32,4 +28,20 @@ service "rabbitmq-server" do
   end
   supports [ :restart, :status ]
   action [ :enable, :start ]
+end
+
+# add a chef vhost to the queue
+execute "rabbitmqctl add_vhost /chef" do
+  not_if "rabbitmqctl list_vhosts| grep /chef"
+end
+
+# create chef user for the queue
+execute "rabbitmqctl add_user chef testing" do
+  not_if "rabbitmqctl list_users |grep chef"
+end
+
+# grant the mapper user the ability to do anything with the /chef vhost
+# the three regex's map to config, write, read permissions respectively
+execute 'rabbitmqctl set_permissions -p /chef chef ".*" ".*" ".*"' do
+  not_if 'rabbitmqctl list_user_permissions mapper|grep /chef'
 end
