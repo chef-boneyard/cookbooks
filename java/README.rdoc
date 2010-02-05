@@ -1,0 +1,29 @@
+= DESCRIPTION:
+
+Installs Java and Ant.
+
+= REQUIREMENTS:
+
+Platform: Ubuntu, Debian, Red Hat, CentOS, Fedora.
+
+Enable the 'multiverse' repository on Ubuntu, 'non-free' on Debian or EPEL on RH/Cent/Fedora to get the Java package, or edit the default recipe to point at the Java package for your platform.
+
+= USAGE:
+
+Simply include the recipe where you want Java installed. Note the respository requirement above to get the right package. On Debian and Ubuntu systems, the recipe will preseed the package and update java alternaties.
+
+= LICENSE and AUTHOR:
+
+Copyright 2008-2010, Opscode, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
