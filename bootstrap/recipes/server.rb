@@ -28,26 +28,37 @@ root_group = value_for_platform(
 )
 
 include_recipe "bootstrap::client"
-include_recipe "rabbitmq"
-include_recipe "rabbitmq::chef"
-include_recipe "java"
-include_recipe "zlib"
-include_recipe "xml"
 
 case node[:platform]
 when "ubuntu"
   if node[:platform_version].to_f >= 8.10
     include_recipe "couchdb"
+    include_recipe "java"
+  end
+  if node[:platform_version].to_f >= 9.04
+    include_recipe "rabbitmq_chef"
   end
 when "debian"
   if node[:platform_version].to_f >= 5.0 || node[:platform_version] =~ /.*sid/
     include_recipe "couchdb"
+    include_recipe "java"
+  end
+  if node[:platform_version] =~ /.*sid/
+    include_recipe "rabbitmq_chef"
   end
 when "centos","redhat","fedora"
+  include_recipe "java"
   include_recipe "couchdb"
+  include_recipe "rabbitmq_chef"
 else
   Chef::Log.info("Unknown platform for CouchDB. Manual installation of CouchDB required.")
+  Chef::Log.info("Unknown platform for RabbitMQ. Manual installation of RabbitMQ required.")
+  Chef::Log.info("Unknown platform for Java. Manual installation of Java required.")
+  Chef::Log.info("Components that rely on these packages being installed may fail to start.")
 end
+
+include_recipe "zlib"
+include_recipe "xml"
 
 %w{ chef-server chef-server-api chef-solr }.each do |gem|
   gem_package gem do
@@ -58,17 +69,6 @@ end
 if node[:bootstrap][:chef][:webui_enabled]
   gem_package "chef-server-webui" do
     version node[:bootstrap][:chef][:server_version]
-  end
-
-  bash "Create WebUI SSL Certificate" do
-    cwd "/etc/chef"
-    code <<-EOH
-    umask 077
-    openssl genrsa 2048 > webui.key
-    openssl req -subj "#{node[:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key webui.key > webui.crt
-    cat webui.key webui.crt > webui.pem
-    EOH
-    not_if { File.exists?("/etc/chef/webui.pem") }
   end
 end
 
@@ -92,12 +92,23 @@ template "/etc/chef/server.rb" do
   )
 end
 
+bash "Create WebUI SSL Certificate" do
+  cwd "/etc/chef"
+  code <<-EOH
+  umask 077
+  openssl genrsa 2048 > webui.key
+  openssl req -subj "#{node[:bootstrap][:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key webui.key > webui.crt
+  cat webui.key webui.crt > webui.pem
+  EOH
+  not_if { File.exists?("/etc/chef/webui.pem") }
+end
+
 bash "Create Validation SSL Certificate" do
   cwd "/etc/chef"
   code <<-EOH
   umask 077
   openssl genrsa 2048 > validation.key
-  openssl req -subj "#{node[:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key validation.key > validation.crt
+  openssl req -subj "#{node[:bootstrap][:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key validation.key > validation.crt
   cat validation.key validation.crt > validation.pem
   EOH
   not_if { File.exists?("/etc/chef/validation.pem") }

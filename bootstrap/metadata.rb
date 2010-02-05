@@ -9,6 +9,6 @@ version          "0.3"
   supports os
 end
 
-%w{ runit couchdb rabbitmq apache2 openssl }.each do |cb|
+%w{ runit couchdb rabbitmq_chef apache2 openssl zlib xml java }.each do |cb|
   depends cb
 end

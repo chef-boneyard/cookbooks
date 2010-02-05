@@ -24,12 +24,12 @@ set_unless[:bootstrap][:chef][:url_type]   = "http"
 set_unless[:bootstrap][:chef][:init_style] = "runit"
 set_unless[:bootstrap][:chef][:path]       = "/srv/chef"
 set_unless[:bootstrap][:chef][:run_path]   = "/var/run/chef"
-set_unless[:bootstrap][:chef][:cache_path] = "/#{bootstrap[:chef][:path]}/cache"
+set_unless[:bootstrap][:chef][:cache_path] = "#{bootstrap[:chef][:path]}/cache"
 set_unless[:bootstrap][:chef][:serve_path] = "/srv/chef"
 set_unless[:bootstrap][:chef][:server_port] = "4000"
 set_unless[:bootstrap][:chef][:webui_port]  = "4040"
-set_unless[:bootstrap][:chef][:webui_enabled]  = false
-set_unless[:bootstrap][:chef][:webui_admin_password]  = secure_password
+set_unless[:bootstrap][:chef][:webui_enabled] = false
+set_unless[:bootstrap][:chef][:webui_admin_password] = secure_password
 
 set_unless[:bootstrap][:chef][:server_version]  = "0.8.0"
 set_unless[:bootstrap][:chef][:client_version]  = "0.8.0"
@@ -48,4 +48,5 @@ else
   set_unless[:bootstrap][:chef][:indexer_log] = "#{bootstrap[:chef][:log_dir]}/indexer.log"
 end
 
-set_unless[:bootstrap][:chef][:server_fqdn]  = domain ? "chef.#{domain}" : "chef"
+set_unless[:bootstrap][:chef][:server_fqdn]    = domain ? "chef.#{domain}" : "chef"
+set_unless[:bootstrap][:chef][:server_ssl_req] = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=#{bootstrap[:chef][:server_fqdn]}/emailAddress=ops@#{domain}"
