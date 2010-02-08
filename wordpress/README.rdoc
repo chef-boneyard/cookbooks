@@ -6,7 +6,7 @@ Installs and configures Wordpress according to the instructions at http://codex.
 
 == Platform:
 
-Tested on Ubuntu 9.04.
+Tested on Ubuntu 9.04, 9.10.
 
 == Cookbooks:
 
@@ -44,11 +44,13 @@ include_recipe "wordpress"
 
 Chef will install and configure mysql, php, and apache2 according to the instructions at http://codex.wordpress.org/Installing_WordPress. Does not set up a wordpress blog. You will need to do this manually by going to http://hostname/wp-admin/install.php (this URL may be different if you change the attribute values).
 
+The mysql::server recipe needs to come first, and contain an execute resource to install mysql privileges from the grants.sql template in this cookbook.
+
 = LICENSE and AUTHOR:
 
 Author:: Barry Steinglass (barry@opscode.com>)
 
-Copyright:: 2009, Opscode, Inc
+Copyright:: 2010, Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
