@@ -1,0 +1,29 @@
+pid_file=/var/run/nrpe.pid
+server_port=5666
+nrpe_user=nagios
+nrpe_group=nagios
+dont_blame_nrpe=0
+debug=0
+command_timeout=60
+allowed_hosts=<%= @mon_host.join(',') %>
+
+command[check_users]=/usr/lib/nagios/plugins/check_users -w 20 -c 30
+command[check_load]=/usr/lib/nagios/plugins/check_load -w <%= @node[:nagios][:checks][:load][:warning] %> -c <%= @node[:nagios][:checks][:load][:critical] %>
+command[check_all_disks]=/usr/lib/nagios/plugins/check_disk -w 8% -c 5% -A -x /dev/shm -X nfs -i /boot
+command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w 5 -c 10 -s Z
+command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 500 -c 800
+command[check_swap]=/usr/lib/nagios/plugins/check_swap -w '50%' -c '25%'
+command[check_mem]=/usr/lib/nagios/plugins/check_mem.sh -w <%= @node[:nagios][:checks][:memory][:warning] %> -c <%= @node[:nagios][:checks][:memory][:critical] %> -p
+command[check_chef_client]=/usr/lib/nagios/plugins/check_procs -w 1:2 -c 1:2 -C chef-client
+command[check_smtp]=/usr/lib/nagios/plugins/check_smtp -H <%= @node[:nagios][:checks][:smtp_host] %>
+command[check_nginx]=/usr/lib/nagios/plugins/check_procs -w 2:3 -c 1:5 -C nginx
+command[check_sphinx]=/usr/lib/nagios/plugins/check_procs -c 1:1 -C searchd
+<% unless @node[:mysql].nil? -%>
+command[check_mysql_server]=/usr/lib/nagios/plugins/check_mysql -H localhost -u debian-sys-maint -p <%= @node[:mysql][:server_debian_password] %>
+<% end -%>
+#command[check_unicorn]=/usr/lib/nagios/plugins/check_procs -c 4:8 -C unicorn_rails
+#
+# memcached checks require cpan modules, "Cache::Memcached" and "Nagios::Plugins::Memcached"
+#command[check_memcached_response]=/usr/local/bin/check_memcached -H <%= @node[:ipaddress] %> -w 3 -c 5
+#command[check_memcached_size]=/usr/local/bin/check_memcached -H <%= @node[:ipaddress] %> --size-warning 60 --size-critical 80
+#command[check_memcached_hit]=/usr/local/bin/check_memcached -H <%= @node[:ipaddress] %> --hit-warning 40 --hit-critical 20
