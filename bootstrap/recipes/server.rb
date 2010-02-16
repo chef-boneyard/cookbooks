@@ -43,9 +43,9 @@ when "debian"
     include_recipe "couchdb"
     include_recipe "java"
   end
-  if node[:platform_version] =~ /.*sid/
-    include_recipe "rabbitmq_chef"
-  end
+
+  include_recipe "rabbitmq_chef"
+
 when "centos","redhat","fedora"
   include_recipe "java"
   include_recipe "couchdb"
