@@ -19,7 +19,23 @@
 # limitations under the License.
 #
 
-package "rabbitmq-server"
+if (platform?("ubuntu") && node.platform_version <= "9.10") # || (platform?("debian") && node.platform_version <= "WHAT!?")
+  include_recipe("erlang")
+
+  rabbitmq_dpkg_path = Chef::Config[:file_cache_path] + "rabbitmq-server_1.7.2-1_all.deb"
+
+  remote_file(rabbitmq_dpkg_path) do
+    checksum "ea2bbbb41f6d539884498bbdb5c7d3984643127dbdad5e9f7c28ec9df76b1355"
+    source "http://mirror.rabbitmq.com/releases/rabbitmq-server/v1.7.2/rabbitmq-server_1.7.2-1_all.deb"
+  end
+
+  dpkg_package(rabbitmq_dpkg_path) do
+    version '1.7.2-1'
+    action :install
+  end
+else
+  package "rabbitmq-server"
+end
 
 service "rabbitmq-server" do
   if platform?("centos","redhat","fedora")
