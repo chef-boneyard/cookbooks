@@ -30,6 +30,7 @@ if (platform?("ubuntu") && node.platform_version <= "9.10") # || (platform?("deb
   end
 
   dpkg_package(rabbitmq_dpkg_path) do
+    source rabbitmq_dpkg_path
     version '1.7.2-1'
     action :install
   end

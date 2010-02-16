@@ -35,9 +35,9 @@ when "ubuntu"
     include_recipe "couchdb"
     include_recipe "java"
   end
-  if node[:platform_version].to_f >= 9.04
-    include_recipe "rabbitmq_chef"
-  end
+
+  include_recipe "rabbitmq_chef"
+
 when "debian"
   if node[:platform_version].to_f >= 5.0 || node[:platform_version] =~ /.*sid/
     include_recipe "couchdb"
