@@ -27,14 +27,9 @@ root_group = value_for_platform(
 
 include_recipe "chef::client"
 
-service "chef-indexer" do
-  action :nothing
-end
-
-service "chef-server" do
-  action :nothing
-  if node[:chef][:init_style] == "runit"
-    restart_command "sv int chef-server"
+%w{chef-solr chef-solr-indexer chef-server}.each do |svc|
+  service svc do
+    action :nothing
   end
 end
 
@@ -56,7 +51,8 @@ template "/etc/chef/server.rb" do
     :show_time  => show_time
   )
   notifies :restart, resources(
-    :service => "chef-indexer",
+    :service => "chef-solr",
+    :service => "chef-solr-indexer",
     :service => "chef-server"
   ), :delayed
 end
