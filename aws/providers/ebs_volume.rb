@@ -222,9 +222,16 @@ def detach_volume(volume_id, timeout)
 end
 
 def save_node()
-  if !Chef::Config.solo
-    node.save
+  current_version = Gem::Version.new(Chef::VERSION)
+  node_save_safe_version = Gem::Version.new('0.8')
+  
+  if current_version >= node_save_safe_version
+    if !Chef::Config.solo
+      node.save
+    else
+      Chef::Log.warn("Skipping node save since we are running under chef-solo.  Node attributes will not be persisted.")
+    end
   else
-    Chef::Log.warn("Skipping node save since we are running under chef-solo.  Node attributes will not be persisted.")
+    Chef::Log.warn("Skipping node save because saving a node in a recipe prior to version #{node_save_safe_version.to_s} isn't valid");
   end
 end
