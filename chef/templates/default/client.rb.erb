@@ -7,7 +7,7 @@
 log_level          :info
 log_location       <%= @client_log %>
 ssl_verify_mode    :verify_none
-chef_server_url    "<%= @node[:chef][:url_type] %>://<%= @node[:chef][:server_fqdn] %>:<%= @node[:chef][:server_port] %>"
+chef_server_url    "http://<%= @node[:chef][:server_fqdn] %>:<%= @node[:chef][:server_port] %>"
 
 validation_client_name "validator"
 validation_key      	 "/etc/chef/validation.pem"

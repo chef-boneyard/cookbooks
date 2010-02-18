@@ -6,7 +6,7 @@
 log_level          :info
 log_location       <%= @server_log %>
 ssl_verify_mode    :verify_none
-chef_server_url    "<%= @node[:bootstrap][:chef][:url_type] %>://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+chef_server_url    "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
 
 signing_ca_path    "<%= @node[:bootstrap][:chef][:path] %>/ca"
 couchdb_database   'chef'
