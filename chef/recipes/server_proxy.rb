@@ -23,7 +23,7 @@ root_group = value_for_platform(
   "default" => "root"
 )
 
-node[:apache][:listen_ports] << "444" unless node[:apache][:listen_ports].include?("444")
+node[:apache][:listen_ports] << "443" unless node[:apache][:listen_ports].include?("443")
 
 include_recipe "chef::server"
 include_recipe "apache2"

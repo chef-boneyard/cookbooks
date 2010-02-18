@@ -3,16 +3,16 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures chef client and server"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.13"
+version           "0.14"
 recipe            "chef::client", "Sets up a client to talk to a chef-server"
-recipe            "chef::server", "Configures a chef-server as a passenger application"
+recipe            "chef::server", "Configures a chef API server as a merb application"
 
-%w{ runit packages couchdb stompserver apache2 passenger_apache2 }.each do |cb|
-  depends cb
+%w{ ubuntu debian redhat centos fedora freebsd openbsd }.each do |os|
+  supports os
 end
 
-%w{ centos rhel ubuntu debian }.each do |os|
-  supports os
+%w{ runit couchdb rabbitmq_chef apache2 openssl zlib xml java }.each do |cb|
+  depends cb
 end
 
 attribute "chef/path",
@@ -28,7 +28,7 @@ attribute "chef/run_path",
 attribute "chef/client_version",
   :display_name => "Chef Client Version",
   :description => "Set the version of the client gem to install",
-  :default => "0.7.10"
+  :default => "0.8.0"
 
 attribute "chef/client_interval",
   :display_name => "Chef Client Interval ",
@@ -53,7 +53,7 @@ attribute "chef/indexer_log",
 attribute "chef/server_version",
   :display_name => "Chef Server Version",
   :description => "Set the version of the server and server-slice gems to install",
-  :default => "0.7.10"
+  :default => "0.8.0"
 
 attribute "chef/server_log",
   :display_name => "Chef Server Log",
