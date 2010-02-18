@@ -11,7 +11,7 @@
   ExpiresByType application/javascript "access plus <%= @node[:chef][:server_proxy][:js_expire_hours] %> hours"
 
   <Proxy balancer://chef_server>
-    BalancerMember http://127.0.0.1:<%= @node[:chef][:webui_port]
+    BalancerMember http://127.0.0.1:<%= @node[:chef][:webui_port] %>
     Order deny,allow
     Allow from all
   </Proxy>
