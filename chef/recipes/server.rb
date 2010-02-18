@@ -33,6 +33,12 @@ include_recipe "chef::client"
   end
 end
 
+if node[:chef][:webui_enabled]
+  service "chef-server-webui" do
+    action :nothing
+  end
+end
+
 if node[:chef][:server_log] == "STDOUT"
   server_log = node[:chef][:server_log]
   show_time  = "false"
@@ -50,11 +56,11 @@ template "/etc/chef/server.rb" do
     :server_log => server_log,
     :show_time  => show_time
   )
-  notifies :restart, resources(
-    :service => "chef-solr",
-    :service => "chef-solr-indexer",
-    :service => "chef-server"
-  ), :delayed
+  if node[:chef][:webui_enabled]
+    notifies :restart, resources( :service => "chef-solr", :service => "chef-solr-indexer", :service => "chef-server", :service => "chef-server-webui"), :delayed
+  else
+    notifies :restart, resources( :service => "chef-solr", :service => "chef-solr-indexer", :service => "chef-server"), :delayed
+  end
 end
 
 http_request "compact chef couchDB" do
@@ -66,6 +72,21 @@ http_request "compact chef couchDB" do
       JSON::parse(open("#{Chef::Config[:couchdb_url]}/chef").read)["disk_size"] > 100_000_000
     rescue OpenURI::HTTPError
       nil
+    end
+  end
+end
+
+%w(nodes roles registrations clients data_bags data_bag_items users).each do |view|
+  http_request "compact chef couchDB view #{view}" do
+    action :post
+    url "#{Chef::Config[:couchdb_url]}/chef/_compact/#{view}"
+    only_if do
+      begin
+        open("#{Chef::Config[:couchdb_url]}/chef/_design/#{view}/_info")
+        JSON::parse(open("#{Chef::Config[:couchdb_url]}/chef/_design/#{view}/_info").read)["view_index"]["disk_size"] > 100_000_000
+      rescue OpenURI::HTTPError
+        nil
+      end
     end
   end
 end
