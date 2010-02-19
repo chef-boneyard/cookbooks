@@ -24,7 +24,7 @@ couchdb_tar_gz = File.join(Chef::Config[:file_cache_path], "/", "apache-couchdb-
 case node[:platform]
 when "debian", "ubuntu"
   %w{ libmozjs-dev libicu-dev libcurl4-openssl-dev }.each do |pkg|
-    package "pkg"
+    package pkg
   end
 end
 
