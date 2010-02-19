@@ -26,7 +26,7 @@ end
 if (platform?("ubuntu") && node.platform_version <= "9.10") || debian_before_squeeze?
   include_recipe("erlang")
 
-  rabbitmq_dpkg_path = Chef::Config[:file_cache_path] + "rabbitmq-server_1.7.2-1_all.deb"
+  rabbitmq_dpkg_path = File.join(Chef::Config[:file_cache_path], "/", "rabbitmq-server_1.7.2-1_all.deb")
 
   remote_file(rabbitmq_dpkg_path) do
     checksum "ea2bbbb41f6d539884498bbdb5c7d3984643127dbdad5e9f7c28ec9df76b1355"

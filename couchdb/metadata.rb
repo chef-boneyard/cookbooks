@@ -11,6 +11,7 @@ the EPEL Yum Repository.
 EOH
 version           "0.8"
 
+depends           "erlang"
 supports          "ubuntu", ">= 8.10" # for package in APT
 supports          "debian", ">= 5.0" # for package in APT
 supports          "openbsd"
