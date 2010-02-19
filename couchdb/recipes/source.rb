@@ -36,8 +36,10 @@ end
 bash "install couchdb #{node[:couch_db][:src_version]}" do
   cwd Chef::Config[:file_cache_path]
   code <<-EOH
-    ./configure && make && make install
+    tar -zxf #{couchdb_tar_gz}
+    cd apache-couchdb-#{node[:couch_db][:src_version]} && ./configure && make && make install
   EOH
+  not_if { ::FileTest.exists?("/usr/local/bin/couchdb") }
 end
 
 user "couchdb" do
