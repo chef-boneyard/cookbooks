@@ -31,19 +31,23 @@ include_recipe "bootstrap::client"
 
 case node[:platform]
 when "ubuntu"
-  if node[:platform_version].to_f >= 8.10
+  if node[:platform_version].to_f >= 9.10
     include_recipe "couchdb"
-    include_recipe "java"
+  elsif node[:platform_version].to_f >= 8.10
+    include_recipe "couchdb::source"
   end
 
+  include_recipe "java"
   include_recipe "rabbitmq_chef"
 
 when "debian"
-  if node[:platform_version].to_f >= 5.0 || node[:platform_version] =~ /.*sid/
+  if node[:platform_version] =~ /.*sid/
     include_recipe "couchdb"
-    include_recipe "java"
+  else
+    include_recipe "couchdb::source"
   end
 
+  include_recipe "java"
   include_recipe "rabbitmq_chef"
 
 when "centos","redhat","fedora"
