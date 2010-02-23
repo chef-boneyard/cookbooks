@@ -29,6 +29,9 @@ when "debian","ubuntu"
 
   package "runit" do
     action :install
+    if platform?("ubuntu", "debian")
+      response_file "runit.seed"
+    end
     notifies value_for_platform(
       "debian" => { "4.0" => :run, "default" => :nothing  },
       "ubuntu" => { "default" => :run, "9.10" => :nothing }
