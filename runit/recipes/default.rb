@@ -26,20 +26,20 @@ when "debian","ubuntu"
     )
     action :nothing
   end
-  
+
   package "runit" do
     action :install
     notifies value_for_platform(
       "debian" => { "4.0" => :run, "default" => :nothing  },
       "ubuntu" => { "default" => :run, "9.10" => :nothing }
-    ), resources(:execute => "start-runsvdir")
+    ), resources(:execute => "start-runsvdir"), :immediately
   end
-    
+
   if node[:platform_version] <= "8.04" && node[:platform] =~ /ubuntu/i
     remote_file "/etc/event.d/runsvdir" do
       source "runsvdir"
       mode 0644
-      notifies :run, resources(:execute => "start-runsvdir")
+      notifies :run, resources(:execute => "start-runsvdir"), :immediately
       only_if do File.directory?("/etc/event.d") end
     end
   end
