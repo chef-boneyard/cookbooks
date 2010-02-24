@@ -8,7 +8,7 @@ Requires Chef 0.8+ for search capability of roles and data bags.
 
 A data bag named 'users' should exist, and users should have a groups value of "sysadmins" so the server recipe can search for who sysadmins are to notify. If this is not desired, remove the sysadmins search and other usage from the nagios::server recipe, and the contacts template.
 
-A role named after the environment (e.g., "production") and a node attribute app_environment with a value of the same should be created for all nodes. The server uses this to search for only nodes that belong to its same environment.
+The monitoring server that uses this recipe should have a role named 'monitoring'. The client recipe will use this to allow the monitoring server to connect via NRPE. A role named after the environment (e.g., "production") and a node attribute app_environment with a value of the same should be created for all nodes. The server uses this to search for only nodes that belong to its same environment.
 
 Because of the heavy use of search, this recipe will not work with Chef Solo, as it cannot do any searches without a server.
 
