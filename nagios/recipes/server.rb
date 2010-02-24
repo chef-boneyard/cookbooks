@@ -22,6 +22,7 @@
 
 include_recipe "apache2"
 include_recipe "apache2::mod_ssl"
+include_recipe "apache2::mod_rewrite"
 include_recipe "apache2::mod_auth_openid"
 include_recipe "nagios::client"
 
