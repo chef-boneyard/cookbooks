@@ -1,0 +1,32 @@
+#!/usr/bin/env perl
+# ex:ts=4
+
+use strict;
+use warnings;
+
+use Cache::Memcached;
+
+my $cmd = shift || '';
+$0 =~ /memcached_items_(\d+_\d+_\d+_\d+)_(\d+)$/;
+my ($ip, $port) = ($1, $2);
+$ip =~ s/_/./g;
+my $address = "$ip:$port";
+
+if ($cmd eq 'config') {
+	print "graph_title Memcached cached items for $address\n";
+	print "graph_args --base 1000 -l 0\n";
+	print "graph_vlabel items\n";
+	print "graph_category memcached\n";
+	print "graph_info This graph monitors the number of items stored by the memcached server.\n";
+	print "items.label items\n";
+	print "items.info Number of cached items\n";
+	print "items.min 0\n";
+	print "items.draw AREA\n";
+	exit 0;
+}
+
+my $memd = new Cache::Memcached { 'servers' => [$address] };
+my $memstats = $memd->stats(['misc']);
+
+print "items.value " .
+	$memstats->{hosts}->{$address}->{misc}->{curr_items} . "\n";

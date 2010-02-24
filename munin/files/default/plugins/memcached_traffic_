@@ -1,0 +1,39 @@
+#!/usr/bin/env perl
+# ex:ts=4
+
+use strict;
+use warnings;
+
+use Cache::Memcached;
+
+my $cmd = shift || '';
+$0 =~ /memcached_traffic_(\d+_\d+_\d+_\d+)_(\d+)$/;
+my ($ip, $port) = ($1, $2);
+$ip =~ s/_/./g;
+my $address = "$ip:$port";
+
+if ($cmd eq 'config') {
+	print "graph_title Memcached network traffic for $address\n";
+	print "graph_args --base 1000 -l 0\n";
+	print "graph_vlabel bits per \${graph_period}\n";
+	print "graph_category memcached\n";
+	print "graph_info This graph monitors the network traffic of the memcached server.\n";
+	print "up.label bits in\n";
+	print "up.info Traffic received by memcached\n";
+	print "up.min 0\n";
+	print "up.cdef up,8,*\n";
+	print "up.type COUNTER\n";
+	print "up.draw AREA\n";
+	print "down.label bits out\n";
+	print "down.info Traffic sent by memcached\n";
+	print "down.min 0\n";
+	print "down.cdef down,8,*\n";
+	print "down.type COUNTER\n";
+	exit 0;
+}
+
+my $memd = new Cache::Memcached { 'servers' => [$address] };
+my $memstats = $memd->stats(['misc']);
+
+print "up.value " . $memstats->{hosts}->{$address}->{misc}->{bytes_read} . "\n";
+print "down.value " . $memstats->{hosts}->{$address}->{misc}->{bytes_written} . "\n";

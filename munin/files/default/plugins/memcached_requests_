@@ -1,0 +1,38 @@
+#!/usr/bin/env perl
+# ex:ts=4
+
+use strict;
+use warnings;
+
+use Cache::Memcached;
+
+my $cmd = shift || '';
+$0 =~ /memcached_requests_(\d+_\d+_\d+_\d+)_(\d+)$/;
+my ($ip, $port) = ($1, $2);
+$ip =~ s/_/./g;
+my $address = "$ip:$port";
+
+if ($cmd eq 'config') {
+	print "graph_title Memcached requests for $address\n";
+	print "graph_args --base 1000 -l 0\n";
+	print "graph_vlabel requests\n";
+	print "graph_category memcached\n";
+	print "graph_info This graph monitors the number of get and set requests.\n";
+	print "gets.label gets\n";
+	print "gets.info Number of get requests\n";
+	print "gets.min 0\n";
+	print "gets.type DERIVE\n";
+	print "gets.draw AREA\n";
+	print "sets.label sets\n";
+	print "sets.info Number of set requests\n";
+	print "sets.min 0\n";
+	print "sets.type DERIVE\n";
+	print "sets.draw STACK\n";
+	exit 0;
+}
+
+my $memd = new Cache::Memcached { 'servers' => [$address] };
+my $memstats = $memd->stats(['misc']);
+
+print "gets.value " . $memstats->{hosts}->{$address}->{misc}->{cmd_get} . "\n";
+print "sets.value " . $memstats->{hosts}->{$address}->{misc}->{cmd_set} . "\n";

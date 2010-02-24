@@ -1,0 +1,21 @@
+<VirtualHost *:80>
+  ServerAdmin     ops@example.com
+  ServerName      <%= @node[:fqdn] %>
+	ServerAlias     munin munin.<%= @node[:app_environment] %>.<%= @public_domain %>
+  DocumentRoot    /var/www/munin
+  CustomLog       <%= @node[:apache][:log_dir] %>/munin_access.log combined
+  ErrorLog        <%= @node[:apache][:log_dir] %>/munin_error.log
+
+  Alias /munin /var/www/munin
+
+  <Location />
+    AuthName "Munin Server"
+    AuthOpenIDEnabled On
+    AuthOpenIDDBLocation /var/cache/apache2/mod_auth_openid.db
+    AuthOpenIDUserProgram /usr/local/bin/mod_auth_openid.rb
+  </Location>
+
+  RewriteEngine On
+  RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.html\ HTTP/
+  RewriteRule ^(.*)index\.html$ $1 [R=301,L]
+</VirtualHost>
