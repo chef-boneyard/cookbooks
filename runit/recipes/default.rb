@@ -2,7 +2,7 @@
 # Cookbook Name:: runit
 # Recipe:: default
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2008-2010, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,6 +27,12 @@ when "debian","ubuntu"
     action :nothing
   end
 
+  execute "runit-hup-init" do
+    command "telinit q"
+    only_if "grep ^SV /etc/inittab"
+    action :nothing
+  end
+
   package "runit" do
     action :install
     if platform?("ubuntu", "debian")
@@ -36,6 +42,10 @@ when "debian","ubuntu"
       "debian" => { "4.0" => :run, "default" => :nothing  },
       "ubuntu" => { "default" => :run, "9.10" => :nothing }
     ), resources(:execute => "start-runsvdir"), :immediately
+    notifies value_for_platform(
+      "debian" => { "squeeze/sid" => :run, "default" => :nothing },
+      "default" => :nothing
+    ), resources(:execute => "runit-hup-init"), :immediately
   end
 
   if node[:platform_version] <= "8.04" && node[:platform] =~ /ubuntu/i
