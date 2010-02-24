@@ -120,6 +120,7 @@ To add custom commands for service checks, these can be done on a per-role basis
 = LICENSE and AUTHOR:
 
 Author:: Joshua Sierles <joshua@37signals.com>
+Author:: Nathan Haneysmith <nathan@opscode.com>
 Author:: Joshua Timberman <joshua@opscode.com>
 
 Copyright 2009, 37signals
