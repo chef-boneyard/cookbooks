@@ -47,7 +47,6 @@ define host {
   notification_interval   <%= nagios_interval(nagios_attr(:default_host)[:notification_interval]) %>
   notification_options    d,u,r
   contact_groups          <%= nagios_attr(:default_contact_groups).join(",") %>
-  #action_url              /pnp/index.php?host=$HOSTNAME$' onmouseover="get_g('$HOSTNAME$','_HOST_')" onmouseout="clear_g()"
   register                0
 }
 
@@ -75,6 +74,5 @@ define service {
   notification_options            w,u,c,r
   notification_interval           <%= nagios_interval(nagios_attr(:default_service)[:notification_interval]) %>
   notification_period             24x7
-  #action_url                      /pnp/index.php?host=$HOSTNAME$&srv=$SERVICEDESC$' onmouseover="get_g('$HOSTNAME$','$SERVICEDESC$')" onmouseout="clear_g()"
   register                        0
 }
