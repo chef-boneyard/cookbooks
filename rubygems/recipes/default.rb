@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: munin
+# Author:: Adam Jacob <adam@opscode.com>
+# Cookbook Name:: rubygems
 # Recipe:: default
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,3 +17,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+%w{ rubyforge.org opscode.com }.each do |domain|
+  execute "gem sources --add http://gems.#{domain}" do
+    not_if "gem sources --list | grep gems.#{domain}"
+  end
+end

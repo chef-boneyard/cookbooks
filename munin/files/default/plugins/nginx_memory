@@ -1,0 +1,27 @@
+#!/usr/bin/env perl
+#
+# Munin plugin for monitoring Nginx memory usage
+#
+# Written by AkyRhO <akyrho@gmail.com> - Please e-mail for support/question/request/feedback
+#
+# Last release (v0.1) 2009-04-20
+# Last release (v0.1a) 2009-04-26 - fix the base to 1024
+#
+# ---
+
+if ( exists $ARGV[0] and $ARGV[0] eq "config" ) {
+        print "graph_title NGINX ram usage\n";
+        print "graph_vlabel ram\n";
+        print "graph_category nginx\n";
+        print "ram.label ram\n";
+		print "graph_args --base 1024\n";
+} else {
+        my $i = Integer;
+        @cmd = `ps auwx | grep nginx | grep -v grep | grep -v nginx_memory`;
+
+        foreach (@cmd) {
+                @return = split(/ +/, $_);
+                $i += @return[5]*1024;
+        }
+        print "ram.value ".$i."\n";
+}

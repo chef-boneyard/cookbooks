@@ -1,0 +1,95 @@
+= DESCRIPTION:
+
+Installs and configures Nagios for a server and for clients using Chef 0.8 search capabilities.
+
+= REQUIREMENTS:
+
+Requires Chef 0.8+ for search capability of roles and data bags.
+
+The monitoring server that uses this recipe should have a role named 'monitoring'. A role named after the environment (e.g., "production") and a node attribute app_environment with a value of the same should be created for all nodes. The server uses this to search for only nodes that belong to its same environment.
+
+Because of the heavy use of search, this recipe will not work with Chef Solo, as it cannot do any searches without a server.
+
+== Platform:
+
+Tested on Ubuntu 9.04, Ubuntu 9.10 and Debian 5.
+
+== Cookbooks:
+
+Opscode cookbooks:
+
+* apache2
+
+To install perl cpan modules for munin plugins:
+
+* perl
+
+= USAGE:
+
+This document describes how to add custom munin plugins.
+
+The munin cookbook now has a definition that can be used to enable a new plugin for data gathering on a client. If an existing munin plugin is desired, call the definition:
+
+    munin_plugin "nfs_client"
+
+By default the plugin file name is the name parameter here. Specify the plugin parameter to use something else.
+
+    munin_plugin "nfs_client"
+      plugin "nfs_client_"
+    end
+
+This creates a symlink from the plugins distribution directory, `/usr/share/munin/plugins` to the enabled plugins directory, `/etc/munin/plu
+gins`, and once the server poller picks it up will have new graph data for that plugin. See the plugins distribution directory for available
+ plugins or add your own.
+
+If a custom plugin is required, add the plugin file to the munin cookbook in `site-cookbooks/munin/files/default/plugins`. Call the definition specifying that the plugin file should be downloaded from the cookbook.
+
+    munin_plugin "nfs_client_custom"
+      create_file true
+    end
+
+By default in both cases, the plugin is enabled. If a plugin should be disabled, use the `enable` parameter:
+
+    munin_plugin "nfs_client_custom"
+      enable false
+    end
+
+Some plugins may require other configuration. For example, to use the memcache plugins, you'll need the Cache::Memcache cpan module installed, and use the munin_plugin definition. The perl cookbook from opscode includes a definition to handle this easily.
+
+    cpan_module "Cache::Memcached"
+
+Then for example in your memcache recipe:
+
+    %w(
+      memcached_bytes_
+      memcached_connections_
+      memcached_hits_
+      memcached_items_
+      memcached_requests_
+      memcached_responsetime_
+      memcached_traffic_
+    ).each do |plugin_name|
+      munin_plugin plugin_name do
+        plugin "#{plugin_name}#{node[:ipaddress].gsub('.','_')}_#{node[:memcached][:port]}"
+        create_file true
+      end
+    end
+
+= LICENSE and AUTHOR:
+
+Author:: Nathan Haneysmith <nathan@opscode.com>
+Author:: Joshua Timberman <joshua@opscode.com>
+
+Copyright 2009-2010, Opscode, Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
