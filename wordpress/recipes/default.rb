@@ -34,7 +34,7 @@ end
 
 execute "untar-wordpress" do
   cwd node[:wordpress][:dir]
-  command "tar --strip-components 1 -xzf /tmp/wordpress-2.8.4.tar.gz"
+  command "tar --strip-components 1 -xzf #{Chef::Config[:file_cache_path]}/wordpress-2.8.4.tar.gz"
   creates "#{node[:wordpress][:dir]}/wp-settings.php"
 end
 
