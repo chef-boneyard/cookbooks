@@ -19,7 +19,7 @@
 #
 
 # General settings
-set_unless[:wordpress][:dir] = "/var/www"
+set_unless[:wordpress][:dir] = "/var/www/wordpress"
 set_unless[:wordpress][:db][:database] = "wordpressdb"
 set_unless[:wordpress][:db][:user] = "wordpressuser"
 

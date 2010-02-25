@@ -17,7 +17,10 @@
 # limitations under the License.
 #
 
-remote_file "/tmp/wordpress-2.8.4.tar.gz" do
+include_recipe "apache2"
+
+remote_file "#{Chef::Config[:file_cache_path]}/wordpress-2.8.4.tar.gz" do
+  checksum "5b08259749facb38a2209008e227f66c85e178fd502b7fdd5f39c2676d14ab6b"
   source "wordpress-2.8.4.tar.gz"
   mode "0644"
 end
@@ -35,7 +38,7 @@ execute "untar-wordpress" do
   creates "#{node[:wordpress][:dir]}/wp-settings.php"
 end
 
-execute "mysql-install-privileges" do
+execute "mysql-install-wp-privileges" do
   command "/usr/bin/mysql -u root -p#{node[:mysql][:server_root_password]} < /etc/mysql/wp-grants.sql"
   action :nothing
 end
@@ -55,7 +58,7 @@ template "/etc/mysql/grants.sql" do
     :password => node[:wordpress][:db][:password],
     :database => node[:wordpress][:db][:database]
   )
-  notifies :run, resources(:execute => "mysql-install-privileges"), :immediately
+  notifies :run, resources(:execute => "mysql-install-wp-privileges"), :immediately
 end
 
 execute "create #{node[:wordpress][:db][:database]} database" do
