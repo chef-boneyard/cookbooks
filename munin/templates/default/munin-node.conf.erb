@@ -27,8 +27,8 @@ ignore_file \.rpm(save|new)$
 # telnetting to localhost, port 4949
 #
 #host_name localhost.localdomain
-<% if @node[:ec2] == "true" %>
-host_name <%= @node[:hostname] %>.amazonaws.com
+<% if @node[:ec2] %>
+host_name <%= @node[:hostname] %>.ec2.internal
 <% end %>
 
 # A list of addresses that are allowed to connect.  This must be a
@@ -36,6 +36,8 @@ host_name <%= @node[:hostname] %>.amazonaws.com
 # doesn't understand CIDR-style network notation.  You may repeat
 # the allow line as many times as you'd like
 
-<% @munin_server_regexs.each do |regex| -%>
-allow <%= regex %>
+<% @munin_servers.each do |server| -%>
+allow ^<%= server[:ipaddress].to_s.gsub(/\./, '\.') %>$
 <% end -%>
+allow ^127\.0\.0\.1$
+

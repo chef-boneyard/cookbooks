@@ -1,0 +1,32 @@
+#!/usr/bin/env perl
+# ex:ts=4
+
+use strict;
+use warnings;
+
+use Cache::Memcached;
+
+my $cmd = shift || '';
+$0 =~ /memcached_connections_(\d+_\d+_\d+_\d+)_(\d+)$/;
+my ($ip, $port) = ($1, $2);
+$ip =~ s/_/./g;
+my $address = "$ip:$port";
+
+if ($cmd eq 'config') {
+	print "graph_title Memcached connections for $address\n";
+	print "graph_args --base 1000 -l 0\n";
+	print "graph_vlabel connections\n";
+	print "graph_category memcached\n";
+	print "graph_info This graph monitors the connections to the memcached server.\n";
+	print "connections.label connections\n";
+	print "connections.info Number of connections to memcached\n";
+	print "connections.min 0\n";
+	print "connections.draw AREA\n";
+	exit 0;
+}
+
+my $memd = new Cache::Memcached { 'servers' => [$address] };
+my $memstats = $memd->stats(['misc']);
+
+print "connections.value " .
+	$memstats->{hosts}->{$address}->{misc}->{curr_connections} . "\n";

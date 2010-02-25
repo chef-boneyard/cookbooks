@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: munin
-# Recipe:: default
+# Recipe:: client
 #
 # Copyright 2010, Opscode, Inc.
 #
@@ -16,3 +16,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+package "munin-node"
+
+service "munin-node" do
+  supports :restart => true
+  action :enable
+end
+
+munin_servers = search(:node, "role:monitoring")
+
+template "/etc/munin/munin-node.conf" do
+  source "munin-node.conf.erb"
+  mode 0644
+  variables :munin_servers => munin_servers
+  notifies :restart, resources(:service => "munin-node")
+end
