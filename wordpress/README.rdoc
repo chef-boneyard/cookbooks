@@ -19,10 +19,12 @@ Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
 
 == Libraries:
 
-The openssl library is required for the openssl cookbook.
+The openssl library is required from the openssl cookbook to generate secure passwords.
 
 = ATTRIBUTES:
 
+* wordpress[:version] - Set the version to download.
+* wordpress[:checksum] - sha256sum of the tarball, make sure this matches for the version!
 * wordpress[:dir] - Set the location to place wordpress files. Default is /var/www.
 * wordpress[:db][:database] - Wordpress will use this MySQL database to store its data.
 * wordpress[:db][:user] - Wordpress will connect to MySQL using this user.
@@ -39,12 +41,17 @@ The random generation is handled with the secure_password method in the openssl 
 
 = USAGE:
 
-Add the "wordpress" recipe to your node's run list or role:
-include_recipe "wordpress"
+If a different version than the default is desired, download that version and get the SHA256 checksum (sha256sum on Linux systems), and set the version and checksum attributes.
+
+Add the "wordpress" recipe to your node's run list or role, or include the recipe in another cookbook.
 
 Chef will install and configure mysql, php, and apache2 according to the instructions at http://codex.wordpress.org/Installing_WordPress. Does not set up a wordpress blog. You will need to do this manually by going to http://hostname/wp-admin/install.php (this URL may be different if you change the attribute values).
 
 The mysql::server recipe needs to come first, and contain an execute resource to install mysql privileges from the grants.sql template in this cookbook.
+
+== Note about MySQL:
+
+This cookbook will decouple the mysql::server and be smart about detecting whether to use a local database or find a database server in the environment in a later version.
 
 = LICENSE and AUTHOR:
 

@@ -3,7 +3,7 @@ maintainer_email "barry@opscode.com"
 license          "Apache 2.0"
 description      "Installs/Configures wordpress"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.3"
+version          "0.4"
 depends          "php"
 depends          "apache2"
 depends          "mysql"
@@ -13,6 +13,16 @@ depends          "openssl"
   supports os
 end
 
+attribute "wordpress/version",
+  :display_name => "Wordpress download version",
+  :description => "Version of Wordpress to download from the Wordpress site.",
+  :default => "2.9.2"
+  
+attribute "wordpress/checksum",
+  :display_name => "Wordpress tarball checksum",
+  :description => "Checksum of the tarball for the version specified.",
+  :default => "7342627f4a3dca44886c5aca6834cc88671dbd3aa2760182d2fcb9a330807"
+  
 attribute "wordpress/dir",
   :display_name => "Wordpress installation directory",
   :description => "Location to place wordpress files.",
