@@ -2,7 +2,7 @@
 # Cookbook Name:: wordpress
 # Recipe:: default
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2009-2010, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,9 +19,9 @@
 
 include_recipe "apache2"
 
-remote_file "#{Chef::Config[:file_cache_path]}/wordpress-2.8.4.tar.gz" do
-  checksum "5b08259749facb38a2209008e227f66c85e178fd502b7fdd5f39c2676d14ab6b"
-  source "wordpress-2.8.4.tar.gz"
+remote_file "#{Chef::Config[:file_cache_path]}/wordpress-#{node[:wordpress][:version]}.tar.gz" do
+  checksum node[:wordpress][:checksum]
+  source "wordpress-#{node[:wordpress][:version]}.tar.gz"
   mode "0644"
 end
 
@@ -34,7 +34,7 @@ end
 
 execute "untar-wordpress" do
   cwd node[:wordpress][:dir]
-  command "tar --strip-components 1 -xzf #{Chef::Config[:file_cache_path]}/wordpress-2.8.4.tar.gz"
+  command "tar --strip-components 1 -xzf #{Chef::Config[:file_cache_path]}/wordpress-#{node[:wordpress][:version]}.tar.gz"
   creates "#{node[:wordpress][:dir]}/wp-settings.php"
 end
 
@@ -47,7 +47,7 @@ include_recipe "mysql::server"
 Gem.clear_paths
 require 'mysql'
 
-template "/etc/mysql/grants.sql" do
+template "/etc/mysql/wp-grants.sql" do
   path "/etc/mysql/wp-grants.sql"
   source "grants.sql.erb"
   owner "root"
