@@ -19,6 +19,12 @@
 
 include_recipe "apache2"
 
+if node.has_key?("ec2")
+  server_fqdn = node.ec2.public_hostname
+else
+  server_fqdn = node.fqdn
+end
+
 remote_file "#{Chef::Config[:file_cache_path]}/wordpress-#{node[:wordpress][:version]}.tar.gz" do
   checksum node[:wordpress][:checksum]
   source "http://wordpress.org/wordpress-#{node[:wordpress][:version]}.tar.gz"
@@ -77,7 +83,7 @@ ruby_block "save node data" do
   action :create
 end
 
-log "Navigate to 'http://#{node.fqdn}/wp-admin/install.php' to complete wordpress installation" do
+log "Navigate to 'http://#{server_fqdn}/wp-admin/install.php' to complete wordpress installation" do
   action :nothing
 end
 
@@ -95,7 +101,7 @@ template "#{node[:wordpress][:dir]}/wp-config.php" do
     :logged_in_key   => node[:wordpress][:keys][:logged_in],
     :nonce_key       => node[:wordpress][:keys][:nonce]
   )
-  notifies :write, resources(:log => "Navigate to 'http://#{node.fqdn}/wp-admin/install.php' to complete installation")
+  notifies :write, resources(:log => "Navigate to 'http://#{server_fqdn}/wp-admin/install.php' to complete wordpress installation")
 end
 
 include_recipe %w{php::php5 php::module_mysql}
@@ -103,16 +109,6 @@ include_recipe %w{php::php5 php::module_mysql}
 web_app "wordpress" do
   template "wordpress.conf.erb"
   docroot "#{node[:wordpress][:dir]}"
-  server_name(
-    case node.has_key? "ec2"
-      when true:
-        node.ec2.public_hostname
-      when false:
-        node.fqdn
-    end
-  )
+  server_name server_fqdn
   server_aliases node.fqdn
 end
-
-# step 5
-# for now, you must manually go to http://hostname/wordpressdir/wp-admin/install.php to complete installation.
