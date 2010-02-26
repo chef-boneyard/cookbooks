@@ -3,7 +3,7 @@
 # Cookbook Name:: wordpress
 # Attributes:: wordpress
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2009-2010, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@
 #
 
 # General settings
+set_unless[:wordpress][:version] = "2.9.2"
+set_unless[:wordpress][:checksum] = "7342627f4a3dca44886c5aca6834cc88671dbd3aa2760182d2fcb9a330807ce1"
 set_unless[:wordpress][:dir] = "/var/www/wordpress"
 set_unless[:wordpress][:db][:database] = "wordpressdb"
 set_unless[:wordpress][:db][:user] = "wordpressuser"
