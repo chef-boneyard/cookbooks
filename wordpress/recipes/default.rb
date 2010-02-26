@@ -21,7 +21,7 @@ include_recipe "apache2"
 
 remote_file "#{Chef::Config[:file_cache_path]}/wordpress-#{node[:wordpress][:version]}.tar.gz" do
   checksum node[:wordpress][:checksum]
-  source "wordpress-#{node[:wordpress][:version]}.tar.gz"
+  source "http://wordpress.org/wordpress-#{node[:wordpress][:version]}.tar.gz"
   mode "0644"
 end
 
