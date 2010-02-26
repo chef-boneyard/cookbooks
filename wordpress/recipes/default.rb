@@ -77,6 +77,10 @@ ruby_block "save node data" do
   action :create
 end
 
+log "Navigate to 'http://#{node.fqdn}/wp-admin/install.php' to complete wordpress installation" do
+  action :nothing
+end
+
 template "#{node[:wordpress][:dir]}/wp-config.php" do
   source "wp-config.php.erb"
   owner "root"
@@ -91,6 +95,7 @@ template "#{node[:wordpress][:dir]}/wp-config.php" do
     :logged_in_key   => node[:wordpress][:keys][:logged_in],
     :nonce_key       => node[:wordpress][:keys][:nonce]
   )
+  notifies :write, resources(:log => "Navigate to 'http://#{node.fqdn}/wp-admin/install.php' to complete installation")
 end
 
 include_recipe %w{php::php5 php::module_mysql}
