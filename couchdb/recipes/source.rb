@@ -29,7 +29,7 @@ when "debian", "ubuntu"
 end
 
 remote_file couchdb_tar_gz do
-  checksum "2c6af7216537d0e399674a83e4505dc04a02abe1bdd966f69074564c3521c66b"
+  checksum node[:couch_db][:src_checksum]
   source node[:couch_db][:src_mirror]
 end
 

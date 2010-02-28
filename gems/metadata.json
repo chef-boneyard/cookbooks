@@ -1,97 +1,98 @@
 {
-  "maintainer": "Opscode, Inc.",
-  "description": "Sets up a local gem server repository",
-  "recommendations": {
+    "dependencies": {
+      "apache2": [
 
-  },
-  "maintainer_email": "cookbooks@opscode.com",
-  "recipes": {
-    "gems": "",
-    "gems::mirror": "Crons an rsync of rubyforge",
-    "gems::server": "Sets up a local gem server repository"
-  },
-  "suggestions": {
-    "ruby": [
-
-    ]
-  },
-  "platforms": {
-    "ubuntu": [
-
-    ],
-    "debian": [
-
-    ]
-  },
-  "version": "0.8.0",
-  "name": "gems",
-  "conflicting": {
-
-  },
-  "attributes": {
-    "gem_server\/virtual_host_alias": {
-      "default": "gems",
-      "type": "array",
-      "multiple_values": false,
-      "description": "Array of Apache ServerAlias'es",
-      "display_name": "Gem Server Virtual Host Aliases",
-      "recipes": [
-
-      ],
-      "required": false
+      ]
     },
-    "gem_server\/virtual_host_name": {
-      "default": "gems.domain",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Apache ServerName for the virtual host",
-      "display_name": "Gem Server Virtual Hostname",
-      "recipes": [
-
-      ],
-      "required": false
+    "replacing": {
     },
-    "gem_server": {
-      "type": "hash",
-      "multiple_values": false,
-      "description": "Hash of Gem Server attributes",
-      "display_name": "Gem Server",
-      "recipes": [
-
-      ],
-      "required": false
+    "description": "Sets up a local gem server repository",
+    "groupings": {
     },
-    "gem_server\/directory": {
-      "default": "\/srv\/gems",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Filesystem location of where the gems repository is served from",
-      "display_name": "Gem Server Directory",
-      "recipes": [
+    "platforms": {
+      "ubuntu": [
 
       ],
-      "required": false
+      "debian": [
+
+      ]
+    },
+    "version": "0.8.0",
+    "recommendations": {
+    },
+    "name": "gems",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "= DESCRIPTION:\n\nSets up a local gem server repository.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10 and 9.04.\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master\n\n* apache2\n\n= ATTRIBUTES: \n\n* gem_server[:virtual_host_name] - ServerName for Apache vhost. Default 'gems.domain'.\n* gem_server[:virtual_host_alias] - ServerAlias(es) for Apache vhost. Default 'gems'.\n* gem_server[:directory] - Filesystem location for the repository, default is /srv/gems.\n\n= USAGE:\n\nCreate files/default/packages, and copy gems to that directory.\n\nSpecify the gem source on clients via the command line, for example:\n\n  sudo gem source -a http://gems\n  sudo gem install rails --source http://gems\n\nOr use the source with gem_package resources in your chef recipes.\n\n  gem_package \"rails\" do\n    source \"http://gems\"\n  end\n\nUse the gems::mirror recipe to mirror RubyForge. This will take a long time because the repository is 28k+ gems and over 5.5G. It will also override the remote_directory resource to not notify gem generate_index, and instead handle that in the cron job that does the rsync.\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.",
+    "recipes": {
+      "gems::mirror": "Crons an rsync of rubyforge",
+      "gems::server": "Sets up a local gem server repository"
+    },
+    "suggestions": {
+      "ruby": [
+
+      ]
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+      "gem_server/virtual_host_alias": {
+        "calculated": false,
+        "default": "gems",
+        "type": "array",
+        "choice": [
+
+        ],
+        "description": "Array of Apache ServerAlias'es",
+        "display_name": "Gem Server Virtual Host Aliases",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "gem_server/virtual_host_name": {
+        "calculated": false,
+        "default": "gems.domain",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Apache ServerName for the virtual host",
+        "display_name": "Gem Server Virtual Hostname",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "gem_server": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Hash of Gem Server attributes",
+        "display_name": "Gem Server",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "gem_server/directory": {
+        "calculated": false,
+        "default": "/srv/gems",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Filesystem location of where the gems repository is served from",
+        "display_name": "Gem Server Directory",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      }
+    },
+    "conflicting": {
+    },
+    "license": "Apache 2.0",
+    "providing": {
     }
-  },
-  "providing": {
-    "gems::mirror": [
-
-    ],
-    "gems::server": [
-
-    ],
-    "gems": [
-
-    ]
-  },
-  "license": "Apache 2.0",
-  "long_description": "= DESCRIPTION:\n\nSets up a local gem server repository.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10 and 9.04.\n\n== Cookbooks:\n\nOpscode cookbooks, http:\/\/github.com\/opscode\/cookbooks\/tree\/master\n\n* apache2\n\n= ATTRIBUTES: \n\n* gem_server[:virtual_host_name] - ServerName for Apache vhost. Default 'gems.domain'.\n* gem_server[:virtual_host_alias] - ServerAlias(es) for Apache vhost. Default 'gems'.\n* gem_server[:directory] - Filesystem location for the repository, default is \/srv\/gems.\n\n= USAGE:\n\nCreate files\/default\/packages, and copy gems to that directory.\n\nSpecify the gem source on clients via the command line, for example:\n\n  sudo gem source -a http:\/\/gems\n  sudo gem install rails --source http:\/\/gems\n\nOr use the source with gem_package resources in your chef recipes.\n\n  gem_package \"rails\" do\n    source \"http:\/\/gems\"\n  end\n\nUse the gems::mirror recipe to mirror RubyForge. This will take a long time because the repository is 28k+ gems and over 5.5G. It will also override the remote_directory resource to not notify gem generate_index, and instead handle that in the cron job that does the rsync.\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http:\/\/www.apache.org\/licenses\/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.",
-  "replacing": {
-
-  },
-  "dependencies": {
-    "apache2": [
-
-    ]
   }
-}

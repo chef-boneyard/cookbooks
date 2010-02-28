@@ -1,106 +1,114 @@
 {
-  "maintainer": "Opscode, Inc.",
-  "description": "Installs and configures openvpn",
-  "recommendations": {
-
-  },
-  "maintainer_email": "cookbooks@opscode.com",
-  "recipes": {
-    "openvpn": ""
-  },
-  "suggestions": {
-
-  },
-  "platforms": {
-    "ubuntu": [
-
-    ],
-    "fedora": [
-
-    ],
-    "centos": [
-
-    ],
-    "debian": [
-
-    ],
-    "redhat": [
-
-    ]
-  },
-  "version": "0.7.0",
-  "name": "openvpn",
-  "conflicting": {
-
-  },
-  "attributes": {
-    "openvpn\/proto": {
-      "default": "udp",
-      "type": "string",
-      "multiple_values": false,
-      "description": "UDP or TCP",
-      "display_name": "OpenVPN Protocol",
-      "recipes": [
-
-      ],
-      "required": false
+    "dependencies": {
     },
-    "openvpn\/subnet": {
-      "default": "10.8.0.0",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Subnet to hand out to clients",
-      "display_name": "OpenVPN Subnet",
-      "recipes": [
-
-      ],
-      "required": false
+    "replacing": {
     },
-    "openvpn\/netmask": {
-      "default": "255.255.0.0",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Netmask for clients",
-      "display_name": "OpenVPN Netmask",
-      "recipes": [
-
-      ],
-      "required": false
+    "description": "Installs and configures openvpn",
+    "groupings": {
     },
-    "openvpn\/type": {
-      "default": "server",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Server or server-bridge",
-      "display_name": "OpenVPN Type",
-      "recipes": [
+    "platforms": {
+      "ubuntu": [
 
       ],
-      "required": false
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "debian": [
+
+      ],
+      "redhat": [
+
+      ]
     },
-    "openvpn\/local": {
-      "default": "ipaddress",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Local interface (ip) to listen on",
-      "display_name": "OpenVPN Local",
-      "recipes": [
+    "version": "0.7.0",
+    "recommendations": {
+    },
+    "name": "openvpn",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "= DESCRIPTION:\n\nInstalls OpenVPN and sets up a fairly basic configuration. Since OpenVPN is very complex, we provide a baseline, but your site will need probably need to customize.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10, but should work anywhere that has a package for OpenVPN.\n\n== Cookbooks:\n\nNo other cookbooks are required.\n\n= ATTRIBUTES: \n\nThese attributes are set by the cookbook by default. \n\n* openvpn[:local] - IP to listen on, defaults to node[:ipaddress]\n* openvpn[:proto] - Valid values are 'udp' or 'tcp', defaults to 'udp'.\n* openvpn[:type] - Valid values are 'server' or 'server-bridge'. Default is 'server' and it will create a routed IP tunnel, and use the 'tun' device. 'server-bridge' will create an ethernet bridge and requires a tap0 device bridged with the ethernet interface, and is beyond the scope of the cookbook at this time.\n* openvpn[:subnet] - Used for server mode to configure a VPN subnet to draw client addresses. Default is 10.8.0.0, which is what the sample OpenVPN config package uses.\n* openvpn[:netmask] - Netmask for the subnet, default is 255.255.0.0.\n\n= USAGE:\n\nOpenVPN uses SSL certificates for authentication. We provide a Rakefile to make it easier to set everything up. The rake tasks need to be run before deploying the cookbook so the configured server has the proper certificate files. These tasks wrap around the easy-rsa scripts provided with OpenVPN.\n\nBe sure to edit the 'vars' file, files/default/easy-rsa/vars, to set site-specific SSL certificate parameters.\n\nThis cookbook also provides an 'up' script that runs when OpenVPN is started. This script is for setting up firewall rules and kernel networking parameters as needed for your environment. For example, you'll probably want to enable IP forwarding (sample Linux setting is commented out).\n\n== Server:\n\nUse the rake task from the easy-rsa directory in this cookbook.\n\n  cd files/default/easy-rsa\n  . vars \n  rake server\n  \nThis will create the certificates in files/default/keys.\n\n== Client:\n\nFor security reasons, certificates should be generated on a per-user basis. The client task requires two variables, the username and the VPN gateway hostname.\n\n  cd files/default/easy-rsa\n  . vars\n  rake client name=\"username\" gateway=\"vpn_gateway.example.com\"\n  \nThis will create a ZIP file, /tmp/\"username\".zip. This file should be sent to the user and removed from the server where generated.\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recipes": {
+    },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+      "openvpn/proto": {
+        "calculated": false,
+        "default": "udp",
+        "type": "string",
+        "choice": [
 
-      ],
-      "required": false
+        ],
+        "description": "UDP or TCP",
+        "display_name": "OpenVPN Protocol",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "openvpn/subnet": {
+        "calculated": false,
+        "default": "10.8.0.0",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Subnet to hand out to clients",
+        "display_name": "OpenVPN Subnet",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "openvpn/netmask": {
+        "calculated": false,
+        "default": "255.255.0.0",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Netmask for clients",
+        "display_name": "OpenVPN Netmask",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "openvpn/type": {
+        "calculated": false,
+        "default": "server",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Server or server-bridge",
+        "display_name": "OpenVPN Type",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "openvpn/local": {
+        "calculated": false,
+        "default": "ipaddress",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Local interface (ip) to listen on",
+        "display_name": "OpenVPN Local",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      }
+    },
+    "conflicting": {
+    },
+    "license": "Apache 2.0",
+    "providing": {
     }
-  },
-  "providing": {
-    "openvpn": [
-
-    ]
-  },
-  "license": "Apache 2.0",
-  "long_description": "= DESCRIPTION:\n\nInstalls OpenVPN and sets up a fairly basic configuration. Since OpenVPN is very complex, we provide a baseline, but your site will need probably need to customize.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10, but should work anywhere that has a package for OpenVPN.\n\n== Cookbooks:\n\nNo other cookbooks are required.\n\n= ATTRIBUTES: \n\nThese attributes are set by the cookbook by default. \n\n* openvpn[:local] - IP to listen on, defaults to node[:ipaddress]\n* openvpn[:proto] - Valid values are 'udp' or 'tcp', defaults to 'udp'.\n* openvpn[:type] - Valid values are 'server' or 'server-bridge'. Default is 'server' and it will create a routed IP tunnel, and use the 'tun' device. 'server-bridge' will create an ethernet bridge and requires a tap0 device bridged with the ethernet interface, and is beyond the scope of the cookbook at this time.\n* openvpn[:subnet] - Used for server mode to configure a VPN subnet to draw client addresses. Default is 10.8.0.0, which is what the sample OpenVPN config package uses.\n* openvpn[:netmask] - Netmask for the subnet, default is 255.255.0.0.\n\n= USAGE:\n\nOpenVPN uses SSL certificates for authentication. We provide a Rakefile to make it easier to set everything up. The rake tasks need to be run before deploying the cookbook so the configured server has the proper certificate files. These tasks wrap around the easy-rsa scripts provided with OpenVPN.\n\nBe sure to edit the 'vars' file, files\/default\/easy-rsa\/vars, to set site-specific SSL certificate parameters.\n\nThis cookbook also provides an 'up' script that runs when OpenVPN is started. This script is for setting up firewall rules and kernel networking parameters as needed for your environment. For example, you'll probably want to enable IP forwarding (sample Linux setting is commented out).\n\n== Server:\n\nUse the rake task from the easy-rsa directory in this cookbook.\n\n  cd files\/default\/easy-rsa\n  . vars \n  rake server\n  \nThis will create the certificates in files\/default\/keys.\n\n== Client:\n\nFor security reasons, certificates should be generated on a per-user basis. The client task requires two variables, the username and the VPN gateway hostname.\n\n  cd files\/default\/easy-rsa\n  . vars\n  rake client name=\"username\" gateway=\"vpn_gateway.example.com\"\n  \nThis will create a ZIP file, \/tmp\/\"username\".zip. This file should be sent to the user and removed from the server where generated.\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http:\/\/www.apache.org\/licenses\/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-  "replacing": {
-
-  },
-  "dependencies": {
-
   }
-}

@@ -17,18 +17,14 @@
 # limitations under the License.
 #
 
-CHEF_08_GEMS_RELEASED = false
-
 root_group = value_for_platform(
   "openbsd" => { "default" => "wheel" },
   "freebsd" => { "default" => "wheel" },
   "default" => "root"
 )
 
-if CHEF_08_GEMS_RELEASED
-  gem_package "chef" do
-    version node[:bootstrap][:chef][:client_version]
-  end
+gem_package "chef" do
+  version node[:bootstrap][:chef][:client_version]
 end
 
 case node[:bootstrap][:chef][:init_style]

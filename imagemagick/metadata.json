@@ -1,56 +1,44 @@
 {
-  "maintainer": "Opscode, Inc.",
-  "description": "Installs\/Configures imagemagick",
-  "recommendations": {
+    "dependencies": {
+    },
+    "replacing": {
+    },
+    "description": "Installs/Configures imagemagick",
+    "groupings": {
+    },
+    "platforms": {
+      "ubuntu": [
 
-  },
-  "maintainer_email": "cookbooks@opscode.com",
-  "recipes": {
-    "imagemagick::rmagick": "",
-    "imagemagick": ""
-  },
-  "suggestions": {
+      ],
+      "rhel": [
 
-  },
-  "platforms": {
-    "ubuntu": [
+      ],
+      "fedora": [
 
-    ],
-    "rhel": [
+      ],
+      "centos": [
 
-    ],
-    "fedora": [
+      ],
+      "debian": [
 
-    ],
-    "centos": [
-
-    ],
-    "debian": [
-
-    ]
-  },
-  "version": "0.1.0",
-  "name": "imagemagick",
-  "conflicting": {
-
-  },
-  "attributes": {
-
-  },
-  "providing": {
-    "imagemagick::rmagick": [
-
-    ],
-    "imagemagick": [
-
-    ]
-  },
-  "license": "Apache 2.0",
-  "long_description": "= DESCRIPTION:\n\nInstalls ImageMagick and optionally Rmagick (RubyGem).\n\n= REQUIREMENTS:\n\nShould work on RHEL and Debian plus derivatives.\n\n= USAGE:\n\nTo install just ImageMagick,\n\n  include_recipe \"imagemagick\"\n  \nIn your own recipe\/cookbook. To install the RubyGem rmagick,\n\n  include_recipe \"imagemagick::rmagick\"\n  \nWhich will install imagemagick, as well as the development libraries for imagemagick (so rmagick can be built).\n\n= LICENSE:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http:\/\/www.apache.org\/licenses\/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-  "replacing": {
-
-  },
-  "dependencies": {
-
+      ]
+    },
+    "version": "0.1.0",
+    "recommendations": {
+    },
+    "name": "imagemagick",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "= DESCRIPTION:\n\nInstalls ImageMagick and optionally Rmagick (RubyGem).\n\n= REQUIREMENTS:\n\nShould work on RHEL and Debian plus derivatives.\n\n= USAGE:\n\nTo install just ImageMagick,\n\n  include_recipe \"imagemagick\"\n  \nIn your own recipe/cookbook. To install the RubyGem rmagick,\n\n  include_recipe \"imagemagick::rmagick\"\n  \nWhich will install imagemagick, as well as the development libraries for imagemagick (so rmagick can be built).\n\n= LICENSE:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recipes": {
+    },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+    },
+    "conflicting": {
+    },
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }
-}

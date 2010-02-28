@@ -3,26 +3,36 @@
     },
     "replacing": {
     },
-    "description": "Configures apt and apt services",
+    "description": "Installs xml",
     "groupings": {
     },
     "platforms": {
       "ubuntu": [
 
       ],
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "suse": [
+
+      ],
       "debian": [
+
+      ],
+      "redhat": [
 
       ]
     },
-    "version": "0.8.0",
+    "version": "0.1.0",
     "recommendations": {
     },
-    "name": "apt",
+    "name": "xml",
     "maintainer": "Opscode, Inc.",
     "long_description": "",
     "recipes": {
-      "apt::proxy": "Set up an APT proxy",
-      "apt::cacher": "Set up an APT cache"
     },
     "suggestions": {
     },

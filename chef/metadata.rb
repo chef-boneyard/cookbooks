@@ -3,7 +3,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures chef client and server"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.14"
+version           "0.15"
 recipe            "chef::client", "Sets up a client to talk to a chef-server"
 recipe            "chef::server", "Configures a chef API server as a merb application"
 
@@ -28,7 +28,7 @@ attribute "chef/run_path",
 attribute "chef/client_version",
   :display_name => "Chef Client Version",
   :description => "Set the version of the client gem to install",
-  :default => "0.8.0"
+  :default => "0.8.2"
 
 attribute "chef/client_interval",
   :display_name => "Chef Client Interval ",
@@ -53,7 +53,7 @@ attribute "chef/indexer_log",
 attribute "chef/server_version",
   :display_name => "Chef Server Version",
   :description => "Set the version of the server and server-slice gems to install",
-  :default => "0.8.0"
+  :default => "0.8.2"
 
 attribute "chef/server_log",
   :display_name => "Chef Server Log",

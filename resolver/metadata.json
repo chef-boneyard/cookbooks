@@ -1,94 +1,96 @@
 {
-  "maintainer": "Opscode, Inc.",
-  "description": "Configures \/etc\/resolv.conf",
-  "recommendations": {
-
-  },
-  "maintainer_email": "cookbooks@opscode.com",
-  "recipes": {
-    "resolver": ""
-  },
-  "suggestions": {
-
-  },
-  "platforms": {
-    "freebsd": [
-
-    ],
-    "ubuntu": [
-
-    ],
-    "openbsd": [
-
-    ],
-    "fedora": [
-
-    ],
-    "macosx": [
-
-    ],
-    "centos": [
-
-    ],
-    "redhat": [
-
-    ],
-    "debian": [
-
-    ]
-  },
-  "version": "0.7.0",
-  "name": "resolver",
-  "conflicting": {
-
-  },
-  "attributes": {
-    "resolver\/nameservers": {
-      "default": [
-        ""
-      ],
-      "type": "array",
-      "multiple_values": false,
-      "description": "Default nameservers",
-      "display_name": "Resolver Nameservers",
-      "recipes": [
-
-      ],
-      "required": false
+    "dependencies": {
     },
-    "resolver": {
-      "type": "hash",
-      "multiple_values": false,
-      "description": "Hash of Resolver attributes",
-      "display_name": "Resolver",
-      "recipes": [
-
-      ],
-      "required": false
+    "replacing": {
     },
-    "resolver\/search": {
-      "default": "domain",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Default domain to search",
-      "display_name": "Resolver Search",
-      "recipes": [
+    "description": "Configures /etc/resolv.conf",
+    "groupings": {
+    },
+    "platforms": {
+      "freebsd": [
 
       ],
-      "required": false
+      "ubuntu": [
+
+      ],
+      "openbsd": [
+
+      ],
+      "fedora": [
+
+      ],
+      "macosx": [
+
+      ],
+      "centos": [
+
+      ],
+      "redhat": [
+
+      ],
+      "debian": [
+
+      ]
+    },
+    "version": "0.7.0",
+    "recommendations": {
+    },
+    "name": "resolver",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "",
+    "recipes": {
+    },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+      "resolver/nameservers": {
+        "calculated": false,
+        "default": [
+          ""
+        ],
+        "type": "array",
+        "choice": [
+
+        ],
+        "description": "Default nameservers",
+        "display_name": "Resolver Nameservers",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "resolver": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Hash of Resolver attributes",
+        "display_name": "Resolver",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "resolver/search": {
+        "calculated": false,
+        "default": "domain",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Default domain to search",
+        "display_name": "Resolver Search",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      }
+    },
+    "conflicting": {
+    },
+    "license": "Apache 2.0",
+    "providing": {
     }
-  },
-  "providing": {
-    "resolver": [
-
-    ]
-  },
-  "license": "Apache 2.0",
-  "long_description": "",
-  "replacing": {
-
-  },
-  "dependencies": {
-
   }
-}

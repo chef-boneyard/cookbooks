@@ -4,7 +4,7 @@ This cookbook configures a Chef client or server installed via RubyGems. If Chef
 
 = REQUIREMENTS:
 
-This cookbook requires Chef installed from RubyGems. Chef v0.8.0+.
+This cookbook requires Chef installed from RubyGems. Chef v0.8.x+.
 
 == Platform:
 
