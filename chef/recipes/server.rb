@@ -65,7 +65,7 @@ end
 
 http_request "compact chef couchDB" do
   action :post
-  url "#{Chef::Config[:couchdb_url]}/_compact"
+  url "#{Chef::Config[:couchdb_url]}/chef/_compact"
   only_if do
     begin
       open("#{Chef::Config[:couchdb_url]}/chef")

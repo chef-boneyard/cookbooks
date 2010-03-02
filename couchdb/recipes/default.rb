@@ -17,6 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+include_recipe "erlang"
+
 package "couchdb" do
   package_name value_for_platform(
     "openbsd" => { "default" => "apache-couchdb" },

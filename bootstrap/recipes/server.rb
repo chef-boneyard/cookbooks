@@ -96,29 +96,7 @@ template "/etc/chef/server.rb" do
   )
 end
 
-bash "Create WebUI SSL Certificate" do
-  cwd "/etc/chef"
-  code <<-EOH
-  umask 077
-  openssl genrsa 2048 > webui.key
-  openssl req -subj "#{node[:bootstrap][:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key webui.key > webui.crt
-  cat webui.key webui.crt > webui.pem
-  EOH
-  not_if { File.exists?("/etc/chef/webui.pem") }
-end
-
-bash "Create Validation SSL Certificate" do
-  cwd "/etc/chef"
-  code <<-EOH
-  umask 077
-  openssl genrsa 2048 > validation.key
-  openssl req -subj "#{node[:bootstrap][:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key validation.key > validation.crt
-  cat validation.key validation.crt > validation.pem
-  EOH
-  not_if { File.exists?("/etc/chef/validation.pem") }
-end
-
-%w{ openid cache search_index openid/cstore openid/store }.each do |dir|
+%w{ cache search_index }.each do |dir|
   directory "#{node[:bootstrap][:chef][:path]}/#{dir}" do
     owner "root"
     group root_group

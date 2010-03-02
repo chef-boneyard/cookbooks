@@ -2,7 +2,7 @@
 # Cookbook Name:: bootstrap
 # Attributes:: bootstrap
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2008-2010, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,8 +32,8 @@ set_unless[:bootstrap][:chef][:webui_enabled] = false
 set_unless[:bootstrap][:chef][:webui_admin_password] = secure_password
 set_unless[:bootstrap][:chef][:validation_client_name] = "chef-validator"
 
-set_unless[:bootstrap][:chef][:server_version]  = "0.8.2"
-set_unless[:bootstrap][:chef][:client_version]  = "0.8.2"
+set_unless[:bootstrap][:chef][:server_version]  = "0.8.4"
+set_unless[:bootstrap][:chef][:client_version]  = "0.8.4"
 set_unless[:bootstrap][:chef][:client_interval] = "1800"
 set_unless[:bootstrap][:chef][:client_splay]    = "20"
 set_unless[:bootstrap][:chef][:log_dir]         = "/var/log/chef"

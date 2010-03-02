@@ -28,7 +28,7 @@ attribute "chef/run_path",
 attribute "chef/client_version",
   :display_name => "Chef Client Version",
   :description => "Set the version of the client gem to install",
-  :default => "0.8.2"
+  :default => "0.8.4"
 
 attribute "chef/client_interval",
   :display_name => "Chef Client Interval ",
@@ -53,7 +53,7 @@ attribute "chef/indexer_log",
 attribute "chef/server_version",
   :display_name => "Chef Server Version",
   :description => "Set the version of the server and server-slice gems to install",
-  :default => "0.8.2"
+  :default => "0.8.4"
 
 attribute "chef/server_log",
   :display_name => "Chef Server Log",
