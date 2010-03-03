@@ -20,7 +20,7 @@ openid_cstore_path "<%= @node[:chef][:path] %>/openid/cstore"
 search_index_path  "<%= @node[:chef][:path] %>/search_index"
 role_path          "<%= @node[:chef][:serve_path] %>/roles"
 
-validation_client_name "chef-validator"
+validation_client_name "<%= @node[:chef][:validation_client_name] %>"
 validation_key         "/etc/chef/validation.pem"
 client_key             "/etc/chef/client.pem"
 web_ui_client_name     "chef-webui"

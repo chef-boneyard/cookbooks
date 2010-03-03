@@ -45,6 +45,7 @@ set_unless[:chef][:server_port]     = "4000"
 set_unless[:chef][:webui_port]      = "4040"
 set_unless[:chef][:webui_enabled]   = false
 set_unless[:chef][:webui_admin_password] = secure_password
+set_unless[:chef][:validation_client_name] = "chef-validator"
 
 case chef[:init_style]
 when "runit"
