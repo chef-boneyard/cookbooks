@@ -1,0 +1,34 @@
+#!/bin/bash
+
+mount=`mktemp -d -t schroot-XXXXXX`
+mount <%= @chroot_path %> ${mount}
+debootstrap --variant=buildd <%= @release %> ${mount} <%= @mirror %>
+cat > ${mount}/etc/apt/sources.list <<EOF
+deb <%= @mirror %> <%= @release %> <%= @components %>
+deb-src <%= @mirror %> <%= @release %> <%= @components %>
+EOF
+
+cat > ${mount}/finish.sh <<EOF
+#!/bin/bash
+apt-get update || true
+apt-get -y --force-yes install gnupg <%= @distro %>-keyring
+apt-get update || true
+echo set debconf/frontend Noninteractive | debconf-communicate
+echo set debconf/priority critical | debconf-communicate
+apt-get -y --force-yes install build-essential fakeroot devscripts apt-utils
+if [ ! -r /dev/stdin ];  then ln -s /proc/self/fd/0 /dev/stdin;  fi
+if [ ! -r /dev/stdout ]; then ln -s /proc/self/fd/1 /dev/stdout; fi
+if [ ! -r /dev/stderr ]; then ln -s /proc/self/fd/2 /dev/stderr; fi
+apt-get clean
+rm /finish.sh
+EOF
+
+chmod +x ${mount}/finish.sh
+umount ${mount}
+rmdir ${mount}
+schroot -c <%= @chroot_name %>-source -u root /finish.sh
+
+echo "debootstrapped <%= @chroot_name %>."
+echo "To update the image: schroot -c <%= @chroot_name %>-source -u root"
+echo "To use the image   : schroot -c <%= @chroot_name %>"
+echo "To build a package : sbuild -d <%= @chroot_name %> PACKAGE*.dsc"
