@@ -1,5 +1,7 @@
 = IMPORTANT CHANGES:
 
+New recipe: chef::delete_validation, to delete the validation certificate when the Chef Client runs and has registered itself with the 0.8.x server.
+
 First be aware of important changes in this version from previous versions.
 
 == General:
@@ -18,9 +20,9 @@ The client service is not managed at all. It is assumed to be set up via init sc
 
 The stompserver and couchdb cookbooks are not included by default. See below under Cookbooks requirements.
 
-The default server recipe (chef::server) sets up two Merb Mongrel workers for the webui/api (port 4000) and openid (port 4001).
+The default server recipe (chef::server) sets up one Merb worker for the webui/api (port 4000).
 
-The default server recipe (chef::server), creates but does not manage the chef-indexer and chef-server services, and configures both from /etc/chef/server.rb. Some package installation methods (e.g., Debian) have a separate config file for chef-indexer.
+The default server recipe (chef::server), creates but does not manage the chef-solr-indexer and chef-server services, and configures both from /etc/chef/server.rb. Some package installation methods (e.g., Debian) have a separate config file for chef-solr-indexer.
 
 The chef::server_proxy recipe sets up an Apache proxy vhost to provide SSL in front of the chef-server running as a Merb application.
 
@@ -30,7 +32,7 @@ Use this cookbook to configure a chef client to connect to your preferred chef-s
 
 = REQUIREMENTS:
 
-Chef v0.7.10, for attribute 'default' syntax.
+Chef v0.8.x.
 
 == Platform:
 
@@ -167,6 +169,8 @@ When using chef::server only, clients can use the default value for url_type (ht
 
 == Server Proxy (chef::server_proxy)
 
+* This recipe needs to be updated for Chef 0.8 !! *
+
 If you would like to set up an SSL front end for your server, use the chef::server_proxy recipe.
 
 When using this recipe, clients should have the url_type attribute set to "https".
@@ -180,7 +184,7 @@ The recipe itself will set up the Apache proxy:
 * Create the SSL certificate based on the server_ssl_req attribute.
 * Set up and enable virtual hosts on ports 443 and 444 in the site config "chef_server.conf".
 
-The proxy will send requests from port 443 to the Mongrel running on port 4000 (webui/api) and requests on port 444 to the Mongrel on port 4001 (openid). Be sure to adjust any firewall rules or security group settings appropriately for these ports (4000, 4001, 443, 444).
+The proxy will send requests from port 443 to the worker running on port 4000 (api) and requests on port 444 to the worker on port 4040 (webui). Be sure to adjust any firewall rules or security group settings appropriately for these ports (4000, 4001, 443, 444).
 
 === SSL Certificates
 

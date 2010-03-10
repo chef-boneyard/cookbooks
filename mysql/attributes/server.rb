@@ -17,15 +17,11 @@
 # limitations under the License.
 #
 
-require 'openssl'
+::Chef::Node.send(:include, Opscode::OpenSSL::Password)
 
-pw = String.new
-
-while pw.length < 20
-  pw << OpenSSL::Random.random_bytes(1).gsub(/\W/, '')
-end
-
-set_unless[:mysql][:server_root_password] = pw
+set_unless[:mysql][:server_debian_password] = secure_password
+set_unless[:mysql][:server_root_password] = secure_password
+set_unless[:mysql][:server_repl_password] = secure_password
 set_unless[:mysql][:bind_address]         = ipaddress
 set_unless[:mysql][:datadir]              = "/var/lib/mysql"
 

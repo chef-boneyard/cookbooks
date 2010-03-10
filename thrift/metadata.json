@@ -1,51 +1,44 @@
 {
-  "maintainer": "Opscode, Inc.",
-  "description": "Installs\/Configures thrift",
-  "recommendations": {
+    "dependencies": {
+      "subversion": [
 
-  },
-  "maintainer_email": "cookbooks@opscode.com",
-  "recipes": {
-    "thrift": ""
-  },
-  "suggestions": {
+      ],
+      "java": [
 
-  },
-  "platforms": {
-    "ubuntu": [
+      ],
+      "boost": [
 
-    ]
-  },
-  "version": "0.1.0",
-  "name": "thrift",
-  "conflicting": {
+      ],
+      "build-essential": [
 
-  },
-  "attributes": {
+      ]
+    },
+    "replacing": {
+    },
+    "description": "Installs/Configures thrift",
+    "groupings": {
+    },
+    "platforms": {
+      "ubuntu": [
 
-  },
-  "providing": {
-    "thrift": [
-
-    ]
-  },
-  "license": "Apache 2.0",
-  "long_description": "= DESCRIPTION:\n\nInstalls Thrift from source.\n\n= REQUIREMENTS:\n\n== Platform:\n\nOnly tested on Ubuntu 9.04.\n\n== Cookbooks:\n\nOpscode cookbooks:\n\n* build-essential\n* java\n* subversion\n* boost\n\n= USAGE:\n\nInclude the Thrift recipe to install Thrift from source on your systems.\n\n  include_recipe \"thrift\"\n\n= LICENSE and AUTHOR:\n\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http:\/\/www.apache.org\/licenses\/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-  "replacing": {
-
-  },
-  "dependencies": {
-    "subversion": [
-
-    ],
-    "java": [
-
-    ],
-    "boost": [
-
-    ],
-    "build-essential": [
-
-    ]
+      ]
+    },
+    "version": "0.1.0",
+    "recommendations": {
+    },
+    "name": "thrift",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "= DESCRIPTION:\n\nInstalls Thrift from source.\n\n= REQUIREMENTS:\n\n== Platform:\n\nOnly tested on Ubuntu 9.04.\n\n== Cookbooks:\n\nOpscode cookbooks:\n\n* build-essential\n* java\n* subversion\n* boost\n\n= USAGE:\n\nInclude the Thrift recipe to install Thrift from source on your systems.\n\n  include_recipe \"thrift\"\n\n= LICENSE and AUTHOR:\n\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recipes": {
+    },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+    },
+    "conflicting": {
+    },
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }
-}

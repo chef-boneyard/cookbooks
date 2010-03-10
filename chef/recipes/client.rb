@@ -52,13 +52,8 @@ template "/etc/chef/client.rb" do
   notifies :create, resources(:ruby_block => "reload_client_config")
 end
 
-execute "Register client node with Chef Server" do
-  command "/usr/bin/env chef-client -t \`cat /etc/chef/validation_token\`"
-  only_if { File.exists?("/etc/chef/validation_token") }
-  not_if  { File.exists?("#{node[:chef][:path]}/cache/registration") }
-end
-
-execute "Remove the validation token" do
-  command "rm /etc/chef/validation_token"
-  only_if { File.exists?("/etc/chef/validation_token") }
+file "/etc/chef/validation.pem" do
+  action :delete
+  backup false
+  only_if { File.size?("/etc/chef/client.pem") }
 end

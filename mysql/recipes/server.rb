@@ -62,28 +62,21 @@ template value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "/et
   notifies :restart, resources(:service => "mysql"), :immediately
 end
 
-if (node[:ec2] && ! FileTest.directory?(node[:mysql][:ec2_path]))
-
-  service "mysql" do
-    action :stop
+begin
+  t = resources(:template => "/etc/mysql/grants.sql")
+rescue
+  Chef::Log.warn("Could not find previously defined grants.sql resource")
+  t = template "/etc/mysql/grants.sql" do
+    source "grants.sql.erb"
+    owner "root"
+    group "root"
+    mode "0600"
+    action :create
   end
+end
 
-  execute "install-mysql" do
-    command "mv #{node[:mysql][:datadir]} #{node[:mysql][:ec2_path]}"
-    not_if do FileTest.directory?(node[:mysql][:ec2_path]) end
-  end
-
-  directory node[:mysql][:ec2_path] do
-    owner "mysql"
-    group "mysql"
-  end
-
-  link node[:mysql][:datadir] do
-   to node[:mysql][:ec2_path]
-  end
-
-  service "mysql" do
-    action :start
-  end
-
+execute "mysql-install-privileges" do
+  command "/usr/bin/mysql -u root -p#{node[:mysql][:server_root_password]} < /etc/mysql/grants.sql"
+  action :nothing
+  subscribes :run, resources(:template => "/etc/mysql/grants.sql")
 end

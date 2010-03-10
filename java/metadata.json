@@ -1,43 +1,35 @@
 {
-  "maintainer": "Opscode, Inc.",
-  "description": "Installs java",
-  "recommendations": {
+    "dependencies": {
+    },
+    "replacing": {
+    },
+    "description": "Installs java",
+    "groupings": {
+    },
+    "platforms": {
+      "ubuntu": [
 
-  },
-  "maintainer_email": "cookbooks@opscode.com",
-  "recipes": {
-    "java": ""
-  },
-  "suggestions": {
+      ],
+      "debian": [
 
-  },
-  "platforms": {
-    "ubuntu": [
-
-    ],
-    "debian": [
-
-    ]
-  },
-  "version": "0.7.0",
-  "name": "java",
-  "conflicting": {
-
-  },
-  "attributes": {
-
-  },
-  "providing": {
-    "java": [
-
-    ]
-  },
-  "license": "Apache 2.0",
-  "long_description": "",
-  "replacing": {
-
-  },
-  "dependencies": {
-
+      ]
+    },
+    "version": "0.9.0",
+    "recommendations": {
+    },
+    "name": "java",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "= DESCRIPTION:\n\nInstalls Java and Ant.\n\n= REQUIREMENTS:\n\nPlatform: Ubuntu, Debian, Red Hat, CentOS, Fedora.\n\nEnable the 'multiverse' repository on Ubuntu, 'non-free' on Debian or EPEL on RH/Cent/Fedora to get the Java package, or edit the default recipe to point at the Java package for your platform.\n\n= USAGE:\n\nSimply include the recipe where you want Java installed. Note the respository requirement above to get the right package. On Debian and Ubuntu systems, the recipe will preseed the package and update java alternaties.\n\n= LICENSE and AUTHOR:\n\nCopyright 2008-2010, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recipes": {
+    },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+    },
+    "conflicting": {
+    },
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }
-}

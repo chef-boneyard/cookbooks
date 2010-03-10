@@ -1,97 +1,102 @@
 {
-  "maintainer": "Opscode, Inc.",
-  "description": "Installs and configures ntp as a client or server",
-  "recommendations": {
-
-  },
-  "maintainer_email": "cookbooks@opscode.com",
-  "recipes": {
-    "ntp": ""
-  },
-  "suggestions": {
-
-  },
-  "platforms": {
-    "ubuntu": [
-
-    ],
-    "fedora": [
-
-    ],
-    "centos": [
-
-    ],
-    "redhat": [
-
-    ],
-    "debian": [
-
-    ]
-  },
-  "version": "0.7.0",
-  "name": "ntp",
-  "conflicting": {
-
-  },
-  "attributes": {
-    "ntp\/servers": {
-      "default": [
-        "0.us.pool.ntp.org",
-        "1.us.pool.ntp.org"
-      ],
-      "type": "array",
-      "multiple_values": false,
-      "description": "Array of servers we should talk to",
-      "display_name": "NTP Servers",
-      "recipes": [
-
-      ],
-      "required": false
+    "dependencies": {
     },
-    "ntp\/is_server": {
-      "default": "false",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Set to true if this is an NTP server",
-      "display_name": "NTP Is Server?",
-      "recipes": [
-
-      ],
-      "required": false
+    "replacing": {
     },
-    "ntp\/service": {
-      "default": "ntp",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Name of the NTP service",
-      "display_name": "NTP Service",
-      "recipes": [
-
-      ],
-      "required": false
+    "description": "Installs and configures ntp as a client or server",
+    "groupings": {
     },
-    "ntp": {
-      "type": "hash",
-      "multiple_values": false,
-      "description": "Hash of NTP attributes",
-      "display_name": "NTP",
-      "recipes": [
+    "platforms": {
+      "ubuntu": [
 
       ],
-      "required": false
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "redhat": [
+
+      ],
+      "debian": [
+
+      ]
+    },
+    "version": "0.7.0",
+    "recommendations": {
+    },
+    "name": "ntp",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "",
+    "recipes": {
+    },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+      "ntp/servers": {
+        "calculated": false,
+        "default": [
+          "0.us.pool.ntp.org",
+          "1.us.pool.ntp.org"
+        ],
+        "type": "array",
+        "choice": [
+
+        ],
+        "description": "Array of servers we should talk to",
+        "display_name": "NTP Servers",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "ntp/is_server": {
+        "calculated": false,
+        "default": "false",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Set to true if this is an NTP server",
+        "display_name": "NTP Is Server?",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "ntp/service": {
+        "calculated": false,
+        "default": "ntp",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Name of the NTP service",
+        "display_name": "NTP Service",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "ntp": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Hash of NTP attributes",
+        "display_name": "NTP",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      }
+    },
+    "conflicting": {
+    },
+    "license": "Apache 2.0",
+    "providing": {
     }
-  },
-  "providing": {
-    "ntp": [
-
-    ]
-  },
-  "license": "Apache 2.0",
-  "long_description": "",
-  "replacing": {
-
-  },
-  "dependencies": {
-
   }
-}

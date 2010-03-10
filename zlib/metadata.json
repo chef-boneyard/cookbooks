@@ -1,0 +1,47 @@
+{
+    "dependencies": {
+    },
+    "replacing": {
+    },
+    "description": "Installs zlib",
+    "groupings": {
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ],
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "suse": [
+
+      ],
+      "debian": [
+
+      ],
+      "redhat": [
+
+      ]
+    },
+    "version": "0.1.0",
+    "recommendations": {
+    },
+    "name": "zlib",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "",
+    "recipes": {
+    },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+    },
+    "conflicting": {
+    },
+    "license": "Apache 2.0",
+    "providing": {
+    }
+  }

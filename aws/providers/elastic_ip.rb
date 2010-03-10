@@ -8,9 +8,9 @@ action :associate do
   elsif addr[:instance_id] == instance_id
     Chef::Log.debug("Elastic IP #{new_resource.ip} is already attached to the instance")
   else
-    Chef::Log.debug("Attaching Elastic IP #{new_resource.ip} to the instance")
     attach(new_resource.ip, new_resource.timeout)
     new_resource.updated = true
+    Chef::Log.info("Attaching Elastic IP #{new_resource.ip} to the instance")
   end
 end
 
@@ -22,7 +22,7 @@ action :disassociate do
   elsif addr[:instance_id] != instance_id
     Chef::Log.debug("Elastic IP #{new_resource.ip} is already detached from the instance")
   else
-    Chef::Log.debug("Detaching Elastic IP #{new_resource.ip} to the instance")
+    Chef::Log.info("Detaching Elastic IP #{new_resource.ip} from the instance")
     detach(new_resource.ip, new_resource.timeout)
     new_resource.updated = true
   end

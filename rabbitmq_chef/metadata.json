@@ -1,0 +1,44 @@
+{
+    "dependencies": {
+    },
+    "replacing": {
+    },
+    "description": "Installs the RabbitMQ AMQP Broker",
+    "groupings": {
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ],
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "debian": [
+
+      ],
+      "redhat": [
+
+      ]
+    },
+    "version": "0.10.0",
+    "recommendations": {
+    },
+    "name": "rabbitmq_chef",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "",
+    "recipes": {
+    },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+    },
+    "conflicting": {
+    },
+    "license": "Apache 2.0",
+    "providing": {
+    }
+  }

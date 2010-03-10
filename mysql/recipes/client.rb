@@ -43,7 +43,6 @@ when "centos","redhat", "suse"
 
 else
   r = gem_package "mysql" do
-    version "2.7"
     action :nothing
   end
 

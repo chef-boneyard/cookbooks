@@ -34,7 +34,7 @@ remote_file value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "
   notifies :restart, resources("service[apache2]"), :delayed
 end
 
-%w{ php5 php5-cli samrty }.each do |pkg|
+%w{ php5 php5-cli smarty }.each do |pkg|
   package pkg do
     action :upgrade
   end

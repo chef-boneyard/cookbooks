@@ -23,7 +23,7 @@ root_group = value_for_platform(
   "default" => "root"
 )
 
-node[:apache][:listen_ports] << "444" unless node[:apache][:listen_ports].include?("444")
+node[:apache][:listen_ports] << "443" unless node[:apache][:listen_ports].include?("443")
 
 include_recipe "chef::server"
 include_recipe "apache2"
@@ -33,6 +33,8 @@ include_recipe "apache2::mod_proxy_http"
 include_recipe "apache2::mod_proxy_balancer"
 include_recipe "apache2::mod_rewrite"
 include_recipe "apache2::mod_headers"
+include_recipe "apache2::mod_expires"
+include_recipe "apache2::mod_deflate"
 
 directory "/etc/chef/certificates" do
   owner "root"

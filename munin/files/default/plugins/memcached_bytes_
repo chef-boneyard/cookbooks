@@ -1,0 +1,36 @@
+#!/usr/bin/env perl
+# ex:ts=4
+
+use strict;
+use warnings;
+
+use Cache::Memcached;
+
+$0 =~ /memcached_bytes_(\d+_\d+_\d+_\d+)_(\d+)$/;
+my ($ip, $port) = ($1, $2);
+$ip =~ s/_/./g;
+my $address = "$ip:$port";
+
+my $cmd = shift || '';
+if ($cmd eq 'config') {
+	print "graph_title Memcached bytes used for $address\n";
+	print "graph_args --base 1024 -l 0\n";
+	print "graph_vlabel bytes\n";
+	print "graph_category memcached\n";
+	print "graph_info This graph monitors the size of the memcached cache.\n";
+	print "bytes.label bytes used\n";
+	print "bytes.info Number of bytes currently used\n";
+	print "bytes.min 0\n";
+	print "bytes.draw AREA\n";
+	print "maxbytes.label maximum available\n";
+	print "maxbytes.info The configured cache size\n";
+	print "maxbytes.min 0\n";
+	exit 0;
+}
+
+my $memd = new Cache::Memcached { 'servers' => [$address] };
+my $memstats = $memd->stats(['misc']);
+
+print "bytes.value " . $memstats->{hosts}->{$address}->{misc}->{bytes} . "\n";
+print "maxbytes.value " .
+	$memstats->{hosts}->{$address}->{misc}->{limit_maxbytes} . "\n";
