@@ -47,7 +47,7 @@
 
 # Load cluster settings from chef-server
 cassandra_info = data_bag('cassandra')
-node[:cassandra].merge!(cassandra_info[:clusters][node[:cassandra][:cluster_name]])
+node[:cassandra].merge!(cassandra_info['clusters'][node[:cassandra][:cluster_name]])
 
 # Configure the various addrs for binding
 node[:cassandra][:listen_addr] = node[:ipaddress]
