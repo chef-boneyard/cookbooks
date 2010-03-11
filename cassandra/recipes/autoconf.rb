@@ -30,8 +30,6 @@
 #           :replication_factor => <factor>,
 #           :end_point_snitch => <snitch>
 #         }],
-#        :seeds =>
-#          [<seed addr>, ...],
 #        <other per cluster settings>
 #       }
 #     }
@@ -45,9 +43,17 @@
 #                 :column_type => "Super", :compare_subcolumns_with => <comparison>}
 #
 
+# Gather the seeds
+#
+# Nodes are expected to be tagged with [:cassandra][:cluster_name] to indicate the cluster to which
+# they belong (nodes are in exactly 1 cluster in this version of the cookbook), and may optionally be
+# tagged with [:cassandra][:seed] set to true if a node is to act as a seed.
+seeds = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true", "ipaddress")
+
 # Load cluster settings from chef-server
 cassandra_info = data_bag('cassandra')
 node[:cassandra].merge!(cassandra_info['clusters'][node[:cassandra][:cluster_name]])
+node[:cassandra][:seeds] = seeds
 
 # Configure the various addrs for binding
 node[:cassandra][:listen_addr] = node[:ipaddress]
