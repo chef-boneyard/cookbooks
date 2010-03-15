@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set_unless[:chef][:doc_root] = "/usr/share/chef-server-slice/public"
+set_unless[:chef][:doc_root] = "#{languages[:ruby][:gems_dir]}/gems/chef-server-webui-#{chef[:server_version]}/public"
 
 set_unless[:chef][:server_proxy][:css_expire_hours] = "120"
 set_unless[:chef][:server_proxy][:js_expire_hours]  = "24"

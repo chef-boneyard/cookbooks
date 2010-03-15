@@ -1,10 +1,10 @@
 = DESCRIPTION:
 
-This cookbook bootstraps a Chef client or server when Chef is installed via RubyGems. If installing Chef from OS distribution packages, please see the 'chef' cookbook. 
+This cookbook configures a Chef client or server installed via RubyGems. If Chef was installed from OS packages, please use the "chef" cookbook to configure Chef itself.
 
 = REQUIREMENTS:
 
-This cookbook requires Chef installed from RubyGems. Chef v0.7.10, for attribute syntax.
+This cookbook requires Chef installed from RubyGems. Chef v0.8.x+.
 
 == Platform:
 
@@ -23,17 +23,25 @@ Both clients and servers:
 Servers only:
 
 * couchdb
-* stompserver
+* rabbitmq_chef
+* openssl
+* zlib
+* xml
+* java
 
-The couchdb and stompserver recipes may be somewhat naive depending on the platform. You should view them online at the github repository to see if your platform is supported. If not, you'll need to manually install them, and remove the "include_recipe" statements from the bootstrap::server recipe.
+The couchdb and rabbitmq_chef recipes may be naive depending on the platform. The contents can be reviewed in the opscode/cookbooks repository to check if a particular platform is supported. If not, manual installation and modifications to the recipes will be required.
 
 = ATTRIBUTES:
 
-Attributes are under 'bootstrap[:chef]' - eg: 'bootstrap[:chef][:client_version]'. You may wish to change some of these locations to customize for your environment. For the bootstrap process this is done with a JSON data file passed to chef-solo.
+Cookbook attributes are namespaced 'bootstrap[:chef]' - eg: 'bootstrap[:chef][:client_version]'. You may wish to change some of these locations to customize for your environment. For the bootstrap process this is done with a JSON data file passed to chef-solo.
+
+== umask
+
+Sets the umask for files created by the server process.
 
 == url_type
 
-Set up the URLs the client should connect to with this. Default is 'http', which tells the client to connect to 'http://server:4000'. If you set up your chef-server to use an SSL front-end, set this to 'https' and the URLs will be 'https://server/'. 
+Set up the URLs the client should connect to with this. Default is 'http', which tells the client to connect to 'http://server:4000'. If you want to set up your chef-server to use an SSL front-end, set this to 'https' and the URLs will be 'https://server/'. The bootstrap::server recipe does not support an SSL front-end configuration, see chef::server_proxy for an example.
 
 == init_style
 
@@ -43,7 +51,7 @@ If your platform doesn't have a 'runit' package or if the cookbook doesn't detec
 
 == path
 
-This is the base location where chef will store its associated data. Default '/srv/chef' for RubyGems installed systems. The location preference varies by platform. The default is a filesystem hiearchy standard suggestion[1]. Some other locations you may consider, by platform:
+This is the base location where chef will store its associated data. Default '/srv/chef' for RubyGems installed systems. The location preference varies by platform. The default is a filesystem hiearchy standard suggestion[0]. Some other locations you may consider, by platform:
 
 Debian and Red Hat based Linux distros (Ubuntu, CentOS, Fedora, etc):
 
@@ -67,9 +75,25 @@ Location where the client will cache cookbooks and other data. Default is 'cache
 
 Used by the Chef server as the base location to "serve" cookbooks, roles and other assets. Default is /srv/chef.
 
+== server_port
+
+Port for the chef-server API process. Default is 4000.
+
+== webui_port
+
+Port for the chef-server-webui process. Default is 4040.
+
+== webui_enabled
+
+Whether the web user interface should be installed and enabled. Default is 'false'. In Chef versions prior to 0.8 the webui provided the API, but 0.8 split them apart so now the webui is optional. See the Chef wiki [1] for major changes in 0.8.
+
+== webui_admin_password
+
+Set a random, secure default password for the webui user. See /etc/chef/server.rb when the chef-solo run completes for the value of web_ui_admin_default_password to log into the webui. This password is generated with the openssl cookbook, though can be set with JSON.
+
 == server_version, client_version
 
-Set the version of the Gems to install. This can be used to upgrade Chef automatically[0]. The chef gems are not managed by the Opscode Chef cookbook, however.
+Set the version of the Gems to install. This can be used to upgrade Chef automatically[2]. The chef gems are not managed by the Opscode Chef cookbook, however.
 
 == client_interval
 
@@ -81,7 +105,7 @@ Splay interval to randomly add to interval. Default '20'.
 
 == log_dir
 
-Directory where logs are stored if logs are not sent to STDOUT. Systems using runit should send logs to STDOUT as runit manages log output. Default '/var/log/chef'.
+Directory where logs are stored if logs are not sent to STDOUT. Systems using runit should send logs to STDOUT as runit manages log output. Default '/var/log/chef'. Runit's logs are in /etc/sv/SERVICE_NAME/log/main/current, where SERVICE_NAME is the name of the service, e.g., 'chef-client', 'chef-server', 'chef-solr' etc. See the recipes for the runit_services that get set up.
 
 == client_log, indexer_log, server_log
 
@@ -95,8 +119,9 @@ Fully qualified domain name of the server. Default is the current node's fqdn as
 
 The validation_token used to automatically authorize chef-clients. Default is a random string generated every time chef-solo runs. Use chef-client -t 'validation_token' to automatically validate the client.
 
-[0] http://blog.opscode.com/2009/08/cool-chef-tricks-upgrade-chef-with-chef.html
-[1] http://www.pathname.com/fhs/
+[0] http://www.pathname.com/fhs/
+[1] http://wiki.opscode.com/display/chef/Release+Notes
+[2] http://blog.opscode.com/2009/08/cool-chef-tricks-upgrade-chef-with-chef.html
 
 = USAGE:
 
@@ -115,6 +140,7 @@ Common attributes you may wish to adjust for the client:
     "chef": {
       "url_type": "http",
       "init_style": "runit",
+      "server_port": "4000",
       "path": "/srv/chef",
       "server_fqdn": "localhost.localdomain",
     }
@@ -124,7 +150,10 @@ Common attributes you may wish to adjust for the client:
 
 == Servers:
 
+= Note server_port is a new attribute, you don't have to set it... but if you do, your clients need to know where it goes.
+
 Common attributes you may wish to adjust for the server:
+
 
 {
   "bootstrap": {
@@ -132,6 +161,7 @@ Common attributes you may wish to adjust for the server:
       "url_type": "http",
       "init_style": "runit",
       "path": "/srv/chef",
+      "server_port": "4000",
       "serve_path": "/srv/chef",
       "server_fqdn": "localhost.localdomain",
     }

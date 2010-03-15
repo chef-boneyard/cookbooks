@@ -1,43 +1,35 @@
 {
-  "maintainer": "Opscode, Inc.",
-  "description": "Installs zsh",
-  "recommendations": {
+    "dependencies": {
+    },
+    "replacing": {
+    },
+    "description": "Installs zsh",
+    "groupings": {
+    },
+    "platforms": {
+      "ubuntu": [
 
-  },
-  "maintainer_email": "cookbooks@opscode.com",
-  "recipes": {
-    "zsh": ""
-  },
-  "suggestions": {
+      ],
+      "debian": [
 
-  },
-  "platforms": {
-    "ubuntu": [
-
-    ],
-    "debian": [
-
-    ]
-  },
-  "version": "0.7.0",
-  "name": "zsh",
-  "conflicting": {
-
-  },
-  "attributes": {
-
-  },
-  "providing": {
-    "zsh": [
-
-    ]
-  },
-  "license": "Apache 2.0",
-  "long_description": "",
-  "replacing": {
-
-  },
-  "dependencies": {
-
+      ]
+    },
+    "version": "0.7.0",
+    "recommendations": {
+    },
+    "name": "zsh",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "",
+    "recipes": {
+    },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+    },
+    "conflicting": {
+    },
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }
-}

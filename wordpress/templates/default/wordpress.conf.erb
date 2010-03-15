@@ -1,0 +1,26 @@
+<VirtualHost *:80>
+  ServerName <%= @params[:server_name] %>
+  ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
+  DocumentRoot <%= @params[:docroot] %>
+
+  <Directory <%= @params[:docroot] %>>
+    Options FollowSymLinks
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+  </Directory>
+
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+
+  LogLevel info
+  ErrorLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-error.log
+  CustomLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
+
+  RewriteEngine On
+  RewriteLog <%= @node[:apache][:log_dir] %>/<%= @application_name %>-rewrite.log
+  RewriteLogLevel 0
+
+</VirtualHost>

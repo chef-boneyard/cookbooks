@@ -3,12 +3,12 @@ maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
 description      "Configures RubyGems-installed Chef"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.2"
+version          "0.10.1"
 
 %w{ ubuntu debian redhat centos fedora freebsd openbsd }.each do |os|
   supports os
 end
 
-%w{ runit couchdb stompserver apache2 }.each do |cb|
+%w{ runit couchdb rabbitmq_chef apache2 openssl zlib xml java }.each do |cb|
   depends cb
 end

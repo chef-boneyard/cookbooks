@@ -28,9 +28,10 @@ java_pkg = value_for_platform(
 )
 
 execute "update-java-alternatives" do
-  command "update-java-alternatives -s java-6-sun --jre"
+  command "update-java-alternatives --jre-headless -s java-6-sun"
   only_if do platform?("ubuntu", "debian") end
   ignore_failure true
+  returns 0
   action :nothing
 end
 

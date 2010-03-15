@@ -1,184 +1,214 @@
 {
-  "maintainer": "Opscode, Inc.",
-  "description": "Installs and configures mysql for client or server",
-  "recommendations": {
+    "dependencies": {
+      "openssl": [
 
-  },
-  "maintainer_email": "cookbooks@opscode.com",
-  "recipes": {
-    "mysql::client": "Installs packages required for mysql clients using run_action magic",
-    "mysql::server": "Installs packages required for mysql servers w\/o manual intervention",
-    "mysql": ""
-  },
-  "suggestions": {
-
-  },
-  "platforms": {
-    "ubuntu": [
-
-    ],
-    "debian": [
-
-    ]
-  },
-  "version": "0.10.0",
-  "name": "mysql",
-  "conflicting": {
-
-  },
-  "attributes": {
-    "mysql\/datadir": {
-      "default": "\/var\/lib\/mysql",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Location of mysql databases",
-      "display_name": "MySQL Data Directory",
-      "recipes": [
-
-      ],
-      "required": false
+      ]
     },
-    "mysql\/bind_address": {
-      "default": "ipaddress",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Address that mysqld should listen on",
-      "display_name": "MySQL Bind Address",
-      "recipes": [
-
-      ],
-      "required": false
+    "replacing": {
     },
-    "mysql\/tunable\/back_log": {
-      "default": "128",
-      "type": "string",
-      "multiple_values": false,
-      "display_name": "MySQL Tunable Back Log",
-      "recipes": [
-
-      ],
-      "required": false
+    "description": "Installs and configures mysql for client or server",
+    "groupings": {
     },
-    "mysql\/tunable\/wait_timeout": {
-      "default": "180",
-      "type": "string",
-      "multiple_values": false,
-      "display_name": "MySQL Tunable Wait Timeout",
-      "recipes": [
+    "platforms": {
+      "ubuntu": [
 
       ],
-      "required": false
+      "debian": [
+
+      ]
     },
-    "mysql\/tunable\/table_cache": {
-      "default": "128",
-      "type": "string",
-      "multiple_values": false,
-      "display_name": "MySQL Tunable Table Cache",
-      "recipes": [
-
-      ],
-      "required": false
+    "version": "0.15.0",
+    "recommendations": {
     },
-    "mysql\/ec2_path": {
-      "default": "\/mnt\/mysql",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Location of mysql directory on EC2 instance EBS volumes",
-      "display_name": "MySQL EC2 Path",
-      "recipes": [
-
-      ],
-      "required": false
+    "name": "mysql",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "= DESCRIPTION:\n\nInstalls and configures MySQL client or server.\n\n= REQUIREMENTS:\n\n== Platform:\n\nBest tested on Ubuntu 9.04,9.10. On EC2, requires platform that supports -o bind option for the 'mount' command.\n\n== Cookbooks:\n\nRequires Opscode's openssl cookbook for secure password generation.\n\n= ATTRIBUTES: \n\n* mysql[:server_root_password] - Set the server's root password with this, default is a randomly generated password with OpenSSL::Random.random_bytes.\n* mysql[:server_repl_password] - Set the replication user 'repl' password with this, default is a randomly generated password with OpenSSL::Random.random_bytes.\n* mysql[:server_debian_password] - Set the debian-sys-maint user password with this, default is a randomly generated password with OpenSSL::Random.random_bytes.\n* mysql[:bind_address] - Listen address for MySQLd, default is node's ipaddress.\n* mysql[:datadir] - Location for mysql data directory, default is \"/var/lib/mysql\" \n* mysql[:ec2_path] - location of mysql datadir on EC2 nodes, default \"/mnt/mysql\" \n\nPerformance tuning attributes, each corresponds to the same-named parameter in my.cnf; default values listed\n\n* mysql[:tunable][:key_buffer]          = \"250M\"\n* mysql[:tunable][:max_connections]     = \"800\" \n* mysql[:tunable][:wait_timeout]        = \"180\" \n* mysql[:tunable][:net_write_timeout]   = \"30\" \n* mysql[:tunable][:net_write_timeout]   = \"30\" \n* mysql[:tunable][:back_log]            = \"128\" \n* mysql[:tunable][:table_cache]         = \"128\" \n* mysql[:tunable][:max_heap_table_size] = \"32M\" \n\n= USAGE:\n\nOn client nodes,\n\n  include_recipe \"mysql::client\"\n  \nAs the common use case is on systems with Ruby, we also install the MySQL RubyGem. Because we may want to be able to use the gem within another Chef recipe, we make sure the mysql development package and gem are installed first. The key is this:\n\n  r = package ... do\n    action :nothing\n  end\n  \n  r.run_action(:install)\n  \nThis creates a resource object for the package and does the installation before other recipes are parsed. You'll need to have the C compiler and such (ie, build-essential on Ubuntu) before running the recipes, but we already do that when installing Chef :-). If you want to be able to access a MySQL database via Ruby within another recipe, you could do so, like so:\n\n  Gem.clear_paths # needed for Chef to find the gem...\n  require 'mysql' # requires the mysql gem\n\n  execute \"create #{node[:railsapp][:db][:database]} database\" do\n    command \"/usr/bin/mysqladmin -u root -p#{node[:mysql][:server_root_password]} create #{node[:railsapp][:db][:database]}\"\n    not_if do\n      m = Mysql.new(\"localhost\", \"root\", @node[:mysql][:server_root_password])\n      m.list_dbs.include?(@node[:railsapp][:db][:database])\n    end\n  end\n\nOn server nodes, \n\n  include_recipe \"mysql::server\"\n  \nOn Debian/Ubuntu this will preseed the MySQL package with the randomly generated root password. You can of course change the password afterward, but this makes sure that there's a good password set. You can view it in the node data in the Chef Server webui. Sets a new password for debian-sys-maint user as well.\n\nAlso sets up 'repl' user grants for replication slaves.\n\nOn EC2 nodes,\n\n  include_recipe \"mysql::server_ec2\"\n  \nWhen the ec2_path doesn't exist we look for a mounted filesystem (eg, EBS) and move the datadir there.\n\nThe client recipe is already included by server and 'default' recipes.\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nAuthor:: AJ Christensen (<aj@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recipes": {
+      "mysql::client": "Installs packages required for mysql clients using run_action magic",
+      "mysql::server_ec2": "Performs EC2-specific mountpoint manipulation",
+      "mysql::server": "Installs packages required for mysql servers w/o manual intervention"
     },
-    "mysql\/tunable\/net_read_timeout": {
-      "default": "30",
-      "type": "string",
-      "multiple_values": false,
-      "display_name": "MySQL Tunable Net Read Timeout",
-      "recipes": [
-
-      ],
-      "required": false
+    "suggestions": {
     },
-    "mysql\/tunable": {
-      "type": "hash",
-      "multiple_values": false,
-      "description": "Hash of MySQL tunable attributes",
-      "display_name": "MySQL Tunables",
-      "recipes": [
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+      "mysql/datadir": {
+        "calculated": false,
+        "default": "/var/lib/mysql",
+        "type": "string",
+        "choice": [
 
-      ],
-      "required": false
+        ],
+        "description": "Location of mysql databases",
+        "display_name": "MySQL Data Directory",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "mysql/bind_address": {
+        "calculated": false,
+        "default": "ipaddress",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Address that mysqld should listen on",
+        "display_name": "MySQL Bind Address",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "mysql/tunable/back_log": {
+        "calculated": false,
+        "default": "128",
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "MySQL Tunable Back Log",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "mysql/tunable/wait_timeout": {
+        "calculated": false,
+        "default": "180",
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "MySQL Tunable Wait Timeout",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "mysql/tunable/table_cache": {
+        "calculated": false,
+        "default": "128",
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "MySQL Tunable Table Cache",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "mysql/ec2_path": {
+        "calculated": false,
+        "default": "/mnt/mysql",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Location of mysql directory on EC2 instance EBS volumes",
+        "display_name": "MySQL EC2 Path",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "mysql/tunable/net_read_timeout": {
+        "calculated": false,
+        "default": "30",
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "MySQL Tunable Net Read Timeout",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "mysql/tunable": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Hash of MySQL tunable attributes",
+        "display_name": "MySQL Tunables",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "mysql/tunable/max_connections": {
+        "calculated": false,
+        "default": "800",
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "MySQL Tunable Max Connections",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "mysql/server_root_password": {
+        "calculated": false,
+        "default": "randomly generated",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Randomly generated password for the mysqld root user",
+        "display_name": "MySQL Server Root Password",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "mysql/tunable/max_heap_table_size": {
+        "calculated": false,
+        "default": "32M",
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "MySQL Tunable Max Heap Table Size",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "mysql/tunable/net_write_timeout": {
+        "calculated": false,
+        "default": "30",
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "MySQL Tunable Net Write Timeout",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "mysql/tunable/key_buffer": {
+        "calculated": false,
+        "default": "250M",
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "MySQL Tuntable Key Buffer",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      }
     },
-    "mysql\/tunable\/max_connections": {
-      "default": "800",
-      "type": "string",
-      "multiple_values": false,
-      "display_name": "MySQL Tunable Max Connections",
-      "recipes": [
-
-      ],
-      "required": false
+    "conflicting": {
     },
-    "mysql\/server_root_password": {
-      "default": "randomly generated",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Randomly generated password for the mysqld root user",
-      "display_name": "MySQL Server Root Password",
-      "recipes": [
-
-      ],
-      "required": false
-    },
-    "mysql\/tunable\/max_heap_table_size": {
-      "default": "32M",
-      "type": "string",
-      "multiple_values": false,
-      "display_name": "MySQL Tunable Max Heap Table Size",
-      "recipes": [
-
-      ],
-      "required": false
-    },
-    "mysql\/tunable\/net_write_timeout": {
-      "default": "30",
-      "type": "string",
-      "multiple_values": false,
-      "display_name": "MySQL Tunable Net Write Timeout",
-      "recipes": [
-
-      ],
-      "required": false
-    },
-    "mysql\/tunable\/key_buffer": {
-      "default": "250M",
-      "type": "string",
-      "multiple_values": false,
-      "display_name": "MySQL Tuntable Key Buffer",
-      "recipes": [
-
-      ],
-      "required": false
+    "license": "Apache 2.0",
+    "providing": {
     }
-  },
-  "providing": {
-    "mysql": [
-
-    ],
-    "mysql::client": [
-
-    ],
-    "mysql::server": [
-
-    ]
-  },
-  "license": "Apache 2.0",
-  "long_description": "= DESCRIPTION:\n\nInstalls and configures MySQL client or server.\n\n= REQUIREMENTS:\n\n== Platform:\n\nBest tested on Ubuntu 9.04.\n\n= ATTRIBUTES: \n\n* mysql[:server_root_password] - Set the server's root password with this, default is a randomly generated password.\n* mysql[:bind_address] - Listen address for MySQLd, default is node's ipaddress.\n* mysql[:datadir] - Location for mysql data directory, default is \"\/var\/lib\/mysql\" \n* mysql[:ec2_path] - location of mysql datadir on EC2 nodes, default \"\/mnt\/mysql\" \n\nPerformance tuning attributes, each corresponds to the same-named parameter in my.cnf; default values listed\n\n* mysql[:tunable][:key_buffer]          = \"250M\"\n* mysql[:tunable][:max_connections]     = \"800\" \n* mysql[:tunable][:wait_timeout]        = \"180\" \n* mysql[:tunable][:net_write_timeout]   = \"30\" \n* mysql[:tunable][:net_write_timeout]   = \"30\" \n* mysql[:tunable][:back_log]            = \"128\" \n* mysql[:tunable][:table_cache]         = \"128\" \n* mysql[:tunable][:max_heap_table_size] = \"32M\" \n\n= USAGE:\n\nOn client nodes,\n\n  include_recipe \"mysql::client\"\n  \nAs the common use case is on systems with Ruby, we also install the MySQL RubyGem. Because we may want to be able to use the gem within another Chef recipe, we make sure the mysql development package and gem are installed first. The key is this:\n\n  r = package ... do\n    action :nothing\n  end\n  \n  r.run_action(:install)\n  \nThis creates a resource object for the package and does the installation before other recipes are parsed. You'll need to have the C compiler and such (ie, build-essential on Ubuntu) before running the recipes, but we already do that when installing Chef :-). If you want to be able to access a MySQL database via Ruby within another recipe, you could do so, like so:\n\n  Gem.clear_paths # needed for Chef to find the gem...\n  require 'mysql' # requires the mysql gem\n\n  execute \"create #{node[:railsapp][:db][:database]} database\" do\n    command \"\/usr\/bin\/mysqladmin -u root -p#{node[:mysql][:server_root_password]} create #{node[:railsapp][:db][:database]}\"\n    not_if do\n      m = Mysql.new(\"localhost\", \"root\", @node[:mysql][:server_root_password])\n      m.list_dbs.include?(@node[:railsapp][:db][:database])\n    end\n  end\n\nOn server nodes, \n\n  include_recipe \"mysql::server\"\n  \nOn Debian\/Ubuntu this will preseed the MySQL package with the randomly generated root password. You can of course change the password afterward, but this makes sure that there's a good password set. You can view it in the node data in the Chef Server webui. \n\nOn EC2 nodes, we also look for a mounted filesystem (eg, EBS) and move the datadir there if it exists. \n\nThe client recipe is already included by server and 'default' recipes.\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http:\/\/www.apache.org\/licenses\/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-  "replacing": {
-
-  },
-  "dependencies": {
-
   }
-}

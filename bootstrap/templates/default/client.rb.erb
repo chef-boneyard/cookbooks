@@ -7,24 +7,18 @@
 log_level          :info
 log_location       <%= @client_log %>
 ssl_verify_mode    :verify_none
-<% if @node[:bootstrap][:chef][:url_type] == "https" -%>
-registration_url   "https://<%= @node[:bootstrap][:chef][:server_fqdn] %>"
-openid_url         "https://<%= @node[:bootstrap][:chef][:server_fqdn] %>:444"
-template_url       "https://<%= @node[:bootstrap][:chef][:server_fqdn] %>"
-remotefile_url     "https://<%= @node[:bootstrap][:chef][:server_fqdn] %>"
-search_url         "https://<%= @node[:bootstrap][:chef][:server_fqdn] %>"
-role_url           "https://<%= @node[:bootstrap][:chef][:server_fqdn] %>"
-<% else -%>
-registration_url   "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
-openid_url         "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4001"
-template_url       "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
-remotefile_url     "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
-search_url         "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
-role_url           "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
+<% case @node[:bootstrap][:chef][:url_type] -%>
+<% when "http" -%>
+chef_server_url    "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
+<% when "https" -%>
+chef_server_url    "https://<%= @node[:bootstrap][:chef][:server_fqdn] %>"
 <% end -%>
 
-file_cache_path    "<%= @node[:bootstrap][:chef][:cache_path] %>"
+validation_client_name "<%= @node[:bootstrap][:chef][:validation_client_name] %>"
+validation_key      	 "/etc/chef/validation.pem"
+client_key          	 "/etc/chef/client.pem"
 
-pid_file           "<%= @node[:bootstrap][:chef][:run_path] %>/client.pid"
+file_cache_path     "<%= @node[:bootstrap][:chef][:cache_path] %>"
+pid_file            "<%= @node[:bootstrap][:chef][:run_path] %>/chef-client.pid"
 
-Chef::Log::Formatter.show_time = <%= @show_time %>
+Mixlib::Log::Formatter.show_time = <%= @show_time %>

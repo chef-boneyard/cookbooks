@@ -1,0 +1,78 @@
+define contact {
+  name                            default-contact
+  service_notification_period     24x7
+  host_notification_period        24x7
+  service_notification_options    w,u,c,r,f,s
+  host_notification_options       d,u,r,f,s
+#  service_notification_commands   service-notify-by-email, service-notify-by-jabber
+  service_notification_commands   service-notify-by-email
+#  host_notification_commands      host-notify-by-email, host-notify-by-sms-gateway, host-notify-by-jabber
+  host_notification_commands      host-notify-by-email
+  register                        0
+}
+
+define contact {
+  name                            sms-contact
+  service_notification_period     24x7
+  host_notification_period        24x7
+  service_notification_options    w,u,c,r,f,s
+  host_notification_options       d,u,r,f,s
+  service_notification_commands   service-notify-by-sms-gateway
+  host_notification_commands      host-notify-by-sms-gateway
+  register                        0
+}
+
+define host {
+  name                            default-host
+  notifications_enabled           1
+  event_handler_enabled           1
+  flap_detection_enabled          1
+  failure_prediction_enabled      1
+#  process_perf_data               1
+  process_perf_data               0
+  retain_status_information       1
+  retain_nonstatus_information    1
+  notification_period             24x7
+  register                        0
+}
+
+define host {
+  name                    server
+  use                     default-host
+  check_period            24x7
+  check_interval          <%= nagios_interval(nagios_attr(:default_host)[:check_interval]) %>
+  retry_interval          <%= nagios_interval(nagios_attr(:default_host)[:retry_interval]) %>
+  max_check_attempts      <%= nagios_attr(:default_host)[:max_check_attempts] %>
+  check_command           check-host-alive
+  notification_interval   <%= nagios_interval(nagios_attr(:default_host)[:notification_interval]) %>
+  notification_options    d,u,r
+  contact_groups          <%= nagios_attr(:default_contact_groups).join(",") %>
+  register                0
+}
+
+define service {
+  name                            default-service
+  active_checks_enabled           1
+  passive_checks_enabled          1
+  parallelize_check               1
+  obsess_over_service             1
+  check_freshness                 0
+  notifications_enabled           1
+  event_handler_enabled           1
+  flap_detection_enabled          1
+  failure_prediction_enabled      1
+#  process_perf_data               1
+  process_perf_data               0
+  retain_status_information       1
+  retain_nonstatus_information    1
+  is_volatile                     0
+  check_period                    24x7
+  max_check_attempts              <%= nagios_attr(:default_service)[:max_check_attempts] %>
+  check_interval                  <%= nagios_interval(nagios_attr(:default_service)[:check_interval]) %>
+  retry_interval                  <%= nagios_interval(nagios_attr(:default_service)[:retry_interval]) %>
+  contact_groups                  <%= nagios_attr(:default_contact_groups).join(",") %>
+  notification_options            w,u,c,r
+  notification_interval           <%= nagios_interval(nagios_attr(:default_service)[:notification_interval]) %>
+  notification_period             24x7
+  register                        0
+}

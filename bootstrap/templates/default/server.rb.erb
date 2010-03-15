@@ -6,16 +6,12 @@
 log_level          :info
 log_location       <%= @server_log %>
 ssl_verify_mode    :verify_none
-registration_url   "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
-openid_url         "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4001"
-template_url       "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
-remotefile_url     "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
-search_url         "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
-role_url           "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:4000"
+chef_server_url    "http://<%= @node[:bootstrap][:chef][:server_fqdn] %>:<%= @node[:bootstrap][:chef][:server_port] %>"
 
-validation_token   "<%= @node[:bootstrap][:chef][:server_token] %>"
+signing_ca_path    "<%= @node[:bootstrap][:chef][:path] %>/ca"
+couchdb_database   'chef'
 
-cookbook_path      [ "<%= @node[:bootstrap][:chef][:serve_path] %>/site-cookbooks", "<%= @node[:bootstrap][:chef][:serve_path] %>/cookbooks" ]
+cookbook_path      [ "<%= @node[:bootstrap][:chef][:serve_path] %>/cookbooks", "<%= @node[:bootstrap][:chef][:serve_path] %>/site-cookbooks" ]
 
 file_cache_path    "<%= @node[:bootstrap][:chef][:cache_path] %>"
 node_path          "<%= @node[:bootstrap][:chef][:serve_path] %>/nodes"
@@ -24,11 +20,23 @@ openid_cstore_path "<%= @node[:bootstrap][:chef][:path] %>/openid/cstore"
 search_index_path  "<%= @node[:bootstrap][:chef][:path] %>/search_index"
 role_path          "<%= @node[:bootstrap][:chef][:serve_path] %>/roles"
 
+validation_client_name "chef-validator"
+validation_key         "/etc/chef/validation.pem"
+client_key             "/etc/chef/client.pem"
+web_ui_client_name     "chef-webui"
+web_ui_key             "/etc/chef/webui.pem"
+
+<% if @node[:bootstrap][:chef][:webui_enabled] -%>
+web_ui_admin_user_name "admin"
+web_ui_admin_default_password "<%= @node[:bootstrap][:chef][:webui_admin_password] %>"
+
+<% end -%>
+supportdir = "<%= @node[:bootstrap][:chef][:path] %>/support"
+solr_jetty_path File.join(supportdir, "solr", "jetty")
+solr_data_path  File.join(supportdir, "solr", "data")
+solr_home_path  File.join(supportdir, "solr", "home")
+solr_heap_size  "256M"
+
 umask <%= @node[:bootstrap][:chef][:umask] %>
 
-# See http://wiki.opscode.com/display/chef/Securing+Chef+Server
-# For more information on these settings.
-#authorized_openid_providers   [ "https://<%= @node[:bootstrap][:chef][:server_fqdn]%>", "https://chef", "myopenid.com" ]
-#authorized_openid_identifiers [ "" ]
-
-Chef::Log::Formatter.show_time = <%= @show_time %>
+Mixlib::Log::Formatter.show_time = <%= @show_time %>

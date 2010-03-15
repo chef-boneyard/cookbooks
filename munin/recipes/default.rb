@@ -2,7 +2,7 @@
 # Cookbook Name:: munin
 # Recipe:: default
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2010, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,22 +16,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-package "munin-node" 
-
-service "munin-node" do
-  supports :restart => true
-  action :enable
-end
-
-munin_server_regexs = []
-search(:nodes, "munin_server_regex:*").each do |ip|
-  munin_server_regexs << ip unless munin_server_regexs.detect? { |i| i == ip }
-end
-
-template "/etc/munin/munin-node.conf" do
-  source "munin-node.conf.erb"
-  mode 0644
-  variables :munin_server_regexs => munin_server_regexs
-  notifies :restart, resources(:service => "munin-node")
-end

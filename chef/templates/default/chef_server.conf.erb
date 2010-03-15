@@ -11,7 +11,7 @@
   ExpiresByType application/javascript "access plus <%= @node[:chef][:server_proxy][:js_expire_hours] %> hours"
 
   <Proxy balancer://chef_server>
-    BalancerMember http://127.0.0.1:4000
+    BalancerMember http://127.0.0.1:<%= @node[:chef][:webui_port] %>
     Order deny,allow
     Allow from all
   </Proxy>
@@ -29,37 +29,4 @@
   RewriteEngine On
   RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
   RewriteRule ^/(.*)$ balancer://chef_server%{REQUEST_URI} [P,QSA,L]
-</VirtualHost>
-
-<VirtualHost *:444>
-  ServerName <%= @params[:server_name] %>
-  ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
-
-  DocumentRoot <%= @node[:chef][:doc_root] %>
-
-  ExpiresActive On
-  ExpiresByType text/css "access plus <%= @node[:chef][:server_proxy][:css_expire_hours] %> hours"
-  ExpiresByType text/javascript "access plus <%= @node[:chef][:server_proxy][:js_expire_hours] %> hours"
-  ExpiresByType application/x-javascript "access plus <%= @node[:chef][:server_proxy][:js_expire_hours] %> hours"
-  ExpiresByType application/javascript "access plus <%= @node[:chef][:server_proxy][:js_expire_hours] %> hours"
-
-  <Proxy balancer://chef_server_openid>
-    BalancerMember http://127.0.0.1:4001
-    Order deny,allow
-    Allow from all
-  </Proxy>
-
-  LogLevel info
-  ErrorLog <%= @params[:log_dir] %>/<%= @params[:name] %>-error.log
-  CustomLog <%= @params[:log_dir] %>/<%= @params[:name] %>-access.log combined
-
-  SSLEngine On
-  SSLCertificateFile /etc/chef/certificates/<%= @params[:server_name] %>.pem
-  SSLCertificateKeyFile /etc/chef/certificates/<%= @params[:server_name] %>.pem
-
-  RequestHeader set X_FORWARDED_PROTO 'https'
-
-  RewriteEngine On
-  RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
-  RewriteRule ^/(.*)$ balancer://chef_server_openid%{REQUEST_URI} [P,QSA,L]
 </VirtualHost>

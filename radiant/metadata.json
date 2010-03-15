@@ -1,125 +1,137 @@
 {
-  "maintainer": "Opscode, Inc.",
-  "description": "Installs radiant from Git repository",
-  "recommendations": {
-
-  },
-  "maintainer_email": "cookbooks@opscode.com",
-  "recipes": {
-    "radiant": ""
-  },
-  "suggestions": {
-
-  },
-  "platforms": {
-    "ubuntu": [
-
-    ],
-    "debian": [
-
-    ]
-  },
-  "version": "0.9.0",
-  "name": "radiant",
-  "conflicting": {
-
-  },
-  "attributes": {
-    "radiant\/action": {
-      "default": "nothing",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Whether to deploy the application or not",
-      "display_name": "Radiant Action",
-      "recipes": [
+    "dependencies": {
+      "rails": [
 
       ],
-      "required": false
+      "passenger_apache2": [
+
+      ],
+      "mysql": [
+
+      ],
+      "sqlite": [
+
+      ],
+      "git": [
+
+      ],
+      "apache2": [
+
+      ]
     },
-    "radiant\/revision": {
-      "default": "HEAD",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Revision to use from Git",
-      "display_name": "Radiant Revision",
-      "recipes": [
-
-      ],
-      "required": false
+    "replacing": {
     },
-    "radiant\/environment": {
-      "default": "production",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Rails environment to use",
-      "display_name": "Radiant Environment",
-      "recipes": [
-
-      ],
-      "required": false
+    "description": "Installs radiant from Git repository",
+    "groupings": {
     },
-    "radiant\/migrate_command": {
-      "default": "rake db:migrate",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Command to perform migration",
-      "display_name": "Radiant Migrate Command",
-      "recipes": [
+    "platforms": {
+      "ubuntu": [
 
       ],
-      "required": false
+      "debian": [
+
+      ]
     },
-    "radiant\/migrate": {
-      "default": "false",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Whether to do a migration",
-      "display_name": "Radiant Migrate",
-      "recipes": [
-
-      ],
-      "required": false
+    "version": "0.9.0",
+    "recommendations": {
     },
-    "radiant\/branch": {
-      "default": "HEAD",
-      "type": "string",
-      "multiple_values": false,
-      "description": "Branch from Git to use",
-      "display_name": "Radiant Branch",
-      "recipes": [
+    "name": "radiant",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "= DESCRIPTION:\n\nInstalls RadiantCMS, a Ruby on Rails content management system.\n\n= CHANGELOG:\n\nChanges to note in this version (from COOK-117).\n\n* added gem install capabilities\n* default to gem install\n* removed dependency on ezmobius/chef-deploy (use deploy provider instead)\n* fixed tiny error in attributes.\n* updated attribute syntax\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 9.04, uses the Opscode Apache2 cookbook which is Ubuntu/Debian specific.\n\nRequires Chef 0.7.12 for Deploy resource when installing from Radiant's git repo.\n\n== Cookbooks:\n\nOpscode cookbooks (http://github.com/opscode/cookbooks/tree/master)\n\n* git\n* sqlite\n* rails\n* apache2\n\n= ATTRIBUTES:\n\n* radiant[:edge] - Do a deploy from github repo if true, use gems if false, default false.\n* radiant[:branch] - Branch to deploy from, default HEAD.\n* radiant[:migrate] - Whether to do a database migration, default false.\n* radiant[:migrate_command] - Command to do a database migration, default 'rake db:migrate'.\n* radiant[:environment] - Rails environment to use, default is production.\n* radiant[:revision] - Revision to deploy, default HEAD.\n* radiant[:action] - Whether to deploy, rollback or nothing, default nothing.\n\n= USAGE:\n\nThis recipe uses SQLite3 for the database by default. To set up the default database to get Radiant rolling, run a db:bootstrap by changing the radiant[:migrate] command to the following in the webui:\n\n  yes | rake production db:bootstrap \\\n    ADMIN_NAME=Administrator \\\n    ADMIN_USERNAME=admin \\\n    ADMIN_PASSWORD=radiant \\\n    DATABASE_TEMPLATE=empty.yml\n\nChange as required for your environment. If the target system doesn't have /usr/bin/yes, use echo 'yes' instead.\n\nRadiant supports other database backends. We don't yet have automation ready to set up a database user and grant privileges, or creating the database itself.\n\n= LICENSE and AUTHOR:\n\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n\n\n",
+    "recipes": {
+    },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+      "radiant/action": {
+        "calculated": false,
+        "default": "nothing",
+        "type": "string",
+        "choice": [
 
-      ],
-      "required": false
+        ],
+        "description": "Whether to deploy the application or not",
+        "display_name": "Radiant Action",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "radiant/revision": {
+        "calculated": false,
+        "default": "HEAD",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Revision to use from Git",
+        "display_name": "Radiant Revision",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "radiant/environment": {
+        "calculated": false,
+        "default": "production",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Rails environment to use",
+        "display_name": "Radiant Environment",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "radiant/migrate_command": {
+        "calculated": false,
+        "default": "rake db:migrate",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Command to perform migration",
+        "display_name": "Radiant Migrate Command",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "radiant/migrate": {
+        "calculated": false,
+        "default": "false",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Whether to do a migration",
+        "display_name": "Radiant Migrate",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "radiant/branch": {
+        "calculated": false,
+        "default": "HEAD",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Branch from Git to use",
+        "display_name": "Radiant Branch",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      }
+    },
+    "conflicting": {
+    },
+    "license": "Apache 2.0",
+    "providing": {
     }
-  },
-  "providing": {
-    "radiant": [
-
-    ]
-  },
-  "license": "Apache 2.0",
-  "long_description": "= DESCRIPTION:\n\nInstalls RadiantCMS, a Ruby on Rails content management system.\n\n= CHANGELOG:\n\nChanges to note in this version (from COOK-117).\n\n* added gem install capabilities\n* default to gem install\n* removed dependency on ezmobius\/chef-deploy (use deploy provider instead)\n* fixed tiny error in attributes.\n* updated attribute syntax\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 9.04, uses the Opscode Apache2 cookbook which is Ubuntu\/Debian specific.\n\nRequires Chef 0.7.12 for Deploy resource when installing from Radiant's git repo.\n\n== Cookbooks:\n\nOpscode cookbooks (http:\/\/github.com\/opscode\/cookbooks\/tree\/master)\n\n* git\n* sqlite\n* rails\n* apache2\n\n= ATTRIBUTES:\n\n* radiant[:edge] - Do a deploy from github repo if true, use gems if false, default false.\n* radiant[:branch] - Branch to deploy from, default HEAD.\n* radiant[:migrate] - Whether to do a database migration, default false.\n* radiant[:migrate_command] - Command to do a database migration, default 'rake db:migrate'.\n* radiant[:environment] - Rails environment to use, default is production.\n* radiant[:revision] - Revision to deploy, default HEAD.\n* radiant[:action] - Whether to deploy, rollback or nothing, default nothing.\n\n= USAGE:\n\nThis recipe uses SQLite3 for the database by default. To set up the default database to get Radiant rolling, run a db:bootstrap by changing the radiant[:migrate] command to the following in the webui:\n\n  yes | rake production db:bootstrap \\\n    ADMIN_NAME=Administrator \\\n    ADMIN_USERNAME=admin \\\n    ADMIN_PASSWORD=radiant \\\n    DATABASE_TEMPLATE=empty.yml\n\nChange as required for your environment. If the target system doesn't have \/usr\/bin\/yes, use echo 'yes' instead.\n\nRadiant supports other database backends. We don't yet have automation ready to set up a database user and grant privileges, or creating the database itself.\n\n= LICENSE and AUTHOR:\n\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http:\/\/www.apache.org\/licenses\/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n\n\n",
-  "replacing": {
-
-  },
-  "dependencies": {
-    "rails": [
-
-    ],
-    "passenger_apache2": [
-
-    ],
-    "mysql": [
-
-    ],
-    "sqlite": [
-
-    ],
-    "git": [
-
-    ],
-    "apache2": [
-
-    ]
   }
-}

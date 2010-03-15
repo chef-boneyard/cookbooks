@@ -1,0 +1,52 @@
+{
+  "maintainer": "Opscode, Inc.",
+  "description": "Installs the RabbitMQ AMQP Broker",
+  "recommendations": {
+
+  },
+  "maintainer_email": "cookbooks@opscode.com",
+  "recipes": {
+    "nanite::chef": ""
+  },
+  "suggestions": {
+
+  },
+  "platforms": {
+    "ubuntu": [
+
+    ],
+    "fedora": [
+
+    ],
+    "centos": [
+
+    ],
+    "debian": [
+
+    ],
+    "redhat": [
+
+    ]
+  },
+  "version": "0.8.0",
+  "name": "nanite",
+  "conflicting": {
+
+  },
+  "attributes": {
+
+  },
+  "providing": {
+    "nanite": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "long_description": "",
+  "replacing": {
+
+  },
+  "dependencies": {
+		"rabbitmq": []
+  }
+}

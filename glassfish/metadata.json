@@ -1,50 +1,42 @@
 {
-  "maintainer": "Opscode, Inc.",
-  "description": "Installs\/Configures Glassfish",
-  "recommendations": {
+    "dependencies": {
+    },
+    "replacing": {
+    },
+    "description": "Installs/Configures Glassfish",
+    "groupings": {
+    },
+    "platforms": {
+      "ubuntu": [
 
-  },
-  "maintainer_email": "cookbooks@opscode.com",
-  "recipes": {
-    "glassfish": "Main Glassfish configuration",
-    "glassfish": ""
-  },
-  "suggestions": {
+      ],
+      "centos": [
 
-  },
-  "platforms": {
-    "ubuntu": [
+      ],
+      "debian": [
 
-    ],
-    "centos": [
+      ],
+      "redhat": [
 
-    ],
-    "debian": [
-
-    ],
-    "redhat": [
-
-    ]
-  },
-  "version": "0.1.0",
-  "name": "glassfish",
-  "conflicting": {
-
-  },
-  "attributes": {
-
-  },
-  "providing": {
-    "glassfish": [
-
-    ]
-  },
-  "license": "Apache 2.0",
-  "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES: \n\n= USAGE:\n\n",
-  "replacing": {
-
-  },
-  "dependencies": {
-
+      ]
+    },
+    "version": "0.1.0",
+    "recommendations": {
+    },
+    "name": "glassfish",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES: \n\n= USAGE:\n\n",
+    "recipes": {
+      "glassfish": "Main Glassfish configuration"
+    },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+    },
+    "conflicting": {
+    },
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }
-}
