@@ -18,10 +18,9 @@
 # limitations under the License.
 #
 
-# STRUCTURE OF THE CASSANDRA DATA BAG
+# STRUCTURE OF THE CASSANDRA DATA BAG (meaning a databag named 'cassandra')
 # 
-# {:cassandra =>
-#   {:clusters =>
+#   {:id : "clusters",
 #     {<cluster name> =>
 #       {:keyspaces =>
 #         [{:name => <keyspace name>,
@@ -34,7 +33,6 @@
 #       }
 #     }
 #   }
-# }
 #
 # COLUMN ATTRIBS
 #
