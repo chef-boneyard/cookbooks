@@ -48,11 +48,10 @@
 # Nodes are expected to be tagged with [:cassandra][:cluster_name] to indicate the cluster to which
 # they belong (nodes are in exactly 1 cluster in this version of the cookbook), and may optionally be
 # tagged with [:cassandra][:seed] set to true if a node is to act as a seed.
-seeds = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true", "ipaddress")
+clusters = data_bag_item('cassandra', 'clusters')
+node[:cassandra] = Chef::Mixin::DeepMerge.deep_merge!(node[:cassandra], clusters[node[:cassandra][:cluster_name]])
 
-# Load cluster settings from chef-server
-cassandra_info = data_bag('cassandra')
-node[:cassandra].merge!(cassandra_info['clusters'][node[:cassandra][:cluster_name]])
+seeds = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true").map {|n| n['ipaddress']}
 node[:cassandra][:seeds] = seeds
 
 # Configure the various addrs for binding

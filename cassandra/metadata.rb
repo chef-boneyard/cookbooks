@@ -22,7 +22,7 @@ attribute "cassandra/cluster_name",
 attribute "cassandra/auto_bootstrap",
   :display_name => "Cassandra automatic boostrap boolean",
   :description => "Boolean indicating whether a node should automatically boostrap on startup.",
-  :default => false
+  :default => "false"
   
 attribute "cassandra/keyspaces",
   :display_name => "Cassandra keyspaces",
@@ -72,12 +72,12 @@ attribute "cassandra/seeds",
 attribute "cassandra/rpc_timeout",
   :display_name => "",
   :description => "",
-  :default => 5000
+  :default => "5000"
   
 attribute "cassandra/commit_log_rotation_threshold",
   :display_name => "",
   :description => "",
-  :default => 128
+  :default => "128"
   
 attribute "cassandra/listen_addr",
   :display_name => "",
@@ -87,7 +87,7 @@ attribute "cassandra/listen_addr",
 attribute "cassandra/storage_port",
   :display_name => "",
   :description => "",
-  :default => 7000
+  :default => "7000"
 
 attribute "cassandra/thrift_addr",
   :display_name => "",
@@ -97,12 +97,12 @@ attribute "cassandra/thrift_addr",
 attribute "cassandra/thrift_port",
   :display_name => "",
   :description => "",
-  :default => 9160
+  :default => "9160"
 
 attribute "cassandra/thrift_framed_transport",
   :display_name => "",
   :description => "",
-  :default => false
+  :default => "false"
   
 attribute "cassandra/disk_access_mode",
   :display_name => "",
@@ -112,52 +112,52 @@ attribute "cassandra/disk_access_mode",
 attribute "cassandra/sliced_buffer_size",
   :display_name => "",
   :description => "",
-  :default => 64
+  :default => "64"
   
 attribute "cassandra/flush_data_buffer_size",
   :display_name => "",
   :description => "",
-  :default => 32
+  :default => "32"
   
 attribute "cassandra/flush_index_buffer_size",
   :display_name => "",
   :description => "",
-  :default => 8
+  :default => "8"
 
 attribute "cassandra/column_index_size",
   :display_name => "",
   :description => "",
-  :default => 64
+  :default => "64"
   
 attribute "cassandra/memtable_throughput",
   :display_name => "",
   :description => "",
-  :default => 64
+  :default => "64"
   
 attribute "cassandra/binary_memtable_throughput",
   :display_name => "",
   :description => "",
-  :default => 256
+  :default => "256"
   
 attribute "cassandra/memtable_ops",
   :display_name => "",
   :description => "",
-  :default => 0.3
+  :default => "0.3"
   
 attribute "cassandra/memtable_flush_after",
   :display_name => "",
   :description => "",
-  :default => 60
+  :default => "60"
   
 attribute "cassandra/concurrent_reads",
   :display_name => "",
   :description => "",
-  :default => 8
+  :default => "8"
   
 attribute "cassandra/concurrent_writes",
   :display_name => "",
   :description => "",
-  :default => 32
+  :default => "32"
   
 attribute "cassandra/commit_log_sync",
   :display_name => "",
@@ -167,9 +167,9 @@ attribute "cassandra/commit_log_sync",
 attribute "cassandra/commit_log_sync_period",
   :display_name => "",
   :description => "",
-  :default => 10000
+  :default => "10000"
   
 attribute "cassandra/gc_grace",
   :display_name => "",
   :description => "",
-  :default => 864000
+  :default => "864000"
