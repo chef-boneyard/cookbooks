@@ -1,4 +1,4 @@
-set_unless[:cassandra][:cluster_name]  = "Test Cluster"
+set_unless[:cassandra][:cluster_name]  = "TestCluster"
 set_unless[:cassandra][:auto_bootstrap]  = false
 set_unless[:cassandra][:keyspaces] = []
 set_unless[:cassandra][:authenticator] = "org.apache.cassandra.auth.AllowAllAuthenticator"
