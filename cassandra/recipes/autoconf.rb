@@ -23,12 +23,12 @@
 #   {:id : "clusters",
 #     {<cluster name> =>
 #       {:keyspaces =>
-#         [{:name => <keyspace name>,
-#           :columns => [{<attrib> => <value>}, ...],
+#         {<keyspace name> => {
+#           :columns => {<column name> => {<attrib> => <value>, ...}, ...},
 #           :replica_placement_strategy => <strategy>,
 #           :replication_factor => <factor>,
 #           :end_point_snitch => <snitch>
-#         }],
+#         }},
 #        <other per cluster settings>
 #       }
 #     }
@@ -36,9 +36,8 @@
 #
 # COLUMN ATTRIBS
 #
-# Simple columns: {:name => <column name>, :compare_with => <comparison>}
-# Super columns: {:name => <column name>, :compare_with => <comparison>,
-#                 :column_type => "Super", :compare_subcolumns_with => <comparison>}
+# Simple columns: {:compare_with => <comparison>}
+# Super columns: {:compare_with => <comparison>, :column_type => "Super", :compare_subcolumns_with => <comparison>}
 #
 
 # Gather the seeds
