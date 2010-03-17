@@ -3,10 +3,10 @@
     <ClusterName><%= @node[:cassandra][:cluster_name] %></ClusterName>
     <AutoBootstrap><%= @node[:cassandra][:auto_bootstrap] %></AutoBootstrap>
     <Keyspaces>
-        <% @node[:cassandra][:keyspaces].each do |keyspace| %>
-        <Keyspace Name="<%= keyspace[:name] %>">
-            <% keyspace[:columns].each do |column| %>
-            <ColumnFamily <%= (column.keys.map do |attrib|
+        <% @node[:cassandra][:keyspaces].each_pair do |kname, keyspace| %>
+        <Keyspace Name="<%= kname %>">
+            <% keyspace[:columns].each_pair do |cname, column| %>
+            <ColumnFamily Name="<%= cname %>" <%= (column.keys.map do |attrib|
                         (attrib.to_s.split('_').map do |part|
                             part.capitalize
                         end).join('') + "=\"" + column[attrib] + "\""
