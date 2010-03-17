@@ -4,6 +4,7 @@ license           "Apache 2.0"
 description       "Installs and configures the Cassandra distributed storage system"
 version           "0.1"
 recipe            "cassandra::autoconf", "Automatically configure nodes from chef-server information."
+recipe            "cassandra::ec2snitch", "Automatically configure properties snitch for clusters on EC2."
 
 %w{ubuntu debian}.each do |os|
   supports os
