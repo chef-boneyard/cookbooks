@@ -1,3 +1,27 @@
+#
+# Author:: Benjamin Black (<b@b3k.us>)
+# Cookbook Name:: cassandra
+# Recipe:: ec2snitch
+#
+# Copyright 2010, Benjamin Black
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+#     http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# To use this, you MUST install contrib/property_snitch and set the keyspace[:end_point_snitch]
+# to org.apache.cassandra.locator.PropertyFileEndPointSnitch.  See contrib/property_snitch/README.txt
+# in the cassandra distribution for details.
+
 @topo_map = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND ec2:placement_availability_zone").map do |n|
   az_parts = n[:ec2][:placement_availability_zone].split('-')
   @topo_map[n['ipaddress']] = {:port => n[:cassandra][:storage_port],
