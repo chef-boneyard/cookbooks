@@ -27,6 +27,14 @@ service "cassandra" do
   action [ :enable, :start ]
 end
 
+directory "/etc/cassandra" do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+  not_if "test -d /etc/cassandra"
+end
+
 template "/etc/cassandra/storage-conf.xml" do
   source "storage-conf.xml.erb"
   owner "root"
