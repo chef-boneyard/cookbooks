@@ -18,6 +18,8 @@
 # limitations under the License.
 #
 
+include_recipe "java"
+
 package "cassandra" do
   action :install
 end

@@ -18,8 +18,8 @@
 # limitations under the License.
 #
 
-# To use this, you MUST install contrib/property_snitch and set the keyspace[:end_point_snitch]
-# to org.apache.cassandra.locator.PropertyFileEndPointSnitch.  See contrib/property_snitch/README.txt
+# To use this, you MUST install contrib/property_snitch and set the keyspace[:e
+# to org.apache.cassandra.locator.PropertyFileEndPointSnitch.  See contrib/prop
 # in the cassandra distribution for details.
 
 @topo_map = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND ec2:placement_availability_zone").map do |n|

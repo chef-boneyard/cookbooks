@@ -46,13 +46,25 @@
 # they belong (nodes are in exactly 1 cluster in this version of the cookbook), and may optionally be
 # tagged with [:cassandra][:seed] set to true if a node is to act as a seed.
 clusters = data_bag_item('cassandra', 'clusters')
-node[:cassandra] = Chef::Mixin::DeepMerge.deep_merge!(node[:cassandra], clusters[node[:cassandra][:cluster_name]])
+clusters[node[:cassandra][:cluster_name]].each_pair do |k, v|
+  node[:cassandra][k] = v
+end
 
-seeds = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true").map {|n| n['ipaddress']}
+local_addr = "" ; seeds = []
+if node[:rackspace]
+  local_addr = node[:rackspace][:private_ip]
+  seeds = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true").map {|n| n['rackspace']['private_ip']}
+  seeds = ["127.0.0.1"] unless seeds.length > 0
+else
+  local_addr = node[:ipaddress]
+  seeds = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true").map {|n| n['ipaddress']}
+  seeds = ["127.0.0.1"] unless seeds.length > 0
+end
+
 node[:cassandra][:seeds] = seeds
 
 # Configure the various addrs for binding
-node[:cassandra][:listen_addr] = node[:ipaddress]
-node[:cassandra][:thrift_addr] = node[:ipaddress]
+node[:cassandra][:listen_addr] = local_addr
+node[:cassandra][:thrift_addr] = local_addr
 
 include_recipe "cassandra::default"
