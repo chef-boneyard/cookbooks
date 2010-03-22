@@ -11,6 +11,7 @@ set_unless[:cassandra][:staging_file_dir] = "/var/lib/cassandra/staging"
 set_unless[:cassandra][:seeds] = ["127.0.0.1"]
 set_unless[:cassandra][:rpc_timeout] = 5000
 set_unless[:cassandra][:commit_log_rotation_threshold] = 128
+set_unless[:cassandra][:jmx_port] = 8080
 set_unless[:cassandra][:listen_addr] = "localhost"
 set_unless[:cassandra][:storage_port] = 7000
 set_unless[:cassandra][:thrift_addr] = "localhost"

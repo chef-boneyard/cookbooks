@@ -19,14 +19,36 @@
 #
 
 include_recipe "java"
+include_recipe "runit"
 
 package "cassandra" do
   action :install
 end
 
+runit_service "cassandra"
+
 service "cassandra" do
   supports :status => true, :restart => true, :reload => true
   action [ :enable, :start ]
+end
+
+user "cassandra" do
+  gid "nogroup"
+  shell "/bin/false"
+end
+
+directory "/var/lib/cassandra" do
+  owner "cassandra"
+  group "root"
+  mode "0755"
+  action :create
+end
+
+directory "/var/log/cassandra" do
+  owner "cassandra"
+  group "root"
+  mode "0755"
+  action :create
 end
 
 directory "/etc/cassandra" do

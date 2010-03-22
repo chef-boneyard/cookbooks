@@ -49,15 +49,18 @@ clusters = data_bag_item('cassandra', 'clusters')
 clusters[node[:cassandra][:cluster_name]].each_pair do |k, v|
   node[:cassandra][k] = v
 end
+node.save
 
 local_addr = "" ; seeds = []
 if node[:rackspace]
   local_addr = node[:rackspace][:private_ip]
-  seeds = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true").map {|n| n['rackspace']['private_ip']}
+  seeds = (search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true").map do |n|
+    n["rackspace"]["private_ip"] if n["rackspace"]
+  end).compact
   seeds = ["127.0.0.1"] unless seeds.length > 0
 else
   local_addr = node[:ipaddress]
-  seeds = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true").map {|n| n['ipaddress']}
+  seeds = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true").map {|n| n["ipaddress"]}
   seeds = ["127.0.0.1"] unless seeds.length > 0
 end
 

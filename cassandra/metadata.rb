@@ -5,10 +5,13 @@ description       "Installs and configures the Cassandra distributed storage sys
 version           "0.1"
 recipe            "cassandra::autoconf", "Automatically configure nodes from chef-server information."
 recipe            "cassandra::ec2snitch", "Automatically configure properties snitch for clusters on EC2."
+recipe            "cassandra::iptables", "Automatically configure iptables rules for cassandra."
 depends           "java"
+depends           "runit"
 
 %w{ubuntu debian}.each do |os|
   supports os
+  depends           "iptables"
 end
 
 attribute "cassandra",
