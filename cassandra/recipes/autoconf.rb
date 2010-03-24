@@ -39,6 +39,10 @@
 # Simple columns: {:compare_with => <comparison>}
 # Super columns: {:compare_with => <comparison>, :column_type => "Super", :compare_subcolumns_with => <comparison>}
 #
+# Columns may optionally include:
+#   :rows_cached => <count>|<percent>% (:rows_cached => "1000", or :rows_cached => "50%")
+#   :keys_cached => <count>|<percent>% (:keys_cached => "1000", or :keys_cached => "50%")
+#   :comment => <comment string>
 
 # Gather the seeds
 #
@@ -56,7 +60,8 @@ if node[:rackspace]
   local_addr = node[:rackspace][:private_ip]
   seeds = (search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true").map do |n|
     n["rackspace"]["private_ip"] if n["rackspace"]
-  end).compact
+  end).compact # This compaction is done to work around OHAI-170.
+               # Once the OHAI-170 fix is merged in ohai, the compaction should be removed.
   seeds = ["127.0.0.1"] unless seeds.length > 0
 else
   local_addr = node[:ipaddress]
