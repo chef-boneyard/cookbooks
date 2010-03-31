@@ -64,5 +64,5 @@ end
 # grant the mapper user the ability to do anything with the /chef vhost
 # the three regex's map to config, write, read permissions respectively
 execute 'rabbitmqctl set_permissions -p /chef chef ".*" ".*" ".*"' do
-  not_if 'rabbitmqctl list_user_permissions mapper|grep /chef'
+  not_if 'rabbitmqctl list_user_permissions chef|grep /chef'
 end
