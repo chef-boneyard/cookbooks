@@ -55,24 +55,27 @@ clusters[node[:cassandra][:cluster_name]].each_pair do |k, v|
 end
 node.save
 
-local_addr = "" ; seeds = []
-if node[:rackspace]
-  local_addr = node[:rackspace][:private_ip]
-  seeds = (search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true").map do |n|
-    n["rackspace"]["private_ip"] if n["rackspace"]
-  end).compact # This compaction is done to work around OHAI-170.
-               # Once the OHAI-170 fix is merged in ohai, the compaction should be removed.
-  seeds = ["127.0.0.1"] unless seeds.length > 0
+listen_addr = "" ; thrift_addr = "" ; seeds = []
+if node[:cloud]
+  listen_addr = node[:cloud][:private_ips].first
+  thrift_addr = node[:cloud][:public_ips].first
+  seeds = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true").map do |n|
+    if n["cloud"]
+      n["cloud"]["private_ips"].first
+    else
+      n["ipaddress"]
+    end
+  end
 else
-  local_addr = node[:ipaddress]
+  listen_addr = node[:ipaddress]
+  thrift_addr = node[:ipaddress]
   seeds = search(:node, "cassandra_cluster_name:#{node[:cassandra][:cluster_name]} AND cassandra_seed:true").map {|n| n["ipaddress"]}
-  seeds = ["127.0.0.1"] unless seeds.length > 0
 end
-
+seeds = ["127.0.0.1"] unless seeds.length > 0
 node[:cassandra][:seeds] = seeds
 
 # Configure the various addrs for binding
-node[:cassandra][:listen_addr] = local_addr
-node[:cassandra][:thrift_addr] = local_addr
+node[:cassandra][:listen_addr] = listen_addr
+node[:cassandra][:thrift_addr] = thrift_addr
 
 include_recipe "cassandra::default"
