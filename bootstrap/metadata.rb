@@ -3,7 +3,7 @@ maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
 description      "Configures RubyGems-installed Chef"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.10.1"
+version          "0.10.2"
 
 %w{ ubuntu debian redhat centos fedora freebsd openbsd }.each do |os|
   supports os
