@@ -1,0 +1,10 @@
+<%- @memcached_envs.each do |env, settings| %>
+<%= env %>:
+<%- settings.each do |k, v| %>
+  <%= k %>: <%= v %>
+<%- end %>
+  servers:
+<%- @hosts.each do |h| %>
+    - <%= h['ipaddress'] %>:<%= h['memcached']['port'] %>
+<%- end %>
+<%- end %>
