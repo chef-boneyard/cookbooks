@@ -178,3 +178,7 @@ attribute "cassandra/gc_grace",
   :display_name => "",
   :description => "",
   :default => "864000"
+  
+attribute "cassandra/public_access",
+  :display_name => "Public access",
+  :description => "If the node is on a cloud server with public and private IP addresses and public_access is true, then Thrift will be bound on the public IP address.  Disabled by default."
