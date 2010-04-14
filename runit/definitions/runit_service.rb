@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :runit_service, :directory => nil, :only_if => false, :options => Hash.new do
+define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :options => Hash.new do
 
   params[:directory] ||= node[:runit][:sv_dir]
 
@@ -57,6 +57,35 @@ define :runit_service, :directory => nil, :only_if => false, :options => Hash.ne
     end
   end
 
+  if params[:finish_script]
+    template "#{sv_dir_name}/finish" do
+      mode 0755
+      source "sv-#{params[:template_name]}-finish.erb"
+      cookbook params[:cookbook] if params[:cookbook]
+      if params[:options].respond_to?(:has_key?)
+        variables :options => params[:options]
+      end
+    end
+  end
+
+  unless params[:control].empty?
+    directory "#{sv_dir_name}/control" do
+      mode 0755
+      action :create
+    end
+
+    params[:control].each do |signal|
+      template "#{sv_dir_name}/control/#{signal}" do
+        mode 0755
+        source "sv-#{params[:template_name]}-control-#{signal}.erb"
+        cookbook params[:cookbook] if params[:cookbook]
+        if params[:options].respond_to?(:has_key?)
+          variables :options => params[:options]
+        end
+      end
+    end
+  end
+
   link "/etc/init.d/#{params[:name]}" do
     to node[:runit][:sv_bin]
   end
@@ -74,6 +103,10 @@ define :runit_service, :directory => nil, :only_if => false, :options => Hash.ne
 
   service params[:name] do
     supports :restart => true, :status => true
+    start_command "#{node[:runit][:sv_bin]} start #{params[:name]}"
+    stop_command "#{node[:runit][:sv_bin]} stop #{params[:name]}"
+    restart_command "#{node[:runit][:sv_bin]} restart #{params[:name]}"
+    status_command "#{node[:runit][:sv_bin]} status #{params[:name]}"
     subscribes :restart, resources(:template => "#{sv_dir_name}/run"), :delayed
     subscribes :restart, resources(:template => "#{sv_dir_name}/log/run"), :delayed
     action :nothing
