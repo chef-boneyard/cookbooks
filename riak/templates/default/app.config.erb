@@ -1,0 +1,16 @@
+[
+ {riak_core, [
+		<%= @config[:core].each_pair{|opt, val| "{<%= opt %>, \"<%= val %>\""} }.join(",\n") %>
+	]},
+ {riak_kv, [
+		<% storage_backend_options = @config[:kv].delete(:storage_backend_options) %>
+		<%= @config[:kv].each_pair{|opt, val| "{<%= opt %>, \"<%= val %>\""} }.join(",\n") %>
+		<% unless @config[:kv][:storage_backend].eql?("innostore") %>,
+		<%= storage_backend_options.each_pair{|opt, val| "{<%= opt %>, \"<%= val %>\""} }.join(",\n") %>
+		<% end %>
+	]}<% if @config[:kv][:storage_backend].eql?("innostore") %>,
+ {innostore, [
+		<%= storage_backend_options.each_pair{|opt, val| "{<%= opt %>, \"<%= val %>\""} }.join(",\n") %>
+	]}
+	<% end %>
+].

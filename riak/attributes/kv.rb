@@ -1,7 +1,6 @@
 #
 # Author:: Benjamin Black (<b@b3k.us>)
 # Cookbook Name:: riak
-# Recipe:: autoconf
 #
 # Copyright (c) 2010 Basho Technologies, Inc.
 #
@@ -18,4 +17,15 @@
 # limitations under the License.
 #
 
-# COMING SOON!
+set_unless[:riak][:kv][:raw_name] = "riak"
+set_unless[:riak][:kv][:storage_backend] = "riak_kv_dets_backend"
+set_unless[:riak][:kv][:storage_backend_options] = Mash.new
+case node[:riak][:kv][:storage_backend]
+when "riak_kv_dets_backend"
+  set_unless[:riak][:kv][:storage_backend_options][:riak_kv_dets_backend_root] = "data/dets"
+when "innostore"
+  include_attribute "riak::innostore"
+end
+set_unless[:riak][:kv][:riak_stat_enabled] = "false"
+set_unless[:riak][:kv][:handoff_port] = "8099"
+set_unless[:riak][:kv][:js_vm_count] = 8

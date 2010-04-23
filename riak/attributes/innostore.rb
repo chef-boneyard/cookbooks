@@ -17,3 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+set_unless[:riak][:kv][:storage_backend_options][:buffer_pool_size] = 8
+set_unless[:riak][:kv][:storage_backend_options][:data_home_dir] = "./"
+set_unless[:riak][:kv][:storage_backend_options][:log_group_home_dir] = "./"
+

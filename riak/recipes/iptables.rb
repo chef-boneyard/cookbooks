@@ -1,7 +1,7 @@
 #
 # Author:: Benjamin Black (<b@b3k.us>)
 # Cookbook Name:: riak
-# Recipe:: src
+# Recipe:: inno
 #
 # Copyright (c) 2010 Basho Technologies, Inc.
 #
@@ -17,3 +17,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+include_recipe "iptables"
+
+iptables_rule "10riak" do
+  source "iptables.erb"
+end

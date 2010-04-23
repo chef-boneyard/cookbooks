@@ -1,7 +1,6 @@
 #
 # Author:: Benjamin Black (<b@b3k.us>)
 # Cookbook Name:: riak
-# Recipe:: bin
 #
 # Copyright (c) 2010 Basho Technologies, Inc.
 #
@@ -18,3 +17,9 @@
 # limitations under the License.
 #
 
+include_attribute "riak::core"
+
+set_unless[:riak][:erlang][:node_name] = "riak@#{node[:riak][:core][:web_ip]}"
+set_unless[:riak][:erlang][:cookie] = "riak"
+set_unless[:riak][:erlang][:kernel_polling] = true
+set_unless[:riak][:erlang][:async_threads] = 5

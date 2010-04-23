@@ -1,0 +1,1 @@
+<%= @node[:riak][:erlang].each_pair{|k, v| "#{@arg_map[k]} #{v}" }.join(" ") %>

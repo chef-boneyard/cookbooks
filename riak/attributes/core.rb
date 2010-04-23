@@ -1,7 +1,6 @@
 #
 # Author:: Benjamin Black (<b@b3k.us>)
 # Cookbook Name:: riak
-# Recipe:: autoconf
 #
 # Copyright (c) 2010 Basho Technologies, Inc.
 #
@@ -18,4 +17,7 @@
 # limitations under the License.
 #
 
-# COMING SOON!
+set_unless[:riak][:core][:web_ip] = "127.0.0.1"
+set_unless[:riak][:core][:web_port] = 8098
+set_unless[:riak][:core][:ring_state_dir] = "data/ring"
+set_unless[:riak][:core][:ring_creation_size] = 64
