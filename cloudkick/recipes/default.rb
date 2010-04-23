@@ -45,7 +45,7 @@ end
 remote_directory "/usr/lib/cloudkick-agent/plugins" do
   source "plugins"
   mode "0755"
-  files_mode "0644"
+  files_mode "0755"
   files_backup 0
   recursive true
 end
