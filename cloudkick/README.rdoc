@@ -1,0 +1,34 @@
+= DESCRIPTION:
+
+Installs and configures the Cloudkick Agent, and integrates it with Chef.
+
+= REQUIREMENTS:
+
+You must be running a platform supported by the Cloudkick Agent - at this time, that means Ubuntu, CentOS or Red Hat.
+
+= USAGE:
+
+In order for the agent to function, you'll need to have defined your Cloudkick API key and secret.  We recommend you do this in a Role, which should also take care of applying the cloudkick::default recipe.
+
+Assuming you name the role 'cloudkick', here is the required json:
+
+  {
+    "name": "cloudkick",
+    "chef_type": "role",
+    "json_class": "Chef::Role",
+    "default_attributes": {
+
+    },
+    "description": "Configures Cloudkick",
+    "run_list": [
+      "recipe[cloudkick]"
+    ],
+    "override_attributes": {
+      "cloudkick": {
+        "oauth_key": "YOUR KEY HERE"
+        "oauth_secret": "YOUR SECRET HERE"
+      }
+    }
+  }
+
+If you want Cloudkick installed everywhere, we recommend you just add the cloudkick attributes to a base role.
