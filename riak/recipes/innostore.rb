@@ -26,7 +26,7 @@ package_file =  case node[:riak][:package][:type]
                 when "binary"
                   case node[:platform]
                   when "debian","ubuntu"
-                    "#{base_filename.gsub(/\-/, '_')}-2_#{node[:machine]}.deb"
+                    "#{base_filename.gsub(/\-/, '_')}-1_#{node[:machine]}.deb"
                   when "centos","redhat","fedora","suse"
                     "#{base_filename}-1.#{node[:machine]}.rpm"
                   # when "mac_os_x"
