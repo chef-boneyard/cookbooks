@@ -20,7 +20,9 @@
 case node.platform
 when "ubuntu" 
   include_recipe "apt"
-  
+ 
+  package "curl"
+
   execute "curl http://packages.cloudkick.com/cloudkick.packages.key | apt-key add -" do
     not_if "apt-key finger | grep '0B80 27BD B5FB A7F1 8FF3  DC1F 2B5E 7CE0 8EE6 154E'"
   end
