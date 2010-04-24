@@ -44,3 +44,13 @@ end
 %w{update install roles ssl_cert}.each do |t|
   Rake.application.instance_variable_get('@tasks').delete(t.to_s)
 end
+
+desc "Create metadata.json from metadata.rb"
+task :metadata_all do
+  sh %{knife cookbook metadata -a -o .}
+end
+
+desc "Create metadata.json from metadata.rb from a single cookbook"
+task :metadata, :cookbook do |t, args|
+  puts "knife cookbook metadata #{args.cookbook} -o #{File.dirname(__FILE__)}"
+end
