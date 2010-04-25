@@ -2,7 +2,7 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Configures /etc/resolv.conf"
-version           "0.7"
+version           "0.8"
 
 %w{ ubuntu debian fedora centos redhat freebsd openbsd macosx }.each do |os|
   supports os

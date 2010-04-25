@@ -3,7 +3,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs memcached and provides a define to set up an instance of memcache via runit"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.9"
+version           "0.10"
 depends           "runit"
 %w{ ubuntu debian }.each do |os|
   supports os

@@ -3,7 +3,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs radiant from Git repository"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.9"
+version           "0.10"
 
 %w{ git sqlite rails apache2 mysql passenger_apache2 apache2 }.each do |cb|
   depends cb
