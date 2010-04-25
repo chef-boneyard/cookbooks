@@ -1,7 +1,11 @@
 Application cookbook
 ====================
 
-This cookbook is initially designed to be able to describe and deploy Rails applications. Other application stacks will be available as recipes in later releases.
+This cookbook is initially designed to be able to describe and deploy web applications. Currently supported:
+
+* Rails
+
+Other application stacks (PHP, DJango, JBoss, etc) will be supported as new recipes at a later date.
 
 ---
 Recipes
@@ -12,15 +16,19 @@ The application cookbook contains the following recipes.
 default
 -------
 
-Searches the `apps` data bag and checks that a server role in the app exists on this node, adds the app to the run state and uses the role for the app to locate the recipes that need to be used.
+Searches the `apps` data bag and checks that a server role in the app exists on this node, adds the app to the run state and uses the role for the app to locate the recipes that need to be used. See below regarding the application data bag structure.
 
 rails
 -----
 
 Using the node's `run_state` that contains the current application in the search, this recipe will install required packages and gems, set up the deployment scaffolding, creates database and memcached configurations if required and then performs a revision-based deploy.
 
+This recipe can be used on nodes that are going to run the application, or on nodes that need to have the application code checkout available such as supporting utility nodes or a configured load balancer that needs static assets stored in the application repository.
+
 unicorn
 -------
+
+Requires `unicorn` cookbook.
 
 Unicorn is installed, default attributes are set for the node and an app specific unicorn config and runit service are created.
 
@@ -46,13 +54,13 @@ The recipe searches the apps data bag and then installs packages and gems, creat
 Application Data Bag
 ====================
 
-The applications data bag expects some certain values in order to configure parts of the recipe. Below is a paste of the JSON, where the value is a description of the key. Use your own values, as required. Note that this data bag is also used by the `database` cookbook, so it will contain database information as well. Items that may be ambiguous have an example.
+The applications data bag expects certain values in order to configure parts of the recipe. Below is a paste of the JSON, where the value is a description of the key. Use your own values, as required. Note that this data bag is also used by the `database` cookbook, so it will contain database information as well. Items that may be ambiguous have an example.
 
-The application used in examples is named `my_app` and the environment is `production`.
+The application used in examples is named `my_app` and the environment is `production`. Most top-level keys are Arrays, and each top-level key has an entry that describes what it is for, followed by the example entries. Entries that are hashes themselves will have the description in the value.
 
 Note about `databases`, the data specified will be rendered as the `database.yml` file.
 
-Note about gems and packages, the version is optional. If specified, it will lock in on that version, otherwise it will use the latest available.
+Note about gems and packages, the version is optional. If specified, the version will be passed as a parameter to the resource. Otherwise it will use the latest available version per the default `:install` action for the package provider.
 
     {
       "id": "my_app",
@@ -62,7 +70,7 @@ Note about gems and packages, the version is optional. If specified, it will loc
       ],
       "type": {
         "my_app": [
-          "recipes in application cookbook to run for this role",
+          "recipes in this application cookbook to run for this role",
           "rails",
           "unicorn"
         ]
@@ -81,7 +89,7 @@ Note about gems and packages, the version is optional. If specified, it will loc
       ],
       "repository": "git@github.com:company/my_app.git",
       "revision": {
-        "production": "branch or tag to deploy"
+        "production": "commit hash, branch or tag to deploy"
       },
       "force": {
         "production": "true or false w/o quotes to force deployment, see the rails.rb recipe"
@@ -109,7 +117,7 @@ Note about gems and packages, the version is optional. If specified, it will loc
         "production": "password for the 'repl' user for replication."
       },
       "snapshots_to_keep": {
-        "production": "integer of the number of snapshots we're going to keep for this environment."
+        "production": "if using EBS, integer of the number of snapshots we're going to keep for this environment."
       },
       "deploy_key": "SSH private key used to deploy from a private git repository",
       "deploy_to": "path to deploy, e.g. /srv/my_app",
@@ -134,7 +142,7 @@ Note about gems and packages, the version is optional. If specified, it will loc
 Usage
 =====
 
-To use the application cookbook, we recommend creating a role named after the application, e.g. `my_app`. In your chef-repo, create `roles/my_app.rb`.
+To use the application cookbook, we recommend creating a role named after the application, e.g. `my_app`. In your chef-repo, create `roles/my_app.rb`. Also recommended is a site-cookbook named after the application, e.g. `my_app`, for additional application specific setup.
 
     name "my_app"
     description "My application front end server."
@@ -146,7 +154,7 @@ If you need other recipes, such as `mysql::client` add those as well. Then uploa
 
     % knife role from file roles/my_app.rb
 
-Add the role to a node, and watch it deploy the application!
+Add the role to a node. Create the data bag per the guidelines above, and run Chef to watch it deploy the application!
 
 ---
 License and Author
