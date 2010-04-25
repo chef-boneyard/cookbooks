@@ -2,7 +2,7 @@ maintainer        "Benjamin Black"
 maintainer_email  "b@b3k.us"
 license           "Apache 2.0"
 description       "Installs and configures RabbitMQ server"
-version           "0.1"
+version           "0.2"
 recipe            "rabbitmq::cluster", "Set up RabbitMQ clustering."
 
 %w{ubuntu debian}.each do |os|
