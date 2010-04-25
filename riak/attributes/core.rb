@@ -19,5 +19,4 @@
 
 set_unless[:riak][:core][:web_ip] = "127.0.0.1"
 set_unless[:riak][:core][:web_port] = 8098
-set_unless[:riak][:core][:ring_state_dir] = "data/ring"
-set_unless[:riak][:core][:ring_creation_size] = 64
+set_unless[:riak][:core][:ring_state_dir] = "/var/lib/riak/ring"

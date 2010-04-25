@@ -18,14 +18,13 @@
 # limitations under the License.
 #
 
+class Chef::Resource::Template
+  include RiakTemplateHelper
+end
+
 riak_version = "0.10"
 base_uri = "http://downloads.basho.com/riak/riak-#{riak_version}/"
 base_filename = "riak-#{riak_version}"
-
-service "riak" do
-  supports :status => true, :restart => true, :reload => true
-  action [ :enable, :start ]
-end
 
 user "riak" do
   gid "nogroup"
@@ -37,16 +36,25 @@ package_file =  case node[:riak][:package][:type]
                   case node[:platform]
                   when "debian","ubuntu"
                     include_recipe "riak::iptables"
-                    "#{base_filename.gsub(/\-/, '_')}-1_#{node[:machine]}.deb"
+                    machines = {"x86_64" => "amd64", "i386" => "i386"} 
+                    "#{base_filename.gsub(/\-/, '_')}-1_#{machines[node[:kernel][:machine]]}.deb"
                   when "centos","redhat","fedora","suse"
-                    "#{base_filename}-1.#{node[:machine]}.rpm"
+                    "#{base_filename}-1.#{node[:kernel][:machine]}.rpm"
                   # when "mac_os_x"
                   #  "#{base_filename}.osx.#{node[:machine]}.tar.gz"
                   end
                 when "source"
+                  include_recipe "erlang"
                   include_recipe "mercurial"
                   "#{base_filename}.tar.gz"
                 end
+
+directory "/tmp/riak_pkg" do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+end
 
 remote_file "/tmp/riak_pkg/#{package_file}" do
   source base_uri + package_file
@@ -55,9 +63,13 @@ end
 
 case node[:riak][:package][:type]
 when "binary"
-  package "riak-server" do
-    source package_file
+  package "riak" do
+    source "/tmp/riak_pkg/#{package_file}"
     action :install
+    provider value_for_platform(
+      [ "ubuntu", "debian" ] => {"default" => Chef::Provider::Package::Dpkg},
+      [ "redhat", "centos", "fedora", "suse" ] => {"default" => Chef::Provider::Package::Rpm}
+    )
   end
 when "source"
   execute "riak-src-unpack" do
@@ -81,6 +93,11 @@ when "innostore"
   include_recipe "riak::innostore"
 end
 
+#service "riak" do
+#  supports :status => true, :restart => true, :reload => true
+#  action [ :enable, :start ]
+#end
+
 directory "/etc/riak" do
   owner "root"
   group "root"
@@ -90,14 +107,17 @@ directory "/etc/riak" do
 end
 
 template "/etc/riak/app.config" do
-  variables({:config => node[:riak]})
+  variables({:config => configify(node[:riak].to_hash),
+             :storage_backend => node[:riak][:kv][:storage_backend]})
   source "app.config.erb"
   owner "root"
   group "root"
   mode 0644
-  notifies :restart, resources(:service => "riak")
+ # notifies :restart, resources(:service => "riak")
 end
 
+vm_args = node[:riak][:erlang].to_hash
+env_vars = vm_args.delete("env_vars")
 template "/etc/riak/vm.args" do
   variables({
       :arg_map => {
@@ -106,13 +126,15 @@ template "/etc/riak/vm.args" do
         "heart" => "-heart",
         "kernel_polling" => "+K",
         "async_threads" => "+A",
-        "env_vars" => "-env"
-      }
+        "smp" => "-smp"
+      },
+      :vm_args => vm_args,
+      :env_vars => env_vars
     })
   
   source "vm.args.erb"
   owner "root"
   group "root"
   mode 0644
-  notifies :restart, resources(:service => "riak")
+  #notifies :restart, resources(:service => "riak")
 end

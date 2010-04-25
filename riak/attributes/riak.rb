@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+set_unless[:riak][:package][:type] = "binary"
+
 include_attribute "riak::erlang"
 include_attribute "riak::core"
 include_attribute "riak::kv"

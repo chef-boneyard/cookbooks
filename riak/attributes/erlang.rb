@@ -23,3 +23,5 @@ set_unless[:riak][:erlang][:node_name] = "riak@#{node[:riak][:core][:web_ip]}"
 set_unless[:riak][:erlang][:cookie] = "riak"
 set_unless[:riak][:erlang][:kernel_polling] = true
 set_unless[:riak][:erlang][:async_threads] = 5
+set_unless[:riak][:erlang][:smp] = "enable"
+set_unless[:riak][:erlang][:env_vars] = ["ERL_MAX_PORTS 4096", "ERL_FULLSWEEP_AFTER 10"]

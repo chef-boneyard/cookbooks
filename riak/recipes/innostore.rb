@@ -26,9 +26,10 @@ package_file =  case node[:riak][:package][:type]
                 when "binary"
                   case node[:platform]
                   when "debian","ubuntu"
-                    "#{base_filename.gsub(/\-/, '_')}-1_#{node[:machine]}.deb"
+                    machines = {"x86_64" => "amd64", "i386" => "i386"} 
+                    "#{base_filename.gsub(/\-/, '_')}-1_#{machines[node[:kernel][:machine]]}.deb"
                   when "centos","redhat","fedora","suse"
-                    "#{base_filename}-1.#{node[:machine]}.rpm"
+                    "#{base_filename}-1.#{node[:kernel][:machine]}.rpm"
                   # when "mac_os_x"
                   #  "#{base_filename}.osx.#{node[:machine]}.tar.gz"
                   end
@@ -44,8 +45,12 @@ end
 case node[:riak][:package][:type]
 when "binary"
   package "riak-inno-backend" do
-    source package_file
+    source "/tmp/riak_pkg/#{package_file}"
     action :install
+    provider value_for_platform(
+      [ "ubuntu", "debian" ] => {"default" => Chef::Provider::Package::Dpkg},
+      [ "redhat", "centos", "fedora", "suse" ] => {"default" => Chef::Provider::Package::Rpm}
+    )
   end
 when "source"
   execute "riak-inno-src-unpack" do

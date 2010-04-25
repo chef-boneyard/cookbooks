@@ -1,1 +1,2 @@
-<%= @node[:riak][:erlang].each_pair{|k, v| "#{@arg_map[k]} #{v}" }.join(" ") %>
+<%= @vm_args.inject([]){|arr, (k, v)| arr << "#{@arg_map[k]} #{v}" }.join(" \n") %>
+<%= @env_vars.map{|v| "-env #{v}" }.join(" \n") %>

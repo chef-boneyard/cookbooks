@@ -42,6 +42,12 @@ attribute "riak"
   :description => "Riak is a Dynamo-inspired key/value store",
   :type => "hash"
 
+attribute "riak/package"
+  :type => "hash"
+  
+attribute "riak/package/type"
+  :default => "binary"
+  
 #
 # erlang Configuration components
 #
@@ -105,7 +111,7 @@ attribute "riak/core/wants_claim_fun"
 attribute "riak/core/ring_state_dir"
   :display_name => "Ring state directory",
   :description => "The directory on-disk in which to store the ring state (default: data/ring)",
-  :default => "data/ring"
+  :default => "/var/lib/riak/ring"
   
 attribute "riak/core/ring_creation_size"
   :display_name => "Ring creation size",
@@ -162,9 +168,9 @@ attribute "riak/kv/raw_name"
   :default => "riak"
 
 attribute "riak/kv/riak_kv_stat"
-  :display_name => "Statistics aggregator",
-  :description => "Enables the statistics-aggregator if set to true (default: false).",
-  :default => "false"
+  :display_name => "Statistics reporting",
+  :description => "Enables the statistics-aggregator if set to true.",
+  :default => "true"
 
 attribute "riak/kv/stats_urlpath"
   :display_name => "Path for HTTP retrieval of statistics",
@@ -193,6 +199,7 @@ attribute "riak/kv/storage_backend"
 attribute "riak/kv/storage_backend_options"
   :display_name => "Storage backend options",
   :description => "Additional configuration options for storage backends (varies by storage_backend)"
+  :default => "hash"
   
 #Available backends, and their additional configuration options are:
 

@@ -19,13 +19,15 @@
 
 set_unless[:riak][:kv][:raw_name] = "riak"
 set_unless[:riak][:kv][:storage_backend] = "riak_kv_dets_backend"
-set_unless[:riak][:kv][:storage_backend_options] = Mash.new
 case node[:riak][:kv][:storage_backend]
 when "riak_kv_dets_backend"
-  set_unless[:riak][:kv][:storage_backend_options][:riak_kv_dets_backend_root] = "data/dets"
+  set_unless[:riak][:kv][:storage_backend_options][:riak_kv_dets_backend_root] = "/var/lib/riak/dets"
 when "innostore"
   include_attribute "riak::innostore"
 end
-set_unless[:riak][:kv][:riak_stat_enabled] = "false"
-set_unless[:riak][:kv][:handoff_port] = "8099"
+set_unless[:riak][:kv][:riak_stat_enabled] = true
+set_unless[:riak][:kv][:pb_ip] = "0.0.0.0"
+set_unless[:riak][:kv][:pb_port] = 8087
+set_unless[:riak][:kv][:mapred_name] = "mapred"
+set_unless[:riak][:kv][:handoff_port] = 8099
 set_unless[:riak][:kv][:js_vm_count] = 8

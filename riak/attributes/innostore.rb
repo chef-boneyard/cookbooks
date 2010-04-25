@@ -1,7 +1,6 @@
 #
 # Author:: Benjamin Black (<b@b3k.us>)
 # Cookbook Name:: riak
-# Recipe:: inno
 #
 # Copyright (c) 2010 Basho Technologies, Inc.
 #
@@ -18,7 +17,8 @@
 # limitations under the License.
 #
 
-set_unless[:riak][:kv][:storage_backend_options][:buffer_pool_size] = 8
-set_unless[:riak][:kv][:storage_backend_options][:data_home_dir] = "./"
-set_unless[:riak][:kv][:storage_backend_options][:log_group_home_dir] = "./"
-
+if node[:riak][:kv][:storage_backend].eql?("innostore")
+  set_unless[:riak][:kv][:storage_backend_options][:buffer_pool_size] = 8
+  set_unless[:riak][:kv][:storage_backend_options][:data_home_dir] = "./"
+  set_unless[:riak][:kv][:storage_backend_options][:log_group_home_dir] = "./"
+end
