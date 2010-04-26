@@ -55,10 +55,10 @@ when "centos","redhat","fedora"
   include_recipe "couchdb"
   include_recipe "rabbitmq_chef"
 else
-  Chef::Log.info("Unknown platform for CouchDB. Manual installation of CouchDB required.")
-  Chef::Log.info("Unknown platform for RabbitMQ. Manual installation of RabbitMQ required.")
-  Chef::Log.info("Unknown platform for Java. Manual installation of Java required.")
-  Chef::Log.info("Components that rely on these packages being installed may fail to start.")
+  log("Unknown platform for CouchDB. Manual installation of CouchDB required.")
+  log("Unknown platform for RabbitMQ. Manual installation of RabbitMQ required.")
+  log("Unknown platform for Java. Manual installation of Java required.")
+  log("Components that rely on these packages being installed may fail to start.")
 end
 
 include_recipe "zlib"
@@ -145,11 +145,11 @@ when "init"
     action :nothing
   end if node[:chef][:webui_enabled]
 
-  Chef::Log.info("You specified service style 'init'.")
-  Chef::Log.info("'init' scripts available in #{node[:languages][:ruby][:gems_dir]}/gems/chef-#{node[:chef][:client_version]}/distro")
+  log("You specified service style 'init'.")
+  log("'init' scripts available in #{node[:languages][:ruby][:gems_dir]}/gems/chef-#{node[:chef][:client_version]}/distro")
 when "bsd"
-  Chef::Log.info("You specified service style 'bsd'. You will need to set up your rc.local file for chef-indexer and chef-server.")
-  Chef::Log.info("Server startup command: chef-server -d")
+  log("You specified service style 'bsd'. You will need to set up your rc.local file for chef-indexer and chef-server.")
+  log("Server startup command: chef-server -d")
 else
-  Chef::Log.info("Could not determine service init style, manual intervention required to set up indexer and server services.")
+  log("Could not determine service init style, manual intervention required to set up indexer and server services.")
 end

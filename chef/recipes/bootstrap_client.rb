@@ -1,7 +1,7 @@
 #
 # Author:: Joshua Timberman <joshua@opscode.com>
 # Cookbook Name:: chef
-# Recipe:: bootstrap_default
+# Recipe:: bootstrap_client
 #
 # Copyright 2009-2010, Opscode, Inc.
 #
@@ -49,17 +49,17 @@ when "init"
     action :nothing
   end
 
-  Chef::Log.info("You specified service style 'init'.")
-  Chef::Log.info("'init' scripts available in #{node[:languages][:ruby][:gems_dir]}/gems/chef-#{node[:chef][:client_version]}/distro")
+  log("You specified service style 'init'.")
+  log("'init' scripts available in #{node[:languages][:ruby][:gems_dir]}/gems/chef-#{node[:chef][:client_version]}/distro")
 when "bsd"
   client_log = node[:chef][:client_log]
   show_time  = "false"
-  Chef::Log.info("You specified service style 'bsd'. You will need to set up your rc.local file.")
-  Chef::Log.info("Hint: chef-client -i #{node[:chef][:client_interval]} -s #{node[:chef][:client_splay]}")
+  log("You specified service style 'bsd'. You will need to set up your rc.local file.")
+  log("Hint: chef-client -i #{node[:chef][:client_interval]} -s #{node[:chef][:client_splay]}")
 else
   client_log = node[:chef][:client_log]
   show_time  = "false"
-  Chef::Log.info("Could not determine service init style, manual intervention required to start up the client service.")
+  log("Could not determine service init style, manual intervention required to start up the client service.")
 end
 
 chef_dirs = [

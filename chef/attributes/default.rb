@@ -29,7 +29,7 @@ when "openbsd","freebsd"
   set_unless[:chef][:serve_path] = "/var/chef"
 else
   set_unless[:chef][:path]       = "/srv/chef"
-  set_unless[:chef][:run_path]   = "/var/run/chef"
+  set_unless[:chef][:run_path]   = "#{chef[:path]}/run"
   set_unless[:chef][:cache_path] = "#{chef[:path]}/cache"
   set_unless[:chef][:serve_path] = "/srv/chef"
 end
@@ -55,6 +55,6 @@ else
   set_unless[:chef][:server_log]  = "#{chef[:log_dir]}/server.log"
 end
 
-set_unless[:chef][:server_fqdn]     = domain ? "chef.#{domain}" : "chef"
+set_unless[:chef][:server_fqdn]     = node.has_key?(domain) ? "chef.#{domain}" : "chef"
 set_unless[:chef][:server_ssl_req]  = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/" +
-  "CN=#{chef[:server_fqdn]}/emailAddress=ops@#{domain}"
+  "CN=#{chef[:server_fqdn]}/emailAddress=ops@#{chef[:server_fqdn]}"
