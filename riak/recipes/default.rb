@@ -44,20 +44,18 @@ package_file =  case node[:riak][:package][:type]
                   #  "#{base_filename}.osx.#{node[:machine]}.tar.gz"
                   end
                 when "source"
-                  include_recipe "erlang"
-                  include_recipe "mercurial"
                   "#{base_filename}.tar.gz"
                 end
 
 directory "/tmp/riak_pkg" do
   owner "root"
-  group "root"
   mode "0755"
   action :create
 end
 
 remote_file "/tmp/riak_pkg/#{package_file}" do
   source base_uri + package_file
+  owner "root"
   mode "0644"
 end
 
@@ -100,7 +98,6 @@ end
 
 directory "/etc/riak" do
   owner "root"
-  group "root"
   mode "0755"
   action :create
   not_if "test -d /etc/riak"
@@ -111,7 +108,6 @@ template "/etc/riak/app.config" do
              :storage_backend => node[:riak][:kv][:storage_backend]})
   source "app.config.erb"
   owner "root"
-  group "root"
   mode 0644
  # notifies :restart, resources(:service => "riak")
 end
@@ -134,7 +130,6 @@ template "/etc/riak/vm.args" do
   
   source "vm.args.erb"
   owner "root"
-  group "root"
   mode 0644
   #notifies :restart, resources(:service => "riak")
 end
