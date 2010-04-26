@@ -18,7 +18,9 @@
 #
 
 set_unless[:riak][:package][:type] = "binary"
-
+if node[:riak][:package][:type].eql?("source")
+  node[:riak][:package][:prefix] = "/usr/local"
+end
 include_attribute "riak::erlang"
 include_attribute "riak::core"
 include_attribute "riak::kv"

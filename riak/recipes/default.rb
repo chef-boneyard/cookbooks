@@ -81,8 +81,8 @@ when "source"
   end
   
   execute "riak-src-install" do
-    command "mv /tmp/riak_pkg/#{base_filename}/rel/riak /usr/local"
-    not_if "test -d /usr/local/riak"
+    command "mv /tmp/riak_pkg/#{base_filename}/rel/riak #{node[:riak][:package][:prefix]}"
+    not_if "test -d #{node[:riak][:package][:prefix]}/riak"
   end
 end
 
