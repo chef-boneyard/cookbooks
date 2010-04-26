@@ -39,6 +39,7 @@ package_file =  case node[:riak][:package][:type]
 
 remote_file "/tmp/riak_pkg/#{package_file}" do
   source base_uri + package_file
+  owner "root"
   mode "0644"
 end
 
