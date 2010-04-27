@@ -18,6 +18,8 @@
 # limitations under the License.
 #
 
+include_recipe "riak"
+
 inno_version = "10"
 base_uri = "http://downloads.basho.com/innostore/innostore-#{inno_version}/"
 base_filename = "innostore-#{inno_version}"
