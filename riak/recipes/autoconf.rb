@@ -18,4 +18,10 @@
 # limitations under the License.
 #
 
-# COMING SOON!
+seeds = []
+seeds = search(:node, "riak_node_cluster_name:#{node[:riak][:node][:cluster_name]} AND riak_node_seed:true").map { |n|
+  n["ipaddress"] unless n["ipaddress"].eql?(node[:ipaddress])
+}.compact
+node[:riak][:core][:default_gossip_seed] = seeds.sort_by{rand}.first if seeds.length > 0
+
+include_recipe "riak::default"
