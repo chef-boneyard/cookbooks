@@ -249,8 +249,8 @@ attribute "riak/kv/storage_backend_options"
 
 description "riak/kv/storage_backend_options/buffer_pool_size"
   :display_name => "Buffer pool size",
-  :description => "Size of the buffer pool in megabytes.",
-  :default => "8"
+  :description => "Size of the buffer pool in bytes.",
+  :default => "2147483648"
 
 # checksums	Boolean	Pre-Startup	
 # Set to OFF if you want to disable page checksums. Default is ON.
@@ -271,7 +271,7 @@ description "riak/kv/storage_backend_options/buffer_pool_size"
 description "riak/kv/storage_backend_options/data_home_dir"
   :display_name => "Data home directory",
   :description => "Directory where the system files will be created. All database directories will also be created relative to this path.  Note: The path must end in a / or \\ depending on the platform.",
-  :default => "./"
+  :default => "data/innodb"
   
 # doublewrite	Boolean	Pre-Startup	
 # Controls whether InnoDB will use the double write buffer. Default is ON
@@ -326,7 +326,7 @@ description "riak/kv/storage_backend_options/data_home_dir"
 attribute "riak/kv/storage_backend_options/log_group_home_dir"	
   :display_name => "Log file path",
   :description => "Path to the directory where the log files will be created.",
-  :default => "./"
+  :default => "data/innodb"
 
 # max_dirty_pages_pct	Integer	Pre-Startup	
 # The master thread tries to keep the ratio of modified pages in the buffer pool to all database pages in the buffer pool smaller than this number. But it is not guaranteed that the value stays below that during a time of heavy update/insert activity. The default value is 75.
