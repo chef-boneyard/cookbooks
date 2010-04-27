@@ -14,7 +14,8 @@ module RiakTemplateHelper
     core = prepare(config["core"])
     storage_backend_options = prepare(config["kv"].delete("storage_backend_options"))
     kv = prepare(config["kv"])
+    kernel = prepare(config["kernel"])
     
-    {:core => core, :kv => kv, :storage_backend_options => storage_backend_options}
+    {:core => core, :kv => kv, :kernel => kernel, :storage_backend_options => storage_backend_options}
   end
 end

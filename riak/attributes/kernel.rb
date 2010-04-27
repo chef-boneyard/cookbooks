@@ -17,14 +17,8 @@
 # limitations under the License.
 #
 
-set_unless[:riak][:package][:type] = "binary"
-if node[:riak][:package][:type].eql?("source")
-  set_unless[:riak][:package][:prefix] = "/usr/local"
+if node[:riak][:limit_port_range]
+  set_unless[:riak][:kernel] = Mash.new
+  set_unless[:riak][:kernel][:inet_dist_listen_min] = 6000
+  set_unless[:riak][:kernel][:inet_dist_listen_max] = 7999
 end
-set_unless[:riak][:limit_port_range] = true
-
-include_attribute "riak::core"
-include_attribute "riak::erlang"
-include_attribute "riak::kernel"
-include_attribute "riak::kv"
-

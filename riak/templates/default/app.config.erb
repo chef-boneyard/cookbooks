@@ -21,6 +21,9 @@
  %% Innostore config
  {innostore, [
 <%= @config[:storage_backend_options].map{|c| "\t#{c}"}.join(",\n") %>
-	]}
-	<% end %>
+	]}<% end %><% if @limit_port_range %>,
+ %% Kernel config
+ { kernel, [
+<%= @config[:kernel].map{|c| "\t#{c}"}.join(",\n") %>
+	]}<% end %>
 ].

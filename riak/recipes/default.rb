@@ -105,6 +105,7 @@ end
 
 template "/etc/riak/app.config" do
   variables({:config => configify(node[:riak].to_hash),
+             :limit_port_range => node[:riak][:limit_port_range],
              :storage_backend => node[:riak][:kv][:storage_backend]})
   source "app.config.erb"
   owner "root"
