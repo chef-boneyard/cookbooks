@@ -1,3 +1,5 @@
+This is an unreleased cookbook, posted here for example purposes and will be released to the cookbooks.opscode.com when it is really ready.
+
 Application cookbook
 ====================
 
