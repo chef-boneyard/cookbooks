@@ -1,0 +1,52 @@
+{
+    "recipes": {
+      "php::module_fpdf": "Install the php-fpdf package",
+      "php::php5-cgi": "Install the php5-cgi package",
+      "php::module_sqlite3": "Install the php5-sqlite3 package",
+      "php::module_ldap": "Install the php5-ldap package",
+      "php::module_gd": "Install the php5-gd package",
+      "php::module_mysql": "Install the php5-mysql package",
+      "php::module_curl": "Install the php5-curl package",
+      "php::module_apc": "Install the php5-apc package",
+      "php::pear": "Install the php-pear package",
+      "php::module_memcache": "Install the php5-memcache package",
+      "php::php4": "Install packages for PHP version 4",
+      "php::module_fileinfo": "Install the php5-fileinfo package",
+      "php::php5": "Install php5 packages and php.ini config file",
+      "php::module_pgsql": "Install the php5-pgsql packag"
+    },
+    "attributes": {
+    },
+    "providing": {
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ],
+      "debian": [
+
+      ]
+    },
+    "dependencies": {
+      "apache2": [
+
+      ]
+    },
+    "replacing": {
+    },
+    "version": "0.7.0",
+    "name": "php",
+    "groupings": {
+    },
+    "long_description": "",
+    "recommendations": {
+    },
+    "license": "Apache 2.0",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "conflicting": {
+    },
+    "description": "Installs and maintains php and php modules"
+  }

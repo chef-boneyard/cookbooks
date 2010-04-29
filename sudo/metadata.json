@@ -1,0 +1,101 @@
+{
+    "recipes": {
+    },
+    "attributes": {
+      "authorization/sudoers/groups": {
+        "default": "",
+        "calculated": false,
+        "type": "array",
+        "choice": [
+
+        ],
+        "description": "Groups who are allowed sudo ALL",
+        "display_name": "Sudo Groups",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "authorization/sudoers/users": {
+        "default": "",
+        "calculated": false,
+        "type": "array",
+        "choice": [
+
+        ],
+        "description": "Users who are allowed sudo ALL",
+        "display_name": "Sudo Users",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "authorization/sudoers": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Hash of Authorization/Sudoers attributes",
+        "display_name": "Authorization Sudoers",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "authorization": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Hash of Authorization attributes",
+        "display_name": "Authorization",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      }
+    },
+    "providing": {
+    },
+    "platforms": {
+      "freebsd": [
+
+      ],
+      "ubuntu": [
+
+      ],
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "debian": [
+
+      ],
+      "redhat": [
+
+      ]
+    },
+    "dependencies": {
+    },
+    "replacing": {
+    },
+    "version": "0.7.0",
+    "name": "sudo",
+    "groupings": {
+    },
+    "long_description": "",
+    "recommendations": {
+    },
+    "license": "Apache 2.0",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "conflicting": {
+    },
+    "description": "Installs and configures sudo"
+  }

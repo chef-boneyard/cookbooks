@@ -1,0 +1,102 @@
+{
+    "recipes": {
+    },
+    "attributes": {
+      "ntp/servers": {
+        "default": [
+          "0.us.pool.ntp.org",
+          "1.us.pool.ntp.org"
+        ],
+        "calculated": false,
+        "type": "array",
+        "choice": [
+
+        ],
+        "description": "Array of servers we should talk to",
+        "display_name": "NTP Servers",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "ntp/is_server": {
+        "default": "false",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Set to true if this is an NTP server",
+        "display_name": "NTP Is Server?",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "ntp/service": {
+        "default": "ntp",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Name of the NTP service",
+        "display_name": "NTP Service",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      },
+      "ntp": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Hash of NTP attributes",
+        "display_name": "NTP",
+        "recipes": [
+
+        ],
+        "required": "optional"
+      }
+    },
+    "providing": {
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ],
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "redhat": [
+
+      ],
+      "debian": [
+
+      ]
+    },
+    "dependencies": {
+    },
+    "replacing": {
+    },
+    "version": "0.8.0",
+    "name": "ntp",
+    "groupings": {
+    },
+    "long_description": "",
+    "recommendations": {
+    },
+    "license": "Apache 2.0",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "conflicting": {
+    },
+    "description": "Installs and configures ntp as a client or server"
+  }
