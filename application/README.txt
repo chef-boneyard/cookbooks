@@ -1,5 +1,3 @@
-This is an unreleased cookbook, posted here for example purposes and will be released to the cookbooks.opscode.com when it is really ready.
-
 Application cookbook
 ====================
 
@@ -8,6 +6,8 @@ This cookbook is initially designed to be able to describe and deploy web applic
 * Rails
 
 Other application stacks (PHP, DJango, JBoss, etc) will be supported as new recipes at a later date.
+
+This cookbook aims to provide primitives to install/deploy any kind of application driven entirely by data defined in an abstract way through a data bag.
 
 ---
 Recipes
@@ -18,7 +18,9 @@ The application cookbook contains the following recipes.
 default
 -------
 
-Searches the `apps` data bag and checks that a server role in the app exists on this node, adds the app to the run state and uses the role for the app to locate the recipes that need to be used. See below regarding the application data bag structure.
+Searches the `apps` data bag and checks that a server role in the app exists on this node, adds the app to the run state and uses the role for the app to locate the recipes that need to be used. The recipes listed in the "type" part of the data bag are included by this recipe, so only the "application" recipe needs to be in the node or role `run_list`.
+
+See below regarding the application data bag structure.
 
 rails
 -----
@@ -59,6 +61,8 @@ Application Data Bag
 The applications data bag expects certain values in order to configure parts of the recipe. Below is a paste of the JSON, where the value is a description of the key. Use your own values, as required. Note that this data bag is also used by the `database` cookbook, so it will contain database information as well. Items that may be ambiguous have an example.
 
 The application used in examples is named `my_app` and the environment is `production`. Most top-level keys are Arrays, and each top-level key has an entry that describes what it is for, followed by the example entries. Entries that are hashes themselves will have the description in the value.
+
+Note about "type": the recipes listed in the "type" will be included in the run list via `include_recipe` in the application default recipe.
 
 Note about `databases`, the data specified will be rendered as the `database.yml` file.
 
@@ -151,6 +155,8 @@ To use the application cookbook, we recommend creating a role named after the ap
     run_list(
       "recipe[application]"
     )
+
+The idea with this recipe is that the additional recipes you need for the application are handled by specifying them in the application data bag's "type".
 
 If you need other recipes, such as `mysql::client` add those as well. Then upload the role to the Chef Server.
 
