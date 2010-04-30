@@ -18,10 +18,16 @@
 # limitations under the License.
 #
 
-seeds = []
-seeds = search(:node, "riak_node_cluster_name:#{node[:riak][:node][:cluster_name]} AND riak_node_seed:true").map { |n|
-  n["ipaddress"] unless n["ipaddress"].eql?(node[:ipaddress])
-}.compact
+require 'socket'
+
+seeds = intra = []
+nodes = search(:node, "riak_node_cluster_name:#{node[:riak][:node][:cluster_name]}")
+nodes.each do |n|
+  intra << IPSocket.getaddress(n["riak"]["erlang"]["node_name"].split("@").last)
+  if n["riak"]["node"]["seed"]
+    seeds << n["ipaddress"] unless n["ipaddress"].eql?(node[:ipaddress])
+  end
+end
 node[:riak][:core][:default_gossip_seed] = seeds.sort_by{rand}.first if seeds.length > 0
 
 include_recipe "riak::default"
