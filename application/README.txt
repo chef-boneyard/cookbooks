@@ -7,8 +7,11 @@ This cookbook is initially designed to be able to describe and deploy web applic
 
 Other application stacks (PHP, DJango, JBoss, etc) will be supported as new recipes at a later date.
 
+<<<<<<< HEAD
 This cookbook aims to provide primitives to install/deploy any kind of application driven entirely by data defined in an abstract way through a data bag.
 
+=======
+>>>>>>> refactor_bootstrap
 ---
 Recipes
 =======
@@ -18,9 +21,13 @@ The application cookbook contains the following recipes.
 default
 -------
 
+<<<<<<< HEAD
 Searches the `apps` data bag and checks that a server role in the app exists on this node, adds the app to the run state and uses the role for the app to locate the recipes that need to be used. The recipes listed in the "type" part of the data bag are included by this recipe, so only the "application" recipe needs to be in the node or role `run_list`.
 
 See below regarding the application data bag structure.
+=======
+Searches the `apps` data bag and checks that a server role in the app exists on this node, adds the app to the run state and uses the role for the app to locate the recipes that need to be used. See below regarding the application data bag structure.
+>>>>>>> refactor_bootstrap
 
 rails
 -----
@@ -62,8 +69,11 @@ The applications data bag expects certain values in order to configure parts of 
 
 The application used in examples is named `my_app` and the environment is `production`. Most top-level keys are Arrays, and each top-level key has an entry that describes what it is for, followed by the example entries. Entries that are hashes themselves will have the description in the value.
 
+<<<<<<< HEAD
 Note about "type": the recipes listed in the "type" will be included in the run list via `include_recipe` in the application default recipe.
 
+=======
+>>>>>>> refactor_bootstrap
 Note about `databases`, the data specified will be rendered as the `database.yml` file.
 
 Note about gems and packages, the version is optional. If specified, the version will be passed as a parameter to the resource. Otherwise it will use the latest available version per the default `:install` action for the package provider.
@@ -156,8 +166,11 @@ To use the application cookbook, we recommend creating a role named after the ap
       "recipe[application]"
     )
 
+<<<<<<< HEAD
 The idea with this recipe is that the additional recipes you need for the application are handled by specifying them in the application data bag's "type".
 
+=======
+>>>>>>> refactor_bootstrap
 If you need other recipes, such as `mysql::client` add those as well. Then upload the role to the Chef Server.
 
     % knife role from file roles/my_app.rb

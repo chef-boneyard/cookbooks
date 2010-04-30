@@ -1,10 +1,10 @@
 {
-    "recipes": {
-      "glassfish": "Main Glassfish configuration"
+    "dependencies": {
     },
-    "attributes": {
+    "replacing": {
     },
-    "providing": {
+    "description": "Installs/Configures Glassfish",
+    "groupings": {
     },
     "platforms": {
       "ubuntu": [
@@ -20,23 +20,23 @@
 
       ]
     },
-    "dependencies": {
-    },
-    "replacing": {
-    },
-    "version": "0.2.0",
-    "name": "glassfish",
-    "groupings": {
-    },
-    "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES: \n\n= USAGE:\n\n",
+    "version": "0.1.0",
     "recommendations": {
     },
-    "license": "Apache 2.0",
+    "name": "glassfish",
     "maintainer": "Opscode, Inc.",
+    "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES: \n\n= USAGE:\n\n",
+    "recipes": {
+      "glassfish": "Main Glassfish configuration"
+    },
     "suggestions": {
     },
     "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+    },
     "conflicting": {
     },
-    "description": "Installs/Configures Glassfish"
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }

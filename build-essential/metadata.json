@@ -1,9 +1,10 @@
 {
-    "recipes": {
+    "dependencies": {
     },
-    "attributes": {
+    "replacing": {
     },
-    "providing": {
+    "description": "Installs C compiler / build tools",
+    "groupings": {
     },
     "platforms": {
       "ubuntu": [
@@ -16,23 +17,22 @@
 
       ]
     },
-    "dependencies": {
-    },
-    "replacing": {
-    },
     "version": "0.7.0",
-    "name": "build-essential",
-    "groupings": {
-    },
-    "long_description": "",
     "recommendations": {
     },
-    "license": "Apache 2.0",
+    "name": "build-essential",
     "maintainer": "Opscode, Inc.",
+    "long_description": "",
+    "recipes": {
+    },
     "suggestions": {
     },
     "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+    },
     "conflicting": {
     },
-    "description": "Installs C compiler / build tools"
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }

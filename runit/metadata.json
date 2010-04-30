@@ -1,10 +1,34 @@
 {
+    "dependencies": {
+    },
+    "replacing": {
+    },
+    "description": "Installs runit and provides runit_service definition",
+    "groupings": {
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ],
+      "debian": [
+
+      ]
+    },
+    "version": "0.9.0",
+    "recommendations": {
+    },
+    "name": "runit",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "",
     "recipes": {
     },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
     "attributes": {
       "runit/service_dir": {
-        "default": "/etc/service",
         "calculated": false,
+        "default": "/etc/service",
         "type": "string",
         "choice": [
 
@@ -17,8 +41,8 @@
         "required": "optional"
       },
       "runit/sv_bin": {
-        "default": "/usr/bin/sv",
         "calculated": false,
+        "default": "/usr/bin/sv",
         "type": "string",
         "choice": [
 
@@ -44,8 +68,8 @@
         "required": "optional"
       },
       "runit/sv_dir": {
-        "default": "/etc/sv",
         "calculated": false,
+        "default": "/etc/sv",
         "type": "string",
         "choice": [
 
@@ -58,33 +82,9 @@
         "required": "optional"
       }
     },
-    "providing": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ],
-      "debian": [
-
-      ]
-    },
-    "dependencies": {
-    },
-    "replacing": {
-    },
-    "version": "0.10.0",
-    "name": "runit",
-    "groupings": {
-    },
-    "long_description": "",
-    "recommendations": {
-    },
-    "license": "Apache 2.0",
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "description": "Installs runit and provides runit_service definition"
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }

@@ -1,9 +1,10 @@
 {
-    "recipes": {
+    "dependencies": {
     },
-    "attributes": {
+    "replacing": {
     },
-    "providing": {
+    "description": "Installs subversion",
+    "groupings": {
     },
     "platforms": {
       "ubuntu": [
@@ -22,23 +23,22 @@
 
       ]
     },
-    "dependencies": {
-    },
-    "replacing": {
-    },
-    "version": "0.8.0",
-    "name": "subversion",
-    "groupings": {
-    },
-    "long_description": "",
+    "version": "0.7.0",
     "recommendations": {
     },
-    "license": "Apache 2.0",
+    "name": "subversion",
     "maintainer": "Opscode, Inc.",
+    "long_description": "",
+    "recipes": {
+    },
     "suggestions": {
     },
     "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+    },
     "conflicting": {
     },
-    "description": "Installs subversion"
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }

@@ -1,10 +1,46 @@
 {
+    "dependencies": {
+      "java": [
+
+      ],
+      "runit": [
+
+      ],
+      "apache2": [
+
+      ]
+    },
+    "replacing": {
+    },
+    "description": "Installs and configures jira",
+    "groupings": {
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ],
+      "debian": [
+
+      ]
+    },
+    "version": "0.7.0",
+    "recommendations": {
+      "mysql": [
+
+      ]
+    },
+    "name": "jira",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "",
     "recipes": {
     },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
     "attributes": {
       "jira/database_host": {
-        "default": "localhost",
         "calculated": false,
+        "default": "localhost",
         "type": "string",
         "choice": [
 
@@ -17,8 +53,8 @@
         "required": "optional"
       },
       "jira/run_user": {
-        "default": "www-data",
         "calculated": false,
+        "default": "www-data",
         "type": "string",
         "choice": [
 
@@ -31,8 +67,8 @@
         "required": "optional"
       },
       "jira/version": {
-        "default": "enterprise-3.13.1",
         "calculated": false,
+        "default": "enterprise-3.13.1",
         "type": "string",
         "choice": [
 
@@ -45,8 +81,8 @@
         "required": "optional"
       },
       "jira/virtual_host_name": {
-        "default": "jira.domain",
         "calculated": false,
+        "default": "jira.domain",
         "type": "string",
         "choice": [
 
@@ -59,8 +95,8 @@
         "required": "optional"
       },
       "jira/install_path": {
-        "default": "/srv/jira",
         "calculated": false,
+        "default": "/srv/jira",
         "type": "string",
         "choice": [
 
@@ -86,8 +122,8 @@
         "required": "optional"
       },
       "jira/database": {
-        "default": "mysql",
         "calculated": false,
+        "default": "mysql",
         "type": "string",
         "choice": [
 
@@ -100,8 +136,8 @@
         "required": "optional"
       },
       "jira/database_user": {
-        "default": "jira",
         "calculated": false,
+        "default": "jira",
         "type": "string",
         "choice": [
 
@@ -114,8 +150,8 @@
         "required": "optional"
       },
       "jira/virtual_host_alias": {
-        "default": "jira",
         "calculated": false,
+        "default": "jira",
         "type": "string",
         "choice": [
 
@@ -128,8 +164,8 @@
         "required": "optional"
       },
       "jira/database_password": {
-        "default": "change_me",
         "calculated": false,
+        "default": "change_me",
         "type": "string",
         "choice": [
 
@@ -142,45 +178,9 @@
         "required": "optional"
       }
     },
-    "providing": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ],
-      "debian": [
-
-      ]
-    },
-    "dependencies": {
-      "java": [
-
-      ],
-      "runit": [
-
-      ],
-      "apache2": [
-
-      ]
-    },
-    "replacing": {
-    },
-    "version": "0.8.0",
-    "name": "jira",
-    "groupings": {
-    },
-    "long_description": "",
-    "recommendations": {
-      "mysql": [
-
-      ]
-    },
-    "license": "Apache 2.0",
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "description": "Installs and configures jira"
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }

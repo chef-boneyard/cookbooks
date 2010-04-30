@@ -1,9 +1,10 @@
 {
-    "recipes": {
+    "dependencies": {
     },
-    "attributes": {
+    "replacing": {
     },
-    "providing": {
+    "description": "Installs sqlite",
+    "groupings": {
     },
     "platforms": {
       "ubuntu": [
@@ -13,23 +14,22 @@
 
       ]
     },
-    "dependencies": {
-    },
-    "replacing": {
-    },
     "version": "0.7.0",
-    "name": "sqlite",
-    "groupings": {
-    },
-    "long_description": "",
     "recommendations": {
     },
-    "license": "Apache 2.0",
+    "name": "sqlite",
     "maintainer": "Opscode, Inc.",
+    "long_description": "",
+    "recipes": {
+    },
     "suggestions": {
     },
     "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+    },
     "conflicting": {
     },
-    "description": "Installs sqlite"
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }

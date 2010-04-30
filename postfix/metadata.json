@@ -1,11 +1,35 @@
 {
+    "dependencies": {
+    },
+    "replacing": {
+    },
+    "description": "Installs and configures postfix for client or outbound relayhost, or to do SASL auth",
+    "groupings": {
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ],
+      "debian": [
+
+      ]
+    },
+    "version": "0.7.0",
+    "recommendations": {
+    },
+    "name": "postfix",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "",
     "recipes": {
       "postfix::sasl_auth": "Set up postfix to auth to a server with sasl"
     },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
     "attributes": {
       "postfix/smtp_sasl_password_maps": {
-        "default": "hash:/etc/postfix/sasl_passwd",
         "calculated": false,
+        "default": "hash:/etc/postfix/sasl_passwd",
         "type": "string",
         "choice": [
 
@@ -18,8 +42,8 @@
         "required": "optional"
       },
       "postfix/smtp_sasl_security_options": {
-        "default": "noanonymous",
         "calculated": false,
+        "default": "noanonymous",
         "type": "string",
         "choice": [
 
@@ -32,8 +56,8 @@
         "required": "optional"
       },
       "postfix/mail_relay_networks": {
-        "default": "127.0.0.0/8",
         "calculated": false,
+        "default": "127.0.0.0/8",
         "type": "string",
         "choice": [
 
@@ -46,8 +70,8 @@
         "required": "optional"
       },
       "postfix/myorigin": {
-        "default": "$myhostname",
         "calculated": false,
+        "default": "$myhostname",
         "type": "string",
         "choice": [
 
@@ -60,8 +84,8 @@
         "required": "optional"
       },
       "postfix/myhostname": {
-        "default": "fqdn",
         "calculated": false,
+        "default": "fqdn",
         "type": "string",
         "choice": [
 
@@ -74,8 +98,8 @@
         "required": "optional"
       },
       "postfix/smtp_sasl_user_name": {
-        "default": "",
         "calculated": false,
+        "default": "",
         "type": "string",
         "choice": [
 
@@ -88,8 +112,8 @@
         "required": "optional"
       },
       "postfix/smtp_tls_cafile": {
-        "default": "/etc/postfix/cacert.pem",
         "calculated": false,
+        "default": "/etc/postfix/cacert.pem",
         "type": "string",
         "choice": [
 
@@ -102,8 +126,8 @@
         "required": "optional"
       },
       "postfix/smtp_sasl_passwd": {
-        "default": "",
         "calculated": false,
+        "default": "",
         "type": "string",
         "choice": [
 
@@ -116,8 +140,8 @@
         "required": "optional"
       },
       "postfix/mail_type": {
-        "default": "client",
         "calculated": false,
+        "default": "client",
         "type": "string",
         "choice": [
 
@@ -130,8 +154,8 @@
         "required": "optional"
       },
       "postfix/smtp_use_tls": {
-        "default": "yes",
         "calculated": false,
+        "default": "yes",
         "type": "string",
         "choice": [
 
@@ -144,8 +168,8 @@
         "required": "optional"
       },
       "postfix/relayhost": {
-        "default": "",
         "calculated": false,
+        "default": "",
         "type": "string",
         "choice": [
 
@@ -158,8 +182,8 @@
         "required": "optional"
       },
       "postfix/smtp_sasl_auth_enable": {
-        "default": "no",
         "calculated": false,
+        "default": "no",
         "type": "string",
         "choice": [
 
@@ -172,8 +196,8 @@
         "required": "optional"
       },
       "postfix/mydomain": {
-        "default": "domain",
         "calculated": false,
+        "default": "domain",
         "type": "string",
         "choice": [
 
@@ -199,33 +223,9 @@
         "required": "optional"
       }
     },
-    "providing": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ],
-      "debian": [
-
-      ]
-    },
-    "dependencies": {
-    },
-    "replacing": {
-    },
-    "version": "0.8.0",
-    "name": "postfix",
-    "groupings": {
-    },
-    "long_description": "",
-    "recommendations": {
-    },
-    "license": "Apache 2.0",
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "description": "Installs and configures postfix for client or outbound relayhost, or to do SASL auth"
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }

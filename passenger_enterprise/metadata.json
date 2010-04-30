@@ -1,15 +1,4 @@
 {
-    "recipes": {
-    },
-    "attributes": {
-    },
-    "providing": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ]
-    },
     "dependencies": {
       "nginx": [
 
@@ -23,19 +12,30 @@
     },
     "replacing": {
     },
-    "version": "0.3.0",
-    "name": "passenger_enterprise",
+    "description": "Installs and configures Passenger under Ruby Enterprise Edition with Apache",
     "groupings": {
     },
-    "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
+    "platforms": {
+      "ubuntu": [
+
+      ]
+    },
+    "version": "0.2.0",
     "recommendations": {
     },
-    "license": "Apache 2.0",
+    "name": "passenger_enterprise",
     "maintainer": "Opscode, Inc.",
+    "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
+    "recipes": {
+    },
     "suggestions": {
     },
     "maintainer_email": "ops@opscode.com",
+    "attributes": {
+    },
     "conflicting": {
     },
-    "description": "Installs and configures Passenger under Ruby Enterprise Edition with Apache"
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }

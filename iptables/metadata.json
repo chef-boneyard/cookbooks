@@ -1,9 +1,10 @@
 {
-    "recipes": {
+    "dependencies": {
     },
-    "attributes": {
+    "replacing": {
     },
-    "providing": {
+    "description": "Sets up iptables to use a script to maintain rules",
+    "groupings": {
     },
     "platforms": {
       "ubuntu": [
@@ -19,23 +20,22 @@
 
       ]
     },
-    "dependencies": {
-    },
-    "replacing": {
-    },
     "version": "0.7.0",
-    "name": "iptables",
-    "groupings": {
-    },
-    "long_description": "",
     "recommendations": {
     },
-    "license": "Apache 2.0",
+    "name": "iptables",
     "maintainer": "Opscode, Inc.",
+    "long_description": "",
+    "recipes": {
+    },
     "suggestions": {
     },
     "maintainer_email": "cookbooks@opscode.com",
+    "attributes": {
+    },
     "conflicting": {
     },
-    "description": "Sets up iptables to use a script to maintain rules"
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }

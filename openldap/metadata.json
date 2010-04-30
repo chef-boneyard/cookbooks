@@ -1,13 +1,43 @@
 {
+    "dependencies": {
+      "openssh": [
+
+      ],
+      "nscd": [
+
+      ]
+    },
+    "replacing": {
+    },
+    "description": "Configures a server to be an OpenLDAP master, replication slave or client for auth",
+    "groupings": {
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ],
+      "debian": [
+
+      ]
+    },
+    "version": "0.7.0",
+    "recommendations": {
+    },
+    "name": "openldap",
+    "maintainer": "Opscode, Inc.",
+    "long_description": "= DESCRIPTION:\n\nConfigures a server to be an OpenLDAP master, OpenLDAP replication slave, or OpenLDAP client.\n\n= REQUIREMENTS:\n\n== Platform:\n\nUbuntu 8.10 was primarily used in testing this cookbook. Other Ubuntu versions and Debian may work. CentOS and Red Hat are not fully supported, but we take patches.\n\n== Recipes:\n\n* openssh \n* nscd\n\n= ATTRIBUTES:\n\nBe aware of the attributes used by this cookbook and adjust the defaults for your environment where required, in attributes/openldap.rb.\n\n== Client node attributes\n\n* openldap[:basedn] - basedn \n* openldap[:server] - the LDAP server fully qualified domain name, default 'ldap'.node[:domain].\n\n== Server node attributes\n\n* openldap[:slapd_type] - master | slave\n* openldap[:slapd_rid] - unique integer ID, required if type is slave.\n* openldap[:slapd_master] - hostname of slapd master, attempts to search for slapd_type master.\n\n== Apache configuration attributes\n\nAttributes useful for Apache authentication with LDAP.\n\nCOOK-128 - set automatically based on openldap[:server] and openldap[:basedn] if those attributes are set. openldap[:auth_bindpw] remains nil by default as a default value is not easily predicted.\n\n* openldap[:auth_type] - determine whether binddn and bindpw are required (openldap no, ad yes)\n* openldap[:auth_url] - AuthLDAPURL\n* openldap[:auth_binddn] - AuthLDAPBindDN\n* openldap[:auth_bindpw] - AuthLDAPBindPassword\n\n= USAGE:\n\nEdit Rakefile variables for SSL certificate.\n\nOn client systems, \n\n  include_recipe \"openldap::auth\"\n  \nThis will get the required packages and configuration for client systems. This will be required on server systems as well, so this is a good candidate for inclusion in a site-cookbooks/base.\n\nOn server systems, set the server node attributes in the Chef node, or in a JSON attributes file. Include the openldap::server recipe:\n\n  include_recipe \"openldap::server\"\n  \nWhen initially installing a brand new LDAP master server on Ubuntu 8.10, the configuration directory may need to be removed and recreated before slapd will start successfully. Doing this programmatically may cause other issues, so fix the directory manually :-).\n\n  $ sudo slaptest -F /etc/ldap/slapd.d\n  str2entry: invalid value for attributeType objectClass #1 (syntax 1.3.6.1.4.1.1466.115.121.1.38)\n  => ldif_enum_tree: failed to read entry for /etc/ldap/slapd.d/cn=config/olcDatabase={1}bdb.ldif\n  slaptest: bad configuration directory!\n\nSimply remove the configuration, rerun chef-client. For some reason slapd isn't getting started even though the service resource is notified to start, so start it manually. \n\n  $ sudo rm -rf /etc/ldap/slapd.d/ /etc/ldap/slapd.conf\n  $ sudo chef-client\n  $ sudo /etc/init.d/slapd start\n  \n=== A note about certificates\n\nCertificates created by the Rakefile are self signed. If you have a purchased CA, that can be used. Be sure to update the certificate locations in the templates as required. We suggest copying this cookbook to the site-cookbooks for such modifications, so you can still pull from our master for updates, and then merge your changes in.\n  \n== NEW DIRECTORY:\n\nIf installing for the first time, the initial directory needs to be created. Create an ldif file, and start populating the directory.\n  \n== PASSWORDS:\n\nSet the password, openldap[:rootpw] for the rootdn in the node's attributes. This should be a password hash generated from slappasswd. The default slappasswd command on Ubuntu 8.10 and Mac OS X 10.5 will generate a SHA1 hash:\n\n  $ slappasswd -s \"secretsauce\"\n  {SSHA}6BjlvtSbVCL88li8IorkqMSofkLio58/\n  \nSet this by default in the attributes file, or on the node's entry in the webui.  \n  \n== LICENSE & AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
     "recipes": {
       "openldap::auth": "Set up openldap for user authentication",
       "openldap::server": "Set up openldap to be a slapd server",
       "openldap::client": "Install openldap client packages"
     },
+    "suggestions": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
     "attributes": {
       "openldap/auth_binddn": {
-        "default": "ou=people,openldap_basedn",
         "calculated": false,
+        "default": "ou=people,openldap_basedn",
         "type": "string",
         "choice": [
 
@@ -20,8 +50,8 @@
         "required": "optional"
       },
       "openldap/auth_type": {
-        "default": "openldap",
         "calculated": false,
+        "default": "openldap",
         "type": "string",
         "choice": [
 
@@ -34,8 +64,8 @@
         "required": "optional"
       },
       "openldap/slapd_rid": {
-        "default": "102",
         "calculated": false,
+        "default": "102",
         "type": "string",
         "choice": [
 
@@ -48,8 +78,8 @@
         "required": "optional"
       },
       "openldap/server": {
-        "default": "ldap.domain",
         "calculated": false,
+        "default": "ldap.domain",
         "type": "string",
         "choice": [
 
@@ -62,8 +92,8 @@
         "required": "optional"
       },
       "openldap/module_dir": {
-        "default": "/usr/lib/ldap",
         "calculated": false,
+        "default": "/usr/lib/ldap",
         "type": "string",
         "choice": [
 
@@ -76,8 +106,8 @@
         "required": "optional"
       },
       "openldap/auth_url": {
-        "default": "ldap://openldap_server/openldap_auth_binddn?uid?sub?(objectClass=*)",
         "calculated": false,
+        "default": "ldap://openldap_server/openldap_auth_binddn?uid?sub?(objectClass=*)",
         "type": "string",
         "choice": [
 
@@ -90,8 +120,8 @@
         "required": "optional"
       },
       "openldap/slapd_replpw": {
-        "default": "nil",
         "calculated": false,
+        "default": "nil",
         "type": "string",
         "choice": [
 
@@ -104,8 +134,8 @@
         "required": "optional"
       },
       "openldap/slapd_type": {
-        "default": "nil",
         "calculated": false,
+        "default": "nil",
         "type": "string",
         "choice": [
 
@@ -118,8 +148,8 @@
         "required": "optional"
       },
       "openldap/run_dir": {
-        "default": "/var/run/slapd",
         "calculated": false,
+        "default": "/var/run/slapd",
         "type": "string",
         "choice": [
 
@@ -132,8 +162,8 @@
         "required": "optional"
       },
       "openldap/cafile": {
-        "default": "openldap_dir_ssl/ca.crt",
         "calculated": false,
+        "default": "openldap_dir_ssl/ca.crt",
         "type": "string",
         "choice": [
 
@@ -146,8 +176,8 @@
         "required": "optional"
       },
       "openldap/ssl_dir": {
-        "default": "openldap_dir/ssl",
         "calculated": false,
+        "default": "openldap_dir/ssl",
         "type": "string",
         "choice": [
 
@@ -160,8 +190,8 @@
         "required": "optional"
       },
       "openldap/auth_bindpw": {
-        "default": "nil",
         "calculated": false,
+        "default": "nil",
         "type": "string",
         "choice": [
 
@@ -174,8 +204,8 @@
         "required": "optional"
       },
       "openldap/slapd_master": {
-        "default": "nil",
         "calculated": false,
+        "default": "nil",
         "type": "string",
         "choice": [
 
@@ -188,8 +218,8 @@
         "required": "optional"
       },
       "openldap/rootpw": {
-        "default": "nil",
         "calculated": false,
+        "default": "nil",
         "type": "string",
         "choice": [
 
@@ -202,8 +232,8 @@
         "required": "optional"
       },
       "openldap/basedn": {
-        "default": "dc=domain,dc=com",
         "calculated": false,
+        "default": "dc=domain,dc=com",
         "type": "string",
         "choice": [
 
@@ -216,8 +246,8 @@
         "required": "optional"
       },
       "openldap/dir": {
-        "default": "/etc/ldap",
         "calculated": false,
+        "default": "/etc/ldap",
         "type": "string",
         "choice": [
 
@@ -230,39 +260,9 @@
         "required": "optional"
       }
     },
-    "providing": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ],
-      "debian": [
-
-      ]
-    },
-    "dependencies": {
-      "openssh": [
-
-      ],
-      "nscd": [
-
-      ]
-    },
-    "replacing": {
-    },
-    "version": "0.8.0",
-    "name": "openldap",
-    "groupings": {
-    },
-    "long_description": "= DESCRIPTION:\n\nConfigures a server to be an OpenLDAP master, OpenLDAP replication slave, or OpenLDAP client.\n\n= REQUIREMENTS:\n\n== Platform:\n\nUbuntu 8.10 was primarily used in testing this cookbook. Other Ubuntu versions and Debian may work. CentOS and Red Hat are not fully supported, but we take patches.\n\n== Recipes:\n\n* openssh \n* nscd\n\n= ATTRIBUTES:\n\nBe aware of the attributes used by this cookbook and adjust the defaults for your environment where required, in attributes/openldap.rb.\n\n== Client node attributes\n\n* openldap[:basedn] - basedn \n* openldap[:server] - the LDAP server fully qualified domain name, default 'ldap'.node[:domain].\n\n== Server node attributes\n\n* openldap[:slapd_type] - master | slave\n* openldap[:slapd_rid] - unique integer ID, required if type is slave.\n* openldap[:slapd_master] - hostname of slapd master, attempts to search for slapd_type master.\n\n== Apache configuration attributes\n\nAttributes useful for Apache authentication with LDAP.\n\nCOOK-128 - set automatically based on openldap[:server] and openldap[:basedn] if those attributes are set. openldap[:auth_bindpw] remains nil by default as a default value is not easily predicted.\n\n* openldap[:auth_type] - determine whether binddn and bindpw are required (openldap no, ad yes)\n* openldap[:auth_url] - AuthLDAPURL\n* openldap[:auth_binddn] - AuthLDAPBindDN\n* openldap[:auth_bindpw] - AuthLDAPBindPassword\n\n= USAGE:\n\nEdit Rakefile variables for SSL certificate.\n\nOn client systems, \n\n  include_recipe \"openldap::auth\"\n  \nThis will get the required packages and configuration for client systems. This will be required on server systems as well, so this is a good candidate for inclusion in a site-cookbooks/base.\n\nOn server systems, set the server node attributes in the Chef node, or in a JSON attributes file. Include the openldap::server recipe:\n\n  include_recipe \"openldap::server\"\n  \nWhen initially installing a brand new LDAP master server on Ubuntu 8.10, the configuration directory may need to be removed and recreated before slapd will start successfully. Doing this programmatically may cause other issues, so fix the directory manually :-).\n\n  $ sudo slaptest -F /etc/ldap/slapd.d\n  str2entry: invalid value for attributeType objectClass #1 (syntax 1.3.6.1.4.1.1466.115.121.1.38)\n  => ldif_enum_tree: failed to read entry for /etc/ldap/slapd.d/cn=config/olcDatabase={1}bdb.ldif\n  slaptest: bad configuration directory!\n\nSimply remove the configuration, rerun chef-client. For some reason slapd isn't getting started even though the service resource is notified to start, so start it manually. \n\n  $ sudo rm -rf /etc/ldap/slapd.d/ /etc/ldap/slapd.conf\n  $ sudo chef-client\n  $ sudo /etc/init.d/slapd start\n  \n=== A note about certificates\n\nCertificates created by the Rakefile are self signed. If you have a purchased CA, that can be used. Be sure to update the certificate locations in the templates as required. We suggest copying this cookbook to the site-cookbooks for such modifications, so you can still pull from our master for updates, and then merge your changes in.\n  \n== NEW DIRECTORY:\n\nIf installing for the first time, the initial directory needs to be created. Create an ldif file, and start populating the directory.\n  \n== PASSWORDS:\n\nSet the password, openldap[:rootpw] for the rootdn in the node's attributes. This should be a password hash generated from slappasswd. The default slappasswd command on Ubuntu 8.10 and Mac OS X 10.5 will generate a SHA1 hash:\n\n  $ slappasswd -s \"secretsauce\"\n  {SSHA}6BjlvtSbVCL88li8IorkqMSofkLio58/\n  \nSet this by default in the attributes file, or on the node's entry in the webui.  \n  \n== LICENSE & AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-    "recommendations": {
-    },
-    "license": "Apache 2.0",
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "description": "Configures a server to be an OpenLDAP master, replication slave or client for auth"
+    "license": "Apache 2.0",
+    "providing": {
+    }
   }

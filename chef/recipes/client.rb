@@ -52,8 +52,8 @@ template "/etc/chef/client.rb" do
   notifies :create, resources(:ruby_block => "reload_client_config")
 end
 
-file "/etc/chef/validation.pem" do
+file Chef::Config[:validation_key] do
   action :delete
   backup false
-  only_if { File.size?("/etc/chef/client.pem") }
+  only_if { File.exists?(Chef::Config[:client_key]) }
 end
