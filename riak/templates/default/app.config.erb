@@ -12,6 +12,7 @@
 	]},
  %% SASL config
  {sasl, [
+    {sasl_error_logger, <%= @config[:sasl_error_logger].map{|c| "\t#{c}"}.join(",\n") %>},
 <%= @config[:sasl].map{|c| "\t#{c}"}.join(",\n") %>
 	]}<% if @storage_backend.eql?("innostore") %>,
  %% Innostore config

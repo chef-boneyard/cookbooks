@@ -17,8 +17,8 @@
 # limitations under the License.
 #
 
-set_unless[:riak][:sasl][:sasl_error_logger] = "log/sasl-error.log"
+set_unless[:riak][:sasl][:sasl_error_logger][:file] = "/var/log/riak/sasl-error.log"
 set_unless[:riak][:sasl][:errlog_type] = "error"
-set_unless[:riak][:sasl][:error_logger_mf_dir] = "log/sasl"
+set_unless[:riak][:sasl][:error_logger_mf_dir] = "/var/log/riak/sasl"
 set_unless[:riak][:sasl][:error_logger_mf_maxbytes] = 10485760
 set_unless[:riak][:sasl][:error_logger_mf_maxfiles] = 5

@@ -26,8 +26,11 @@ module RiakTemplateHelper
     storage_backend_options = erl_prepare(config["kv"].delete("storage_backend_options"))
     kv = erl_prepare(config["kv"])
     kernel = erl_prepare(config["kernel"])
+    sasl_error_logger = erl_prepare(config["sasl"].delete("sasl_error_logger"))
     sasl = erl_prepare(config["sasl"])
     
-    {:core => core, :kernel => kernel, :kv => kv, :sasl => sasl, :storage_backend_options => storage_backend_options}
+    {:core => core, :kernel => kernel,
+      :kv => kv, :sasl => sasl, :sasl_error_logger => sasl_error_logger,
+      :storage_backend_options => storage_backend_options}
   end
 end
