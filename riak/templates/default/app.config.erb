@@ -5,18 +5,14 @@
 	]},
  %% Riak KV config
  {riak_kv, [
-<%= @config[:kv].map{|c| "\t#{c}"}.join(",\n") %><% unless @storage_backend.eql?("innostore") %>,
-<%= @config[:storage_backend_options].map{|c| "\t#{c}"}.join(",\n") %>
+<% unless @storage_backend.eql?("innostore") %>
+<%= @config[:storage_backend_options].map{|c| "\t#{c}"}.join(",\n") %>,
 <% end %>
-
+<%= @config[:kv].map{|c| "\t#{c}"}.join(",\n") %>
 	]},
  %% SASL config
  {sasl, [
-	{sasl_error_logger, {file, "log/sasl-error.log"}},
-	{errlog_type, error},
-	{error_logger_mf_dir, "log/sasl"},      % Log directory
-	{error_logger_mf_maxbytes, 10485760},   % 10 MB max file size
-	{error_logger_mf_maxfiles, 5}           % 5 files max
+<%= @config[:sasl].map{|c| "\t#{c}"}.join(",\n") %>
 	]}<% if @storage_backend.eql?("innostore") %>,
  %% Innostore config
  {innostore, [
