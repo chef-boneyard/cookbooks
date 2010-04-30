@@ -17,9 +17,9 @@
 # limitations under the License.
 #
 
-if node[:riak][:kv][:storage_backend].eql?("bitcask")
+if node[:riak][:kv][:storage_backend].eql?("riak_kv_bitcask_backend")
   # set_unless[:riak][:kv][:storage_backend_options][:sync_interval] = 60
   # set_unless[:riak][:kv][:storage_backend_options][:merge_interval] = 60
   set_unless[:riak][:kv][:storage_backend_options][:writes_per_fsync] = 1
-  set_unless[:riak][:kv][:storage_backend_options][:data_root] = "data/bitcask"  
+  set_unless[:riak][:kv][:storage_backend_options][:data_root] = "/var/lib/riak/bitcask"  
 end
