@@ -23,12 +23,14 @@ class Chef::Resource::Template
 end
 
 riak_version = "0.10"
+riak_version_increment = ".1"
 base_uri = "http://downloads.basho.com/riak/riak-#{riak_version}/"
-base_filename = "riak-#{riak_version}"
+base_filename = "riak-#{riak_version}#{riak_version_increment}"
 
 user "riak" do
   gid "nogroup"
   shell "/bin/false"
+  home "/tmp"
 end
 
 package_file =  case node[:riak][:package][:type]
@@ -91,10 +93,10 @@ when "innostore"
   include_recipe "riak::innostore"
 end
 
-#service "riak" do
-#  supports :status => true, :restart => true, :reload => true
-#  action [ :enable, :start ]
-#end
+service "riak" do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable ]
+end
 
 directory "/etc/riak" do
   owner "root"
@@ -110,7 +112,7 @@ template "/etc/riak/app.config" do
   source "app.config.erb"
   owner "root"
   mode 0644
- # notifies :restart, resources(:service => "riak")
+  notifies :restart, resources(:service => "riak")
 end
 
 vm_args = node[:riak][:erlang].to_hash
@@ -119,7 +121,7 @@ template "/etc/riak/vm.args" do
   variables({
       :arg_map => {
         "node_name" => "-name",
-        "cookie" => "-cookie",
+        "cookie" => "-setcookie",
         "heart" => "-heart",
         "kernel_polling" => "+K",
         "async_threads" => "+A",
@@ -132,5 +134,5 @@ template "/etc/riak/vm.args" do
   source "vm.args.erb"
   owner "root"
   mode 0644
-  #notifies :restart, resources(:service => "riak")
+  notifies :restart, resources(:service => "riak")
 end

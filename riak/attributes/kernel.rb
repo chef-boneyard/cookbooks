@@ -18,7 +18,6 @@
 #
 
 if node[:riak][:limit_port_range]
-  set_unless[:riak][:kernel] = Mash.new
   set_unless[:riak][:kernel][:inet_dist_listen_min] = 6000
   set_unless[:riak][:kernel][:inet_dist_listen_max] = 7999
 end

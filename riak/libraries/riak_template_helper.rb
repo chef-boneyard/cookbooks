@@ -1,7 +1,18 @@
 module RiakTemplateHelper
-  def prepare(opts)
+  
+  #
+  # erl_sym?(str)
+  #
+  # Returns a boolean indicating whether the value associated with an option
+  # should be treated as an Erlang symbol and, hence, not quoted.
+  #
+  def erl_sym?(str)
+    ["storage_backend", "errlog_type"].include?(str)
+  end
+  
+  def erl_prepare(opts)
     opts.inject([]) do |arr, (opt, val)|
-      if val.is_a?(String)
+      if val.is_a?(String) && !(erl_sym?(opt))
         val_str = "\"#{val}\""
       else
         val_str = val.to_s
@@ -10,12 +21,13 @@ module RiakTemplateHelper
     end
   end
   
-  def configify(config)    
-    core = prepare(config["core"])
-    storage_backend_options = prepare(config["kv"].delete("storage_backend_options"))
-    kv = prepare(config["kv"])
-    kernel = prepare(config["kernel"])
+  def configify(config)
+    core = erl_prepare(config["core"])
+    storage_backend_options = erl_prepare(config["kv"].delete("storage_backend_options"))
+    kv = erl_prepare(config["kv"])
+    kernel = erl_prepare(config["kernel"])
+    sasl = erl_prepare(config["sasl"])
     
-    {:core => core, :kv => kv, :kernel => kernel, :storage_backend_options => storage_backend_options}
+    {:core => core, :kernel => kernel, :kv => kv, :sasl => sasl, :storage_backend_options => storage_backend_options}
   end
 end

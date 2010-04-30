@@ -19,14 +19,6 @@
 
 set_unless[:riak][:kv][:raw_name] = "riak"
 set_unless[:riak][:kv][:storage_backend] = "riak_kv_dets_backend"
-case node[:riak][:kv][:storage_backend]
-when "riak_kv_dets_backend"
-  set_unless[:riak][:kv][:storage_backend_options][:riak_kv_dets_backend_root] = "/var/lib/riak/dets"
-when "bitcask"
-  include_attribute "riak::bitcask"
-when "innostore"
-  include_attribute "riak::innostore"
-end
 set_unless[:riak][:kv][:riak_stat_enabled] = true
 set_unless[:riak][:kv][:pb_ip] = "0.0.0.0"
 set_unless[:riak][:kv][:pb_port] = 8087
