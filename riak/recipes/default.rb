@@ -77,7 +77,7 @@ when "source"
   
   execute "riak-src-build" do
     cwd "/tmp/riak_pkg/#{base_filename}"
-    command "make clean && make rel"
+    command "make clean && make all && make rel"
   end
   
   execute "riak-src-install" do
