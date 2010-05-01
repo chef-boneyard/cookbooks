@@ -91,11 +91,6 @@ when "innostore_riak"
   include_recipe "riak::innostore"
 end
 
-service "riak" do
-  supports :status => true, :restart => true, :reload => true
-  action [ :enable ]
-end
-
 directory "/etc/riak" do
   owner "root"
   mode "0755"
@@ -110,7 +105,6 @@ template "/etc/riak/app.config" do
   source "app.config.erb"
   owner "root"
   mode 0644
-  notifies :restart, resources(:service => "riak")
 end
 
 vm_args = node[:riak][:erlang].to_hash
@@ -132,5 +126,12 @@ template "/etc/riak/vm.args" do
   source "vm.args.erb"
   owner "root"
   mode 0644
-  notifies :restart, resources(:service => "riak")
+end
+
+if node[:riak][:package][:type].eql?("binary")
+  service "riak" do
+    supports :start => true, :stop => true, :status => true, :restart => true
+    action [ :enable ]
+    subscribes :restart, resources(:template => "/etc/riak/app.config", :template => "/etc/riak/vm.args")
+  end
 end
