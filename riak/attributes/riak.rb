@@ -17,15 +17,9 @@
 # limitations under the License.
 #
 
-set_unless[:riak][:package][:type] = "binary"
-if node[:riak][:package][:type].eql?("source")
-  set_unless[:riak][:package][:prefix] = "/usr/local"
-end
-set_unless[:riak][:limit_port_range] = true
-
+include_attribute "riak::package"
 include_attribute "riak::core"
 include_attribute "riak::erlang"
 include_attribute "riak::kernel"
 include_attribute "riak::kv"
 include_attribute "riak::sasl"
-
