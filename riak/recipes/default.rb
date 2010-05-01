@@ -22,10 +22,8 @@ class Chef::Resource::Template
   include RiakTemplateHelper
 end
 
-riak_version = "0.10"
-riak_version_increment = ".1"
-base_uri = "http://downloads.basho.com/riak/riak-#{riak_version}/"
-base_filename = "riak-#{riak_version}#{riak_version_increment}"
+base_uri = "http://downloads.basho.com/riak/riak-#{node[:riak][:package][:riak_version]}/"
+base_filename = "riak-#{node[:riak][:package][:riak_version]}#{node[:riak][:package][:riak_version_increment]}"
 
 user "riak" do
   gid "nogroup"
@@ -89,7 +87,7 @@ when "source"
 end
 
 case node[:riak][:kv][:storage_backend]
-when "innostore"
+when "innostore_riak"
   include_recipe "riak::innostore"
 end
 
