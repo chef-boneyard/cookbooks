@@ -69,6 +69,7 @@ when "source"
   execute "riak-inno-src-install" do
     cwd "/tmp/riak_pkg/#{base_filename}"
     command "./rebar install target=#{node[:riak][:package][:prefix]}/riak/lib"
+    not_if "test -d #{node[:riak][:package][:prefix]}/riak/lib/#{base_filename}"
   end
 end
 
