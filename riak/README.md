@@ -54,7 +54,7 @@ Finally, by default, options are included in the configuration to define the set
 	node[:riak][:kernel][:inet_dist_listen_min] = 6000
 	node[:riak][:kernel][:inet_dist_listen_max] = 7999
 
-On Linux platforms, IPTables rules corresponding to these settings to explicitly allow required ports and addresses are also automatically generated.
+On Debian/Ubuntu platforms, IPTables rules corresponding to these settings to explicitly allow required ports and addresses are automatically generated.
 
 
 Erlang
