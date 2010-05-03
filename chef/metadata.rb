@@ -1,15 +1,9 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-<<<<<<< HEAD
-description       "Installs and configures chef client and server"
-long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.17.0"
-=======
 description       "Installs and configures Chef for chef-client and chef-server"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.txt'))
-version           "0.20.0"
->>>>>>> refactor_bootstrap
+version           "0.19.0"
 recipe            "chef::client", "Sets up a client to talk to a chef-server"
 recipe            "chef::bootstrap_client", "Set up rubygem installed chef client"
 recipe            "chef::delete_validation", "Deletes validation.pem after client registers"
