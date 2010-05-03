@@ -96,12 +96,15 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
 
   ruby_block "supervise_#{params[:name]}_sleep" do
     block do
-      (1..6).each {|i| sleep 1 unless ::FileTest.pipe?("#{sv_dir_name}/supervise/ok") }
+      Chef::Log.debug("Waiting until named pipe #{sv_dir_name}/supervise/ok exists.")
+      (1..8).each {|i| sleep 1 unless ::FileTest.pipe?("#{sv_dir_name}/supervise/ok") }
+      Chef::Log.debug("Named pipe #{sv_dir_name}/supervise/ok exists, continuing.")
     end
     not_if { FileTest.pipe?("#{sv_dir_name}/supervise/ok") }
   end
 
   service params[:name] do
+    provider Chef::Provider::Service::Init
     supports :restart => true, :status => true
     start_command "#{node[:runit][:sv_bin]} start #{params[:name]}"
     stop_command "#{node[:runit][:sv_bin]} stop #{params[:name]}"
@@ -111,10 +114,5 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
     subscribes :restart, resources(:template => "#{sv_dir_name}/log/run"), :delayed
     action :nothing
   end
-
-  #execute "#{params[:name]}-down" do
-  #  command "/etc/init.d/#{params[:name]} down"
-  #  only_if do params[:only_if] end
-  #end
 
 end
