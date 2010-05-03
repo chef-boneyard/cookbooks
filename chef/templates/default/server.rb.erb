@@ -8,10 +8,10 @@ log_location       <%= @server_log %>
 ssl_verify_mode    :verify_none
 chef_server_url    "http://<%= @node[:chef][:server_fqdn] %>:<%= @node[:chef][:server_port] %>"
 
-signing_ca_path    "<%= @node[:chef][:path] %>/ca"
 couchdb_database   'chef'
 
 cookbook_path      [ "<%= @node[:chef][:serve_path] %>/cookbooks", "<%= @node[:chef][:serve_path] %>/site-cookbooks" ]
+cookbook_tarball_path "<%= @node[:chef][:cache_path] %>/cookbook-tarballs"
 
 file_cache_path    "<%= @node[:chef][:cache_path] %>"
 node_path          "<%= @node[:chef][:serve_path] %>/nodes"
@@ -28,7 +28,6 @@ web_ui_key             "/etc/chef/webui.pem"
 
 <% if @node[:chef][:webui_enabled] -%>
 web_ui_admin_user_name "admin"
-web_ui_admin_default_password "<%= @node[:chef][:webui_admin_password] %>"
 
 <% end -%>
 supportdir = "<%= @node[:chef][:path] %>/support"
@@ -37,6 +36,11 @@ solr_data_path  File.join(supportdir, "solr", "data")
 solr_home_path  File.join(supportdir, "solr", "home")
 solr_heap_size  "256M"
 
-umask <%= @node[:chef][:umask] %>
+umask "<%= @node[:chef][:umask] %>"
+
+signing_ca_cert    "/etc/chef/certificates/cert.pem"
+signing_ca_key     "/etc/chef/certificates/key.pem"
+signing_ca_user    "chef"
+signing_ca_group   "chef"
 
 Mixlib::Log::Formatter.show_time = <%= @show_time %>

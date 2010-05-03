@@ -1,0 +1,47 @@
+= DESCRIPTION:
+
+Logrotate configuration
+
+= REQUIREMENTS:
+
+Debian or Ubuntu preferred.
+
+Red Hat/CentOS and Fedora can be used but will be converted to a Debian/Ubuntu style Apache as it's far easier to manage with chef. 
+
+= ATTRIBUTES:
+
+* none
+
+General settings and prefork/worker attributes are tunable.
+
+= USAGE:
+
+include the recipe and it will install a default logrotate, if you want it to do more however...
+
+make a recipe such as,
+
+logrotate_app "chef" do
+  paths "/var/log/chef/*.log"
+  rotate 4
+end
+
+== Defines:
+
+* logrotate_app:: sets up a logrotate configuration file
+
+= LICENSE & AUTHOR:
+
+Author:: Scott M. Likens (<scott@likens.us>)
+Copyright:: 2009, Scott M. Likens
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

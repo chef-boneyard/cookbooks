@@ -1,8 +1,9 @@
-maintainer        "Opscode, Inc."
-maintainer_email  "cookbooks@opscode.com"
+maintainer        "Scott M. Likens"
+maintainer_email  "scott@likens.us"
 license           "Apache 2.0"
 description       "Installs logrotate"
-version           "0.7"
+long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
+version           "0.8"
 
 %w{ redhat centos debian ubuntu }.each do |os|
   supports os

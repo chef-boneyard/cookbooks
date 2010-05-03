@@ -4,7 +4,7 @@
 # Cookbook Name:: chef
 # Recipe:: client
 #
-# Copyright 2008-2009, Opscode, Inc
+# Copyright 2008-2010, Opscode, Inc
 # Copyright 2009, 37signals
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,8 +52,6 @@ template "/etc/chef/client.rb" do
   notifies :create, resources(:ruby_block => "reload_client_config")
 end
 
-file "/etc/chef/validation.pem" do
-  action :delete
-  backup false
-  only_if { File.size?("/etc/chef/client.pem") }
+log "Add the chef::delete_validation recipe to the run list to remove the #{Chef::Config[:validation_key]}." do
+  only_if { File.exists?(Chef::Config[:validation_key]) }
 end

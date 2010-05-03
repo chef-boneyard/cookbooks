@@ -1,9 +1,9 @@
 #
-# Author:: Benjamin Black (<b@b3k.us>)
-# Cookbook Name:: redis
+# Author:: Joshua Timberman (<joshua@opscode.com>)
+# Cookbook Name:: database
 # Recipe:: default
 #
-# Copyright 2009, Benjamin Black
+# Copyright 2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,25 +18,3 @@
 # limitations under the License.
 #
 
-package "redis" do
-  action :install
-end
-
-service "redis" do
-  action :enable
-end
-
-directory @node[:redis][:dbdir] do
-  owner "root"
-  group "root"
-  mode "0755"
-  action :create
-end
-
-template "/etc/redis/redis.conf" do
-  source "redis.conf.erb"
-  owner "root"
-  group "root"
-  mode 0644
-  notifies :restart, resources(:service => "redis")
-end
