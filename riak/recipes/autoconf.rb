@@ -21,8 +21,7 @@
 require 'socket'
 
 seeds = intra = []
-nodes = search(:node, "riak_node_cluster_name:#{node[:riak][:node][:cluster_name]}")
-nodes.each do |n|
+search(:node, "riak_node_cluster_name:#{node[:riak][:node][:cluster_name]}") do |n|
   intra << IPSocket.getaddress(n["riak"]["erlang"]["node_name"].split("@").last)
   if n["riak"]["node"]["seed"]
     seeds << n["ipaddress"] unless n["ipaddress"].eql?(node[:ipaddress])
