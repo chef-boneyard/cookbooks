@@ -33,7 +33,7 @@ package_file =  case node[:riak][:package][:type]
                   when "centos","redhat","fedora","suse"
                     "#{base_filename}-1.#{node[:kernel][:machine]}.rpm"
                   # when "mac_os_x"
-                  #  "#{base_filename}.osx.#{node[:machine]}.tar.gz"
+                  #  "#{base_filename}.osx.#{node[:kernel][:machine]}.tar.gz"
                   end
                 when "source"
                   "#{base_filename}.tar.gz"

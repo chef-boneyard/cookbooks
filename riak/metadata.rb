@@ -50,15 +50,20 @@ attribute "riak/package/type"
   :description => "Package type for installation (source or binary)",
   :default => "binary"
 
-attribute "riak/package/riak_version"
-  :display_name => "Riak version",
-  :description => "Major and minor version of Riak to install.",
-  :default => "0.10"
-  
-attribute "riak/package/riak_version_increment"
-  :display_name => "Riak version increment",
-  :description => "Incremental release of Riak to use",
-  :default => ".1"
+attribute "riak/package/version/major"
+  :display_name => "Riak major version",
+  :description => "Major version of Riak to install.",
+  :default => "0"
+
+attribute "riak/package/version/minor"
+  :display_name => "Riak minor version",
+  :description => "Minor version of Riak to install.",
+  :default => "10"
+     
+attribute "riak/package/version/incremental"
+  :display_name => "Riak incremental version",
+  :description => "Incremental release of Riak to install.",
+  :default => "1"
   
 attribute "riak/package/prefix"
   :display_name => "Installation prefix",

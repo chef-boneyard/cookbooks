@@ -20,8 +20,9 @@ There are two options for package installation: source and binary.  If you are u
 
 The package parameters available are version, type and, optionally for source installation, an install prefix:
 
-	node[:riak][:package][:riak_version] = "0.10"
-	node[:riak][:package][:riak_version_increment] = ".1"
+	node[:riak][:package][:version][:major] = "0"
+	node[:riak][:package][:version][:minor] = "10"
+	node[:riak][:package][:version][:incremental] = "1"
 	node[:riak][:package][:type] = ("binary" | "source")
 	node[:riak][:package][:prefix] = "/usr/local"
 

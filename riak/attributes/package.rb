@@ -18,8 +18,9 @@
 #
 
 set_unless[:riak][:package][:type] = "binary"
-set_unless[:riak][:package][:riak_version] = "0.10"
-set_unless[:riak][:package][:riak_version_increment] = ".1"
+set_unless[:riak][:package][:version][:major] = "0"
+set_unless[:riak][:package][:version][:minor] = "10"
+set_unless[:riak][:package][:version][:incremental] = "1"
 if node[:riak][:package][:type].eql?("source")
   set_unless[:riak][:package][:prefix] = "/usr/local"
 end

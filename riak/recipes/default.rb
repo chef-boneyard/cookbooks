@@ -22,8 +22,9 @@ class Chef::Resource::Template
   include RiakTemplateHelper
 end
 
-base_uri = "http://downloads.basho.com/riak/riak-#{node[:riak][:package][:riak_version]}/"
-base_filename = "riak-#{node[:riak][:package][:riak_version]}#{node[:riak][:package][:riak_version_increment]}"
+version_str = "#{node[:riak][:package][:version][:major]}.#{node[:riak][:package][:version][:minor]}"
+base_uri = "http://downloads.basho.com/riak/riak-#{version_str}/"
+base_filename = "riak-#{version_str}.#{node[:riak][:package][:version][:incremental]}"
 
 user "riak" do
   gid "nogroup"
@@ -41,7 +42,7 @@ package_file =  case node[:riak][:package][:type]
                   when "centos","redhat","fedora","suse"
                     "#{base_filename}-1.#{node[:kernel][:machine]}.rpm"
                   # when "mac_os_x"
-                  #  "#{base_filename}.osx.#{node[:machine]}.tar.gz"
+                  #  "#{base_filename}.osx.#{node[:kernel][:machine]}.tar.gz"
                   end
                 when "source"
                   "#{base_filename}.tar.gz"
