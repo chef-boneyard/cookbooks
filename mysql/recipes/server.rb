@@ -75,6 +75,13 @@ rescue
   end
 end
 
+ruby_block "save node data" do
+  block do
+    node.save
+  end
+  action :create
+end
+
 execute "mysql-install-privileges" do
   command "/usr/bin/mysql -u root -p#{node[:mysql][:server_root_password]} < /etc/mysql/grants.sql"
   action :nothing
