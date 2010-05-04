@@ -41,6 +41,12 @@ when "debian","ubuntu"
     mode "0600"
     notifies :run, resources(:execute => "preseed mysql-server"), :immediately
   end
+  template "/etc/mysql/debian.cnf" do
+    source "debian.cnf.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+  end
 end
 
 package "mysql-server" do
