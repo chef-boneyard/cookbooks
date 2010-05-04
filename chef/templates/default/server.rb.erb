@@ -36,11 +36,11 @@ solr_data_path  File.join(supportdir, "solr", "data")
 solr_home_path  File.join(supportdir, "solr", "home")
 solr_heap_size  "256M"
 
-umask "<%= @node[:chef][:umask] %>"
+umask <%= @node[:chef][:umask] %>
 
 signing_ca_cert    "/etc/chef/certificates/cert.pem"
 signing_ca_key     "/etc/chef/certificates/key.pem"
-signing_ca_user    "chef"
-signing_ca_group   "chef"
+signing_ca_user    "root"
+signing_ca_group   "root"
 
 Mixlib::Log::Formatter.show_time = <%= @show_time %>
