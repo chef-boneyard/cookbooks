@@ -41,6 +41,7 @@ runit_service app['id'] do
   template_name 'unicorn'
   cookbook 'application'
   options(:app => app)
+  run_restart false
 end
 
 if File.exists?(File.join(app['deploy_to'], "current"))
