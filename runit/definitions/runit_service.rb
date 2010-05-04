@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :options => Hash.new do
+define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :run_restart => true, :options => Hash.new do
 
   params[:directory] ||= node[:runit][:sv_dir]
 
@@ -97,8 +97,7 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
   ruby_block "supervise_#{params[:name]}_sleep" do
     block do
       Chef::Log.debug("Waiting until named pipe #{sv_dir_name}/supervise/ok exists.")
-      (1..8).each {|i| sleep 1 unless ::FileTest.pipe?("#{sv_dir_name}/supervise/ok") }
-      Chef::Log.debug("Named pipe #{sv_dir_name}/supervise/ok exists, continuing.")
+      (1..10).each {|i| sleep 1 unless ::FileTest.pipe?("#{sv_dir_name}/supervise/ok") }
     end
     not_if { FileTest.pipe?("#{sv_dir_name}/supervise/ok") }
   end
@@ -110,8 +109,9 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
     stop_command "#{node[:runit][:sv_bin]} stop #{params[:name]}"
     restart_command "#{node[:runit][:sv_bin]} restart #{params[:name]}"
     status_command "#{node[:runit][:sv_bin]} status #{params[:name]}"
-    subscribes :restart, resources(:template => "#{sv_dir_name}/run"), :delayed
-    subscribes :restart, resources(:template => "#{sv_dir_name}/log/run"), :delayed
+    if params[:run_restart]
+      subscribes :restart, resources(:template => "#{sv_dir_name}/run"), :delayed
+    end
     action :nothing
   end
 
