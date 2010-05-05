@@ -10,6 +10,22 @@ Other application stacks (PHP, DJango, JBoss, etc) will be supported as new reci
 This cookbook aims to provide primitives to install/deploy any kind of application driven entirely by data defined in an abstract way through a data bag.
 
 ---
+Requirements
+============
+
+Chef 0.8 or higher required.
+
+The following Opscode cookbooks are dependencies:
+
+* runit
+* unicorn
+
+The following are also dependencies, though the recipes are considered deprecated, may be useful for future development.
+
+* `ruby_enterprise`
+* `passenger_enterprise`
+
+---
 Recipes
 =======
 
@@ -21,7 +37,6 @@ default
 Searches the `apps` data bag and checks that a server role in the app exists on this node, adds the app to the run state and uses the role for the app to locate the recipes that need to be used. The recipes listed in the "type" part of the data bag are included by this recipe, so only the "application" recipe needs to be in the node or role `run_list`.
 
 See below regarding the application data bag structure.
-=======
 
 rails
 -----
@@ -63,9 +78,9 @@ The applications data bag expects certain values in order to configure parts of 
 
 The application used in examples is named `my_app` and the environment is `production`. Most top-level keys are Arrays, and each top-level key has an entry that describes what it is for, followed by the example entries. Entries that are hashes themselves will have the description in the value.
 
-Note about "type": the recipes listed in the "type" will be included in the run list via `include_recipe` in the application default recipe.
+Note about "type": the recipes listed in the "type" will be included in the run list via `include_recipe` in the application default recipe based on the type matching one of the `server_roles` values.
 
-Note about `databases`, the data specified will be rendered as the `database.yml` file.
+Note about `databases`, the data specified will be rendered as the `database.yml` file. In the `database` cookbook, this information is also used to set up privileges for the application user, and create the databases.
 
 Note about gems and packages, the version is optional. If specified, the version will be passed as a parameter to the resource. Otherwise it will use the latest available version per the default `:install` action for the package provider.
 
@@ -149,21 +164,44 @@ Note about gems and packages, the version is optional. If specified, the version
 Usage
 =====
 
-To use the application cookbook, we recommend creating a role named after the application, e.g. `my_app`. In your chef-repo, create `roles/my_app.rb`. Also recommended is a site-cookbook named after the application, e.g. `my_app`, for additional application specific setup.
+To use the application cookbook, we recommend creating a role named after the application, e.g. `my_app`. This role should match one of the `server_roles` entries, that will correspond to a `type` entry, in the databag. Create a Ruby DSL role in your chef-repo, or create the role directly with knife.
 
-    name "my_app"
-    description "My application front end server."
-    run_list(
-      "recipe[application]"
-    )
+    % knife role show my_app
+    {
+      "name": "my_app",
+      "chef_type": "role",
+      "json_class": "Chef::Role",
+      "default_attributes": {
+      },
+      "description": "",
+      "run_list": [
+        "recipe[application]"
+      ],
+      "override_attributes": {
+      }
+    }
 
-The idea with this recipe is that the additional recipes you need for the application are handled by specifying them in the application data bag's "type".
+Also recommended is a site-cookbook named after the application, e.g. `my_app`, for additional application specific setup such as other config files for queues, search engines and other components of your application. The `my_app` recipe can be used in the run list of the role, if it includes the `application` recipe.
 
-If you need other recipes, such as `mysql::client` add those as well. Then upload the role to the Chef Server.
+You should also have a role for the environment(s) you wish to use this cookbook. Similar to the role above, create the Ruby DSL file in chef-repo, or create with knife directly.
 
-    % knife role from file roles/my_app.rb
+    % knife role show production
+    {
+      "name": "production",
+      "chef_type": "role",
+      "json_class": "Chef::Role",
+      "default_attributes": {
+        "app_environment": "production"
+      },
+      "description": "production environment role",
+      "run_list": [
 
-Add the role to a node. Create the data bag per the guidelines above, and run Chef to watch it deploy the application!
+      ],
+      "override_attributes": {
+      }
+    }
+
+This role uses a default attribute so nodes can be moved into other environments on the fly simply by modifying their node object directly on the Chef Server.
 
 ---
 License and Author
