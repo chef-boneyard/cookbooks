@@ -1,0 +1,725 @@
+{
+    "maintainer": "Basho Technologies, Inc.",
+    "attributes": {
+      "riak/kv/riak_kv_stat": {
+        "default": "true",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Enables the statistics-aggregator if set to true.",
+        "display_name": "Statistics reporting",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/erlang/heart": {
+        "default": "false",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "Enable heart node monitoring",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/package/version/minor": {
+        "default": "10",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Minor version of Riak to install.",
+        "display_name": "Riak minor version",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/package/version/major": {
+        "default": "0",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Major version of Riak to install.",
+        "display_name": "Riak major version",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/storage_backend_options/data_root": {
+        "default": "/var/lib/riak/bitcask",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Directory where the data files will be stored.",
+        "display_name": "Data root directory",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/storage_backend_options/log_file_size": {
+        "default": "268435456",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Log file size in bytes.",
+        "display_name": "Log file size",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/storage_backend_options/log_files_in_group": {
+        "default": "8",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "Log files in group",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/pb_ip": {
+        "default": "127.0.0.1",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "The IP address on which Riak's PBC interface should listen",
+        "display_name": "Protocol Buffers Client (PBC) address",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/stats_urlpath": {
+        "default": "",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "Path for HTTP retrieval of statistics",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/handoff_concurrency": {
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Number of vnode, per physical node, allowed to perform handoff at once.",
+        "display_name": "Handoff concurrency",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/pb_port": {
+        "default": "8087",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "The port on which Riak's PBC interface should listen",
+        "display_name": " Protocol Buffers Client (PBC) port",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/raw_name": {
+        "default": "riak",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "The base of the path in the URL exposing Riak's HTTP interface.",
+        "display_name": "HTTP base path",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/mapred_name": {
+        "default": "mapred",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "The base of the path in the URL exposing Riak's Map/Reduce interface",
+        "display_name": "Map/Reduce base path",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/js_source_dir": {
+        "calculated": false,
+        "default_name": "Javascript source directory",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Where to load user-defined built in Javascript functions",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/core/web_ip": {
+        "default": "127.0.0.1",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "The IP address on which Riak's HTTP interface should listen (default: 127.0.0.1)",
+        "display_name": "HTTP address",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/erlang/node_name": {
+        "default": "riak@127.0.0.1",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "The name of the Erlang node",
+        "display_name": "Erlang node name",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/erlang": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "display_name": "Erlang configuration",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/package/prefix": {
+        "default": "/usr/local",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Installation prefix for source installs",
+        "display_name": "Installation prefix",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/package": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/storage_backend_options/writes_per_fsync": {
+        "default": "1",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Number of write operations before forcing an fsync.",
+        "display_name": "Writes per fsync",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/core/web_port": {
+        "default": "8098",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "The port on which Riak's HTTP interface should listen (default: 8098)",
+        "display_name": "HTTP port",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/erlang/cookie": {
+        "default": "riak",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "The cookie of the Erlang node",
+        "display_name": "Erlang cookie",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/package/kernel/inet_dist_listen_min": {
+        "default": "6000",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "Minimum port for Erlang node communication",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/storage_backend_options/log_buffer_size": {
+        "default": "8388608",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Size of the in-memory log buffer in bytes.",
+        "display_name": "Log buffer size",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/storage_backend_options/riak_kv_dets_backend_root": {
+        "default": "/var/lib/riak/dets",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Directory where the data files will be stored.",
+        "display_name": "Data root directory",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/storage_backend": {
+        "default": "riak_kv_dets_backend",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "The module name of the storage backend that Riak should use.",
+        "display_name": "Storage backend",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/handoff_port": {
+        "default": "8099",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "TCP port number for the handoff listener (default: 8099)",
+        "display_name": "Handoff port",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/core/target_n_val": {
+        "default": "3",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "Target N",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/erlang/env_vars": {
+        "default": "[\"ERL_MAX_PORTS 4096\", \"ERL_FULLSWEEP_AFTER 10\"]",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "Additional Erlang environment variables",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/erlang/async_threads": {
+        "default": "5",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Number of threads in the async thread pool",
+        "display_name": "Async thread pool size",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/storage_backend_options/data_home_dir": {
+        "default": "/var/lib/riak/innodb",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Directory where the system files will be created. All database directories will also be created relative to this path.  Note: The path must end in a / or \\ depending on the platform.",
+        "display_name": "Data home directory",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/storage_backend_options/buffer_pool_size": {
+        "default": "2147483648",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Size of the buffer pool in bytes.",
+        "display_name": "Buffer pool size",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/core/default_bucket_props": {
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "Default bucket properties",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/package/version/incremental": {
+        "default": "1",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Incremental release of Riak to install.",
+        "display_name": "Riak incremental version",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Riak is a Dynamo-inspired key/value store",
+        "display_name": "Riak",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/core": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Riak core system configuration",
+        "display_name": "Riak core",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/package/type": {
+        "default": "binary",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Package type for installation (source or binary)",
+        "display_name": "Package type",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/storage_backend_options": {
+        "default": "hash",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Additional configuration options for storage backends (varies by storage_backend)",
+        "display_name": "Storage backend options",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/js_vm_count": {
+        "default": "8",
+        "calculated": false,
+        "default_name": "Javascript virtual machine count",
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "How many Javascript virtual machines to start (default: 8)",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Riak key/value system configuration",
+        "display_name": "Riak key/value",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/core/ring_state_dir": {
+        "default": "/var/lib/riak/ring",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "The directory on-disk in which to store the ring state (default: data/ring)",
+        "display_name": "Ring state directory",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/core/cluster_name": {
+        "default": "default",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "Riak cluster name",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/erlang/kernel_polling": {
+        "default": "true",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "Enable kernel polling",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/storage_backend_options/log_group_home_dir": {
+        "default": "/var/lib/riak/innodb",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Path to the directory where the log files will be created.",
+        "display_name": "Log file path",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/add_paths": {
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "A list of paths to add to the Erlang code path",
+        "display_name": "Additional Erlang paths",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/core/gossip_interval": {
+        "default": "60000",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Gossip interval in milliseconds",
+        "display_name": "Gossip interval",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/core/ring_creation_size": {
+        "default": "64",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "The number of partitions into which to divide the hash space (default: 64)",
+        "display_name": "Ring creation size",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/kv/storage_backend_options/flush_log_at_trx_commit": {
+        "default": "1",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "This variable can be set to 0, 1 or 2.\n\n                   0 - Force sync of log contents to disk once every second.\n\n                   1 - Force sync of log contents to disk at transaction commit.\n\n                   2 - Write log contents to disk at transaction commit but do not force sync.\n",
+        "display_name": "Log flush policy",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/package/kernel/inet_dist_listen_max": {
+        "default": "7999",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "display_name": "Maximum port for Erlang node communication",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "riak/limit_port_range": {
+        "default": "true",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Boolean indicating whether to limit the range of ports used for Erlang node communication.",
+        "display_name": "Limit port range",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      }
+    },
+    "suggestions": {
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ],
+      "debian": [
+
+      ]
+    },
+    "dependencies": {
+      "iptables": [
+
+      ],
+      "mercurial": [
+
+      ],
+      "erlang": [
+
+      ]
+    },
+    "maintainer_email": "riak@basho.com",
+    "conflicting": {
+    },
+    "version": "0.1.0",
+    "name": "riak",
+    "recipes": {
+      "riak::iptables": "Automatically configure iptables rules for Riak.",
+      "riak::innostore": "Install and configure the Innostore backend.",
+      "riak::autoconf": "Automatically configure nodes from chef-server information."
+    },
+    "providing": {
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "",
+    "recommendations": {
+    },
+    "description": "Installs and configures Riak distributed data store (v0.10 and later)"
+  }
