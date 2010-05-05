@@ -1,16 +1,8 @@
 {
-    "dependencies": {
-      "runit": [
-
-      ],
-      "apache2": [
-
-      ]
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
     },
-    "replacing": {
-    },
-    "description": "Installs git and/or sets up a Git server daemon",
-    "groupings": {
+    "suggestions": {
     },
     "platforms": {
       "ubuntu": [
@@ -20,23 +12,31 @@
 
       ]
     },
-    "version": "0.7.0",
-    "recommendations": {
+    "dependencies": {
+      "runit": [
+
+      ],
+      "apache2": [
+
+      ]
     },
+    "maintainer_email": "cookbooks@opscode.com",
+    "conflicting": {
+    },
+    "version": "0.7.0",
     "name": "git",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "= DESCRIPTION:\n\nInstalls git.\n\n= REQUIREMENTS:\n\n== Cookbooks:\n\nOpscode Cookbooks (http://github.com/opscode/cookbooks/tree/master)\n\n* runit\n\n= USAGE:\n\nThis cookbook primarily installs git core packages. It can also be used to serve git repositories.\n\n  include_recipe \"git::server\"\n\nThis creates the directory /srv/git and starts a git daemon, exporting all repositories found. Repositories need to be added manually, but will be available once they are created.\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.",
     "recipes": {
       "git::server": "Sets up a runit_service for git daemon"
     },
-    "suggestions": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-    },
-    "conflicting": {
+    "providing": {
     },
     "license": "Apache 2.0",
-    "providing": {
-    }
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION:\n\nInstalls git.\n\n= REQUIREMENTS:\n\n== Cookbooks:\n\nOpscode Cookbooks (http://github.com/opscode/cookbooks/tree/master)\n\n* runit\n\n= USAGE:\n\nThis cookbook primarily installs git core packages. It can also be used to serve git repositories.\n\n  include_recipe \"git::server\"\n\nThis creates the directory /srv/git and starts a git daemon, exporting all repositories found. Repositories need to be added manually, but will be available once they are created.\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.",
+    "recommendations": {
+    },
+    "description": "Installs git and/or sets up a Git server daemon"
   }

@@ -1,10 +1,8 @@
 {
-    "dependencies": {
+    "maintainer": "Scott M. Likens",
+    "attributes": {
     },
-    "replacing": {
-    },
-    "description": "Dyanmically generates /etc/ssh/known_hosts based on search indexes",
-    "groupings": {
+    "suggestions": {
     },
     "platforms": {
       "ubuntu": [
@@ -23,23 +21,25 @@
 
       ]
     },
-    "version": "0.1.0",
-    "recommendations": {
+    "dependencies": {
     },
+    "maintainer_email": "scott@likens.us",
+    "conflicting": {
+    },
+    "version": "0.1.0",
     "name": "ssh_known_hosts",
-    "maintainer": "Scott M. Likens",
-    "long_description": "= DESCRIPTION: \n\nBuild /etc/ssh/known_hosts based on search indexes and build it based on data retrieved by ohai.\n\n= REQUIREMENTS: \n\n== Platform: Doesn't matter, should work on anything.\n\n= USAGE:\n\nGenerates /etc/ssh/known_hosts based on search indexes for RSA keys.\n\n= LICENSE and AUTHOR: \n\nAuthor:: Scott M. Likens (<scott@likens.us>)\n\nCopyright:: 2009, Scott M. Likens\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n    \n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an \"AS IS\" BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n",
     "recipes": {
       "ssh_known_hosts::default": "Dyanmically generates /etc/ssh/known_hosts based on search indexes"
     },
-    "suggestions": {
-    },
-    "maintainer_email": "scott@likens.us",
-    "attributes": {
-    },
-    "conflicting": {
+    "providing": {
     },
     "license": "Apache 2.0",
-    "providing": {
-    }
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION: \n\nBuild /etc/ssh/known_hosts based on search indexes and build it based on data retrieved by ohai.\n\n= REQUIREMENTS: \n\n== Platform: Doesn't matter, should work on anything.\n\n= USAGE:\n\nGenerates /etc/ssh/known_hosts based on search indexes for RSA keys.\n\n= LICENSE and AUTHOR: \n\nAuthor:: Scott M. Likens (<scott@likens.us>)\n\nCopyright:: 2009, Scott M. Likens\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n    \n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an \"AS IS\" BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n",
+    "recommendations": {
+    },
+    "description": "Dyanmically generates /etc/ssh/known_hosts based on search indexes"
   }

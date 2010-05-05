@@ -1,46 +1,19 @@
 {
-    "dependencies": {
-    },
-    "replacing": {
-    },
-    "description": "Installs and configures rsyslog",
-    "groupings": {
-    },
-    "platforms": {
-      "ubuntu": [
-        ">= 8.10"
-      ],
-      "debian": [
-        ">= 5.0"
-      ]
-    },
-    "version": "0.7.0",
-    "recommendations": {
-    },
-    "name": "rsyslog",
     "maintainer": "Opscode, Inc.",
-    "long_description": "= DESCRIPTION:\n\nInstalls rsyslog to replace sysklogd for client and/or server use. By default, server will be set up to log to files.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10.\n\n== Cookbooks:\n\n= ATTRIBUTES: \n\n* rsyslog[:log_dir] - specify the directory to store logs (applicable to server only)\n* rsyslog[:server] - specify the remote rsyslog server.\n* rsyslog[:protocol] - specify whether to use udp or tcp for remote log transmission. tcp is default.\n\n= USAGE:\n\nTo replace the sysklogd syslog service with rsyslog:\n\n  include_recipe \"rsyslog\"\n  \nTo set up a client with a remote [r]syslog server:\n\n  include_recipe \"rsyslog::client\"\n  \nBy default, this cookbook will use TCP so the server should be configured for TCP. This can be done easily with the server recipe:\n\n  include_recipe \"rsyslog::server\"\n\nTo switch to UDP, change the rsyslog[:protocol] attribute. Note this needs to be done on each client as well.\n\nAlso, the server configuration will set up log_dir for each client, by date. Structure:\n\n  <%= @log_dir %>/YEAR/MONTH/DAY/HOSTNAME/\"logfile\"\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-    "recipes": {
-      "rsyslog::server": "Sets up an rsyslog server",
-      "rsyslog::client": "Sets up a client to log to a remote rsyslog server"
-    },
-    "suggestions": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
     "attributes": {
       "rsyslog/protocol": {
-        "calculated": false,
         "default": "tcp",
+        "calculated": false,
         "type": "string",
         "choice": [
 
         ],
         "description": "Set which network protocol to use for rsyslog",
         "display_name": "Rsyslog Protocol",
+        "required": "optional",
         "recipes": [
 
-        ],
-        "required": "optional"
+        ]
       },
       "rsyslog": {
         "calculated": false,
@@ -50,43 +23,70 @@
         ],
         "description": "Hash of Rsyslog attributes",
         "display_name": "Rsyslog",
+        "required": "optional",
         "recipes": [
 
-        ],
-        "required": "optional"
+        ]
       },
       "rsyslog/log_dir": {
-        "calculated": false,
         "default": "/srv/rsyslog",
+        "calculated": false,
         "type": "string",
         "choice": [
 
         ],
         "description": "Filesystem location of logs from clients",
         "display_name": "Rsyslog Log Directory",
+        "required": "optional",
         "recipes": [
 
-        ],
-        "required": "optional"
+        ]
       },
       "rsyslog/server": {
-        "calculated": false,
         "default": "false",
+        "calculated": false,
         "type": "string",
         "choice": [
 
         ],
         "description": "Is this node an rsyslog server?",
         "display_name": "Rsyslog Server?",
+        "required": "optional",
         "recipes": [
 
-        ],
-        "required": "optional"
+        ]
       }
     },
+    "suggestions": {
+    },
+    "platforms": {
+      "ubuntu": [
+        ">= 8.10"
+      ],
+      "debian": [
+        ">= 5.0"
+      ]
+    },
+    "dependencies": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.8.0",
+    "name": "rsyslog",
+    "recipes": {
+      "rsyslog::server": "Sets up an rsyslog server",
+      "rsyslog::client": "Sets up a client to log to a remote rsyslog server"
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION:\n\nInstalls rsyslog to replace sysklogd for client and/or server use. By default, server will be set up to log to files.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10.\n\n== Cookbooks:\n\n= ATTRIBUTES: \n\n* rsyslog[:log_dir] - specify the directory to store logs (applicable to server only)\n* rsyslog[:server] - specify the remote rsyslog server.\n* rsyslog[:protocol] - specify whether to use udp or tcp for remote log transmission. tcp is default.\n\n= USAGE:\n\nTo replace the sysklogd syslog service with rsyslog:\n\n  include_recipe \"rsyslog\"\n  \nTo set up a client with a remote [r]syslog server:\n\n  include_recipe \"rsyslog::client\"\n  \nBy default, this cookbook will use TCP so the server should be configured for TCP. This can be done easily with the server recipe:\n\n  include_recipe \"rsyslog::server\"\n\nTo switch to UDP, change the rsyslog[:protocol] attribute. Note this needs to be done on each client as well.\n\nAlso, the server configuration will set up log_dir for each client, by date. Structure:\n\n  <%= @log_dir %>/YEAR/MONTH/DAY/HOSTNAME/\"logfile\"\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recommendations": {
+    },
+    "description": "Installs and configures rsyslog"
   }

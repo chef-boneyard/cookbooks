@@ -1,16 +1,63 @@
 {
-    "dependencies": {
-      "apache2": [
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
+      "rails": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
 
-      ],
-      "ruby": [
+        ],
+        "description": "Hash of Rails attributes",
+        "display_name": "Rails",
+        "required": "optional",
+        "recipes": [
 
-      ]
+        ]
+      },
+      "rails/version": {
+        "default": "false",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Specify the version of Rails to install",
+        "display_name": "Rails Version",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "rails/max_pool_size": {
+        "default": "4",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Specify the MaxPoolSize in the Apache vhost",
+        "display_name": "Rails Max Pool Size",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "rails/environment": {
+        "default": "production",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Specify the environment to use for Rails",
+        "display_name": "Rails Environment",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      }
     },
-    "replacing": {
-    },
-    "description": "Installs rails and provides a sample template for use with passenger",
-    "groupings": {
+    "suggestions": {
     },
     "platforms": {
       "ubuntu": [
@@ -29,77 +76,30 @@
 
       ]
     },
-    "version": "0.8.0",
-    "recommendations": {
-    },
-    "name": "rails",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "= DESCRIPTION:\n\nInstalls Rails and contains Rails tuning parameters.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10, should work on other platforms.\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* ruby \n* apache2 \n* passenger \n\n= ATTRIBUTES: \n\n* rails[:version] - Install the specified version. Default false (installs latest).\n* rails[:environment] - Set Rails environment. Default production.\n\n= USAGE:\n\nThe recommended Rails application deployment method is Passenger and use the Apache2 cookbook's web_app define.\n\n  include_recipe \"apache2\"\n  include_recipe \"passenger\"\n  include_recipe \"rails\"\n\n  web_app \"some_rails_app\" do\n    docroot \"/srv/some_rails_app/public\"\n    template \"some_rails_app.conf.erb\"\n  end\n\nWe provide an example rails application vhost config file in this cookbook. Remember, for Passenger, DocumentRoot (docroot) needs 'public'. Per the web_app define, other parameters can be passed arbitrarily and used in the template. \n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-    "recipes": {
-    },
-    "suggestions": {
+    "dependencies": {
+      "apache2": [
+
+      ],
+      "ruby": [
+
+      ]
     },
     "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-      "rails": {
-        "calculated": false,
-        "type": "hash",
-        "choice": [
-
-        ],
-        "description": "Hash of Rails attributes",
-        "display_name": "Rails",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "rails/version": {
-        "calculated": false,
-        "default": "false",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Specify the version of Rails to install",
-        "display_name": "Rails Version",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "rails/max_pool_size": {
-        "calculated": false,
-        "default": "4",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Specify the MaxPoolSize in the Apache vhost",
-        "display_name": "Rails Max Pool Size",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "rails/environment": {
-        "calculated": false,
-        "default": "production",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Specify the environment to use for Rails",
-        "display_name": "Rails Environment",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      }
-    },
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.9.0",
+    "name": "rails",
+    "recipes": {
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION:\n\nInstalls Rails and contains Rails tuning parameters.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10, should work on other platforms.\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* ruby \n* apache2 \n* passenger \n\n= ATTRIBUTES: \n\n* rails[:version] - Install the specified version. Default false (installs latest).\n* rails[:environment] - Set Rails environment. Default production.\n\n= USAGE:\n\nThe recommended Rails application deployment method is Passenger and use the Apache2 cookbook's web_app define.\n\n  include_recipe \"apache2\"\n  include_recipe \"passenger\"\n  include_recipe \"rails\"\n\n  web_app \"some_rails_app\" do\n    docroot \"/srv/some_rails_app/public\"\n    template \"some_rails_app.conf.erb\"\n  end\n\nWe provide an example rails application vhost config file in this cookbook. Remember, for Passenger, DocumentRoot (docroot) needs 'public'. Per the web_app define, other parameters can be passed arbitrarily and used in the template. \n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recommendations": {
+    },
+    "description": "Installs rails and provides a sample template for use with passenger"
   }

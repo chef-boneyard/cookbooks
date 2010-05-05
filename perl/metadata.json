@@ -1,10 +1,8 @@
 {
-    "dependencies": {
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
     },
-    "replacing": {
-    },
-    "description": "Installs perl and provides a define for maintaining CPAN modules",
-    "groupings": {
+    "suggestions": {
     },
     "platforms": {
       "ubuntu": [
@@ -20,22 +18,24 @@
 
       ]
     },
-    "version": "0.8.0",
-    "recommendations": {
-    },
-    "name": "perl",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "= DESCRIPTION:\n\nManages Perl installation and provides cpan_module, to install modules \nfrom... CPAN.\n\n= REQUIREMENTS:\n\nThis cookbook requires at least Ohai 0.3.0 to get the Perl language data:\n\n{\n  \"perl\": {\n    \"version\": \"5.10.0\",\n    \"archname\": \"x86_64-linux-gnu-thread-multi\"\n  }\n}\n\nTested with Perl 5.8.8 and 5.10.0.\n\n= USAGE:\n\nTo install a module from CPAN:\n\n  cpan_module \"App::Munchies\"\n\nOptionally, installation can forced with the 'force' parameter.\n\n  cpan_module \"App::Munchies\"\n    force true\n  end\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n\n",
-    "recipes": {
-    },
-    "suggestions": {
+    "dependencies": {
     },
     "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-    },
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.8.0",
+    "name": "perl",
+    "recipes": {
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION:\n\nManages Perl installation and provides cpan_module, to install modules \nfrom... CPAN.\n\n= REQUIREMENTS:\n\nThis cookbook requires at least Ohai 0.3.0 to get the Perl language data:\n\n{\n  \"perl\": {\n    \"version\": \"5.10.0\",\n    \"archname\": \"x86_64-linux-gnu-thread-multi\"\n  }\n}\n\nTested with Perl 5.8.8 and 5.10.0.\n\n= USAGE:\n\nTo install a module from CPAN:\n\n  cpan_module \"App::Munchies\"\n\nOptionally, installation can forced with the 'force' parameter.\n\n  cpan_module \"App::Munchies\"\n    force true\n  end\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n\n",
+    "recommendations": {
+    },
+    "description": "Installs perl and provides a define for maintaining CPAN modules"
   }

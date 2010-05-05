@@ -1,13 +1,8 @@
 {
-    "dependencies": {
-      "apache2": [
-
-      ]
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
     },
-    "replacing": {
-    },
-    "description": "Installs and maintains php and php modules",
-    "groupings": {
+    "suggestions": {
     },
     "platforms": {
       "ubuntu": [
@@ -17,12 +12,16 @@
 
       ]
     },
-    "version": "0.7.0",
-    "recommendations": {
+    "dependencies": {
+      "apache2": [
+
+      ]
     },
+    "maintainer_email": "cookbooks@opscode.com",
+    "conflicting": {
+    },
+    "version": "0.7.0",
     "name": "php",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "",
     "recipes": {
       "php::module_fpdf": "Install the php-fpdf package",
       "php::php5-cgi": "Install the php5-cgi package",
@@ -39,14 +38,15 @@
       "php::php5": "Install php5 packages and php.ini config file",
       "php::module_pgsql": "Install the php5-pgsql packag"
     },
-    "suggestions": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-    },
-    "conflicting": {
+    "providing": {
     },
     "license": "Apache 2.0",
-    "providing": {
-    }
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "",
+    "recommendations": {
+    },
+    "description": "Installs and maintains php and php modules"
   }

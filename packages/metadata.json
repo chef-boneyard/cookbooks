@@ -1,30 +1,5 @@
 {
-    "dependencies": {
-    },
-    "replacing": {
-    },
-    "description": "Helper library to determine whether distribution-only packages are installed",
-    "groupings": {
-    },
-    "platforms": {
-      "centos": [
-
-      ],
-      "redhat": [
-
-      ]
-    },
-    "version": "0.8.0",
-    "recommendations": {
-    },
-    "name": "packages",
     "maintainer": "Opscode, Inc.",
-    "long_description": "",
-    "recipes": {
-    },
-    "suggestions": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
     "attributes": {
       "packages": {
         "calculated": false,
@@ -34,29 +9,54 @@
         ],
         "description": "Hash of Packages attributes",
         "display_name": "Packages",
+        "required": "optional",
         "recipes": [
 
-        ],
-        "required": "optional"
+        ]
       },
       "packages/dist_only": {
-        "calculated": false,
         "default": "false",
+        "calculated": false,
         "type": "string",
         "choice": [
 
         ],
         "description": "Set to only use distribution-provided packages",
         "display_name": "Packages Distribution Only?",
+        "required": "optional",
         "recipes": [
 
-        ],
-        "required": "optional"
+        ]
       }
     },
+    "suggestions": {
+    },
+    "platforms": {
+      "centos": [
+
+      ],
+      "redhat": [
+
+      ]
+    },
+    "dependencies": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.9.0",
+    "name": "packages",
+    "recipes": {
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "",
+    "recommendations": {
+    },
+    "description": "Helper library to determine whether distribution-only packages are installed"
   }

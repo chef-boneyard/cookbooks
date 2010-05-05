@@ -1,13 +1,8 @@
 {
-    "dependencies": {
-      "java": [
-
-      ]
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
     },
-    "replacing": {
-    },
-    "description": "Installs hadoop and sets up basic cluster per Cloudera's quick start docs",
-    "groupings": {
+    "suggestions": {
     },
     "platforms": {
       "ubuntu": [
@@ -17,22 +12,27 @@
 
       ]
     },
-    "version": "0.8.0",
-    "recommendations": {
-    },
-    "name": "hadoop",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "= DESCRIPTION:\n\nInstalls Apache hadoop and sets up a basic distributed cluster per the quick start documentation.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10, though should work on most Linux distributions, see hadoop[:java_home].\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* java\n\n= ATTRIBUTES: \n\n* hadoop[:mirror_url] - Get a mirror from http://www.apache.org/dyn/closer.cgi/hadoop/core/.\n* hadoop[:version] - Specify the version of hadoop to install.\n* hadoop[:uid] - Default userid of the hadoop user.\n* hadoop[:gid] - Default group for the hadoop user.\n* hadoop[:java_home] - You will probably want to change this to match where Java is installed on your platform.\n\nYou may wish to add more attributes for tuning the configuration file templates.\n\n= USAGE:\n\nThis cookbook performs the tasks described in the Hadoop Quick Start[1] to get the software installed. You should copy this to a site-cookbook and modify the templates to meet your requirements. \n\nOnce the recipe is run, the distributed filesystem can be formated using the script /usr/bin/hadoop. \n\n  sudo -u hadoop /usr/bin/hadoop namenode -format\n  \nYou may need to set up SSH keys for hadoop management commands. \n\nNote that this is not the 'default' config per se, so using the start-all.sh script won't start the processes because the config files live elsewhere. For running various hadoop processes as services, we suggest runit. A sample 'run' script is provided. The HADOOP_LOG_DIR in the run script must exist for each process. These could be wrapped in a define. \n\n* datanode\n* jobtracker\n* namenode\n* tasktracker\n\n\n[1] http://hadoop.apache.org/core/docs/current/quickstart.html\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.",
-    "recipes": {
-    },
-    "suggestions": {
+    "dependencies": {
+      "java": [
+
+      ]
     },
     "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-    },
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.8.0",
+    "name": "hadoop",
+    "recipes": {
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION:\n\nInstalls Apache hadoop and sets up a basic distributed cluster per the quick start documentation.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10, though should work on most Linux distributions, see hadoop[:java_home].\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* java\n\n= ATTRIBUTES: \n\n* hadoop[:mirror_url] - Get a mirror from http://www.apache.org/dyn/closer.cgi/hadoop/core/.\n* hadoop[:version] - Specify the version of hadoop to install.\n* hadoop[:uid] - Default userid of the hadoop user.\n* hadoop[:gid] - Default group for the hadoop user.\n* hadoop[:java_home] - You will probably want to change this to match where Java is installed on your platform.\n\nYou may wish to add more attributes for tuning the configuration file templates.\n\n= USAGE:\n\nThis cookbook performs the tasks described in the Hadoop Quick Start[1] to get the software installed. You should copy this to a site-cookbook and modify the templates to meet your requirements. \n\nOnce the recipe is run, the distributed filesystem can be formated using the script /usr/bin/hadoop. \n\n  sudo -u hadoop /usr/bin/hadoop namenode -format\n  \nYou may need to set up SSH keys for hadoop management commands. \n\nNote that this is not the 'default' config per se, so using the start-all.sh script won't start the processes because the config files live elsewhere. For running various hadoop processes as services, we suggest runit. A sample 'run' script is provided. The HADOOP_LOG_DIR in the run script must exist for each process. These could be wrapped in a define. \n\n* datanode\n* jobtracker\n* namenode\n* tasktracker\n\n\n[1] http://hadoop.apache.org/core/docs/current/quickstart.html\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.",
+    "recommendations": {
+    },
+    "description": "Installs hadoop and sets up basic cluster per Cloudera's quick start docs"
   }

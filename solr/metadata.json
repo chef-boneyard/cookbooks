@@ -1,4 +1,76 @@
 {
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
+      "solr/group": {
+        "default": "solr",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Group for solr instance",
+        "display_name": "Solr Group",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "solr/uid": {
+        "default": "551",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "UID for solr instance",
+        "display_name": "Solr UID",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "solr/user": {
+        "default": "solr",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Username for solr instance",
+        "display_name": "Solr User",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "solr/gid": {
+        "default": "551",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "GID for solr instance",
+        "display_name": "Solr GID",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      }
+    },
+    "suggestions": {
+      "ruby": [
+
+      ]
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ],
+      "debian": [
+
+      ]
+    },
     "dependencies": {
       "java": [
 
@@ -10,94 +82,22 @@
 
       ]
     },
-    "replacing": {
-    },
-    "description": "Sets up environment for solr instances",
-    "groupings": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ],
-      "debian": [
-
-      ]
-    },
-    "version": "0.7.0",
-    "recommendations": {
-    },
-    "name": "solr",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "= DESCRIPTION:\n\nSets up user and environment for running solr instances.\n\n= REQUIREMENTS:\n\n== Platform and Application Environment:\n\nTested on Ubuntu 8.10. May work on other platforms, esp Ubuntu/Debian.\n\nRequires solr installed, such as a vendor plugin for a Rails application. Assumes 'start.jar' exists. Also requires ssh keys for solr user. See usage.\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* capistrano (capistrano_setup)\n* java\n* runit (runit_service)\n\n= ATTRIBUTES: \n\n* solr[:user] - username for solr process and files/dirs.\n* solr[:uid] - UID for solr user.\n* solr[:group] - group name for solr files/dirs.\n* solr[:gid] - GID for solr group.\n\n= USAGE:\n\nTo create a solr instance for an application, use the solr_instance define:\n\n  solr_instance \"my_app\" \n\nThe recipe assumes that id_rsa ssh key pair has been created for the solr user. The files should be located in the cookbook where the solr_instance is used (for example a site-cookbook). \n\nAlso create the runit run and log run templates. For now the directory to cd into needs to be specified in the run template. See the sample in this cookbook.\n\n== Parameters:\n\nOptionally specify a cookbook where the ssh keypair is located, otherwise generate keys and put the files in the solr cookbook. Empty files are located there for placeholders.\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-    "recipes": {
-    },
-    "suggestions": {
-      "ruby": [
-
-      ]
-    },
     "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-      "solr/group": {
-        "calculated": false,
-        "default": "solr",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Group for solr instance",
-        "display_name": "Solr Group",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "solr/uid": {
-        "calculated": false,
-        "default": "551",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "UID for solr instance",
-        "display_name": "Solr UID",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "solr/user": {
-        "calculated": false,
-        "default": "solr",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Username for solr instance",
-        "display_name": "Solr User",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "solr/gid": {
-        "calculated": false,
-        "default": "551",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "GID for solr instance",
-        "display_name": "Solr GID",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      }
-    },
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.8.0",
+    "name": "solr",
+    "recipes": {
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION:\n\nSets up user and environment for running solr instances.\n\n= REQUIREMENTS:\n\n== Platform and Application Environment:\n\nTested on Ubuntu 8.10. May work on other platforms, esp Ubuntu/Debian.\n\nRequires solr installed, such as a vendor plugin for a Rails application. Assumes 'start.jar' exists. Also requires ssh keys for solr user. See usage.\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* capistrano (capistrano_setup)\n* java\n* runit (runit_service)\n\n= ATTRIBUTES: \n\n* solr[:user] - username for solr process and files/dirs.\n* solr[:uid] - UID for solr user.\n* solr[:group] - group name for solr files/dirs.\n* solr[:gid] - GID for solr group.\n\n= USAGE:\n\nTo create a solr instance for an application, use the solr_instance define:\n\n  solr_instance \"my_app\" \n\nThe recipe assumes that id_rsa ssh key pair has been created for the solr user. The files should be located in the cookbook where the solr_instance is used (for example a site-cookbook). \n\nAlso create the runit run and log run templates. For now the directory to cd into needs to be specified in the run template. See the sample in this cookbook.\n\n== Parameters:\n\nOptionally specify a cookbook where the ssh keypair is located, otherwise generate keys and put the files in the solr cookbook. Empty files are located there for placeholders.\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recommendations": {
+    },
+    "description": "Sets up environment for solr instances"
   }

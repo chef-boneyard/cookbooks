@@ -1,10 +1,66 @@
 {
-    "dependencies": {
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
+      "ntp/servers": {
+        "default": [
+          "0.us.pool.ntp.org",
+          "1.us.pool.ntp.org"
+        ],
+        "calculated": false,
+        "type": "array",
+        "choice": [
+
+        ],
+        "description": "Array of servers we should talk to",
+        "display_name": "NTP Servers",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "ntp/is_server": {
+        "default": "false",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Set to true if this is an NTP server",
+        "display_name": "NTP Is Server?",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "ntp/service": {
+        "default": "ntp",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Name of the NTP service",
+        "display_name": "NTP Service",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "ntp": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Hash of NTP attributes",
+        "display_name": "NTP",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      }
     },
-    "replacing": {
-    },
-    "description": "Installs and configures ntp as a client or server",
-    "groupings": {
+    "suggestions": {
     },
     "platforms": {
       "ubuntu": [
@@ -23,80 +79,24 @@
 
       ]
     },
-    "version": "0.7.0",
-    "recommendations": {
-    },
-    "name": "ntp",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "",
-    "recipes": {
-    },
-    "suggestions": {
+    "dependencies": {
     },
     "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-      "ntp/servers": {
-        "calculated": false,
-        "default": [
-          "0.us.pool.ntp.org",
-          "1.us.pool.ntp.org"
-        ],
-        "type": "array",
-        "choice": [
-
-        ],
-        "description": "Array of servers we should talk to",
-        "display_name": "NTP Servers",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "ntp/is_server": {
-        "calculated": false,
-        "default": "false",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Set to true if this is an NTP server",
-        "display_name": "NTP Is Server?",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "ntp/service": {
-        "calculated": false,
-        "default": "ntp",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Name of the NTP service",
-        "display_name": "NTP Service",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "ntp": {
-        "calculated": false,
-        "type": "hash",
-        "choice": [
-
-        ],
-        "description": "Hash of NTP attributes",
-        "display_name": "NTP",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      }
-    },
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.8.0",
+    "name": "ntp",
+    "recipes": {
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "",
+    "recommendations": {
+    },
+    "description": "Installs and configures ntp as a client or server"
   }

@@ -1,22 +1,50 @@
 {
-    "dependencies": {
-      "rails": [
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
+      "passenger/module_path": {
+        "default": "passenger_root_path/ext/apache2/mod_passenger.so",
+        "calculated": false,
+        "type": "string",
+        "choice": [
 
-      ],
-      "packages": [
+        ],
+        "description": "Location of the compiled Apache module",
+        "display_name": "Passenger Module Path",
+        "required": "optional",
+        "recipes": [
 
-      ],
-      "apache2": [
+        ]
+      },
+      "passenger/version": {
+        "default": "2.2.5",
+        "calculated": false,
+        "type": "string",
+        "choice": [
 
-      ],
-      "ruby": [
+        ],
+        "description": "Version of Passenger to install",
+        "display_name": "Passenger Version",
+        "required": "optional",
+        "recipes": [
 
-      ]
+        ]
+      },
+      "passenger/root_path": {
+        "default": "gem_dir/gems/passenger-passenger_version",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Location of passenger installed gem",
+        "display_name": "Passenger Root Path",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      }
     },
-    "replacing": {
-    },
-    "description": "Installs passenger for Apache2",
-    "groupings": {
+    "suggestions": {
     },
     "platforms": {
       "ubuntu": [
@@ -32,64 +60,36 @@
 
       ]
     },
-    "version": "0.14.0",
-    "recommendations": {
-    },
-    "name": "passenger_apache2",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "= DESCRIPTION:\n\nInstalls passenger for Rails / Rack / Merb hosting.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10. May work on other platforms, esp Ubuntu/Debian. May need work to function on CentOS/Fedora/RHEL.\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* ruby\n* apache2 (web_app)\n* rails\n\n= ATTRIBUTES: \n\n* passenger[:version] - Specify the version of passenger to install.\n* passenger[:root_path] - The location of the passenger gem.\n* passenger[:module_path] - The location of the compiled passenger apache module.\n* passenger[:apache_load_path] - File to use for loading the passenger apache module.\n* passenger[:apache_conf_path] - Additional passenger module configuration.\n\nThe last two are activated with apache_module.\n\n= USAGE:\n\nFor example, to run a Rails application on passenger:\n\n  include_recipe \"rails\"\n  include_recipe \"passenger\"\n  \n  web_app \"myproj\" do\n    docroot \"/srv/myproj/public\"\n    server_name \"myproj.#{node[:domain]}\"\n    server_aliases [ \"myproj\", node[:hostname] ]\n    rails_env \"production\"\n  end\n\nA sample config template is provided, web_app.conf.erb. If this is suitable for your application, add 'cookbook \"passenger\"' to the define above to use that template. Otherwise, copy the template to the cookbook where you're using web_app, and modify as needed. The cookbook parameter is optional, if omitted it will search the cookbook where the define is used.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nAuthor:: Joshua Sierles (<joshua@37signals.com>)\nAuthor:: Michael Hale (<mikehale@gmail.com>)\n\nCopyright:: 2009, Opscode, Inc\nCopyright:: 2009, 37signals\nCoprighty:: 2009, Michael Hale\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-    "recipes": {
-    },
-    "suggestions": {
+    "dependencies": {
+      "rails": [
+
+      ],
+      "packages": [
+
+      ],
+      "apache2": [
+
+      ],
+      "ruby": [
+
+      ]
     },
     "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-      "passenger/module_path": {
-        "calculated": false,
-        "default": "passenger_root_path/ext/apache2/mod_passenger.so",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Location of the compiled Apache module",
-        "display_name": "Passenger Module Path",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "passenger/version": {
-        "calculated": false,
-        "default": "2.2.5",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Version of Passenger to install",
-        "display_name": "Passenger Version",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "passenger/root_path": {
-        "calculated": false,
-        "default": "gem_dir/gems/passenger-passenger_version",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Location of passenger installed gem",
-        "display_name": "Passenger Root Path",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      }
-    },
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.15.0",
+    "name": "passenger_apache2",
+    "recipes": {
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION:\n\nInstalls passenger for Rails / Rack / Merb hosting.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10. May work on other platforms, esp Ubuntu/Debian. May need work to function on CentOS/Fedora/RHEL.\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* ruby\n* apache2 (web_app)\n* rails\n\n= ATTRIBUTES: \n\n* passenger[:version] - Specify the version of passenger to install.\n* passenger[:root_path] - The location of the passenger gem.\n* passenger[:module_path] - The location of the compiled passenger apache module.\n* passenger[:apache_load_path] - File to use for loading the passenger apache module.\n* passenger[:apache_conf_path] - Additional passenger module configuration.\n\nThe last two are activated with apache_module.\n\n= USAGE:\n\nFor example, to run a Rails application on passenger:\n\n  include_recipe \"rails\"\n  include_recipe \"passenger\"\n  \n  web_app \"myproj\" do\n    docroot \"/srv/myproj/public\"\n    server_name \"myproj.#{node[:domain]}\"\n    server_aliases [ \"myproj\", node[:hostname] ]\n    rails_env \"production\"\n  end\n\nA sample config template is provided, web_app.conf.erb. If this is suitable for your application, add 'cookbook \"passenger\"' to the define above to use that template. Otherwise, copy the template to the cookbook where you're using web_app, and modify as needed. The cookbook parameter is optional, if omitted it will search the cookbook where the define is used.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nAuthor:: Joshua Sierles (<joshua@37signals.com>)\nAuthor:: Michael Hale (<mikehale@gmail.com>)\n\nCopyright:: 2009, Opscode, Inc\nCopyright:: 2009, 37signals\nCoprighty:: 2009, Michael Hale\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recommendations": {
+    },
+    "description": "Installs passenger for Apache2"
   }
