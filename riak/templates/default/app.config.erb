@@ -1,0 +1,26 @@
+[
+ %% Riak Core config
+ {riak_core, [
+<%= @config[:core].map{|c| "\t#{c}"}.join(",\n") %>
+	]},
+ %% Riak KV config
+ {riak_kv, [
+<% unless @storage_backend.eql?("innostore_riak") %>
+<%= @config[:storage_backend_options].map{|c| "\t#{c}"}.join(",\n") %>,
+<% end %>
+<%= @config[:kv].map{|c| "\t#{c}"}.join(",\n") %>
+	]},
+ %% SASL config
+ {sasl, [
+    {sasl_error_logger, <%= @config[:sasl_error_logger].map{|c| "\t#{c}"}.join(",\n") %>},
+<%= @config[:sasl].map{|c| "\t#{c}"}.join(",\n") %>
+	]}<% if @storage_backend.eql?("innostore_riak") %>,
+ %% Innostore config
+ {innostore, [
+<%= @config[:storage_backend_options].map{|c| "\t#{c}"}.join(",\n") %>
+	]}<% end %><% if @limit_port_range %>,
+ %% Kernel config
+ { kernel, [
+<%= @config[:kernel].map{|c| "\t#{c}"}.join(",\n") %>
+	]}<% end %>
+].
