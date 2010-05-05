@@ -1,12 +1,22 @@
-DESCRIPTION
-===========
-
-This cookbook is used to configure the system to be a Chef Client or a Chef Server. It is a complex cookbook, please read this entire document to understand how it works. For more information on how Chef itself works, see the [Chef Wiki](http://wiki.opscode.com)
+BOOTSTRAP CHANGES
+=================
 
 The `bootstrap` cookbook's recipes for configuring a RubyGem installation of Chef have been merged into this cookbook.
 
     bootstrap::client -> chef::bootstrap_client
     bootstrap::server -> chef::bootstrap_server
+
+Be aware of the following changes to this cookbook.
+
+* Bootstrap no longer generates a random password for the webui admin user. The default password is displayed on the webui login page and should be changed immediately after logging in.
+* Server configuration now has a setting for the cookbook tarballs. See the server.rb.erb template.
+* We now set the signing key/cert locations and set owner / group. See the server.rb.erb template.
+* The validation client name is configurable. See the attributes.
+
+DESCRIPTION
+===========
+
+This cookbook is used to configure the system to be a Chef Client or a Chef Server. It is a complex cookbook, please read this entire document to understand how it works. For more information on how Chef itself works, see the [Chef Wiki](http://wiki.opscode.com)
 
 REQUIREMENTS
 ============
@@ -15,6 +25,8 @@ Chef 0.8.x or higher is required.
 
 Platform
 --------
+
+If using this cookbook to manage a Chef Server system that was installed from Debian/Ubuntu packages, note that the configuration files are split up for server.rb, solr.rb and webui.rb, and the `chef::server` recipe may not work as desired.
 
 `chef::client` is tested on Ubuntu 8.04+, Debian 5.0, CentOS 5.x, Fedora 10+, OpenBSD 4.6, FreeBSD 7.1 and Gentoo.
 
@@ -253,8 +265,6 @@ The client recipe is used to manage the configuration of an already-installed an
 
 The recipe itself manages the `/etc/chef/client.rb` config file based on the attributes in this cookbook. When the client config is updated, the recipe will also reread the configuration during the Chef run, so the way Chef runs can be dynamically changed.
 
-This recipe also deletes the validation certificate (default `/etc/chef/validation.pem`) if the client certificate file exists. If managing the config file isn't required by deleting the validation certificate is, see also the `chef::delete_validation` recipe below.
-
 default
 -------
 
@@ -268,6 +278,21 @@ This is a standalone recipe that merely deletes the validation certificate (defa
 server
 ------
 
+The server recipe includes the `chef::client` recipe above.
+
+The recipe itself manages the services and the Server config file `/etc/chef/server.rb`. See above under Platform requirements for cavaet when running Chef Server installed via Debian/Ubuntu packages. Changes to the recipe to manage additional templates may be required.
+
+The following services are managed:
+
+* chef-solr
+* chef-solr-indexer
+* chef-server
+* chef-webui (if installed)
+
+Changes to the `/etc/chef/server.rb` will trigger a restart of these services.
+
+Since the Chef Server itself typically runs the CouchDB service for the data store, the recipe will do a compaction on the Chef database and all the views associated with the Chef Server. These compactions only occur if the database/view size is more than 100Mb. It will use the configured CouchDB URL, which is `http://localhost:5984` by default.
+
 server_proxy
 ------------
 
@@ -275,6 +300,26 @@ Sets up an Apache2 VirtualHost to proxy HTTPS for the Chef Server API and WebUI.
 
 TEMPLATES
 =========
+
+chef_server.conf.erb
+--------------------
+
+VirtualHost file used by Apache2 in the `chef::server_proxy` recipe.
+
+client.rb.erb
+-------------
+
+Configuration for the client, lands in `/etc/chef/client.rb`.
+
+server.rb.erb
+-------------
+
+Configuration for the server and server components, lands in `/etc/chef/server.rb`. See above regarding Debian/Ubuntu packaging config files when using packages to install Chef.
+
+sv-*run.erb
+-----------
+
+Various runit "run" scripts for the Chef services that get configured when `init_style` is "runit".
 
 LICENSE AND AUTHORS
 ===================
