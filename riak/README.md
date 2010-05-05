@@ -10,7 +10,7 @@ Riak is a Dynamo-inspired key/value store that scales predictably and easily.  R
 Getting Started
 ===============
 
-The Riak cookbook can be used just by adding "riak" to the runlist for a node.  The default settings will cause Riak to be installed and configured.  Creating a cluster of nodes requires you set appropriate attributes, particularly the Erlang node_name, and either manually join nodes to the cluster or use the gossip seed configuration option.
+The Riak cookbook can be used just by adding "riak" to the runlist for a node.  The default settings will cause Riak to be installed and configured.  Creating a cluster of nodes requires you set appropriate attributes, particularly the Erlang `node_name`, and either manually join nodes to the cluster or use the gossip seed configuration option.
 
 
 Package Installation
@@ -38,7 +38,7 @@ Most Riak configuration is for networking, Erlang, and storage backends.  The on
 Networking
 ----------
 
-Riak clients communicate with the nodes in the cluster through either the HTTP or Protobufs interfaces, both of which may be used simultaneously.  Configuration for each interface includes the IP address and TCP port on which to listen for client connections.  The default for the HTTP interface, web ip, is localhost:8098 and for Protobufs 0.0.0.0:8087, meaning client connections to any address on the server, TCP port 8087, are accepted.  As the default web_ip is inaccessible to other nodes, it must be changed if you want clients to use the HTTP interface.
+Riak clients communicate with the nodes in the cluster through either the HTTP or Protobufs interfaces, both of which may be used simultaneously.  Configuration for each interface includes the IP address and TCP port on which to listen for client connections.  The default for the HTTP interface, web ip, is localhost:8098 and for Protobufs 0.0.0.0:8087, meaning client connections to any address on the server, TCP port 8087, are accepted.  As the default `web_ip` is inaccessible to other nodes, it must be changed if you want clients to use the HTTP interface.
 
 	node[:riak][:core][:web_ip] = "127.0.0.1"
 	node[:riak][:core][:web_port] = 8098
@@ -102,11 +102,11 @@ Innostore is an Erlang wrapper around embedded InnoDB, a transactional storage e
 Bitcask
 -------
 
-By virtue of its architecture, Bitcask requires much less tuning to achieve good performance than Innostore.  The default value for writes_per_fsync of 1 makes Bitcask call fsync() after every write.  This is the safest choice, though not always the best performing.
+By virtue of its architecture, Bitcask requires much less tuning to achieve good performance than Innostore.  The default value for `writes_per_fsync` of 1 makes Bitcask call fsync() after every write.  This is the safest choice, though not always the best performing.
 
 	node[:riak][:kv][:storage_backend_options][:writes_per_fsync] = 1
 	node[:riak][:kv][:storage_backend_options][:data_root] = "/var/lib/riak/bitcask"  
 
 
-[1]: http://riak.basho.com/
+[1]: http://basho.com/
 [2]: http://www.innodb.com/doc/embedded_innodb-1.0/#config-vars
