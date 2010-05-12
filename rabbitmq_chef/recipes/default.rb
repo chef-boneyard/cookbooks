@@ -23,7 +23,7 @@ def debian_before_squeeze?
   platform?("debian") && (node.platform_version.to_f < 5.0 || (node.platform_version.to_f == 5.0 && node.platform_version !~ /.*sid/ ))
 end
 
-if (platform?("ubuntu") && node.platform_version <= "9.10") || debian_before_squeeze?
+if (platform?("ubuntu") && node.platform_version.to_f <= 9.10) || debian_before_squeeze?
   include_recipe("erlang")
 
   rabbitmq_dpkg_path = File.join(Chef::Config[:file_cache_path], "/", "rabbitmq-server_1.7.2-1_all.deb")
