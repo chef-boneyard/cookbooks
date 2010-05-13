@@ -181,4 +181,15 @@ deploy_revision app['id'] do
     "database.yml" => "config/database.yml",
     "memcached.yml" => "config/memcached.yml"
   })
+
+  before_migrate do
+    execute "rake db:bootstrap" if app['force'][node.app_environment]
+    if app['gems'].include?('bundler')
+      execute "bundle install" 
+    else
+      execute "rake gems:install"
+    end
+  end
 end
+
+execute 
