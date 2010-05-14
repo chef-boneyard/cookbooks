@@ -50,6 +50,7 @@ execute "mysql-install-wp-privileges" do
 end
 
 include_recipe "mysql::server"
+require 'rubygems'
 Gem.clear_paths
 require 'mysql'
 

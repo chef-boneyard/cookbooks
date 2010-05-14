@@ -135,6 +135,7 @@ when "centos"
 
   g.run_action(:install)
 
+  require 'rubygems'
   Gem.clear_paths
 
   require "snmp"

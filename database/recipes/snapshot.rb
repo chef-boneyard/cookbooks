@@ -20,6 +20,7 @@
 include_recipe "aws"
 include_recipe "xfs"
 
+require 'rubygems'
 Gem.clear_paths
 require 'mysql'
 
