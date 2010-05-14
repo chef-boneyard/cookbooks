@@ -23,7 +23,7 @@ include_recipe "apache2"
 
 apt_repo = data_bag_item("reprepro", "main")
 
-@ndoe.set_unless.reprepro.fqdn = apt_repo['fqdn']
+@node.set_unless.reprepro.fqdn = apt_repo['fqdn']
 @node.set_unless.reprepro.description = apt_repo['description']
 @node.set_unless.reprepro.pgp_email = apt_repo['pgp']['email']
 @node.set_unless.reprepro.pgp_fingerprint = apt_repo['pgp']['fingerprint']
@@ -71,7 +71,7 @@ end
 end
 
 execute "import packaging key" do
-  command "echo -e '#{apt_repo["pgp"]["private"]}' | gpg --import -"
+  command "/bin/echo -e '#{apt_repo["pgp"]["private"]}' | gpg --import -"
   user "root"
   cwd "/root"
   not_if "gpg --list-secret-keys #{@node[:reprepro][:pgp_email]} | egrep -qx '.*Key fingerprint = #{@node[:reprepro][:pgp_fingerprint]}'"
@@ -102,3 +102,4 @@ apache_site "apt_repo.conf"
 apache_site "000-default" do
   enable false
 end
+
