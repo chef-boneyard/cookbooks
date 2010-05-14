@@ -74,7 +74,7 @@ execute "import packaging key" do
   command "/bin/echo -e '#{apt_repo["pgp"]["private"]}' | gpg --import -"
   user "root"
   cwd "/root"
-  not_if "gpg --list-secret-keys #{@node[:reprepro][:pgp_email]} | egrep -qx '.*Key fingerprint = #{@node[:reprepro][:pgp_fingerprint]}'"
+  not_if "gpg --list-secret-keys --fingerprint #{@node[:reprepro][:pgp_email]} | egrep -qx '.*Key fingerprint = #{@node[:reprepro][:pgp_fingerprint]}'"
 end
 
 template "#{apt_repo["repo_dir"]}/#{@node[:reprepro][:pgp_email]}.gpg.key" do
