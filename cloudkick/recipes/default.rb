@@ -71,6 +71,7 @@ end
 
 ruby_block "initial cloudkick data load" do
   block do
+    require 'rubygems'
     Gem.clear_paths
     require 'cloudkick'
     node.set[:cloudkick][:data] = Chef::CloudkickData.get(node)
