@@ -85,11 +85,13 @@ rescue
   end
 end
 
-ruby_block "save node data" do
-  block do
-    node.save
+unless Chef::Config[:solo]
+  ruby_block "save node data" do
+    block do
+      node.save
+    end
+    action :create
   end
-  action :create
 end
 
 execute "mysql-install-privileges" do
