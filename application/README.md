@@ -19,6 +19,7 @@ The following Opscode cookbooks are dependencies:
 
 * runit
 * unicorn
+* apache2
 
 The following are also dependencies, though the recipes are considered deprecated, may be useful for future development.
 
@@ -37,6 +38,18 @@ default
 Searches the `apps` data bag and checks that a server role in the app exists on this node, adds the app to the run state and uses the role for the app to locate the recipes that need to be used. The recipes listed in the "type" part of the data bag are included by this recipe, so only the "application" recipe needs to be in the node or role `run_list`.
 
 See below regarding the application data bag structure.
+
+passenger_apache2
+-----------------
+
+Requires `apache2` and `passenger_apache2` cookbooks. The `recipe[apache2]` entry should come before `recipe[application]` in the run list.
+
+    "run_list": [
+      "recipe[apache2]",
+      "recipe[application]"
+    ],
+
+Sets up a passenger vhost template for the application using the `apache2` cookbook's `web_app` definition. Use this with the `rails` recipe, in the list of recipes for a specific application type. See data bag example below.
 
 rails
 -----
