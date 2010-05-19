@@ -1,6 +1,6 @@
 = DESCRIPTION:
 
-Installs Java and Ant.
+Installs Java and Ant. Uses OpenJDK, Sun's Java is deprecated in Ubuntu and may not be available in the future.
 
 = REQUIREMENTS:
 

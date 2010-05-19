@@ -26,7 +26,7 @@
     "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "version": "0.10.0",
+    "version": "0.10.1",
     "name": "java",
     "recipes": {
     },
