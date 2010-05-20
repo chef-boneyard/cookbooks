@@ -133,7 +133,7 @@ Note about gems and packages, the version is optional. If specified, the version
         "production": "true or false boolean to force migration, see rails.rb recipe"
       },
       "databases": {
-        "db_name_production": {
+        "production": {
           "reconnect": "true",
           "encoding": "utf8",
           "username": "db_user",
