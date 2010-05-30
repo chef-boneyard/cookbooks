@@ -184,11 +184,18 @@ deploy_revision app['id'] do
 
   before_migrate do
     if app['gems'].has_key?('bundler')
-      execute "bundle install" 
+      execute "bundle install" do
+        ignore_failure true
+      end
     elsif app['gems'].has_key?('bundler08')
-      execute "gem bundle"
+      execute "gem bundle" do
+        ignore_failure true
+      end
+
     elsif node.app_environment && app['databases'].has_key?(node.app_environment)
-      execute "rake gems:install RAILS_ENV=#{app['migrate'][node.app_environment]}"
+      execute "rake gems:install RAILS_ENV=#{app['migrate'][node.app_environment]}" do
+        ignore_failure true
+      end
     end
   end
 end
