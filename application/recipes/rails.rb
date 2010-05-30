@@ -183,7 +183,6 @@ deploy_revision app['id'] do
   })
 
   before_migrate do
-    execute "rake db:bootstrap" if app['force'][node.app_environment]
     if app['gems'].include?('bundler')
       execute "bundle install" 
     else
