@@ -58,6 +58,9 @@ Using the node's `run_state` that contains the current application in the search
 
 This recipe can be used on nodes that are going to run the application, or on nodes that need to have the application code checkout available such as supporting utility nodes or a configured load balancer that needs static assets stored in the application repository.
 
+For Gem Bundler: include `bundler` or `bundle08` in the gems list.  `bundle install` will be run before migrations.
+For config.gem in environment: `rake gems:install RAILS_ENV=<node environment>` will be run when `bundle install` is not.
+
 unicorn
 -------
 
