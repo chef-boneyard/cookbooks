@@ -169,6 +169,7 @@ deploy_revision app['id'] do
   user app['owner']
   group app['group']
   deploy_to app['deploy_to']
+  environment({'RAILS_ENV' => node.app_environment})
   action app['force'][node.app_environment] ? :force_deploy : :deploy
   ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
   if app['migrate'][node.app_environment] && node[:apps][app['id']][node.app_environment][:run_migrations]
@@ -193,7 +194,7 @@ deploy_revision app['id'] do
       end
 
     elsif node.app_environment && app['databases'].has_key?(node.app_environment)
-      execute "rake gems:install RAILS_ENV=#{app['migrate'][node.app_environment]}" do
+      execute "rake gems:install" do
         ignore_failure true
       end
     end
