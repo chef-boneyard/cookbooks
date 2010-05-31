@@ -33,7 +33,7 @@ user node[:tomcat6][:user] do
   shell "/bin/sh"
 end
 
-[node[:tomcat6][:temp],node[:tomcat6][:logs],node[:tomcat6][:webapps],node[:tomcat6][:home],node[:tomcat6][:conf]].each do |dir|
+[node[:tomcat6][:temp],node[:tomcat6][:logs],node[:tomcat6][:webapp_base_dir],node[:tomcat6][:webapps],node[:tomcat6][:home],node[:tomcat6][:conf]].each do |dir|
   directory dir do
     action :create
     mode 0755
