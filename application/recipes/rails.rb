@@ -172,16 +172,6 @@ deploy_revision app['id'] do
   environment 'RAILS_ENV' => node.app_environment
   action app['force'][node.app_environment] ? :force_deploy : :deploy
   ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
-  if app['migrate'][node.app_environment] && node[:apps][app['id']][node.app_environment][:run_migrations]
-    migrate true
-    migration_command "rake db:migrate"
-  else
-    migrate false
-  end
-  symlink_before_migrate({
-    "database.yml" => "config/database.yml",
-    "memcached.yml" => "config/memcached.yml"
-  })
 
   before_migrate do
     if app['gems'].has_key?('bundler')
@@ -202,11 +192,23 @@ deploy_revision app['id'] do
       #
       # maybe worth doing run_symlinks_before_migrate before before_migrate callbacks,
       # or an add'l callback.
-      execute "(ln -s ../../../shared/database.yml config/ && rake gems:install); rm config/database.yml" do
+      execute "(ln -s ../../../shared/database.yml config/database.yml && rake gems:install); rm config/database.yml" do
         ignore_failure true
         cwd release_path
       end
     end
+  end
+
+  symlink_before_migrate({
+    "database.yml" => "config/database.yml",
+    "memcached.yml" => "config/memcached.yml"
+  })
+
+  if app['migrate'][node.app_environment] && node[:apps][app['id']][node.app_environment][:run_migrations]
+    migrate true
+    migration_command "rake db:migrate"
+  else
+    migrate false
   end
 end
 
