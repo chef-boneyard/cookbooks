@@ -20,7 +20,7 @@ else
   set[:tomcat6][:stop]            = "/etc/init.d/tomcat6 stop"
   set[:tomcat6][:restart]         = "/etc/init.d/tomcat6 restart"
   set[:tomcat6][:home]            = "/usr/share/tomcat6" #don't use trailing slash. it breaks init script
-  set[:tomcat6][:dir]             = "/etc/tomcat"
+  set[:tomcat6][:dir]             = "/etc/tomcat6"
   set[:tomcat6][:conf]            = "/etc/tomcat6"
   set[:tomcat6][:temp]            = "/var/tmp/tomcat6"
   set[:tomcat6][:logs]            = "/var/log/tomcat6"
