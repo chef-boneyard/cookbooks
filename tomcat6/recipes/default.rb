@@ -21,6 +21,7 @@
 
 service "tomcat6" do
   action :nothing
+  supports :status => true, :start => true, :stop => true, :restart => true
 end
 
 group node[:tomcat6][:user] do
