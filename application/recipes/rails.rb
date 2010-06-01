@@ -211,5 +211,3 @@ deploy_revision app['id'] do
     migrate false
   end
 end
-
-execute 
