@@ -175,7 +175,7 @@ function start() {
             read kpid < /var/run/${NAME}.pid
                 if checkpid $kpid 2>&1; then
                     echo "$NAME process already running"
-                        return -1
+                        return 1
                     else
                         echo "lock file found but no process running for"
                         echo "pid $kpid, continuing"
