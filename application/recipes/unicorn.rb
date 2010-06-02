@@ -23,7 +23,7 @@ include_recipe "unicorn"
 
 node.default[:unicorn][:worker_timeout] = 60
 node.default[:unicorn][:preload_app] = false
-node.default[:unicorn][:worker_processes] = node[:cpu][:total].to_i * 4 
+node.default[:unicorn][:worker_processes] = [node[:cpu][:total].to_i * 4, 8].min
 node.default[:unicorn][:preload_app] = false
 node.default[:unicorn][:before_fork] = 'sleep 1' 
 node.default[:unicorn][:port] = '8080'
