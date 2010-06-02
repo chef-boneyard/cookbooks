@@ -23,7 +23,7 @@ ulimit -n 4096
 # set a minimalist PATH
 PATH="/bin:/sbin"
 
-NAME="$(basename $0)"
+NAME="$(/usr/bin/basename $0)"
 unset ISBOOT
 if [ "${NAME:0:1}" = "S" -o "${NAME:0:1}" = "K" ]; then
     NAME="${NAME:3}"
