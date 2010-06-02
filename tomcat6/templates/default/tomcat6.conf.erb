@@ -53,3 +53,12 @@ CATALINA_PID="/var/run/tomcat6.pid"
 # (i.e. LD_LIBRARY_PATH for some jdbc drivers)
 
 LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/share/tomcat6/jai-1_1_3/lib/
+
+# Get the tomcat custom config (use this for application-specific environment settings)
+if [ -z "${TOMCAT_CUSTOM_CFG}" ]; then
+    TOMCAT_CUSTOM_CFG="/etc/tomcat6/tomcat6_custom.conf"
+fi
+
+if [ -r "$TOMCAT_CUSTOM_CFG" ]; then
+    . $TOMCAT_CUSTOM_CFG
+fi
