@@ -34,8 +34,8 @@ else
   set_unless[:chef][:serve_path] = "/srv/chef"
 end
 
-set_unless[:chef][:server_version]  = "0.8.16"
-set_unless[:chef][:client_version]  = "0.8.16"
+set_unless[:chef][:server_version]  = node.chef_packages.chef[:version]
+set_unless[:chef][:client_version]  = node.chef_packages.chef[:version]
 set_unless[:chef][:client_interval] = "1800"
 set_unless[:chef][:client_splay]    = "20"
 set_unless[:chef][:log_dir]         = "/var/log/chef"
@@ -44,17 +44,5 @@ set_unless[:chef][:webui_port]      = "4040"
 set_unless[:chef][:webui_enabled]   = false
 set_unless[:chef][:validation_client_name] = "chef-validator"
 
-case chef[:init_style]
-when "runit"
-  set_unless[:chef][:client_log]  = "STDOUT"
-  set_unless[:chef][:indexer_log] = "STDOUT"
-  set_unless[:chef][:server_log]  = "STDOUT"
-else
-  set_unless[:chef][:client_log]  = "#{chef[:log_dir]}/client.log"
-  set_unless[:chef][:indexer_log] = "#{chef[:log_dir]}/indexer.log"
-  set_unless[:chef][:server_log]  = "#{chef[:log_dir]}/server.log"
-end
-
 set_unless[:chef][:server_fqdn]     = node.has_key?(domain) ? "chef.#{domain}" : "chef"
-set_unless[:chef][:server_ssl_req]  = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/" +
-  "CN=#{chef[:server_fqdn]}/emailAddress=ops@#{chef[:server_fqdn]}"
+set_unless[:chef][:server_url]      = "#{node.chef.url_type}://#{node.chef.server_fqdn}:#{node.chef.server_port}"

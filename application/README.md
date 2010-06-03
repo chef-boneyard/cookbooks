@@ -58,6 +58,9 @@ Using the node's `run_state` that contains the current application in the search
 
 This recipe can be used on nodes that are going to run the application, or on nodes that need to have the application code checkout available such as supporting utility nodes or a configured load balancer that needs static assets stored in the application repository.
 
+For Gem Bundler: include `bundler` or `bundler08` in the gems list.  `bundle install` or `gem bundle` will be run before migrations.
+For config.gem in environment: `rake gems:install RAILS_ENV=<node environment>` will be run when a Gem Bundler command is not.
+
 unicorn
 -------
 
@@ -133,7 +136,7 @@ Note about gems and packages, the version is optional. If specified, the version
         "production": "true or false boolean to force migration, see rails.rb recipe"
       },
       "databases": {
-        "db_name_production": {
+        "production": {
           "reconnect": "true",
           "encoding": "utf8",
           "username": "db_user",
