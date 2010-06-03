@@ -25,14 +25,6 @@ root_group = value_for_platform(
   "default" => "root"
 )
 
-if node[:chef][:client_log] == "STDOUT"
-  client_log = node[:chef][:client_log]
-  show_time  = "false"
-else
-  client_log = "\"#{node[:chef][:client_log]}\""
-  show_time  = "true"
-end
-
 ruby_block "reload_client_config" do
   block do
     Chef::Config.from_file("/etc/chef/client.rb")
@@ -45,10 +37,6 @@ template "/etc/chef/client.rb" do
   owner "root"
   group root_group
   mode "644"
-  variables(
-    :client_log => client_log,
-    :show_time  => show_time
-  )
   notifies :create, resources(:ruby_block => "reload_client_config")
 end
 
