@@ -169,16 +169,45 @@ deploy_revision app['id'] do
   user app['owner']
   group app['group']
   deploy_to app['deploy_to']
+  environment 'RAILS_ENV' => node.app_environment
   action app['force'][node.app_environment] ? :force_deploy : :deploy
   ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
+
+  before_migrate do
+    if app['gems'].has_key?('bundler')
+      execute "bundle install" do
+        ignore_failure true
+        cwd release_path
+      end
+    elsif app['gems'].has_key?('bundler08')
+      execute "gem bundle" do
+        ignore_failure true
+        cwd release_path
+      end
+
+    elsif node.app_environment && app['databases'].has_key?(node.app_environment)
+      # chef runs before_migrate, then symlink_before_migrate symlinks, then migrations,
+      # yet our before_migrate needs database.yml to exist (and must complete before
+      # migrations).
+      #
+      # maybe worth doing run_symlinks_before_migrate before before_migrate callbacks,
+      # or an add'l callback.
+      execute "(ln -s ../../../shared/database.yml config/database.yml && rake gems:install); rm config/database.yml" do
+        ignore_failure true
+        cwd release_path
+      end
+    end
+  end
+
+  symlink_before_migrate({
+    "database.yml" => "config/database.yml",
+    "memcached.yml" => "config/memcached.yml"
+  })
+
   if app['migrate'][node.app_environment] && node[:apps][app['id']][node.app_environment][:run_migrations]
     migrate true
     migration_command "rake db:migrate"
   else
     migrate false
   end
-  symlink_before_migrate({
-    "database.yml" => "config/database.yml",
-    "memcached.yml" => "config/memcached.yml"
-  })
 end

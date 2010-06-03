@@ -28,40 +28,6 @@ gem_package "chef" do
   version node[:chef][:client_version]
 end
 
-case node[:chef][:init_style]
-when "runit"
-  client_log = node[:chef][:client_log]
-  show_time  = "false"
-  include_recipe "runit"
-  runit_service "chef-client"
-when "init"
-  client_log = "\"#{node[:chef][:client_log]}\""
-  show_time  = "true"
-
-  directory node[:chef][:run_path] do
-    action :create
-    owner "root"
-    group root_group
-    mode "755"
-  end
-
-  service "chef-client" do
-    action :nothing
-  end
-
-  log("You specified service style 'init'.")
-  log("'init' scripts available in #{node[:languages][:ruby][:gems_dir]}/gems/chef-#{node[:chef][:client_version]}/distro")
-when "bsd"
-  client_log = node[:chef][:client_log]
-  show_time  = "false"
-  log("You specified service style 'bsd'. You will need to set up your rc.local file.")
-  log("Hint: chef-client -i #{node[:chef][:client_interval]} -s #{node[:chef][:client_splay]}")
-else
-  client_log = node[:chef][:client_log]
-  show_time  = "false"
-  log("Could not determine service init style, manual intervention required to start up the client service.")
-end
-
 chef_dirs = [
   node[:chef][:log_dir],
   node[:chef][:path],
@@ -81,8 +47,55 @@ template "/etc/chef/client.rb" do
   owner "root"
   group root_group
   mode "644"
-  variables(
-    :client_log => client_log,
-    :show_time  => show_time
+end
+
+case node[:chef][:init_style]
+when "runit"
+
+  include_recipe "runit"
+  runit_service "chef-client"
+
+when "init"
+
+  directory node[:chef][:run_path] do
+    action :create
+    owner "root"
+    group root_group
+    mode "755"
+  end
+
+  dist_dir = value_for_platform(
+    ["ubuntu", "debian"] => { "default" => "debian" },
+    ["redhat", "centos", "fedora"] => { "default" => "redhat"}
   )
+
+  conf_dir = value_for_platform(
+    ["ubuntu", "debian"] => { "default" => "default" },
+    ["redhat", "centos", "fedora"] => { "default" => "sysconfig"}
+  )
+
+  chef_version = node.chef_packages.chef[:version]
+
+  init_content = IO.read("#{node.languages.ruby.gems_dir}/gems/chef-#{chef_version}/distro/#{dist_dir}/etc/init.d/chef-client")
+  conf_content = IO.read("#{node.languages.ruby.gems_dir}/gems/chef-#{chef_version}/distro/#{dist_dir}/etc/#{conf_dir}/chef-client")
+
+  file "/etc/init.d/chef-client" do
+    content init_content
+    mode 0755
+  end
+
+  file "/etc/#{conf_dir}/chef-client" do
+    content conf_content
+    mode 0644
+  end
+
+  service "chef-client" do
+    action :enable
+  end
+
+when "bsd"
+  log("You specified service style 'bsd'. You will need to set up your rc.local file.")
+  log("Hint: chef-client -i #{node[:chef][:client_interval]} -s #{node[:chef][:client_splay]}")
+else
+  log("Could not determine service init style, manual intervention required to start up the chef-client service.")
 end
