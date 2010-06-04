@@ -1,30 +1,30 @@
 {
-    "dependencies": {
-    },
-    "replacing": {
-    },
-    "description": "Opscode rubygems config",
-    "groupings": {
-    },
-    "platforms": {
-    },
-    "version": "0.1.0",
-    "recommendations": {
-    },
-    "name": "rubygems",
     "maintainer": "Opscode, Inc.",
-    "long_description": "Configures rubygems sources lists\n",
-    "recipes": {
-      "rubygems": "Configures rubygems"
+    "attributes": {
     },
     "suggestions": {
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
+    "platforms": {
     },
+    "dependencies": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.2.0",
+    "name": "rubygems",
+    "recipes": {
+      "rubygems": "Configures rubygems"
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "Configures rubygems sources lists\n",
+    "recommendations": {
+    },
+    "description": "Opscode rubygems config"
   }

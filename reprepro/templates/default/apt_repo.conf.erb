@@ -1,0 +1,23 @@
+<VirtualHost *:80>
+  ServerAdmin <%= @node[:reprepro][:pgp_email] %>
+  ServerName <%= @node[:reprepro][:fqdn] %>
+  ServerAlias <%= @node[:hostname] %> <%= @node[:fqdn] %>
+
+  DocumentRoot <%= @repo_dir %>
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+
+  <Directory <%= @repo_dir %>>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride None
+    Order allow,deny
+    allow from all
+  </Directory>
+
+  LogLevel warn
+  ErrorLog /var/log/apache2/apt_repo-error.log 
+  CustomLog /var/log/apache2/apt_repo-access.log combined
+  ServerSignature On
+</VirtualHost>

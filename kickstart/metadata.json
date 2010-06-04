@@ -1,13 +1,8 @@
 {
-    "dependencies": {
-      "apache2": [
-
-      ]
+    "maintainer": "Opscode",
+    "attributes": {
     },
-    "replacing": {
-    },
-    "description": "Installs/Configures kickstart",
-    "groupings": {
+    "suggestions": {
     },
     "platforms": {
       "centos": [
@@ -17,22 +12,27 @@
 
       ]
     },
-    "version": "0.2.0",
-    "recommendations": {
-    },
-    "name": "kickstart",
-    "maintainer": "Opscode",
-    "long_description": "= DESCRIPTION:\n\nCreates an apache vhost and serves a very basic kickstart file.\n\n= REQUIREMENTS:\n\nRed Hat Enterprise Linux, CentOS, or other platforms that support Kickstart :-).\n\nOpscode/cookbooks:\n\n* apache2\n\n= ATTRIBUTES: \n\n* kickstart[:rootpw] - set the root password. Use an encrypted string[1].\n\n[1] a Ruby way to encrypt:\nhttp://www.opensourcery.co.za/2009/05/01/quick-nix-shadow-passwords-with-ruby/\n\n= USAGE:\n\nYou'll almost certainly want to edit ks.cfg.erb to suit your environment. As is, the provided template is used as a minimal fast install for creating virtual machines to run CentOS 5. Of particular note, the following should definitely be changed:\n\n* url - mirrors.kernel.org is usually fast for me, but maybe not for you.\n* network - change the hostname.\n* rootpw - this is an attribute, so you can change it by modifying the server. Use the encrypted password!\n\nStorage / disks should probably be customized, as well as firewall rules, SELinux policy, and the package list.\n\nThe %post section will install Chef via Matthew Kent's RPMs, per the Chef Wiki instructions.\n\nTo use the recipe on a system that will be the kickstart server,\n\n  include_recipe \"kickstart::server\"\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-    "recipes": {
-    },
-    "suggestions": {
+    "dependencies": {
+      "apache2": [
+
+      ]
     },
     "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-    },
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.3.0",
+    "name": "kickstart",
+    "recipes": {
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION:\n\nCreates an apache vhost and serves a very basic kickstart file.\n\n= REQUIREMENTS:\n\nRed Hat Enterprise Linux, CentOS, or other platforms that support Kickstart :-).\n\nOpscode/cookbooks:\n\n* apache2\n\n= ATTRIBUTES: \n\n* kickstart[:rootpw] - set the root password. Use an encrypted string[1].\n\n[1] a Ruby way to encrypt:\nhttp://www.opensourcery.co.za/2009/05/01/quick-nix-shadow-passwords-with-ruby/\n\n= USAGE:\n\nYou'll almost certainly want to edit ks.cfg.erb to suit your environment. As is, the provided template is used as a minimal fast install for creating virtual machines to run CentOS 5. Of particular note, the following should definitely be changed:\n\n* url - mirrors.kernel.org is usually fast for me, but maybe not for you.\n* network - change the hostname.\n* rootpw - this is an attribute, so you can change it by modifying the server. Use the encrypted password!\n\nStorage / disks should probably be customized, as well as firewall rules, SELinux policy, and the package list.\n\nThe %post section will install Chef via Matthew Kent's RPMs, per the Chef Wiki instructions.\n\nTo use the recipe on a system that will be the kickstart server,\n\n  include_recipe \"kickstart::server\"\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recommendations": {
+    },
+    "description": "Creates apache2 vhost and serves a kickstart file."
   }

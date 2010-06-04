@@ -1,0 +1,38 @@
+{
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
+    },
+    "suggestions": {
+    },
+    "platforms": {
+    },
+    "dependencies": {
+      "mysql": [
+
+      ],
+      "xfs": [
+
+      ],
+      "aws": [
+
+      ]
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "conflicting": {
+    },
+    "version": "0.6.0",
+    "name": "database",
+    "recipes": {
+    },
+    "providing": {
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "Database Cookbook\n=================\n\nConfigures mysql database masters and slaves and uses EBS for storage, integrating together with the application cookbook utilizing data bags for application related information.\n\nThis cookbook is written primarily to use MySQL and the Opscode mysql cookbook. Other RDBMS may be supported at a later date.\n\nThis cookbook does not automatically restore database dumps, but does install tools to help with that.\n\n---\nRecipes\n=======\n\nebs_volume\n----------\n\nLoads the aws information from the data bag. Searches the applications data bag for the database master or slave role and checks that role is applied to the node. Loads the EBS information and the master information from data bags. Uses the aws cookbook LWRP, `aws_ebs_volume` to manage the volume.\n\nOn a master node:\n* if we have an ebs volume already as stored in a data bag, attach it.\n* if we don't have the ebs information then create a new one and attach it.\n* store the volume information in a data bag via a ruby block.\n\nOn a slave node:\n* use the master volume information to generate a snapshot.\n* create the new volume from the snapshot and attach it.\n\nAlso on a master node, generate some configuration for running a snapshot via `chef-solo` from cron.\n\nOn a new filesystem volume, create as XFS, then mount it in /mnt, and also bind-mount it to the mysql data directory (default /var/lib/mysql).\n\nmaster\n------\n\nLoads the AWS information from a data bag. Create the databases for the application per the role checking magic, if they don't exist. Install s3cmd and create a config file so we can do manual database restores from dumpfiles if necessary. Finally store the replication status in a data bag.\n\nslave\n-----\n\nRetrieve the master status from a data bag, then start replication using a ruby block.\n\nsnapshot\n--------\n\nRun via chef-solo. Retrieves the db snapshot configuration from the specified JSON file. Uses the `mysql_database` LWRP to lock and unlock tables, and does a filesystem freeze and EBS snapshot.\n\n---\nDeprecated Recipes\n==================\n\nThe following recipes are no longer used as they have been deprecated in functionality both the above.\n\nebs_backup\n----------\n\nOlder style of doing mysql snapshot and replication using Adam Jacob's [ec2_mysql][0] script and library\n\n[0]: http://github.com/adamhjk/ec2_mysql\n\n---\nData Bags\n=========\n\nThis recipe uses the apps data bag item for the specified application; see the `application` cookbook's README.txt. It also creates data bag items in a bag named 'aws' for storing volume information. In order to interact with EC2, it expects aws to have a main item:\n\n    {\n      \"id\": \"main\",\n      \"ec2_private_key\": \"private key as a string\",\n      \"ec2_cert\": \"certificate as a string\",\n      \"aws_account_id\": \"\",\n      \"aws_secret_access_key\": \"\",\n      \"aws_access_key_id\": \"\"\n    }\n\nNote: with the Open Source Chef Server, the server using the database recipes must be an admin client or it will not be able to create data bag items. You can modify whether the client is admin by editing it with knife.\n\n    knife client edit <client_name>\n    {\n      ...\n      \"admin\": true\n      ...\n    }\n\nThis is not required if the Chef Server is the Opscode Platform.\n\n---\nUsage\n=====\n\nAside from the application data bag (see the README.txt in the application cookbook), create a role for the database master in the chef-repo:\n\n    % vi roles/my_app_database_maser.rb\n    name \"my_app_database_master\"\n    description \"Set up a MySQL DB master for the my_app application\"\n    run_list(\n      \"recipe[my_app_database]\",\n      \"recipe[database::ebs_volume]\",\n      \"recipe[database::master]\"\n    )\n    % knife role from file roles/my_app_database_master.rb\n\nThe cookbook `my_app_database` is recommended to set up any application specific database resources such as configuration templates, trending monitors, etc. It is not required, but you would need to create it separately in `site-cookbooks`.\n\nLicense and Author\n==================\n\nAuthor:: Adam Jacob (<adam@opscode.com>)\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nAuthor:: AJ Christensen (<aj@opscode.com>)\n\nCopyright 2009-2010, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recommendations": {
+    },
+    "description": "Sets up the database master or slave"
+  }

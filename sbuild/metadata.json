@@ -1,0 +1,35 @@
+{
+    "maintainer": "Opscode",
+    "attributes": {
+    },
+    "suggestions": {
+    },
+    "platforms": {
+    },
+    "dependencies": {
+      "lvm": [
+
+      ],
+      "xfs": [
+
+      ]
+    },
+    "maintainer_email": "joshua@opscode.com",
+    "conflicting": {
+    },
+    "version": "0.3.0",
+    "name": "sbuild",
+    "recipes": {
+    },
+    "providing": {
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= NOTICE:\n\nThis cookbook uses LVM directly. Please understand what the recipe and definition do before using it on your system. It has been tested on Debian sid (unstable) only!\n\nThat said, the packages hosted by Opscode on apt.opscode.com were built on a system using this cookbook :-).\n\n= DESCRIPTION:\n\nInstalls and configures a server to be an 'sbuild' system to build debian packages from source. Provides a definition that will create logical volumes for snapshot use.\n\n= REQUIREMENTS:\n\nChef 0.8.x+ is required for data bag use (see below).\n\n== Platform:\n\nThis cookbook is very much Debian / Ubuntu specific. It has been tested mainly on Debian sid/unstable.\n\n== Cookbooks:\n\n* xfs\n* lvm\n\n== Server Configuration:\n\nThis cookbook utilizes a 'users' data bag. The requirement here is for any users that will perform sbuilds have a groups attribute 'sbuild'.\n\n    knife data bag show users\n    [\n      \"jtimberman\"\n    ]\n\n    knife data bag show users jtimberman\n    {\n      \"id\": \"jtimberman\",\n      \"groups\": \"sbuild\"\n    }\n\nThis will allow the cookbook to create user specific settings.\n\nYou must create a volume group on your build server that will contain the logical volumes for sbuild's schroots. The default in the sbuild_lv define is 'buildvg', but you can name it whatever you like. See USAGE, below.\n\n= ATTRIBUTES:\n\nAll attributes are under the node[:sbuild] space.\n\n* mailto - address to send mail about sbuilds, default 'root'.\n* key_id - sets the PGP key ID to use, default \"\".\n* pgp_options - default options for PGP, but commented out in config file (use debsign).\n* maintainer_name - package maintainer name, default \"\".\n* lv_size - size of logical volumes to create, default \"5G\" (should be enough for most systems).\n* snapshot_size - size of snapshots for schroots, default \"4G\" (should be enough for most systems).\n\n= USAGE:\n\nThe default recipe will install a number of useful packages for building debian packages from source. It will also make sure the device mapper kernel module is loaded for LVM, create some nice configuration for users who are in the 'sbuild' group (see above about data bags). Finally, it will create a script to perform automated updates to schroot sources, to ensure your debootstrapped build environments have the latest packages.\n\nThe schroots recipe contains some commented examples of using the sbuild_lv definition.\n\nThe sbuild_lv definition does the heavy lifting. Here's an example, and what it does:\n\n    sbuild_lv \"lucid\" do\n      release \"lucid\"\n      distro \"ubuntu\"\n      vg \"buildvg\"\n    end\n\nThis will:\n\n# Create a logical volume named after the sbuild_lv (lucid) in the vg (buildvg), size will be lv_size (5G).\n# Create an XFS filesystem on the logical volume. Replace the 'execute mkfs.xfs' resource in the definition to use another filesystem if you prefer.\n# Create an schroot configuration for the named sbuild_lv (/etc/schroot/chroot.d/lucid).\n# Create a script that needs to be executed to finish setup of the schroot (/usr/local/bin/mk_chroot_lucid.sh).\n\nThe mk_chroot script should then be executed to finish creating the schroot. Since this does a debootstrap (debian installation), we don't run it within Chef, as it can be very time consuming to execute. The script itself performs the following:\n\n* Mounts the volume.\n* Runs debootstrap for the specified distro and release.\n* Sets up the APT sources.list to use in the schroot.\n* Creates a '/finish.sh' script in the schroot that gets a few more release specific packages.\n* Runs the '/finish.sh' within the schroot.\n* Prints some usage information on how to use the schroot it just created.\n\n= RESOURCES:\n\nSome resources that are helpful in building debian/ubuntu packages with sbuild:\n\nhttp://www.pseudorandom.co.uk/2007/sbuild/\nhttp://www.pseudorandom.co.uk/2008/sbuild-dm/\nhttps://help.ubuntu.com/community/SbuildLVMHowto\n\n= LICENSE AND AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2010, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recommendations": {
+    },
+    "description": "Creates an sbuild host for debian packages."
+  }

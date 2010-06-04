@@ -1,4 +1,156 @@
 {
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
+      "jira/database_host": {
+        "default": "localhost",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Hostname of the database server",
+        "display_name": "Jira Database Host",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "jira/run_user": {
+        "default": "www-data",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "User the Jira instance should run as",
+        "display_name": "Jira Run User",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "jira/version": {
+        "default": "enterprise-3.13.1",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Version of Jira to download and install",
+        "display_name": "Jira Version",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "jira/virtual_host_name": {
+        "default": "jira.domain",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Apache ServerName for Jira virtual host",
+        "display_name": "Jira Virtual Hostname",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "jira/install_path": {
+        "default": "/srv/jira",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Filesystem location for Jira",
+        "display_name": "Jira Install Path",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "jira": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Hash of Jira attributes",
+        "display_name": "Jira",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "jira/database": {
+        "default": "mysql",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Type of database Jira should use",
+        "display_name": "Jira Database",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "jira/database_user": {
+        "default": "jira",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Name of the database user for Jira",
+        "display_name": "Jira Database User",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "jira/virtual_host_alias": {
+        "default": "jira",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Apache ServerAlias for Jira virtual host",
+        "display_name": "Jira Virtual Hostalias",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "jira/database_password": {
+        "default": "change_me",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "Password for the Jira Database User",
+        "display_name": "Jira Database Password",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      }
+    },
+    "suggestions": {
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ],
+      "debian": [
+
+      ]
+    },
     "dependencies": {
       "java": [
 
@@ -10,177 +162,25 @@
 
       ]
     },
+    "maintainer_email": "cookbooks@opscode.com",
+    "conflicting": {
+    },
+    "version": "0.8.0",
+    "name": "jira",
+    "recipes": {
+    },
+    "providing": {
+    },
+    "license": "Apache 2.0",
     "replacing": {
     },
-    "description": "Installs and configures jira",
     "groupings": {
     },
-    "platforms": {
-      "ubuntu": [
-
-      ],
-      "debian": [
-
-      ]
-    },
-    "version": "0.7.0",
+    "long_description": "",
     "recommendations": {
       "mysql": [
 
       ]
     },
-    "name": "jira",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "",
-    "recipes": {
-    },
-    "suggestions": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-      "jira/database_host": {
-        "calculated": false,
-        "default": "localhost",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Hostname of the database server",
-        "display_name": "Jira Database Host",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "jira/run_user": {
-        "calculated": false,
-        "default": "www-data",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "User the Jira instance should run as",
-        "display_name": "Jira Run User",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "jira/version": {
-        "calculated": false,
-        "default": "enterprise-3.13.1",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Version of Jira to download and install",
-        "display_name": "Jira Version",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "jira/virtual_host_name": {
-        "calculated": false,
-        "default": "jira.domain",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Apache ServerName for Jira virtual host",
-        "display_name": "Jira Virtual Hostname",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "jira/install_path": {
-        "calculated": false,
-        "default": "/srv/jira",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Filesystem location for Jira",
-        "display_name": "Jira Install Path",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "jira": {
-        "calculated": false,
-        "type": "hash",
-        "choice": [
-
-        ],
-        "description": "Hash of Jira attributes",
-        "display_name": "Jira",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "jira/database": {
-        "calculated": false,
-        "default": "mysql",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Type of database Jira should use",
-        "display_name": "Jira Database",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "jira/database_user": {
-        "calculated": false,
-        "default": "jira",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Name of the database user for Jira",
-        "display_name": "Jira Database User",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "jira/virtual_host_alias": {
-        "calculated": false,
-        "default": "jira",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Apache ServerAlias for Jira virtual host",
-        "display_name": "Jira Virtual Hostalias",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "jira/database_password": {
-        "calculated": false,
-        "default": "change_me",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "Password for the Jira Database User",
-        "display_name": "Jira Database Password",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      }
-    },
-    "conflicting": {
-    },
-    "license": "Apache 2.0",
-    "providing": {
-    }
+    "description": "Installs and configures jira"
   }

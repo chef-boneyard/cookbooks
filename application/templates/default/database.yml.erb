@@ -1,0 +1,10 @@
+<%- @databases.each do |env, db| %>
+<%= env %>:
+  adapter: <%= db['adapter'] %>
+  host: <%= @host %>
+  database: <%= db['database'] %>
+  username: <%= db['username'] %>
+  password: <%= db['password'] %>
+  encoding: <%= db.has_key?('encoding') ? db['encoding'] : 'utf8' %>
+  reconnect: true
+<%- end %>

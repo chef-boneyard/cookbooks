@@ -1,0 +1,7 @@
+This is a cookbook for managing RabbitMQ with Chef.  It has sane defaults, but can also be configured via attributes.  It is quite useful as is, but has two areas for improvement:
+
+1) While it can create cluster configuration files, it does not currently do the dance to join the cluster members to each other.
+
+2) The Erlang run parameters are currently an opaque string.  They should really be a set of tunables to be manipulated by name.
+
+Share and enjoy!

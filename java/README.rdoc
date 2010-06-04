@@ -1,6 +1,6 @@
 = DESCRIPTION:
 
-Installs Java and Ant.
+Installs Java and Ant. Uses OpenJDK, Sun's Java is deprecated in Ubuntu and may not be available in the future.
 
 = REQUIREMENTS:
 
@@ -10,7 +10,7 @@ Enable the 'multiverse' repository on Ubuntu, 'non-free' on Debian or EPEL on RH
 
 = USAGE:
 
-Simply include the recipe where you want Java installed. Note the respository requirement above to get the right package. On Debian and Ubuntu systems, the recipe will preseed the package and update java alternaties.
+Simply include the recipe where you want Java installed. Note the repository requirement above to get the right package. On Debian and Ubuntu systems, the recipe will preseed the package and update java alternaties.
 
 = LICENSE and AUTHOR:
 

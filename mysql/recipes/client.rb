@@ -20,7 +20,7 @@
 p = package "mysql-devel" do
   package_name value_for_platform(
     [ "centos", "redhat", "suse" ] => { "default" => "mysql-devel" },
-    "default" => 'libmysqlclient15-dev'
+    "default" => 'libmysqlclient-dev'
   )
   action :nothing
 end

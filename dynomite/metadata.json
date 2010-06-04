@@ -1,4 +1,14 @@
 {
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
+    },
+    "suggestions": {
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ]
+    },
     "dependencies": {
       "runit": [
 
@@ -13,32 +23,22 @@
 
       ]
     },
-    "replacing": {
-    },
-    "description": "Installs/Configures dynomite",
-    "groupings": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ]
-    },
-    "version": "0.1.0",
-    "recommendations": {
-    },
-    "name": "dynomite",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "= DESCRIPTION:\n\nInstalls and configures dynomite.\n\n= REQUIREMENTS:\n\n== Platform:\n\nUbuntu, mainly because of dependencies on Ubuntu specific installation methods in dependencies (thrift and boost).\n\n== Cookbooks:\n\nOpscode/cookbooks:\n\n* thrift\n** boost\n* ruby\n* git\n* erlang\n* runit\n\n= ATTRIBUTES: \n\n* dynomite[:master] - whether this node is a master cluster node.\n* dynomite[:cluster_name] - name of the dynomite cluster.\n* dynomite[:data_dir] - location of the data.\n* dynomite[:num_nodes] - number of nodes in the cluster.\n* dynomite[:node_name] - name of this node.\n* dynomite[:ascii_port] - port for ASCII protocol.\n* dynomite[:thrift_port] - port for Thrift protocol.\n* dynomite[:web_port] - port for web (HTTP).\n\n= USAGE:\n\nNothing fancy. Include the recipe, or add to a run_list like any other recipe. This cookbook relies on the ruby-dynomite client, which manages dynomite processes. The cookbook will set up dynomite as a runit service.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-    "recipes": {
-    },
-    "suggestions": {
-    },
     "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-    },
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.2.0",
+    "name": "dynomite",
+    "recipes": {
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION:\n\nInstalls and configures dynomite.\n\n= REQUIREMENTS:\n\n== Platform:\n\nUbuntu, mainly because of dependencies on Ubuntu specific installation methods in dependencies (thrift and boost).\n\n== Cookbooks:\n\nOpscode/cookbooks:\n\n* thrift\n** boost\n* ruby\n* git\n* erlang\n* runit\n\n= ATTRIBUTES: \n\n* dynomite[:master] - whether this node is a master cluster node.\n* dynomite[:cluster_name] - name of the dynomite cluster.\n* dynomite[:data_dir] - location of the data.\n* dynomite[:num_nodes] - number of nodes in the cluster.\n* dynomite[:node_name] - name of this node.\n* dynomite[:ascii_port] - port for ASCII protocol.\n* dynomite[:thrift_port] - port for Thrift protocol.\n* dynomite[:web_port] - port for web (HTTP).\n\n= USAGE:\n\nNothing fancy. Include the recipe, or add to a run_list like any other recipe. This cookbook relies on the ruby-dynomite client, which manages dynomite processes. The cookbook will set up dynomite as a runit service.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recommendations": {
+    },
+    "description": "Installs/Configures dynomite"
   }

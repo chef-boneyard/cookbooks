@@ -1,10 +1,8 @@
 {
-    "dependencies": {
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
     },
-    "replacing": {
-    },
-    "description": "Installs zlib",
-    "groupings": {
+    "suggestions": {
     },
     "platforms": {
       "ubuntu": [
@@ -26,22 +24,24 @@
 
       ]
     },
-    "version": "0.1.0",
-    "recommendations": {
-    },
-    "name": "zlib",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "",
-    "recipes": {
-    },
-    "suggestions": {
+    "dependencies": {
     },
     "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-    },
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.1.0",
+    "name": "zlib",
+    "recipes": {
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "",
+    "recommendations": {
+    },
+    "description": "Installs zlib"
   }

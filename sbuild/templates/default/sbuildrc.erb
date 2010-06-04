@@ -1,0 +1,12 @@
+# Directory for writing build logs to
+$log_dir = "$HOME/.cache/sbuild.logs";
+
+# Mail address where logs are sent to (mandatory, no default!)
+$mailto = '<%= node[:sbuild][:mailto] %>';
+
+$maintainer_name='<%= node[:sbuild][:maintainer_name] %>';
+$key_id='<%= node[:sbuild][:key_id] %>';
+
+#$pgp_options = '<%= node[:sbuild][:pgp_options] %>';
+
+1;

@@ -1,0 +1,33 @@
+{
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
+    },
+    "suggestions": {
+    },
+    "platforms": {
+    },
+    "dependencies": {
+      "apt": [
+
+      ]
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "conflicting": {
+    },
+    "version": "0.1.0",
+    "name": "cloudkick",
+    "recipes": {
+      "cloudkick::default": "Installs and configures Cloudkick"
+    },
+    "providing": {
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION:\n\nInstalls and configures the Cloudkick Agent, and integrates it with Chef.\n\n= REQUIREMENTS:\n\nYou must be running a platform supported by the Cloudkick Agent - at this time, that means Ubuntu, CentOS or Red Hat.\n\n= USAGE:\n\nIn order for the agent to function, you'll need to have defined your Cloudkick API key and secret.  We recommend you do this in a Role, which should also take care of applying the cloudkick::default recipe.\n\nAssuming you name the role 'cloudkick', here is the required json:\n\n  {\n    \"name\": \"cloudkick\",\n    \"chef_type\": \"role\",\n    \"json_class\": \"Chef::Role\",\n    \"default_attributes\": {\n\n    },\n    \"description\": \"Configures Cloudkick\",\n    \"run_list\": [\n      \"recipe[cloudkick]\"\n    ],\n    \"override_attributes\": {\n      \"cloudkick\": {\n        \"oauth_key\": \"YOUR KEY HERE\"\n        \"oauth_secret\": \"YOUR SECRET HERE\"\n      }\n    }\n  }\n\nIf you want Cloudkick installed everywhere, we recommend you just add the cloudkick attributes to a base role.\n\nAll of the data about the node from Cloudkick is available in node[:cloudkick] - for example: \n\n  \"cloudkick\": {\n    \"oauth_key\": \"YOUR KEY HERE\",\n    \"oauth_secret\": \"YOUR SECRET HERE\",\n    \"data\": {\n      \"name\": \"slice204393\",\n      \"status\": \"running\",\n      \"ipaddress\": \"173.203.83.199\",\n      \"provider_id\": \"padc2665\",\n      \"tags\": [\n        \"agent\",\n        \"cloudkick\"\n      ],\n      \"agent_state\": \"connected\",\n      \"id\": \"n87cfc79c5\",\n      \"provider_name\": \"Rackspace\",\n      \"color\": \"#fffffff\"\n    }\n  }\n\nOf particular interest is the inclusion of the Cloudkick tags.  This will allow you to search Chef via tags placed on nodes within Cloudkick:\n\n  $ knife search node 'cloudkick_data_tags:agent' -a fqdn\n  {\n    \"rows\": [\n      {\n        \"fqdn\": \"slice204393\",\n        \"id\": \"slice204393\"\n      }\n    ],\n    \"start\": 0,\n    \"total\": 1\n  }\n  \nWe automatically add a tag for each Role applied to your node.  For example, if your node had a run list of:\n\n  \"run_list\": [ \"role[webserver]\", \"role[database_master]\" ]\n\nThe node will automatically have the 'webserver' and 'database_master' tags within Cloudkick.\n\n",
+    "recommendations": {
+    },
+    "description": "Installs/Configures the Cloudkick Agent"
+  }

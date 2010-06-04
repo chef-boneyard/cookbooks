@@ -1,16 +1,7 @@
 {
-    "dependencies": {
-      "python": [
-
-      ],
-      "apache2": [
-
-      ]
+    "conflicting": {
     },
-    "replacing": {
-    },
-    "description": "Installs DJango",
-    "groupings": {
+    "attributes": {
     },
     "platforms": {
       "ubuntu": [
@@ -20,22 +11,31 @@
 
       ]
     },
-    "version": "0.7.0",
-    "recommendations": {
+    "providing": {
     },
-    "name": "django",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "= DESCRIPTION:\n\nInstalls Python Django package and sets up Apache2 to serve a django application.\n\n= REQUIREMENTS:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* python\n* apache2\n\n= ATTRIBUTES:\n\nNone.\n\n= USAGE:\n\nCreate the django application using the Apache2 cookbook's web_app define. Normally this would be done in a site-cookbook.\n\n  web_app \"mysite\" do\n    docroot \"/srv/mysite\"\n    template \"mysite.conf.erb\"\n  end\n\nCreate the template, 'mysite.conf.erb' within the site-cookbook. Make sure the django settings are correct. The web_app define copies the template over and enables it as an apache2 site.\n\n= LICENSE & AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "dependencies": {
+      "python": [
+
+      ],
+      "apache2": [
+
+      ]
+    },
     "recipes": {
     },
+    "version": "0.7.0",
+    "replacing": {
+    },
+    "name": "django",
+    "groupings": {
+    },
+    "license": "Apache 2.0",
+    "long_description": "= DESCRIPTION:\n\nInstalls Python Django package and sets up Apache2 to serve a django application.\n\n= REQUIREMENTS:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* python\n* apache2\n\n= ATTRIBUTES:\n\nNone.\n\n= USAGE:\n\nCreate the django application using the Apache2 cookbook's web_app define. Normally this would be done in a site-cookbook.\n\n  web_app \"mysite\" do\n    docroot \"/srv/mysite\"\n    template \"mysite.conf.erb\"\n  end\n\nCreate the template, 'mysite.conf.erb' within the site-cookbook. Make sure the django settings are correct. The web_app define copies the template over and enables it as an apache2 site.\n\n= LICENSE & AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recommendations": {
+    },
+    "maintainer": "Opscode, Inc.",
     "suggestions": {
     },
     "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-    },
-    "conflicting": {
-    },
-    "license": "Apache 2.0",
-    "providing": {
-    }
+    "description": "Installs DJango"
   }

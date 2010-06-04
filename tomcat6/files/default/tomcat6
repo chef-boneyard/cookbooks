@@ -23,7 +23,7 @@ ulimit -n 4096
 # set a minimalist PATH
 PATH="/bin:/sbin"
 
-NAME="$(basename $0)"
+NAME="$(/usr/bin/basename $0)"
 unset ISBOOT
 if [ "${NAME:0:1}" = "S" -o "${NAME:0:1}" = "K" ]; then
     NAME="${NAME:3}"
@@ -175,7 +175,7 @@ function start() {
             read kpid < /var/run/${NAME}.pid
                 if checkpid $kpid 2>&1; then
                     echo "$NAME process already running"
-                        return -1
+                        return 1
                     else
                         echo "lock file found but no process running for"
                         echo "pid $kpid, continuing"

@@ -1,10 +1,22 @@
 {
-    "dependencies": {
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
+      "tomcat6/with_native": {
+        "default": "false",
+        "calculated": false,
+        "type": "string",
+        "choice": [
+
+        ],
+        "description": "works for centos, install tomcat-native libraries",
+        "display_name": "Tomcat native support",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      }
     },
-    "replacing": {
-    },
-    "description": "Installs and configures all aspects of tomcat6 using custom local installation",
-    "groupings": {
+    "suggestions": {
     },
     "platforms": {
       "ubuntu": [
@@ -20,37 +32,25 @@
 
       ]
     },
-    "version": "0.1.0",
-    "recommendations": {
+    "dependencies": {
     },
+    "maintainer_email": "cookbooks@opscode.com",
+    "conflicting": {
+    },
+    "version": "0.2.0",
     "name": "tomcat6",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "= DESCRIPTION:\n\nInstalls Tomcat6\n\n= REQUIREMENTS:\n\n== Platform and Application Environment:\n\nTested on Centos 5.2 8.10. May work on other platforms, esp Redhat.\nNeeds Java at least Java 5\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* java\n\n= ATTRIBUTES: \n\n= USAGE:\n\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Edmund Haselwanter (<edmund@haselwanter.com>)\nCopyright:: 2009, Edmund Haselwanter\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
     "recipes": {
       "tomcat6": "Main Tomcat 6 configuration"
     },
-    "suggestions": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-      "tomcat6/with_native": {
-        "calculated": false,
-        "default": "false",
-        "type": "string",
-        "choice": [
-
-        ],
-        "description": "works for centos, install tomcat-native libraries",
-        "display_name": "Tomcat native support",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      }
-    },
-    "conflicting": {
+    "providing": {
     },
     "license": "Apache 2.0",
-    "providing": {
-    }
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION:\n\nInstalls Tomcat6\n\n= REQUIREMENTS:\n\n== Platform and Application Environment:\n\nTested on Centos 5.2 8.10. May work on other platforms, esp Redhat.\nNeeds Java at least Java 5\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* java\n\n= ATTRIBUTES: \n\n= USAGE:\n\n\n= LICENSE and AUTHOR:\n      \nAuthor:: Edmund Haselwanter (<edmund@haselwanter.com>)\nCopyright:: 2009, Edmund Haselwanter\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "recommendations": {
+    },
+    "description": "Installs and configures all aspects of tomcat6 using custom local installation"
   }

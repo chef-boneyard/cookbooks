@@ -1,4 +1,11 @@
 {
+    "maintainer": "Opscode",
+    "attributes": {
+    },
+    "suggestions": {
+    },
+    "platforms": {
+    },
     "dependencies": {
       "rails": [
 
@@ -13,29 +20,22 @@
 
       ]
     },
-    "replacing": {
-    },
-    "description": "Installs instiki, a Ruby on Rails wiki server under passenger+Apache2.",
-    "groupings": {
-    },
-    "platforms": {
-    },
-    "version": "0.1.0",
-    "recommendations": {
-    },
-    "name": "instiki",
-    "maintainer": "Opscode",
-    "long_description": "= DESCRIPTION:\n\nInstalls instiki, a Ruby on Rails wiki server under passenger+Apache2.\n\n= REQUIREMENTS:\n\nOpscode cookbooks:\n\n* apache2\n* passenger_apache2\n* sqlite\n* rails\n\n= USAGE:\n\nSimply apply the 'instiki' recipe. This installs version 0.17 in /srv/instiki/instiki-0.17. A later version of this cookbook might support setting the version and a different installation path, but for now these are hardcoded.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman <joshua@opscode.com>\n\nCopyright 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\n",
-    "recipes": {
-    },
-    "suggestions": {
-    },
     "maintainer_email": "joshua@opscode.com",
-    "attributes": {
-    },
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.1.0",
+    "name": "instiki",
+    "recipes": {
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "= DESCRIPTION:\n\nInstalls instiki, a Ruby on Rails wiki server under passenger+Apache2.\n\n= REQUIREMENTS:\n\nOpscode cookbooks:\n\n* apache2\n* passenger_apache2\n* sqlite\n* rails\n\n= USAGE:\n\nSimply apply the 'instiki' recipe. This installs version 0.17 in /srv/instiki/instiki-0.17. A later version of this cookbook might support setting the version and a different installation path, but for now these are hardcoded.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman <joshua@opscode.com>\n\nCopyright 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\n",
+    "recommendations": {
+    },
+    "description": "Installs instiki, a Ruby on Rails wiki server under passenger+Apache2."
   }

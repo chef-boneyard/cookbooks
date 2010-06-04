@@ -9,6 +9,15 @@ if [ -r "$TOMCAT_CFG" ]; then
     . $TOMCAT_CFG
 fi
 
+# Get the tomcat custom config (use this for application-specific environment settings)
+if [ -z "${TOMCAT_CUSTOM_CFG}" ]; then
+    TOMCAT_CUSTOM_CFG="/etc/tomcat6/tomcat6_custom.conf"
+fi
+
+if [ -r "$TOMCAT_CUSTOM_CFG" ]; then
+    . $TOMCAT_CUSTOM_CFG
+fi
+
 # CLASSPATH munging
 if [ -n "$JSSE_HOME" ]; then
   CLASSPATH="${CLASSPATH}:$(build-classpath jcert jnet jsse 2>/dev/null)"

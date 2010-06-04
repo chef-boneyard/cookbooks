@@ -1,3 +1,14 @@
+= DEPRECATION NOTICE !
+
+This cookbook is deprecated. It can still be used, but plan to change to using the "chef" cookbook. Note the recipe name changes:
+
+    bootstrap::client -> chef::bootstrap_client
+    bootstrap::server -> chef::bootstrap_server
+
+When using the "chef" cookbook, attributes are namespaced under "chef" not "bootstrap[:chef]".
+
+See the README.md in the chef cookbook.
+
 = DESCRIPTION:
 
 This cookbook configures a Chef client or server installed via RubyGems. If Chef was installed from OS packages, please use the "chef" cookbook to configure Chef itself.

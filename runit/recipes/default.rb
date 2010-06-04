@@ -48,7 +48,7 @@ when "debian","ubuntu"
     ), resources(:execute => "runit-hup-init"), :immediately
   end
 
-  if node[:platform_version] <= "8.04" && node[:platform] =~ /ubuntu/i
+  if node[:platform] =~ /ubuntu/i && node[:platform_version].to_f <= 8.04 
     remote_file "/etc/event.d/runsvdir" do
       source "runsvdir"
       mode 0644

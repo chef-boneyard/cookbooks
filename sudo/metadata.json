@@ -1,10 +1,62 @@
 {
-    "dependencies": {
+    "maintainer": "Opscode, Inc.",
+    "attributes": {
+      "authorization/sudoers/groups": {
+        "default": "",
+        "calculated": false,
+        "type": "array",
+        "choice": [
+
+        ],
+        "description": "Groups who are allowed sudo ALL",
+        "display_name": "Sudo Groups",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "authorization/sudoers/users": {
+        "default": "",
+        "calculated": false,
+        "type": "array",
+        "choice": [
+
+        ],
+        "description": "Users who are allowed sudo ALL",
+        "display_name": "Sudo Users",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "authorization/sudoers": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Hash of Authorization/Sudoers attributes",
+        "display_name": "Authorization Sudoers",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      },
+      "authorization": {
+        "calculated": false,
+        "type": "hash",
+        "choice": [
+
+        ],
+        "description": "Hash of Authorization attributes",
+        "display_name": "Authorization",
+        "required": "optional",
+        "recipes": [
+
+        ]
+      }
     },
-    "replacing": {
-    },
-    "description": "Installs and configures sudo",
-    "groupings": {
+    "suggestions": {
     },
     "platforms": {
       "freebsd": [
@@ -26,76 +78,24 @@
 
       ]
     },
-    "version": "0.7.0",
-    "recommendations": {
-    },
-    "name": "sudo",
-    "maintainer": "Opscode, Inc.",
-    "long_description": "",
-    "recipes": {
-    },
-    "suggestions": {
+    "dependencies": {
     },
     "maintainer_email": "cookbooks@opscode.com",
-    "attributes": {
-      "authorization/sudoers/groups": {
-        "calculated": false,
-        "default": "",
-        "type": "array",
-        "choice": [
-
-        ],
-        "description": "Groups who are allowed sudo ALL",
-        "display_name": "Sudo Groups",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "authorization/sudoers/users": {
-        "calculated": false,
-        "default": "",
-        "type": "array",
-        "choice": [
-
-        ],
-        "description": "Users who are allowed sudo ALL",
-        "display_name": "Sudo Users",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "authorization/sudoers": {
-        "calculated": false,
-        "type": "hash",
-        "choice": [
-
-        ],
-        "description": "Hash of Authorization/Sudoers attributes",
-        "display_name": "Authorization Sudoers",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      },
-      "authorization": {
-        "calculated": false,
-        "type": "hash",
-        "choice": [
-
-        ],
-        "description": "Hash of Authorization attributes",
-        "display_name": "Authorization",
-        "recipes": [
-
-        ],
-        "required": "optional"
-      }
-    },
     "conflicting": {
     },
-    "license": "Apache 2.0",
+    "version": "0.7.0",
+    "name": "sudo",
+    "recipes": {
+    },
     "providing": {
-    }
+    },
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "groupings": {
+    },
+    "long_description": "",
+    "recommendations": {
+    },
+    "description": "Installs and configures sudo"
   }

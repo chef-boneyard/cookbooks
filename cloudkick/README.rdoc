@@ -1,0 +1,76 @@
+= DESCRIPTION:
+
+Installs and configures the Cloudkick Agent, and integrates it with Chef.
+
+= REQUIREMENTS:
+
+You must be running a platform supported by the Cloudkick Agent - at this time, that means Ubuntu, CentOS or Red Hat.
+
+= USAGE:
+
+In order for the agent to function, you'll need to have defined your Cloudkick API key and secret.  We recommend you do this in a Role, which should also take care of applying the cloudkick::default recipe.
+
+Assuming you name the role 'cloudkick', here is the required json:
+
+  {
+    "name": "cloudkick",
+    "chef_type": "role",
+    "json_class": "Chef::Role",
+    "default_attributes": {
+
+    },
+    "description": "Configures Cloudkick",
+    "run_list": [
+      "recipe[cloudkick]"
+    ],
+    "override_attributes": {
+      "cloudkick": {
+        "oauth_key": "YOUR KEY HERE"
+        "oauth_secret": "YOUR SECRET HERE"
+      }
+    }
+  }
+
+If you want Cloudkick installed everywhere, we recommend you just add the cloudkick attributes to a base role.
+
+All of the data about the node from Cloudkick is available in node[:cloudkick] - for example: 
+
+  "cloudkick": {
+    "oauth_key": "YOUR KEY HERE",
+    "oauth_secret": "YOUR SECRET HERE",
+    "data": {
+      "name": "slice204393",
+      "status": "running",
+      "ipaddress": "173.203.83.199",
+      "provider_id": "padc2665",
+      "tags": [
+        "agent",
+        "cloudkick"
+      ],
+      "agent_state": "connected",
+      "id": "n87cfc79c5",
+      "provider_name": "Rackspace",
+      "color": "#fffffff"
+    }
+  }
+
+Of particular interest is the inclusion of the Cloudkick tags.  This will allow you to search Chef via tags placed on nodes within Cloudkick:
+
+  $ knife search node 'cloudkick_data_tags:agent' -a fqdn
+  {
+    "rows": [
+      {
+        "fqdn": "slice204393",
+        "id": "slice204393"
+      }
+    ],
+    "start": 0,
+    "total": 1
+  }
+  
+We automatically add a tag for each Role applied to your node.  For example, if your node had a run list of:
+
+  "run_list": [ "role[webserver]", "role[database_master]" ]
+
+The node will automatically have the 'webserver' and 'database_master' tags within Cloudkick.
+

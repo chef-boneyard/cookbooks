@@ -1,0 +1,2 @@
+<%= @vm_args.inject([]){|arr, (k, v)| arr << "#{@arg_map[k]} #{v}" }.join(" \n") %>
+<%= @env_vars.map{|v| "-env #{v}" }.join(" \n") %>
