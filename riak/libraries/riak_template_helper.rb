@@ -7,18 +7,30 @@ module RiakTemplateHelper
   # should be treated as an Erlang symbol and, hence, not quoted.
   #
   def erl_sym?(str)
-    ["storage_backend", "errlog_type"].include?(str)
+    ["storage_backend",
+      "errlog_type",
+      "seconds",
+      "hours",
+      "none",
+      "o_sync"].include?(str)
+  end
+  
+  def _erl_prepare(opt, val)
+    val_str = if val.is_a?(String) && !(erl_sym?(opt))
+      "\"#{val}\""
+    else
+      if val.is_a?(Hash)
+        _erl_prepare(val.keys.first, val.values.first)
+      else
+        val.to_s
+      end
+    end 
+    
+    "\{#{opt}, #{val_str}\}"
   end
   
   def erl_prepare(opts)
-    opts.inject([]) do |arr, (opt, val)|
-      if val.is_a?(String) && !(erl_sym?(opt))
-        val_str = "\"#{val}\""
-      else
-        val_str = val.to_s
-      end
-      arr << "\{#{opt}, #{val_str}\}"
-    end
+    opts.inject([]) { |arr, (opt, val)| arr << _erl_prepare(opt, val)}      
   end
   
   def configify(config)
