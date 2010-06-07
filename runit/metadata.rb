@@ -20,6 +20,11 @@ attribute "runit/sv_bin",
   :description => "Location of the sv binary",
   :default => "/usr/bin/sv"
 
+attribute "runit/chpst_bin",
+  :display_name => "Runit chpst bin",
+  :description => "Location of the chpst binary",
+  :default => "/usr/bin/chpst"
+
 attribute "runit/service_dir",
   :display_name => "Runit service directory",
   :description => "Symlinks to services managed under runit",
