@@ -62,7 +62,7 @@ end
 include_recipe "zlib"
 include_recipe "xml"
 
-server_gems = %w{ chef-server chef-server-api chef-solr }
+server_gems = %w{ chef-server-api chef-solr }
 server_services = %w{ chef-server chef-solr chef-solr-indexer }
 
 if node.chef.attribute?("webui_enabled")
