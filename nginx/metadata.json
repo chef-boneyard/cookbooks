@@ -12,7 +12,8 @@
         "default": "1024",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Worker Connections",
         "description": "Number of connections per worker"
@@ -35,7 +36,8 @@
         ],
         "type": "array",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Gzip Types",
         "description": "Supported MIME-types for gzip"
@@ -49,7 +51,8 @@
         "default": "/usr/sbin/nginx",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Binary",
         "description": "Location of the nginx server binary"
@@ -63,7 +66,8 @@
         "default": "www-data",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx User",
         "description": "User nginx will run as"
@@ -77,7 +81,8 @@
         "default": "65",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Keepalive Timeout"
       },
@@ -90,7 +95,8 @@
         "default": "any",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Gzip Proxied",
         "description": "Whether gzip is proxied"
@@ -104,7 +110,8 @@
         "default": "2",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Gzip Compression Level",
         "description": "Amount of compression to use"
@@ -118,7 +125,8 @@
         "default": "/etc/nginx",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Directory",
         "description": "Location of nginx configuration files"
@@ -132,7 +140,8 @@
         "default": "64",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Server Names Hash Bucket Size"
       },
@@ -145,7 +154,8 @@
         "default": "1",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Worker Processes",
         "description": "Number of worker processes"
@@ -159,7 +169,8 @@
         "default": "1.0",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Gzip HTTP Version",
         "description": "Version of HTTP Gzip"
@@ -173,7 +184,8 @@
         "default": "/var/log/nginx",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Log Directory",
         "description": "Location for nginx logs"
@@ -187,7 +199,8 @@
         "default": "on",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Gzip",
         "description": "Whether gzip is enabled"
@@ -201,7 +214,8 @@
         "default": "on",
         "type": "string",
         "recipes": [
-
+          "nginx::default",
+          "nginx::source"
         ],
         "display_name": "Nginx Keepalive",
         "description": "Whether to enable keepalive"
