@@ -159,7 +159,7 @@ when "init"
     end
 
     service "#{svc}" do
-      action :enable
+      action [ :enable, :start ]
     end
   end
 
