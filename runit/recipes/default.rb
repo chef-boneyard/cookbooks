@@ -40,7 +40,12 @@ when "debian","ubuntu"
     end
     notifies value_for_platform(
       "debian" => { "4.0" => :run, "default" => :nothing  },
-      "ubuntu" => { "default" => :run, "9.10" => :nothing }
+      "ubuntu" => {
+        "default" => :nothing,
+        "9.04" => :run,
+        "8.10" => :run,
+        "8.04" => :run
+      }
     ), resources(:execute => "start-runsvdir"), :immediately
     notifies value_for_platform(
       "debian" => { "squeeze/sid" => :run, "default" => :nothing },
