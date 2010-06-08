@@ -8,6 +8,7 @@ depends           "runit"
 %w{ ubuntu debian }.each do |os|
   supports os
 end
+recipe            "memcached::default", "Install Memcached"
 attribute "memcached/memory",
   :display_name => "Memcached Memory",
   :description => "Memory allocated for memcached instance",
