@@ -3,6 +3,8 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures nginx"
 version           "0.11"
+recipe            "nginx::default", "Installs nginx"
+recipe            "nginx::source", "Installs nginx from source"
 
 %w{ ubuntu debian }.each do |os|
   supports os
