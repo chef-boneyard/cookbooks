@@ -5,6 +5,12 @@ description       "Installs hadoop and sets up basic cluster per Cloudera's quic
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
 version           "0.8"
 depends           "java"
+recipe            "hadoop::default", "Installs Hadoop"
+recipe            "hadoop::hive", ""
+recipe            "hadoop::doc", ""
+recipe            "hadoop::pig", ""
+recipe            "hadoop::conf_pseudo", ""
+
 
 %w{ debian ubuntu }.each do |os|
   supports os

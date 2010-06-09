@@ -22,7 +22,7 @@ include_attribute "chef"
 set_unless[:chef][:doc_root] = "#{languages[:ruby][:gems_dir]}/gems/chef-server-webui-#{chef[:server_version]}/public"
 
 set_unless[:chef][:server_ssl_req]  = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/" +
-  "CN=#{node.chef.server_fqdn}/emailAddress=ops@#{node.chef.server_fqdn}"
+  "CN=#{node.fqdn}/emailAddress=ops@#{node.fqdn}"
 
 set_unless[:chef][:server_proxy][:css_expire_hours] = "120"
 set_unless[:chef][:server_proxy][:js_expire_hours]  = "24"
