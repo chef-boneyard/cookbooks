@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'chef'
 require 'json'
+TOPDIR = File.expand_path(File.join(File.dirname(__FILE__), ".."))
 
 
 TOPDIR = File.expand_path(File.join(File.dirname(__FILE__), ".."))

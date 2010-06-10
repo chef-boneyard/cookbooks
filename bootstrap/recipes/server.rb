@@ -21,6 +21,9 @@
 # limitations under the License.
 #
 
+Chef::Log.warn("This recipe will be deprecated soon, please use chef::bootstrap_server")
+Chef::Log.warn("See the 'chef' cookbook's README.md for more information.")
+
 root_group = value_for_platform(
   "openbsd" => { "default" => "wheel" },
   "freebsd" => { "default" => "wheel" },

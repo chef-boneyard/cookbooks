@@ -62,7 +62,7 @@ end
 include_recipe "zlib"
 include_recipe "xml"
 
-server_gems = %w{ chef-server chef-server-api chef-solr }
+server_gems = %w{ chef-server-api chef-solr }
 server_services = %w{ chef-server chef-solr chef-solr-indexer }
 
 if node.chef.attribute?("webui_enabled")
@@ -159,7 +159,7 @@ when "init"
     end
 
     service "#{svc}" do
-      action :enable
+      action [ :enable, :start ]
     end
   end
 

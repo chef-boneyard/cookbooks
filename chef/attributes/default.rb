@@ -44,5 +44,5 @@ set_unless[:chef][:webui_port]      = "4040"
 set_unless[:chef][:webui_enabled]   = false
 set_unless[:chef][:validation_client_name] = "chef-validator"
 
-set_unless[:chef][:server_fqdn]     = node.has_key?(domain) ? "chef.#{domain}" : "chef"
+set_unless[:chef][:server_fqdn]     = node.has_key?(:domain) ? "chef.#{domain}" : "chef"
 set_unless[:chef][:server_url]      = "#{node.chef.url_type}://#{node.chef.server_fqdn}:#{node.chef.server_port}"

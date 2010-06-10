@@ -1,6 +1,5 @@
 # THIS FILE IS MAINTAINED BY CHEF, DO NOT MODIFY AS IT WILL BE OVERWRITTEN
 <% @nodes.each do |n| -%>
-  <% if n.has_key?('keys_ssh_host_rsa_public') && n['keys_ssh_host_rsa_public'].length > 0 -%>
-<%= n['hostname'] %>,<%= n['ipaddress'] %> ssh-rsa <%= n['keys_ssh_host_rsa_public'] %>
-  <% end -%>
+<%= n['hostname'] %>,<%= n['ipaddress'] %> ssh-rsa <%= n['keys']['ssh']['host_rsa_public'] %>
+<%= n['hostname'] %>,<%= n['ipaddress'] %> ssh-dsa <%= n['keys']['ssh']['host_dsa_public'] %>
 <% end -%>
