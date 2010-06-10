@@ -5,7 +5,7 @@
 	]},
  %% Riak KV config
  {riak_kv, [
-<% unless @storage_backend.eql?("innostore_riak") %>
+<% if @storage_backend.eql?("riak_kv_dets_backend") %>
 <%= @config[:storage_backend_options].map{|c| "\t#{c}"}.join(",\n") %>,
 <% end %>
 <%= @config[:kv].map{|c| "\t#{c}"}.join(",\n") %>
@@ -17,6 +17,10 @@
 	]}<% if @storage_backend.eql?("innostore_riak") %>,
  %% Innostore config
  {innostore, [
+<%= @config[:storage_backend_options].map{|c| "\t#{c}"}.join(",\n") %>
+	]}<% end %><% if @storage_backend.eql?("riak_kv_bitcask_backend") %>,
+ %% Bitcask config
+ {bitcask, [
 <%= @config[:storage_backend_options].map{|c| "\t#{c}"}.join(",\n") %>
 	]}<% end %><% if @limit_port_range %>,
  %% Kernel config

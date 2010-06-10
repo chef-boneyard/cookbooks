@@ -7,15 +7,16 @@ module RiakTemplateHelper
   # should be treated as an Erlang symbol and, hence, not quoted.
   #
   def erl_sym?(str)
+    puts "ERL_SYM?: #{str}"
     ["storage_backend",
       "errlog_type",
       "seconds",
       "hours",
-      "none",
-      "o_sync"].include?(str)
+      "sync_strategy"].include?(str)
   end
   
   def _erl_prepare(opt, val)
+    puts "PREPARING #{}"
     val_str = if val.is_a?(String) && !(erl_sym?(opt))
       "\"#{val}\""
     else
