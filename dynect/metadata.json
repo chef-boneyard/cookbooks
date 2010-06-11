@@ -23,7 +23,7 @@
     },
     "name": "dynect",
     "maintainer": "Opscode, Inc.",
-    "description": "Installs/Configures dynect",
+    "description": "LWRP for managing DNS records with Dynect's REST API",
     "suggestions": {
     }
   }
