@@ -19,6 +19,7 @@
 
 set_unless[:riak][:sasl][:sasl_error_logger][:file] = "/var/log/riak/sasl-error.log"
 set_unless[:riak][:sasl][:errlog_type] = :error
+node[:riak][:sasl][:errlog_type] = node[:riak][:sasl][:errlog_type].to_s.to_sym
 set_unless[:riak][:sasl][:error_logger_mf_dir] = "/var/log/riak/sasl"
 set_unless[:riak][:sasl][:error_logger_mf_maxbytes] = 10485760
 set_unless[:riak][:sasl][:error_logger_mf_maxfiles] = 5
