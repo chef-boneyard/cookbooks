@@ -58,13 +58,18 @@ attribute "riak/package/version/major",
 attribute "riak/package/version/minor",
   :display_name => "Riak minor version",
   :description => "Minor version of Riak to install.",
-  :default => "10"
+  :default => "11"
      
 attribute "riak/package/version/incremental",
   :display_name => "Riak incremental version",
   :description => "Incremental release of Riak to install.",
-  :default => "1"
+  :default => "0"
   
+attribute "riak/package/version/build",
+  :display_name => "Riak binary package build version",
+  :description => "For binary packages, the specific build to use.",
+  :default => "1344"
+      
 attribute "riak/package/prefix",
   :display_name => "Installation prefix",
   :description => "Installation prefix for source installs",
@@ -302,7 +307,7 @@ attribute "riak/kv/storage_backend_options/max_file_size",
 # * {seconds, N}  - call bitcask:sync/1 every N seconds
 attribute "riak/kv/storage_backend_options/sync_strategy",
   :display_name => "Sync strategy",
-  :description => "Sync strategy is one of: none (let the OS decide), o_sync, or {:seconds => N} (which requires application support)",
+  :description => "Sync strategy is one of: :none (let the OS decide), :o_sync, or {:seconds => N} (which requires application support)",
   :default => "none"
   
 # Merge trigger variables. Files exceeding ANY of these

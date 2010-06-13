@@ -17,12 +17,16 @@
 # limitations under the License.
 #
 
-if node[:riak][:kv][:storage_backend].eql?("riak_kv_bitcask_backend")     
+if node[:riak][:kv][:storage_backend] == :riak_kv_bitcask_backend   
   set_unless[:riak][:kv][:storage_backend_options][:data_root] = "/var/lib/riak/bitcask"  
   set_unless[:riak][:kv][:storage_backend_options][:max_file_size] = 2147483648
   set_unless[:riak][:kv][:storage_backend_options][:open_timeout] = 4
-  # Sync strategy is one of: "none", "o_sync", {:seconds => N}
-  set_unless[:riak][:kv][:storage_backend_options][:sync_strategy] = "none"
+  # Sync strategy is one of: :none, :o_sync, {:seconds => N}
+  set_unless[:riak][:kv][:storage_backend_options][:sync_strategy] = :none
+  puts "sync_strategy is a #{node[:riak][:kv][:storage_backend_options].to_hash["sync_strategy"].class}"
+  unless node[:riak][:kv][:storage_backend_options].to_hash["sync_strategy"].is_a?(Mash)
+    node[:riak][:kv][:storage_backend_options][:sync_strategy] = node[:riak][:kv][:storage_backend_options][:sync_strategy].to_s.to_sym
+  end
   set_unless[:riak][:kv][:storage_backend_options][:frag_merge_trigger] = 60
   set_unless[:riak][:kv][:storage_backend_options][:dead_bytes_merge_trigger] = 536870912
   set_unless[:riak][:kv][:storage_backend_options][:frag_threshold] = 40

@@ -21,6 +21,7 @@ set_unless[:riak][:package][:type] = "binary"
 set_unless[:riak][:package][:version][:major] = "0"
 set_unless[:riak][:package][:version][:minor] = "11"
 set_unless[:riak][:package][:version][:incremental] = "0"
+set_unless[:riak][:package][:version][:build] = "1344"
 set_unless[:riak][:package][:source_checksum] = "5c4222f1617032905473ce2ef4740890df0df5941e8c7f9c3e0b59e563938e98"
 if node[:riak][:package][:type].eql?("source")
   set_unless[:riak][:package][:prefix] = "/usr/local"

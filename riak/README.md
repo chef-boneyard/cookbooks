@@ -21,8 +21,8 @@ There are two options for package installation: source and binary.  If you are u
 The package parameters available are version, type and, optionally for source installation, an install prefix:
 
 	node[:riak][:package][:version][:major] = "0"
-	node[:riak][:package][:version][:minor] = "10"
-	node[:riak][:package][:version][:incremental] = "1"
+	node[:riak][:package][:version][:minor] = "11"
+	node[:riak][:package][:version][:incremental] = "0"
 	node[:riak][:package][:type] = ("binary" | "source")
 	node[:riak][:package][:prefix] = "/usr/local"
 
@@ -85,7 +85,7 @@ By virtue of its architecture, Bitcask requires much less tuning to achieve good
 	node[:riak][:kv][:storage_backend_options][:data_root] = "/var/lib/riak/bitcask"  
 	node[:riak][:kv][:storage_backend_options][:max_file_size] = 2147483648
 	node[:riak][:kv][:storage_backend_options][:open_timeout] = 4
-	node[:riak][:kv][:storage_backend_options][:sync_strategy] = "none"
+	node[:riak][:kv][:storage_backend_options][:sync_strategy] = :none
 	node[:riak][:kv][:storage_backend_options][:frag_merge_trigger] = 60
 	node[:riak][:kv][:storage_backend_options][:dead_bytes_merge_trigger] = 536870912
 	node[:riak][:kv][:storage_backend_options][:frag_threshold] = 40

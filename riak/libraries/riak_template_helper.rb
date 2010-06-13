@@ -4,10 +4,10 @@ module RiakTemplateHelper
   # erl_sym?(str)
   #
   # Returns a boolean indicating whether the value associated with an option
-  # should be treated as an Erlang symbol and, hence, not quoted.
+  # should be treated as an Erlang symbol and, hence, not quoted.  This is only
+  # a backstop for strings being used as values when they should be symbols.
   #
   def erl_sym?(str)
-    puts "ERL_SYM?: #{str}"
     ["storage_backend",
       "errlog_type",
       "seconds",
@@ -16,11 +16,10 @@ module RiakTemplateHelper
   end
   
   def _erl_prepare(opt, val)
-    puts "PREPARING #{}"
     val_str = if val.is_a?(String) && !(erl_sym?(opt))
-      "\"#{val}\""
+      "\"#{val.to_s}\""
     else
-      if val.is_a?(Hash)
+      if val.is_a?(Hash) || val.is_a?(Mash)
         _erl_prepare(val.keys.first, val.values.first)
       else
         val.to_s

@@ -38,9 +38,11 @@ package_file =  case node[:riak][:package][:type]
                   when "debian","ubuntu"
                     include_recipe "riak::iptables"
                     machines = {"x86_64" => "amd64", "i386" => "i386"} 
-                    "#{base_filename.gsub(/\-/, '_')}-1_#{machines[node[:kernel][:machine]]}.deb"
-                  when "centos","redhat","fedora","suse"
-                    "#{base_filename}-1.#{node[:kernel][:machine]}.rpm"
+                    "#{base_filename.gsub(/\-/, '_')}-#{node[:riak][:package][:version][:build]}_#{machines[node[:kernel][:machine]]}.deb"
+                  when "centos","redhat","suse"
+                    "#{base_filename}-#{node[:riak][:package][:version][:build]}.el5.#{node[:kernel][:machine]}.rpm"
+                  when "fedora"
+                    "#{base_filename}-#{node[:riak][:package][:version][:build]}.fc12.#{node[:kernel][:machine]}.rpm"
                   # when "mac_os_x"
                   #  "#{base_filename}.osx.#{node[:kernel][:machine]}.tar.gz"
                   end
@@ -89,7 +91,7 @@ when "source"
 end
 
 case node[:riak][:kv][:storage_backend]
-when "innostore_riak"
+when :innostore_riak
   include_recipe "riak::innostore"
 end
 
