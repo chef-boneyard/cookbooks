@@ -1,10 +1,10 @@
 [Main Config]
 BoundToIp1=
 ExternalIPDectection=1
-HTTPServer Port=<%= @node[:teamspeak][:http_port] %>
+HTTPServer Port=<%= node[:teamspeak][:http_port] %>
 HTTPServer Enabled=1
 DateTimeFormat=dd-mm-yyyy hh:nn:ss
-TCPQueryPort=<%= @node[:teamspeak][:query_port] %>
+TCPQueryPort=<%= node[:teamspeak][:query_port] %>
 AllowedClientNameChars=
 DisAllowedClientNameChars=()[]{}
 

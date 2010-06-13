@@ -3,13 +3,13 @@
   DocumentRoot <%= @params[:docroot] %>
 
   RailsBaseURI /
-  RailsMaxPoolSize <%= @node[:rails][:max_pool_size] %>
+  RailsMaxPoolSize <%= node[:rails][:max_pool_size] %>
   RailsPoolIdleTime 3600
-  RailsEnv '<%= @node[:rails][:environment] %>'
+  RailsEnv '<%= node[:rails][:environment] %>'
   
   LogLevel info
-	ErrorLog      <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>_error.log
-	CustomLog     <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>_access.log combined
+	ErrorLog      <%= node[:apache][:log_dir] %>/<%= @params[:name] %>_error.log
+	CustomLog     <%= node[:apache][:log_dir] %>/<%= @params[:name] %>_access.log combined
 
 	ErrorDocument 404 /404.html
 	ErrorDocument 500 /500.html

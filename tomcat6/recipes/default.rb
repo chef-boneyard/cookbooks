@@ -145,7 +145,7 @@ when "centos"
 
   package "tomcat-native" do
     action :install
-    only_if do @node[:tomcat6][:with_native] end
+    only_if do node[:tomcat6][:with_native] end
   end
 
 

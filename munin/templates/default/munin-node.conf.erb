@@ -27,8 +27,8 @@ ignore_file \.rpm(save|new)$
 # telnetting to localhost, port 4949
 #
 #host_name localhost.localdomain
-<% if @node[:ec2] %>
-host_name <%= @node[:hostname] %>.ec2.internal
+<% if node[:ec2] %>
+host_name <%= node[:hostname] %>.ec2.internal
 <% end %>
 
 # A list of addresses that are allowed to connect.  This must be a

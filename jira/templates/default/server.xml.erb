@@ -11,10 +11,10 @@
 
         <Context path="" docBase="${catalina.home}/atlassian-jira" reloadable="false">
           <Resource name="jdbc/JiraDS" auth="Container" type="javax.sql.DataSource"
-            username="<%= @node[:jira][:database_user] %>"
-            password="<%= @node[:jira][:database_password] %>"
+            username="<%= node[:jira][:database_user] %>"
+            password="<%= node[:jira][:database_password] %>"
             driverClassName="com.mysql.jdbc.Driver"            
-url="jdbc:<%= @node[:jira][:database] %>://<%= @node[:jira][:database_host] %>/jiradb?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8"
+url="jdbc:<%= node[:jira][:database] %>://<%= node[:jira][:database_host] %>/jiradb?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8"
             maxActive="20" />
 
           <!-- NOTE: When a database server reboots or their is a network failure all the connections in the

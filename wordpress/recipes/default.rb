@@ -71,8 +71,8 @@ end
 execute "create #{node[:wordpress][:db][:database]} database" do
   command "/usr/bin/mysqladmin -u root -p#{node[:mysql][:server_root_password]} create #{node[:wordpress][:db][:database]}"
   not_if do
-    m = Mysql.new("localhost", "root", @node[:mysql][:server_root_password])
-    m.list_dbs.include?(@node[:wordpress][:db][:database])
+    m = Mysql.new("localhost", "root", node[:mysql][:server_root_password])
+    m.list_dbs.include?(node[:wordpress][:db][:database])
   end
 end
 

@@ -1,11 +1,11 @@
 #
 # /etc/security/login_access.conf
 #
-# Prepared for <%= @node[:fqdn] %> by Chef
+# Prepared for <%= node[:fqdn] %> by Chef
 # 
-<% logingroup = @node[:hostname] -%>
-<% logingroup = @node[:hostname].sub(/^(.+?)\d+(.+)$/, '\1-\2-login') -%>
-<% rootgroup = @node[:hostname].sub(/^(.+?)\d+(.+)$/, '\1-\2-root') -%>
+<% logingroup = node[:hostname] -%>
+<% logingroup = node[:hostname].sub(/^(.+?)\d+(.+)$/, '\1-\2-login') -%>
+<% rootgroup = node[:hostname].sub(/^(.+?)\d+(.+)$/, '\1-\2-root') -%>
 
 +:root:ALL
 +:admin:ALL
