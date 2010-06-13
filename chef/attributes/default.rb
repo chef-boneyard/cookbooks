@@ -29,9 +29,10 @@ when "openbsd","freebsd"
   set_unless[:chef][:serve_path] = "/var/chef"
 else
   set_unless[:chef][:path]       = "/srv/chef"
+  set_unless[:chef][:serve_path] = "/srv/chef"
   set_unless[:chef][:run_path]   = "#{chef[:path]}/run"
   set_unless[:chef][:cache_path] = "#{chef[:path]}/cache"
-  set_unless[:chef][:serve_path] = "/srv/chef"
+  set_unless[:chef][:backup_path] = "#{chef[:path]}/backup"
 end
 
 set_unless[:chef][:server_version]  = node.chef_packages.chef[:version]

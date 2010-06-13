@@ -17,6 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+include_attribute "apache2"
 include_attribute "chef"
 
 set_unless[:chef][:doc_root] = "#{languages[:ruby][:gems_dir]}/gems/chef-server-webui-#{chef[:server_version]}/public"

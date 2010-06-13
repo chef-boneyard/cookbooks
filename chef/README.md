@@ -123,6 +123,13 @@ Location where the client will cache cookbooks and other data. Default is `cache
 
 Base directory for data that is easily regenerated such as cookbook tarballs (`Chef::Config[:cookbook_tarballs]`) on the server, downloaded cookbooks on the client, etc. See the config templates.
 
+backup_path
+-----------
+
+Location where backups of files, corresponds to the `file_backup_path` location. Defaults to `backup` under `chef[:path]` location. Set to `false` to use the old behavior which stores the backup files in the same directory as the target.
+
+FHS location suggestion: `/var/lib/chef/backup`.
+
 serve_path
 ----------
 
