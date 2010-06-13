@@ -76,11 +76,13 @@ server_gems.each do |gem|
   end
 end
 
-template "/etc/chef/server.rb" do
-  source "server.rb.erb"
-  owner "root"
-  group root_group
-  mode "600"
+%w{ server solr }.each do |cfg|
+  template "/etc/chef/#{cfg}.rb" do
+    source "#{cfg}.rb.erb"
+    owner "root"
+    group root_group
+    mode "600"
+  end
 end
 
 %w{ cache search_index }.each do |dir|
