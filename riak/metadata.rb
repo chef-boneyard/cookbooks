@@ -228,7 +228,7 @@ attribute "riak/kv/handoff_port",
 attribute "riak/kv/storage_backend",
   :display_name => "Storage backend",
   :description => "The module name of the storage backend that Riak should use.",
-  :default => "riak_kv_dets_backend"
+  :default => "riak_kv_bitcask_backend"
 
 attribute "riak/kv/storage_backend_options",
   :display_name => "Storage backend options",
