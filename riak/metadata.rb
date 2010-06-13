@@ -302,7 +302,7 @@ attribute "riak/kv/storage_backend_options/max_file_size",
   :description => "Maximum size for a single Bitcask cask file.",
   :default => "2147483648"
   
-# * none          - let the O/S decide (should be called 'auto', but I don't make the rules)
+# * none          - let the O/S decide
 # * o_sync        - use the O_SYNC flag to sync each write
 # * {seconds, N}  - call bitcask:sync/1 every N seconds
 attribute "riak/kv/storage_backend_options/sync_strategy",
