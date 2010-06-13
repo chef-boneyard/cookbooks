@@ -74,7 +74,24 @@ A number of Erlang parameters may be configured through the cookbook.  The node 
 Storage Backends
 ================
 
-Riak requires specification of a storage backend along with various backend storage options, specific to each backend.  While Riak supports specification of different backends for different buckets, the Chef cookbook does not yet allow such configurations.  The most common backends are DETS (the default), Innostore, and Bitcask.  The typical configuration options and their defaults are given below.
+Riak requires specification of a storage backend along with various backend storage options, specific to each backend.  While Riak supports specification of different backends for different buckets, the Chef cookbook does not yet allow such configurations.  The most common backends are Bitcask (the default), Innostore, and DETS.  The typical configuration options and their defaults are given below.
+
+
+Bitcask
+-------
+
+By virtue of its architecture, Bitcask requires much less tuning to achieve good performance than Innostore.
+
+	node[:riak][:kv][:storage_backend_options][:data_root] = "/var/lib/riak/bitcask"  
+	node[:riak][:kv][:storage_backend_options][:max_file_size] = 2147483648
+	node[:riak][:kv][:storage_backend_options][:open_timeout] = 4
+	node[:riak][:kv][:storage_backend_options][:sync_strategy] = "none"
+	node[:riak][:kv][:storage_backend_options][:frag_merge_trigger] = 60
+	node[:riak][:kv][:storage_backend_options][:dead_bytes_merge_trigger] = 536870912
+	node[:riak][:kv][:storage_backend_options][:frag_threshold] = 40
+	node[:riak][:kv][:storage_backend_options][:dead_bytes_threshold] = 134217728
+	node[:riak][:kv][:storage_backend_options][:small_file_threshold] = 10485760
+	node[:riak][:kv][:storage_backend_options][:expiry_secs] = -1
 
 
 DETS
@@ -97,15 +114,6 @@ Innostore is an Erlang wrapper around embedded InnoDB, a transactional storage e
 	node[:riak][:kv][:storage_backend_options][:data_home_dir] = "/var/lib/riak/innodb"
 	node[:riak][:kv][:storage_backend_options][:log_group_home_dir] = "/var/lib/riak/innodb"
 	node[:riak][:kv][:storage_backend_options][:buffer_pool_size] = 2147483648
-
-
-Bitcask
--------
-
-By virtue of its architecture, Bitcask requires much less tuning to achieve good performance than Innostore.  The default value for `writes_per_fsync` of 1 makes Bitcask call fsync() after every write.  This is the safest choice, though not always the best performing.
-
-	node[:riak][:kv][:storage_backend_options][:writes_per_fsync] = 1
-	node[:riak][:kv][:storage_backend_options][:data_root] = "/var/lib/riak/bitcask"  
 
 
 [1]: http://basho.com/
