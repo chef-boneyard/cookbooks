@@ -115,7 +115,7 @@ when "centos"
 
   #  package "tomcat6-admin-webapps"
 
-  r = remote_file "/tmp/JVM-MANAGEMENT-MIB.mib" do
+  r = cookbook_file "/tmp/JVM-MANAGEMENT-MIB.mib" do
     source "JVM-MANAGEMENT-MIB.mib"
     mode 0755
     owner "root"
@@ -153,21 +153,21 @@ else
 
 end
 
-remote_file "/etc/init.d/tomcat6" do
+cookbook_file "/etc/init.d/tomcat6" do
   source "tomcat6"
   mode 0755
   owner "root"
   group "root"
 end
 
-remote_file "/usr/bin/dtomcat6" do
+cookbook_file "/usr/bin/dtomcat6" do
   source "dtomcat6"
   mode 0755
   owner "root"
   group "root"
 end
 
-remote_file File.join(node[:tomcat6][:dir],"logging.properties") do
+cookbook_file File.join(node[:tomcat6][:dir],"logging.properties") do
   source "logging.properties"
   mode 0644
   owner "root"

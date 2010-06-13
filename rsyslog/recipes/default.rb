@@ -26,7 +26,7 @@ service "rsyslog" do
   action [:enable, :start]
 end
 
-remote_file "/etc/default/rsyslog" do
+cookbook_file "/etc/default/rsyslog" do
   source "rsyslog.default"
   owner "root"
   group "root"
