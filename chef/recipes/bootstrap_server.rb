@@ -118,7 +118,7 @@ when "runit"
     restart_command "sv int chef-server"
   end
 
-  if node.chef.webui_enabled
+  if node.chef.attribute?("webui_enabled")
     service "chef-server-webui" do
       restart_command "sv int chef-server-webui"
     end
