@@ -40,7 +40,7 @@ service "nagios-nrpe-server" do
   supports :restart => true, :reload => true
 end
 
-remote_file "/usr/lib/nagios/plugins/check_mem.sh" do
+cookbook_file "/usr/lib/nagios/plugins/check_mem.sh" do
   source "plugins/check_mem.sh"
   owner "nagios"
   group "nagios"

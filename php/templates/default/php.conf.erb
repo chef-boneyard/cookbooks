@@ -2,11 +2,11 @@
 
   DocumentRoot <%= docroot %>
   
-<% if @node[:virtual_host_name] -%>
-  ServerName <%= @node[:virtual_host_name] %>
+<% if node[:virtual_host_name] -%>
+  ServerName <%= node[:virtual_host_name] %>
 <% end -%>
-<% if @node[:virtual_host_alias] -%>
-<% va_list = @node[:virtual_host_alias].kind_of?(Array) ? @node[:virtual_host_alias] : [ @node[:virtual_host_alias] ] -%>
+<% if node[:virtual_host_alias] -%>
+<% va_list = node[:virtual_host_alias].kind_of?(Array) ? node[:virtual_host_alias] : [ node[:virtual_host_alias] ] -%>
 <% va_list.each do |va| -%>
   ServerAlias <%= va %>
 <% end -%>
@@ -39,8 +39,8 @@
   RewriteCond %{HTTP_HOST}   !^$
   RewriteCond %{HTTP_HOST}   !^localhost [NC]
   RewriteCond %{HTTP_HOST}   !^127\.0\.0\.1 [NC]
-  RewriteCond %{HTTP_HOST}   !^<%= @node[:fqdn].gsub(/\./, '\.') %> [NC]
-  RewriteCond %{HTTP_HOST}   !^<%= @node[:hostname].gsub(/\./, '\.') %> [NC]
+  RewriteCond %{HTTP_HOST}   !^<%= node[:fqdn].gsub(/\./, '\.') %> [NC]
+  RewriteCond %{HTTP_HOST}   !^<%= node[:hostname].gsub(/\./, '\.') %> [NC]
   RewriteRule ^/(.*)         http://<%= canonical_hostname %>/$1 [L,R=301]
   <% end %>
   

@@ -6,7 +6,7 @@
   RailsBaseURI /
   RailsEnv <%= @params[:rails_env] %>
 
-  PassengerMaxPoolSize <%= @node[:rails][:max_pool_size] %>
+  PassengerMaxPoolSize <%= node[:rails][:max_pool_size] %>
 
   <Directory <%= @params[:docroot] %>>
     Options FollowSymLinks
@@ -16,6 +16,6 @@
   </Directory>
 
   LogLevel info
-  ErrorLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-error.log
-  CustomLog <%= @node[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
+  ErrorLog <%= node[:apache][:log_dir] %>/<%= @params[:name] %>-error.log
+  CustomLog <%= node[:apache][:log_dir] %>/<%= @params[:name] %>-access.log combined
 </VirtualHost>

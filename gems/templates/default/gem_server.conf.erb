@@ -3,7 +3,7 @@
 ###
 
 <VirtualHost *:80>
-  ServerAdmin ops@<%= @node[:domain] %>
+  ServerAdmin ops@<%= node[:domain] %>
   <% if @virtual_host_name -%>
   ServerName <%= @virtual_host_name %>
   <% end -%>
@@ -26,13 +26,13 @@
           allow from all
   </Directory>
   
-  ErrorLog <%= @node[:apache][:log_dir] %>/gems-error.log
+  ErrorLog <%= node[:apache][:log_dir] %>/gems-error.log
   
   # Possible values include: debug, info, notice, warn, error, crit,
   # alert, emerg.
   LogLevel warn
   
-  CustomLog <%= @node[:apache][:log_dir] %>/gems-access.log combined
+  CustomLog <%= node[:apache][:log_dir] %>/gems-access.log combined
   ServerSignature On
 
 </VirtualHost>

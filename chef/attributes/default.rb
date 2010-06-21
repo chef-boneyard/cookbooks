@@ -43,6 +43,7 @@ set_unless[:chef][:log_dir]         = "/var/log/chef"
 set_unless[:chef][:server_port]     = "4000"
 set_unless[:chef][:webui_port]      = "4040"
 set_unless[:chef][:webui_enabled]   = false
+set_unless[:chef][:solr_heap_size]  = "256M"
 set_unless[:chef][:validation_client_name] = "chef-validator"
 
 set_unless[:chef][:server_fqdn]     = node.has_key?(:domain) ? "chef.#{domain}" : "chef"

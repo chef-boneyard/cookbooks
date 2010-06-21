@@ -28,7 +28,7 @@ directory "/etc/iptables.d" do
   action :create
 end
 
-remote_file "/usr/sbin/rebuild-iptables" do
+cookbook_file "/usr/sbin/rebuild-iptables" do
   source "rebuild-iptables"
   mode 0755
 end

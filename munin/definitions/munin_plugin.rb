@@ -25,7 +25,7 @@ define :munin_plugin, :plugin_config => "/etc/munin/plugins", :plugin_dir => "/u
   plugin = params[:plugin] ? params[:plugin] : params[:name]
 
   if params[:create_file]
-    remote_file "#{params[:plugin_dir]}/#{params[:name]}" do
+    cookbook_file "#{params[:plugin_dir]}/#{params[:name]}" do
       cookbook "munin"
       source "plugins/#{params[:name]}"
       owner "root"

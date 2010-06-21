@@ -54,7 +54,7 @@ when "debian","ubuntu"
   end
 
   if node[:platform] =~ /ubuntu/i && node[:platform_version].to_f <= 8.04 
-    remote_file "/etc/event.d/runsvdir" do
+    cookbook_file "/etc/event.d/runsvdir" do
       source "runsvdir"
       mode 0644
       notifies :run, resources(:execute => "start-runsvdir"), :immediately

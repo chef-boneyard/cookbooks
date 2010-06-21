@@ -1,10 +1,10 @@
 <VirtualHost *:80>
   ServerAdmin     ops@example.com
-  ServerName      <%= @node[:fqdn] %>
-	ServerAlias     munin munin.<%= @node[:app_environment] %>.<%= @public_domain %>
+  ServerName      <%= node[:fqdn] %>
+	ServerAlias     munin munin.<%= node[:app_environment] %>.<%= @public_domain %>
   DocumentRoot    /var/www/munin
-  CustomLog       <%= @node[:apache][:log_dir] %>/munin_access.log combined
-  ErrorLog        <%= @node[:apache][:log_dir] %>/munin_error.log
+  CustomLog       <%= node[:apache][:log_dir] %>/munin_access.log combined
+  ErrorLog        <%= node[:apache][:log_dir] %>/munin_error.log
 
   Alias /munin /var/www/munin
 

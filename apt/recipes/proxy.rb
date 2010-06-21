@@ -25,7 +25,7 @@ service "apt-proxy" do
   action [ :enable, :start ]
 end
 
-remote_file "/etc/apt-proxy/apt-proxy-v2.conf" do
+cookbook_file "/etc/apt-proxy/apt-proxy-v2.conf" do
   source "apt-proxy-v2.conf"
   owner "root"
   group "root"

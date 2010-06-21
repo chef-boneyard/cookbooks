@@ -20,7 +20,7 @@ include_recipe "openldap::client"
 
 case node[:platform]
 when "debian","ubuntu"
-  remote_file "/var/cache/local/preseeding/slapd.seed" do
+  cookbook_file "/var/cache/local/preseeding/slapd.seed" do
     source "slapd.seed"
     mode 0600
     owner "root"
@@ -32,7 +32,7 @@ package "db4.2-util" do
   action :upgrade
 end
 
-remote_file "/var/cache/local/preseeding/slapd.seed" do
+cookbook_file "/var/cache/local/preseeding/slapd.seed" do
   source "slapd.seed"
   mode 0600 
   owner "root"
@@ -47,7 +47,7 @@ package "slapd" do
   action :upgrade
 end
 
-remote_file "#{node[:openldap][:ssl_dir]}/#{node[:openldap][:server]}.pem" do
+cookbook_file "#{node[:openldap][:ssl_dir]}/#{node[:openldap][:server]}.pem" do
   source "ssl/#{node[:openldap][:server]}.pem"
   mode 0644
   owner "root"

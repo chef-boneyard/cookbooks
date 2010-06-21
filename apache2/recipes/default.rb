@@ -56,7 +56,7 @@ if platform?("centos", "redhat", "fedora", "suse")
     action :create
   end
   
-  remote_file "/usr/local/bin/apache2_module_conf_generate.pl" do
+  cookbook_file "/usr/local/bin/apache2_module_conf_generate.pl" do
     source "apache2_module_conf_generate.pl"
     mode 0755
     owner "root"

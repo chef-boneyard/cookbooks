@@ -16,6 +16,6 @@
   limitations under the License.
 -->
 <Context path="/manager" 
-        docBase="<%= @node[:tomcat6][:manager_dir]%>" 
+        docBase="<%= node[:tomcat6][:manager_dir]%>" 
         antiResourceLocking="false" privileged="true">
 </Context>

@@ -5,8 +5,8 @@
 ##
 
 csv2 = {}
-csv2["<%= @node[:domain] %>."] = "db.<%= @node[:domain] %>"
-bind_address = "<%= @node[:ipaddress] %>"
+csv2["<%= node[:domain] %>."] = "db.<%= node[:domain] %>"
+bind_address = "<%= node[:ipaddress] %>"
 chroot_dir = "/etc/maradns"
 maradns_uid = 109
 maradns_gid = 109
@@ -28,4 +28,4 @@ verbose_level = 1
 # The following line must be uncommented to enable recursive queries
 root_servers = {}
 
-recursive_acl = "<%= @node[:maradns][:recursive_acl] %>"
+recursive_acl = "<%= node[:maradns][:recursive_acl] %>"
