@@ -1,31 +1,10 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "recommendations": {
+    },
     "attributes": {
     },
+    "maintainer": "Opscode, Inc.",
     "suggestions": {
-    },
-    "platforms": {
-      "rhel": [
-
-      ],
-      "freebsd": [
-
-      ],
-      "ubuntu": [
-        ">= 8.10"
-      ],
-      "openbsd": [
-
-      ],
-      "fedora": [
-
-      ],
-      "centos": [
-
-      ],
-      "debian": [
-        ">= 5.0"
-      ]
     },
     "dependencies": {
       "erlang": [
@@ -35,19 +14,40 @@
     "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "version": "0.12.0",
-    "name": "couchdb",
-    "recipes": {
-    },
-    "providing": {
+    "platforms": {
+      "rhel": [
+
+      ],
+      "openbsd": [
+
+      ],
+      "debian": [
+        ">= 5.0"
+      ],
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "freebsd": [
+
+      ],
+      "ubuntu": [
+        ">= 8.10"
+      ]
     },
     "license": "Apache 2.0",
+    "version": "0.13.0",
+    "providing": {
+    },
+    "recipes": {
+    },
     "replacing": {
     },
+    "name": "couchdb",
+    "description": "Installs CouchDB package and starts service",
     "groupings": {
     },
-    "long_description": "Installs the CouchDB package if it is available from an package repository on\nthe node. If the package repository is not available, CouchDB needs to be \ninstalled via some other method, either a backported package, or compiled \ndirectly from source. CouchDB is available on Red Hat-based systems through\nthe EPEL Yum Repository.\n",
-    "recommendations": {
-    },
-    "description": "Installs CouchDB package and starts service"
+    "long_description": "Installs the CouchDB package if it is available from an package repository on\nthe node. If the package repository is not available, CouchDB needs to be \ninstalled via some other method, either a backported package, or compiled \ndirectly from source. CouchDB is available on Red Hat-based systems through\nthe EPEL Yum Repository.\n"
   }
