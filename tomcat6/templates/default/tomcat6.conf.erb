@@ -9,22 +9,22 @@
 #
 
 # Where your java installation lives
-JAVA_HOME="<%= @node[:tomcat6][:java_home]%>"
+JAVA_HOME="<%= node[:tomcat6][:java_home]%>"
 
 # Where your tomcat installation lives
-CATALINA_BASE="<%= @node[:tomcat6][:home]%>"
-CATALINA_HOME="<%= @node[:tomcat6][:home]%>"
-JASPER_HOME="<%= @node[:tomcat6][:home]%>"
-CATALINA_TMPDIR="<%= @node[:tomcat6][:temp]%>"
+CATALINA_BASE="<%= node[:tomcat6][:home]%>"
+CATALINA_HOME="<%= node[:tomcat6][:home]%>"
+JASPER_HOME="<%= node[:tomcat6][:home]%>"
+CATALINA_TMPDIR="<%= node[:tomcat6][:temp]%>"
 
 # You can pass some parameters to java here if you wish to
 #JAVA_OPTS="-Xminf0.1 -Xmaxf0.3"
-JAVA_OPTS="-Dcom.sun.management.snmp.interface=0.0.0.0 -Dcom.sun.management.snmp.acl=false -Dcom.sun.management.snmp.port=1161 <%= @node[:tomcat6][:java_opts]%> "
+JAVA_OPTS="-Dcom.sun.management.snmp.interface=0.0.0.0 -Dcom.sun.management.snmp.acl=false -Dcom.sun.management.snmp.port=1161 <%= node[:tomcat6][:java_opts]%> "
 # Use JAVA_OPTS to set java.library.path for libtcnative.so
 #JAVA_OPTS="-Djava.library.path=/usr/lib"
 #JAVA_OPTS="-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n"
 # What user should run tomcat
-TOMCAT_USER="<%= @node[:tomcat6][:user]%>"
+TOMCAT_USER="<%= node[:tomcat6][:user]%>"
 
 # You can change your tomcat locale here
 #LANG="en_US"

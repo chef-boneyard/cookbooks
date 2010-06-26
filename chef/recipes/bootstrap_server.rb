@@ -76,11 +76,13 @@ server_gems.each do |gem|
   end
 end
 
-template "/etc/chef/server.rb" do
-  source "server.rb.erb"
-  owner "root"
-  group root_group
-  mode "600"
+%w{ server solr }.each do |cfg|
+  template "/etc/chef/#{cfg}.rb" do
+    source "#{cfg}.rb.erb"
+    owner "root"
+    group root_group
+    mode "600"
+  end
 end
 
 %w{ cache search_index }.each do |dir|
@@ -116,7 +118,7 @@ when "runit"
     restart_command "sv int chef-server"
   end
 
-  if node.chef.webui_enabled
+  if node.chef.attribute?("webui_enabled")
     service "chef-server-webui" do
       restart_command "sv int chef-server-webui"
     end

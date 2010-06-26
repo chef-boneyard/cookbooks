@@ -24,7 +24,7 @@ include_recipe "munin::client"
 
 package "munin"
 
-remote_file "/etc/cron.d/munin" do
+cookbook_file "/etc/cron.d/munin" do
   source "munin-cron"
   mode "0644"
   owner "root"

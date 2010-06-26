@@ -39,7 +39,7 @@ SSLPassPhraseDialog  builtin
 #   Configure the SSL Session Cache: First the mechanism 
 #   to use and second the expiring timeout (in seconds).
 #SSLSessionCache         dbm:/var/run/apache2/ssl_scache
-<% if @node[:platform] == "centos" || @node[:platform] == "redhat" || @node[:platform] == "fedora" -%>
+<% if node[:platform] == "centos" || node[:platform] == "redhat" || node[:platform] == "fedora" -%>
 SSLSessionCache        shmcb:/var/cache/mod_ssl/scache(512000)
 <% else -%>
 SSLSessionCache        shmcb:/var/run/apache2/ssl_scache
@@ -49,7 +49,7 @@ SSLSessionCacheTimeout  300
 #   Semaphore:
 #   Configure the path to the mutual exclusion semaphore the
 #   SSL engine uses internally for inter-process synchronization. 
-<% if @node[:platform] == "centos" || @node[:platform] == "redhat" || @node[:platform] == "fedora" -%>
+<% if node[:platform] == "centos" || node[:platform] == "redhat" || node[:platform] == "fedora" -%>
 SSLMutex  default
 <% else -%>
 SSLMutex  file:/var/run/apache2/ssl_mutex

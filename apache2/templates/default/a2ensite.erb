@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-SYSCONFDIR='<%= @node[:apache][:dir] %>'
+SYSCONFDIR='<%= node[:apache][:dir] %>'
 
 if [ -z $1 ]; then
         echo "Which site would you like to enable?"

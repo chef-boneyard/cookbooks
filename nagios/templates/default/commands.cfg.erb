@@ -51,7 +51,7 @@ define command {
 
 define command {
   command_name    check-nagios
-  command_line    $USER1$/check_nagios -F <%= @node[:nagios][:cache_dir] %>/status.dat -e 4 -C /usr/sbin/nagios3
+  command_line    $USER1$/check_nagios -F <%= node[:nagios][:cache_dir] %>/status.dat -e 4 -C /usr/sbin/nagios3
 }
 
 define command {
