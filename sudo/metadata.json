@@ -90,6 +90,7 @@
     "providing": {
     },
     "recipes": {
+      "sudo": "Installs sudo and configures /etc/sudoers"
     },
     "replacing": {
     },

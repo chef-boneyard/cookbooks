@@ -23,7 +23,7 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "providing": {
     },
     "recipes": {
@@ -31,6 +31,7 @@
       "php::module_fpdf": "Install the php-fpdf package",
       "php::php5": "Install php5 packages and php.ini config file",
       "php::php5-cgi": "Install the php5-cgi package",
+      "php": "Empty, use one of the other recipes",
       "php::module_sqlite3": "Install the php5-sqlite3 package",
       "php::module_ldap": "Install the php5-ldap package",
       "php::module_gd": "Install the php5-gd package",

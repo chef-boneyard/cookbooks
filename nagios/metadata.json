@@ -23,10 +23,13 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "providing": {
     },
     "recipes": {
+      "nagios": "Empty, use one of the other recipes",
+      "nagios::client": "Installs and configures a nagios client with nrpe",
+      "nagios::server": "Installs and configures a nagios server"
     },
     "replacing": {
     },

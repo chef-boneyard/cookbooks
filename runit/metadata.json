@@ -79,6 +79,7 @@
     "providing": {
     },
     "recipes": {
+      "runit": "Installs and configures runit"
     },
     "replacing": {
     },

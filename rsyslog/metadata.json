@@ -75,10 +75,11 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "providing": {
     },
     "recipes": {
+      "rsyslog": "Installs rsyslog",
       "rsyslog::server": "Sets up an rsyslog server",
       "rsyslog::client": "Sets up a client to log to a remote rsyslog server"
     },

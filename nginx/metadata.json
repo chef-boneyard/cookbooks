@@ -229,10 +229,12 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.12.0",
+    "version": "0.12.1",
     "providing": {
     },
     "recipes": {
+      "nginx::source": "Installs nginx from source and sets up configuration with Debian apache style with sites-enabled/sites-available",
+      "nginx": "Installs nginx package and sets up configuration with Debian apache style with sites-enabled/sites-available"
     },
     "replacing": {
     },

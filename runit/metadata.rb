@@ -4,6 +4,8 @@ license           "Apache 2.0"
 description       "Installs runit and provides runit_service definition"
 version           "0.13.0"
 
+recipe "runit", "Installs and configures runit"
+
 %w{ ubuntu debian }.each do |os|
   supports os
 end

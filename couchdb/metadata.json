@@ -38,10 +38,12 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.13.1",
+    "version": "0.13.2",
     "providing": {
     },
     "recipes": {
+      "couchdb": "Installs and configures CouchDB package",
+      "couchdb::source": "Installs and configures CouchDB from source"
     },
     "replacing": {
     },

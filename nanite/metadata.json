@@ -1,29 +1,30 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "recommendations": {
+    },
     "attributes": {
     },
+    "maintainer": "Opscode, Inc.",
     "suggestions": {
-    },
-    "platforms": {
     },
     "dependencies": {
     },
     "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "version": "0.8.0",
-    "name": "nanite",
-    "recipes": {
-    },
-    "providing": {
+    "platforms": {
     },
     "license": "Apache 2.0",
+    "version": "0.8.0",
+    "providing": {
+    },
+    "recipes": {
+      "nanite::chef": "Deprecated, was used to install and configure nanite for Chef 0.8alpha"
+    },
     "replacing": {
     },
+    "name": "nanite",
+    "description": "Deprecated, was used to install and configure nanite for Chef 0.8 alpha",
     "groupings": {
     },
-    "long_description": "",
-    "recommendations": {
-    },
-    "description": "Deprecated, was used to install and configure nanite for Chef 0.8 alpha"
+    "long_description": ""
   }

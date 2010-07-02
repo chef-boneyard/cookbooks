@@ -250,11 +250,12 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "providing": {
     },
     "recipes": {
       "openldap::auth": "Set up openldap for user authentication",
+      "openldap": "Empty, use one of the other recipes",
       "openldap::server": "Set up openldap to be a slapd server",
       "openldap::client": "Install openldap client packages"
     },

@@ -59,13 +59,14 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.21.0",
+    "version": "0.21.1",
     "providing": {
     },
     "recipes": {
       "chef::server": "Configures a chef API server as a merb application",
       "chef::server_proxy": "Configures Apache2 proxy for API and WebUI",
       "chef::bootstrap_server": "Set up rubygem installed chef server",
+      "chef": "Default recipe is empty, use one of the other recipes.",
       "chef::bootstrap_client": "Set up rubygem installed chef client",
       "chef::delete_validation": "Deletes validation.pem after client registers",
       "chef::client": "Sets up a client to talk to a chef-server"

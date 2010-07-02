@@ -1,16 +1,10 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "recommendations": {
+    },
     "attributes": {
     },
+    "maintainer": "Opscode, Inc.",
     "suggestions": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ],
-      "debian": [
-
-      ]
     },
     "dependencies": {
       "rails": [
@@ -32,19 +26,26 @@
     "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "version": "0.10.0",
-    "name": "redmine",
-    "recipes": {
-    },
-    "providing": {
+    "platforms": {
+      "debian": [
+
+      ],
+      "ubuntu": [
+
+      ]
     },
     "license": "Apache 2.0",
+    "version": "0.10.1",
+    "providing": {
+    },
+    "recipes": {
+      "redmine": "Installs and configures redmine under passenger + apache2"
+    },
     "replacing": {
     },
+    "name": "redmine",
+    "description": "Installs and configures redmine as a Rails app in passenger+apache2",
     "groupings": {
     },
-    "long_description": "",
-    "recommendations": {
-    },
-    "description": "Installs and configures redmine as a Rails app in passenger+apache2"
+    "long_description": ""
   }

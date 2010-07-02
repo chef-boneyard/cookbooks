@@ -22,4 +22,5 @@ r = gem_package "dynect_rest" do
   action :nothing
 end
 r.run_action(:upgrade)
+require 'rubygems'
 Gem.clear_paths

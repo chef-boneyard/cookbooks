@@ -1,13 +1,10 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "recommendations": {
+    },
     "attributes": {
     },
+    "maintainer": "Opscode, Inc.",
     "suggestions": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ]
     },
     "dependencies": {
       "apt": [
@@ -17,19 +14,23 @@
     "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "version": "0.8.0",
-    "name": "ubuntu",
-    "recipes": {
-    },
-    "providing": {
+    "platforms": {
+      "ubuntu": [
+
+      ]
     },
     "license": "Apache 2.0",
+    "version": "0.8.1",
+    "providing": {
+    },
+    "recipes": {
+      "ubuntu": "Sets up sources for the node's ubuntu release"
+    },
     "replacing": {
     },
+    "name": "ubuntu",
+    "description": "Sets up sources for ubuntu",
     "groupings": {
     },
-    "long_description": "",
-    "recommendations": {
-    },
-    "description": "Sets up sources for ubuntu"
+    "long_description": ""
   }

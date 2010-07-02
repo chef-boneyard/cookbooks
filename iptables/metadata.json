@@ -26,10 +26,11 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.9.0",
+    "version": "0.9.1",
     "providing": {
     },
     "recipes": {
+      "iptables": "Installs iptables and sets up .d style config directory of iptables rules"
     },
     "replacing": {
     },

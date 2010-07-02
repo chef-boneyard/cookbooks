@@ -4,6 +4,8 @@ license           "Apache 2.0"
 description       "Installs sudo and configures /etc/sudoers"
 version           "0.9"
 
+recipe "sudo", "Installs sudo and configures /etc/sudoers"
+
 %w{redhat centos fedora ubuntu debian freebsd}.each do |os|
   supports os
 end

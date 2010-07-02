@@ -17,10 +17,11 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.8.1",
+    "version": "0.8.2",
     "providing": {
     },
     "recipes": {
+      "default": "Disables apparmor service on Ubuntu"
     },
     "replacing": {
     },

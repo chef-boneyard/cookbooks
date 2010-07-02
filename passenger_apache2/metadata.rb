@@ -3,7 +3,10 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs passenger for Apache2"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.16.0"
+version           "0.16.2"
+
+recipe "passenger_apache2", "Installs Passenger as an Apache module"
+recipe "passenger_apache2::mod_rails", "Enables Apache module configuration for passenger module"
 
 %w{ packages ruby apache2 rails }.each do |cb|
   depends cb

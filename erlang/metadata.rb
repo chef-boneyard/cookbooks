@@ -2,7 +2,9 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs erlang, optionally install GUI tools."
-version           "0.8"
+version           "0.8.1"
+
+recipe "erlang", "Installs erlang"
 
 %w{ ubuntu debian }.each do |os|
   supports os

@@ -26,10 +26,13 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "providing": {
     },
     "recipes": {
+      "passenger_enterprise": "Installs Passenger gem with Ruby Enterprise Edition",
+      "passenger_enterprise::nginx": "Installs Passenger gem w/ REE, and recompiles support into Nginx",
+      "passenger_enterprise::apache2": "Enables Apache module configuration for passenger under Ruby Enterprise Edition"
     },
     "replacing": {
     },

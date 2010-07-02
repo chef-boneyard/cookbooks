@@ -6,6 +6,8 @@ long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
 version           "0.8"
 suggests          "ruby"
 
+recipe "solr", "Sets up environment for solr replication"
+
 %w{ java capistrano runit }.each do |cb|
   depends cb
 end
