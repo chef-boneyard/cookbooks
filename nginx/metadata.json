@@ -1,5 +1,5 @@
 {
-    "recommendations": {
+    "providing": {
     },
     "attributes": {
       "nginx/worker_connections": {
@@ -206,8 +206,7 @@
         "display_name": "Nginx Keepalive"
       }
     },
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
+    "replacing": {
     },
     "dependencies": {
       "runit": [
@@ -217,8 +216,9 @@
 
       ]
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
+    "groupings": {
+    },
+    "recommendations": {
     },
     "platforms": {
       "debian": [
@@ -229,18 +229,18 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.12.1",
-    "providing": {
+    "version": "0.14.0",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
     },
     "recipes": {
       "nginx::source": "Installs nginx from source and sets up configuration with Debian apache style with sites-enabled/sites-available",
       "nginx": "Installs nginx package and sets up configuration with Debian apache style with sites-enabled/sites-available"
     },
-    "replacing": {
-    },
+    "maintainer_email": "cookbooks@opscode.com",
     "name": "nginx",
-    "description": "Installs and configures nginx",
-    "groupings": {
+    "conflicting": {
     },
+    "description": "Installs and configures nginx",
     "long_description": ""
   }
