@@ -16,33 +16,53 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-set_unless[:postgresql][:version] = value_for_platform(
-  "ubuntu" => {
-    "8.04" => "8.3",
-    "8.10" => "8.3",
-    "9.10" => "8.3",
-    "10.04" => "8.4",
-    "default" => "8.4"
-  },
-  "fedora" => {
-    "10" => "8.3",
-    "11" => "8.3",
-    "12" => "8.3",
-    "13" => "8.4",
-    "14" => "8.4",
-    "default" => "8.4"
-  },
-  ["redhat", "centos"] => {
-    "default" => "8.3"
-  }
-)
-
 case platform
-when "redhat","centos","fedora","suse"
-  set[:postgresql][:dir]     = "/var/lib/pgsql/data"
-when "debian","ubuntu"
-  set[:postgresql][:dir]     = "/etc/postgresql/#{node.postgresql.version}/main"
+when "debian"
+
+  if platform_version.to_f == 5.0
+    set_unless[:postgresql][:version] = "8.3"
+  elsif platform_version =~ /.*sid/
+    set_unless[:postgresql][:version] = "8.4"
+  end
+
+  set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+
+when "ubuntu"
+
+  if platform_version.to_f <= 9.10
+    set_unless[:postgresql][:version] = "8.3"
+  else
+    set_unless[:postgresql][:version] = "8.4"
+  end
+
+  set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+
+when "fedora"
+
+  if platform_version.to_f <= 12
+    set_unless[:postgresql][:version] = "8.3"
+  else
+    set_unless[:postgresql][:version] = "8.4"
+  end
+
+  set[:postgresql][:dir] = "/var/lib/pgsql/data"
+
+when "redhat","centos"
+
+  set_unless[:postgresql][:version] = "8.3"
+  set[:postgresql][:dir] = "/var/lib/pgsql/data"
+
+when "suse"
+
+  if platform_version.to_f <= 11.1
+    set_unless[:postgresql][:version] = "8.3"
+  else
+    set_unless[:postgresql][:version] = "8.4"
+  end
+
+  set[:postgresql][:dir] = "/var/lib/pgsql/data"
+
 else
-  set[:postgresql][:dir]     = "/etc/postgresql/#{node.postgresql.version}/main"
+  set_unless[:postgresql][:version] = "8.4"
+  set[:postgresql][:dir]            = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 end
