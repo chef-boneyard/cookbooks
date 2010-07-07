@@ -5,5 +5,5 @@ description       "Opscode rubygems config"
 long_description  <<-EOH
 Configures rubygems sources lists
 EOH
-version           "0.2"
-recipe            "rubygems", "Configures rubygems"
+version           "0.2.1"
+recipe            "rubygems", "Configures rubygems.org source"

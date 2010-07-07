@@ -1,69 +1,76 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "recommendations": {
+    },
     "attributes": {
       "ntp/servers": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
         "default": [
           "0.us.pool.ntp.org",
           "1.us.pool.ntp.org"
         ],
-        "calculated": false,
         "type": "array",
-        "choice": [
+        "recipes": [
 
         ],
         "description": "Array of servers we should talk to",
-        "display_name": "NTP Servers",
-        "required": "optional",
-        "recipes": [
-
-        ]
+        "display_name": "NTP Servers"
       },
-      "ntp/is_server": {
-        "default": "false",
+      "ntp/service": {
+        "required": "optional",
         "calculated": false,
-        "type": "string",
         "choice": [
 
         ],
-        "description": "Set to true if this is an NTP server",
-        "display_name": "NTP Is Server?",
-        "required": "optional",
-        "recipes": [
-
-        ]
-      },
-      "ntp/service": {
         "default": "ntp",
-        "calculated": false,
         "type": "string",
-        "choice": [
+        "recipes": [
 
         ],
         "description": "Name of the NTP service",
-        "display_name": "NTP Service",
-        "required": "optional",
-        "recipes": [
-
-        ]
+        "display_name": "NTP Service"
       },
-      "ntp": {
+      "ntp/is_server": {
+        "required": "optional",
         "calculated": false,
-        "type": "hash",
         "choice": [
 
         ],
-        "description": "Hash of NTP attributes",
-        "display_name": "NTP",
-        "required": "optional",
+        "default": "false",
+        "type": "string",
         "recipes": [
 
-        ]
+        ],
+        "description": "Set to true if this is an NTP server",
+        "display_name": "NTP Is Server?"
+      },
+      "ntp": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "type": "hash",
+        "recipes": [
+
+        ],
+        "description": "Hash of NTP attributes",
+        "display_name": "NTP"
       }
     },
+    "maintainer": "Opscode, Inc.",
     "suggestions": {
     },
+    "dependencies": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "conflicting": {
+    },
     "platforms": {
-      "ubuntu": [
+      "debian": [
 
       ],
       "fedora": [
@@ -72,31 +79,25 @@
       "centos": [
 
       ],
-      "redhat": [
+      "ubuntu": [
 
       ],
-      "debian": [
+      "redhat": [
 
       ]
     },
-    "dependencies": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
-    },
-    "version": "0.8.0",
-    "name": "ntp",
-    "recipes": {
-    },
+    "license": "Apache 2.0",
+    "version": "0.8.1",
     "providing": {
     },
-    "license": "Apache 2.0",
+    "recipes": {
+      "ntp": "Installs and configures ntp either as a server or client"
+    },
     "replacing": {
     },
+    "name": "ntp",
+    "description": "Installs and configures ntp as a client or server",
     "groupings": {
     },
-    "long_description": "",
-    "recommendations": {
-    },
-    "description": "Installs and configures ntp as a client or server"
+    "long_description": ""
   }

@@ -5,10 +5,10 @@
 # chkconfig: 3 80 05
 # description:      Startup script for domain1 of Glassfish Application Server.
 
-GLASSFISH_HOME=<%= File.join(@node[:glassfish][:INSTALL_HOME],"glassfish") %>
+GLASSFISH_HOME=<%= File.join(node[:glassfish][:INSTALL_HOME],"glassfish") %>
 export GLASSFISH_HOME
 
-GLASSFISH_OWNER=<%= @node[:glassfish][:systemuser] %> ;
+GLASSFISH_OWNER=<%= node[:glassfish][:systemuser] %> ;
 export GLASSFISH_OWNER
 
 start() {

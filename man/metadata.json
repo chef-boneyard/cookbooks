@@ -1,35 +1,45 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "recommendations": {
+    },
     "attributes": {
     },
+    "maintainer": "Opscode, Inc.",
     "suggestions": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ],
-      "debian": [
-
-      ]
     },
     "dependencies": {
     },
     "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "version": "0.7.0",
-    "name": "man",
-    "recipes": {
-    },
-    "providing": {
+    "platforms": {
+      "debian": [
+
+      ],
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "ubuntu": [
+
+      ],
+      "redhat": [
+
+      ]
     },
     "license": "Apache 2.0",
+    "version": "0.7.1",
+    "providing": {
+    },
+    "recipes": {
+      "man": "Installs man package"
+    },
     "replacing": {
     },
+    "name": "man",
+    "description": "Installs man-db",
     "groupings": {
     },
-    "long_description": "",
-    "recommendations": {
-    },
-    "description": "Installs man-db"
+    "long_description": ""
   }

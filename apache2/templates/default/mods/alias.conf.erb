@@ -12,9 +12,9 @@
 # We include the /icons/ alias for FancyIndexed directory listings.  If
 # you do not use FancyIndexing, you may comment this out.
 #
-Alias /icons/ "<%= @node[:apache][:icondir] %>"
+Alias /icons/ "<%= node[:apache][:icondir] %>"
 
-<Directory "<%= @node[:apache][:icondir] %>">
+<Directory "<%= node[:apache][:icondir] %>">
     Options Indexes MultiViews
     AllowOverride None
     Order allow,deny

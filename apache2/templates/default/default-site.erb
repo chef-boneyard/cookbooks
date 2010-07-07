@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-        ServerAdmin <%= @node[:apache][:contact] %>
+        ServerAdmin <%= node[:apache][:contact] %>
 
         DocumentRoot /var/www/
         <Directory />
@@ -24,13 +24,13 @@
                 Allow from all
         </Directory>
 
-        ErrorLog <%= @node[:apache][:log_dir] %>/error.log 
+        ErrorLog <%= node[:apache][:log_dir] %>/error.log 
 
         # Possible values include: debug, info, notice, warn, error, crit,
         # alert, emerg.
         LogLevel warn
 
-        CustomLog <%= @node[:apache][:log_dir] %>/access.log combined
+        CustomLog <%= node[:apache][:log_dir] %>/access.log combined
         ServerSignature On
 
         Alias /doc/ "/usr/share/doc/"
@@ -42,7 +42,7 @@
             Allow from 127.0.0.0/255.0.0.0 ::1/128
         </Directory>
 
-        <% if @node[:platform] == "centos" || @node[:platform] == "redhat" || @node[:platform] == "fedora" -%>
+        <% if node[:platform] == "centos" || node[:platform] == "redhat" || node[:platform] == "fedora" -%>
         #
         # This configuration file enables the default "Welcome"
         # page if there is no default index page present for

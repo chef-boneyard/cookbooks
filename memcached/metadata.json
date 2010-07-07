@@ -1,58 +1,52 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "recommendations": {
+    },
     "attributes": {
       "memcached/memory": {
-        "default": "64",
+        "required": "optional",
         "calculated": false,
-        "type": "string",
         "choice": [
+
+        ],
+        "default": "64",
+        "type": "string",
+        "recipes": [
 
         ],
         "description": "Memory allocated for memcached instance",
-        "display_name": "Memcached Memory",
-        "required": "optional",
-        "recipes": [
-
-        ]
+        "display_name": "Memcached Memory"
       },
       "memcached/user": {
-        "default": "nobody",
+        "required": "optional",
         "calculated": false,
-        "type": "string",
         "choice": [
+
+        ],
+        "default": "nobody",
+        "type": "string",
+        "recipes": [
 
         ],
         "description": "User to run memcached instance as",
-        "display_name": "Memcached User",
-        "required": "optional",
-        "recipes": [
-
-        ]
+        "display_name": "Memcached User"
       },
       "memcached/port": {
-        "default": "11211",
+        "required": "optional",
         "calculated": false,
-        "type": "string",
         "choice": [
 
         ],
-        "description": "Port to use for memcached instance",
-        "display_name": "Memcached Port",
-        "required": "optional",
+        "default": "11211",
+        "type": "string",
         "recipes": [
 
-        ]
+        ],
+        "description": "Port to use for memcached instance",
+        "display_name": "Memcached Port"
       }
     },
+    "maintainer": "Opscode, Inc.",
     "suggestions": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ],
-      "debian": [
-
-      ]
     },
     "dependencies": {
       "runit": [
@@ -62,19 +56,26 @@
     "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "version": "0.10.0",
-    "name": "memcached",
-    "recipes": {
-    },
-    "providing": {
+    "platforms": {
+      "debian": [
+
+      ],
+      "ubuntu": [
+
+      ]
     },
     "license": "Apache 2.0",
+    "version": "0.10.1",
+    "providing": {
+    },
+    "recipes": {
+      "memcached": "Installs and configures memcached"
+    },
     "replacing": {
     },
+    "name": "memcached",
+    "description": "Installs memcached and provides a define to set up an instance of memcache via runit",
     "groupings": {
     },
-    "long_description": "= DESCRIPTION:\n\nInstalls memcached and provides a define to set up an instance of memcache via runit.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10-9.10. Uses the memcached init script by default. A runit service can be set up for instances using the included define.\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* runit\n\n= ATTRIBUTES: \n\nThe following are node attributes passed to the template for the runit service.\n\n* memcached[:memory] - maximum memory for memcached instances.\n* memcached[:user] - user to run memcached as.\n* memcached[:port] - port for memcached to listen on.\n\n= USAGE:\n\nSimply set the attributes and it will configure the /etc/memcached.conf file. If you want to use multiple memcached instances, you'll need to modify the recipe to disable the startup script and the template in the default recipe.\n\nUse the define, memcached_instance, to set up a runit service for the named memcached instance.\n\n  memcached_instance \"myproj\" \n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nAuthor:: Joshua Sierles (<joshua@37signals.com>)\n\nCopyright:: 2009, Opscode, Inc\nCopyright:: 2009, 37signals\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-    "recommendations": {
-    },
-    "description": "Installs memcached and provides a define to set up an instance of memcache via runit"
+    "long_description": "= DESCRIPTION:\n\nInstalls memcached and provides a define to set up an instance of memcache via runit.\n\n= REQUIREMENTS:\n\n== Platform:\n\nTested on Ubuntu 8.10-9.10. Uses the memcached init script by default. A runit service can be set up for instances using the included define.\n\n== Cookbooks:\n\nOpscode cookbooks, http://github.com/opscode/cookbooks/tree/master:\n\n* runit\n\n= ATTRIBUTES: \n\nThe following are node attributes passed to the template for the runit service.\n\n* memcached[:memory] - maximum memory for memcached instances.\n* memcached[:user] - user to run memcached as.\n* memcached[:port] - port for memcached to listen on.\n\n= USAGE:\n\nSimply set the attributes and it will configure the /etc/memcached.conf file. If you want to use multiple memcached instances, you'll need to modify the recipe to disable the startup script and the template in the default recipe.\n\nUse the define, memcached_instance, to set up a runit service for the named memcached instance.\n\n  memcached_instance \"myproj\" \n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nAuthor:: Joshua Sierles (<joshua@37signals.com>)\n\nCopyright:: 2009, Opscode, Inc\nCopyright:: 2009, 37signals\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n"
   }

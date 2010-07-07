@@ -1,13 +1,10 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "recommendations": {
+    },
     "attributes": {
     },
+    "maintainer": "Opscode, Inc.",
     "suggestions": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ]
     },
     "dependencies": {
       "php": [
@@ -17,19 +14,23 @@
     "maintainer_email": "cookbooks@opscode.com",
     "conflicting": {
     },
-    "version": "0.8.0",
-    "name": "teamspeak",
-    "recipes": {
-    },
-    "providing": {
+    "platforms": {
+      "ubuntu": [
+
+      ]
     },
     "license": "Apache 2.0",
+    "version": "0.8.0",
+    "providing": {
+    },
+    "recipes": {
+      "teamspeak": "Installs and configures teamspeak2"
+    },
     "replacing": {
     },
+    "name": "teamspeak",
+    "description": "Installs teamspeak and enables service",
     "groupings": {
     },
-    "long_description": "",
-    "recommendations": {
-    },
-    "description": "Installs teamspeak and enables service"
+    "long_description": ""
   }

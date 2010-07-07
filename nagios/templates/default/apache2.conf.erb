@@ -1,8 +1,8 @@
 <VirtualHost *:80>
-  ServerAdmin     <%= @node[:nagios][:sysadmin_email] %>
-  ServerName      <%= @node[:fqdn] %>
-	ServerAlias     nagios nagios.<%= @node[:app_environment]%>.<%= @public_domain %>
-  DocumentRoot    <%= @node[:nagios][:docroot] %>
+  ServerAdmin     <%= node[:nagios][:sysadmin_email] %>
+  ServerName      <%= node[:fqdn] %>
+	ServerAlias     nagios nagios.<%= node[:app_environment]%>.<%= @public_domain %>
+  DocumentRoot    <%= node[:nagios][:docroot] %>
   CustomLog       /var/log/nagios3/apache_access.log combined
   ErrorLog        /var/log/nagios3/apache_error.log
 
@@ -10,7 +10,7 @@
   ScriptAlias /nagios3/cgi-bin /usr/lib/cgi-bin/nagios3
 
   Alias /nagios3/stylesheets /etc/nagios3/stylesheets
-  Alias /nagios3 <%= @node[:nagios][:docroot] %>
+  Alias /nagios3 <%= node[:nagios][:docroot] %>
 
   <Location />
     AuthName "Nagios Server"

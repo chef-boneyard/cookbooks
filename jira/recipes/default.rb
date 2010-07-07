@@ -69,12 +69,12 @@ directory "#{node[:jira][:install_path]}" do
   owner "www-data"
 end
 
-remote_file "#{node[:jira][:install_path]}/bin/startup.sh" do
+cookbook_file "#{node[:jira][:install_path]}/bin/startup.sh" do
   source "startup.sh"
   mode 0755
 end
   
-remote_file "#{node[:jira][:install_path]}/bin/catalina.sh" do
+cookbook_file "#{node[:jira][:install_path]}/bin/catalina.sh" do
   source "catalina.sh"
   mode 0755
 end

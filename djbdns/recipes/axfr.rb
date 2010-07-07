@@ -20,7 +20,7 @@
 include_recipe "djbdns"
 
 user "axfrdns" do
-  uid 9996
+  uid node[:djbdns][:axfrdns_uid]
   case node[:platform]
   when "ubuntu","debian"
     gid "nogroup"

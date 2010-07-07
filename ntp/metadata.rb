@@ -2,7 +2,9 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures ntp as a client or server"
-version           "0.8"
+version           "0.8.1"
+
+recipe "ntp", "Installs and configures ntp either as a server or client"
 
 %w{ ubuntu debian redhat centos fedora }.each do |os|
   supports os

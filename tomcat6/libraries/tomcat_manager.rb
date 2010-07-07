@@ -202,7 +202,7 @@ class Chef
         perm_gen_used = (snmp["jvmMemPoolUsed.5"])?(snmp["jvmMemPoolUsed.5"].value.to_f):0
         #restart passed in service, which should be the tomcat service
         min_perm_gen = 25*1024*1024
-        if ((perm_gen_max - perm_gen_used) < min_perm_gen) #@node[:tomcat][:permgen_min_free_in_mb])
+        if ((perm_gen_max - perm_gen_used) < min_perm_gen) #node[:tomcat][:permgen_min_free_in_mb])
           Chef::Log.info "SNMP reported: PermGen Max:#{perm_gen_max/1024/1024} PermGen Used:#{perm_gen_used/1024/1024} , diff: #{(perm_gen_max/1024/1024 - perm_gen_used/1024/1024)}  is lower than #{min_perm_gen/1024/1024} "
           @new_resource.service.run_action(:restart)
           poll_manger_until_running

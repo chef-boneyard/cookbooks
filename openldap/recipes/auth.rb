@@ -43,7 +43,7 @@ template "/etc/ldap/ldap.conf" do
   group "root"
 end
 
-remote_file "/etc/nsswitch.conf" do
+cookbook_file "/etc/nsswitch.conf" do
   source "nsswitch.conf"
   mode 0644
   owner "root"
@@ -53,7 +53,7 @@ remote_file "/etc/nsswitch.conf" do
 end
 
 %w{ account auth password session }.each do |pam|
-  remote_file "/etc/pam.d/common-#{pam}" do
+  cookbook_file "/etc/pam.d/common-#{pam}" do
     source "common-#{pam}"
     mode 0644
     owner "root"
