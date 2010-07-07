@@ -1,15 +1,18 @@
 {
-    "recommendations": {
+    "providing": {
     },
     "attributes": {
     },
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
+    "replacing": {
     },
     "dependencies": {
+      "erlang": [
+
+      ]
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
+    "groupings": {
+    },
+    "recommendations": {
     },
     "platforms": {
       "debian": [
@@ -29,17 +32,17 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.10.2",
-    "providing": {
+    "version": "0.10.3",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
     },
     "recipes": {
       "rabbitmq_chef": "Install and configure rabbitmq specifically for a Chef Server"
     },
-    "replacing": {
-    },
+    "maintainer_email": "cookbooks@opscode.com",
     "name": "rabbitmq_chef",
-    "description": "Installs the RabbitMQ AMQP Broker for use on a Chef Server.",
-    "groupings": {
+    "conflicting": {
     },
+    "description": "Installs the RabbitMQ AMQP Broker for use on a Chef Server.",
     "long_description": ""
   }
