@@ -18,6 +18,7 @@
 #
 # Set up a mirror for RubyForge
 
+include_recipe "rsync"
 
 directory "#{node[:gem_server][:directory]}" do
   owner "root"
