@@ -27,13 +27,15 @@ end
 
 p.run_action(:install)
 
-package "mysql-client" do
+o = package "mysql-client" do
   package_name value_for_platform(
     [ "centos", "redhat", "suse" ] => { "default" => "mysql" },
     "default" => "mysql-client"
   )
-  action :install
+  action :nothing
 end
+
+o.run_action(:install)
 
 case node[:platform]
 when "centos","redhat", "suse"
