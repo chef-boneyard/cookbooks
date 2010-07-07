@@ -1,7 +1,20 @@
 {
-    "recommendations": {
+    "providing": {
     },
     "attributes": {
+      "riak/kv/storage_backend_options/small_file_threshold": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "default": "10485760",
+        "type": "string",
+        "recipes": [
+
+        ],
+        "display_name": "Small file threshold"
+      },
       "riak/erlang": {
         "required": "optional",
         "calculated": false,
@@ -41,20 +54,6 @@
         ],
         "description": "Major version of Riak to install.",
         "display_name": "Riak major version"
-      },
-      "riak/kv/storage_backend_options/writes_per_fsync": {
-        "required": "optional",
-        "calculated": false,
-        "choice": [
-
-        ],
-        "default": "1",
-        "type": "string",
-        "recipes": [
-
-        ],
-        "description": "Number of write operations before forcing an fsync.",
-        "display_name": "Writes per fsync"
       },
       "riak/kv/pb_ip": {
         "required": "optional",
@@ -180,6 +179,20 @@
         "description": "The name of the Erlang node",
         "display_name": "Erlang node name"
       },
+      "riak/kv/storage_backend_options/sync_strategy": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "default": "none",
+        "type": "string",
+        "recipes": [
+
+        ],
+        "description": "Sync strategy is one of: :none (let the OS decide), :o_sync, or {:seconds => N} (which requires application support)",
+        "display_name": "Sync strategy"
+      },
       "riak/kv/storage_backend_options/data_root": {
         "required": "optional",
         "calculated": false,
@@ -207,6 +220,32 @@
         ],
         "display_name": "Minimum port for Erlang node communication"
       },
+      "riak/kv/storage_backend_options/dead_bytes_merge_trigger": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "default": "536870912",
+        "type": "string",
+        "recipes": [
+
+        ],
+        "display_name": "Dead bytes merge trigger"
+      },
+      "riak/kv/storage_backend_options/frag_merge_trigger": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "default": "60",
+        "type": "string",
+        "recipes": [
+
+        ],
+        "display_name": "Fragment merge trigger"
+      },
       "riak/kv/storage_backend_options/riak_kv_dets_backend_root": {
         "required": "optional",
         "calculated": false,
@@ -227,7 +266,7 @@
         "choice": [
 
         ],
-        "default": "riak_kv_dets_backend",
+        "default": "riak_kv_bitcask_backend",
         "type": "string",
         "recipes": [
 
@@ -289,6 +328,20 @@
         ],
         "description": "Number of threads in the async thread pool",
         "display_name": "Async thread pool size"
+      },
+      "riak/package/version/build": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "default": "1344",
+        "type": "string",
+        "recipes": [
+
+        ],
+        "description": "For binary packages, the specific build to use.",
+        "display_name": "Riak binary package build version"
       },
       "riak/package": {
         "required": "optional",
@@ -362,7 +415,7 @@
         "choice": [
 
         ],
-        "default": "1",
+        "default": "0",
         "type": "string",
         "recipes": [
 
@@ -382,6 +435,20 @@
         ],
         "description": "Riak is a Dynamo-inspired key/value store",
         "display_name": "Riak"
+      },
+      "riak/kv/storage_backend_options/expiry_secs": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "default": "-1",
+        "type": "string",
+        "recipes": [
+
+        ],
+        "description": "Data expiration can be caused by setting this to a positive value.  If set, items older than the value will be discarded.",
+        "display_name": "Data expiration threshold, in seconds"
       },
       "riak/kv/storage_backend_options/log_buffer_size": {
         "required": "optional",
@@ -422,6 +489,19 @@
         ],
         "description": "Riak core system configuration",
         "display_name": "Riak core"
+      },
+      "riak/kv/storage_backend_options/dead_bytes_threshold": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "default": "134217728",
+        "type": "string",
+        "recipes": [
+
+        ],
+        "display_name": "Dead bytes threshold"
       },
       "riak/kv/storage_backend_options": {
         "required": "optional",
@@ -560,6 +640,19 @@
         "description": "Package type for installation (source or binary)",
         "display_name": "Package type"
       },
+      "riak/kv/storage_backend_options/frag_threshold": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "default": "40",
+        "type": "string",
+        "recipes": [
+
+        ],
+        "display_name": "Fragment threshold"
+      },
       "riak/core/ring_creation_size": {
         "required": "optional",
         "calculated": false,
@@ -619,13 +712,27 @@
         "choice": [
 
         ],
-        "default": "10",
+        "default": "11",
         "type": "string",
         "recipes": [
 
         ],
         "description": "Minor version of Riak to install.",
         "display_name": "Riak minor version"
+      },
+      "riak/kv/storage_backend_options/max_file_size": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "default": "2147483648",
+        "type": "string",
+        "recipes": [
+
+        ],
+        "description": "Maximum size for a single Bitcask cask file.",
+        "display_name": "Maximum file size"
       },
       "riak/kv/storage_backend_options/log_file_size": {
         "required": "optional",
@@ -681,8 +788,7 @@
         "display_name": "Maximum port for Erlang node communication"
       }
     },
-    "maintainer": "Basho Technologies, Inc.",
-    "suggestions": {
+    "replacing": {
     },
     "dependencies": {
       "iptables": [
@@ -695,8 +801,9 @@
 
       ]
     },
-    "maintainer_email": "riak@basho.com",
-    "conflicting": {
+    "groupings": {
+    },
+    "recommendations": {
     },
     "platforms": {
       "debian": [
@@ -707,8 +814,9 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.1.0",
-    "providing": {
+    "version": "0.11.0",
+    "maintainer": "Basho Technologies, Inc.",
+    "suggestions": {
     },
     "recipes": {
       "riak::iptables": "Automatically configure iptables rules for Riak.",
@@ -716,11 +824,10 @@
       "riak::innostore": "Install and configure the Innostore backend.",
       "riak::autoconf": "Automatically configure nodes from chef-server information."
     },
-    "replacing": {
-    },
+    "maintainer_email": "riak@basho.com",
     "name": "riak",
-    "description": "Installs and configures Riak distributed data store (v0.10 and later)",
-    "groupings": {
+    "conflicting": {
     },
+    "description": "Installs and configures Riak distributed data store (v0.10 and later)",
     "long_description": ""
   }
