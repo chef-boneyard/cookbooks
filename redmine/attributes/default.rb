@@ -27,10 +27,10 @@ end
 
 set[:redmine][:dir] = "/srv/redmine-#{redmine[:version]}"
 
-set_unless[:redmine][:dl_id]   = "56909"
-set_unless[:redmine][:version] = "0.8.4"
+default[:redmine][:dl_id]   = "56909"
+default[:redmine][:version] = "0.8.4"
 
-set_unless[:redmine][:db][:type]     = "sqlite"
-set_unless[:redmine][:db][:user]     = "redmine"
-set_unless[:redmine][:db][:password] = pw
-set_unless[:redmine][:db][:hostname] = "localhost"
+default[:redmine][:db][:type]     = "sqlite"
+default[:redmine][:db][:user]     = "redmine"
+default[:redmine][:db][:password] = pw
+default[:redmine][:db][:hostname] = "localhost"
