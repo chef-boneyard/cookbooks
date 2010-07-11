@@ -40,12 +40,12 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.4.0",
-    "recipes": {
-      "tomcat6": "Main Tomcat 6 configuration"
-    },
+    "version": "0.4.1",
     "maintainer": "Opscode, Inc.",
     "suggestions": {
+    },
+    "recipes": {
+      "tomcat6": "Main Tomcat 6 configuration"
     },
     "maintainer_email": "cookbooks@opscode.com",
     "name": "tomcat6",
