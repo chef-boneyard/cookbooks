@@ -1,5 +1,5 @@
 {
-    "recommendations": {
+    "providing": {
     },
     "attributes": {
       "maradns": {
@@ -30,13 +30,13 @@
         "display_name": "MaraDNS Recursive ACL"
       }
     },
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
+    "replacing": {
     },
     "dependencies": {
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
+    "groupings": {
+    },
+    "recommendations": {
     },
     "platforms": {
       "debian": [
@@ -47,17 +47,17 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.8.0",
-    "providing": {
+    "version": "0.8.1",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
     },
     "recipes": {
       "maradns": "Installs and configures maradns"
     },
-    "replacing": {
-    },
+    "maintainer_email": "cookbooks@opscode.com",
     "name": "maradns",
-    "description": "Installs and configures maradns",
-    "groupings": {
+    "conflicting": {
     },
+    "description": "Installs and configures maradns",
     "long_description": ""
   }
