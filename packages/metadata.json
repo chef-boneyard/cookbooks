@@ -1,5 +1,5 @@
 {
-    "recommendations": {
+    "providing": {
     },
     "attributes": {
       "packages": {
@@ -30,13 +30,13 @@
         "display_name": "Packages Distribution Only?"
       }
     },
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
+    "replacing": {
     },
     "dependencies": {
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
+    "groupings": {
+    },
+    "recommendations": {
     },
     "platforms": {
       "centos": [
@@ -47,17 +47,17 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.9.1",
-    "providing": {
+    "version": "0.9.2",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
     },
     "recipes": {
       "packages": "Empty, this cookbook provides a library for helping determine whther distribution only packages should be installed"
     },
-    "replacing": {
-    },
+    "maintainer_email": "cookbooks@opscode.com",
     "name": "packages",
-    "description": "Helper library to determine whether distribution-only packages are installed",
-    "groupings": {
+    "conflicting": {
     },
+    "description": "Helper library to determine whether distribution-only packages are installed",
     "long_description": ""
   }
