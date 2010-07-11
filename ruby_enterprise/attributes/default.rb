@@ -23,8 +23,8 @@
 # limitations under the License.
 #
 
-set_unless[:ruby_enterprise][:install_path] = "/opt/ruby-enterprise"
-set_unless[:ruby_enterprise][:ruby_bin]     = "/opt/ruby-enterprise/bin/ruby"
-set_unless[:ruby_enterprise][:gems_dir]     = "#{ruby_enterprise[:install_path]}/lib/ruby/gems/1.8"
-set_unless[:ruby_enterprise][:version]      = '1.8.7-2009.10'
-set_unless[:ruby_enterprise][:url]          = "http://rubyforge.org/frs/download.php/66162/ruby-enterprise-#{ruby_enterprise[:version]}"
+default[:ruby_enterprise][:install_path] = "/opt/ruby-enterprise"
+default[:ruby_enterprise][:ruby_bin]     = "/opt/ruby-enterprise/bin/ruby"
+default[:ruby_enterprise][:gems_dir]     = "#{ruby_enterprise[:install_path]}/lib/ruby/gems/1.8"
+default[:ruby_enterprise][:version]      = '1.8.7-2010.02'
+default[:ruby_enterprise][:url]          = "http://rubyforge.org/frs/download.php/71096/ruby-enterprise-#{ruby_enterprise[:version]}"
