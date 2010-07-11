@@ -20,8 +20,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-set_unless[:nagios][:checks][:memory][:critical] = 150
-set_unless[:nagios][:checks][:memory][:warning]  = 250
-set_unless[:nagios][:checks][:load][:critical]   = "30,20,10"
-set_unless[:nagios][:checks][:load][:warning]    = "15,10,5"
-set_unless[:nagios][:checks][:smtp_host] = String.new
+default[:nagios][:checks][:memory][:critical] = 150
+default[:nagios][:checks][:memory][:warning]  = 250
+default[:nagios][:checks][:load][:critical]   = "30,20,10"
+default[:nagios][:checks][:load][:warning]    = "15,10,5"
+default[:nagios][:checks][:smtp_host] = String.new
