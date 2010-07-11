@@ -17,8 +17,8 @@
 # limitations under the License.
 #
 
-set_unless[:openvpn][:local]   = ipaddress
-set_unless[:openvpn][:proto]   = "udp"
-set_unless[:openvpn][:type]    = "server"
-set_unless[:openvpn][:subnet]  = "10.8.0.0"
-set_unless[:openvpn][:netmask] = "255.255.0.0"
+default[:openvpn][:local]   = ipaddress
+default[:openvpn][:proto]   = "udp"
+default[:openvpn][:type]    = "server"
+default[:openvpn][:subnet]  = "10.8.0.0"
+default[:openvpn][:netmask] = "255.255.0.0"
