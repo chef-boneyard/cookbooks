@@ -1,5 +1,5 @@
 {
-    "recommendations": {
+    "providing": {
     },
     "attributes": {
       "ntp/servers": {
@@ -61,13 +61,13 @@
         "display_name": "NTP"
       }
     },
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
+    "replacing": {
     },
     "dependencies": {
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
+    "groupings": {
+    },
+    "recommendations": {
     },
     "platforms": {
       "debian": [
@@ -88,16 +88,16 @@
     },
     "license": "Apache 2.0",
     "version": "0.8.1",
-    "providing": {
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
     },
     "recipes": {
       "ntp": "Installs and configures ntp either as a server or client"
     },
-    "replacing": {
-    },
+    "maintainer_email": "cookbooks@opscode.com",
     "name": "ntp",
-    "description": "Installs and configures ntp as a client or server",
-    "groupings": {
+    "conflicting": {
     },
+    "description": "Installs and configures ntp as a client or server",
     "long_description": ""
   }
