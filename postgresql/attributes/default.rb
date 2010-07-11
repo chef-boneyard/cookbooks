@@ -20,9 +20,9 @@ case platform
 when "debian"
 
   if platform_version.to_f == 5.0
-    set_unless[:postgresql][:version] = "8.3"
+    default[:postgresql][:version] = "8.3"
   elsif platform_version =~ /.*sid/
-    set_unless[:postgresql][:version] = "8.4"
+    default[:postgresql][:version] = "8.4"
   end
 
   set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
@@ -30,9 +30,9 @@ when "debian"
 when "ubuntu"
 
   if platform_version.to_f <= 9.10
-    set_unless[:postgresql][:version] = "8.3"
+    default[:postgresql][:version] = "8.3"
   else
-    set_unless[:postgresql][:version] = "8.4"
+    default[:postgresql][:version] = "8.4"
   end
 
   set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
@@ -40,29 +40,29 @@ when "ubuntu"
 when "fedora"
 
   if platform_version.to_f <= 12
-    set_unless[:postgresql][:version] = "8.3"
+    default[:postgresql][:version] = "8.3"
   else
-    set_unless[:postgresql][:version] = "8.4"
+    default[:postgresql][:version] = "8.4"
   end
 
   set[:postgresql][:dir] = "/var/lib/pgsql/data"
 
 when "redhat","centos"
 
-  set_unless[:postgresql][:version] = "8.3"
+  default[:postgresql][:version] = "8.3"
   set[:postgresql][:dir] = "/var/lib/pgsql/data"
 
 when "suse"
 
   if platform_version.to_f <= 11.1
-    set_unless[:postgresql][:version] = "8.3"
+    default[:postgresql][:version] = "8.3"
   else
-    set_unless[:postgresql][:version] = "8.4"
+    default[:postgresql][:version] = "8.4"
   end
 
   set[:postgresql][:dir] = "/var/lib/pgsql/data"
 
 else
-  set_unless[:postgresql][:version] = "8.4"
+  default[:postgresql][:version] = "8.4"
   set[:postgresql][:dir]            = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 end
