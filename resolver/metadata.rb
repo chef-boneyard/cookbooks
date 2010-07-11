@@ -2,7 +2,7 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Configures /etc/resolv.conf"
-version           "0.8"
+version           "0.8.1"
 
 recipe "resolver", "Configures /etc/resolv.conf via attributes"
 
