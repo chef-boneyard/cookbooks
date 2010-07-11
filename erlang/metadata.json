@@ -1,15 +1,15 @@
 {
-    "recommendations": {
+    "providing": {
     },
     "attributes": {
     },
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
+    "replacing": {
     },
     "dependencies": {
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
+    "groupings": {
+    },
+    "recommendations": {
     },
     "platforms": {
       "debian": [
@@ -20,17 +20,17 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.8.1",
-    "providing": {
+    "version": "0.8.2",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
     },
     "recipes": {
       "erlang": "Installs erlang"
     },
-    "replacing": {
-    },
+    "maintainer_email": "cookbooks@opscode.com",
     "name": "erlang",
-    "description": "Installs erlang, optionally install GUI tools.",
-    "groupings": {
+    "conflicting": {
     },
+    "description": "Installs erlang, optionally install GUI tools.",
     "long_description": ""
   }
