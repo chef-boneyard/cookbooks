@@ -1,5 +1,5 @@
 {
-    "recommendations": {
+    "providing": {
     },
     "attributes": {
       "postfix/smtp_sasl_password_maps": {
@@ -198,13 +198,13 @@
         "display_name": "Postfix"
       }
     },
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
+    "replacing": {
     },
     "dependencies": {
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
+    "groupings": {
+    },
+    "recommendations": {
     },
     "platforms": {
       "debian": [
@@ -215,18 +215,18 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.8.1",
-    "providing": {
+    "version": "0.8.2",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
     },
     "recipes": {
       "postfix::sasl_auth": "Set up postfix to auth to a server with sasl",
       "postfix": "Installs and configures postfix"
     },
-    "replacing": {
-    },
+    "maintainer_email": "cookbooks@opscode.com",
     "name": "postfix",
-    "description": "Installs and configures postfix for client or outbound relayhost, or to do SASL auth",
-    "groupings": {
+    "conflicting": {
     },
+    "description": "Installs and configures postfix for client or outbound relayhost, or to do SASL auth",
     "long_description": ""
   }
