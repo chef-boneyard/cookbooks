@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-set_unless[:solr][:user] = 'solr'
-set_unless[:solr][:uid] = 551
-set_unless[:solr][:group] = 'solr'
-set_unless[:solr][:gid] = 551
+default[:solr][:user] = 'solr'
+default[:solr][:uid] = 551
+default[:solr][:group] = 'solr'
+default[:solr][:gid] = 551
