@@ -1,1 +1,1 @@
-set_unless[:erlang][:gui_tools] = false
+default[:erlang][:gui_tools] = false
