@@ -17,8 +17,8 @@
 #
 
 if domain.length > 0
-  set_unless[:openldap][:basedn] = "dc=#{domain.split('.').join(",dc=")}"
-  set_unless[:openldap][:server] = "ldap.#{domain}"
+  default[:openldap][:basedn] = "dc=#{domain.split('.').join(",dc=")}"
+  default[:openldap][:server] = "ldap.#{domain}"
 end
 
 openldap[:rootpw] = nil
@@ -47,15 +47,15 @@ openldap[:slapd_type] = nil
 
 if openldap[:slapd_type] == "slave"
   master = search(:nodes, 'openldap_slapd_type:master') 
-  set_unless[:openldap][:slapd_master] = master
-  set_unless[:openldap][:slapd_replpw] = nil
-  set_unless[:openldap][:slapd_rid]    = 102
+  default[:openldap][:slapd_master] = master
+  default[:openldap][:slapd_replpw] = nil
+  default[:openldap][:slapd_rid]    = 102
 end
 
 # Auth settings for Apache.
 if openldap[:basedn] && openldap[:server]
-  set_unless[:openldap][:auth_type]   = "openldap"
-  set_unless[:openldap][:auth_binddn] = "ou=people,#{openldap[:basedn]}"
-  set_unless[:openldap][:auth_bindpw] = nil
-  set_unless[:openldap][:auth_url]    = "ldap://#{openldap[:server]}/#{openldap[:auth_binddn]}?uid?sub?(objecctClass=*)"
+  default[:openldap][:auth_type]   = "openldap"
+  default[:openldap][:auth_binddn] = "ou=people,#{openldap[:basedn]}"
+  default[:openldap][:auth_bindpw] = nil
+  default[:openldap][:auth_url]    = "ldap://#{openldap[:server]}/#{openldap[:auth_binddn]}?uid?sub?(objecctClass=*)"
 end
