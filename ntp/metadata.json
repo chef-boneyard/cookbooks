@@ -87,7 +87,7 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.8.1",
+    "version": "0.8.2",
     "maintainer": "Opscode, Inc.",
     "suggestions": {
     },
@@ -99,5 +99,5 @@
     "conflicting": {
     },
     "description": "Installs and configures ntp as a client or server",
-    "long_description": ""
+    "long_description": "DESCRIPTION\n===========\n\nInstalls and configures ntp, optionally set up a local NTP server.\n\nUSAGE\n=====\n\nSet up the ntp attributes in a role. For example in a base.rb role applied to all nodes:\n\n    \"ntp\" => {\n      \"servers\" => \"time.int.example.org\"\n    }\n\nThen in an ntpserver.rb role that is applied to NTP servers:\n\n    \"ntp\" => {\n      \"is_server\" => \"true\",\n      \"servers\" => \"0.us.pool.ntp.org\"\n    }\n\nThe time.int.example.org used in the base role is a CNAME for the NTP server.\n\nLICENSE AND AUTHOR\n==================\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright 2009, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n"
   }
