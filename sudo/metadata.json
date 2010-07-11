@@ -1,5 +1,5 @@
 {
-    "recommendations": {
+    "providing": {
     },
     "attributes": {
       "authorization/sudoers/groups": {
@@ -57,13 +57,13 @@
         "display_name": "Authorization Sudoers"
       }
     },
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
+    "replacing": {
     },
     "dependencies": {
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
+    "groupings": {
+    },
+    "recommendations": {
     },
     "platforms": {
       "debian": [
@@ -86,17 +86,17 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.9.0",
-    "providing": {
+    "version": "0.9.1",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
     },
     "recipes": {
       "sudo": "Installs sudo and configures /etc/sudoers"
     },
-    "replacing": {
-    },
+    "maintainer_email": "cookbooks@opscode.com",
     "name": "sudo",
-    "description": "Installs sudo and configures /etc/sudoers",
-    "groupings": {
+    "conflicting": {
     },
+    "description": "Installs sudo and configures /etc/sudoers",
     "long_description": ""
   }
