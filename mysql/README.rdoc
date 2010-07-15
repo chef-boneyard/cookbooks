@@ -12,6 +12,8 @@ Best tested on Ubuntu 9.04,9.10. On EC2, requires platform that supports -o bind
 
 Requires Opscode's openssl cookbook for secure password generation.
 
+Requires a C compiler and Ruby development package in order to build mysql gem with native extensions. On Debian and Ubuntu systems this is satisfied by installing the "build-essential" and "ruby-dev" packages before running Chef. See USAGE below for information on how to handle this during a Chef run.
+
 = ATTRIBUTES: 
 
 * mysql[:server_root_password] - Set the server's root password with this, default is a randomly generated password with OpenSSL::Random.random_bytes.
@@ -74,6 +76,42 @@ On EC2 nodes,
 When the ec2_path doesn't exist we look for a mounted filesystem (eg, EBS) and move the datadir there.
 
 The client recipe is already included by server and 'default' recipes.
+
+To make sure that a C compiler and the Ruby development libraries are installed, use the following run list in the node or in a role:
+
+{
+  "run_list": [
+    "recipe[build-essential]",
+    "recipe[ruby]",
+    "recipe[mysql::server]"
+  ]
+}
+
+The build-essential and ruby cookbooks install the packages in question during the "execution" phase of the Chef client run, rather than the compile phase when the MySQL gem is installed. To work around this for now until the build-essential and ruby packages are updated, modify your local copies of the recipes:
+
+In the Opscode build-essential default recipe:
+
+ %w{build-essential binutils-doc}.each do |pkg|
+   p = package pkg do
+     action :nothing
+   end
+   p.run_action(:install)
+ end
+
+And the ruby recipe to have the following:
+
+extra_packages.each do |pkg|
+ p = package pkg do
+   action :nothing
+ end
+ p.run_action(:install)
+end
+
+These cookbooks aren't strict dependencies, and not if the installation process already included installing build-essential and ruby1.8-dev (e.g. RubyGems installation).
+
+For more infromation on the compile vs execution phase of a Chef run:
+
+http://wiki.opscode.com/display/chef/Anatomy+of+a+Chef+Run
 
 = LICENSE and AUTHOR:
       

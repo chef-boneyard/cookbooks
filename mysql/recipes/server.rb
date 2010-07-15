@@ -72,25 +72,6 @@ template value_for_platform([ "centos", "redhat", "suse" , "fedora" ] => {"defau
   notifies :restart, resources(:service => "mysql"), :immediately
 end
 
-begin
-  t = resources(:template => "/etc/mysql/grants.sql")
-rescue
-  Chef::Log.warn("Could not find previously defined grants.sql resource")
-  t = template "/etc/mysql/grants.sql" do
-    path value_for_platform(
-      ["centos", "redhat", "suse", "fedora" ] => {
-        "default" => "/etc/mysql_grants.sql"
-      },
-      "default" => "/etc/mysql/grants.sql"
-    )
-    source "grants.sql.erb"
-    owner "root"
-    group "root"
-    mode "0600"
-    action :create
-  end
-end
-
 unless Chef::Config[:solo]
   ruby_block "save node data" do
     block do
@@ -100,8 +81,29 @@ unless Chef::Config[:solo]
   end
 end
 
+grants_path = value_for_platform(
+  ["centos", "redhat", "suse", "fedora" ] => {
+    "default" => "/etc/mysql_grants.sql"
+  },
+  "default" => "/etc/mysql/grants.sql"
+)
+
+begin
+  t = resources(:template => "/etc/mysql/grants.sql")
+rescue
+  Chef::Log.warn("Could not find previously defined grants.sql resource")
+  t = template "/etc/mysql/grants.sql" do
+    path grants_path
+    source "grants.sql.erb"
+    owner "root"
+    group "root"
+    mode "0600"
+    action :create
+  end
+end
+
 execute "mysql-install-privileges" do
-  command "/usr/bin/mysql -u root #{node[:mysql][:server_root_password].empty? ? '' : '-p' }#{node[:mysql][:server_root_password]} < /etc/mysql/grants.sql"
+  command "/usr/bin/mysql -u root #{node[:mysql][:server_root_password].empty? ? '' : '-p' }#{node[:mysql][:server_root_password]} < #{grants_path}"
   action :nothing
   subscribes :run, resources(:template => "/etc/mysql/grants.sql"), :immediately
 end
