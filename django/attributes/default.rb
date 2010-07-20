@@ -1,8 +1,9 @@
 #
 # Cookbook Name:: django
 # Recipe:: default
+# Author:: Joshua Timberman (<joshua@opscode.com>)
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2010, Opscode, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,10 +17,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "apache2"
-include_recipe "apache2::#{node[:django][:web_server]}"
-include_recipe "python"
 
-package "python-django" do
-  action :install
-end
+default[:django][:web_server] = "mod_wsgi"

@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: django
-# Recipe:: default
+# Cookbook Name:: apache2
+# Recipe:: python 
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2008-2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,10 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "apache2"
-include_recipe "apache2::#{node[:django][:web_server]}"
-include_recipe "python"
 
-package "python-django" do
-  action :install
+case node[:platform]
+when "debian","ubuntu"
+  package "libapache2-mod-wsgi"
+when "redhat","centos","fedora"
+  package "mod_wsgi"
 end
+
+apache_module "wsgi"
