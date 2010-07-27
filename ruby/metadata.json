@@ -1,15 +1,15 @@
 {
-    "recommendations": {
+    "providing": {
     },
     "attributes": {
     },
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
+    "replacing": {
     },
     "dependencies": {
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
+    "groupings": {
+    },
+    "recommendations": {
     },
     "platforms": {
       "debian": [
@@ -29,17 +29,17 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.7.1",
-    "providing": {
+    "version": "0.7.2",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
     },
     "recipes": {
       "ruby": "Installs ruby packages"
     },
-    "replacing": {
-    },
+    "maintainer_email": "cookbooks@opscode.com",
     "name": "ruby",
-    "description": "Installs ruby packages",
-    "groupings": {
+    "conflicting": {
     },
+    "description": "Installs ruby packages",
     "long_description": ""
   }
