@@ -18,6 +18,11 @@
 # limitations under the License.
 #
 
-package "php5-curl" do
-  action :upgrade
+case node[:platform]
+  when "centos", "redhat", "fedora", "suse"
+    #centos php compiled with curl
+  when "debian" "ubuntu"
+    package pack do
+      action :upgrade
+    end
 end

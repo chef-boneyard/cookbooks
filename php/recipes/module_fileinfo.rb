@@ -18,6 +18,11 @@
 # limitations under the License.
 #
 
-package "php5-fileinfo" do
-  action :upgrade
+case node[:platform]
+  when "centos", "redhat", "fedora", "suse"
+    #placeholder modify when available
+  when "debian" "ubuntu"
+    package "php5-fileinfo" do
+      action :upgrade
+    end
 end

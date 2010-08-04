@@ -18,6 +18,8 @@
 # limitations under the License.
 #
 
-package "php5-memcache" do
+pack = value_for_platform([ "centos", "redhat", "fedora", "suse" ] => {"default" => "php-pecl-memcache"}, "default" => "php5-memcache")
+
+package pack do
   action :upgrade
 end

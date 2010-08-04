@@ -1,31 +1,48 @@
 {
-    "recommendations": {
+    "providing": {
     },
+    "platforms": {
+      "debian": [
+
+      ],
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "suse": [
+
+      ],
+      "ubuntu": [
+
+      ],
+      "redhat": [
+
+      ]
+    },
+    "description": "Installs and maintains php and php modules",
     "attributes": {
     },
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
+    "replacing": {
     },
     "dependencies": {
       "apache2": [
 
       ]
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
+    "version": "0.9.1",
+    "groupings": {
     },
-    "platforms": {
-      "debian": [
-
-      ],
-      "ubuntu": [
-
-      ]
+    "long_description": "",
+    "recommendations": {
+    },
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
     },
     "license": "Apache 2.0",
-    "version": "0.9.1",
-    "providing": {
-    },
+    "name": "php",
+    "maintainer_email": "cookbooks@opscode.com",
     "recipes": {
       "php::php4": "Install packages for PHP version 4",
       "php::module_fpdf": "Install the php-fpdf package",
@@ -43,11 +60,6 @@
       "php::pear": "Install the php-pear package",
       "php::module_pgsql": "Install the php5-pgsql packag"
     },
-    "replacing": {
-    },
-    "name": "php",
-    "description": "Installs and maintains php and php modules",
-    "groupings": {
-    },
-    "long_description": ""
+    "conflicting": {
+    }
   }
