@@ -23,3 +23,7 @@ recipe            "php::php5", "Install php5 packages and php.ini config file"
 %w{ubuntu debian}.each do |os|
   supports os
 end
+
+%w{centos redhat fedora suse}.each do |os|
+  supports os
+end

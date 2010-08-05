@@ -18,6 +18,8 @@
 # limitations under the License.
 #
 
-package "php5-gd" do
+pack = value_for_platform([ "centos", "redhat", "fedora", "suse" ] => {"default" => "php-gd"}, "default" => "php5-gd")
+
+package pack do
   action :upgrade
 end

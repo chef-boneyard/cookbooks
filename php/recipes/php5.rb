@@ -26,7 +26,7 @@ include_recipe "php::module_gd"
 include_recipe "php::module_pgsql"
 include_recipe "php::pear"
 
-cookbook_file value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "/etc/php.ini"}, "default" => "/etc/php5/apache2/php.ini") do
+cookbook_file value_for_platform([ "centos", "redhat", "fedora", "suse" ] => {"default" => "/etc/php.ini"}, "default" => "/etc/php5/apache2/php.ini") do
   source "apache2-php5.ini"
   owner "root"
   group "root"
@@ -34,7 +34,9 @@ cookbook_file value_for_platform([ "centos", "redhat", "suse" ] => {"default" =>
   notifies :restart, resources("service[apache2]"), :delayed
 end
 
-%w{ php5 php5-cli smarty }.each do |pkg|
+packages = value_for_platform([ "centos", "redhat", "fedora", "suse" ] => {"default" => %w(php php-cli php-Smarty)}, "default" => %w{php5 php5-cli smarty})
+
+packages.each do |pkg|
   package pkg do
     action :upgrade
   end
