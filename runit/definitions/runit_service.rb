@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :run_restart => true, :options => Hash.new do
+define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :run_restart => true, :start_command => "start", :stop_command => "stop", :restart_command => "restart", :status_command => "status", :options => Hash.new do
   include_recipe "runit"
 
   params[:directory] ||= node[:runit][:sv_dir]
@@ -106,10 +106,10 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
   service params[:name] do
     provider Chef::Provider::Service::Init
     supports :restart => true, :status => true
-    start_command "#{node[:runit][:sv_bin]} start #{params[:name]}"
-    stop_command "#{node[:runit][:sv_bin]} stop #{params[:name]}"
-    restart_command "#{node[:runit][:sv_bin]} restart #{params[:name]}"
-    status_command "#{node[:runit][:sv_bin]} status #{params[:name]}"
+    start_command "#{node[:runit][:sv_bin]} #{params[:start_command]} #{params[:name]}"
+    stop_command "#{node[:runit][:sv_bin]} #{params[:stop_command]} #{params[:name]}"
+    restart_command "#{node[:runit][:sv_bin]} #{params[:restart_command]} #{params[:name]}"
+    status_command "#{node[:runit][:sv_bin]} #{params[:status_command]} #{params[:name]}"
     if params[:run_restart]
       subscribes :restart, resources(:template => "#{sv_dir_name}/run"), :delayed
     end
