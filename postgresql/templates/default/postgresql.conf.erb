@@ -35,15 +35,15 @@
 # The default values of these variables are driven from the -D command-line
 # option or PGDATA environment variable, represented here as ConfigDir.
 
-data_directory = '/var/lib/postgresql/8.3/main'		# use data in another directory
+data_directory = '/var/lib/postgresql/<%= node.postgresql.version -%>/main'		# use data in another directory
 					# (change requires restart)
-hba_file = '/etc/postgresql/8.3/main/pg_hba.conf'	# host-based authentication file
+hba_file = '/etc/postgresql/<%= node.postgresql.version -%>/main/pg_hba.conf'	# host-based authentication file
 					# (change requires restart)
-ident_file = '/etc/postgresql/8.3/main/pg_ident.conf'	# ident configuration file
+ident_file = '/etc/postgresql/<%= node.postgresql.version -%>/main/pg_ident.conf'	# ident configuration file
 					# (change requires restart)
 
 # If external_pid_file is not explicitly set, no extra PID file is written.
-external_pid_file = '/var/run/postgresql/8.3-main.pid'		# write an extra PID file
+external_pid_file = '/var/run/postgresql/<%= node.postgresql.version -%>-main.pid'		# write an extra PID file
 					# (change requires restart)
 
 
@@ -117,8 +117,14 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 
 # - Free Space Map -
 
+<% if node.postgresql.version == "8.4" %>
+<% # max_fsm_pages doesn't exist on 8.4 %>
+#max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
+					# (change requires restart)
+<% else %>
 max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
 					# (change requires restart)
+<% end %>
 #max_fsm_relations = 1000		# min 100, ~70 bytes each
 					# (change requires restart)
 
