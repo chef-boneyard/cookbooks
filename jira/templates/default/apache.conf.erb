@@ -1,20 +1,20 @@
 <VirtualHost *:80>
-  DocumentRoot <%= @node[:jira][:install_path] %>
-  ServerAdmin ops@<%= @node[:domain] %>
-  <% if @node[:jira][:virtual_host_name] -%>
-  ServerName <%= @node[:jira][:virtual_host_name] %>
+  DocumentRoot <%= node[:jira][:install_path] %>
+  ServerAdmin ops@<%= node[:domain] %>
+  <% if node[:jira][:virtual_host_name] -%>
+  ServerName <%= node[:jira][:virtual_host_name] %>
   <% end -%>
-  <% if @node[:jira][:virtual_host_alias] -%>
-  <% va_list = @node[:jira][:virtual_host_alias].kind_of?(Array) ? @node[:jira][:virtual_host_alias] : [ @node[:jira][:virtual_host_alias] ] -%>
+  <% if node[:jira][:virtual_host_alias] -%>
+  <% va_list = node[:jira][:virtual_host_alias].kind_of?(Array) ? node[:jira][:virtual_host_alias] : [ node[:jira][:virtual_host_alias] ] -%>
   <% va_list.each do |va| -%>
   ServerAlias <%= va %>
   <% end -%>
   <% end -%>
 
-  ErrorLog <%= @node[:apache][:log_dir] %>/jira-error.log
-  TransferLog <%= @node[:apache][:log_dir] %>/jira-access.log
+  ErrorLog <%= node[:apache][:log_dir] %>/jira-error.log
+  TransferLog <%= node[:apache][:log_dir] %>/jira-access.log
   RewriteEngine On
-  RewriteLog <%= @node[:apache][:log_dir] %>/jira-rewrite.log
+  RewriteLog <%= node[:apache][:log_dir] %>/jira-rewrite.log
   RewriteLogLevel 0
 
 	<Proxy *>

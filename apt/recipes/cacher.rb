@@ -25,7 +25,7 @@ service "apt-cacher" do
   action [ :enable, :start ]
 end
 
-remote_file "/etc/apt-cacher/apt-cacher.conf" do
+cookbook_file "/etc/apt-cacher/apt-cacher.conf" do
   source "apt-cacher.conf"
   owner "root"
   group "root"
@@ -33,7 +33,7 @@ remote_file "/etc/apt-cacher/apt-cacher.conf" do
   notifies :restart, resources(:service => "apt-cacher")
 end
 
-remote_file "/etc/default/apt-cacher" do
+cookbook_file "/etc/default/apt-cacher" do
   source "apt-cacher"
   owner "root"
   group "root"

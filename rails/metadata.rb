@@ -3,7 +3,9 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs rails and provides a sample template for use with passenger"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.9"
+version           "0.9.2"
+
+recipe "rails", "Installs rails gems"
 
 %w{ ruby apache2 }.each do |cb|
   depends cb

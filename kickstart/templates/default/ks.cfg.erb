@@ -6,8 +6,8 @@ reboot
 url --url http://mirrors.kernel.org/centos/5.3/os/i386
 lang en_US.UTF-8
 keyboard us
-network --device eth0 --bootproto dhcp --hostname centos5test.<%= @node[:domain] %>
-rootpw --iscrypted <%= @node[:kickstart][:rootpw] %>
+network --device eth0 --bootproto dhcp --hostname centos5test.<%= node[:domain] %>
+rootpw --iscrypted <%= node[:kickstart][:rootpw] %>
 firewall --enabled --port=22:tcp
 authconfig --enableshadow --enablemd5
 selinux --permissive

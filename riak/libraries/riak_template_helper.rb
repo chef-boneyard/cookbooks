@@ -4,21 +4,33 @@ module RiakTemplateHelper
   # erl_sym?(str)
   #
   # Returns a boolean indicating whether the value associated with an option
-  # should be treated as an Erlang symbol and, hence, not quoted.
+  # should be treated as an Erlang symbol and, hence, not quoted.  This is only
+  # a backstop for strings being used as values when they should be symbols.
   #
   def erl_sym?(str)
-    ["storage_backend", "errlog_type"].include?(str)
+    ["storage_backend",
+      "errlog_type",
+      "seconds",
+      "hours",
+      "sync_strategy"].include?(str)
+  end
+  
+  def _erl_prepare(opt, val)
+    val_str = if val.is_a?(String) && !(erl_sym?(opt))
+      "\"#{val.to_s}\""
+    else
+      if val.is_a?(Hash) || val.is_a?(Mash)
+        _erl_prepare(val.keys.first, val.values.first)
+      else
+        val.to_s
+      end
+    end 
+    
+    "\{#{opt}, #{val_str}\}"
   end
   
   def erl_prepare(opts)
-    opts.inject([]) do |arr, (opt, val)|
-      if val.is_a?(String) && !(erl_sym?(opt))
-        val_str = "\"#{val}\""
-      else
-        val_str = val.to_s
-      end
-      arr << "\{#{opt}, #{val_str}\}"
-    end
+    opts.inject([]) { |arr, (opt, val)| arr << _erl_prepare(opt, val)}      
   end
   
   def configify(config)

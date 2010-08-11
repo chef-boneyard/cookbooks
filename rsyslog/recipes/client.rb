@@ -19,14 +19,14 @@
 
 include_recipe "rsyslog"
 
-rsyslog_server = node[:rsyslog][:server] ? node[:rsyslog][:server] : search(:node, "rsyslog_server:true", nil, 0, 1)
+rsyslog_server = search(:node, "rsyslog_server:true")
 
 unless node[:rsyslog][:server] 
   template "/etc/rsyslog.d/remote.conf" do
     source "remote.conf.erb"
     backup false
     variables(
-      :server => rsyslog_server['fqdn'],
+      :server => rsyslog_server.first['fqdn'],
       :protocol => node[:rsyslog][:protocol]
     )
     owner "root"

@@ -1,13 +1,10 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "recommendations": {
+    },
     "attributes": {
     },
+    "maintainer": "Opscode, Inc.",
     "suggestions": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ]
     },
     "dependencies": {
       "ruby_enterprise": [
@@ -17,19 +14,23 @@
     "maintainer_email": "ops@opscode.com",
     "conflicting": {
     },
-    "version": "0.1.0",
-    "name": "rails_enterprise",
-    "recipes": {
-    },
-    "providing": {
+    "platforms": {
+      "ubuntu": [
+
+      ]
     },
     "license": "Apache 2.0",
+    "version": "0.1.1",
+    "providing": {
+    },
+    "recipes": {
+      "rails_enterprise": "Installs Ruby on Rails with Ruby Enterprise Edition"
+    },
     "replacing": {
     },
+    "name": "rails_enterprise",
+    "description": "Installs Ruby on Rails with Ruby Enterprise Edition",
     "groupings": {
     },
-    "long_description": "= DESCRIPTION:\n\nInstalls Ruby on Rails under Ruby Enterprise Edition\n\n= REQUIREMENTS:\n\nruby_enterprise\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-    "recommendations": {
-    },
-    "description": "Installs Ruby on Rails with Ruby Enterprise Edition"
+    "long_description": "= DESCRIPTION:\n\nInstalls Ruby on Rails under Ruby Enterprise Edition\n\n= REQUIREMENTS:\n\nruby_enterprise\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n"
   }

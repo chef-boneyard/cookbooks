@@ -23,10 +23,10 @@ include_recipe "apache2"
 
 apt_repo = data_bag_item("reprepro", "main")
 
-@node.set_unless.reprepro.fqdn = apt_repo['fqdn']
-@node.set_unless.reprepro.description = apt_repo['description']
-@node.set_unless.reprepro.pgp_email = apt_repo['pgp']['email']
-@node.set_unless.reprepro.pgp_fingerprint = apt_repo['pgp']['fingerprint']
+node.set_unless.reprepro.fqdn = apt_repo['fqdn']
+node.set_unless.reprepro.description = apt_repo['description']
+node.set_unless.reprepro.pgp_email = apt_repo['pgp']['email']
+node.set_unless.reprepro.pgp_fingerprint = apt_repo['pgp']['fingerprint']
 
 ruby_block "save node data" do
   block do
@@ -74,10 +74,10 @@ execute "import packaging key" do
   command "/bin/echo -e '#{apt_repo["pgp"]["private"]}' | gpg --import -"
   user "root"
   cwd "/root"
-  not_if "gpg --list-secret-keys --fingerprint #{@node[:reprepro][:pgp_email]} | egrep -qx '.*Key fingerprint = #{@node[:reprepro][:pgp_fingerprint]}'"
+  not_if "gpg --list-secret-keys --fingerprint #{node[:reprepro][:pgp_email]} | egrep -qx '.*Key fingerprint = #{node[:reprepro][:pgp_fingerprint]}'"
 end
 
-template "#{apt_repo["repo_dir"]}/#{@node[:reprepro][:pgp_email]}.gpg.key" do
+template "#{apt_repo["repo_dir"]}/#{node[:reprepro][:pgp_email]}.gpg.key" do
   source "pgp_key.erb"
   mode "0644"
   owner "nobody"
@@ -87,7 +87,7 @@ template "#{apt_repo["repo_dir"]}/#{@node[:reprepro][:pgp_email]}.gpg.key" do
   )
 end
 
-template "#{@node[:apache][:dir]}/sites-available/apt_repo.conf" do
+template "#{node[:apache][:dir]}/sites-available/apt_repo.conf" do
   source "apt_repo.conf.erb"
   mode 0644
   owner "root"
@@ -102,4 +102,3 @@ apache_site "apt_repo.conf"
 apache_site "000-default" do
   enable false
 end
-

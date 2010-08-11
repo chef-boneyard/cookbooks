@@ -1,62 +1,63 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "providing": {
+    },
     "attributes": {
-      "maradns/recursive_acl": {
-        "default": "",
+      "maradns": {
+        "required": "optional",
         "calculated": false,
-        "type": "string",
         "choice": [
 
         ],
-        "description": "Sets the recursive_acl setting in mararc.erb",
-        "display_name": "MaraDNS Recursive ACL",
-        "required": "optional",
-        "recipes": [
-
-        ]
-      },
-      "maradns": {
-        "calculated": false,
         "type": "hash",
-        "choice": [
+        "recipes": [
 
         ],
         "description": "Hash of MaraDNS attributes",
-        "display_name": "MaraDNS",
+        "display_name": "MaraDNS"
+      },
+      "maradns/recursive_acl": {
         "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "default": "",
+        "type": "string",
         "recipes": [
 
-        ]
+        ],
+        "description": "Sets the recursive_acl setting in mararc.erb",
+        "display_name": "MaraDNS Recursive ACL"
       }
     },
-    "suggestions": {
-    },
-    "platforms": {
-      "ubuntu": [
-
-      ],
-      "debian": [
-
-      ]
+    "replacing": {
     },
     "dependencies": {
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
-    },
-    "version": "0.8.0",
-    "name": "maradns",
-    "recipes": {
-    },
-    "providing": {
-    },
-    "license": "Apache 2.0",
-    "replacing": {
-    },
     "groupings": {
     },
-    "long_description": "",
     "recommendations": {
     },
-    "description": "Installs and configures maradns"
+    "platforms": {
+      "debian": [
+
+      ],
+      "ubuntu": [
+
+      ]
+    },
+    "license": "Apache 2.0",
+    "version": "0.8.1",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
+    },
+    "recipes": {
+      "maradns": "Installs and configures maradns"
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "name": "maradns",
+    "conflicting": {
+    },
+    "description": "Installs and configures maradns",
+    "long_description": ""
   }

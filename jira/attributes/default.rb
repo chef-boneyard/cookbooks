@@ -17,13 +17,13 @@
 # limitations under the License.
 #
 
-set_unless[:jira][:virtual_host_name]  = "jira.#{domain}"
-set_unless[:jira][:virtual_host_alias] = "jira.#{domain}"
+default[:jira][:virtual_host_name]  = "jira.#{domain}"
+default[:jira][:virtual_host_alias] = "jira.#{domain}"
 # type-version-standalone
-set_unless[:jira][:version]           = "enterprise-3.13.1"
-set_unless[:jira][:install_path]      = "/srv/jira"
-set_unless[:jira][:run_user]          = "www-data"
-set_unless[:jira][:database]          = "mysql"
-set_unless[:jira][:database_host]     = "localhost"
-set_unless[:jira][:database_user]     = "jira"
-set_unless[:jira][:database_password] = "change_me"
+default[:jira][:version]           = "enterprise-3.13.1"
+default[:jira][:install_path]      = "/srv/jira"
+default[:jira][:run_user]          = "www-data"
+default[:jira][:database]          = "mysql"
+default[:jira][:database_host]     = "localhost"
+default[:jira][:database_user]     = "jira"
+default[:jira][:database_password] = "change_me"

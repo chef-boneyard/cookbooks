@@ -17,9 +17,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set_unless[:sbuild][:mailto] = "root"
-set_unless[:sbuild][:key_id] = ""
-set_unless[:sbuild][:pgp_options] = "-us -uc"
-set_unless[:sbuild][:maintainer_name] = ""
-set_unless[:sbuild][:lv_size] = "5G"
-set_unless[:sbuild][:snapshot_size] = "4G"
+default[:sbuild][:mailto] = "root"
+default[:sbuild][:key_id] = ""
+default[:sbuild][:pgp_options] = "-us -uc"
+default[:sbuild][:maintainer_name] = ""
+default[:sbuild][:lv_size] = "5G"
+default[:sbuild][:snapshot_size] = "4G"

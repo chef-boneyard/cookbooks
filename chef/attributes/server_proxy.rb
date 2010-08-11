@@ -17,12 +17,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_attribute "chef"
+include_attribute "apache2::default"
+include_attribute "chef::default"
 
-set_unless[:chef][:doc_root] = "#{languages[:ruby][:gems_dir]}/gems/chef-server-webui-#{chef[:server_version]}/public"
+default[:chef][:doc_root] = "#{languages[:ruby][:gems_dir]}/gems/chef-server-webui-#{chef[:server_version]}/public"
 
-set_unless[:chef][:server_ssl_req]  = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/" +
-  "CN=#{node.fqdn}/emailAddress=ops@#{node.fqdn}"
+default[:chef][:server_ssl_req]  = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/" +
+  "CN=#{node.chef.server_fqdn}/emailAddress=ops@#{node.chef.server_fqdn}"
 
-set_unless[:chef][:server_proxy][:css_expire_hours] = "120"
-set_unless[:chef][:server_proxy][:js_expire_hours]  = "24"
+default[:chef][:server_proxy][:css_expire_hours] = "120"
+default[:chef][:server_proxy][:js_expire_hours]  = "24"

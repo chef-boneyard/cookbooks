@@ -20,4 +20,6 @@
 case node[:platform]
 when "ubuntu","debian"
   package "man-db"
+when "redhat","centos","fedora"
+  package "man"
 end

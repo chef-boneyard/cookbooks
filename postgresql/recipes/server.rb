@@ -21,28 +21,10 @@ include_recipe "postgresql::client"
 
 package "postgresql"
 
-@postgres_version = value_for_platform(
-  "ubuntu" => {
-    "8.04" => "8.3",
-    "8.10" => "8.3",
-    "9.10" => "8.3",
-    "10.04" => "8.4",
-    "default" => "8.4"
-  },
-  "fedora" => {
-    "10" => "8.3",
-    "11" => "8.3",
-    "12" => "8.3",
-    "13" => "8.4",
-    "14" => "8.4",
-    "default" => "8.4"
-  },
-  ["redhat", "centos"] => {
-    "default" => "8.3"
-  }
-)
-
-Chef::Log.info("posgresql version for platform was #{@postgres_version}")
+case node.platform
+when "redhat","centos","fedora","suse"
+  package "postgresql-server"
+end
 
 service "postgresql" do
   case node[:platform]

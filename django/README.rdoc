@@ -11,7 +11,7 @@ Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
 
 = ATTRIBUTES:
 
-None.
+node[:django][:web_server] - set whether to use mod_python or mod_wsgi. Defaults to mod_wsgi because that is the recommended web server strategy to use by the Django creator.
 
 = USAGE:
 
@@ -23,6 +23,8 @@ Create the django application using the Apache2 cookbook's web_app define. Norma
   end
 
 Create the template, 'mysite.conf.erb' within the site-cookbook. Make sure the django settings are correct. The web_app define copies the template over and enables it as an apache2 site.
+
+The Opscode "application" cookbook is going to grow the ability to deploy a Django application from a source repository. This cookbook will be used to get the Django and Apache software installed and ready.
 
 = LICENSE & AUTHOR:
 

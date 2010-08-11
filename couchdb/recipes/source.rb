@@ -56,7 +56,7 @@ end
   end
 end
 
-remote_file "/etc/init.d/couchdb" do
+cookbook_file "/etc/init.d/couchdb" do
   source "couchdb.init"
   owner "root"
   group "root"

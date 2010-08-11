@@ -22,21 +22,21 @@
 set_unless[:mysql][:server_debian_password] = secure_password
 set_unless[:mysql][:server_root_password] = secure_password
 set_unless[:mysql][:server_repl_password] = secure_password
-set_unless[:mysql][:bind_address]         = ipaddress
-set_unless[:mysql][:datadir]              = "/var/lib/mysql"
+default[:mysql][:bind_address]         = ipaddress
+default[:mysql][:datadir]              = "/var/lib/mysql"
 
 if attribute?(:ec2)
-  set_unless[:mysql][:ec2_path]    = "/mnt/mysql"
-  set_unless[:mysql][:ebs_vol_dev] = "/dev/sdi"
-  set_unless[:mysql][:ebs_vol_size] = 50
+  default[:mysql][:ec2_path]    = "/mnt/mysql"
+  default[:mysql][:ebs_vol_dev] = "/dev/sdi"
+  default[:mysql][:ebs_vol_size] = 50
 end
 
 # Tunables
-set_unless[:mysql][:tunable][:key_buffer]          = "250M"
-set_unless[:mysql][:tunable][:max_connections]     = "800"
-set_unless[:mysql][:tunable][:wait_timeout]        = "180"
-set_unless[:mysql][:tunable][:net_read_timeout]    = "30"
-set_unless[:mysql][:tunable][:net_write_timeout]   = "30"
-set_unless[:mysql][:tunable][:back_log]            = "128"
-set_unless[:mysql][:tunable][:table_cache]         = "128"
-set_unless[:mysql][:tunable][:max_heap_table_size] = "32M"
+default[:mysql][:tunable][:key_buffer]          = "250M"
+default[:mysql][:tunable][:max_connections]     = "800"
+default[:mysql][:tunable][:wait_timeout]        = "180"
+default[:mysql][:tunable][:net_read_timeout]    = "30"
+default[:mysql][:tunable][:net_write_timeout]   = "30"
+default[:mysql][:tunable][:back_log]            = "128"
+default[:mysql][:tunable][:table_cache]         = "128"
+default[:mysql][:tunable][:max_heap_table_size] = "32M"

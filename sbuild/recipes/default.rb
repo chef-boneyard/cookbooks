@@ -71,7 +71,7 @@ search(:users, "groups:sbuild") do |u|
   end
 end
 
-remote_file "/usr/local/bin/schroot_update.sh" do
+cookbook_file "/usr/local/bin/schroot_update.sh" do
   source "schroot_update.sh"
   owner "root"
   group "root"

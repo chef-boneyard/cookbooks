@@ -1,11 +1,18 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "recommendations": {
+    },
     "attributes": {
     },
+    "maintainer": "Opscode, Inc.",
     "suggestions": {
     },
+    "dependencies": {
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "conflicting": {
+    },
     "platforms": {
-      "ubuntu": [
+      "debian": [
 
       ],
       "fedora": [
@@ -14,31 +21,25 @@
       "centos": [
 
       ],
-      "debian": [
+      "ubuntu": [
 
       ],
       "redhat": [
 
       ]
     },
-    "dependencies": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
-    },
-    "version": "0.7.0",
-    "name": "screen",
-    "recipes": {
-    },
+    "license": "Apache 2.0",
+    "version": "0.7.1",
     "providing": {
     },
-    "license": "Apache 2.0",
+    "recipes": {
+      "screen": "Installs screen"
+    },
     "replacing": {
     },
+    "name": "screen",
+    "description": "Installs screen",
     "groupings": {
     },
-    "long_description": "",
-    "recommendations": {
-    },
-    "description": "Installs screen"
+    "long_description": ""
   }

@@ -19,7 +19,20 @@
 
 p = package "mysql-devel" do
   package_name value_for_platform(
-    [ "centos", "redhat", "suse" ] => { "default" => "mysql-devel" },
+    [ "centos", "redhat", "suse", "fedora"] => { "default" => "mysql-devel" },
+    "debian" => {
+      "5.0" => "libmysqlclient15-dev",
+      "5.0.1" => "libmysqlclient15-dev",
+      "5.0.2" => "libmysqlclient15-dev",
+      "5.0.3" => "libmysqlclient15-dev",
+      "5.0.4" => "libmysqlclient15-dev",
+      "5.0.5" => "libmysqlclient15-dev"
+    },
+    "ubuntu" => {
+      "8.04" => "libmysqlclient15-dev",
+      "8.10" => "libmysqlclient15-dev",
+      "9.04" => "libmysqlclient15-dev"
+    },
     "default" => 'libmysqlclient-dev'
   )
   action :nothing
@@ -27,16 +40,18 @@ end
 
 p.run_action(:install)
 
-package "mysql-client" do
+o = package "mysql-client" do
   package_name value_for_platform(
-    [ "centos", "redhat", "suse" ] => { "default" => "mysql" },
+    [ "centos", "redhat", "suse", "fedora"] => { "default" => "mysql" },
     "default" => "mysql-client"
   )
-  action :install
+  action :nothing
 end
 
+o.run_action(:install)
+
 case node[:platform]
-when "centos","redhat", "suse"
+when "centos","redhat", "suse", "fedora"
   package "ruby-mysql" do
     action :install
   end

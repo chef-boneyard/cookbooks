@@ -17,15 +17,15 @@
 # limitations under the License.
 #
 
-set_unless[:dynomite][:master]       = false
-set_unless[:dynomite][:cluster_name] = "dynomite"
-set_unless[:dynomite][:data_dir]     = "/var/db/dynomite"
-set_unless[:dynomite][:num_nodes]    = 1
-set_unless[:dynomite][:node_name]    = hostname
-set_unless[:dynomite][:ascii_port]   = 11221
-set_unless[:dynomite][:thrift_port]  = 11222
-set_unless[:dynomite][:web_port]     = 1180
+default[:dynomite][:master]       = false
+default[:dynomite][:cluster_name] = "dynomite"
+default[:dynomite][:data_dir]     = "/var/db/dynomite"
+default[:dynomite][:num_nodes]    = 1
+default[:dynomite][:node_name]    = hostname
+default[:dynomite][:ascii_port]   = 11221
+default[:dynomite][:thrift_port]  = 11222
+default[:dynomite][:web_port]     = 1180
 
 master_node = search(:node, "dynomite_master:true", "fqdn").first
 
-set_unless[:dynomite][:join_node]    = master_node
+default[:dynomite][:join_node]    = master_node

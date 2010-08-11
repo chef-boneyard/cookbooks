@@ -18,7 +18,8 @@
 #
 
 set_unless[:riak][:kv][:raw_name] = "riak"
-set_unless[:riak][:kv][:storage_backend] = "riak_kv_dets_backend"
+set_unless[:riak][:kv][:storage_backend] = :riak_kv_bitcask_backend
+node[:riak][:kv][:storage_backend] = node[:riak][:kv][:storage_backend].to_s.to_sym
 set_unless[:riak][:kv][:riak_stat_enabled] = true
 set_unless[:riak][:kv][:pb_ip] = "0.0.0.0"
 set_unless[:riak][:kv][:pb_port] = 8087

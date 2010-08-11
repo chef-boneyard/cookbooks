@@ -110,7 +110,7 @@ function findFreePorts() {
     randomPort3="0"
     local -a listeners="( $(
                         netstat -ntl | \
-                        awk '/^tcp/ {gsub("(.)*:", "", $4); print $4}'
+                        /usr/bin/awk '/^tcp/ {gsub("(.)*:", "", $4); print $4}'
                     ) )"
     while [ "$isSet1" = "false" ] || \
           [ "$isSet2" = "false" ] || \
@@ -154,12 +154,12 @@ function makeHomeDir() {
 function parseOptions() {
     options=""
     options="$options $(
-                 awk '!/^#/ && !/^$/ { ORS=" "; print "export ", $0, ";" }' \
+                 /usr/bin/awk '!/^#/ && !/^$/ { ORS=" "; print "export ", $0, ";" }' \
                  $TOMCAT_CFG
              )"
     if [ -r "/etc/sysconfig/${NAME}" ]; then
         options="$options $(
-                     awk '!/^#/ && !/^$/ { ORS=" ";
+                     /usr/bin/awk '!/^#/ && !/^$/ { ORS=" ";
                                            print "export ", $0, ";" }' \
                      /etc/sysconfig/${NAME}
                  )"
@@ -212,6 +212,7 @@ function start() {
     RETVAL="$?"
     if [ "$RETVAL" -eq 0 ]; then
         echo_success
+        mkdir -p /var/lock/subsys
         touch /var/lock/subsys/${NAME}
     else
         echo_failure

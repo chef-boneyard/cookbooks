@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-if node[:riak][:kv][:storage_backend].eql?("innostore_riak")
+if node[:riak][:kv][:storage_backend] == :innostore_riak
   set_unless[:riak][:kv][:storage_backend_options][:log_buffer_size] = 8388608
   set_unless[:riak][:kv][:storage_backend_options][:log_files_in_group] = 8
   set_unless[:riak][:kv][:storage_backend_options][:log_file_size] = 268435456

@@ -17,12 +17,8 @@
 # limitations under the License.
 #
 include_recipe "apache2"
-include_recipe "apache2::mod_python"
+include_recipe "apache2::#{node[:django][:web_server]}"
 include_recipe "python"
-
-package "apache2-mpm-prefork" do
-  action :install
-end
 
 package "python-django" do
   action :install

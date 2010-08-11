@@ -73,18 +73,15 @@ directory "#{app['deploy_to']}/shared" do
   recursive true
 end
 
-directory "#{app['deploy_to']}/shared/log" do
-  owner app['owner']
-  group app['group']
-  mode '0755'
-  recursive true
-end
+%w{ log pids system }.each do |dir|
 
-directory "#{app['deploy_to']}/shared/pids" do
-  owner app['owner']
-  group app['group']
-  mode '0755'
-  recursive true
+  directory "#{app['deploy_to']}/shared/#{dir}" do
+    owner app['owner']
+    group app['group']
+    mode '0755'
+    recursive true
+  end
+
 end
 
 if app.has_key?("deploy_key")

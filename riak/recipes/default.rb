@@ -38,9 +38,11 @@ package_file =  case node[:riak][:package][:type]
                   when "debian","ubuntu"
                     include_recipe "riak::iptables"
                     machines = {"x86_64" => "amd64", "i386" => "i386"} 
-                    "#{base_filename.gsub(/\-/, '_')}-1_#{machines[node[:kernel][:machine]]}.deb"
-                  when "centos","redhat","fedora","suse"
-                    "#{base_filename}-1.#{node[:kernel][:machine]}.rpm"
+                    "#{base_filename.gsub(/\-/, '_')}-#{node[:riak][:package][:version][:build]}_#{machines[node[:kernel][:machine]]}.deb"
+                  when "centos","redhat","suse"
+                    "#{base_filename}-#{node[:riak][:package][:version][:build]}.el5.#{node[:kernel][:machine]}.rpm"
+                  when "fedora"
+                    "#{base_filename}-#{node[:riak][:package][:version][:build]}.fc12.#{node[:kernel][:machine]}.rpm"
                   # when "mac_os_x"
                   #  "#{base_filename}.osx.#{node[:kernel][:machine]}.tar.gz"
                   end
@@ -50,14 +52,15 @@ package_file =  case node[:riak][:package][:type]
 
 directory "/tmp/riak_pkg" do
   owner "root"
-  mode "0755"
+  mode 0755
   action :create
 end
 
 remote_file "/tmp/riak_pkg/#{package_file}" do
   source base_uri + package_file
   owner "root"
-  mode "0644"
+  mode 0644
+  checksum node[:riak][:package][:source_checksum]
 end
 
 case node[:riak][:package][:type]
@@ -88,18 +91,18 @@ when "source"
 end
 
 case node[:riak][:kv][:storage_backend]
-when "innostore_riak"
+when :innostore_riak
   include_recipe "riak::innostore"
 end
 
-directory "/etc/riak" do
+directory "#{node[:riak][:package][:config_dir]}" do
   owner "root"
   mode "0755"
   action :create
   not_if "test -d /etc/riak"
 end
 
-template "/etc/riak/app.config" do
+template "#{node[:riak][:package][:config_dir]}/app.config" do
   variables({:config => configify(node[:riak].to_hash),
              :limit_port_range => node[:riak][:limit_port_range],
              :storage_backend => node[:riak][:kv][:storage_backend]})
@@ -110,7 +113,7 @@ end
 
 vm_args = node[:riak][:erlang].to_hash
 env_vars = vm_args.delete("env_vars")
-template "/etc/riak/vm.args" do
+template "#{node[:riak][:package][:config_dir]}/vm.args" do
   variables({
       :arg_map => {
         "node_name" => "-name",
@@ -133,6 +136,7 @@ if node[:riak][:package][:type].eql?("binary")
   service "riak" do
     supports :start => true, :stop => true, :status => true, :restart => true
     action [ :enable ]
-    subscribes :restart, resources(:template => "/etc/riak/app.config", :template => "/etc/riak/vm.args")
+    subscribes :restart, resources(:template => "#{node[:riak][:package][:config_dir]}/app.config",
+                                   :template => "#{node[:riak][:package][:config_dir]}/vm.args")
   end
 end

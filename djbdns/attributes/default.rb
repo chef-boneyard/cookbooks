@@ -19,13 +19,19 @@
 # limitations under the License.
 #
 
-set_unless[:djbdns][:tinydns_ipaddress]          = "127.0.0.1"
-set_unless[:djbdns][:tinydns_internal_ipaddress] = "127.0.0.1"
-set_unless[:djbdns][:public_dnscache_ipaddress]  = ipaddress
-set_unless[:djbdns][:axfrdns_ipaddress]          = "127.0.0.1"
+default[:djbdns][:tinydns_ipaddress]          = "127.0.0.1"
+default[:djbdns][:tinydns_internal_ipaddress] = "127.0.0.1"
+default[:djbdns][:public_dnscache_ipaddress]  = ipaddress
+default[:djbdns][:axfrdns_ipaddress]          = "127.0.0.1"
 
-set_unless[:djbdns][:public_dnscache_allowed_networks] = [ipaddress.split(".")[0,2].join(".")]
-set_unless[:djbdns][:tinydns_internal_resolved_domain] = domain
+default[:djbdns][:axfrdns_uid]  = 9996
+default[:djbdns][:dnscache_uid] = 9997
+default[:djbdns][:dnslog_uid]   = 9998
+default[:djbdns][:tinydns_uid]  = 9999
+
+
+default[:djbdns][:public_dnscache_allowed_networks] = [ipaddress.split(".")[0,2].join(".")]
+default[:djbdns][:tinydns_internal_resolved_domain] = domain
 
 case platform
 when "ubuntu"

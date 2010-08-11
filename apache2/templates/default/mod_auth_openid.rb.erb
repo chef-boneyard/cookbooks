@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 allowed_openids = Array.new
-<% @node[:apache][:allowed_openids].each do |id| -%>
+<% node[:apache][:allowed_openids].each do |id| -%>
 allowed_openids << "<%= id %>"
 <% end -%>
 

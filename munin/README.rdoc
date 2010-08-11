@@ -1,6 +1,6 @@
 = DESCRIPTION:
 
-Installs and configures Nagios for a server and for clients using Chef 0.8 search capabilities.
+Installs and configures Munin for a server and for clients using Chef 0.8 search capabilities.
 
 = REQUIREMENTS:
 

@@ -1,35 +1,42 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "providing": {
+    },
     "attributes": {
       "packages": {
+        "required": "optional",
         "calculated": false,
-        "type": "hash",
         "choice": [
+
+        ],
+        "type": "hash",
+        "recipes": [
 
         ],
         "description": "Hash of Packages attributes",
-        "display_name": "Packages",
-        "required": "optional",
-        "recipes": [
-
-        ]
+        "display_name": "Packages"
       },
       "packages/dist_only": {
-        "default": "false",
+        "required": "optional",
         "calculated": false,
-        "type": "string",
         "choice": [
 
         ],
-        "description": "Set to only use distribution-provided packages",
-        "display_name": "Packages Distribution Only?",
-        "required": "optional",
+        "default": "false",
+        "type": "string",
         "recipes": [
 
-        ]
+        ],
+        "description": "Set to only use distribution-provided packages",
+        "display_name": "Packages Distribution Only?"
       }
     },
-    "suggestions": {
+    "replacing": {
+    },
+    "dependencies": {
+    },
+    "groupings": {
+    },
+    "recommendations": {
     },
     "platforms": {
       "centos": [
@@ -39,24 +46,18 @@
 
       ]
     },
-    "dependencies": {
+    "license": "Apache 2.0",
+    "version": "0.9.2",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
+    },
+    "recipes": {
+      "packages": "Empty, this cookbook provides a library for helping determine whther distribution only packages should be installed"
     },
     "maintainer_email": "cookbooks@opscode.com",
+    "name": "packages",
     "conflicting": {
     },
-    "version": "0.9.0",
-    "name": "packages",
-    "recipes": {
-    },
-    "providing": {
-    },
-    "license": "Apache 2.0",
-    "replacing": {
-    },
-    "groupings": {
-    },
-    "long_description": "",
-    "recommendations": {
-    },
-    "description": "Helper library to determine whether distribution-only packages are installed"
+    "description": "Helper library to determine whether distribution-only packages are installed",
+    "long_description": ""
   }

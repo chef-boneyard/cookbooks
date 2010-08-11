@@ -1,7 +1,7 @@
 <VirtualHost *:80>
-  ServerAdmin <%= @node[:reprepro][:pgp_email] %>
-  ServerName <%= @node[:reprepro][:fqdn] %>
-  ServerAlias <%= @node[:hostname] %> <%= @node[:fqdn] %>
+  ServerAdmin <%= node[:reprepro][:pgp_email] %>
+  ServerName <%= node[:reprepro][:fqdn] %>
+  ServerAlias <%= node[:hostname] %> <%= node[:fqdn] %>
 
   DocumentRoot <%= @repo_dir %>
   <Directory />

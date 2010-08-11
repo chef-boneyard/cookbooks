@@ -11,8 +11,8 @@
   </Directory>
 
   LogLevel info
-  ErrorLog <%= @node[:apache][:log_dir] %>/kickstart-error.log
-  CustomLog <%= @node[:apache][:log_dir] %>/kickstart-access.log combined
+  ErrorLog <%= node[:apache][:log_dir] %>/kickstart-error.log
+  CustomLog <%= node[:apache][:log_dir] %>/kickstart-access.log combined
 
   <Directory <%= @docroot %>>
     Options Indexes FollowSymLinks MultiViews

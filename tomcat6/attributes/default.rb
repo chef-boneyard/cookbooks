@@ -32,10 +32,10 @@ else
   set[:tomcat6][:ssl_port]        = 8433
 end
 
-set_unless[:tomcat6][:version]          = "6.0.18"
-set_unless[:tomcat6][:with_native]      = false
-set_unless[:tomcat6][:java_home]        = "/usr/lib/jvm/java"
-set_unless[:tomcat6][:java_opts]        = ""
-set_unless[:tomcat6][:manager_user]     = "manager"
-set_unless[:tomcat6][:manager_password] = "manager"
-set_unless[:tomcat6][:permgen_min_free_in_mb] = 24
+default[:tomcat6][:version]          = "6.0.18"
+default[:tomcat6][:with_native]      = false
+default[:tomcat6][:java_home]        = "/usr/lib/jvm/java"
+default[:tomcat6][:java_opts]        = ""
+default[:tomcat6][:manager_user]     = "manager"
+default[:tomcat6][:manager_password] = "manager"
+default[:tomcat6][:permgen_min_free_in_mb] = 24

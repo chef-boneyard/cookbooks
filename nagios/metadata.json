@@ -1,35 +1,41 @@
 {
-    "maintainer": "Opscode, Inc.",
+    "providing": {
+    },
     "attributes": {
     },
-    "suggestions": {
+    "replacing": {
     },
-    "platforms": {
-      "ubuntu": [
-
-      ],
-      "debian": [
+    "dependencies": {
+      "apache2": [
 
       ]
     },
-    "dependencies": {
-    },
-    "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
-    },
-    "version": "0.3.0",
-    "name": "nagios",
-    "recipes": {
-    },
-    "providing": {
-    },
-    "license": "Apache 2.0",
-    "replacing": {
-    },
     "groupings": {
     },
-    "long_description": "",
     "recommendations": {
     },
-    "description": "Installs and configures nagios"
+    "platforms": {
+      "debian": [
+
+      ],
+      "ubuntu": [
+
+      ]
+    },
+    "license": "Apache 2.0",
+    "version": "0.3.4",
+    "maintainer": "Opscode, Inc.",
+    "suggestions": {
+    },
+    "recipes": {
+      "nagios": "Empty, use one of the other recipes",
+      "nagios::client": "Installs and configures a nagios client with nrpe",
+      "nagios::server": "Installs and configures a nagios server"
+    },
+    "maintainer_email": "cookbooks@opscode.com",
+    "name": "nagios",
+    "conflicting": {
+    },
+    "description": "Installs and configures nagios",
+    "long_description": "= DESCRIPTION:\n\nInstalls and configures Nagios for a server and for clients using Chef 0.8 search capabilities.\n\n= REQUIREMENTS:\n\nRequires Chef 0.8+ for search capability of roles and data bags.\n\nA data bag named 'users' should exist, and users should have a groups value of \"sysadmins\" so the server recipe can search for who sysadmins are to notify. If this is not desired, remove the sysadmins search and other usage from the nagios::server recipe, and the contacts template.\n\nThe monitoring server that uses this recipe should have a role named 'monitoring'. The client recipe will use this to allow the monitoring server to connect via NRPE. A role named after the environment (e.g., \"production\") and a node attribute app_environment with a value of the same should be created for all nodes. The server uses this to search for only nodes that belong to its same environment.\n\nBecause of the heavy use of search, this recipe will not work with Chef Solo, as it cannot do any searches without a server.\n\n== Platform:\n\nTested on Ubuntu 9.04, Ubuntu 9.10 and Debian 5.\n\n== Cookbooks:\n\n* apache2\n\n= ATTRIBUTES:\n\nAttributes under the 'nagios' namespace.\n\n== Client:\n\nThe following attributes are used for the client NRPE checks for warning and critical levels.\n\nchecks.memory.critical\nchecks.memory.warning\nchecks.load.critical\nchecks.load.warning\nchecks.smtp_host - default relayhost to check for connectivity.\n\n== Server:\n\ndir - base server configuration directory.\nlog_dir - where the server logs.\ncache_dir\ndocroot\nconfig_subdir - for dropping in configurations as needed.\nnotifications_enabled - set to 1 to enable notification.\ncheck_external_commands\ndefault_contact_groups\nsysadmin_email - default notification email.\nsysadmin_sms_email - default notification sms.\ntemplates\ninterval_length - minimum interval.\ndefault_host.check_interval\ndefault_host.retry_interval\ndefault_host.max_check_attempts\ndefault_host.notification_interval\ndefault_service.check_interval\ndefault_service.retry_interval\ndefault_service.max_check_attempts\ndefault_service.notification_interval\n\n= USAGE:\n\nFor a Nagios server, create a role named 'monitoring', and add the following recipe to the run_list:\n\n    recipe[nagios::server]\n\nThis will allow client nodes to search for the server by this role and add its IP address to the allowed list for NRPE.\n\nTo install Nagios and NRPE on a client node:\n\n    include_recipe \"nagios::client\"\n\nThis is a fairly complicated cookbook. We'll describe the components in detail.\n\n== Definitions:\n\nnagios_conf:: This definition is used to drop in a configuration file in the base Nagios configuration directory's conf.d. This can be used for customized configurations for various services.\n\n== Libraries:\n\ndefault:: The library included with the cookbook provides some helper methods used in templates.\n\n* nagios_boolean\n* nagios_interval - calculates interval based on interval length and a given number of seconds.\n* nagios_attr - retrieves a nagios attribute from the node.\n\n== Recipes:\n\n=== Client\n\nThe client recipe searches for allowed servers via a role named 'monitoring'. The recipe will also install the required packages and start the NRPE service. A custom plugin for checking memory is also added.\n\nClient commands for NRPE can be modified by editing the nrpe.cfg.erb template.\n\n=== Server\n\nThe server recipe sets up Apache as the web front end. The nagios::client recipe is also included. This recipe also does a number of searches to dynamically build the hostgroups to monitor, hosts that belong to them and admins to notify of events/alerts.\n\nThe recipe does the following:\n\n1. Searches for members of the sysadmins group by searching through 'users' data bag and adds them to a list for notification/contacts.\n2. Search all nodes for a role matching the app_environment.\n3. Search all available roles and build a list which will be the Nagios hostgroups.\n4. Search for all nodes of each role and add the hostnames to the hostgroups.\n5. Installs various packages required for the server.\n6. Sets up some configuration directories.\n7. Moves the package-installed Nagios configuration to a 'dist' directory.\n8. Disables the 000-default site (present on Debian/Ubuntu Apache2 package installations).\n9. Enables the Nagios web front end configuration.\n10. Sets up the configuration templates for services, contacts, hostgroups and hosts.\n\n*NOTE*: You will probably need to change the services.cfg.erb template for your environment.\n\nTo add custom commands for service checks, these can be done on a per-role basis by editing the 'services.cfg.erb' template. This template has some pre-configured checks that use role names used in an example infrastructure. Here's a brief description:\n\n* monitoring - check_smtp (e.g., postfix relayhost) w/ NRPE and tcp port 514 (e.g., rsyslog)\n* load_balancer - check_nginx with NRPE.\n* appserver - check_unicorn with NRPE, e.g. a Rails application using Unicorn.\n* database_master - check_mysql_server with NRPE for a MySQL database master.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Sierles <joshua@37signals.com>\nAuthor:: Nathan Haneysmith <nathan@opscode.com>\nAuthor:: Joshua Timberman <joshua@opscode.com>\n\nCopyright 2009, 37signals\nCopyright 2009-2010, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n"
   }

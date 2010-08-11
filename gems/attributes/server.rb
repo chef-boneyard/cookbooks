@@ -1,3 +1,3 @@
-set_unless[:gem_server][:virtual_host_name]  = "gems.#{domain}"
-set_unless[:gem_server][:virtual_host_alias] = "gems"
-set_unless[:gem_server][:directory]          = "/srv/gems"
+default[:gem_server][:virtual_host_name]  = "gems.#{domain}"
+default[:gem_server][:virtual_host_alias] = "gems"
+default[:gem_server][:directory]          = "/srv/gems"

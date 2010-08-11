@@ -22,7 +22,8 @@ maintainer        "Basho Technologies, Inc."
 maintainer_email  "riak@basho.com"
 license           "Apache 2.0"
 description       "Installs and configures Riak distributed data store (v0.10 and later)"
-version           "0.1"
+version           "0.11.0"
+recipe            "riak", "Installs Riak"
 recipe            "riak::autoconf", "Automatically configure nodes from chef-server information."
 recipe            "riak::innostore", "Install and configure the Innostore backend."
 recipe            "riak::iptables", "Automatically configure iptables rules for Riak."
@@ -58,13 +59,18 @@ attribute "riak/package/version/major",
 attribute "riak/package/version/minor",
   :display_name => "Riak minor version",
   :description => "Minor version of Riak to install.",
-  :default => "10"
+  :default => "11"
      
 attribute "riak/package/version/incremental",
   :display_name => "Riak incremental version",
   :description => "Incremental release of Riak to install.",
-  :default => "1"
+  :default => "0"
   
+attribute "riak/package/version/build",
+  :display_name => "Riak binary package build version",
+  :description => "For binary packages, the specific build to use.",
+  :default => "1344"
+      
 attribute "riak/package/prefix",
   :display_name => "Installation prefix",
   :description => "Installation prefix for source installs",
@@ -223,7 +229,7 @@ attribute "riak/kv/handoff_port",
 attribute "riak/kv/storage_backend",
   :display_name => "Storage backend",
   :description => "The module name of the storage backend that Riak should use.",
-  :default => "riak_kv_dets_backend"
+  :default => "riak_kv_bitcask_backend"
 
 attribute "riak/kv/storage_backend_options",
   :display_name => "Storage backend options",
@@ -287,12 +293,50 @@ attribute "riak/kv/storage_backend_options/flush_log_at_trx_commit",
 #
 # Only applicable if storage_backend is set to "riak_kv_bitcask_backend"
 #
-attribute "riak/kv/storage_backend_options/writes_per_fsync",
-  :display_name => "Writes per fsync",
-  :description => "Number of write operations before forcing an fsync.",
-  :default => "1"
-
 attribute "riak/kv/storage_backend_options/data_root",
   :display_name => "Data root directory",
   :description => "Directory where the data files will be stored.",
   :default => "/var/lib/riak/bitcask"
+
+attribute "riak/kv/storage_backend_options/max_file_size",
+  :display_name => "Maximum file size",
+  :description => "Maximum size for a single Bitcask cask file.",
+  :default => "2147483648"
+  
+# * none          - let the O/S decide
+# * o_sync        - use the O_SYNC flag to sync each write
+# * {seconds, N}  - call bitcask:sync/1 every N seconds
+attribute "riak/kv/storage_backend_options/sync_strategy",
+  :display_name => "Sync strategy",
+  :description => "Sync strategy is one of: :none (let the OS decide), :o_sync, or {:seconds => N} (which requires application support)",
+  :default => "none"
+  
+# Merge trigger variables. Files exceeding ANY of these
+# values will cause bitcask:needs_merge/1 to return true.
+attribute "riak/kv/storage_backend_options/frag_merge_trigger",
+  :display_name => "Fragment merge trigger",
+  :default => "60"
+  
+attribute "riak/kv/storage_backend_options/dead_bytes_merge_trigger",
+  :display_name => "Dead bytes merge trigger",
+  :default => "536870912"
+  
+# Merge thresholds. Files exceeding ANY of these values
+# will be included in the list of files marked for merging
+# by bitcask:needs_merge/1.
+attribute "riak/kv/storage_backend_options/frag_threshold",
+  :display_name => "Fragment threshold",
+  :default => "40"
+  
+attribute "riak/kv/storage_backend_options/dead_bytes_threshold",
+  :display_name => "Dead bytes threshold",
+  :default => "134217728"
+  
+attribute "riak/kv/storage_backend_options/small_file_threshold",
+  :display_name => "Small file threshold",
+  :default => "10485760"
+  
+attribute "riak/kv/storage_backend_options/expiry_secs",
+  :display_name => "Data expiration threshold, in seconds",
+  :description => "Data expiration can be caused by setting this to a positive value.  If set, items older than the value will be discarded.",
+  :default => "-1"

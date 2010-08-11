@@ -17,5 +17,5 @@
 # limitations under the License.
 #
 
-set_unless[:activemq][:mirror]  = "http://mirrors.ibiblio.org/pub/mirrors"
-set_unless[:activemq][:version] = "5.3.0"
+default[:activemq][:mirror]  = "http://mirrors.ibiblio.org/pub/mirrors"
+default[:activemq][:version] = "5.3.2"

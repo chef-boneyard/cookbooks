@@ -19,35 +19,35 @@
 
 ::Chef::Node.send(:include, Opscode::OpenSSL::Password)
 
-set_unless[:bootstrap][:chef][:umask]      = 0022
-set_unless[:bootstrap][:chef][:url_type]   = "http"
-set_unless[:bootstrap][:chef][:init_style] = "runit"
-set_unless[:bootstrap][:chef][:path]       = "/srv/chef"
-set_unless[:bootstrap][:chef][:run_path]   = "/var/run/chef"
-set_unless[:bootstrap][:chef][:cache_path] = "#{bootstrap[:chef][:path]}/cache"
-set_unless[:bootstrap][:chef][:serve_path] = "/srv/chef"
-set_unless[:bootstrap][:chef][:server_port] = "4000"
-set_unless[:bootstrap][:chef][:webui_port]  = "4040"
-set_unless[:bootstrap][:chef][:webui_enabled] = false
-set_unless[:bootstrap][:chef][:webui_admin_password] = secure_password
-set_unless[:bootstrap][:chef][:validation_client_name] = "chef-validator"
+default[:bootstrap][:chef][:umask]      = 0022
+default[:bootstrap][:chef][:url_type]   = "http"
+default[:bootstrap][:chef][:init_style] = "runit"
+default[:bootstrap][:chef][:path]       = "/srv/chef"
+default[:bootstrap][:chef][:run_path]   = "/var/run/chef"
+default[:bootstrap][:chef][:cache_path] = "#{bootstrap[:chef][:path]}/cache"
+default[:bootstrap][:chef][:serve_path] = "/srv/chef"
+default[:bootstrap][:chef][:server_port] = "4000"
+default[:bootstrap][:chef][:webui_port]  = "4040"
+default[:bootstrap][:chef][:webui_enabled] = false
+default[:bootstrap][:chef][:webui_admin_password] = secure_password
+default[:bootstrap][:chef][:validation_client_name] = "chef-validator"
 
-set_unless[:bootstrap][:chef][:server_version]  = "0.8.16"
-set_unless[:bootstrap][:chef][:client_version]  = "0.8.16"
-set_unless[:bootstrap][:chef][:client_interval] = "1800"
-set_unless[:bootstrap][:chef][:client_splay]    = "20"
-set_unless[:bootstrap][:chef][:log_dir]         = "/var/log/chef"
+default[:bootstrap][:chef][:server_version]  = node.chef_packages.chef[:version]
+default[:bootstrap][:chef][:client_version]  = node.chef_packages.chef[:version]
+default[:bootstrap][:chef][:client_interval] = "1800"
+default[:bootstrap][:chef][:client_splay]    = "20"
+default[:bootstrap][:chef][:log_dir]         = "/var/log/chef"
 
 case bootstrap[:chef][:init_style]
 when "runit"
-  set_unless[:bootstrap][:chef][:client_log]  = "STDOUT"
-  set_unless[:bootstrap][:chef][:server_log]  = "STDOUT"
-  set_unless[:bootstrap][:chef][:indexer_log] = "STDOUT"
+  default[:bootstrap][:chef][:client_log]  = "STDOUT"
+  default[:bootstrap][:chef][:server_log]  = "STDOUT"
+  default[:bootstrap][:chef][:indexer_log] = "STDOUT"
 else
-  set_unless[:bootstrap][:chef][:client_log]  = "#{bootstrap[:chef][:log_dir]}/client.log"
-  set_unless[:bootstrap][:chef][:server_log]  = "#{bootstrap[:chef][:log_dir]}/server.log"
-  set_unless[:bootstrap][:chef][:indexer_log] = "#{bootstrap[:chef][:log_dir]}/indexer.log"
+  default[:bootstrap][:chef][:client_log]  = "#{bootstrap[:chef][:log_dir]}/client.log"
+  default[:bootstrap][:chef][:server_log]  = "#{bootstrap[:chef][:log_dir]}/server.log"
+  default[:bootstrap][:chef][:indexer_log] = "#{bootstrap[:chef][:log_dir]}/indexer.log"
 end
 
-set_unless[:bootstrap][:chef][:server_fqdn]    = domain ? "chef.#{domain}" : "chef"
-set_unless[:bootstrap][:chef][:server_ssl_req] = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=#{bootstrap[:chef][:server_fqdn]}/emailAddress=ops@#{domain}"
+default[:bootstrap][:chef][:server_fqdn]    = domain ? "chef.#{domain}" : "chef"
+default[:bootstrap][:chef][:server_ssl_req] = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=#{bootstrap[:chef][:server_fqdn]}/emailAddress=ops@#{domain}"

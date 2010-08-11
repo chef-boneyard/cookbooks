@@ -27,25 +27,25 @@ set[:nagios][:state_dir] = "/var/lib/nagios3"
 set[:nagios][:docroot]   = "/usr/share/nagios3/htdocs"
 set[:nagios][:config_subdir] = "conf.d"
 
-set_unless[:nagios][:notifications_enabled]   = 0
-set_unless[:nagios][:check_external_commands] = true
-set_unless[:nagios][:default_contact_groups]  = %w(admins)
-set_unless[:nagios][:sysadmin_email]          = "root@localhost"
-set_unless[:nagios][:sysadmin_sms_email]      = "root@localhost"
+default[:nagios][:notifications_enabled]   = 0
+default[:nagios][:check_external_commands] = true
+default[:nagios][:default_contact_groups]  = %w(admins)
+default[:nagios][:sysadmin_email]          = "root@localhost"
+default[:nagios][:sysadmin_sms_email]      = "root@localhost"
 
 # This setting is effectively sets the minimum interval (in seconds) nagios can handle.
 # Other interval settings provided in seconds will calculate their actual from this value, since nagios works in 'time units' rather than allowing definitions everywhere in seconds
 
-set_unless[:nagios][:templates] = Mash.new
-set_unless[:nagios][:interval_length] = 1
+default[:nagios][:templates] = Mash.new
+default[:nagios][:interval_length] = 1
 
 # Provide all interval values in seconds
-set_unless[:nagios][:default_host][:check_interval]     = 15
-set_unless[:nagios][:default_host][:retry_interval]     = 15
-set_unless[:nagios][:default_host][:max_check_attempts] = 1
-set_unless[:nagios][:default_host][:notification_interval] = 300
+default[:nagios][:default_host][:check_interval]     = 15
+default[:nagios][:default_host][:retry_interval]     = 15
+default[:nagios][:default_host][:max_check_attempts] = 1
+default[:nagios][:default_host][:notification_interval] = 300
 
-set_unless[:nagios][:default_service][:check_interval]     = 60
-set_unless[:nagios][:default_service][:retry_interval]     = 15
-set_unless[:nagios][:default_service][:max_check_attempts] = 3
-set_unless[:nagios][:default_service][:notification_interval] = 1200
+default[:nagios][:default_service][:check_interval]     = 60
+default[:nagios][:default_service][:retry_interval]     = 15
+default[:nagios][:default_service][:max_check_attempts] = 3
+default[:nagios][:default_service][:notification_interval] = 1200
