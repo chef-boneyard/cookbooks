@@ -17,12 +17,12 @@
 # limitations under the License.
 #
 
-set_unless[:riak][:kv][:raw_name] = "riak"
-set_unless[:riak][:kv][:storage_backend] = :riak_kv_bitcask_backend
-node[:riak][:kv][:storage_backend] = node[:riak][:kv][:storage_backend].to_s.to_sym
-set_unless[:riak][:kv][:riak_stat_enabled] = true
-set_unless[:riak][:kv][:pb_ip] = "0.0.0.0"
-set_unless[:riak][:kv][:pb_port] = 8087
-set_unless[:riak][:kv][:mapred_name] = "mapred"
-set_unless[:riak][:kv][:handoff_port] = 8099
-set_unless[:riak][:kv][:js_vm_count] = 8
+default.riak.kv.raw_name = "riak"
+default.riak.kv.storage_backend = :riak_kv_bitcask_backend
+node.riak.kv.storage_backend = (node.riak.kv.storage_backend).to_s.to_sym
+default.riak.kv.riak_stat_enabled = true
+default.riak.kv.pb_ip = "0.0.0.0"
+default.riak.kv.pb_port = 8087
+default.riak.kv.mapred_name = "mapred"
+default.riak.kv.handoff_port = 8099
+default.riak.kv.js_vm_count = 8

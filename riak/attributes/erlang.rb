@@ -19,9 +19,9 @@
 
 include_attribute "riak::core"
 
-set_unless[:riak][:erlang][:node_name] = "riak@#{node[:riak][:core][:web_ip]}"
-set_unless[:riak][:erlang][:cookie] = "riak"
-set_unless[:riak][:erlang][:kernel_polling] = true
-set_unless[:riak][:erlang][:async_threads] = 5
-set_unless[:riak][:erlang][:smp] = "enable"
-set_unless[:riak][:erlang][:env_vars] = ["ERL_MAX_PORTS 4096", "ERL_FULLSWEEP_AFTER 10"]
+default.riak.erlang.node_name = "riak@#{node.riak.core.web_ip}"
+default.riak.erlang.cookie = "riak"
+default.riak.erlang.kernel_polling = true
+default.riak.erlang.async_threads = 5
+default.riak.erlang.smp = "enable"
+default.riak.erlang.env_vars = ["ERL_MAX_PORTS 4096", "ERL_FULLSWEEP_AFTER 10"]

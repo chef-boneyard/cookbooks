@@ -17,12 +17,12 @@
 # limitations under the License.
 #
 
-if node[:riak][:kv][:storage_backend] == :innostore_riak
-  set_unless[:riak][:kv][:storage_backend_options][:log_buffer_size] = 8388608
-  set_unless[:riak][:kv][:storage_backend_options][:log_files_in_group] = 8
-  set_unless[:riak][:kv][:storage_backend_options][:log_file_size] = 268435456
-  set_unless[:riak][:kv][:storage_backend_options][:flush_log_at_trx_commit] = 1
-  set_unless[:riak][:kv][:storage_backend_options][:data_home_dir] = "/var/lib/riak/innodb"
-  set_unless[:riak][:kv][:storage_backend_options][:log_group_home_dir] = "/var/lib/riak/innodb"
-  set_unless[:riak][:kv][:storage_backend_options][:buffer_pool_size] = 2147483648
+if node.riak.kv.storage_backend == :innostore_riak
+  default.riak.kv.storage_backend_options.log_buffer_size = 8388608
+  default.riak.kv.storage_backend_options.log_files_in_group = 8
+  default.riak.kv.storage_backend_options.log_file_size = 268435456
+  default.riak.kv.storage_backend_options.flush_log_at_trx_commit = 1
+  default.riak.kv.storage_backend_options.data_home_dir = "/var/lib/riak/innodb"
+  default.riak.kv.storage_backend_options.log_group_home_dir = "/var/lib/riak/innodb"
+  default.riak.kv.storage_backend_options.buffer_pool_size = 2147483648
 end

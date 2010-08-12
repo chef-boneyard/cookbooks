@@ -22,13 +22,12 @@ maintainer        "Basho Technologies, Inc."
 maintainer_email  "riak@basho.com"
 license           "Apache 2.0"
 description       "Installs and configures Riak distributed data store (v0.10 and later)"
-version           "0.11.0"
+version           "0.12.0"
 recipe            "riak", "Installs Riak"
 recipe            "riak::autoconf", "Automatically configure nodes from chef-server information."
 recipe            "riak::innostore", "Install and configure the Innostore backend."
 recipe            "riak::iptables", "Automatically configure iptables rules for Riak."
 depends           "erlang"
-depends           "mercurial"
 
 %w{ubuntu debian}.each do |os|
   supports os
@@ -59,7 +58,7 @@ attribute "riak/package/version/major",
 attribute "riak/package/version/minor",
   :display_name => "Riak minor version",
   :description => "Minor version of Riak to install.",
-  :default => "11"
+  :default => "12"
      
 attribute "riak/package/version/incremental",
   :display_name => "Riak incremental version",
@@ -69,7 +68,7 @@ attribute "riak/package/version/incremental",
 attribute "riak/package/version/build",
   :display_name => "Riak binary package build version",
   :description => "For binary packages, the specific build to use.",
-  :default => "1344"
+  :default => "1"
       
 attribute "riak/package/prefix",
   :display_name => "Installation prefix",

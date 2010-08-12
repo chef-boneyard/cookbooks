@@ -17,6 +17,6 @@
 # limitations under the License.
 #
 
-set_unless[:riak][:core][:web_ip] = "127.0.0.1"
-set_unless[:riak][:core][:web_port] = 8098
-set_unless[:riak][:core][:ring_state_dir] = "/var/lib/riak/ring"
+default.riak.core.web_ip = "127.0.0.1"
+default.riak.core.web_port = 8098
+default.riak.core.ring_state_dir = "/var/lib/riak/ring"

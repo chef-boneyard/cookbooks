@@ -17,8 +17,8 @@
 # limitations under the License.
 #
 
-set_unless[:riak][:limit_port_range] = true
-if node[:riak][:limit_port_range]
-  set_unless[:riak][:kernel][:inet_dist_listen_min] = 6000
-  set_unless[:riak][:kernel][:inet_dist_listen_max] = 7999
+default.riak.limit_port_range = true
+if node.riak.limit_port_range
+  default.riak.kernel.inet_dist_listen_min = 6000
+  default.riak.kernel.inet_dist_listen_max = 7999
 end

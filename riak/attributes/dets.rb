@@ -17,6 +17,6 @@
 # limitations under the License.
 #
 
-if node[:riak][:kv][:storage_backend] == :riak_kv_dets_backend
-  set_unless[:riak][:kv][:storage_backend_options][:riak_kv_dets_backend_root] = "/var/lib/riak/dets"
+if node.riak.kv.storage_backend == :riak_kv_dets_backend
+  default.riak.kv.storage_backend_options.riak_kv_dets_backend_root = "/var/lib/riak/dets"
 end
