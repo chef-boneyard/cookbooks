@@ -23,7 +23,7 @@ class Chef::Resource::Template
 end
 
 # AWEFUL HACK!
-# Pray to the deity of your choice for reversion of #1296
+# Pray to the deity of your choice for reversion of #1286
 version_parts = node[:chef_packages][:chef][:version].split(".")
 if version_parts[0].eql?("0") && version_parts[1].eql?("9")
   if (node[:riak][:package][:type]).eql?("source")
