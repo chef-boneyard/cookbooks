@@ -1,0 +1,56 @@
+= DESCRIPTION:
+
+Creates users with authorized_keys.
+
+= REQUIREMENTS:
+
+Data bag named "users" must exist. See USAGE.
+
+= USAGE:
+
+This cookbook is specific for setting up sysadmin group and users for now.
+
+    include_recipe "users::sysadmins"
+
+Use knife to create a data bag for users.
+
+    knife create_data --bag=users
+
+Create a user.
+
+    knife create_item --bag=users --id bofh
+    {
+      "id": "bofh",
+      "ssh_keys": "",
+      "groups": "sysadmin",
+      "uid": 2001,
+      "shell": "\/bin\/bash",
+      "comment": "BOFH",
+      "nagios": {
+        "pager": "8005551212@txt.att.net",
+        "email": "bofh@example.com"
+      },
+      "openid": "bofh.myopenid.com"
+    }
+
+Paste the user's public SSH key into the ssh_keys value. Also make sure the uid is unique, and if you're not using bash, that the shell is installed. Group must be sysadmin.
+
+The recipe will also create the sysadmin group. If you're using the opscode sudo cookbook, they'll have sudo access in the default site-cookbooks template. They won't have passwords though, so the sudo cookbook's template needs to be adjusted so the sysadmin group has NOPASSWD.
+
+= LICENSE and AUTHOR:
+
+Author:: Joshua Timberman (<joshua@opscode.com>)
+
+Copyright:: 2009, Opscode, Inc
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
