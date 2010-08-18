@@ -39,14 +39,12 @@ remote_file "/tmp/ruby-enterprise-#{node[:ruby_enterprise][:version]}.tar.gz" do
   not_if { ::File.exists?("/tmp/ruby-enterprise-#{node[:ruby_enterprise][:version]}.tar.gz") }
 end
 
-#I removed --dont-install-useful-gems because rubygem is there but if no gems are installed
-#{}/lib/ruby/gems/1.8/gems/ does not exists and some script fails
 bash "Install Ruby Enterprise Edition" do
   cwd "/tmp"
   code <<-EOH
   tar zxf ruby-enterprise-#{node[:ruby_enterprise][:version]}.tar.gz
   ruby-enterprise-#{node[:ruby_enterprise][:version]}/installer \
-    --auto=#{node[:ruby_enterprise][:install_path]} \
+    --auto=#{node[:ruby_enterprise][:install_path]}
   EOH
   not_if do
     ::File.exists?("#{node[:ruby_enterprise][:install_path]}/bin/ree-version") &&
