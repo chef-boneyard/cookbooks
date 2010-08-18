@@ -29,6 +29,12 @@ root_group = value_for_platform(
 
 include_recipe "chef::bootstrap_client"
 
+user "chef" do
+  system true
+  shell "/bin/sh"
+  home node[:chef][:path]
+end
+
 case node[:platform]
 when "ubuntu"
   if node[:platform_version].to_f >= 9.10
@@ -79,30 +85,36 @@ end
 %w{ server solr }.each do |cfg|
   template "/etc/chef/#{cfg}.rb" do
     source "#{cfg}.rb.erb"
-    owner "root"
+    owner "chef"
     group root_group
-    mode "600"
+    mode 0600
   end
+end
+
+directory node[:chef][:path] do
+  owner "chef"
+  group root_group
+  mode 0755
 end
 
 %w{ cache search_index }.each do |dir|
   directory "#{node[:chef][:path]}/#{dir}" do
-    owner "root"
+    owner "chef"
     group root_group
-    mode "755"
+    mode 0755
   end
 end
 
 directory "/etc/chef/certificates" do
-  owner "root"
+  owner "chef"
   group root_group
-  mode "700"
+  mode 0700
 end
 
 directory node[:chef][:run_path] do
-  owner "root"
+  owner "chef"
   group root_group
-  mode "755"
+  mode 0755
 end
 
 case node[:chef][:init_style]
@@ -128,9 +140,9 @@ when "init"
 
   directory node[:chef][:run_path] do
     action :create
-    owner "root"
+    owner "chef"
     group root_group
-    mode "755"
+    mode 0755
   end
 
   dist_dir = value_for_platform(
@@ -158,6 +170,10 @@ when "init"
     file "/etc/#{conf_dir}/#{svc}" do
       content conf_content
       mode 0644
+    end
+
+    link "/usr/sbin/#{svc}" do
+      to "#{node[:languages][:ruby][:bin_dir]}/#{svc}"
     end
 
     service "#{svc}" do
