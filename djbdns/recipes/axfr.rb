@@ -31,6 +31,7 @@ user "axfrdns" do
   end
   shell "/bin/false"
   home "/home/axfrdns"
+  system true
 end
 
 execute "#{node[:djbdns][:bin_dir]}/axfrdns-conf axfrdns dnslog #{node[:runit][:sv_dir]}/axfrdns #{node[:runit][:sv_dir]}/tinydns #{node[:djbdns][:axfrdns_ipaddress]}" do

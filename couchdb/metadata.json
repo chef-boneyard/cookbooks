@@ -1,18 +1,24 @@
 {
-    "recommendations": {
+    "providing": {
     },
     "attributes": {
     },
     "maintainer": "Opscode, Inc.",
-    "suggestions": {
+    "replacing": {
     },
     "dependencies": {
       "erlang": [
 
       ]
     },
+    "recipes": {
+      "couchdb": "Installs and configures CouchDB package",
+      "couchdb::source": "Installs and configures CouchDB from source"
+    },
     "maintainer_email": "cookbooks@opscode.com",
-    "conflicting": {
+    "groupings": {
+    },
+    "recommendations": {
     },
     "platforms": {
       "rhel": [
@@ -38,18 +44,12 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.13.2",
-    "providing": {
-    },
-    "recipes": {
-      "couchdb": "Installs and configures CouchDB package",
-      "couchdb::source": "Installs and configures CouchDB from source"
-    },
-    "replacing": {
+    "version": "0.13.3",
+    "suggestions": {
     },
     "name": "couchdb",
-    "description": "Installs CouchDB package and starts service",
-    "groupings": {
+    "conflicting": {
     },
-    "long_description": "Installs the CouchDB package if it is available from an package repository on\nthe node. If the package repository is not available, CouchDB needs to be \ninstalled via some other method, either a backported package, or compiled \ndirectly from source. CouchDB is available on Red Hat-based systems through\nthe EPEL Yum Repository.\n"
+    "long_description": "Installs the CouchDB package if it is available from an package repository on\nthe node. If the package repository is not available, CouchDB needs to be \ninstalled via some other method, either a backported package, or compiled \ndirectly from source. CouchDB is available on Red Hat-based systems through\nthe EPEL Yum Repository.\n",
+    "description": "Installs CouchDB package and starts service"
   }

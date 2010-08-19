@@ -103,6 +103,7 @@
         "display_name": "DJB DNS TinyDNS IP Address"
       }
     },
+    "maintainer": "Opscode, Inc.",
     "replacing": {
     },
     "dependencies": {
@@ -113,6 +114,14 @@
 
       ]
     },
+    "recipes": {
+      "djbdns::axfr": "Sets up djbdns AXFR service",
+      "djbdns::cache": "Sets up public dnscache service",
+      "djbdns::internal_server": "Sets up internal TinyDNS",
+      "djbdns": "Installs djbdns from package or source and creates users",
+      "djbdns::server": "Sets up external TinyDNS"
+    },
+    "maintainer_email": "cookbooks@opscode.com",
     "groupings": {
     },
     "recommendations": {
@@ -132,21 +141,12 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.8.2",
-    "maintainer": "Opscode, Inc.",
+    "version": "0.8.3",
     "suggestions": {
     },
-    "recipes": {
-      "djbdns::axfr": "Sets up djbdns AXFR service",
-      "djbdns::cache": "Sets up public dnscache service",
-      "djbdns::internal_server": "Sets up internal TinyDNS",
-      "djbdns": "Installs djbdns from package or source and creates users",
-      "djbdns::server": "Sets up external TinyDNS"
-    },
-    "maintainer_email": "cookbooks@opscode.com",
     "name": "djbdns",
     "conflicting": {
     },
-    "description": "Installs djbdns and configures DNS services",
-    "long_description": ""
+    "long_description": "",
+    "description": "Installs djbdns and configures DNS services"
   }

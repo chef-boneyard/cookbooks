@@ -70,6 +70,7 @@ user "dnscache" do
   end
   shell "/bin/false"
   home "/home/dnscache"
+  system true
 end
 
 user "dnslog" do
@@ -84,6 +85,7 @@ user "dnslog" do
   end
   shell "/bin/false"
   home "/home/dnslog"
+  system true
 end
 
 user "tinydns" do
@@ -98,4 +100,5 @@ user "tinydns" do
   end
   shell "/bin/false"
   home "/home/tinydns"
+  system true
 end

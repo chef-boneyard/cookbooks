@@ -46,6 +46,7 @@ user "couchdb" do
   home "/usr/local/var/lib/couchdb"
   comment "CouchDB Administrator"
   supports :manage_home => false
+  system true
 end
 
 %w{ var/lib/couchdb var/log/couchdb var/run etc/couchdb }.each do |dir|
