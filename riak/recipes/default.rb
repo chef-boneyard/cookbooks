@@ -22,8 +22,8 @@ class Chef::Resource::Template
   include RiakTemplateHelper
 end
 
-# AWEFUL HACK!
-# Pray to the deity of your choice for reversion of #1286
+# Workaround hack for ticket CHEF-1286.
+# This can be removed when CHEF-1286 is reverted in a future release.
 version_parts = node[:chef_packages][:chef][:version].split(".")
 if version_parts[0].eql?("0") && version_parts[1].eql?("9")
   if (node[:riak][:package][:type]).eql?("source")
@@ -31,6 +31,7 @@ if version_parts[0].eql?("0") && version_parts[1].eql?("9")
     node.default[:riak][:package][:config_dir] = node.riak.package.prefix + "/riak/etc"
   end
 end
+# end workaround
 
 version_str = "#{node[:riak][:package][:version][:major]}.#{node[:riak][:package][:version][:minor]}"
 base_uri = "http://downloads.basho.com/riak/riak-#{version_str}/"
