@@ -1,6 +1,24 @@
 {
     "providing": {
     },
+    "platforms": {
+      "debian": [
+
+      ],
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "ubuntu": [
+
+      ],
+      "redhat": [
+
+      ]
+    },
+    "description": "Installs and configures nginx",
     "attributes": {
       "nginx/worker_connections": {
         "required": "optional",
@@ -13,8 +31,8 @@
         "recipes": [
 
         ],
-        "description": "Number of connections per worker",
-        "display_name": "Nginx Worker Connections"
+        "display_name": "Nginx Worker Connections",
+        "description": "Number of connections per worker"
       },
       "nginx/gzip_types": {
         "required": "optional",
@@ -36,8 +54,8 @@
         "recipes": [
 
         ],
-        "description": "Supported MIME-types for gzip",
-        "display_name": "Nginx Gzip Types"
+        "display_name": "Nginx Gzip Types",
+        "description": "Supported MIME-types for gzip"
       },
       "nginx/binary": {
         "required": "optional",
@@ -50,8 +68,8 @@
         "recipes": [
 
         ],
-        "description": "Location of the nginx server binary",
-        "display_name": "Nginx Binary"
+        "display_name": "Nginx Binary",
+        "description": "Location of the nginx server binary"
       },
       "nginx/user": {
         "required": "optional",
@@ -64,8 +82,8 @@
         "recipes": [
 
         ],
-        "description": "User nginx will run as",
-        "display_name": "Nginx User"
+        "display_name": "Nginx User",
+        "description": "User nginx will run as"
       },
       "nginx/keepalive_timeout": {
         "required": "optional",
@@ -91,8 +109,8 @@
         "recipes": [
 
         ],
-        "description": "Whether gzip is proxied",
-        "display_name": "Nginx Gzip Proxied"
+        "display_name": "Nginx Gzip Proxied",
+        "description": "Whether gzip is proxied"
       },
       "nginx/gzip_comp_level": {
         "required": "optional",
@@ -105,8 +123,8 @@
         "recipes": [
 
         ],
-        "description": "Amount of compression to use",
-        "display_name": "Nginx Gzip Compression Level"
+        "display_name": "Nginx Gzip Compression Level",
+        "description": "Amount of compression to use"
       },
       "nginx/dir": {
         "required": "optional",
@@ -119,8 +137,8 @@
         "recipes": [
 
         ],
-        "description": "Location of nginx configuration files",
-        "display_name": "Nginx Directory"
+        "display_name": "Nginx Directory",
+        "description": "Location of nginx configuration files"
       },
       "nginx/server_names_hash_bucket_size": {
         "required": "optional",
@@ -146,8 +164,8 @@
         "recipes": [
 
         ],
-        "description": "Number of worker processes",
-        "display_name": "Nginx Worker Processes"
+        "display_name": "Nginx Worker Processes",
+        "description": "Number of worker processes"
       },
       "nginx/gzip_http_version": {
         "required": "optional",
@@ -160,8 +178,8 @@
         "recipes": [
 
         ],
-        "description": "Version of HTTP Gzip",
-        "display_name": "Nginx Gzip HTTP Version"
+        "display_name": "Nginx Gzip HTTP Version",
+        "description": "Version of HTTP Gzip"
       },
       "nginx/log_dir": {
         "required": "optional",
@@ -174,8 +192,8 @@
         "recipes": [
 
         ],
-        "description": "Location for nginx logs",
-        "display_name": "Nginx Log Directory"
+        "display_name": "Nginx Log Directory",
+        "description": "Location for nginx logs"
       },
       "nginx/gzip": {
         "required": "optional",
@@ -188,8 +206,8 @@
         "recipes": [
 
         ],
-        "description": "Whether gzip is enabled",
-        "display_name": "Nginx Gzip"
+        "display_name": "Nginx Gzip",
+        "description": "Whether gzip is enabled"
       },
       "nginx/keepalive": {
         "required": "optional",
@@ -202,8 +220,8 @@
         "recipes": [
 
         ],
-        "description": "Whether to enable keepalive",
-        "display_name": "Nginx Keepalive"
+        "display_name": "Nginx Keepalive",
+        "description": "Whether to enable keepalive"
       }
     },
     "replacing": {
@@ -216,31 +234,22 @@
 
       ]
     },
+    "version": "0.14.3",
     "groupings": {
     },
+    "long_description": "",
     "recommendations": {
     },
-    "platforms": {
-      "debian": [
-
-      ],
-      "ubuntu": [
-
-      ]
-    },
-    "license": "Apache 2.0",
-    "version": "0.14.2",
     "maintainer": "Opscode, Inc.",
     "suggestions": {
     },
+    "license": "Apache 2.0",
+    "name": "nginx",
+    "maintainer_email": "cookbooks@opscode.com",
     "recipes": {
       "nginx::source": "Installs nginx from source and sets up configuration with Debian apache style with sites-enabled/sites-available",
       "nginx": "Installs nginx package and sets up configuration with Debian apache style with sites-enabled/sites-available"
     },
-    "maintainer_email": "cookbooks@opscode.com",
-    "name": "nginx",
     "conflicting": {
-    },
-    "description": "Installs and configures nginx",
-    "long_description": ""
+    }
   }

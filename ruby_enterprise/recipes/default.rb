@@ -25,7 +25,12 @@
 
 include_recipe "build-essential"
 
-%w{ libssl-dev libreadline5-dev }.each do |pkg|
+packages = value_for_platform(
+    ["centos","redhat","fedora"] => {'default' => ['readline-devel', 'openssl-devel', 'patch']},
+    "default" => ['libssl-dev', 'libreadline5-dev']
+  )
+
+packages.each do |pkg|
   package pkg
 end
 
@@ -39,8 +44,7 @@ bash "Install Ruby Enterprise Edition" do
   code <<-EOH
   tar zxf ruby-enterprise-#{node[:ruby_enterprise][:version]}.tar.gz
   ruby-enterprise-#{node[:ruby_enterprise][:version]}/installer \
-    --auto=#{node[:ruby_enterprise][:install_path]} \
-    --dont-install-useful-gems
+    --auto=#{node[:ruby_enterprise][:install_path]}
   EOH
   not_if do
     ::File.exists?("#{node[:ruby_enterprise][:install_path]}/bin/ree-version") &&

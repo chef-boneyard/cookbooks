@@ -21,9 +21,17 @@
 #
 
 include_recipe "build-essential"
-include_recipe "runit"
 
-%w{ libpcre3 libpcre3-dev libssl-dev}.each do |devpkg|
+unless platform?("centos","redhat","fedora")
+  include_recipe "runit"
+end
+
+packages = value_for_platform(
+    ["centos","redhat","fedora"] => {'default' => ['pcre-devel', 'openssl-devel']},
+    "default" => ['libpcre3', 'libpcre3-dev', 'libssl-dev']
+  )
+
+packages.each do |devpkg|
   package devpkg
 end
 
@@ -58,11 +66,37 @@ directory node[:nginx][:dir] do
   mode "0755"
 end
 
-runit_service "nginx"
+unless platform?("centos","redhat","fedora")
+  runit_service "nginx"
 
-service "nginx" do
-  subscribes :restart, resources(:bash => "compile_nginx_source")
+  service "nginx" do
+    subscribes :restart, resources(:bash => "compile_nginx_source")
+  end
+else
+  #install init db script
+  template "/etc/init.d/nginx" do
+    source "nginx.init.erb"
+    owner "root"
+    group "root"
+    mode "0755"
+  end
+
+  #install sysconfig file (not really needed but standard)
+  template "/etc/sysconfig/nginx" do
+    source "nginx.sysconfig.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+  end
+
+  #register service
+  service "nginx" do
+    supports :status => true, :restart => true, :reload => true
+    action :enable
+    subscribes :restart, resources(:bash => "compile_nginx_source")
+  end
 end
+
 
 %w{ sites-available sites-enabled conf.d }.each do |dir|
   directory "#{node[:nginx][:dir]}/#{dir}" do
