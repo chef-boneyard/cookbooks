@@ -10,6 +10,8 @@ Tested on Ubuntu 8.10.
 
 == Cookbooks:
 
+* 'cron'.
+
 = ATTRIBUTES: 
 
 * rsyslog[:log_dir] - specify the directory to store logs (applicable to server only)
