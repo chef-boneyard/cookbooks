@@ -22,13 +22,7 @@ case node[:platform]
 when "redhat", "centos", "fedora"
   package "ImageMagick-devel"
 when "debian", "ubuntu"
-  package value_for_platform(
-      "ubuntu" => {
-        "8.04" => "libmagick9-dev",
-        "8.10" => "libmagick9-dev",
-      },
-      "default" => { "default" => "libmagickwand-dev" }
-  )
+  package "libmagickwand-dev"
 end
 
 gem_package "rmagick"
