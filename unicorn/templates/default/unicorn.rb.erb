@@ -8,6 +8,10 @@
 listen <%= port %>, <%= options %>
 <%- end %>
 
+<%- if @working_directory %>
+working_directory '<%= @working_directory %>'
+<%- end %>
+
 # What the timeout for killing busy workers is, in seconds
 timeout <%= @worker_timeout %>
 
