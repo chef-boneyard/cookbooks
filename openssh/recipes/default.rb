@@ -36,8 +36,11 @@ service "ssh" do
     service_name "ssh"
   end
   supports value_for_platform(
-    "debian" => { "default" => [ :restart, :reload ] },
-    "ubuntu" => { "default" => [ :restart, :reload ] },
+    "debian" => { "default" => [ :restart, :reload, :status ] },
+    "ubuntu" => {
+      "8.04" => [ :restart, :reload ],
+      "default" => [ :restart, :reload, :status ]
+    },
     "centos" => { "default" => [ :restart, :reload, :status ] },
     "redhat" => { "default" => [ :restart, :reload, :status ] },
     "fedora" => { "default" => [ :restart, :reload, :status ] },
