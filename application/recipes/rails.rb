@@ -154,7 +154,7 @@ if app["memcached_role"]
     mode "644"
     variables(
       :memcached_envs => app['memcached'],
-      :hosts => results
+      :hosts => results.sort_by { |r| r.name }
     )
   end
 end
