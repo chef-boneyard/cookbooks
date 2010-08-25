@@ -37,6 +37,7 @@ end
 [node[:tomcat6][:temp],node[:tomcat6][:logs],node[:tomcat6][:webapp_base_dir],node[:tomcat6][:webapps],node[:tomcat6][:home],node[:tomcat6][:conf]].each do |dir|
   directory dir do
     action :create
+    recursive true
     mode 0755
     owner "#{node[:tomcat6][:user]}"
     group "#{node[:tomcat6][:user]}"
@@ -190,9 +191,6 @@ template "#{node[:tomcat6][:dir]}/tomcat6.conf" do
   group "#{node[:tomcat6][:user]}"
   owner "#{node[:tomcat6][:user]}"
   mode 0644
-  if File.exists?("/etc/god")
-    notifies :stop, resources(:service => "god"), :immediately
-  end
   notifies :restart, resources(:service => "tomcat6"), :immediately
 end
 
