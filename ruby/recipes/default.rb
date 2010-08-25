@@ -44,8 +44,10 @@ extra_packages = case node[:platform]
     }
   end
 
-extra_packages.each do |pkg|
-  package pkg do
-    action :install
+unless extra_packages.nil?
+  extra_packages.each do |pkg|
+    package pkg do
+      action :install
+    end
   end
 end
