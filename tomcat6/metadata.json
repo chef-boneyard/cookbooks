@@ -52,5 +52,5 @@
   "recipes": {
     "tomcat6": "Main Tomcat 6 configuration"
   },
-  "version": "0.5.0"
+  "version": "0.5.1"
 }
