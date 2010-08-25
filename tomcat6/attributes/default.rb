@@ -1,3 +1,11 @@
+require 'openssl'
+
+pw = String.new
+
+while pw.length < 20
+  pw << OpenSSL::Random.random_bytes(1).gsub(/\W/, '')
+end
+
 # Where the various parts of tomcat6 are
 case platform
 when "centos"
@@ -44,5 +52,5 @@ else
 end
 set_unless[:tomcat6][:java_opts]        = ""
 set_unless[:tomcat6][:manager_user]     = "manager"
-set_unless[:tomcat6][:manager_password] = "manager"
+set_unless[:tomcat6][:manager_password] = pw
 set_unless[:tomcat6][:permgen_min_free_in_mb] = 24
