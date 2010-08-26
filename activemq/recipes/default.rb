@@ -18,6 +18,7 @@
 #
 
 include_recipe "java"
+include_recipe "runit"
 
 version = node[:activemq][:version]
 mirror = node[:activemq][:mirror]
