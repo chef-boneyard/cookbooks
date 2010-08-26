@@ -18,11 +18,12 @@
 #
 
 case node[:platform]
-when "debian","ubuntu"
+when "debian","ubuntu", "gentoo"
   execute "start-runsvdir" do
     command value_for_platform(
       "debian" => { "default" => "runsvdir-start" },
-      "ubuntu" => { "default" => "start runsvdir" }
+      "ubuntu" => { "default" => "start runsvdir" },
+      "gentoo" => { "default" => "/etc/init.d/runit-start start" }
     )
     action :nothing
   end
@@ -31,6 +32,13 @@ when "debian","ubuntu"
     command "telinit q"
     only_if "grep ^SV /etc/inittab"
     action :nothing
+  end
+
+  if platform? "gentoo"
+    template "/etc/init.d/runit-start" do
+      source "runit-start.sh.erb"
+      mode 0755
+    end
   end
 
   package "runit" do
@@ -44,8 +52,8 @@ when "debian","ubuntu"
         "default" => :nothing,
         "9.04" => :run,
         "8.10" => :run,
-        "8.04" => :run
-      }
+        "8.04" => :run },
+      "gentoo" => { "default" => :run }                        
     ), resources(:execute => "start-runsvdir"), :immediately
     notifies value_for_platform(
       "debian" => { "squeeze/sid" => :run, "default" => :nothing },

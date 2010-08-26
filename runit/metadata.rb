@@ -6,7 +6,7 @@ version           "0.13.0"
 
 recipe "runit", "Installs and configures runit"
 
-%w{ ubuntu debian }.each do |os|
+%w{ ubuntu debian gentoo }.each do |os|
   supports os
 end
 
