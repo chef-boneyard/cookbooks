@@ -57,7 +57,7 @@ cookbook_file "CPAN-Config.pm" do
   mode 0644
 end
 
-remote_file "/usr/local/bin/cpan_install" do
+cookbook_file "/usr/local/bin/cpan_install" do
   source "cpan_install"
   owner "root"
   group "root"
