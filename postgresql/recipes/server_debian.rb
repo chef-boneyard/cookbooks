@@ -26,11 +26,26 @@ when "8.4"
   node.default[:postgresql][:ssl] = "true"
 end
 
-# Include the right "family" recipe for installing the server
-# since they do things slightly differently.
-case node.platform
-when "redhat", "centos", "fedora", "suse"
-  include_recipe "postgresql::server_redhat"
-when "debian", "ubuntu"
-  include_recipe "postgresql::server_debian"
+package "postgresql"
+
+service "postgresql" do
+  service_name "postgresql-#{node.postgresql.version}"
+  supports :restart => true, :status => true, :reload => true
+  action :nothing
+end
+
+template "#{node[:postgresql][:dir]}/pg_hba.conf" do
+  source "debian.pg_hba.conf.erb"
+  owner "postgres"
+  group "postgres"
+  mode 0600
+  notifies :reload, resources(:service => "postgresql")
+end
+
+template "#{node[:postgresql][:dir]}/postgresql.conf" do
+  source "debian.postgresql.conf.erb"
+  owner "postgres"
+  group "postgres"
+  mode 0600
+  notifies :restart, resources(:service => "postgresql")
 end

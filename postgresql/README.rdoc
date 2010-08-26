@@ -6,13 +6,15 @@ Installs and configures postgresql client or server.
 
 == Platform:
 
-Tested on Ubuntu 8.10, but adapted from Red Hat Enterprise 5.0 based recipes.
+Tested on CentOS 5.5, Ubuntu 10.04 but should support centos, redhat, fedora, suse, ubuntu and debian.
 
 == Cookbooks:
 
 = ATTRIBUTES: 
 
 * postgresql[:dir] - configuration file location.
+* postgresql[:version] - Version of postgresql to use. Configured in attributes based on platform.
+* postgresql[:ssl] - used on debian family installs to enable ssl support. The debian post installation script automatically builds the certificates.
 
 = USAGE:
 
@@ -24,13 +26,15 @@ For server:
 
   include_recipe "postgresql::server"
   
-(client is already included by server)
+(client is already included by server). This will check the platform that the node is and include either redhat family recipe (postgresql::server_redhat) or debian family (postgresql::server_debian) because the two styles differ quite a bit.
+
+The templates provided by this cookbook will probably need to be tweaked for the local environment, no tuning parameters are specified in them. The templates are separated by family designation in the template directory, since Chef doesn't do "platform family" style file specificity.
 
 = LICENSE and AUTHOR:
       
 Author:: Joshua Timberman (<joshua@opscode.com>)
 
-Copyright:: 2009, Opscode, Inc
+Copyright:: 2009-2010, Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

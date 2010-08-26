@@ -73,7 +73,11 @@ unix_socket_directory = '/var/run/postgresql'		# (change requires restart)
 # - Security and Authentication -
 
 #authentication_timeout = 1min		# 1s-600s
+<% if node.postgresql.ssl -%>
 ssl = true				# (change requires restart)
+<% else -%>
+#ssl = off				# (change requires restart)
+<% end -%>
 #ssl_ciphers = 'ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH'	# allowed SSL ciphers
 					# (change requires restart)
 #password_encryption = on
