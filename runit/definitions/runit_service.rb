@@ -17,30 +17,40 @@
 # limitations under the License.
 #
 
-define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :run_restart => true, :start_command => "start", :stop_command => "stop", :restart_command => "restart", :status_command => "status", :options => Hash.new do
+define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :run_restart => true, :active_directory => nil, :owner => "root", :group => "root", :template_name => nil, :start_command => "start", :stop_command => "stop", :restart_command => "restart", :status_command => "status", :options => Hash.new do
   include_recipe "runit"
 
   params[:directory] ||= node[:runit][:sv_dir]
+  params[:active_directory] ||= node[:runit][:service_dir]
+  params[:template_name] ||= params[:name]
 
   sv_dir_name = "#{params[:directory]}/#{params[:name]}"
+  service_dir_name = "#{params[:active_directory]}/#{params[:name]}"
 
   directory sv_dir_name do
+    owner params[:owner]
+    group params[:group]
     mode 0755
     action :create
   end
 
   directory "#{sv_dir_name}/log" do
+    owner params[:owner]
+    group params[:group]
     mode 0755
     action :create
   end
 
   directory "#{sv_dir_name}/log/main" do
+    owner params[:owner]
+    group params[:group]
     mode 0755
     action :create
   end
 
-  params[:template_name] ||= params[:name]
   template "#{sv_dir_name}/run" do
+    owner params[:owner]
+    group params[:group]
     mode 0755
     source "sv-#{params[:template_name]}-run.erb"
     cookbook params[:cookbook] if params[:cookbook]
@@ -50,6 +60,8 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
   end
 
   template "#{sv_dir_name}/log/run" do
+    owner params[:owner]
+    group params[:group]
     mode 0755
     source "sv-#{params[:template_name]}-log-run.erb"
     cookbook params[:cookbook] if params[:cookbook]
@@ -60,6 +72,8 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
 
   if params[:finish_script]
     template "#{sv_dir_name}/finish" do
+      owner params[:owner]
+      group params[:group]
       mode 0755
       source "sv-#{params[:template_name]}-finish.erb"
       cookbook params[:cookbook] if params[:cookbook]
@@ -71,12 +85,16 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
 
   unless params[:control].empty?
     directory "#{sv_dir_name}/control" do
+      owner params[:owner]
+      group params[:group]
       mode 0755
       action :create
     end
 
     params[:control].each do |signal|
       template "#{sv_dir_name}/control/#{signal}" do
+        owner params[:owner]
+        group params[:group]
         mode 0755
         source "sv-#{params[:template_name]}-control-#{signal}.erb"
         cookbook params[:cookbook] if params[:cookbook]
@@ -87,12 +105,14 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
     end
   end
 
-  link "/etc/init.d/#{params[:name]}" do
-    to node[:runit][:sv_bin]
+  if params[:active_directory] == node[:runit][:service_dir]
+    link "/etc/init.d/#{params[:name]}" do
+      to node[:runit][:sv_bin]
+    end
   end
 
-  link "#{node[:runit][:service_dir]}/#{params[:name]}" do 
-    to "#{sv_dir_name}"
+  link service_dir_name do
+    to sv_dir_name
   end
 
   ruby_block "supervise_#{params[:name]}_sleep" do
@@ -104,12 +124,16 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
   end
 
   service params[:name] do
+    control_cmd = node[:runit][:sv_bin]
+    if params[:owner]
+      control_cmd = "#{node[:runit][:chpst_bin]} -u #{params[:owner]} #{control_cmd}"
+    end
     provider Chef::Provider::Service::Init
     supports :restart => true, :status => true
-    start_command "#{node[:runit][:sv_bin]} #{params[:start_command]} #{params[:name]}"
-    stop_command "#{node[:runit][:sv_bin]} #{params[:stop_command]} #{params[:name]}"
-    restart_command "#{node[:runit][:sv_bin]} #{params[:restart_command]} #{params[:name]}"
-    status_command "#{node[:runit][:sv_bin]} #{params[:status_command]} #{params[:name]}"
+    start_command "#{control_cmd} #{params[:start_command]} #{service_dir_name}"
+    stop_command "#{control_cmd} #{params[:stop_command]} #{service_dir_name}"
+    restart_command "#{control_cmd} #{params[:restart_command]} #{service_dir_name}"
+    status_command "#{control_cmd} #{params[:status_command]} #{service_dir_name}"
     if params[:run_restart]
       subscribes :restart, resources(:template => "#{sv_dir_name}/run"), :delayed
     end
