@@ -53,7 +53,7 @@ when "debian","ubuntu", "gentoo"
         "9.04" => :run,
         "8.10" => :run,
         "8.04" => :run },
-      "gentoo" => { "default" => :run }                        
+      "gentoo" => { "default" => :run }
     ), resources(:execute => "start-runsvdir"), :immediately
     notifies value_for_platform(
       "debian" => { "squeeze/sid" => :run, "default" => :nothing },
@@ -61,7 +61,7 @@ when "debian","ubuntu", "gentoo"
     ), resources(:execute => "runit-hup-init"), :immediately
   end
 
-  if node[:platform] =~ /ubuntu/i && node[:platform_version].to_f <= 8.04 
+  if node[:platform] =~ /ubuntu/i && node[:platform_version].to_f <= 8.04
     cookbook_file "/etc/event.d/runsvdir" do
       source "runsvdir"
       mode 0644
