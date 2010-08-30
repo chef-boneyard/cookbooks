@@ -25,5 +25,10 @@ ree_gem "rake" do
 end
 
 ree_gem "rails" do
-  version "2.3.5"
+  if node[:rails_enterprise][:version]
+    version node[:rails_enterprise][:version]
+    action :install
+  else
+    action :install
+  end
 end

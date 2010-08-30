@@ -6,6 +6,11 @@ Installs Ruby on Rails under Ruby Enterprise Edition
 
 ruby_enterprise
 
+= ATTRIBUTES:
+
+* rails_enterprise[:version] - Install the specified version. Default false (installs latest).
+* rails_enterprise[:environment] - Set Rails environment. Default production.
+
 = LICENSE and AUTHOR:
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
