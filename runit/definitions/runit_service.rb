@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :run_restart => true, :active_directory => nil, :owner => "root", :group => "root", :template_name => nil, :start_command => "start", :stop_command => "stop", :restart_command => "restart", :status_command => "status", :options => Hash.new do
+define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :run_restart => true, :active_directory => nil, :owner => "root", :group => "root", :template_name => nil, :start_command => "start", :stop_command => "stop", :restart_command => "restart", :status_command => "status", :options => Hash.new, :env => Hash.new do
   include_recipe "runit"
 
   params[:directory] ||= node[:runit][:sv_dir]
@@ -26,6 +26,7 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
 
   sv_dir_name = "#{params[:directory]}/#{params[:name]}"
   service_dir_name = "#{params[:active_directory]}/#{params[:name]}"
+  params[:options].merge!(:env_dir => "#{sv_dir_name}/env") unless params[:env].empty?
 
   directory sv_dir_name do
     owner params[:owner]
@@ -67,6 +68,19 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
     cookbook params[:cookbook] if params[:cookbook]
     if params[:options].respond_to?(:has_key?)
       variables :options => params[:options]
+    end
+  end
+
+  unless params[:env].empty?
+    directory "#{sv_dir_name}/env" do
+      mode 0755
+      action :create
+    end
+
+    params[:env].each do |var, value|
+      file "#{sv_dir_name}/env/#{var}" do
+        content value
+      end
     end
   end
 
