@@ -23,6 +23,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+include_attribute "ruby_enterprise"
+
 default[:passenger_enterprise][:version]     = "2.2.15"
-default[:passenger_enterprise][:root_path]   = "/opt/ruby-enterprise/lib/ruby/gems/1.8/gems/passenger-#{passenger_enterprise[:version]}"
+default[:passenger_enterprise][:root_path]   = "#{node.ruby_enterprise.gems_dir}/gems/passenger-#{passenger_enterprise[:version]}"
 default[:passenger_enterprise][:module_path] = "#{passenger_enterprise[:root_path]}/ext/apache2/mod_passenger.so"
