@@ -17,6 +17,9 @@
     ],
     "redhat": [
 
+    ],
+    "arch": [
+
     ]
   },
   "dependencies": {
@@ -38,5 +41,5 @@
   "recipes": {
     "perl": "Installs perl and provides a script to install cpan modules"
   },
-  "version": "0.9.2"
+  "version": "0.10.0"
 }
