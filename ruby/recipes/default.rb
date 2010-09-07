@@ -42,6 +42,8 @@ extra_packages = case node[:platform]
       ruby-rdoc
       ruby-mode
     }
+  when "arch"
+    %w{ ruby-docs }
   end
 
 unless extra_packages.nil?
