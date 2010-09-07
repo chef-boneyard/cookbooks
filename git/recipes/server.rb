@@ -17,7 +17,6 @@
 # limitations under the License.
 
 include_recipe "git"
-include_recipe "runit"
 
 directory "/srv/git" do
   owner "root"
@@ -25,4 +24,11 @@ directory "/srv/git" do
   mode 0755
 end
 
-runit_service "git-daemon"
+case node[:platform]
+when "debian", "ubuntu"
+  include_recipe "runit"
+  runit_service "git-daemon"
+else
+  log "Platform requires setting up a git daemon service script."
+  log "Hint: /usr/bin/git daemon --export-all --user=nobody --group=daemon --base-path=/srv/git"
+end

@@ -11,6 +11,9 @@
     ],
     "debian": [
 
+    ],
+    "arch": [
+
     ]
   },
   "dependencies": {
@@ -36,5 +39,5 @@
     "git": "Installs git",
     "git::server": "Sets up a runit_service for git daemon"
   },
-  "version": "0.8.1"
+  "version": "0.9.0"
 }
