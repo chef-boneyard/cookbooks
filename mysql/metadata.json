@@ -189,7 +189,20 @@
       ]
     },
     "mysql/tunable/table_cache": {
-      "display_name": "MySQL Tunable Table Cache",
+      "display_name": "MySQL Tunable Table Cache for MySQL < 5.1.3",
+      "default": "128",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "mysql/tunable/table_open_cache": {
+      "display_name": "MySQL Tunable Table Cache for MySQL >= 5.1.3",
       "default": "128",
       "choice": [
 

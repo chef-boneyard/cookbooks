@@ -59,28 +59,27 @@ bind-address            = <%= node[:mysql][:bind_address] %>
 # * Fine Tuning
 #
 key_buffer              = <%= node[:mysql][:tunable][:key_buffer] %>
-max_allowed_packet      = 16M
-thread_stack            = 192K
-thread_cache_size       = 8
+max_allowed_packet      = <%= node[:mysql][:tunable][:max_allowed_packet] %>
+thread_stack            = <%= node[:mysql][:tunable][:thread_stack] %>
+thread_cache_size       = <%= node[:mysql][:tunable][:thread_cache_size] %>
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
-myisam-recover          = BACKUP
-#max_connections        = 100
-#table_cache            = 64
-#thread_concurrency     = 10
+myisam-recover          = <%= node[:mysql][:tunable][:myisam_recover] %>
+max_connections         = <%= node[:mysql][:tunable][:max_connections] %>
+table_open_cache        = <%= node[:mysql][:tunable][:table_open_cache] %>
+thread_concurrency      = <%= node[:mysql][:tunable][:thread_concurrency] %>
 max_connections         = <%= node[:mysql][:tunable][:max_connections] %>
 wait_timeout            = <%= node[:mysql][:tunable][:wait_timeout] %>
 net_read_timeout        = <%= node[:mysql][:tunable][:net_read_timeout] %>
 net_write_timeout       = <%= node[:mysql][:tunable][:net_write_timeout] %>
 back_log                = <%= node[:mysql][:tunable][:back_log] %>
-table_cache             = <%= node[:mysql][:tunable][:table_cache] %>
 max_heap_table_size     = <%= node[:mysql][:tunable][:max_heap_table_size] %>
 
 #
 # * Query Cache Configuration
 #
-query_cache_limit       = 1M
-query_cache_size        = 16M
+query_cache_limit       = <%= node[:mysql][:tunable][:query_cache_limit] %>
+query_cache_size        = <%= node[:mysql][:tunable][:query_cache_size] %>
 #
 # * Logging and Replication
 #
@@ -91,8 +90,8 @@ query_cache_size        = 16M
 # Error logging goes to syslog. This is a Debian improvement :)
 #
 # Here you can see queries with especially long duration
-log_slow_queries       = /var/log/mysql/mysql-slow.log
-long_query_time = 2
+log_slow_queries       = <%= node[:mysql][:tunable][:log_slow_queries] %>
+long_query_time = <%= node[:mysql][:tunable][:long_query_time] %>
 log-queries-not-using-indexes
 #
 # The following can be used as easy to replay backup logs or for replication.
@@ -111,6 +110,7 @@ max_binlog_size         = 100M
 # Read the manual for more InnoDB related options. There are many!
 # You might want to disable InnoDB to shrink the mysqld process by circa 100MB.
 #skip-innodb
+innodb_buffer_pool_size = <%= node[:mysql][:tunable][:innodb_buffer_pool_size] %>
 #
 # * Federated
 #
