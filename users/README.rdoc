@@ -14,11 +14,11 @@ This cookbook is specific for setting up sysadmin group and users for now.
 
 Use knife to create a data bag for users.
 
-    knife create_data --bag=users
+    knife data bag create users
 
 Create a user.
 
-    knife create_item --bag=users --id bofh
+    knife data bag create users bofh
     {
       "id": "bofh",
       "ssh_keys": "",
