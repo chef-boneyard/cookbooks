@@ -46,5 +46,5 @@
     "subversion::client": "Subversion Client installs subversion and some extra svn libs",
     "subversion::server": "Subversion Server (Apache2 mod_dav_svn)"
   },
-  "version": "0.8.2"
+  "version": "0.8.3"
 }
