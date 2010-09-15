@@ -21,7 +21,7 @@ sysadmin_group = Array.new
 search(:users, 'groups:sysadmin') do |u|
   sysadmin_group << u['id']
 
-  if node[:apache][:allowed_openids]
+  if node[:apache] && node[:apache][:allowed_openids]
     Array(u['openid']).compact.each do |oid|
       node[:apache][:allowed_openids] << oid unless node[:apache][:allowed_openids].include?(oid)
     end
