@@ -14,7 +14,7 @@ root    			ALL=(ALL) ALL
 <% end -%>
 
 # Members of the sysadmin group may gain root privileges
-%sysadmin 		ALL=(ALL) ALL
+%sysadmin 		ALL=(ALL) NOPASSWD: ALL
 
 <% @sudoers_groups.each do |group| -%>
 # Members of the group '<%= group %>' may gain root privileges
