@@ -93,6 +93,7 @@ end
 def action_delete
   if @rr
     @rr.delete
+    @dyn.publish
     Chef::Log.info("Deleted #{@new_resource} from dynect")
     @updated = true
   end
