@@ -1,0 +1,46 @@
+{
+  "version": "0.0.1",
+  "replacing": {
+
+  },
+  "maintainer_email": "mm@agileweboperations.com",
+  "description": "Installs RVM (Ruby Version Manager) and REE (Ruby Enterprise Edition) and makes REE the default ruby on the box",
+  "groupings": {
+
+  },
+  "recipes": {
+
+  },
+  "recommendations": {
+
+  },
+  "attributes": {
+
+  },
+  "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
+  "suggestions": {
+
+  },
+  "dependencies": {
+    "build-essential": [
+
+    ]
+  },
+  "conflicting": {
+
+  },
+  "license": "All rights reserved",
+  "name": "rvm_ree_default",
+  "providing": {
+
+  },
+  "platforms": {
+    "debian": [
+
+    ],
+    "ubuntu": [
+
+    ]
+  },
+  "maintainer": "www.agileweboperations.com"
+}
