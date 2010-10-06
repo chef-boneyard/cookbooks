@@ -31,6 +31,7 @@ search(:users, 'groups:sysadmin') do |u|
 
   user u['id'] do
     uid u['uid']
+    gid u['gid']
     shell u['shell']
     comment u['comment']
     supports :manage_home => true
@@ -39,14 +40,14 @@ search(:users, 'groups:sysadmin') do |u|
 
   directory "#{home_dir}/.ssh" do
     owner u['id']
-    group u['id']
+    group u['gid'] || u['id']
     mode "0700"
   end
 
   template "#{home_dir}/.ssh/authorized_keys" do
     source "authorized_keys.erb"
     owner u['id']
-    group u['id']
+    group u['gid'] || u['id']
     mode "0600"
     variables :ssh_keys => u['ssh_keys']
   end
