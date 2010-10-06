@@ -73,7 +73,7 @@ unix_socket_directory = '/var/run/postgresql'		# (change requires restart)
 # - Security and Authentication -
 
 #authentication_timeout = 1min		# 1s-600s
-<% if node.postgresql.ssl -%>
+<% if node[:postgresql][:ssl] -%>
 ssl = true				# (change requires restart)
 <% else -%>
 #ssl = off				# (change requires restart)

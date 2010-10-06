@@ -19,12 +19,7 @@
 
 include_recipe "postgresql::client"
 
-case node[:postgresql][:version]
-when "8.3"
-  node.default[:postgresql][:ssl] = "off"
-when "8.4"
-  node.default[:postgresql][:ssl] = "true"
-end
+node.default[:postgresql][:ssl] = node[:postgresql][:version].to_f > 8.3
 
 package "postgresql"
 
