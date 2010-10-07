@@ -49,6 +49,7 @@ aws_ebs_volume "#{node.db_snapshot.db_role.first}_#{node.db_snapshot.app_environ
   snapshots_to_keep node.db_snapshot.snapshots_to_keep
   action :snapshot
   volume_id node.db_snapshot.volume_id
+  ignore_failure true # if this fails, continue to unfreeze and unlock
 end
 
 execute "xfs unfreeze" do
