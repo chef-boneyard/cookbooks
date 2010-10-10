@@ -23,6 +23,17 @@ proxy
 
 Installs the apt-proxy package and service so the system can be an APT proxy.
 
+USAGE
+=====
+
+Put `recipe[apt]` first in the run list. If you have other recipes that you want to use to configure how apt behaves, like new sources, notify the execute resource to run, e.g.:
+
+		template "/etc/apt/sources.list.d/my_apt_sources.list" do
+		  notifies :run, resources(:execute => "apt-get update"), :immediately
+		end
+
+The above will run during execution phase since it is a normal template resource, and should appear before other package resources that need the sources in the template.
+
 LICENSE AND AUTHOR
 ==================
 
