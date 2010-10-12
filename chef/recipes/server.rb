@@ -45,9 +45,9 @@ template "/etc/chef/server.rb" do
   group root_group
   mode "644"
   if node[:chef][:webui_enabled]
-    notifies :restart, resources( :service => "chef-solr", :service => "chef-solr-indexer", :service => "chef-server", :service => "chef-server-webui"), :delayed
+    notifies :restart, resources( :service => [ "chef-solr", "chef-solr-indexer", "chef-server", "chef-server-webui" ]), :delayed
   else
-    notifies :restart, resources( :service => "chef-solr", :service => "chef-solr-indexer", :service => "chef-server"), :delayed
+    notifies :restart, resources( :service => [ "chef-solr", "chef-solr-indexer", "chef-server" ]), :delayed
   end
 end
 

@@ -147,7 +147,7 @@ if node[:riak][:package][:type].eql?("binary")
   service "riak" do
     supports :start => true, :stop => true, :status => true, :restart => true
     action [ :enable ]
-    subscribes :restart, resources(:template => "#{node[:riak][:package][:config_dir]}/app.config",
-                                   :template => "#{node[:riak][:package][:config_dir]}/vm.args")
+    subscribes :restart, resources(:template => [ "#{node[:riak][:package][:config_dir]}/app.config",
+                                                  "#{node[:riak][:package][:config_dir]}/vm.args" ])
   end
 end

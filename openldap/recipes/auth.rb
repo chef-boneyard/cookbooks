@@ -49,7 +49,7 @@ cookbook_file "/etc/nsswitch.conf" do
   owner "root"
   group "root"
   notifies :restart, resources(:service => "nscd"), :immediately
-  notifies :run, resources(:execute => "nscd-clear-passwd", :execute => "nscd-clear-group"), :immediately
+  notifies :run, resources(:execute => [ "nscd-clear-passwd", "nscd-clear-group" ]), :immediately
 end
 
 %w{ account auth password session }.each do |pam|
