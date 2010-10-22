@@ -51,11 +51,17 @@ end
 o.run_action(:install)
 
 case node[:platform]
-when "centos","redhat", "suse", "fedora"
-  package "ruby-mysql" do
-    action :install
+when "centos","redhat", "suse", "fedora","debian","ubuntu"
+  p = package "ruby-mysql" do
+    package_name value_for_platform(
+      ["debian", "ubuntu"] => { "default" => "libmysql-ruby" },
+      ["centos","redhat","suse","fedora"] => { "default" => "ruby-mysql" },
+      "default" => "ruby-mysql"
+    )
+    action :nothing
   end
 
+  p.run_action(:install)
 else
   r = gem_package "mysql" do
     action :nothing
