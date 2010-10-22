@@ -1,9 +1,9 @@
 #
+# Author:: Joshua Timberman <joshua@opscode.com>
 # Cookbook Name:: radiant
-# Attributes:: radiant
+# Recipe:: db_bootstrap
 #
-# Copyright 2009, Opscode, Inc.
-# Copyright 2009, Daniel DeLeo
+# Copyright 2010, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,17 +18,18 @@
 # limitations under the License.
 #
 
-default[:radiant][:branch]          = "HEAD"
-default[:radiant][:migrate]         = false
-default[:radiant][:migrate_command] = "rake db:migrate"
-default[:radiant][:environment]     = "production"
-default[:radiant][:revision]        = "HEAD"
-default[:radiant][:action]          = "nothing"
-default[:radiant][:edge]            = false
-default[:radiant][:db_bootstrap]    = <<EOS
-yes | rake #{radiant[:environment]} db:bootstrap \
+app = node.run_state[:current_app]
+
+node.set[:radiant][:db_bootstrap] = <<EOS
+yes | rake #{node[:app_environment]} db:bootstrap \
 ADMIN_NAME=Administrator \
 ADMIN_USERNAME=admin \
 ADMIN_PASSWORD=radiant \
 DATABASE_TEMPLATE=empty.yml
 EOS
+
+execute "db_bootstrap" do
+  command node[:radiant][:db_bootstrap]
+  cwd "#{app['deploy_to']}/current"
+  ignore_failure true
+end

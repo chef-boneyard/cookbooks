@@ -2,19 +2,11 @@
 
 Installs RadiantCMS, a Ruby on Rails content management system.
 
-= CHANGELOG:
-
-Changes to note in this version (from COOK-117).
-
-* added gem install capabilities
-* default to gem install
-* removed dependency on ezmobius/chef-deploy (use deploy provider instead)
-* fixed tiny error in attributes.
-* updated attribute syntax
-
 = REQUIREMENTS:
 
 == Platform:
+
+The db_bootstrap recipe requires using the Opscode application cookbook.
 
 Tested on Ubuntu 9.04, uses the Opscode Apache2 cookbook which is Ubuntu/Debian specific.
 
@@ -38,6 +30,7 @@ Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
 * radiant[:environment] - Rails environment to use, default is production.
 * radiant[:revision] - Revision to deploy, default HEAD.
 * radiant[:action] - Whether to deploy, rollback or nothing, default nothing.
+* radiant[:db_bootstrap] - rake task to bootstrap a fresh database, use once and with care, it will delete the database contents.
 
 = USAGE:
 
@@ -52,6 +45,18 @@ This recipe uses SQLite3 for the database by default. To set up the default data
 Change as required for your environment. If the target system doesn't have /usr/bin/yes, use echo 'yes' instead.
 
 Radiant supports other database backends. We don't yet have automation ready to set up a database user and grant privileges, or creating the database itself.
+
+== Database Bootstrap
+
+This recipe is DESTRUCTIVE.
+
+Normally when running the db:bootstrap rake task in Radiant, it prompts the user:
+
+This task will destroy any data in the database. Are you sure you want to continue? [yn] y
+
+The yes | below will automatically say yes. Only use this recipe if you know what you are doing. Otherwise, run the db:bootstrap manually.
+
+This recipe is designed to be used with the Opscode application cookbook, and only one time.
 
 = LICENSE and AUTHOR:
 
