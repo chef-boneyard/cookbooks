@@ -18,7 +18,20 @@
 # limitations under the License.
 #
 
-app = node.run_state[:current_app]
+# THIS RECIPE IS DESTRUCTIVE. Normally when running the db:bootstrap rake
+# task in Radiant, it prompts the user:
+#
+# This task will destroy any data in the database. Are you sure you want to 
+# continue? [yn] y
+# 
+# The yes | below will automatically say yes. Only use this recipe if you
+# know what you are doing. Otherwise, run the db:bootstrap manually.
+#
+# The file resource below for the radiant_config_cache.txt is because when
+# the db:bootstrap is run by root in the recipe, the file is not writable
+# by the default user that runs the application.
+
+app = data_bag_item("apps", "radiant")
 
 node.set[:radiant][:db_bootstrap] = <<EOS
 yes | rake #{node[:app_environment]} db:bootstrap \
@@ -32,4 +45,9 @@ execute "db_bootstrap" do
   command node[:radiant][:db_bootstrap]
   cwd "#{app['deploy_to']}/current"
   ignore_failure true
+end
+
+file "#{app['deploy_to']}/current/tmp/radiant_config_cache.txt" do
+  owner app['owner']
+  group app['group']
 end

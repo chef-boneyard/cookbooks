@@ -54,7 +54,7 @@ Normally when running the db:bootstrap rake task in Radiant, it prompts the user
 
 This task will destroy any data in the database. Are you sure you want to continue? [yn] y
 
-The yes | below will automatically say yes. Only use this recipe if you know what you are doing. Otherwise, run the db:bootstrap manually.
+This recipe wraps the rake db:bootstrap from above. Only use this recipe if you know what you are doing. Otherwise, run the db:bootstrap manually.
 
 This recipe is designed to be used with the Opscode application cookbook, and only one time.
 
