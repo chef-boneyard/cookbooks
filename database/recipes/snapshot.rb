@@ -1,7 +1,7 @@
 #
 # Author:: AJ Christensen (<aj@opscode.com>)
 # Cookbook Name:: database
-# Recipe:: ebs_volume
+# Recipe:: snapshot
 #
 # Copyright 2009-2010, Opscode, Inc.
 #
@@ -20,7 +20,6 @@
 include_recipe "aws"
 include_recipe "xfs"
 
-require 'rubygems'
 Gem.clear_paths
 require 'mysql'
 
@@ -28,7 +27,7 @@ require 'mysql'
   Chef::Application.fatal!("Required db_snapshot configuration #{key} not found.", -47) unless node.db_snapshot.has_key? key
 end
 
-mysql_database node.db_snapshot.app_environment do
+mysql_database "locking tables for #{node.db_snapshot.app_environment}" do
   provider "mysql_database"
   action :flush_tables_with_read_lock
   host "localhost"
@@ -56,6 +55,6 @@ execute "xfs unfreeze" do
   command "xfs_freeze -u #{node.db_snapshot.ebs_vol_dev}"
 end
 
-mysql_database node.db_snapshot.app_environment do
+mysql_database "unflushing tables for #{node.db_snapshot.app_environment}" do
   action :unflush_tables
 end
