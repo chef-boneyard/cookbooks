@@ -7,7 +7,6 @@ This cookbook is written primarily to use MySQL and the Opscode mysql cookbook. 
 
 This cookbook does not automatically restore database dumps, but does install tools to help with that.
 
----
 Requirements
 ============
 
@@ -19,12 +18,11 @@ The following Opscode cookbooks are dependencies:
 * xfs
 * aws
 
----
 Recipes
 =======
 
-ebs_volume
-----------
+`ebs_volume`
+------------
 
 Loads the aws information from the data bag. Searches the applications data bag for the database master or slave role and checks that role is applied to the node. Loads the EBS information and the master information from data bags. Uses the aws cookbook LWRP, `aws_ebs_volume` to manage the volume.
 
@@ -50,9 +48,9 @@ Searches the apps databag for applications, and for each one it will check that 
 
 Then it adds the application databag database settings to a hash, to use later.
 
-It sets up the template resource for `/etc/mysql/grants.sql`, passing in the database settings so privileges for application specific database users can be created.
+It sets up the template resource for `/etc/mysql/app_grants.sql`, passing in the database settings so privileges for application specific database users can be created.
 
-Then it will iterate over the databases and create them with the mysqladmin command, detecting their presence with the mysql rubygem. At a later date the database creation will probably be handed off to a resource/provider that uses the rubygem.
+Then it will iterate over the databases and create them with the `mysql_database` LWRP, detecting their presence with the mysql rubygem.
 
 slave
 -----
@@ -62,26 +60,22 @@ _TODO_: Retrieve the master status from a data bag, then start replication using
 snapshot
 --------
 
-Run via chef-solo. Retrieves the db snapshot configuration from the specified JSON file. Uses the `mysql_database` LWRP to lock and unlock tables, and does a filesystem freeze and EBS snapshot.
+Run via Chef Solo. Retrieves the db snapshot configuration from the specified JSON file. Uses the `mysql_database` LWRP to lock and unlock tables, and does a filesystem freeze and EBS snapshot.
 
----
 Deprecated Recipes
 ==================
 
-The following recipes are no longer used as they have been deprecated in functionality both the above.
+The following recipe is considered deprecated. It is kept for reference purposes.
 
-ebs_backup
-----------
+`ebs_backup`
+------------
 
-Older style of doing mysql snapshot and replication using Adam Jacob's [ec2_mysql][0] script and library.
+Older style of doing mysql snapshot and replication using Adam Jacob's [ec2_mysql](http://github.com/adamhjk/ec2_mysql) script and library.
 
-[0]: http://github.com/adamhjk/ec2_mysql
-
----
 Data Bags
 =========
 
-This recipe uses the apps data bag item for the specified application; see the `application` cookbook's README.txt. It also creates data bag items in a bag named 'aws' for storing volume information. In order to interact with EC2, it expects aws to have a main item:
+This cookbook uses the apps data bag item for the specified application; see the `application` cookbook's README.md. It also creates data bag items in a bag named 'aws' for storing volume information. In order to interact with EC2, it expects aws to have a main item:
 
     {
       "id": "main",
@@ -101,9 +95,8 @@ Note: with the Open Source Chef Server, the server using the database recipes mu
       ...
     }
 
-This is not required if the Chef Server is the Opscode Platform.
+This is not required if the Chef Server is the Opscode Platform, instead use the ACL feature to modify access for the node to be able to update the data bag.
 
----
 Usage
 =====
 
