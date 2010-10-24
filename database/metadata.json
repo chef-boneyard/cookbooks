@@ -39,5 +39,5 @@
     "database::master": "Creates application specific user and database",
     "database::snapshot": "Locks tables and freezes XFS filesystem for replication, assumes EC2 + EBS"
   },
-  "version": "0.7.0"
+  "version": "0.7.1"
 }
