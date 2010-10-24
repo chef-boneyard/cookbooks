@@ -26,3 +26,8 @@ attribute "memcached/user",
   :display_name => "Memcached User",
   :description => "User to run memcached instance as",
   :default => "nobody"
+
+attribute "memcached/listen",
+  :display_name => "Memcached IP Address",
+  :description => "IP address to use for memcached instance",
+  :default => "0.0.0.0"
