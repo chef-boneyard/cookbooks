@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: ruby
-# Recipe:: default
+# Recipe:: symlinks
 #
 # Copyright 2010, FindsYou Limited
 #
@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-ruby_packages node[:languages][:ruby][:default_version] || "1.8"
+ruby_symlinks node[:languages][:ruby][:default_version] || "1.8"
