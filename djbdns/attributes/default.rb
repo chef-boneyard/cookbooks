@@ -35,13 +35,13 @@ default[:djbdns][:tinydns_internal_resolved_domain] = domain
 
 case platform
 when "ubuntu"
-  if platform_version >= "8.10"
+  if platform_version.to_f >= 8.10
     set[:djbdns][:bin_dir] = "/usr/bin"
   else
     set[:djbdns][:bin_dir] = "/usr/local/bin"
   end 
 when "debian"
-  if platform_version >= "5.0"
+  if platform_version.to_f >= 5.0
     set[:djbdns][:bin_dir] = "/usr/bin"
   else
     set[:djbdns][:bin_dir] = "/usr/local/bin"
