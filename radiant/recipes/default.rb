@@ -91,5 +91,5 @@ web_app "#{appname}" do
   template "#{appname}.conf.erb"
   server_name "#{appname}.#{node[:domain]}"
   server_aliases [ "#{appname}", node[:hostname] ]
-  rails_env "production"
+  rails_env node[:radiant][:environment]
 end
