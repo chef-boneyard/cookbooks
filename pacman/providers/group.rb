@@ -26,7 +26,7 @@ action :install do
     run_command_with_systems_locale(
       :command => "pacman --sync --noconfirm --noprogressbar#{expand_options(@new_resource.options)} #{name}"
     )
-    @updated = true
+    new_resource.updated_by_last_action = true
   end
 end
 
@@ -35,7 +35,7 @@ action :remove do
     run_command_with_systems_locale(
       :command => "pacman --remove --noconfirm --noprogressbar#{expand_options(@new_resource.options)} #{name}"
     )
-    @updated = true
+    new_resource.updated_by_last_action = true
   end
 end
 
