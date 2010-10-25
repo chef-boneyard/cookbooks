@@ -47,5 +47,5 @@
     "postgresql::server": "Installs postgresql server packages, debian family style",
     "postgresql::redhat": "Installs postgresql server packages, redhat family style"
   },
-  "version": "0.11.0"
+  "version": "0.11.1"
 }
