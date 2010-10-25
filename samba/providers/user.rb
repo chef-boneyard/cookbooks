@@ -27,7 +27,7 @@ action :create do
 		execute "Create #{new_resource.name}" do
 			command "echo -ne '#{pw}\n#{pw}\n' | smbpasswd -s -a #{new_resource.name}"
 		end
-		@updated = true
+		new_resource.updated_by_last_action = true
 	end
 end
 
@@ -36,7 +36,7 @@ action :enable do
 		execute "Enable #{new_resource.name}" do
 			command "smbpasswd -e #{new_resource.name}"
 		end
-		@updated = true
+		new_resource.updated_by_last_action = true
 	end
 end
 
@@ -45,7 +45,7 @@ action :delete do
 		execute "Delete #{new_resource.name}" do
 			command "smbpasswd -x #{new_resource.name}"
 		end
-		@updated = true
+		new_resource.updated_by_last_action = true
 	end
 end
 
