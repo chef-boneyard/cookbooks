@@ -30,12 +30,12 @@ default["samba"]["socket_options"] = "TCP_NODELAY"
 
 case platform
 when "arch"
-	set["samba"]["config"] = "/etc/samba/smb.conf"
-	set["samba"]["log_dir"] = "/var/log/samba/log.%m"
+  set["samba"]["config"] = "/etc/samba/smb.conf"
+  set["samba"]["log_dir"] = "/var/log/samba/log.%m"
 when "redhat","centos","fedora"
-	set["samba"]["config"] = "/etc/samba/smb.conf"
-	set["samba"]["log_dir"] = "/var/log/samba/log.%m"
+  set["samba"]["config"] = "/etc/samba/smb.conf"
+  set["samba"]["log_dir"] = "/var/log/samba/log.%m"
 else
-	set["samba"]["config"] = "/etc/samba/smb.conf"
-	set["samba"]["log_dir"] = "/var/log/samba/%m.log"
+  set["samba"]["config"] = "/etc/samba/smb.conf"
+  set["samba"]["log_dir"] = "/var/log/samba/%m.log"
 end
