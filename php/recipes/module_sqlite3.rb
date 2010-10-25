@@ -21,7 +21,7 @@
 case node[:platform]
   when "centos", "redhat", "fedora", "suse"
     #already there in centos, --with-pdo-sqlite=shared
-  when "debian" "ubuntu"
+  when "debian", "ubuntu"
     package "php5-sqlite" do
       action :upgrade
     end

@@ -18,7 +18,12 @@
 # limitations under the License.
 #
 
-pack = value_for_platform([ "centos", "redhat", "fedora", "suse" ] => {"default" => "php-mysql"}, "default" => "php5-mysql")
+pack = value_for_platform(
+  [ "centos", "redhat", "fedora", "suse" ] => {
+    "default" => "php-mysql"
+  },
+  "default" => "php5-mysql"
+)
 
 package pack do
   action :upgrade
