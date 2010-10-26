@@ -38,10 +38,6 @@ Recipes tested with Ohai >= 0.5.6
     - community / formerly the software repository
     - firmware / Convenient but unsupported by Dell
 
-* yumrepo::vmware-tools
-  - Provides RPM keys and repo file for
-    VMware ESX 4.1 release of VMware Tools for RHEL5 and CentOS5
-
 = LICENSE and AUTHOR:
 
 Author:: Eric G. Wolfe

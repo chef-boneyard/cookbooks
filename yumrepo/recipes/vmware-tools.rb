@@ -20,6 +20,11 @@
 case node[:platform] when "redhat","centos"
 
   if node[:platform_version].to_f >= 5 and node[:repo][:vmware][:enabled]
+
+    package "VMwareTools" do
+      action :remove
+    end
+
     template "/etc/yum.repos.d/vmware-tools.repo" do
       mode "0644"
       source "vmware-tools.repo.erb"
@@ -40,6 +45,11 @@ case node[:platform] when "redhat","centos"
 
     package "vmware-open-vm-tools-xorg-drv-mouse" do
       action :install
+    end
+
+    service "vmware-tools" do
+      supports :status => true, :restart => true
+      action [ :enable, :start ]
     end
   end
 

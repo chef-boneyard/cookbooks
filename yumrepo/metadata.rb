@@ -82,7 +82,8 @@ attribute "repo/dellomsa/enabled",
 attribute "repo/vmware/release",
   :display_name => "VMware ESX release version",
   :description => "Used in determining the VMware repo URL",
-  :default => "4.1"
+  :default => "4.1",
+  :required => "optional"
 
 attribute "repo/vmware/url",
   :display_name => "VMware Tools Repository URL",

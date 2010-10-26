@@ -36,7 +36,7 @@ else
   default[:repo][:dellfirmware][:enabled] = false
   default[:repo][:dellomsa][:enabled] = false
 end
-default[:repo][:vmware][:release] = 4.1
+default[:repo][:vmware][:url] = "http://packages.vmware.com/tools/esx/4.1/rhel5/$basearch"
 default[:repo][:vmware][:key] = "VMWARE-PACKAGING-GPG-KEY"
 if node[:dmi][:system][:manufacturer] =~ /vmware/i and node[:platform_version].to_f >= 5
   default[:repo][:vmware][:enabled] = true
