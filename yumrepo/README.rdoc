@@ -1,0 +1,61 @@
+= DESCRIPTION:
+
+Manages Yum Repository files in /etc/yum.repos.d on CentOS / RHEL 5.x
+
+= REQUIREMENTS:
+
+This cookbook requires RHEL or CentOS 5.x.  It has not been tested on
+other platforms.  It probably will not work with RHEL 4 or CentOS 4,
+especially if you have not taken the steps to install yum on that
+platform.
+
+The yumrepo::dell recipe requires Dell manufactured hardware.  This
+recipe should automatically disable itself by default if non-Dell
+hardware is detected by Ohai
+
+The yumrepo::vmware-tools recipe requires a VMWare Virtual Machine.
+This recipe should automatically disable itslef by default if
+non-VMWare hardware is detected by Ohai.
+
+Recipes tested with Ohai >= 0.5.6
+
+= USAGE:
+
+* yumrepo::default 
+
+  - Provides RPM keys and repo file for
+    Fedora EPEL (Extra Packages for Enterprise Linux)
+
+* yumrepo::elff
+
+  - Provides RPM keys and repo file for
+    ELFF (Enterprise Linux Fast Forward)
+
+* yumrepo::dell
+
+  - Provides repo files for the following Dell repositories.
+    - hardware / Open Manage Server Administrator
+    - community / formerly the software repository
+    - firmware / Convenient but unsupported by Dell
+
+* yumrepo::vmware-tools
+  - Provides RPM keys and repo file for
+    VMware ESX 4.1 release of VMware Tools for RHEL5 and CentOS5
+
+= LICENSE and AUTHOR:
+
+Author:: Eric G. Wolfe
+Copyright:: 2010
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
