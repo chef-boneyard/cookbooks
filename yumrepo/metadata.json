@@ -1,0 +1,282 @@
+{
+  "attributes": {
+    "repo/dellfirmware/enabled": {
+      "required": "optional",
+      "calculated": true,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "The Dell Firmware repository boolean. This is dynamically determined by hardware platform.",
+      "display_name": "Dell Firmware repo boolean"
+    },
+    "repo/dellcommunity/url": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "http://linux.dell.com/repo/community//mirrors.cgi?osname=el$releasever&basearch=$basearch",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "URL for the Dell Community repository",
+      "display_name": "Dell Community repo URL"
+    },
+    "repo": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "hash",
+      "recipes": [
+
+      ],
+      "description": "Hash of repo attributes",
+      "display_name": "repo"
+    },
+    "repo/vmware/key": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "VMWARE-PACKAGING-GPG-KEY",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "VMware GPG Signing Key",
+      "display_name": "VMware Key"
+    },
+    "repo/dellomsa/specific/url": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&sys_ven_id=$sys_ven_id&sys_dev_id=$sys_dev_id&dellsysidpluginver=$dellsysidpluginver",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "URL for the Dell OMSA hardware specific repository",
+      "display_name": "Dell OMSA specific repo URL"
+    },
+    "repo/elff/enabled": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "true",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "Boolean flag for the ELFF repository",
+      "display_name": "ELFF enable"
+    },
+    "repo/epel/key": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "RPM-GPG-KEY-EPEL",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "EPEL GPG signing key",
+      "display_name": "EPEL key"
+    },
+    "repo/dellfirmware/url": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "http://linux.dell.com/repo/firmware/mirrors.pl?dellsysidpluginver=$dellsysidpluginver",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "URL for the Dell Firmware repository",
+      "display_name": "Dell Firmware repo URL"
+    },
+    "repo/elff/url": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "http://download.elff.bravenet.com/5/$basearch",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "URL for the ELFF repository",
+      "display_name": "ELFF URL"
+    },
+    "repo/vmware/enabled": {
+      "required": "optional",
+      "calculated": true,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "The VMware repository boolean. This is dynamically determined by hardware platform.",
+      "display_name": "VMware repo boolean"
+    },
+    "repo/dellomsa/indep/url": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&dellsysidpluginver=$dellsysidpluginver",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "URL for the Dell OMSA hardware independent repository",
+      "display_name": "Dell OMSA indep repo URL"
+    },
+    "repo/vmware/url": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "http://packages.vmware.com/tools/esx/4.1/rhel5/$basearch",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "The URL for the VMWare Tools yum repository",
+      "display_name": "VMware Tools Repository URL"
+    },
+    "repo/dellomsa/enabled": {
+      "required": "optional",
+      "calculated": true,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "Boolean for the Dell OMSA repositories. This is dynamically determined by hardware platform.",
+      "display_name": "Dell OMSA repo boolean"
+    },
+    "repo/epel/url": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-5&arch=$basearch",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "URL for the EPEL repository",
+      "display_name": "EPEL URL"
+    },
+    "repo/vmware/release": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "4.1",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "Used in determining the VMware repo URL",
+      "display_name": "VMware ESX release version"
+    },
+    "repo/dellcommunity/enabled": {
+      "required": "optional",
+      "calculated": true,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "The Dell Community repository boolean. This is dynamically determined by hardware platform.",
+      "display_name": "Dell Community repo boolean"
+    },
+    "repo/elff/key": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "RPM-GPG-KEY-ELFF",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "ELFF GPG signing key",
+      "display_name": "ELFF key"
+    },
+    "repo/epel/enabled": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "true",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "Boolean flag for the EPEL repository",
+      "display_name": "EPEL enable"
+    }
+  },
+  "providing": {
+  },
+  "long_description": "= DESCRIPTION:\n\nManages Yum Repository files in /etc/yum.repos.d on CentOS / RHEL 5.x\n\n= REQUIREMENTS:\n\nThis cookbook requires RHEL or CentOS 5.x.  It has not been tested on\nother platforms.  It probably will not work with RHEL 4 or CentOS 4,\nespecially if you have not taken the steps to install yum on that\nplatform.\n\nThe yumrepo::dell recipe requires Dell manufactured hardware.  This\nrecipe should automatically disable itself by default if non-Dell\nhardware is detected by Ohai\n\nThe yumrepo::vmware-tools recipe requires a VMWare Virtual Machine.\nThis recipe should automatically disable itslef by default if\nnon-VMWare hardware is detected by Ohai.\n\nRecipes tested with Ohai >= 0.5.6\n\n= USAGE:\n\n* yumrepo::default \n\n  - Provides RPM keys and repo file for\n    Fedora EPEL (Extra Packages for Enterprise Linux)\n\n* yumrepo::elff\n\n  - Provides RPM keys and repo file for\n    ELFF (Enterprise Linux Fast Forward)\n\n* yumrepo::dell\n\n  - Provides repo files for the following Dell repositories.\n    - hardware / Open Manage Server Administrator\n    - community / formerly the software repository\n    - firmware / Convenient but unsupported by Dell\n\n= LICENSE and AUTHOR:\n\nAuthor:: Eric G. Wolfe\nCopyright:: 2010\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n\n",
+  "recipes": {
+  },
+  "license": "Apache 2.0",
+  "maintainer": "Eric G. Wolfe",
+  "replacing": {
+  },
+  "dependencies": {
+  },
+  "maintainer_email": "wolfe21@marshall.edu",
+  "groupings": {
+  },
+  "recommendations": {
+  },
+  "description": "Recipes install and configure several popular RHEL and CentOS 5.x repositories",
+  "suggestions": {
+  },
+  "platforms": {
+    "centos": [
+      ">= 5"
+    ],
+    "redhat": [
+      ">= 5"
+    ]
+  },
+  "version": "0.0.1",
+  "name": "yumrepo",
+  "conflicting": {
+  }
+}
