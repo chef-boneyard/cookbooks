@@ -17,29 +17,37 @@
 # limitations under the License.
 #
 
+# EPEL (default)
 default[:repo][:epel][:url] = "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-5&arch=$basearch"
 default[:repo][:epel][:enabled] = true
 default[:repo][:epel][:key] = "RPM-GPG-KEY-EPEL"
+
+# ELFF
 default[:repo][:elff][:url] = "http://download.elff.bravenet.com/5/$basearch"
 default[:repo][:elff][:enabled] = true
 default[:repo][:elff][:key] = "RPM-GPG-KEY-ELFF"
+
+# Dell
 default[:repo][:dellcommunity][:url] = "http://linux.dell.com/repo/community//mirrors.cgi?osname=el$releasever\&basearch=$basearch"
 default[:repo][:dellfirmware][:url] = "http://linux.dell.com/repo/firmware/mirrors.pl?dellsysidpluginver=$dellsysidpluginver"
 default[:repo][:dellomsa][:indep][:url] = "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&dellsysidpluginver=$dellsysidpluginver"
 default[:repo][:dellomsa][:specific][:url] = "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&sys_ven_id=$sys_ven_id&sys_dev_id=$sys_dev_id&dellsysidpluginver=$dellsysidpluginver"
 if node[:dmi][:system][:manufacturer] =~ /dell/i and node[:platform_version].to_f >= 5
-  default[:repo][:dellcommunity][:enabled] = true
-  default[:repo][:dellfirmware][:enabled] = true
-  default[:repo][:dellomsa][:enabled] = true
+  set[:repo][:dellcommunity][:enabled] = true
+  set[:repo][:dellfirmware][:enabled] = true
+  set[:repo][:dellomsa][:enabled] = true
 else 
-  default[:repo][:dellcommunity][:enabled] = false
-  default[:repo][:dellfirmware][:enabled] = false
-  default[:repo][:dellomsa][:enabled] = false
+  set[:repo][:dellcommunity][:enabled] = false
+  set[:repo][:dellfirmware][:enabled] = false
+  set[:repo][:dellomsa][:enabled] = false
 end
-default[:repo][:vmware][:url] = "http://packages.vmware.com/tools/esx/4.1/rhel5/$basearch"
+
+# VMware
+default[:repo][:vmware][:release] = "4.1"
+default[:repo][:vmware][:url] = "http://packages.vmware.com/tools/esx/#{repo[:vmware][:release]}/rhel5/$basearch"
 default[:repo][:vmware][:key] = "VMWARE-PACKAGING-GPG-KEY"
 if node[:dmi][:system][:manufacturer] =~ /vmware/i and node[:platform_version].to_f >= 5
-  default[:repo][:vmware][:enabled] = true
+  set[:repo][:vmware][:enabled] = true
 else
-  default[:repo][:vmware][:enabled] = false
+  set[:repo][:vmware][:enabled] = false
 end
