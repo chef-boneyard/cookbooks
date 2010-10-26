@@ -3,7 +3,7 @@ maintainer_email "wolfe21@marshall.edu"
 license          "Apache 2.0"
 description      "Recipes install and configure several popular RHEL and CentOS 5.x repositories"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.0.1"
+version          "0.0.2"
 
 %w{ redhat centos }.each do |os|
   supports os, ">= 5"
@@ -14,6 +14,7 @@ attribute "repo",
   :description => "Hash of repo attributes",
   :type => "hash"
 
+# EPEL (default)
 attribute "repo/epel/url",
   :display_name => "EPEL URL",
   :description => "URL for the EPEL repository",
@@ -29,6 +30,7 @@ attribute "repo/epel/key",
   :description => "EPEL GPG signing key",
   :default => "RPM-GPG-KEY-EPEL" 
 
+# ELFF
 attribute "repo/elff/url",
   :display_name => "ELFF URL",
   :description => "URL for the ELFF repository",
@@ -44,6 +46,7 @@ attribute "repo/elff/key",
   :description => "ELFF GPG signing key",
   :default => "RPM-GPG-KEY-ELFF"
 
+# Dell
 attribute "repo/dellcommunity/url",
   :display_name => "Dell Community repo URL",
   :description => "URL for the Dell Community repository",
@@ -79,16 +82,16 @@ attribute "repo/dellomsa/enabled",
   :description => "Boolean for the Dell OMSA repositories. This is dynamically determined by hardware platform.",
   :calculated => true
 
+# VMware
 attribute "repo/vmware/release",
   :display_name => "VMware ESX release version",
   :description => "Used in determining the VMware repo URL",
-  :default => "4.1",
-  :required => "optional"
+  :default => "4.1"
 
 attribute "repo/vmware/url",
   :display_name => "VMware Tools Repository URL",
-  :description => "The URL for the VMWare Tools yum repository",
-  :default => "http://packages.vmware.com/tools/esx/4.1/rhel5/$basearch"
+  :description => "The URL for the VMWare Tools yum repository.  You can override the whole url or just override[:repo][:vmware][:release]",
+  :default => "http://packages.vmware.com/tools/esx/\#{repo[:vmware][:release]}/rhel5/$basearch"
 
 attribute "repo/vmware/key",
   :display_name => "VMware Key",

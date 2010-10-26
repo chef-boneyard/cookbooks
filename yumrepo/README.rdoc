@@ -14,7 +14,7 @@ recipe should automatically disable itself by default if non-Dell
 hardware is detected by Ohai
 
 The yumrepo::vmware-tools recipe requires a VMWare Virtual Machine.
-This recipe should automatically disable itslef by default if
+This recipe should automatically disable itself by default if
 non-VMWare hardware is detected by Ohai.
 
 Recipes tested with Ohai >= 0.5.6
@@ -25,11 +25,13 @@ Recipes tested with Ohai >= 0.5.6
 
   - Provides RPM keys and repo file for
     Fedora EPEL (Extra Packages for Enterprise Linux)
+  * See http://fedoraproject.org/wiki/EPEL for more info
 
 * yumrepo::elff
 
   - Provides RPM keys and repo file for
     ELFF (Enterprise Linux Fast Forward)
+  * See http://elff.bravenet.com for more info
 
 * yumrepo::dell
 
@@ -37,6 +39,18 @@ Recipes tested with Ohai >= 0.5.6
     - hardware / Open Manage Server Administrator
     - community / formerly the software repository
     - firmware / Convenient but unsupported by Dell
+    * See http://linux.dell.com for more info
+
+* yumrepo::vmware-tools
+
+  - Uninstalls VMwareTools rpm installed from the
+    VMware ESX "Install/Upgrade VMware Tools" menu
+  - Does not uninstall manually install vmware-tools
+    packages, you need to run vmware-uninstall-tools.pl
+    to use the RPM packages from the repo.
+  - Provides RPM keys and repo file for
+    VMware Tools for the ESX 4.1 release
+  * See http://packages.vmware.com for more info
 
 = LICENSE and AUTHOR:
 
