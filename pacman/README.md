@@ -1,19 +1,48 @@
 DESCRIPTION
 ===========
 
-Refreshes the pacman package cache from the FTP servers and provides an LWRP for managing package groups.
+Refreshes the pacman package cache from the FTP servers and provides LWRPs related to pacman
 
 REQUIREMENTS
 ============
 
 Platform: ArchLinux. Pacman is not relevant on other platforms.
 
+RESOURCES
+=========
+
+`pacman_group`
+--------------
+
+Use the `pacman_group` resource to install or remove pacman package groups. Note that at this time the LWRP will check if the group is installed but doesn't do a lot of error checking or handling. File a ticket on the COOK project at tickets.opscode.com for improvements and feature requests.
+
+The `options` parameter can be used to pass arbitrary options to the pacman command.
+
+`pacman_aur`
+------------
+
+Use the `pacman_aur` resource to install packages from ArchLinux's AUR repository.
+
+### Actions:
+
+* :build - Builds the package.
+* :install - Installs the built package.
+
+### Parameters:
+
+* version - hardcode a version
+* builddir - specify an alternate build directory, defaults to `Chef::Config[:file_cache_path]/builds`.
+* options - pass arbitrary options to the pacman command.
+* `pkgbuild_src` - whether to use an included PKGBUILD file, put the PKGBUILD file in in the `files/default` directory.
+* patches - array of patch names, as files in `files/default` that should be applied for the package.
+
+http://aur.archlinux.org/
+
 USAGE
 =====
 
 Include `recipe[pacman]` early in the run list, preferably first, to ensure that the package caches are updated before trying to install new packages.
 
-Use the `pacman_group` resource to install or remove pacman package groups. Note that at this time the LWRP will check if the group is installed but doesn't do a lot of error checking or handling. File a ticket on the COOK project at tickets.opscode.com for improvements and feature requests.
 
 LICENSE AND AUTHOR
 ==================
