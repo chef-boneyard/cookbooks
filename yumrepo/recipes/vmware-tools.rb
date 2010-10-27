@@ -32,6 +32,11 @@ case node[:platform] when "redhat","centos"
       action :remove
     end
 
+    execute "/usr/bin/vmware-uninstall-tools.pl" do
+      action :run
+      only_if {File.exists?("/usr/bin/vmware-uninstall-tools.pl")}
+    end
+
     cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:vmware][:key]}" do
       mode "0644"
       source node[:repo][:vmware][:key]
@@ -48,17 +53,35 @@ case node[:platform] when "redhat","centos"
       action :install
     end
 
-    package "vmware-open-vm-tools-xorg-drv-display" do
+    package "vmware-tools-common" do
       action :install
     end
 
-    package "vmware-open-vm-tools-xorg-drv-mouse" do
+    package "vmware-open-vm-tools-common" do
+      action :install
+    end
+
+    package "vmware-open-vm-tools-nox" do
+      action :install
+    end
+
+    package "vmware-open-vm-tools-kmod" do
       action :install
     end
 
     service "vmware-tools" do
       supports :status => true, :restart => true
       action [ :enable, :start ]
+    end
+
+    if node[:repo][:vmware][:install_optional]
+      package "vmware-open-vm-tools-xorg-drv-display" do
+        action :install
+      end
+
+      package "vmware-open-vm-tools-xorg-drv-mouse" do
+        action :install
+      end
     end
 
   end

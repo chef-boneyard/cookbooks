@@ -6,7 +6,6 @@
       "choice": [
 
       ],
-      "default": "http://linux.dell.com/repo/community//mirrors.cgi?osname=el$releasever&basearch=$basearch",
       "type": "string",
       "recipes": [
 
@@ -47,7 +46,6 @@
       "choice": [
 
       ],
-      "default": "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&sys_ven_id=$sys_ven_id&sys_dev_id=$sys_dev_id&dellsysidpluginver=$dellsysidpluginver",
       "type": "string",
       "recipes": [
 
@@ -89,7 +87,6 @@
       "choice": [
 
       ],
-      "default": "http://linux.dell.com/repo/firmware/mirrors.pl?dellsysidpluginver=$dellsysidpluginver",
       "type": "string",
       "recipes": [
 
@@ -97,13 +94,26 @@
       "description": "URL for the Dell Firmware repository",
       "display_name": "Dell Firmware repo URL"
     },
+    "repo/vmware/install_optional": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "false",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "Whether or not optional VMware components should be installed.",
+      "display_name": "VMware optional components"
+    },
     "repo/elff/url": {
       "required": "optional",
       "calculated": false,
       "choice": [
 
       ],
-      "default": "http://download.elff.bravenet.com/5/$basearch",
       "type": "string",
       "recipes": [
 
@@ -144,7 +154,6 @@
       "choice": [
 
       ],
-      "default": "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&dellsysidpluginver=$dellsysidpluginver",
       "type": "string",
       "recipes": [
 
@@ -158,7 +167,6 @@
       "choice": [
 
       ],
-      "default": "http://packages.vmware.com/tools/esx/#{repo[:vmware][:release]}/rhel5/$basearch",
       "type": "string",
       "recipes": [
 
@@ -172,7 +180,6 @@
       "choice": [
 
       ],
-      "default": "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-5&arch=$basearch",
       "type": "string",
       "recipes": [
 
@@ -252,7 +259,7 @@
   },
   "providing": {
   },
-  "long_description": "= DESCRIPTION:\n\nManages Yum Repository files in /etc/yum.repos.d on CentOS / RHEL 5.x\n\n= REQUIREMENTS:\n\nThis cookbook requires RHEL or CentOS 5.x.  It has not been tested on\nother platforms.  It probably will not work with RHEL 4 or CentOS 4,\nespecially if you have not taken the steps to install yum on that\nplatform.\n\nThe yumrepo::dell recipe requires Dell manufactured hardware.  This\nrecipe should automatically disable itself by default if non-Dell\nhardware is detected by Ohai\n\nThe yumrepo::vmware-tools recipe requires a VMWare Virtual Machine.\nThis recipe should automatically disable itself by default if\nnon-VMWare hardware is detected by Ohai.\n\nRecipes tested with Ohai >= 0.5.6\n\n= USAGE:\n\n* yumrepo::default \n\n  - Provides RPM keys and repo file for\n    Fedora EPEL (Extra Packages for Enterprise Linux)\n  * See http://fedoraproject.org/wiki/EPEL for more info\n\n* yumrepo::elff\n\n  - Provides RPM keys and repo file for\n    ELFF (Enterprise Linux Fast Forward)\n  * See http://elff.bravenet.com for more info\n\n* yumrepo::dell\n\n  - Provides repo files for the following Dell repositories.\n    - hardware / Open Manage Server Administrator\n    - community / formerly the software repository\n    - firmware / Convenient but unsupported by Dell\n    * See http://linux.dell.com for more info\n\n* yumrepo::vmware-tools\n\n  - Uninstalls VMwareTools rpm installed from the\n    VMware ESX \"Install/Upgrade VMware Tools\" menu\n  - Does not uninstall manually install vmware-tools\n    packages, you need to run vmware-uninstall-tools.pl\n    to use the RPM packages from the repo.\n  - Provides RPM keys and repo file for\n    VMware Tools for the ESX 4.1 release\n  * See http://packages.vmware.com for more info\n\n= LICENSE and AUTHOR:\n\nAuthor:: Eric G. Wolfe\nCopyright:: 2010\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n\n",
+  "long_description": "= DESCRIPTION:\n\nManages Yum Repository files in /etc/yum.repos.d on CentOS / RHEL 5.x\n\n= REQUIREMENTS:\n\nThis cookbook requires RHEL or CentOS 5.x.  It has not been tested on\nother platforms.  It probably will not work with RHEL 4 or CentOS 4,\nespecially if you have not taken the steps to install yum on that\nplatform.\n\nThe yumrepo::dell recipe requires Dell manufactured hardware.  This\nrecipe should automatically disable itself by default if non-Dell\nhardware is detected by Ohai\n\nThe yumrepo::vmware-tools recipe requires a VMWare Virtual Machine.\nThis recipe should automatically disable itself by default if\nnon-VMWare hardware is detected by Ohai.\n\nRecipes tested with Ohai >= 0.5.6\n\n= USAGE:\n\n* yumrepo::default \n\n  - Provides RPM keys and repo file for\n    Fedora EPEL (Extra Packages for Enterprise Linux)\n  * See http://fedoraproject.org/wiki/EPEL for more info\n\n* yumrepo::elff\n\n  - Provides RPM keys and repo file for\n    ELFF (Enterprise Linux Fast Forward)\n  * See http://elff.bravenet.com for more info\n\n* yumrepo::dell\n\n  - Provides repo files for the following Dell repositories.\n    - hardware / Open Manage Server Administrator\n    - community / formerly the software repository\n    - firmware / Convenient but unsupported by Dell\n    * See http://linux.dell.com for more info\n\n* yumrepo::vmware-tools\n\n  - Uninstalls VMwareTools rpm installed from the\n    VMware ESX \"Install/Upgrade VMware Tools\" menu\n  - Uninstalls manually installed vmware-tools\n    packages, the recipe needs to first run\n    vmware-uninstall-tools.pl to use the RPM packages\n    from the repo.\n  - Provides RPM keys and repo file for\n    VMware Tools for the ESX 4.1 release\n  * See http://packages.vmware.com for more info\n\n= LICENSE and AUTHOR:\n\nAuthor:: Eric G. Wolfe\nCopyright:: 2010\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n\n",
   "recipes": {
   },
   "license": "Apache 2.0",
@@ -277,7 +284,7 @@
       ">= 5"
     ]
   },
-  "version": "0.0.3",
+  "version": "0.0.4",
   "name": "yumrepo",
   "conflicting": {
   }
