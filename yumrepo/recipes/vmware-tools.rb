@@ -18,21 +18,30 @@
 #
 
 case node[:platform] when "redhat","centos"
-
   if node[:platform_version].to_f >= 5 and node[:repo][:vmware][:enabled]
+
+    execute "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:vmware][:key]}" do
+      action :nothing
+    end
+
+    execute "yum -q makecache" do
+      action :nothing
+    end
 
     package "VMwareTools" do
       action :remove
     end
 
-    template "/etc/yum.repos.d/vmware-tools.repo" do
-      mode "0644"
-      source "vmware-tools.repo.erb"
-    end
-
     cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:vmware][:key]}" do
       mode "0644"
       source node[:repo][:vmware][:key]
+      notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:vmware][:key]}"), :immediately
+    end
+
+    template "/etc/yum.repos.d/vmware-tools.repo" do
+      mode "0644"
+      source "vmware-tools.repo.erb"
+      notifies :run, resources(:execute => "yum -q makecache"), :immediately
     end
 
     package "vmware-tools-nox" do
@@ -51,6 +60,6 @@ case node[:platform] when "redhat","centos"
       supports :status => true, :restart => true
       action [ :enable, :start ]
     end
-  end
 
+  end
 end
