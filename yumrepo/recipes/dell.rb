@@ -18,38 +18,59 @@
 #
 
 case node[:platform] when "redhat","centos"
+  if node[:platform_version].to_f >= 5 and node[:repo][:dell][:enabled]
 
-  if node[:platform_version].to_f >= 5
-
-    if node[:repo][:dellomsa][:enabled]
-      template "/etc/yum.repos.d/dell-omsa-repository.repo" do
-        mode "0644"
-        source "dell-omsa-repository.repo.erb"
-      end
-
-      package "srvadmin-all" do
-        action :install
-      end
+    execute "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:dell][:key]}" do
+      action :nothing
     end
 
-    if node[:repo][:dellcommunity][:enabled]
-      template "/etc/yum.repos.d/dell-community-repository.repo" do
-        mode "0644"
-        source "dell-community-repository.repo.erb"
-      end
+    execute "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:libsmbios][:key]}" do
+      action :nothing
     end
 
-    if node[:repo][:dellfirmware][:enabled]
-      template "/etc/yum.repos.d/dell-firmware-repository.repo" do
-        mode "0644"
-        source "dell-firmware-repository.repo.erb"
-      end
+    execute "yum -q makecache" do
+      action :nothing
+    end
 
-      package "firmware-tools" do
-        action :install
-      end
+    cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:dell][:key]}" do
+      mode "0644"
+      source node[:repo][:vmware][:key]
+      notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:dell][:key]}"), :immediately
+    end
+
+    cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:libsmbios][:key]}" do
+      mode "0644"
+      source node[:repo][:vmware][:key]
+      notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:dell][:key]}"), :immediately
+    end
+
+    template "/etc/yum.repos.d/dell-omsa-repository.repo" do
+      mode "0644"
+      source "dell-omsa-repository.repo.erb"
+      notifies :run, resources(:execute => "yum -q makecache"), :immediately
+    end
+
+    package "srvadmin-all" do
+      action :install
+    end
+
+    template "/etc/yum.repos.d/dell-community-repository.repo" do
+      mode "0644"
+      source "dell-community-repository.repo.erb"
+      # Not installing anything in this recipe right now, so I left out
+      # the yum makecache command to speed things up.
+    end
+
+    template "/etc/yum.repos.d/dell-firmware-repository.repo" do
+      mode "0644"
+      source "dell-firmware-repository.repo.erb"
+      notifies :run, resources(:execute => "yum -q makecache"), :immediately
+    end
+
+    package "firmware-tools" do
+      action :install
     end
     # yum install $(bootstrap_firmware) at your own risk
-  end
 
+  end
 end

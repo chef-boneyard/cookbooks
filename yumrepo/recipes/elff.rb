@@ -18,17 +18,27 @@
 #
 
 case node[:platform] when "redhat","centos"
-
   if node[:platform_version].to_f >= 5 and node[:repo][:elff][:enabled]
-    template "/etc/yum.repos.d/elff.repo" do
-      mode "0644" 
-      source "elff.repo.erb"
-    end 
+
+    execute "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:elff][:key]}" do
+      action :nothing
+    end
+
+    execute "yum -q makecache" do
+      action :nothing
+    end
 
     cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:elff][:key]}" do
       mode "0644"
       source node[:repo][:elff][:key]
+      notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:elff][:key]}"), :immediately
     end
-  end
 
+    template "/etc/yum.repos.d/elff.repo" do
+      mode "0644" 
+      source "elff.repo.erb"
+      notifies :run, resources(:execute => "yum -q makecache"), :immediately
+    end
+
+  end
 end

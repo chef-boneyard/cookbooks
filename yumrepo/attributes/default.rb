@@ -32,14 +32,12 @@ default[:repo][:dellcommunity][:url] = "http://linux.dell.com/repo/community//mi
 default[:repo][:dellfirmware][:url] = "http://linux.dell.com/repo/firmware/mirrors.pl?dellsysidpluginver=$dellsysidpluginver"
 default[:repo][:dellomsa][:indep][:url] = "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&dellsysidpluginver=$dellsysidpluginver"
 default[:repo][:dellomsa][:specific][:url] = "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&sys_ven_id=$sys_ven_id&sys_dev_id=$sys_dev_id&dellsysidpluginver=$dellsysidpluginver"
+default[:repo][:dell][:key] = "RPM-GPG-KEY-dell"
+default[:repo][:libsmbios][:key] = "RPM-GPG-KEY-libsmbios"
 if node[:dmi][:system][:manufacturer] =~ /dell/i and node[:platform_version].to_f >= 5
-  set[:repo][:dellcommunity][:enabled] = true
-  set[:repo][:dellfirmware][:enabled] = true
-  set[:repo][:dellomsa][:enabled] = true
+  set[:repo][:dell][:enabled] = true
 else 
-  set[:repo][:dellcommunity][:enabled] = false
-  set[:repo][:dellfirmware][:enabled] = false
-  set[:repo][:dellomsa][:enabled] = false
+  set[:repo][:dell][:enabled] = false
 end
 
 # VMware

@@ -3,7 +3,7 @@ maintainer_email "wolfe21@marshall.edu"
 license          "Apache 2.0"
 description      "Recipes install and configure several popular RHEL and CentOS 5.x repositories"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.0.2"
+version          "0.0.3"
 
 %w{ redhat centos }.each do |os|
   supports os, ">= 5"
@@ -52,20 +52,10 @@ attribute "repo/dellcommunity/url",
   :description => "URL for the Dell Community repository",
   :default => "http://linux.dell.com/repo/community//mirrors.cgi?osname=el$releasever\&basearch=$basearch"
 
-attribute "repo/dellcommunity/enabled",
-  :display_name => "Dell Community repo boolean",
-  :description => "The Dell Community repository boolean. This is dynamically determined by hardware platform.",
-  :calculated => true
-
 attribute "repo/dellfirmware/url",
   :display_name => "Dell Firmware repo URL",
   :description => "URL for the Dell Firmware repository",
   :default => "http://linux.dell.com/repo/firmware/mirrors.pl?dellsysidpluginver=$dellsysidpluginver" 
-
-attribute "repo/dellfirmware/enabled",
-  :display_name => "Dell Firmware repo boolean",
-  :description => "The Dell Firmware repository boolean. This is dynamically determined by hardware platform.",
-  :calculated => true
 
 attribute "repo/dellomsa/indep/url",
   :display_name => "Dell OMSA indep repo URL",
@@ -77,10 +67,20 @@ attribute "repo/dellomsa/specific/url",
   :description => "URL for the Dell OMSA hardware specific repository",
   :default => "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&sys_ven_id=$sys_ven_id&sys_dev_id=$sys_dev_id&dellsysidpluginver=$dellsysidpluginver"
 
-attribute "repo/dellomsa/enabled",
-  :display_name => "Dell OMSA repo boolean",
-  :description => "Boolean for the Dell OMSA repositories. This is dynamically determined by hardware platform.",
+attribute "repo/dell/enabled",
+  :display_name => "Dell repo boolean",
+  :description => "Boolean for the Dell OMSA, Community, and Firmware repositories. This is dynamically determined by hardware platform.",
   :calculated => true
+
+attribute "repo/dell/key",
+  :display_name => "Dell Key",
+  :description => "Dell Community/OMSA GPG Signing Key",
+  :default => "RPM-GPG-KEY-dell"
+
+attribute "repo/libsmbios/key",
+  :display_name => "libsmbios Key",
+  :description => "Dell libsmbios Signing Key",
+  :default => "RPM-GPG-KEY-libsmbios"
 
 # VMware
 attribute "repo/vmware/release",

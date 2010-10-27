@@ -1,18 +1,5 @@
 {
   "attributes": {
-    "repo/dellfirmware/enabled": {
-      "required": "optional",
-      "calculated": true,
-      "choice": [
-
-      ],
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "The Dell Firmware repository boolean. This is dynamically determined by hardware platform.",
-      "display_name": "Dell Firmware repo boolean"
-    },
     "repo/dellcommunity/url": {
       "required": "optional",
       "calculated": false,
@@ -137,6 +124,20 @@
       "description": "The VMware repository boolean. This is dynamically determined by hardware platform.",
       "display_name": "VMware repo boolean"
     },
+    "repo/dell/key": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "RPM-GPG-KEY-dell",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "Dell Community/OMSA GPG Signing Key",
+      "display_name": "Dell Key"
+    },
     "repo/dellomsa/indep/url": {
       "required": "optional",
       "calculated": false,
@@ -164,19 +165,6 @@
       ],
       "description": "The URL for the VMWare Tools yum repository.  You can override the whole url or just override[:repo][:vmware][:release]",
       "display_name": "VMware Tools Repository URL"
-    },
-    "repo/dellomsa/enabled": {
-      "required": "optional",
-      "calculated": true,
-      "choice": [
-
-      ],
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "Boolean for the Dell OMSA repositories. This is dynamically determined by hardware platform.",
-      "display_name": "Dell OMSA repo boolean"
     },
     "repo/epel/url": {
       "required": "optional",
@@ -206,7 +194,21 @@
       "description": "Used in determining the VMware repo URL",
       "display_name": "VMware ESX release version"
     },
-    "repo/dellcommunity/enabled": {
+    "repo/libsmbios/key": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "RPM-GPG-KEY-libsmbios",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "Dell libsmbios Signing Key",
+      "display_name": "libsmbios Key"
+    },
+    "repo/dell/enabled": {
       "required": "optional",
       "calculated": true,
       "choice": [
@@ -216,8 +218,8 @@
       "recipes": [
 
       ],
-      "description": "The Dell Community repository boolean. This is dynamically determined by hardware platform.",
-      "display_name": "Dell Community repo boolean"
+      "description": "Boolean for the Dell OMSA, Community, and Firmware repositories. This is dynamically determined by hardware platform.",
+      "display_name": "Dell repo boolean"
     },
     "repo/elff/key": {
       "required": "optional",
@@ -275,7 +277,7 @@
       ">= 5"
     ]
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "name": "yumrepo",
   "conflicting": {
   }
