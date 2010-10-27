@@ -45,9 +45,10 @@ Recipes tested with Ohai >= 0.5.6
 
   - Uninstalls VMwareTools rpm installed from the
     VMware ESX "Install/Upgrade VMware Tools" menu
-  - Does not uninstall manually install vmware-tools
-    packages, you need to run vmware-uninstall-tools.pl
-    to use the RPM packages from the repo.
+  - Uninstalls manually installed vmware-tools
+    packages, the recipe needs to first run
+    vmware-uninstall-tools.pl to use the RPM packages
+    from the repo.
   - Provides RPM keys and repo file for
     VMware Tools for the ESX 4.1 release
   * See http://packages.vmware.com for more info
