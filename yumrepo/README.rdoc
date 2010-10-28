@@ -1,6 +1,9 @@
 = DESCRIPTION:
 
-Manages Yum Repository files in /etc/yum.repos.d on CentOS / RHEL 5.x
+Manages Yum Repository files in /etc/yum.repos.d on CentOS / RHEL 5.x.
+
+Yum repositories included in this recipe:
+EPEL, ELFF, Dell OMSA, Dell Community, Dell Firmware, VMware Tools
 
 = REQUIREMENTS:
 
@@ -21,7 +24,11 @@ Recipes tested with Ohai >= 0.5.6
 
 = USAGE:
 
-* yumrepo::default 
+* yumrepo::default
+
+  - includes epel, elff, dell, and vmware-tools recipes
+
+* yumrepo::epel
 
   - Provides RPM keys and repo file for
     Fedora EPEL (Extra Packages for Enterprise Linux)
@@ -52,6 +59,38 @@ Recipes tested with Ohai >= 0.5.6
   - Provides RPM keys and repo file for
     VMware Tools for the ESX 4.1 release
   * See http://packages.vmware.com for more info
+
+= ATTRIBUTES:
+
+Notable overridable attributes are as follows.
+
+* yumrepo::epel
+
+  - repo[:epel][:enabled] = true||false
+    * disables/enables repository in default recipe
+
+* yumrepo::elff
+
+  - repo[:elff][:enabled] = true||false
+    * disables/enables repository in default recipe
+
+* yumrepo::dell
+
+ - repo[:dell][:install_optional] = true||false
+   * disables/enables community/firmware repositories in dell recipe
+   * OMSA (hardware) repository will detect Dell hardware platform and
+     enable itself, dynamically. It is not affected by this attribute.
+
+* yumrepo::vmware
+
+ - repo[:vmware][:release] (ESX version number, default 4.1)
+   * This is used to determine the correct URL in the
+     VMware RHEL5/CentOS repository.
+
+ - repo[:vmware][:install_optional] = true||false
+   * Whether or not VMware's optional mouse, and X11
+     drivers should be installed in the vmware-tools recipe.
+
 
 = LICENSE and AUTHOR:
 

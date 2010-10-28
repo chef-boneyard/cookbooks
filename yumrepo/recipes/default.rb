@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: yumrepo
-# Recipe:: default
+# Recipe:: default 
 #
 # Copyright 2010, Eric G. Wolfe
 #
@@ -17,28 +17,7 @@
 # limitations under the License.
 #
 
-case node[:platform] when "redhat","centos"
-  if node[:platform_version].to_f >= 5 and node[:repo][:epel][:enabled]
-
-    execute "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:epel][:key]}" do
-      action :nothing
-    end
-
-    execute "yum -q makecache" do
-      action :nothing
-    end
-
-    cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:epel][:key]}" do
-      mode "0644"
-      source node[:repo][:epel][:key]
-      notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:epel][:key]}"), :immediately
-    end
-
-    template "/etc/yum.repos.d/epel.repo" do
-      mode "0644"
-      source "epel.repo.erb"
-      notifies :run, resources(:execute => "yum -q makecache"), :immediately
-    end
-
-  end
-end
+include_recipe "yumrepo::epel"
+include_recipe "yumrepo::elff"
+include_recipe "yumrepo::dell"
+include_recipe "yumrepo::vmware-tools"

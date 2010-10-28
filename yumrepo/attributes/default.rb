@@ -28,12 +28,13 @@ default[:repo][:elff][:enabled] = true
 default[:repo][:elff][:key] = "RPM-GPG-KEY-ELFF"
 
 # Dell
-default[:repo][:dellcommunity][:url] = "http://linux.dell.com/repo/community//mirrors.cgi?osname=el$releasever\&basearch=$basearch"
-default[:repo][:dellfirmware][:url] = "http://linux.dell.com/repo/firmware/mirrors.pl?dellsysidpluginver=$dellsysidpluginver"
-default[:repo][:dellomsa][:indep][:url] = "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&dellsysidpluginver=$dellsysidpluginver"
-default[:repo][:dellomsa][:specific][:url] = "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&sys_ven_id=$sys_ven_id&sys_dev_id=$sys_dev_id&dellsysidpluginver=$dellsysidpluginver"
+default[:repo][:dell][:community_url] = "http://linux.dell.com/repo/community//mirrors.cgi?osname=el$releasever\&basearch=$basearch"
+default[:repo][:dell][:firmware_url] = "http://linux.dell.com/repo/firmware/mirrors.pl?dellsysidpluginver=$dellsysidpluginver"
+default[:repo][:dell][:omsa_independent_url] = "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&dellsysidpluginver=$dellsysidpluginver"
+default[:repo][:dell][:omsa_specific_url] = "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&sys_ven_id=$sys_ven_id&sys_dev_id=$sys_dev_id&dellsysidpluginver=$dellsysidpluginver"
 default[:repo][:dell][:key] = "RPM-GPG-KEY-dell"
-default[:repo][:libsmbios][:key] = "RPM-GPG-KEY-libsmbios"
+default[:repo][:dell][:libsmbios_key] = "RPM-GPG-KEY-libsmbios"
+default[:repo][:dell][:install_optional] = false
 if node[:dmi][:system][:manufacturer] =~ /dell/i and node[:platform_version].to_f >= 5
   set[:repo][:dell][:enabled] = true
 else 
