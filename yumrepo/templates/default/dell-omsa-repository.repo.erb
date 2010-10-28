@@ -3,7 +3,7 @@
 [dell-omsa-indep]
 name=Dell OMSA repository - Hardware independent
 type=rpm-md
-mirrorlist=<%= node[:repo][:dellomsa][:indep][:url] %>
+mirrorlist=<%= node[:repo][:dell][:omsa_independent_url] %>
 gpgcheck=1
 gpgkey=http://linux.dell.com/repo/hardware/latest/RPM-GPG-KEY-dell
     http://linux.dell.com/repo/hardware/latest/RPM-GPG-KEY-libsmbios
@@ -15,7 +15,7 @@ bootstrapurl=http://linux.dell.com/repo/hardware/latest/bootstrap.cgi
 [dell-omsa-specific]
 name=Dell OMSA repository - Hardware specific
 type=rpm-md
-mirrorlist=<%= node[:repo][:dellomsa][:specific][:url] %>
+mirrorlist=<%= node[:repo][:dell][:omsa_specific_url] %>
 gpgcheck=1
 gpgkey=http://linux.dell.com/repo/hardware/latest/RPM-GPG-KEY-dell
     http://linux.dell.com/repo/hardware/latest/RPM-GPG-KEY-libsmbios

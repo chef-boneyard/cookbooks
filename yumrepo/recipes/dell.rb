@@ -54,23 +54,25 @@ case node[:platform] when "redhat","centos"
       action :install
     end
 
-    template "/etc/yum.repos.d/dell-community-repository.repo" do
-      mode "0644"
-      source "dell-community-repository.repo.erb"
-      # Not installing anything in this recipe right now, so I left out
-      # the yum makecache command to speed things up.
-    end
+    if node[:repo][:dell][:install_optional]
+      template "/etc/yum.repos.d/dell-community-repository.repo" do
+        mode "0644"
+        source "dell-community-repository.repo.erb"
+        # Not installing anything in this recipe right now, so I left out
+        # the yum makecache command to speed things up.
+      end
 
-    template "/etc/yum.repos.d/dell-firmware-repository.repo" do
-      mode "0644"
-      source "dell-firmware-repository.repo.erb"
-      notifies :run, resources(:execute => "yum -q makecache"), :immediately
-    end
+      template "/etc/yum.repos.d/dell-firmware-repository.repo" do
+        mode "0644"
+        source "dell-firmware-repository.repo.erb"
+        notifies :run, resources(:execute => "yum -q makecache"), :immediately
+      end
 
-    package "firmware-tools" do
-      action :install
+      package "firmware-tools" do
+        action :install
+      end
+      # yum install $(bootstrap_firmware) at your own risk
     end
-    # yum install $(bootstrap_firmware) at your own risk
 
   end
 end
