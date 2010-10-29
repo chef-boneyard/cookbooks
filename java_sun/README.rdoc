@@ -1,16 +1,16 @@
 = DESCRIPTION:
 
-Installs Sun Java.
+THIS COOKBOOK HAS BEEN DEPRECATED.  Please use the `java` cookbook with the proper `install_flavor` attribute set.
+
+The default recipe in this cookbook simply points to the `java::default` recipe with the proper `node["java"]["install_flavor"]` attribute set to `sun`
 
 = REQUIREMENTS:
 
 Platform: Ubuntu, Debian.
 
-Enable the 'multiverse' repository on Ubuntu, 'non-free' on Debian, or edit the default recipe to point at the Java package for your platform.
-
 = USAGE:
 
-Simply include the recipe where you want Java installed. Note the respository requirement above to get the right package. On Debian and Ubuntu systems, the recipe will preseed the package and update java alternaties.
+Simply include the recipe where you want Sun Java installed.
 
 = LICENSE and AUTHOR:
 
