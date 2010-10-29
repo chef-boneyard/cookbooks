@@ -9,7 +9,7 @@ Requirements
 Platform: 
 
 * Debian, Ubuntu (OpenJDK, Sun)
-* Red Hat, CentOS, Fedora (OpenJDK)
+* CentOS, Red Hat, Fedora (OpenJDK)
 
 The following Opscode cookbooks are dependencies:
 

@@ -17,14 +17,14 @@
 # limitations under the License.
 
 node.run_state[:java_pkgs] = value_for_platform(
-  [ "ubuntu", "debian" ] => {
+  ["debian","ubuntu"] => {
     "default" => ["sun-java6-jre","default-jre-headless"]
   },
   "default" => ["sun-java6-jre"]
 )
 
 case node.platform
-when "ubuntu" 
+when "debian","ubuntu"
   include_recipe "apt"
  
   template "/etc/apt/sources.list.d/canonical.com.list" do
@@ -33,5 +33,5 @@ when "ubuntu"
     notifies :run, resources(:execute => "apt-get update"), :immediately
   end
 else
-  Chef::Log.error("Installation of Sun Java packages are only supported on Ubuntu at this time.")
+  Chef::Log.error("Installation of Sun Java packages are only supported on Debian/Ubuntu at this time.")
 end

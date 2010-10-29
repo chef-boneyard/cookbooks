@@ -5,7 +5,7 @@ description       "Installs java via openjdk."
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version           "0.10.2"
 depends "apt"
-%w{ debian ubuntu redhat centos fedora }.each do |os|
+%w{ debian ubuntu centos redhat fedora }.each do |os|
   supports os
 end
 recipe "java", "Installs openjdk to provide Java"
