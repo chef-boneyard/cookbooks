@@ -17,36 +17,8 @@
 # limitations under the License.
 #
 
-java_pkg = value_for_platform(
-  [ "ubuntu", "debian" ] => {
-    "default" => "sun-java6-jdk"
-  },
-  "default" => "sun-java6-jdk"
-)
+Chef::Log.warn("This recipe will be deprecated soon, please use java::default")
 
-case node.platform
-when "ubuntu" 
-  include_recipe "apt"
- 
-  template "/etc/apt/sources.list.d/canonical.com.list" do
-    mode "0644"
-    source "canonical.com.list.erb"
-    notifies :run, resources(:execute => "apt-get update"), :immediately
-  end
-end
+node["java"]["install_flavor"] = "sun"
 
-execute "update-java-alternatives" do
-  command "update-java-alternatives --jre-headless -s java-6-sun"
-  only_if do platform?("ubuntu", "debian") end
-  ignore_failure true
-  returns 0
-  action :nothing
-end
-
-package java_pkg do
-  action :install
-  if platform?("ubuntu", "debian")
-    response_file "java.seed"
-    notifies :run, resources(:execute => "update-java-alternatives"), :immediately
-  end
-end
+include_recipe "java"
