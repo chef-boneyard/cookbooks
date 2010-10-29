@@ -28,7 +28,7 @@ action :create do
       # If not, create volume and register its id in the node data
       nvid = create_volume(new_resource.snapshot_id, new_resource.size, new_resource.availability_zone, new_resource.timeout)
       node.set[:aws][:ebs_volume][new_resource.name][:volume_id] = nvid
-      new_resource.updated_by_last_action = true
+      new_resource.updated_by_last_action(true)
     end
     save_node()
   end
@@ -48,7 +48,7 @@ action :attach do
     attach_volume(vol[:aws_id], instance_id, new_resource.device, new_resource.timeout)
     node.set[:aws][:ebs_volume][new_resource.name][:volume_id] = vol[:aws_id]
     save_node()
-    new_resource.updated_by_last_action = true
+    new_resource.updated_by_last_action(true)
   end
 end
 
@@ -56,13 +56,13 @@ action :detach do
   vol = determine_volume
   return if vol[:aws_instance_id] != instance_id
   detach_volume(vol[:aws_id], new_resource.timeout)
-  new_resource.updated_by_last_action = true
+  new_resource.updated_by_last_action(true)
 end
 
 action :snapshot do
   vol = determine_volume
   snapshot = ec2.create_snapshot(vol[:aws_id])
-  new_resource.updated_by_last_action = true
+  new_resource.updated_by_last_action(true)
   Chef::Log.info("Created snapshot of #{vol[:aws_id]} as #{snapshot[:aws_id]}")
 end
 
@@ -80,7 +80,7 @@ action :prune do
     old_snapshots[new_resource.snapshots_to_keep - 1, old_snapshots.length].each do |die|
       Chef::Log.info "Deleting old snapshot #{die[:aws_id]}"
       ec2.delete_snapshot(die[:aws_id])
-      new_resource.updated_by_last_action = true
+      new_resource.updated_by_last_action(true)
     end
   end
 end
