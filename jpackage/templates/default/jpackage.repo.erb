@@ -1,0 +1,49 @@
+[jpackage-generic-<%= node["jpackage"]["version"] %>]
+name=JPackage (free), generic
+mirrorlist=http://www.jpackage.org/mirrorlist.php?dist=generic&type=free&release=<%= node["jpackage"]["version"] %>
+failovermethod=priority
+gpgcheck=1
+gpgkey=http://www.jpackage.org/jpackage.asc
+enabled=1
+
+[jpackage-rhel-<%= node["jpackage"]["version"] %>]
+name=JPackage (free) for Red Hat Enterprise Linux $releasever
+mirrorlist=http://www.jpackage.org/mirrorlist.php?dist=redhat-el-$releasever&type=free&release=<%= node["jpackage"]["version"] %>
+failovermethod=priority
+gpgcheck=1
+gpgkey=http://www.jpackage.org/jpackage.asc
+enabled=1
+
+[jpackage-generic-<%= node["jpackage"]["version"] %>-nonfree]
+name=JPackage (non-free), generic
+mirrorlist=http://www.jpackage.org/jpackage_generic_nonfree_<%= node["jpackage"]["version"] %>.txt
+failovermethod=priority
+gpgcheck=1
+gpgkey=http://www.jpackage.org/jpackage.asc
+enabled=1
+
+# Updates
+
+[jpackage-generic-<%= node["jpackage"]["version"] %>-updates]
+name=JPackage (free), generic
+mirrorlist=http://www.jpackage.org/mirrorlist.php?dist=generic&type=free&release=<%= node["jpackage"]["version"] %>-updates
+failovermethod=priority
+gpgcheck=1
+gpgkey=http://www.jpackage.org/jpackage.asc
+enabled=1
+
+[jpackage-rhel-<%= node["jpackage"]["version"] %>-updates]
+name=JPackage (free) for Red Hat Enterprise Linux $releasever
+mirrorlist=http://www.jpackage.org/mirrorlist.php?dist=redhat-el-$releasever&type=free&release=<%= node["jpackage"]["version"] %>-updates
+failovermethod=priority
+gpgcheck=1
+gpgkey=http://www.jpackage.org/jpackage.asc
+enabled=1
+
+[jpackage-generic-<%= node["jpackage"]["version"] %>-nonfree-updates]
+name=JPackage (non-free), generic
+mirrorlist=http://www.jpackage.org/jpackage_generic_nonfree_<%= node["jpackage"]["version"] %>-updates.txt
+failovermethod=priority
+gpgcheck=1
+gpgkey=http://www.jpackage.org/jpackage.asc
+enabled=1
