@@ -56,11 +56,11 @@
 
 # - Connection Settings -
 
-#listen_addresses = 'localhost'         # what IP address(es) to listen on;
+listen_addresses = '<%= @listen %>'     # what IP address(es) to listen on;
                                         # comma-separated list of addresses;
                                         # defaults to 'localhost', '*' = all
                                         # (change requires restart)
-#port = 5432                            # (change requires restart)
+port = <%= @port %>                     # (change requires restart)
 max_connections = 100                   # (change requires restart)
 # Note:  Increasing max_connections costs ~400 bytes of shared memory per 
 # connection slot, plus lock space (see max_locks_per_transaction).
@@ -75,7 +75,7 @@ max_connections = 100                   # (change requires restart)
 # - Security and Authentication -
 
 #authentication_timeout = 1min          # 1s-600s
-#ssl = off                              # (change requires restart)
+ssl = <%= @ssl ? true : false %>        # (change requires restart)
 #ssl_ciphers = 'ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH'      # allowed SSL ciphers
                                         # (change requires restart)
 #ssl_renegotiation_limit = 512MB        # amount of data between renegotiations

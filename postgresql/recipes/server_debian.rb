@@ -1,4 +1,4 @@
-#/postgresql.conf.
+#
 # Cookbook Name:: postgresql
 # Recipe:: server
 #
@@ -19,27 +19,16 @@
 
 include_recipe "postgresql::client"
 
-case node[:postgresql][:version]
-when "8.3"
-  node.default[:postgresql][:ssl] = "off"
-when "8.4"
-  node.default[:postgresql][:ssl] = "true"
-end
+node.default[:postgresql][:ssl] = node[:postgresql][:version].to_f > 8.3
 
 package "postgresql"
-
-service "postgresql" do
-  service_name "postgresql-#{node.postgresql.version}"
-  supports :restart => true, :status => true, :reload => true
-  action :nothing
-end
 
 template "#{node[:postgresql][:dir]}/pg_hba.conf" do
   source "debian.pg_hba.conf.erb"
   owner "postgres"
   group "postgres"
   mode 0600
-  notifies :reload, resources(:service => "postgresql")
+  notifies :reload, "service[postgresql]"
 end
 
 template "#{node[:postgresql][:dir]}/postgresql.conf" do
@@ -47,5 +36,12 @@ template "#{node[:postgresql][:dir]}/postgresql.conf" do
   owner "postgres"
   group "postgres"
   mode 0600
-  notifies :restart, resources(:service => "postgresql")
+  variables node[:postgresql]
+  notifies :restart, "service[postgresql]"
+end
+
+service "postgresql" do
+  service_name "postgresql-#{node.postgresql.version}"
+  supports :restart => true, :status => true, :reload => true
+  action :nothing
 end

@@ -1,20 +1,23 @@
 = DESCRIPTION:
 
-Installs and configures postgresql client or server.
+Installs and configures the PostgreSQL client or server.
 
 = REQUIREMENTS:
 
 == Platform:
 
-Tested on CentOS 5.5, Ubuntu 10.04 but should support centos, redhat, fedora, suse, ubuntu and debian.
+Tested on CentOS 5.5, Ubuntu 10.04 and Debian Lenny but should also support Red Hat, Fedora and SUSE.
 
 == Cookbooks:
 
 = ATTRIBUTES: 
 
-* postgresql[:dir] - configuration file location.
-* postgresql[:version] - Version of postgresql to use. Configured in attributes based on platform.
-* postgresql[:ssl] - used on debian family installs to enable ssl support. The debian post installation script automatically builds the certificates.
+* postgresql[:listen] - IP address to listen on.
+* postgrseql[:port] - Port number to use.
+* postgresql[:dir] - Configuration files location.
+* postgresql[:contrib_dir] - "contrib" scripts location. Read-only, determined by platform.
+* postgresql[:version] - Version of PostgreSQL to use. Read-only, determined by platform.
+* postgresql[:ssl] - Enable SSL support? The Debian post installation script automatically builds the certificates.
 
 = USAGE:
 
@@ -22,19 +25,36 @@ For clients:
 
   include_recipe "postgresql::client"
   
-For server: 
+For servers:
 
   include_recipe "postgresql::server"
   
-(client is already included by server). This will check the platform that the node is and include either redhat family recipe (postgresql::server_redhat) or debian family (postgresql::server_debian) because the two styles differ quite a bit.
+The server recipe includes the client recipe and either the Red Hat family (postgresql::server_redhat) or Debian family (postgresql::server_debian) recipe. These platform styles differ quite a bit.
 
-The templates provided by this cookbook will probably need to be tweaked for the local environment, no tuning parameters are specified in them. The templates are separated by family designation in the template directory, since Chef doesn't do "platform family" style file specificity.
+The templates provided by this cookbook will probably need to be tweaked for the local environment as no tuning parameters are specified in them. The templates are separated by family designation in the template directory, since Chef doesn't do "platform family" style file specificity.
+
+A postgresql_user definition is provided for creating users. Supported actions are :create and :drop. The openssl cookbook can be used to randomly generate a secure password.
+
+  postgresql_user "fred" do
+    password "foobar"
+    privileges :superuser => false, :createdb => false, :inherit => true, :login => true
+  end
+
+A postgresql_database definition is provided for creating databases. Supported actions are :create and :drop. Additional modules from the "contrib" directory can be given in an array. Include "postgis" in this array to enable PostGIS, which is handled as a special case.
+
+  postgresql_database "foobar" do
+    owner "fred"
+    template "barbaz"
+    flags :datconnlimit => 5
+    languages [ "plpgsql" ]
+    modules [ "citext", "postgis" ]
+  end
 
 = LICENSE and AUTHOR:
       
-Author:: Joshua Timberman (<joshua@opscode.com>)
+Author:: Joshua Timberman (<joshua@opscode.com>), James Le Cuirot (<developers@findsyou.com>)
 
-Copyright:: 2009-2010, Opscode, Inc
+Copyright:: 2009-2010, Opscode, Inc; 2010, FindsYou Limited
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
