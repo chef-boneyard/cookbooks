@@ -26,39 +26,39 @@ Recipes tested with Ohai >= 0.5.6
 
 * yumrepo::default
 
-  - includes epel, elff, dell, and vmware-tools recipes
+ - includes epel, elff, dell, and vmware-tools recipes
 
 * yumrepo::epel
 
-  - Provides RPM keys and repo file for
-    Fedora EPEL (Extra Packages for Enterprise Linux)
-  * See http://fedoraproject.org/wiki/EPEL for more info
+ - Provides RPM keys and repo file for
+   Fedora EPEL (Extra Packages for Enterprise Linux)
+ * See http://fedoraproject.org/wiki/EPEL for more info
 
 * yumrepo::elff
 
-  - Provides RPM keys and repo file for
-    ELFF (Enterprise Linux Fast Forward)
-  * See http://elff.bravenet.com for more info
+ - Provides RPM keys and repo file for
+   ELFF (Enterprise Linux Fast Forward)
+ * See http://elff.bravenet.com for more info
 
 * yumrepo::dell
 
-  - Provides repo files for the following Dell repositories.
-    - hardware / Open Manage Server Administrator
-    - community / formerly the software repository
-    - firmware / Convenient but unsupported by Dell
-    * See http://linux.dell.com for more info
+ - Provides repo files for the following Dell repositories.
+   - hardware / Open Manage Server Administrator
+   - community / formerly the software repository
+   - firmware / Convenient but unsupported by Dell
+   * See http://linux.dell.com for more info
 
 * yumrepo::vmware-tools
 
-  - Uninstalls VMwareTools rpm installed from the
-    VMware ESX "Install/Upgrade VMware Tools" menu
-  - Uninstalls manually installed vmware-tools
-    packages, the recipe needs to first run
-    vmware-uninstall-tools.pl to use the RPM packages
-    from the repo.
-  - Provides RPM keys and repo file for
-    VMware Tools for the ESX 4.1 release
-  * See http://packages.vmware.com for more info
+ - Uninstalls VMwareTools rpm installed from the
+   VMware ESX "Install/Upgrade VMware Tools" menu
+ - Uninstalls manually installed vmware-tools
+   packages, the recipe needs to first run
+   vmware-uninstall-tools.pl to use the RPM packages
+   from the repo.
+ - Provides RPM keys and repo file for
+   VMware Tools for the ESX 4.1 release
+ * See http://packages.vmware.com for more info
 
 = ATTRIBUTES:
 
@@ -66,13 +66,13 @@ Notable overridable attributes are as follows.
 
 * yumrepo::epel
 
-  - repo[:epel][:enabled] = true||false
-    * disables/enables repository in default recipe
+ - repo[:epel][:enabled] = true||false
+   * disables/enables repository in default recipe
 
 * yumrepo::elff
 
-  - repo[:elff][:enabled] = true||false
-    * disables/enables repository in default recipe
+ - repo[:elff][:enabled] = true||false
+   * disables/enables repository in default recipe
 
 * yumrepo::dell
 
