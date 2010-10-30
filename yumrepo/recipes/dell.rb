@@ -24,7 +24,7 @@ case node[:platform] when "redhat","centos"
       action :nothing
     end
 
-    execute "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:libsmbios][:key]}" do
+    execute "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:dell][:libsmbios_key]}" do
       action :nothing
     end
 
@@ -34,14 +34,14 @@ case node[:platform] when "redhat","centos"
 
     cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:dell][:key]}" do
       mode "0644"
-      source node[:repo][:vmware][:key]
+      source node[:repo][:dell][:key]
       notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:dell][:key]}"), :immediately
     end
 
-    cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:libsmbios][:key]}" do
+    cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:dell][:libsmbios_key]}" do
       mode "0644"
-      source node[:repo][:vmware][:key]
-      notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:dell][:key]}"), :immediately
+      source node[:repo][:dell][:libsmbios_key]
+      notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:dell][:libsmbios_key]}"), :immediately
     end
 
     template "/etc/yum.repos.d/dell-omsa-repository.repo" do
