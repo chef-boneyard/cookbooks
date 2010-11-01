@@ -46,5 +46,5 @@
     "samba::client": "Installs smbclient package",
     "samba::server": "Installs samba server packages and configures smb.conf"
   },
-  "version": "0.10.2"
+  "version": "0.10.3"
 }

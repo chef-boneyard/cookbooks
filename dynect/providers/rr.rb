@@ -51,7 +51,7 @@ def action_create
     rr.save
     @dyn.publish
     Chef::Log.info("Added #{@new_resource} to dynect")
-		new_resource.updated_by_last_action = true
+		new_resource.updated_by_last_action(true)
   end
 end
 
@@ -72,7 +72,7 @@ def action_update
       @rr.save
       @dyn.publish
       Chef::Log.info("Updated #{@new_resource} at dynect")
-      new_resource.updated_by_last_action = true
+      new_resource.updated_by_last_action(true)
     end
   else
     action_create
@@ -87,7 +87,7 @@ def action_replace
   rr.save(true)
   @dyn.publish
   Chef::Log.info("Replaced #{@new_resource} at dynect")
-  new_resource.updated_by_last_action = true
+  new_resource.updated_by_last_action(true)
 end
 
 def action_delete
@@ -95,6 +95,6 @@ def action_delete
     @rr.delete
     @dyn.publish
     Chef::Log.info("Deleted #{@new_resource} from dynect")
-    new_resource.updated_by_last_action = true
+    new_resource.updated_by_last_action(true)
   end
 end
