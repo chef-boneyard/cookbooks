@@ -12,11 +12,33 @@ Tested on Ubuntu 8.10.
 
 = ATTRIBUTES: 
 
-No haproxy-specific attributes are used.
+No haproxy-specific attributes are used in the default recipe.
+
+The app_lb recipe can search for a user defined role name to load balance. 
 
 = USAGE:
 
-Update the haproxy.cfg file with listener(s) for your sites/servers.
+For the default recipe, update the haproxy.cfg file with listener(s) for your sites/servers.
+
+The app_lb recipe is designed to be used with the application cookbook, and provides search mechanism to find the appropriate application servers. Set this in a role that includes the haproxy::app_lb recipe. For example,
+
+    name "load_balancer"
+    description "haproxy load balancer"
+    run_list("recipe[haproxy::app_lb]")
+    override_attributes(
+      "haproxy" => {
+        "app_server_role" => "webserver"
+      }
+    )
+
+The search also relies on an attribute "app_environment" being set on the node and a role named with the same value. For example, production:
+
+
+    name "production"
+    description "Nodes in the production environment."
+    default_attributes(
+      "app_environment" => "production"
+    )
 
 = LICENSE and AUTHOR:
       
