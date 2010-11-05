@@ -44,10 +44,20 @@ EOS
 execute "db_bootstrap" do
   command node[:radiant][:db_bootstrap]
   cwd "#{app['deploy_to']}/current"
+  creates "#{app['deploy_to']}/current/tmp/radiant_config_cache.txt"
   ignore_failure true
+  notifies :create, "ruby_block[remove_radiant_bootstrap]", :immediately
 end
 
 file "#{app['deploy_to']}/current/tmp/radiant_config_cache.txt" do
   owner app['owner']
   group app['group']
+end
+
+ruby_block "remove_radiant_bootstrap" do
+  block do
+    Chef::Log.info("Radiant Database Bootstrap completed, removing the destructive recipe[radiant::db_bootstrap]")
+    node.run_list.remove("recipe[radiant::db_bootstrap]") if node.run_list.include?("recipe[radiant::db_bootstrap]")
+  end
+  action :nothing
 end
