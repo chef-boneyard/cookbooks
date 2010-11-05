@@ -203,8 +203,18 @@ deploy_revision app['id'] do
 
   if app['migrate'][node.app_environment] && node[:apps][app['id']][node.app_environment][:run_migrations]
     migrate true
-    migration_command "rake db:migrate"
+    migration_command app['migration_command'] || "rake db:migrate"
   else
     migrate false
+  end
+  before_symlink do
+    ruby_block "remove_run_migrations" do
+      block do
+        if node.role?("#{app['id']}_run_migrations")
+          Chef::Log.info("Migrations were run, removing role[#{app['id']}_run_migrations]")
+          node.run_list.remove("role[#{app['id']}_run_migrations]")
+        end
+      end
+    end
   end
 end

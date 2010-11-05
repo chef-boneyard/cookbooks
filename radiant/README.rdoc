@@ -12,6 +12,8 @@ Tested on Ubuntu 9.04, uses the Opscode Apache2 cookbook which is Ubuntu/Debian 
 
 Requires Chef 0.7.12 for Deploy resource when installing from Radiant's git repo.
 
+The `db_bootstrap` recipe requires Chef 0.9.10+ for the notifies resource syntax.
+
 == Cookbooks:
 
 Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
@@ -56,7 +58,7 @@ This task will destroy any data in the database. Are you sure you want to contin
 
 This recipe wraps the rake db:bootstrap from above. Only use this recipe if you know what you are doing. Otherwise, run the db:bootstrap manually.
 
-This recipe is designed to be used with the Opscode application cookbook, and only one time.
+This recipe is designed to be used with the Opscode application cookbook, and only one time. It removes itself with a Ruby block resource when the rake resource executes successfully.
 
 = LICENSE and AUTHOR:
 

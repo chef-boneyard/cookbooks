@@ -39,8 +39,8 @@ Searches the `apps` data bag and checks that a server role in the app exists on 
 
 See below regarding the application data bag structure.
 
-passenger_apache2
------------------
+`passenger_apache2`
+-------------------
 
 Requires `apache2` and `passenger_apache2` cookbooks. The `recipe[apache2]` entry should come before `recipe[application]` in the run list.
 
@@ -59,7 +59,32 @@ Using the node's `run_state` that contains the current application in the search
 This recipe can be used on nodes that are going to run the application, or on nodes that need to have the application code checkout available such as supporting utility nodes or a configured load balancer that needs static assets stored in the application repository.
 
 For Gem Bundler: include `bundler` or `bundler08` in the gems list.  `bundle install` or `gem bundle` will be run before migrations.
+
 For config.gem in environment: `rake gems:install RAILS_ENV=<node environment>` will be run when a Gem Bundler command is not.
+
+In order to manage running database migrations (rake db:migrate), you can use a role that sets the `run_migrations` attribute for the application (`my_app`, below) in the correct environment (production, below). Note the data bag item needs to have migrate set to true. See the data bag example below.
+
+    {
+      "name": "my_app_run_migrations",
+      "description": "Run db:migrate on demand for my_app",
+      "json_class": "Chef::Role",
+      "default_attributes": {
+      },
+      "override_attributes": {
+        "apps": {
+          "my_app": {
+            "production": {
+              "run_migrations": true
+            }
+          }
+        }
+      },
+      "chef_type": "role",
+      "run_list": [
+      ]
+    }
+
+Simply apply this role to the node's run list when it is time to run migrations, and the recipe will remove the role when done.
 
 unicorn
 -------
@@ -79,8 +104,8 @@ passenger-nginx
 
 Builds passenger as an nginx module, drops off the configuration file and sets up the site to run the application under nginx with passenger. Does not deploy the code automatically.
 
-rails_nginx_ree_passenger
--------------------------
+`rails_nginx_ree_passenger`
+---------------------------
 
 Sets up the application stack with Ruby Enterprise Edition, Nginx and Passenger.
 
@@ -197,7 +222,7 @@ To use the application cookbook, we recommend creating a role named after the ap
       }
     }
 
-Also recommended is a site-cookbook named after the application, e.g. `my_app`, for additional application specific setup such as other config files for queues, search engines and other components of your application. The `my_app` recipe can be used in the run list of the role, if it includes the `application` recipe.
+Also recommended is a cookbook named after the application, e.g. `my_app`, for additional application specific setup such as other config files for queues, search engines and other components of your application. The `my_app` recipe can be used in the run list of the role, if it includes the `application` recipe.
 
 You should also have a role for the environment(s) you wish to use this cookbook. Similar to the role above, create the Ruby DSL file in chef-repo, or create with knife directly.
 
