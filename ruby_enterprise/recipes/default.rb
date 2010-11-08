@@ -42,8 +42,10 @@ end
 bash "Install Ruby Enterprise Edition" do
   cwd "/tmp"
   code <<-EOH
+  mkdir -p #{node[:ruby_enterprise][:gems_dir]}/gems
   tar zxf ruby-enterprise-#{node[:ruby_enterprise][:version]}.tar.gz
   ruby-enterprise-#{node[:ruby_enterprise][:version]}/installer \
+    --dont-install-useful-gems \
     --auto=#{node[:ruby_enterprise][:install_path]}
   EOH
   not_if do
