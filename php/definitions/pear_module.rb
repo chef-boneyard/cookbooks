@@ -19,13 +19,22 @@
 #
 
 define :pear_module, :module => nil, :enable => true do
-  
+
   include_recipe "php::pear"
-  
+
+  # still allowing for use of :module
   if params[:enable]
     execute "/usr/bin/pear install -a #{params[:module]}" do
-      only_if "/bin/sh -c '! /usr/bin/pear info #{params[:module]} 2>&1 1>/dev/null"
+      only_if "/bin/sh -c '! /usr/bin/pear info #{params[:module]} ' 2>&1 1>/dev/null"
     end
   end
-  
+
+  # but better to use :name
+  # then we can just use "pear_module PACKAGE_NAME"
+  if params[:enable] and params[:name]
+    execute "/usr/bin/pear install -a #{params[:name]}" do
+      only_if "/bin/sh -c '! /usr/bin/pear info #{params[:name]} ' 2>&1 1>/dev/null"
+    end
+  end
+
 end
