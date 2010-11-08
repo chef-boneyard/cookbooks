@@ -1,45 +1,115 @@
 {
-  "name": "ruby_enterprise",
-  "description": "Installs/Configures ruby-enterprise",
-  "long_description": "= DESCRIPTION:\n\nInstalls Ruby Enterprise Edition (REE) from Phusion.\n\n= REQUIREMENTS:\n\nOpscode's build-essential cookbook to get a compiler and associated files installed.\n\n= ATTRIBUTES: \n\n* ruby_enterprise[:install_path] - Location to install REE. Default /opt/ruby-enterprise\n* ruby_enterprise[:version] - Version-datestamp to use. Default 1.8.6-20090610. May lag behind latest REE release.\n* ruby_enterprise[:url] - URL to download. Default is from RubyForge, with the version specified. Note the download ID must be updated when there are new releases.\n\n= USAGE:\n\nInclude the ruby_enterprise recipe to install REE.\n\n    include_recipe \"ruby_enterprise\"\n\nOr add it to your role, or directly to a node's recipes.\n\nInstall RubyGems under REE with the ree_gem definition.\n\n    ree_gem \"rails\" do\n      source \"http://gems.rubyforge.org\"\n      version \"2.3.4\"\n    end\n\nThe definition supports parameters for source and version, though they are optional.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nAuthor:: Sean Cribbs (<seancribbs@gmail.com>)\nAuthor:: Michael Hale (<mikehale@gmail.com>)\n\nCopyright:: 2009-2010, Opscode, Inc.\nCopyright:: 2009, Sean Cribbs\nCopyright:: 2009, Michael Hale\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n\n",
+  "version": "0.2.4",
+  "providing": {
+  },
+  "recipes": {
+    "ruby_enterprise": "Installs Ruby Enterprise Edition"
+  },
   "maintainer": "Opscode, Inc.",
-  "maintainer_email": "cookbooks@opscode.com",
-  "license": "Apache 2.0",
+  "replacing": {
+  },
   "platforms": {
-    "redhat": [
+    "fedora": [
 
     ],
     "centos": [
 
     ],
-    "fedora": [
-
-    ],
     "ubuntu": [
 
+    ],
+    "redhat": [
+
     ]
+  },
+  "license": "Apache 2.0",
+  "maintainer_email": "cookbooks@opscode.com",
+  "groupings": {
+  },
+  "recommendations": {
+  },
+  "attributes": {
+    "ruby_enterprise/install_path": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "/opt/ruby-enterprise",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "Specify the base location where REE will be installed",
+      "display_name": "Ruby Enterprise Installation Path"
+    },
+    "ruby_enterprise/ruby_bin": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "/opt/ruby-enterprise/bin/ruby",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "Location of the ruby executable for REE",
+      "display_name": "Ruby Enterprise Binary"
+    },
+    "ruby_enterprise/gems_dir": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "ruby_enterprise_install_path/lib/ruby/gems/1.8",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "Location where Rubygems are installed for REE",
+      "display_name": "Ruby Enterprise Gem Directory"
+    },
+    "ruby_enterprise/url": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "http://rubyforge.org/frs/download.php/71096/ruby-enterprise-ruby_enterprise_version",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "Specify the URL for fetching the REE source to compile",
+      "display_name": "Ruby Enterprise Source URL"
+    },
+    "ruby_enterprise/version": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "1.8.7-2010.02",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "description": "Specify the version of REE to install",
+      "display_name": "Ruby Enterprise version"
+    }
+  },
+  "description": "Installs/Configures ruby-enterprise",
+  "suggestions": {
   },
   "dependencies": {
     "build-essential": [
 
     ]
   },
-  "recommendations": {
-  },
-  "suggestions": {
-  },
+  "long_description": "= DESCRIPTION:\n\nInstalls Ruby Enterprise Edition (REE) from Phusion.\n\n= REQUIREMENTS:\n\nOpscode's build-essential cookbook to get a compiler and associated files installed.\n\n= ATTRIBUTES: \n\n* ruby_enterprise[:install_path] - Location to install REE. Default /opt/ruby-enterprise\n* ruby_enterprise[:version] - Version-datestamp to use. Default 1.8.7-2010.02. May lag behind latest REE release.\n* ruby_enterprise[:url] - URL to download. Default is from RubyForge, with the version specified. Note the download ID must be updated when there are new releases.\n\n= USAGE:\n\nInclude the ruby_enterprise recipe to install REE.\n\n    include_recipe \"ruby_enterprise\"\n\nOr add it to your role, or directly to a node's recipes.\n\nInstall RubyGems under REE with the ree_gem definition.\n\n    ree_gem \"rails\" do\n      source \"http://gems.rubyforge.org\"\n      version \"2.3.4\"\n    end\n\nThe definition supports parameters for source and version, though they are optional.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nAuthor:: Sean Cribbs (<seancribbs@gmail.com>)\nAuthor:: Michael Hale (<mikehale@gmail.com>)\n\nCopyright:: 2009-2010, Opscode, Inc.\nCopyright:: 2009, Sean Cribbs\nCopyright:: 2009, Michael Hale\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n\n",
+  "name": "ruby_enterprise",
   "conflicting": {
-  },
-  "providing": {
-  },
-  "replacing": {
-  },
-  "attributes": {
-  },
-  "groupings": {
-  },
-  "recipes": {
-    "ruby_enterprise": "Installs Ruby Enterprise Edition"
-  },
-  "version": "0.2.4"
+  }
 }
