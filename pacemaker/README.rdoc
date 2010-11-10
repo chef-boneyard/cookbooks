@@ -3,7 +3,7 @@ This cookbook consists of a single recipe that installs the heartbeat and pacema
 
 This cookbook can be extended in the future to support OpenAIS or HeartBeat.
 
-For more details see clusterlabs.org
+For more details see http://clusterlabs.org
 
 Pacemaker can be a very complex tool to work with, so please read up on how it works. 
 
