@@ -1,0 +1,92 @@
+= DESCRIPTION:
+This cookbook consists of a single recipe that installs the heartbeat and pacemaker application. Pacemaker and Heartbeat are part of ClusterLabs. OpenAIS is the new heartbeat tool recommended by ClusterLabs, but the DRBD guys have been managing Heartbeat development. 
+
+This cookbook can be extended in the future to support OpenAIS or HeartBeat.
+
+For more details see clusterlabs.org
+
+Pacemaker can be a very complex tool to work with, so please read up on how it works. 
+
+
+= REQUIREMENTS:
+
+This cookbook requires a databag. The databag name and id can be configured in a role or in the default node attributes.
+
+Create a sha1 secret(from bash):
+
+( echo -ne "auth 1\n1 sha1 "; \
+  dd if=/dev/urandom bs=512 count=1 | openssl md5 )
+
+Sha1 Output: 7db8f9aba89a6bc9f869cd1478f36dbb
+
+To create the default databag do the following: 
+
+	knife data bag create pacemaker
+
+Create a json databag file with the "default" id and paste your sha1 secret under auth.
+
+{
+    "id": "default",
+    "auth": "7db8f9aba89a6bc9f869cd1478f36dbb",
+    "nodes": [
+        "node01",
+        "node02",
+		"node03"
+    ] 
+}
+
+Upload the data bag with knife:
+	knife data bag from file pacemaker <path_to_data_bag>/databag_file.json
+
+
+For the machines heartbeat instance to start properly, the nodes must be resolvable from each server. 
+
+= ATTRIBUTES: 
+
+In default.rb under attributes, the following default attribute exists. This can be overridden in a role. 
+
+default_unless[:pacemaker][:databag][:name] = "pacemaker"
+default_unless[:pacemaker][:databag][:id] = "default"
+
+= USAGE:
+
+Add this recipe to a machines runlist to configure pacemaker / heartbeat. To start pacemaker with init.d: 
+
+/etc/init.d/heartbeat start
+
+
+Sample Pacemaker Config: This config can be setup with (crm configure edit)
+
+The following config configured a virtual ip address. Starts haproxy and creates a rule that says,
+"Haproxy Must Always Follow the Virtual IP Address."
+
+
+primitive ip_haproxy ocf:heartbeat:IPaddr2 \
+	params ip="192.168.100.100" nic="eth0" \
+	meta target-role="Started"
+primitive lb_haproxy lsb:haproxy \
+	op monitor start-delay="10s" interval="10s" \
+	op start start-delay="5s" interval="0" \
+	meta target-role="Started"
+colocation haproxy_with_ip inf: lb_haproxy ip_haproxy
+property $id="cib-bootstrap-options" \
+	dc-version="1.0.8-042548a451fce8400660f6031f4da6f0223dd5dd" \
+	cluster-infrastructure="Heartbeat" \
+	stonith-enabled="false" \
+	default-resource-stickiness="1000"
+
+
+Monitor Pacemaker:  
+
+crm_mon
+
+Add a virtual ip address with pacemakers crm cli: 
+
+	#The following commands will configure a virtual ip address and assign it to one of your nodes. 
+	crm  
+	configure
+	primitive ip_haproxy ocf:heartbeat:IPaddr2 params ip="192.168.1.1" nic="eth0"
+	commit
+	
+	
+ 

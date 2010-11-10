@@ -1,0 +1,39 @@
+{
+  "recipes": {
+
+  },
+  "recommendations": {
+
+  },
+  "attributes": {
+
+  },
+  "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES: \n\n= USAGE:\n\n",
+  "suggestions": {
+
+  },
+  "dependencies": {
+
+  },
+  "conflicting": {
+
+  },
+  "platforms": {
+
+  },
+  "license": "Apache 2.0",
+  "version": "0.1.0",
+  "providing": {
+
+  },
+  "maintainer": "Example Com",
+  "replacing": {
+
+  },
+  "name": "pacemaker",
+  "maintainer_email": "sean@densone.com",
+  "description": "Installs/Configures pacemaker and heartbeat",
+  "groupings": {
+
+  }
+}
