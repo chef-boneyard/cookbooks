@@ -17,30 +17,32 @@
 # limitations under the License.
 #
 
-app = node.run_state[:current_app] 
+node.run_state[:applications].each do |current_app|
+  next unless current_app[:recipes].include? "passenger-nginx"
+  app = current_app[:app]
+  
+  include_recipe "passenger_enterprise::nginx"
 
-include_recipe "passenger_enterprise::nginx"
+  template "#{node[:nginx][:dir]}/sites-available/#{app['id']}.conf" do
+    source "rails_nginx_passenger.conf.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+    variables(
+      :app => app['id'],
+      :docroot => "/srv/#{app['id']}/current/public",
+      :server_name => "#{app['id']}.#{node[:domain]}",
+      :server_aliases => [ node[:fqdn], app['id'] ],
+      :rails_env => app['environment']
+    )
+  end
 
-template "#{node[:nginx][:dir]}/sites-available/#{app['id']}.conf" do
-  source "rails_nginx_passenger.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  variables(
-    :app => app['id'],
-    :docroot => "/srv/#{app['id']}/current/public",
-    :server_name => "#{app['id']}.#{node[:domain]}",
-    :server_aliases => [ node[:fqdn], app['id'] ],
-    :rails_env => app['environment']
-  )
+  nginx_site "#{app['id']}.conf" do
+    notifies :restart, resources(:service => "nginx")
+  end
+
+  d = resources(:deploy => app['id'])
+  d.restart_command do
+    service "nginx" do action :restart; end
+  end
 end
-
-nginx_site "#{app['id']}.conf" do
-  notifies :restart, resources(:service => "nginx")
-end
-
-d = resources(:deploy => app['id'])
-d.restart_command do
-  service "nginx" do action :restart; end
-end
-

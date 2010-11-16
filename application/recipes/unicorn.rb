@@ -17,38 +17,40 @@
 # limitations under the License.
 #
 
-app = node.run_state[:current_app] 
-
-include_recipe "unicorn"
-
-node.default[:unicorn][:worker_timeout] = 60
-node.default[:unicorn][:preload_app] = false
-node.default[:unicorn][:worker_processes] = [node[:cpu][:total].to_i * 4, 8].min
-node.default[:unicorn][:preload_app] = false
-node.default[:unicorn][:before_fork] = 'sleep 1' 
-node.default[:unicorn][:port] = '8080'
-node.set[:unicorn][:options] = { :tcp_nodelay => true, :backlog => 100 }
-
-unicorn_config "/etc/unicorn/#{app['id']}.rb" do
-  listen({ node[:unicorn][:port] => node[:unicorn][:options] })
-  working_directory File.join(app['deploy_to'], 'current')
-  worker_timeout node[:unicorn][:worker_timeout] 
-  preload_app node[:unicorn][:preload_app] 
-  worker_processes node[:unicorn][:worker_processes]
-  before_fork node[:unicorn][:before_fork] 
-end
-
-runit_service app['id'] do
-  template_name 'unicorn'
-  cookbook 'application'
-  options(:app => app)
-  run_restart false
-end
-
-if File.exists?(File.join(app['deploy_to'], "current"))
-  d = resources(:deploy => app['id'])
-  d.restart_command do
-    execute "/etc/init.d/#{app['id']} hup"
+node.run_state[:applications].each do |current_app|
+  next unless current_app[:recipes].include? "unicorn"
+  app = current_app[:app]
+  
+  include_recipe "unicorn"
+  
+  node.default[:unicorn][:worker_timeout] = 60
+  node.default[:unicorn][:preload_app] = false
+  node.default[:unicorn][:worker_processes] = [node[:cpu][:total].to_i * 4, 8].min
+  node.default[:unicorn][:preload_app] = false
+  node.default[:unicorn][:before_fork] = 'sleep 1' 
+  node.default[:unicorn][:port] = '8080'
+  node.set[:unicorn][:options] = { :tcp_nodelay => true, :backlog => 100 }
+  
+  unicorn_config "/etc/unicorn/#{app['id']}.rb" do
+    listen({ node[:unicorn][:port] => node[:unicorn][:options] })
+    working_directory File.join(app['deploy_to'], 'current')
+    worker_timeout node[:unicorn][:worker_timeout] 
+    preload_app node[:unicorn][:preload_app] 
+    worker_processes node[:unicorn][:worker_processes]
+    before_fork node[:unicorn][:before_fork] 
+  end
+  
+  runit_service app['id'] do
+    template_name 'unicorn'
+    cookbook 'application'
+    options(:app => app)
+    run_restart false
+  end
+  
+  if File.exists?(File.join(app['deploy_to'], "current"))
+    d = resources(:deploy => app['id'])
+    d.restart_command do
+      execute "/etc/init.d/#{app['id']} hup"
+    end
   end
 end
-

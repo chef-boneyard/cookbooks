@@ -17,14 +17,16 @@
 # limitations under the License.
 #
 
+node.run_state[:applications] = []
+
 search(:apps) do |app|
   (app["server_roles"] & node.run_list.roles).each do |app_role|
-    app["type"][app_role].each do |thing|
-      node.run_state[:current_app] = app
-      include_recipe "application::#{thing}"
-    end
+    node.run_state[:applications] << {:app => app, :recipes => app["type"][app_role]}
   end
 end
 
-node.run_state.delete(:current_app)
+node.run_state[:applications].map {|a| a[:recipes]}.flatten.uniq.each do |recipe|
+  include_recipe "application::#{recipe}"
+end
 
+node.run_state.delete(:applications)
