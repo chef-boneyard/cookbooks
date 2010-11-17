@@ -26,7 +26,9 @@ p = package "mysql-devel" do
       "5.0.2" => "libmysqlclient15-dev",
       "5.0.3" => "libmysqlclient15-dev",
       "5.0.4" => "libmysqlclient15-dev",
-      "5.0.5" => "libmysqlclient15-dev"
+      "5.0.5" => "libmysqlclient15-dev",
+      "5.0.6" => "libmysqlclient15-dev",
+      "default" => "libmysqlclient15-dev"
     },
     "ubuntu" => {
       "8.04" => "libmysqlclient15-dev",
