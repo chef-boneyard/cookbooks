@@ -7,6 +7,7 @@
 log_level          :info
 log_location       STDOUT
 ssl_verify_mode    :verify_none
+# If using an EC2 instance set an {"chef":{"server_url":"your external server:4000"}} for all Chef Clients
 chef_server_url    "<%= node[:chef][:server_url] %>"
 
 validation_client_name "<%= node[:chef][:validation_client_name] %>"
@@ -20,3 +21,7 @@ file_backup_path   nil
 <% end -%>
 file_cache_path    "<%= node[:chef][:cache_path] %>"
 pid_file           "<%= node[:chef][:run_path] %>/client.pid"
+
+<% if Chef::Config[:node_name] != node[:hostname] %>
+node_name Chef::Config[:node_name]
+<% end %>
