@@ -6,19 +6,21 @@ Installs haproxy and prepares the configuration location.
 
 == Platform:
 
-Tested on Ubuntu 8.10.
+Tested on Ubuntu 8.10 and higher.
 
 == Cookbooks:
 
-= ATTRIBUTES: 
+= ATTRIBUTES:
 
-No haproxy-specific attributes are used in the default recipe.
-
-The app_lb recipe can search for a user defined role name to load balance. 
+* `node['haproxy']['member_port']` - the port that member systems will be listening on, default 80
+* `node['haproxy']['enable_admin']` - whether to enable the admin interface. default true. Listens on port 22002.
+* `node['haproxy']['app_server_role']` - used by the `app_lb` recipe to search for a specific role of member systems. Default `webserver`.
 
 = USAGE:
 
-For the default recipe, update the haproxy.cfg file with listener(s) for your sites/servers.
+Use either the default recipe or the app_lb recipe.
+
+When using the default recipe, modify the haproxy.cfg.erb file with listener(s) for your sites/servers.
 
 The app_lb recipe is designed to be used with the application cookbook, and provides search mechanism to find the appropriate application servers. Set this in a role that includes the haproxy::app_lb recipe. For example,
 
@@ -41,10 +43,10 @@ The search also relies on an attribute "app_environment" being set on the node a
     )
 
 = LICENSE and AUTHOR:
-      
+
 Author:: Joshua Timberman (<joshua@opscode.com>)
 
-Copyright:: 2009, Opscode, Inc
+Copyright:: 2009-2010, Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -1,7 +1,7 @@
 BOOTSTRAP CHANGES
 =================
 
-The `bootstrap` cookbook's recipes for configuring a RubyGem installation of Chef have been merged into this cookbook.
+The `bootstrap` cookbook's recipes for configuring a RubyGem installation of Chef have been merged into this cookbook. Do not use the `bootstrap` cookbook on versions of Chef after 0.8.2.
 
     bootstrap::client -> chef::bootstrap_client
     bootstrap::server -> chef::bootstrap_server
@@ -12,6 +12,8 @@ Be aware of the following changes to this cookbook.
 * Server configuration now has a setting for the cookbook tarballs. See the server.rb.erb template.
 * We now set the signing key/cert locations and set owner / group. See the server.rb.erb template.
 * The validation client name is configurable. See the attributes.
+
+The client service setup has been moved from the `chef::bootstrap_client` recipe into its own recipe, `chef::client_service`. This is to improve use with Knife bootstrap which already configures the client configuration file.
 
 DESCRIPTION
 ===========
@@ -30,7 +32,7 @@ Platform
 
 If using this cookbook to manage a Chef Server system that was installed from Debian/Ubuntu packages, note that in the packages, the configuration files are split up for server.rb, solr.rb and webui.rb, and the `chef::server` recipe may not work as desired.
 
-We recommend using a recent version of Ubuntu or Debian for the Chef Server.
+A recent version of Ubuntu or Debian is recommended for the Chef Server.
 
 * Ubuntu 9.10/10.04
 * Debian testing/unstable
@@ -53,7 +55,7 @@ Client
 Server
 ------
 
-The `chef::bootstrap_server` recipe uses the following other cookbooks from the Opscode repository.
+The `chef::bootstrap_server` recipe uses the following other cookbooks from Opscode.
 
 * couchdb
 * `rabbitmq_chef`
@@ -78,21 +80,27 @@ umask
 
 Sets the umask for files created by the server process via `Chef::Config[:umask]` in `/etc/chef/server.rb`
 
-url_type
---------
+`url_type`
+----------
 
 Set up the URLs the client should connect to with this. Default is `http`, which tells the client to connect to `http://server:4000`. If you set up your chef-server to use an SSL front-end for example with `chef::server_proxy`, set this to `https` for clients and the URLs will be `https://server/`.
 
 By default the only URL config setting for Chef 0.8.x+ is `Chef::Config[:chef_server_url]`. The other older URLs are still supported so you can split out the various functions of the Chef Server, but configuration of those is outside the scope of this cookbook.
 
-init_style
-----------
+`init_style`
+------------
 
-Specifies the init style to use. Default `runit`. Other possible values `init`, `bsd`, any other string will be treated as unknown and a message will be displayed during the Chef run.
+Specifies the init style to use. Possible values:
+
+* runit - uses runit to set up the service. Logs will be in `/etc/sv/chef-client/log/main`. Default value for this attribute.
+* init - uses init scripts that are included in the `chef` gem. Logs will be in `/var/log/chef`. Only usable with debian/ubuntu and red hat family distributions.
+* daemontools - uses daemontools to set up the service. Logs will be in `/etc/sv/chef-client/log/main`.
+* bluepill - uses bluepill to set up the service.
+* bsd - Prints a message with the chef-client command to use in rc.local.
 
 If your platform doesn't have a `runit` package or if the cookbook doesn't detect it, but you still want to use runit, set `init_style` to `none` and install runit separately. You may need to configure the runit services separately.
 
-Using the `init` value for this attribute will retrieve the init scripts that are distributed with the Chef gem. 
+Using the `init` value for this attribute will retrieve the init scripts that are distributed with the Chef gem.
 
 This cookbook does not yet support Upstart for Ubuntu/Debian, but that is planned for a future release, and will be specified via this attribute.
 
@@ -109,79 +117,79 @@ Any BSD and Gentoo:
 
 * `/var/chef`
 
-run_path
---------
+`run_path`
+----------
 
 Location for pidfiles on systems using init scripts. Default `/var/run/chef`.
 
 If `init_style` is `init`, this is used, and should match what the init script itself uses for the PID files.
 
-cache_path
-----------
+`cache_path`
+------------
 
 Location where the client will cache cookbooks and other data. Default is `cache` underneath the `chef[:path]` location. Linux distributions adhering to the FHS prefer `/var/cache/chef` instead.
 
 Base directory for data that is easily regenerated such as cookbook tarballs (`Chef::Config[:cookbook_tarballs]`) on the server, downloaded cookbooks on the client, etc. See the config templates.
 
-backup_path
------------
+`backup_path`
+-------------
 
 Location where backups of files, corresponds to the `file_backup_path` location. Defaults to `backup` under `chef[:path]` location. Set to `false` to use the old behavior which stores the backup files in the same directory as the target.
 
 FHS location suggestion: `/var/lib/chef/backup`.
 
-serve_path
-----------
+`serve_path`
+------------
 
 Used by the Chef server as the base location to "serve" cookbooks, roles and other assets. Default is `/srv/chef`.
 
-server_version
---------------
+`server_version`
+----------------
 
 Version of Chef to install for the server. Used by the `server_proxy` recipe to set the location of the DocumentRoot of the WebUI. Automatically determined via ohai's `chef_packages[:chef][:version]` by default.
 
-client_version
---------------
+`client_version`
+----------------
 
 Version of Chef to install for the client. Used to display a log message about the location of the init scripts when `init_style` is `init`, and can be used to upgrade `chef` gem with the `chef::bootstrap_client` recipe. Automatically determined via ohai's `chef_packages[:chef][:version]` by default.
 
-client_interval
----------------
+`client_interval`
+-----------------
 
 Number of seconds to run chef-client periodically. Default `1800` (30 minutes).
 
-client_splay
-------------
+`client_splay`
+--------------
 
 Splay interval to randomly add to interval. Default `20`.
 
-log_dir
--------
+`log_dir`
+---------
 
 When `init_style` is `init`, this directory needs to be created. The default is `/var/log/chef`.
 
-client_log, indexer_log, server_log
------------------------------------
+`client_log`, `indexer_log`, `server_log`
+-----------------------------------------
 
 These options are deprecated to reduce complexity and potential confusion.
 
-server_port
------------
+`server_port`
+-------------
 
 Port for the Server API service to listen on. Default `4000`.
 
-webui_port
-----------
+`webui_port`
+------------
 
 Port for the Server WebUI service to listen on. Default `4040`.
 
-webui_enabled
--------------
+`webui_enabled`
+---------------
 
 As of version 0.8.x+, the WebUI part of the Chef Server is optional, and disabled by default. To enable it, set this to true.
 
-server_fqdn
------------
+`server_fqdn`
+-------------
 
 Fully qualified domain name of the server. Default is `chef.domain` where domain is detected by Ohai. You should configure a DNS entry for your Chef Server.
 
@@ -189,8 +197,8 @@ On servers, this specifies the URL the server expects to use by default `Chef::C
 
 On clients, this specifies the URL the client uses to connect to the server as `Chef::Config[:chef_server_url]`.
 
-server_url
-----------
+`server_url`
+------------
 
 Full URI for the Chef Server. Used for `chef_server_url` config setting. The default value combines the attributes `chef.url_type`, `chef.server_fqdn` and `chef.server_port`, creating for example "http://chef.example.com:4000". If you are using the Opscode Platform, set this to "https://api.opscode.com/organizations/ORGNAME", where ORGNAME is your organization's simple string name.
 
@@ -199,13 +207,13 @@ SERVER PROXY
 
 The following attributes are used by the `server_proxy.rb` recipe, and are stored in the `server_proxy.rb` attributes file.
 
-doc_root
---------
+`doc_root`
+----------
 
 DocumentRoot for the WebUI. Also gets set in the vhost for the API, but it is not used since the vhost merely proxies to the server on port 4000.
 
-server_ssl_req
---------------
+`server_ssl_req`
+----------------
 
 Used by the `server_proxy` recipe, this attribute can be used to set up a self-signed SSL certificate automatically using OpenSSL. Fields:
 
@@ -219,13 +227,13 @@ Used by the `server_proxy` recipe, this attribute can be used to set up a self-s
 
 This attribute is now in the `server_proxy.rb` attributes file, as it is specific to that context.
 
-server_proxy.css_expire_hours
------------------------------
+`server_proxy.css_expire_hours`
+-------------------------------
 
 Sets expiration time for CSS in the WebUI.
 
-server_proxy.js_expire_hours
-----------------------------
+`server_proxy.js_expire_hours`
+------------------------------
 
 Sets expiration time for JavaScript in the WebUI.
 
@@ -241,15 +249,15 @@ The first two recipes described are for "bootstrapping" a system to be a Chef Cl
 
 These recipes are typically used with chef-solo using a JSON file of attributes and a run list, and a solo config file. For more information see [Bootstrap Chef RubyGems Installation](http://wiki.opscode.com/display/chef/Bootstrap+Chef+RubyGems+Installation) on the Chef Wiki.
 
-bootstrap_client
-----------------
+`bootstrap_client`
+------------------
 
 ONLY FOR RUBYGEMS INSTALLATIONS. Do not use this recipe if you installed Chef from packages for your platform.
 
 Use this recipe to "bootstrap" a client so it can connect to a Chef Server. This recipe does the following:
 
 * Ensures the gem installed matches the version desired (`client_version` attribute).
-* Sets up the `chef-client` service depending on the `init_style` attribute (see above).
+* Includes the `chef::client_service` recipe to ensure that `chef-client` is running as a service.
 * Sets up some directories for Chef to use.
 * Creates the client configuration file `/etc/chef/client.rb` based on the configuration passed via JSON.
 
@@ -273,8 +281,8 @@ For configuring a new client to connect to a local Chef Server:
 
 This is the minimal JSON to use for the client configuration. See the ATTRIBUTES section above for more options.
 
-bootstrap_server
-----------------
+`bootstrap_server`
+------------------
 
 ONLY FOR RUBYGEMS INSTALLATIONS. Do not use this recipe if you installed Chef from packages for your platform.
 
@@ -311,15 +319,22 @@ The recipe itself manages the `/etc/chef/client.rb` config file based on the att
 
 This recipe does not manage the `chef-client` service. It is assumed to have been set up and started from the `bootstrap_client` recipe above, or from OS / distribution packaging. The `chef-client` service should not be restarted as a result of `/etc/chef/client.rb` changing, as that can cause the current process running the client to be restarted, having unpredictable results.
 
+`client_service`
+----------------
+
+Use this recipe on systems that should have a `chef-client` daemon running, such as when Knife bootstrap was used to install Chef on a new system.
+
+This recipe sets up the `chef-client` service depending on the `init_style` attribute (see above). It is included by the `chef::bootstrap_client` recipe.
+
 default
 -------
 
 There is no spoon :-).
 
-delete_validation
------------------
+`delete_validation`
+-------------------
 
-This is a standalone recipe that merely deletes the validation certificate (default `/etc/chef/validation.pem`). Use this if managing the client config file is not required in your environment.
+Use this recipe to delete the validation certificate (default `/etc/chef/validation.pem`) when using a `chef-client` after the client has been validated and authorized to connect to the server.
 
 Beware if using this on your Chef Server. First copy the validation.pem certificate file to another location, such as your knife configuration directory (`~/.chef`) or [Chef Repository](http://wiki.opscode.com/display/chef/Chef+Repository).
 
@@ -341,8 +356,8 @@ Changes to the `/etc/chef/server.rb` will trigger a restart of these services.
 
 Since the Chef Server itself typically runs the CouchDB service for the data store, the recipe will do a compaction on the Chef database and all the views associated with the Chef Server. These compactions only occur if the database/view size is more than 100Mb. It will use the configured CouchDB URL, which is `http://localhost:5984` by default. The actual value used for the CouchDB server is from the `Chef::Config[:couchdb_url]`, so this can be dynamically changed.
 
-server_proxy
-------------
+`server_proxy`
+--------------
 
 This recipe sets up an Apache2 VirtualHost to proxy HTTPS for the Chef Server API and WebUI.
 
@@ -351,8 +366,8 @@ The API will be proxied on port 443. If the `chef-serer-webui` is installed, it 
 TEMPLATES
 =========
 
-chef_server.conf.erb
---------------------
+`chef_server.conf.erb`
+----------------------
 
 VirtualHost file used by Apache2 in the `chef::server_proxy` recipe.
 
@@ -366,8 +381,8 @@ server.rb.erb
 
 Configuration for the server and server components, lands in `/etc/chef/server.rb`. See above regarding Debian/Ubuntu packaging config files when using packages to install Chef.
 
-sv-*run.erb
------------
+`sv-*run.erb`
+-------------
 
 Various runit "run" scripts for the Chef services that get configured when `init_style` is "runit".
 

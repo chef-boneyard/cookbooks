@@ -25,8 +25,10 @@ listen application 0.0.0.0:80
   balance roundrobin
   <% @pool_members.each do |member| -%>
   <% server_ip = member.has_key?("ec2") ? member["ec2"]["public_ipv4"] : member["ipaddress"] -%>
-  server <%= member["hostname"] %> <%= server_ip %>:80 weight 1 maxconn 1 check 
+  server <%= member["hostname"] %> <%= server_ip %>:<%= node["haproxy"]["member_port"] %> weight 1 maxconn 1 check 
   <% end -%>
+<% if node["haproxy"]["enable_admin"] -%>
 listen admin 0.0.0.0:22002
   mode http
   stats uri /
+<% end -%>

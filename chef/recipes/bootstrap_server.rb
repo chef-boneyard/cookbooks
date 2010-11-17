@@ -181,6 +181,33 @@ when "init"
     end
   end
 
+when "bluepill"
+
+  include_recipe "bluepill"
+
+  server_services.each do |svc|
+    template "#{node[:bluepill][:conf_dir]}/#{svc}.pill" do
+      source "#{svc}.pill.erb"
+      mode 0644
+    end
+
+    bluepill_service svc do
+      action [:enable,:load,:start]
+    end
+  end
+
+when "daemontools"
+
+  include_recipe "daemontools"
+
+  server_services.each do |svc|
+    daemontools_service svc do
+      template svc
+      log true
+      action [:enable, :start]
+    end
+  end
+
 when "bsd"
 
   log("You specified service style 'bsd'. You will need to set up your rc.local file for chef-solr-indexer, chef-solr and chef-server.")
