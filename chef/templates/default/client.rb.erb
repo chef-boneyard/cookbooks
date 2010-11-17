@@ -23,5 +23,5 @@ file_cache_path    "<%= node[:chef][:cache_path] %>"
 pid_file           "<%= node[:chef][:run_path] %>/client.pid"
 
 <% if Chef::Config[:node_name] != node[:hostname] %>
-node_name Chef::Config[:node_name]
+node_name "<%= Chef::Config[:node_name] %>"
 <% end %>
