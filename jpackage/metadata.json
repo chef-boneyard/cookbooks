@@ -32,10 +32,11 @@
     ]
   },
   "name": "jpackage",
-  "version": "0.0.1",
+  "version": "0.10.0",
   "conflicting": {
   },
   "license": "Apache 2.0",
   "recipes": {
+    "jpackage::default": "Installs and configures jpackage"
   }
 }

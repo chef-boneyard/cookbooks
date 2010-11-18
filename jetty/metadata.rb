@@ -13,4 +13,4 @@ end
   supports os
 end
 
-recipe "jetty::default", "Main Jetty configuration"
+recipe "jetty::default", "Installs and configures Jetty"
