@@ -21,17 +21,19 @@
 define :ruby_packages, :action => :install do
   rv = params[:name].to_s
   raise "A Ruby version such as 1.8, 1.9 or 1.9.1 must be given" if rv.empty?
-
+  
+  ubuntu_10_10 = (node[:platform] == "ubuntu" && node[:platform_version].to_f > 10.04)
+  
   packages = case node[:platform]
   when "ubuntu","debian"
     [
       "ruby#{rv}",
       "ruby#{rv}-dev",
-      "rdoc#{rv}",
+     ("rdoc{#rv}" unless ubuntu_10_10),
       "ri#{rv}",
-      "irb#{rv}",
-      "libopenssl-ruby#{rv}",
-     ("libshadow-ruby1.8" if rv == "1.8")
+     ("irb{#rv}" unless ubuntu_10_10),
+     ("libopenssl-ruby#{rv}" unless ubuntu_10_10),
+     ("libshadow-ruby1.8" if rv == "1.8"),
     ].compact
 
   when "gentoo"
