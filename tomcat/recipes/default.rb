@@ -31,7 +31,7 @@ tomcat_pkgs = value_for_platform(
   ["centos","redhat","fedora"] => {
     "default" => ["tomcat6","tomcat6-admin-webapps"]
   },
-  "default" => ["jetty"]
+  "default" => ["tomcat6"]
 )
 tomcat_pkgs.each do |pkg|
   package pkg do
