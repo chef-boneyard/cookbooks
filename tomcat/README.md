@@ -30,6 +30,11 @@ Usage
 
 Simply include the recipe where you want Tomcat installed.
 
+TODO
+====
+
+* create a LWRP for deploying WAR files (file based and )
+
 License and Author
 ==================
 
