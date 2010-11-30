@@ -44,15 +44,24 @@ end
 
 ## Next, install any application specific gems
 if app['gems']
-  app['gems'].each do |gem,ver|
+  app['gems'].each do |gem,opt|
+    if opt.is_a?(Hash)
+      ver = opt['version']
+      src = opt['source']
+    elsif opt.is_a?(String)
+      ver = opt
+    end
+
     if use_ree
       ree_gem gem do
         action :install
+	source src if src
         version ver if ver && ver.length > 0
       end
     else
       gem_package gem do
         action :install
+	source src if src
         version ver if ver && ver.length > 0
       end
     end
