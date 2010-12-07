@@ -12,12 +12,22 @@
   Alias /nagios3/stylesheets /etc/nagios3/stylesheets
   Alias /nagios3 <%= node[:nagios][:docroot] %>
 
+<% case node[:nagios][:server_auth_method] -%>
+<% when "openid" -%>
   <Location />
     AuthName "Nagios Server"
     AuthOpenIDEnabled On
     AuthOpenIDDBLocation /var/cache/apache2/mod_auth_openid.db
     AuthOpenIDUserProgram /usr/local/bin/mod_auth_openid.rb
   </Location>
+<% else -%>
+  <Location />
+    AuthName "Nagios Server"
+    AuthType Basic
+    AuthUserFile "<%= node[:nagios][:dir] %>/htpasswd.users"
+    require valid-user
+  </Location>
+<% end -%>
 
   RewriteEngine On
   RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.html\ HTTP/

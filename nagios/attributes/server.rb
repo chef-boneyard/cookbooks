@@ -32,6 +32,7 @@ default[:nagios][:check_external_commands] = true
 default[:nagios][:default_contact_groups]  = %w(admins)
 default[:nagios][:sysadmin_email]          = "root@localhost"
 default[:nagios][:sysadmin_sms_email]      = "root@localhost"
+default[:nagios][:server_auth_method]      = "openid"
 
 # This setting is effectively sets the minimum interval (in seconds) nagios can handle.
 # Other interval settings provided in seconds will calculate their actual from this value, since nagios works in 'time units' rather than allowing definitions everywhere in seconds

@@ -23,11 +23,16 @@
 include_recipe "apache2"
 include_recipe "apache2::mod_ssl"
 include_recipe "apache2::mod_rewrite"
-include_recipe "apache2::mod_auth_openid"
 include_recipe "nagios::client"
 
 sysadmins = search(:users, 'groups:sysadmin')
 nodes = search(:node, "hostname:[* TO *] AND role:#{node[:app_environment]}")
+
+if nodes.empty?
+  Chef::Log.info("No nodes returned from search, using this node so hosts.cfg has data")
+  nodes = Array.new
+  nodes << node
+end
 
 members = Array.new
 sysadmins.each do |s|
@@ -87,6 +92,21 @@ end
 
 file "#{node[:apache][:dir]}/conf.d/nagios3.conf" do
   action :delete
+end
+
+case node[:nagios][:server_auth_method]
+when "openid"
+  include_recipe "apache2::mod_auth_openid"
+else
+  template "#{node[:nagios][:dir]}/htpasswd.users" do
+    source "htpasswd.users.erb"
+    owner "nagios"
+    group node[:apache][:user]
+    mode 0640
+    variables(
+      :sysadmins => sysadmins
+    )
+  end
 end
 
 apache_site "000-default" do

@@ -18,20 +18,22 @@ define service {
     use                 default-service
 }
 
-define service {
-    service_description Munin Client
-    hostgroup_name      all
-    check_command       check_tcp!4949
-    use                 default-service
-}
+# Uncomment if you're using Munin
+#define service {
+#    service_description Munin Client
+#    hostgroup_name      all
+#    check_command       check_tcp!4949
+#    use                 default-service
+#}
 
 # default checks for all hosts
-define service {
-    service_description Chef Client
-    hostgroup_name      base
-    check_command    	  check_chef_client
-    use                 default-service
-}
+# Uncomment if you're running chef-client as a daemon
+#define service {
+#    service_description Chef Client
+#    hostgroup_name      base
+#    check_command    	  check_chef_client
+#    use                 default-service
+#}
 
 define service {
     service_description Free Space All Disks
@@ -69,33 +71,35 @@ define service {
 }
 
 <% unless @service_hosts['monitoring'].nil? -%>
-define service {
-    service_description Postfix
-    hostgroup_name      monitoring
-    check_command       check_nrpe!check_smtp
-    use                 default-service
-}
+# If the monitoring host is a postfix relay, uncomment this.
+#define service {
+#    service_description Postfix
+#    hostgroup_name      monitoring
+#    check_command       check_nrpe!check_smtp
+#    use                 default-service
+#}
 
-define service {
-    service_description Rsyslog
-    hostgroup_name      monitoring
-    check_command       check_tcp!514
-    use                 default-service
-}
+# If the monitoring host is a syslog server, uncomment this.
+#define service {
+#    service_description Rsyslog
+#    hostgroup_name      monitoring
+#    check_command       check_tcp!514
+#    use                 default-service
+#}
 
 <% end -%>
-<% unless @service_hosts['load_balancer'].nil? -%>
-# load_balancer service checks
+<% unless @service_hosts['webserver'].nil? -%>
+# basic web server http check
 define service {
-    service_description Nginx LB Processes
-    hostgroup_name      load_balancer
-    check_command       check_nrpe!check_nginx
+    service_description HTTP Processes
+    hostgroup_name      webserver
+    check_command       check_http
     use                 default-service
 }
 
 <% end -%>
 <% unless @service_hosts['appserver'].nil? -%>
-# appserver service checks
+# basic check if appserver role is running unicorn
 define service {
     service_description Unicorn Processes
     hostgroup_name      appserver
@@ -112,6 +116,7 @@ define service {
 
 <% end -%>
 <% unless @service_hosts['database_master'].nil? -%>
+# basic check if the database_master role is a mysql server
 # database_master service checks
 define service {
 		service_description MySQL
