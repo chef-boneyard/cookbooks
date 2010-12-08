@@ -57,7 +57,7 @@ when "centos","redhat","fedora"
     owner "root"
     group "root"
     mode "0644"
-    notifies :restart, resources(:service => "tomcat6")
+    notifies :restart, resources(:service => "tomcat")
   end
 else  
   template "/etc/default/tomcat6" do
@@ -65,7 +65,7 @@ else
     owner "root"
     group "root"
     mode "0644"
-    notifies :restart, resources(:service => "tomcat6")
+    notifies :restart, resources(:service => "tomcat")
   end
 end
 
@@ -74,5 +74,5 @@ template "/etc/tomcat6/server.xml" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :restart, resources(:service => "tomcat6")
+  notifies :restart, resources(:service => "tomcat")
 end
