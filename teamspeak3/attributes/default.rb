@@ -17,6 +17,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-node.override[:ts3][:version] = "3.0.0-beta25"
+node.override[:ts3][:version] = "3.0.0-beta27"
 node.default[:ts3][:arch] = kernel[:machine] =~ /x86_64/ ? "amd64" : "x86"
-node.default[:ts3][:url] = "http://ftp.4players.de/pub/hosted/ts3/releases/beta-25/teamspeak3-server_linux-#{ts3[:arch]}-#{ts3[:version]}.tar.gz"
+node.default[:ts3][:url] = "http://ftp.4players.de/pub/hosted/ts3/releases/beta-27/teamspeak3-server_linux-#{ts3[:arch]}-#{ts3[:version]}.tar.gz"
