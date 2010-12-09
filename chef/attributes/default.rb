@@ -22,7 +22,12 @@ default[:chef][:url_type]   = "http"
 default[:chef][:init_style] = "runit"
 
 case platform
-when "openbsd","freebsd"
+when "centos", "redhat","fedora"
+  default[:chef][:init_style] = "init"
+end
+
+case platform
+when "openbsd","freebsd","centos","redhat","fedora"
   default[:chef][:path]       = "/var/chef"
   default[:chef][:run_path]   = "/var/run"
   default[:chef][:cache_path] = "/var/chef/cache"

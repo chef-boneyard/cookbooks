@@ -39,6 +39,13 @@ when "init"
     mode "755"
   end
 
+  directory node[:chef][:log_dir] do
+    action :create
+    owner "root"
+    group root_group
+    mode "755"
+  end
+
   dist_dir = value_for_platform(
     ["ubuntu", "debian"] => { "default" => "debian" },
     ["redhat", "centos", "fedora"] => { "default" => "redhat"}
@@ -65,7 +72,7 @@ when "init"
   end
 
   service "chef-client" do
-    action :enable
+    action [:enable, :start]
   end
 
 when "bluepill"
