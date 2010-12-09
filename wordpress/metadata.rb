@@ -1,9 +1,9 @@
 maintainer       "Barry Steinglass"
-maintainer_email "barry@opscode.com"
+maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
 description      "Installs/Configures wordpress"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.6.2"
+version          "0.6.3"
 depends          "php"
 depends          "apache2"
 depends          "mysql"

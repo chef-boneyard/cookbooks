@@ -1,9 +1,9 @@
 maintainer       "Opscode, Inc."
-maintainer_email "ops@opscode.com"
+maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
 description      "Installs Ruby on Rails with Ruby Enterprise Edition"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.3.0"
+version          "0.3.1"
 
 recipe "rails_enterprise", "Installs Ruby on Rails with Ruby Enterprise Edition"
 
