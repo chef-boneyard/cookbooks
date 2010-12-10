@@ -35,7 +35,7 @@ execute "update-java-alternatives" do
   returns 0
   only_if do platform?("ubuntu", "debian") end
   action :nothing
-  notifies :create, resources(:ruby_block => "reload_ohai")
+  notifies :create, resources(:ruby_block => "reload_ohai"), :immediately
 end
 
 node.run_state[:java_pkgs].each do |pkg|
@@ -55,7 +55,7 @@ if node.languages.attribute?("java")
   unless node.languages.java.hotspot.name.match(current_java_version_pattern)
     log "Java install_flavor has changed, re-running 'update-java-alternatives'" do
       level :info
-      notifies :run, resources(:execute => "update-java-alternatives"), :delayed
+      notifies :run, resources(:execute => "update-java-alternatives"), :immediately
     end
   end
 end
