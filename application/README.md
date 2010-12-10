@@ -4,8 +4,9 @@ Application cookbook
 This cookbook is initially designed to be able to describe and deploy web applications. Currently supported:
 
 * Rails
+* Java
 
-Other application stacks (PHP, DJango, JBoss, etc) will be supported as new recipes at a later date.
+Other application stacks (PHP, DJango, etc) will be supported as new recipes at a later date.
 
 This cookbook aims to provide primitives to install/deploy any kind of application driven entirely by data defined in an abstract way through a data bag.
 
@@ -20,6 +21,7 @@ The following Opscode cookbooks are dependencies:
 * runit
 * unicorn
 * apache2
+* tomcat
 
 The following are also dependencies, though the recipes are considered deprecated, may be useful for future development.
 
@@ -38,6 +40,11 @@ default
 Searches the `apps` data bag and checks that a server role in the app exists on this node, adds the app to the run state and uses the role for the app to locate the recipes that need to be used. The recipes listed in the "type" part of the data bag are included by this recipe, so only the "application" recipe needs to be in the node or role `run_list`.
 
 See below regarding the application data bag structure.
+
+java
+----
+
+Using the node's `run_state` that contains the current application in the search, this recipe will install required packages, set up the deployment scaffolding, creates servlet container configurations (including JDBC Data Source resources if required) and then performs a remote_file deploy.
 
 `passenger_apache2`
 -------------------
@@ -86,6 +93,13 @@ In order to manage running database migrations (rake db:migrate), you can use a 
 
 Simply apply this role to the node's run list when it is time to run migrations, and the recipe will remove the role when done.
 
+tomcat
+-------
+
+Requires `tomcat` cookbook.
+
+Tomcat is installed, default attributes are set for the node and the app specific context.xml is symlinked over to Tomcat's context directory.
+
 unicorn
 -------
 
@@ -112,7 +126,7 @@ Sets up the application stack with Ruby Enterprise Edition, Nginx and Passenger.
 The recipe searches the apps data bag and then installs packages and gems, creates the nginx vhost config and enables the site, sets up the deployment scaffolding, and uses a revision-based deploy for the code. Database and memcached yaml files are written out as well, if required.
 
 ---
-Application Data Bag
+Application Data Bag (Rail's version)
 ====================
 
 The applications data bag expects certain values in order to configure parts of the recipe. Below is a paste of the JSON, where the value is a description of the key. Use your own values, as required. Note that this data bag is also used by the `database` cookbook, so it will contain database information as well. Items that may be ambiguous have an example.
@@ -201,6 +215,82 @@ Note about gems and packages, the version is optional. If specified, the version
       }
     }
 
+
+---
+Application Data Bag (Java version)
+====================
+
+The applications data bag expects certain values in order to configure parts of the recipe. Below is a paste of the JSON, where the value is a description of the key. Use your own values, as required. Note that this data bag is also used by the `database` cookbook, so it will contain database information as well. Items that may be ambiguous have an example.
+
+The application used in examples is named `my_app` and the environment is `production`. Most top-level keys are Arrays, and each top-level key has an entry that describes what it is for, followed by the example entries. Entries that are hashes themselves will have the description in the value.
+
+Note about "type": the recipes listed in the "type" will be included in the run list via `include_recipe` in the application default recipe based on the type matching one of the `server_roles` values.
+
+Note about `databases`, the data specified will be rendered as JNDI Datasource `Resources` in the `context.xml` file. In the `database` cookbook, this information is also used to set up privileges for the application user, and create the databases.
+
+Note about packages, the version is optional. If specified, the version will be passed as a parameter to the resource. Otherwise it will use the latest available version per the default `:install` action for the package provider.
+
+    {
+      "id": "my_app",
+      "server_roles": [
+        "application specific role(s), typically the name of the app, e.g., my_app",
+        "my_app"
+      ],
+      "type": {
+        "my_app": [
+          "recipes in this application cookbook to run for this role",
+          "java",
+          "tomcat"
+        ]
+      },
+      "database_slave_role": [
+        "name of the role used by database slaves, typically named after the app, 'my_app_database_slave'",
+        "my_app_database_slave"
+      ],
+      "database_master_role": [
+        "name of the role used by database master, typically named after the app 'my_app_database_master'",
+        "my_app_database_master"
+      ],
+      "wars": {
+        "production": {
+          "source": "source url of WAR file to deploy",
+          "checksum": "SHA256 (or portion thereof) of the WAR file to deploy"
+        }
+      },
+      "databases": {
+        "production": {
+          "max_active": "100",
+          "max_idle": "30",
+          "max_wait": "10000",
+          "username": "db_user",
+          "adapter": "mysql",
+          "driver": "com.mysql.jdbc.Driver",
+          "password": "awesome_password",
+          "database": "db_name_production"
+        }
+      },
+      "mysql_root_password": {
+        "production": "password for the root user in mysql"
+      },
+      "mysql_debian_password": {
+        "production": "password for the debian-sys-maint user on ubuntu/debian"
+      },
+      "mysql_repl_password": {
+        "production": "password for the 'repl' user for replication."
+      },
+      "snapshots_to_keep": {
+        "production": "if using EBS, integer of the number of snapshots we're going to keep for this environment."
+      },
+      "deploy_to": "path to deploy, e.g. /srv/my_app",
+      "owner": "owner for the application files when deployed",
+      "group": "group for the application files when deployed",
+      "packages": {
+        "package_name": "specific packages required for installation at the OS level to run the app like libraries and specific version, e.g.",
+        "curl": "7.19.5-1ubuntu2"
+      }
+    }
+
+
 ---
 Usage
 =====
@@ -250,6 +340,7 @@ License and Author
 
 Author:: Adam Jacob (<adam@opscode.com>)
 Author:: Joshua Timberman (<joshua@opscode.com>)
+Author:: Seth Chisamore (<schisamo@opscode.com>)
 
 Copyright 2009-2010, Opscode, Inc.
 
