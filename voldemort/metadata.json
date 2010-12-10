@@ -1,0 +1,29 @@
+{
+  "name": "voldemort",
+  "description": "Installs/Configures voldemort",
+  "long_description": "= DESCRIPTION:\nInstalls and configures the Voldemort distributed database\n\n= REQUIREMENTS:\nPlatform:\n\n - CentOS, Red Hat, Fedora \n\n= ATTRIBUTES:\n\n= USAGE:\n\n= TODO\n - Automatic Cluster configuration\n",
+  "maintainer": "John E. Vincent",
+  "maintainer_email": "lusis.org+github.com@gmail.com",
+  "license": "All rights reserved",
+  "platforms": {
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.0.1"
+}

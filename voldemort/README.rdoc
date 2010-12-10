@@ -1,0 +1,57 @@
+= DESCRIPTION:
+Installs and configures the Voldemort distributed database
+
+= REQUIREMENTS:
+Platform:
+ * CentOS, Red Hat, Fedora
+Languages:
+ * A working java installation in your path
+
+= ATTRIBUTES:
+The file _attributes/default.rb_ contains various tunable settings for almost all of the Voldemort server when operating in a single-node cluster.
+
+= USAGE:
+There are three recipes:
+ * default
+ * source
+ * service
+
+== default:
+The default recipe simply manages existing configuration files:
+	* cluster.xml
+	* server.properties
+	* stores.xml
+	* log4j.properties
+
+== source:
+The source recipe will install voldemort from source by downloading from Github. Note that this is not installed from an RPM file as one has not been built. You'll have to clean things up yourself.
+
+== service:
+The service recipe will install a RedHat-compatible init script for managing Voldemort
+
+Note that there is currently no dependency between any of the recipes or on external packages. This is because the final structure may change.
+If you want to pull everything in and play around with Voldemort add the recipes to your run list in this order:
+ * source
+ * default
+ * service
+
+This will install Voldemort in _/usr/local/voldemort-0.81/_ and create a symlink - _/usr/local/voldemort/current_ to it. The default config creates a single BDB data backend with one data store and one view. No schemas are installed. Logging will go to _/var/log/voldemort/voldemort.log_. Data will be stored in _/var/lib/voldemort_. The configuration files will be in _/etc/voldemort/config_ with the exception of _log4j.properties_ which will be in _/etc/voldemort_.
+
+Once you've got it installed and running, you should be able to do the following:
+
+	> /usr/local/voldemort/current/bin/voldemort-shell.sh test1 tcp://localhost:6666
+	Established connection to test via tcp://localhost:6666
+	> put "hello" "world"
+	> get "hello"
+	version(0:1): "world"
+	> delete "hello"
+	> get "hello"
+	null
+	> exit
+	k k thx bye.
+
+
+= TODO
+ * Debian/Ubuntu support
+ * Automatic Cluster configuration
+ * Clean up assumptions

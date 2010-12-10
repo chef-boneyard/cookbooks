@@ -1,0 +1,31 @@
+# The ID of *this* particular cluster node
+node.id=<%= node[:voldemort][:node_id] %>
+
+max.threads=<%= node[:voldemort][:max_threads] %>
+
+############### DB options ######################
+
+http.enable=<%= node[:voldemort][:http] %>
+socket.enable=<%= node[:voldemort][:socket] %>
+jmx.enable=<%= node[:voldemort][:jmx] %>
+
+<% if node[:voldemort][:storage] == 'bdb' %>
+# BDB
+bdb.write.transactions=<%= node[:voldemort][:db][:bdb][:write] %>
+bdb.flush.transactions=<%= node[:voldemort][:db][:bdb][:flush] %>
+bdb.cache.size=<%= node[:voldemort][:db][:bdb][:cache_size] %>
+storage.configs=<%= node[:voldemort][:db][:bdb][:driver] %>
+<% end %>
+
+<% if node[:voldemort][:storage] == 'mysql' %>
+# Mysql
+mysql.host=<%= node[:voldemort][:db][:mysql][:host] %>
+mysql.port=<%= node[:voldemort][:db][:mysql][:host] %>
+mysql.user=<%= node[:voldemort][:db][:mysql][:host] %>
+mysql.password=<%= node[:voldemort][:db][:mysql][:host] %>
+mysql.database=<%= node[:voldemort][:db][:mysql][:host] %>
+storage.configs=<%= node[:voldemort][:db][:mysql][:driver] %>
+<% end %>
+
+#NIO connector settings.
+enable.nio.connector=false

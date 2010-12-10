@@ -1,0 +1,49 @@
+#!/bin/sh
+# chkconfig: - 35 65
+# description: Voldemort distributed database server
+# This file is managed by Chef. Manual changes will be lost
+
+# Source function library
+. /etc/init.d/functions
+
+prog="voldemort-server.sh"
+
+VOLDEMORT_HOME=<%= node[:voldemort][:run_dir] %>
+LOG_DIR=<%= node[:voldemort][:log_dir] %>
+
+export VOLD_OPTS="<%= node[:voldemort][:vold_opts] %>"
+
+start(){
+      echo "Starting Voldemort"
+      ${VOLDEMORT_HOME}/bin/voldemort-server.sh <%= node[:voldemort][:config_dir] %> >> <%= node[:voldemort][:log_dir] %>/voldemort.log 2>&1 &
+}
+
+stop(){
+      echo "Stopping Voldemort"
+      ${VOLDEMORT_HOME}/bin/voldemort-stop.sh
+
+}
+
+restart(){
+      stop
+      start
+}
+
+
+
+case "$1" in
+start)
+      start
+      ;;
+stop)
+      stop
+      ;;
+restart)
+      restart
+      ;;
+*)
+      echo "Usage: voldemort {start|stop|restart}"
+      exit 1
+esac
+
+exit 0

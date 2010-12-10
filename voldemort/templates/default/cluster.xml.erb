@@ -1,0 +1,15 @@
+<cluster>
+        <name><%= node[:voldemort][:cluster_name] %></name>
+        <server>
+                <id><%= node[:voldemort][:node_id] %></id>
+                <host><%= node[:fqdn] %></host>
+		<% if node[:voldemort][:http] == true %>
+                <http-port><%= node[:voldemort][:http_port] %></http-port>
+		<% end %>
+		<% if node[:voldemort][:socket] == true %>
+                <socket-port><%= node[:voldemort][:socket_port] %></socket-port>
+		<% end %>
+                <partitions><%= node[:voldemort][:partitions].join(', ') %></partitions>
+        </server>
+</cluster>
+
