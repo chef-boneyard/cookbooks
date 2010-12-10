@@ -33,6 +33,7 @@ Simply include the recipe where you want Tomcat installed.
 TODO
 ====
 
+* SSL support
 * create a LWRP for deploying WAR files (file based and )
 
 License and Author
