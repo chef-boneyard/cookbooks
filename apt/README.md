@@ -1,9 +1,17 @@
-DESCRIPTION
+Description
 ===========
 
-Configures various APT components on Debian-like systems.
+Configures various APT components on Debian-like systems.  Also includes a LWRP.
 
-RECIPES
+Resources/Providers
+===================
+
+This cookbook contains an LWRP, `apt_repository`, which provides the `add` and `remove` actions for managing additional software repositories with entries in the `/etc/apt/sources.list.d/` directory.
+
+* `add` takes a number of attributes and creates a repository file and builds the repository listing.
+* `remove` deletes the `/etc/apt/sources.list.d/#{new_resource.repo_name}-sources.list` file identified by the `repo_name` passed as the resource name.
+
+Recipes
 =======
 
 default
@@ -23,7 +31,7 @@ proxy
 
 Installs the apt-proxy package and service so the system can be an APT proxy.
 
-USAGE
+Usage
 =====
 
 Put `recipe[apt]` first in the run list. If you have other recipes that you want to use to configure how apt behaves, like new sources, notify the execute resource to run, e.g.:
@@ -34,12 +42,28 @@ Put `recipe[apt]` first in the run list. If you have other recipes that you want
 
 The above will run during execution phase since it is a normal template resource, and should appear before other package resources that need the sources in the template.
 
-LICENSE AND AUTHOR
+An example of The LWRP `apt_repository` `add` action:
+
+    apt_repository "zenoss" do
+      uri "http://dev.zenoss.org/deb"
+      distribution "main"
+      components ["stable"]
+      action :add
+    end
+
+and the `remove` action:
+
+    apt_repository "zenoss" do
+      action :remove
+    end
+
+License and Author
 ==================
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
+Author:: Matt Ray (<matt@opscode.com>)
 
-Copyright 2009, Opscode, Inc.
+Copyright 2009, 2010 Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
