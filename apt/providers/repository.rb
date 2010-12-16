@@ -15,6 +15,9 @@ action :add do
     content repository + "\n"
     action :create
   end
+  execute "apt-get update" do
+    action :run
+  end
 end
 
 action :remove do
