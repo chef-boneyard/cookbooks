@@ -1,0 +1,15 @@
+log_level        :info
+log_location     STDOUT
+chef_server_url  "<%= node["chef_client"]["server_url"] %>"
+validation_client_name "<%= node["chef_client"]["validation_client_name"] %>"
+<% if @chef_node_name -%>
+node_name "<%= @chef_node_name %>"
+<% else -%>
+# Using default node name"
+<% end -%>
+
+file_backup_path   "<%= node["chef_client"]["backup_path"] %>"
+file_cache_path    "<%= node["chef_client"]["cache_path"] %>"
+<% unless %w{ runit bluepill daemontools }.include?(node["chef_client"]["init_style"]) -%>
+pid_file           "<%= node["chef_client"]["run_path"] %>/client.pid"
+<% end -%>
