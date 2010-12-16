@@ -44,18 +44,18 @@ The above will run during execution phase since it is a normal template resource
 
 An example of The LWRP `apt_repository` `add` action:
 
-    apt_repository "zenoss" do
-      uri "http://dev.zenoss.org/deb"
-      distribution "main"
-      components ["stable"]
-      action :add
-    end
+		apt_repository "zenoss" do
+		  uri "http://dev.zenoss.org/deb"
+		  distribution "main"
+		  components ["stable"]
+		  action :add
+		end
 
 and the `remove` action:
 
-    apt_repository "zenoss" do
-      action :remove
-    end
+		apt_repository "zenoss" do
+		  action :remove
+		end
 
 License and Author
 ==================
