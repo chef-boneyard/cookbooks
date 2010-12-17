@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
+gem_package "i18n"
 gem_package "bluepill"
 
 [
