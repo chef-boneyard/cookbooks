@@ -97,10 +97,22 @@ Create a `base` role that will represent the base configuration for any system t
     )
     run_list(
       "recipe[chef-client::delete_validation]",
+      "recipe[chef-client::config]",
       "recipe[chef-client]"
     )
 
-The default Chef Server will be `http://localhost:4000` which is the `Chef::Config[:chef_server_url]` default value.
+The `chef-client::config` recipe is only required with init style `init` (default setting for the attribute on debian/redhat family platforms, because the init script doesn't include the `pid_file` option which is set in the config.
+
+The default Chef Server will be `http://localhost:4000` which is the `Chef::Config[:chef_server_url]` default value. To use the config recipe with the Opscode Platform, for example, add the following to the `override_attributes`
+
+    override_attributes(
+      "chef_client" => {
+        "server_url" => "https://api.opscode.com/organizations/ORGNAME",
+        "validation_client_name" => "ORGNAME-validator"
+      }
+    )
+
+Where ORGNAME is your Opscode Platform organization name. Be sure to add these attributes to the role if modifying per the section below.
 
 Alternate Init Styles
 ---------------------
@@ -117,7 +129,7 @@ For usage, see below.
 
 To use runit, download the cookbook from the cookbook site.
 
-    knife cookbook site vendor runit
+    knife cookbook site vendor runit -d
 
 Change the `init_style` to runit in the base role and add the runit recipe to the role's run list:
 
@@ -140,7 +152,7 @@ The `chef-client` recipe will create the chef-client service configured with run
 
 To use bluepill, download the cookbook from the cookbook site.
 
-    knife cookbook site vendor bluepill
+    knife cookbook site vendor bluepill -d
 
 Change the `init_style` to runit in the base role and add the bluepill recipe to the role's run list:
 
@@ -163,7 +175,7 @@ The `chef-client` recipe will create the chef-client service configured with blu
 
 To use daemontools, download the cookbook from the cookbook site.
 
-    knife cookbook site vendor daemontools
+    knife cookbook site vendor daemontools -d
 
 Change the `init_style` to runit in the base role and add the daemontools recipe to the role's run list:
 
