@@ -28,6 +28,13 @@ root_group = value_for_platform(
 case node["chef_client"]["init_style"]
 when "init"
 
+  directory node["chef_client"]["log_dir"] do
+    recursive true
+    owner "root"
+    group root_group
+    mode 0755
+  end
+
   dist_dir = value_for_platform(
     ["ubuntu", "debian"] => { "default" => "debian" },
     ["redhat", "centos", "fedora"] => { "default" => "redhat"}
@@ -46,6 +53,7 @@ when "init"
   file "/etc/init.d/chef-client" do
     content init_content
     mode 0755
+    notifies :restart, "service[chef-client]", :delayed
   end
 
   file "/etc/#{conf_dir}/chef-client" do
@@ -54,6 +62,7 @@ when "init"
   end
 
   service "chef-client" do
+    supports :status => true, :restart => true
     action :enable
   end
 
@@ -105,6 +114,20 @@ when "runit"
 
 when "bluepill"
 
+  directory node["chef_client"]["log_dir"] do
+    recursive true
+    owner "root"
+    group root_group
+    mode 0755
+  end
+
+  directory node["chef_client"]["run_path"] do
+    recursive true
+    owner "root"
+    group root_group
+    mode 0755
+  end
+
   include_recipe "bluepill"
 
   template "#{node["bluepill"]["conf_dir"]}/chef-client.pill" do
@@ -119,6 +142,13 @@ when "bluepill"
 when "daemontools"
 
   include_recipe "daemontools"
+
+  directory "/etc/sv/chef-client" do
+    recursive true
+    owner "root"
+    group root_group
+    mode 0755
+  end
 
   daemontools_service "chef-client" do
     directory "/etc/sv/chef-client"

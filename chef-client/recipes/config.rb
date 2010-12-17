@@ -24,7 +24,7 @@ root_group = value_for_platform(
   "default" => "root"
 )
 
-chef_node_name = Chef::Config[:node_name] == node["fqdn"] ? false : true
+chef_node_name = Chef::Config[:node_name] == node["fqdn"] ? false : Chef::Config[:node_name]
 
 template "/etc/chef/client.rb" do
   source "client.rb.erb"
