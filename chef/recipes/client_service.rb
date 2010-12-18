@@ -24,6 +24,13 @@ root_group = value_for_platform(
   "default" => "root"
 )
 
+directory node["chef"]["log_dir"] do
+  recursive true
+  owner "root"
+  group root_group
+  mode 0755
+end
+
 case node[:chef][:init_style]
 when "runit"
 
