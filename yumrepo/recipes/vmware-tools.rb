@@ -3,6 +3,7 @@
 # Recipe:: vmware-tools 
 #
 # Copyright 2010, Eric G. Wolfe
+# Copyright 2010, Tippr Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,72 +18,62 @@
 # limitations under the License.
 #
 
-case node[:platform] when "redhat","centos"
-  if node[:platform_version].to_f >= 5 and node[:repo][:vmware][:enabled]
+if not node[:repo][:vmware][:enabled]
+  yumrepo "vmware-tools" do
+    action :disable
+  end
+  return
+end
 
-    execute "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:vmware][:key]}" do
-      action :nothing
-    end
+yumrepo "vmware-tools" do
+  action :enable
+  definition "VMware Tools"
+  key "VMWARE-PACKAGING-GPG-KEY"
+  url "http://packages.vmware.com/tools/esx/#{repo[:vmware][:release]}/rhel#{node[:platform_version].split('.')[0]}/$basearch"
+end
 
-    execute "yum -q makecache" do
-      action :nothing
-    end
+package "VMwareTools" do
+  action :remove
+end
 
-    package "VMwareTools" do
-      action :remove
-    end
+execute "/usr/bin/vmware-uninstall-tools.pl" do
+  action :run
+  only_if {File.exists?("/usr/bin/vmware-uninstall-tools.pl")}
+end
 
-    execute "/usr/bin/vmware-uninstall-tools.pl" do
-      action :run
-      only_if {File.exists?("/usr/bin/vmware-uninstall-tools.pl")}
-    end
+package "vmware-tools-nox" do
+  action :install
+end
 
-    cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:vmware][:key]}" do
-      mode "0644"
-      source node[:repo][:vmware][:key]
-      notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:vmware][:key]}"), :immediately
-    end
+package "vmware-tools-common" do
+  action :install
+end
 
-    template "/etc/yum.repos.d/vmware-tools.repo" do
-      mode "0644"
-      source "vmware-tools.repo.erb"
-      notifies :run, resources(:execute => "yum -q makecache"), :immediately
-    end
+package "vmware-open-vm-tools-common" do
+  action :install
+end
 
-    package "vmware-tools-nox" do
-      action :install
-    end
+package "vmware-open-vm-tools-nox" do
+  action :install
+end
 
-    package "vmware-tools-common" do
-      action :install
-    end
+package "vmware-open-vm-tools-kmod" do
+  action :install
+end
 
-    package "vmware-open-vm-tools-common" do
-      action :install
-    end
+service "vmware-tools" do
+  supports :status => true, :restart => true
+  action [ :enable, :start ]
+end
 
-    package "vmware-open-vm-tools-nox" do
-      action :install
-    end
+if node[:repo][:vmware][:install_optional]
+  package "vmware-open-vm-tools-xorg-drv-display" do
+    action :install
+  end
 
-    package "vmware-open-vm-tools-kmod" do
-      action :install
-    end
-
-    service "vmware-tools" do
-      supports :status => true, :restart => true
-      action [ :enable, :start ]
-    end
-
-    if node[:repo][:vmware][:install_optional]
-      package "vmware-open-vm-tools-xorg-drv-display" do
-        action :install
-      end
-
-      package "vmware-open-vm-tools-xorg-drv-mouse" do
-        action :install
-      end
-    end
-
+  package "vmware-open-vm-tools-xorg-drv-mouse" do
+    action :install
   end
 end
+
+# vim: ai et sts=2 sw=2 ts=2

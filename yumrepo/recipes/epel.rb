@@ -3,6 +3,7 @@
 # Recipe:: epel 
 #
 # Copyright 2010, Eric G. Wolfe
+# Copyright 2010, Tippr Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,28 +18,10 @@
 # limitations under the License.
 #
 
-case node[:platform] when "redhat","centos"
-  if node[:platform_version].to_f >= 5 and node[:repo][:epel][:enabled]
-
-    execute "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:epel][:key]}" do
-      action :nothing
-    end
-
-    execute "yum -q makecache" do
-      action :nothing
-    end
-
-    cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:epel][:key]}" do
-      mode "0644"
-      source node[:repo][:epel][:key]
-      notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:epel][:key]}"), :immediately
-    end
-
-    template "/etc/yum.repos.d/epel.repo" do
-      mode "0644"
-      source "epel.repo.erb"
-      notifies :run, resources(:execute => "yum -q makecache"), :immediately
-    end
-
-  end
+yumrepo "epel" do
+  action :enable
+  definition "Extra Packages for Enterprise Linux"
+  key "RPM-GPG-KEY-EPEL"
+  url "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-#{node[:platform_version].split('.')[0]}&arch=$basearch"
+  url_is_mirrorlist true
 end
