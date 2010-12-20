@@ -29,11 +29,6 @@ attribute "repo/epel/url",
   :description => "URL for the EPEL repository",
   :required => "optional"
 
-attribute "repo/epel/key",
-  :display_name => "repo/epel/key",
-  :description => "EPEL GPG signing key",
-  :required => "optional"
-
 attribute "repo/epel/enabled",
   :display_name => "repo/epel/enabled",
   :description => "Boolean flag for the EPEL recipe",
@@ -48,11 +43,6 @@ attribute "repo/elff",
 attribute "repo/elff/url",
   :display_name => "repo/elff/url",
   :description => "URL for the ELFF repository",
-  :required => "optional"
-
-attribute "repo/elff/key",
-  :display_name => "repo/elff/key",
-  :description => "ELFF GPG signing key",
   :required => "optional"
 
 attribute "repo/elff/enabled",
@@ -91,16 +81,6 @@ attribute "repo/dell/enabled",
   :description => "Boolean for the Dell recipe. This is dynamically determined by hardware platform.",
   :calculated => true
 
-attribute "repo/dell/key",
-  :display_name => "repo/dell/key",
-  :description => "Dell Community/OMSA GPG Signing Key",
-  :required => "optional"
-
-attribute "repo/dell/libsmbios_key",
-  :display_name => "repo/dell/libsmbios_key",
-  :description => "Dell libsmbios Signing Key",
-  :required => "optional"
-
 attribute "repo/dell/install_optional",
   :display_name => "repo/dell/install_optional",
   :description => "Enable Dell optional components by setting to true",
@@ -120,11 +100,6 @@ attribute "repo/vmware/release",
 attribute "repo/vmware/url",
   :display_name => "repo/vmware/url",
   :description => "The URL for the VMWare Tools yum recipe.",
-  :required => "optional"
-
-attribute "repo/vmware/key",
-  :display_name => "repo/vmware/key",
-  :description => "VMware GPG Signing Key",
   :required => "optional"
 
 attribute "repo/vmware/enabled",

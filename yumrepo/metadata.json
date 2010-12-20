@@ -13,19 +13,6 @@
       "description": "Hash of repo attributes",
       "display_name": "repo"
     },
-    "repo/vmware/key": {
-      "required": "optional",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "VMware GPG Signing Key",
-      "display_name": "repo/vmware/key"
-    },
     "repo/elff/enabled": {
       "required": "recommended",
       "calculated": false,
@@ -39,19 +26,6 @@
       ],
       "description": "Boolean flag for the ELFF repository",
       "display_name": "repo/elff/enabled"
-    },
-    "repo/epel/key": {
-      "required": "optional",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "EPEL GPG signing key",
-      "display_name": "repo/epel/key"
     },
     "repo/vmware/install_optional": {
       "required": "recommended",
@@ -92,19 +66,6 @@
       ],
       "description": "The VMware recipe boolean. This is dynamically determined by hardware platform.",
       "display_name": "repo/vwmare/enabled"
-    },
-    "repo/dell/key": {
-      "required": "optional",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "Dell Community/OMSA GPG Signing Key",
-      "display_name": "repo/dell/key"
     },
     "repo/vmware/url": {
       "required": "optional",
@@ -171,19 +132,6 @@
       "description": "EPEL repo attributes",
       "display_name": "repo/epel"
     },
-    "repo/dell/libsmbios_key": {
-      "required": "optional",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "Dell libsmbios Signing Key",
-      "display_name": "repo/dell/libsmbios_key"
-    },
     "repo/dell/firmware_url": {
       "required": "optional",
       "calculated": false,
@@ -236,19 +184,6 @@
       ],
       "description": "Boolean for the Dell recipe. This is dynamically determined by hardware platform.",
       "display_name": "repo/dell/enabled"
-    },
-    "repo/elff/key": {
-      "required": "optional",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "ELFF GPG signing key",
-      "display_name": "repo/elff/key"
     },
     "repo/vmware": {
       "required": "optional",
