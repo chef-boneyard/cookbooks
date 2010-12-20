@@ -3,6 +3,7 @@
 # Attributes:: default[:repo] 
 #
 # Copyright 2010, Eric G. Wolfe 
+# Copyright 2010, Tippr Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,7 +36,7 @@ default[:repo][:dell][:omsa_specific_url] = "http://linux.dell.com/repo/hardware
 default[:repo][:dell][:key] = "RPM-GPG-KEY-dell"
 default[:repo][:dell][:libsmbios_key] = "RPM-GPG-KEY-libsmbios"
 default[:repo][:dell][:install_optional] = false
-if node[:dmi][:system][:manufacturer] =~ /dell/i and node[:platform_version].to_f >= 5
+if node[:dmi] and node[:dmi][:system] and node[:dmi][:system][:manufacturer] and node[:dmi][:system][:manufacturer] =~ /dell/i and node[:platform_version].to_f >= 5
   set[:repo][:dell][:enabled] = true
 else 
   set[:repo][:dell][:enabled] = false
@@ -46,7 +47,7 @@ default[:repo][:vmware][:release] = "4.1"
 default[:repo][:vmware][:url] = "http://packages.vmware.com/tools/esx/#{repo[:vmware][:release]}/rhel5/$basearch"
 default[:repo][:vmware][:key] = "VMWARE-PACKAGING-GPG-KEY"
 default[:repo][:vmware][:install_optional] = false
-if node[:dmi][:system][:manufacturer] =~ /vmware/i and node[:platform_version].to_f >= 5
+if node[:dmi] and node[:dmi][:system] and node[:dmi][:system][:manufacturer] and node[:dmi][:system][:manufacturer] =~ /vmware/i and node[:platform_version].to_f >= 5
   set[:repo][:vmware][:enabled] = true
 else
   set[:repo][:vmware][:enabled] = false
