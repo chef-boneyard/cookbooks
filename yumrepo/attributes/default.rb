@@ -19,11 +19,9 @@
 #
 
 # EPEL (default)
-default[:repo][:epel][:url] = "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-5&arch=$basearch"
 default[:repo][:epel][:enabled] = true
 
 # ELFF
-default[:repo][:elff][:url] = "http://download.elff.bravenet.com/5/$basearch"
 default[:repo][:elff][:enabled] = true
 
 # Dell
@@ -40,7 +38,6 @@ end
 
 # VMware
 default[:repo][:vmware][:release] = "4.1"
-default[:repo][:vmware][:url] = "http://packages.vmware.com/tools/esx/#{repo[:vmware][:release]}/rhel5/$basearch"
 default[:repo][:vmware][:install_optional] = false
 if node[:dmi] and node[:dmi][:system] and node[:dmi][:system][:manufacturer] and node[:dmi][:system][:manufacturer] =~ /vmware/i and node[:platform_version].to_f >= 5
   set[:repo][:vmware][:enabled] = true
