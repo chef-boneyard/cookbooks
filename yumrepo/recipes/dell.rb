@@ -3,6 +3,7 @@
 # Recipe:: dell
 #
 # Copyright 2010, Eric G. Wolfe
+# Copyright 2010, Tippr Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,62 +18,35 @@
 # limitations under the License.
 #
 
-case node[:platform] when "redhat","centos"
-  if node[:platform_version].to_f >= 5 and node[:repo][:dell][:enabled]
-
-    execute "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:dell][:key]}" do
-      action :nothing
-    end
-
-    execute "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:dell][:libsmbios_key]}" do
-      action :nothing
-    end
-
-    execute "yum -q makecache" do
-      action :nothing
-    end
-
-    cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:dell][:key]}" do
-      mode "0644"
-      source node[:repo][:dell][:key]
-      notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:dell][:key]}"), :immediately
-    end
-
-    cookbook_file "/etc/pki/rpm-gpg/#{node[:repo][:dell][:libsmbios_key]}" do
-      mode "0644"
-      source node[:repo][:dell][:libsmbios_key]
-      notifies :run, resources(:execute => "rpm --import /etc/pki/rpm-gpg/#{node[:repo][:dell][:libsmbios_key]}"), :immediately
-    end
-
-    template "/etc/yum.repos.d/dell-omsa-repository.repo" do
-      mode "0644"
-      source "dell-omsa-repository.repo.erb"
-      notifies :run, resources(:execute => "yum -q makecache"), :immediately
-    end
-
-    package "srvadmin-all" do
-      action :install
-    end
-
-    if node[:repo][:dell][:install_optional]
-      template "/etc/yum.repos.d/dell-community-repository.repo" do
-        mode "0644"
-        source "dell-community-repository.repo.erb"
-        # Not installing anything in this recipe right now, so I left out
-        # the yum makecache command to speed things up.
-      end
-
-      template "/etc/yum.repos.d/dell-firmware-repository.repo" do
-        mode "0644"
-        source "dell-firmware-repository.repo.erb"
-        notifies :run, resources(:execute => "yum -q makecache"), :immediately
-      end
-
-      package "firmware-tools" do
-        action :install
-      end
-      # yum install $(bootstrap_firmware) at your own risk
-    end
-
-  end
+if not node[:repo][:dell][:enabled]
+  log "Dell repository not enabled; skipping"
+  return
 end
+
+yumkey "RPM-GPG-KEY-dell"
+yumkey "RPM-GPG-KEY-libsmbios"
+
+yumrepo "dell-community" do
+  templatesource "dell-community-repository.repo.erb"
+end
+
+yumrepo "dell-omsa-repository" do
+  templatesource "dell-omsa-repository.repo.erb"
+end
+
+yumrepo "dell-firmware-repository" do
+  templatesource "dell-firmware-repository.repo.erb"
+end
+
+package "srvadmin-all" do
+  action :install
+end
+
+if node[:repo][:dell][:install_optional]
+  package "firmware-tools" do
+    action :install
+  end
+  # yum install $(bootstrap_firmware) at your own risk
+end
+
+# vim: ai et sts=2 sw=2 ts=2
