@@ -41,10 +41,17 @@ Searches the `apps` data bag and checks that a server role in the app exists on 
 
 See below regarding the application data bag structure.
 
-java
-----
+java_webapp
+-----------
 
-Using the node's `run_state` that contains the current application in the search, this recipe will install required packages, set up the deployment scaffolding, creates servlet container configurations (including JDBC Data Source resources if required) and then performs a remote_file deploy.
+Using the node's `run_state` that contains the current application in the search, this recipe will install required packages, set up the deployment scaffolding, create the context configuration for the servlet container and then performs a remote_file deploy.
+
+The servlet container context configuration (`context.xml`) exposes the following JNDI resources which can be referenced by the webapp's deployment descriptor (web.xml):
+
+* A JDBC datasource for all databases in the node's current app_environment.  The datasource uses the information (including JDBC driver) specified in the data bag item for the application.
+* An Environment entry that matches the node's current app_environment attribute value.  This is useful for loading environment specific properties files in the web application. 
+
+This recipe assumes some sort of build process, such as Maven or a Continuous Integration server like Hudson, will create a deployable artifact and make it available for download via HTTP (such as S3).
 
 `passenger_apache2`
 -------------------
@@ -98,7 +105,7 @@ tomcat
 
 Requires `tomcat` cookbook.
 
-Tomcat is installed, default attributes are set for the node and the app specific context.xml is symlinked over to Tomcat's context directory.
+Tomcat is installed, default attributes are set for the node and the app specific context.xml is symlinked over to Tomcat's context directory as the root context (ROOT.xml).
 
 unicorn
 -------
@@ -217,7 +224,7 @@ Note about gems and packages, the version is optional. If specified, the version
 
 
 ---
-Application Data Bag (Java version)
+Application Data Bag (Java webapp version)
 ====================
 
 The applications data bag expects certain values in order to configure parts of the recipe. Below is a paste of the JSON, where the value is a description of the key. Use your own values, as required. Note that this data bag is also used by the `database` cookbook, so it will contain database information as well. Items that may be ambiguous have an example.
@@ -226,7 +233,7 @@ The application used in examples is named `my_app` and the environment is `produ
 
 Note about "type": the recipes listed in the "type" will be included in the run list via `include_recipe` in the application default recipe based on the type matching one of the `server_roles` values.
 
-Note about `databases`, the data specified will be rendered as JNDI Datasource `Resources` in the `context.xml` file. In the `database` cookbook, this information is also used to set up privileges for the application user, and create the databases.
+Note about `databases`, the data specified will be rendered as JNDI Datasource `Resources` in the servlet container context confiruation (`context.xml`) file. In the `database` cookbook, this information is also used to set up privileges for the application user, and create the databases.
 
 Note about packages, the version is optional. If specified, the version will be passed as a parameter to the resource. Otherwise it will use the latest available version per the default `:install` action for the package provider.
 
@@ -239,7 +246,7 @@ Note about packages, the version is optional. If specified, the version will be 
       "type": {
         "my_app": [
           "recipes in this application cookbook to run for this role",
-          "java",
+          "java_webapp",
           "tomcat"
         ]
       },
@@ -265,6 +272,7 @@ Note about packages, the version is optional. If specified, the version will be 
           "username": "db_user",
           "adapter": "mysql",
           "driver": "com.mysql.jdbc.Driver",
+          "port": "3306",
           "password": "awesome_password",
           "database": "db_name_production"
         }

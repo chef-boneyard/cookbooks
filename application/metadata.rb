@@ -5,7 +5,7 @@ description      "Deploys and configures a variety of applications defined from 
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.7.0"
 recipe           "application", "Loads application databags and selects recipes to use"
-recipe           "application::java", "Deploys a Java web application WAR specified in a data bag with the remote_file resource"
+recipe           "application::java_webapp", "Deploys a Java web application WAR specified in a data bag with the remote_file resource"
 recipe           "application::passenger-nginx", "Installs Ruby Enterprise with Passenger under Nginx"
 recipe           "application::passenger_apache2", "Sets up a deployed Rails application as a Passenger virtual host in Apache2"
 recipe           "application::rails", "Deploys a Rails application specified in a data bag with the deploy_revision resource"
