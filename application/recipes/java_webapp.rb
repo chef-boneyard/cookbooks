@@ -91,6 +91,7 @@ if app["database_master_role"]
       mode "644"
       variables(
         :host => dbm['fqdn'],
+        :app => app['id'],
         :database => app['databases'][node.app_environment],
         :war => "#{app['deploy_to']}/releases/#{app['war'][node.app_environment]['checksum']}.war"
       )
