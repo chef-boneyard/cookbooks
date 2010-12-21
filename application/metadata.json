@@ -41,7 +41,7 @@
   "platforms": {
   },
   "name": "application",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "conflicting": {
   },
   "license": "Apache 2.0",
