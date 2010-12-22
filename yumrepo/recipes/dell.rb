@@ -19,7 +19,6 @@
 #
 
 if not node[:repo][:dell][:enabled]
-  log "Dell repository not enabled; skipping"
   return
 end
 
