@@ -49,6 +49,7 @@ remote_directory "/usr/lib/nagios/plugins" do
   owner "nagios"
   group "nagios"
   mode 0755
+  files_mode 0755
 end
 
 template "/etc/nagios/nrpe.cfg" do
