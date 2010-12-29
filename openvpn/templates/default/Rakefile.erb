@@ -20,20 +20,7 @@ if ! defined?(ENV['EASY_RSA'])
   exit 1
 end
 
-desc "Create server openvpn keys."
-task :server do
-  Dir.chdir(ENV['PWD'])
-  puts "* Clean up existing keys"
-  sh %{./clean-all}
-  puts "* Generate DH"
-  sh %{./build-dh}
-  puts "* Generate CA"
-  sh %{./pkitool --initca}
-  puts "* Generate Server key"
-  sh %{./pkitool --server server}
-end  
-
-desc "Create a ZIP file for the specified user in /tmp."
+desc "Create a tar file for the specified user in /tmp."
 task :client do
   Dir.chdir(ENV['PWD'])
   if (ENV['KEY_DIR'] == nil) 
@@ -61,7 +48,7 @@ task :client do
 client
 dev tun
 proto udp
-remote #{gateway} 1194
+remote #{<%= node["fqdn"] %>} 1194
 resolv-retry infinite
 nobind
 persist-key
@@ -83,11 +70,11 @@ EOF
     end
   end
 
-  puts "* Create .zip archive for #{usercn}."
-  sh %{(cd #{keydir} && zip #{usercn}.zip ca.crt #{usercn}.crt #{usercn}.key #{usercn}.conf #{usercn}.ovpn)}
-  sh %{chmod 0600 #{keydir}/#{usercn}.zip}
-  zip_path = "/tmp"
-  sh %{cp #{keydir}/#{usercn}.zip #{zip_path}/}
+  puts "* Create .tar.gz archive for #{usercn}."
+  sh %{(cd #{keydir} && tar zcf #{usercn}.tar.gz ca.crt #{usercn}.crt #{usercn}.key #{usercn}.conf #{usercn}.ovpn)}
+  sh %{chmod 0600 #{keydir}/#{usercn}.tar.gz}
+  tar_path = "/tmp"
+  sh %{cp #{keydir}/#{usercn}.tar.gz #{tar_path}/}
   sh %{rm #{keydir}/#{usercn}.*}
-  puts "* Done, #{usercn} keys are in #{zip_path}/#{usercn}.zip"
+  puts "* Done, #{usercn} keys are in #{tar_path}/#{usercn}.tar.gz"
 end
