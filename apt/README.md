@@ -3,14 +3,6 @@ Description
 
 Configures various APT components on Debian-like systems.  Also includes a LWRP.
 
-Resources/Providers
-===================
-
-This cookbook contains an LWRP, `apt_repository`, which provides the `add` and `remove` actions for managing additional software repositories with entries in the `/etc/apt/sources.list.d/` directory.
-
-* `add` takes a number of attributes and creates a repository file and builds the repository listing.
-* `remove` deletes the `/etc/apt/sources.list.d/#{new_resource.repo_name}-sources.list` file identified by the `repo_name` passed as the resource name.
-
 Recipes
 =======
 
@@ -31,31 +23,39 @@ proxy
 
 Installs the apt-proxy package and service so the system can be an APT proxy.
 
+Resources/Providers
+===================
+
+This cookbook contains an LWRP, `apt_repository`, which provides the `add` and `remove` actions for managing additional software repositories with entries in the `/etc/apt/sources.list.d/` directory.
+
+* `add` takes a number of attributes and creates a repository file and builds the repository listing.
+* `remove` deletes the `/etc/apt/sources.list.d/#{new_resource.repo_name}-sources.list` file identified by the `repo_name` passed as the resource name.
+
 Usage
 =====
 
 Put `recipe[apt]` first in the run list. If you have other recipes that you want to use to configure how apt behaves, like new sources, notify the execute resource to run, e.g.:
 
-		template "/etc/apt/sources.list.d/my_apt_sources.list" do
-		  notifies :run, resources(:execute => "apt-get update"), :immediately
-		end
+    template "/etc/apt/sources.list.d/my_apt_sources.list" do
+      notifies :run, resources(:execute => "apt-get update"), :immediately
+    end
 
 The above will run during execution phase since it is a normal template resource, and should appear before other package resources that need the sources in the template.
 
 An example of The LWRP `apt_repository` `add` action:
 
-		apt_repository "zenoss" do
-		  uri "http://dev.zenoss.org/deb"
-		  distribution "main"
-		  components ["stable"]
-		  action :add
-		end
+    apt_repository "zenoss" do
+      uri "http://dev.zenoss.org/deb"
+      distribution "main"
+      components ["stable"]
+      action :add
+    end
 
 and the `remove` action:
 
-		apt_repository "zenoss" do
-		  action :remove
-		end
+    apt_repository "zenoss" do
+      action :remove
+    end
 
 License and Author
 ==================
