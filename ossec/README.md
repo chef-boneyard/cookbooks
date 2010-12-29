@@ -8,12 +8,14 @@ http://www.ossec.net/main/manual/manual-installation/
 Requirements
 ====
 
-Tested on Ubuntu and ArchLinux.
+Tested on Ubuntu and ArchLinux, but should work on any Unix/Linux platform supported by OSSEC. Installation by default is done from source, so the build-essential cookbook needs to be used (see below).
+
+This cookbook doesn't configure Windows systems yet. For information on installing OSSEC on Windows, see the [free chapter](http://www.ossec.net/ossec-docs/OSSEC-book-ch2.pdf)
 
 Cookbooks
 ----
 
-build-essential
+build-essential is required for the default installation because it compiles from source. The cookbook may require modification to support other platforms' build tools - modify it accordingly before using.
 
 Attributes
 ====
@@ -56,7 +58,7 @@ Recipes
 default
 ----
 
-The default recipe downloads and installs the OSSEC source and makes sure the . Use only this recipe if setting up local-only installation. Th
+The default recipe downloads and installs the OSSEC source and makes sure the configuration file is in place and the service is started. Use only this recipe if setting up local-only installation. The server and client recipes (below) will set their installation type and include this recipe.
 
 agent
 ----
@@ -66,12 +68,39 @@ OSSEC uses the term `agent` instead of client. The agent recipe includes the `os
 client
 ----
 
-Configures the system as an OSSEC agent to the OSSEC server.
+Configures the system as an OSSEC agent to the OSSEC server. This recipe will search for the server based on `node['ossec']['server_role']`. It will also set the `install_type` and `agent_server_ip` attributes. The ossecd user will be created with the SSH key so the server can distribute the agent key.
 
 server
 ----
 
-Sets up a system to be an OSSEC server.
+Sets up a system to be an OSSEC server. This recipe will set the `node['ossec']['server']['maxagents']` value to 1024 if it is not set on the node (e.g., via a role). It will search for all nodes that have an `ossec` attribute and add them as an agent.
+
+To manage additional agents on the server that don't run chef, or for agentless OSSEC configuration (for example, routers), add a new node for them and create the `node['ossec']['agentless']` attribute as true. For example if we have a router named gw01.example.com with the IP `192.168.100.1`:
+
+    % knife node create gw01.example.com
+    {
+      "name": "gw01.example.com",
+      "json_class": "Chef::Node",
+      "automatic": {
+      },
+      "normal": {
+        "hostname": "gw01",
+        "fqdn": "gw01.example.com",
+        "ipaddress": "192.168.100.1",
+        "ossec": {
+          "agentless": true
+        }
+      },
+      "chef_type": "node",
+      "default": {
+      },
+      "override": {
+      },
+      "run_list": [
+      ]
+    }
+
+Enable agentless monitoring in OSSEC and register the hosts on the server. Automated configuration of agentless nodes is not yet supported by this cookbook. For more information on the commands and configuration directives required in `ossec.conf`, see the [OSSEC Documentation](http://www.ossec.net/doc/manual/agent/agentless-monitoring.html)
 
 Usage
 ====

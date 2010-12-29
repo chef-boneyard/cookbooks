@@ -28,7 +28,7 @@ agent_manager = "#{node['ossec']['user']['dir']}/bin/ossec-batch-manager.pl"
 
 ssh_hosts = Array.new
 
-search(:node, "app_environment:#{node['app_environment']} NOT role:#{node['ossec']['server_role']}") do |n|
+search(:node, "ossec:[* TO *] NOT role:#{node['ossec']['server_role']}") do |n|
 
   ssh_hosts << n['ipaddress'] if n['keys']
 
@@ -68,4 +68,3 @@ cron "distribute-ossec-keys" do
   command "/usr/local/bin/dist-ossec-keys.sh"
   only_if { ::File.exists?("#{node['ossec']['user']['dir']}/etc/client.keys") }
 end
-

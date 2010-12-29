@@ -197,8 +197,8 @@
     <location>/var/log/mail.info</location>
   </localfile>
 
-<% unless @ossec['logs'].empty? -%>
-<%   @ossec['logs'].each do |log| -%>
+<% unless node['ossec']['logs'].empty? -%>
+<%   node['ossec']['logs'].each do |log| -%>
   <localfile>
     <log_format>syslog</log_format>
     <location><%= log %></location>
