@@ -6,6 +6,24 @@
   "maintainer_email": "cookbooks@opscode.com",
   "license": "Apache 2.0",
   "platforms": {
+    "debian": [
+
+    ],
+    "ubuntu": [
+
+    ],
+    "arch": [
+
+    ],
+    "redhat": [
+
+    ],
+    "centos": [
+
+    ],
+    "fedora": [
+
+    ]
   },
   "dependencies": {
     "build-essential": [
@@ -28,5 +46,5 @@
   },
   "recipes": {
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

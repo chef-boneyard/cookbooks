@@ -63,6 +63,15 @@ template "#{node['ossec']['user']['dir']}/etc/ossec.conf" do
   notifies :restart, "service[ossec]"
 end
 
+case node['platform']
+when "arch"
+  template "/etc/rc.d/ossec" do
+    source "ossec.rc.erb"
+    owner "root"
+    mode 0755
+  end
+end
+
 service "ossec" do
   supports :status => true, :restart => true
   action [:enable, :start]
