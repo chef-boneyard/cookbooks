@@ -19,8 +19,8 @@
 #
 
 # General settings
-default[:wordpress][:version] = "3.0.3"
-default[:wordpress][:checksum] = "a62114d0d0d4bbc01101de1135de6dd8116f34ff35ecc77fb0601e933f789dcc"
+default[:wordpress][:version] = "3.0.4"
+default[:wordpress][:checksum] = "c68588ca831b76ac8342d783b7e3128c9f4f75aad39c43a7f2b33351634b74de"
 default[:wordpress][:dir] = "/var/www/wordpress"
 default[:wordpress][:db][:database] = "wordpressdb"
 default[:wordpress][:db][:user] = "wordpressuser"
