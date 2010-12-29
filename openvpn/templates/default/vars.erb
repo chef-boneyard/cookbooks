@@ -26,7 +26,7 @@ export GREP="grep"
 # This variable should point to
 # the openssl.cnf file included
 # with easy-rsa.
-export KEY_CONFIG=`$EASY_RSA/whichopensslcnf $EASY_RSA`
+export KEY_CONFIG="${EASY_RSA}/openssl.cnf"
 
 # Edit this variable to point to
 # your soon-to-be-created key
@@ -36,7 +36,7 @@ export KEY_CONFIG=`$EASY_RSA/whichopensslcnf $EASY_RSA`
 # a rm -rf on this directory
 # so make sure you define
 # it correctly!
-export KEY_DIR="../keys"
+export KEY_DIR="<%= node["openvpn"]["key_dir"] %>"
 
 # Issue rm -rf warning
 echo NOTE: If you run ./clean-all, I will be doing a rm -rf on $KEY_DIR
@@ -50,19 +50,19 @@ export PKCS11_PIN="dummy"
 # down TLS negotiation performance
 # as well as the one-time DH parms
 # generation process.
-export KEY_SIZE=1024
+export KEY_SIZE=<%= node["openvpn"]["key"]["size"] %>
 
 # In how many days should the root CA key expire?
-export CA_EXPIRE=3650
+export CA_EXPIRE=<%= node["openvpn"]["key"]["ca_expire"] %>
 
 # In how many days should certificates expire?
-export KEY_EXPIRE=3650
+export KEY_EXPIRE=<%= node["openvpn"]["key"]["expire"] %>
 
 # These are the default values for fields
 # which will be placed in the certificate.
 # Don't leave any of these fields blank.
-export KEY_COUNTRY="US"
-export KEY_PROVINCE="CA"
-export KEY_CITY="SanFrancisco"
-export KEY_ORG="Fort-Funston"
-export KEY_EMAIL="me@myhost.mydomain"
+export KEY_COUNTRY="<%= node["openvpn"]["key"]["country"] %>"
+export KEY_PROVINCE="<%= node["openvpn"]["key"]["province"] %>"
+export KEY_CITY="<%= node["openvpn"]["key"]["city"] %>"
+export KEY_ORG="<%= node["openvpn"]["key"]["org"] %>"
+export KEY_EMAIL="<%= node["openvpn"]["key"]["email"] %>
