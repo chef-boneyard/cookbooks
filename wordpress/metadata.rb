@@ -3,7 +3,7 @@ maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
 description      "Installs/Configures wordpress"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.7.0"
+version          "0.7.1"
 depends          "php"
 depends          "apache2"
 depends          "mysql"
@@ -18,7 +18,7 @@ end
 attribute "wordpress/version",
   :display_name => "Wordpress download version",
   :description => "Version of Wordpress to download from the Wordpress site.",
-  :default => "2.9.2"
+  :default => "3.0.4"
   
 attribute "wordpress/checksum",
   :display_name => "Wordpress tarball checksum",

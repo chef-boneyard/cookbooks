@@ -41,7 +41,7 @@
     "wordpress/version": {
       "display_name": "Wordpress download version",
       "description": "Version of Wordpress to download from the Wordpress site.",
-      "default": "2.9.2",
+      "default": "3.0.4",
       "choice": [
 
       ],
@@ -184,5 +184,5 @@
   "recipes": {
     "wordpress": "Installs and configures wordpress LAMP stack on a single system"
   },
-  "version": "0.7.0"
+  "version": "0.7.1"
 }
