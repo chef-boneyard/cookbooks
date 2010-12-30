@@ -84,7 +84,7 @@ end
 # set the root password on platforms 
 # that don't support pre-seeding
 unless %w{debian ubuntu}.include?(node[:platform])
-  execute "preseed mysql-server" do
+  execute "assign-root-password" do
     command "/usr/bin/mysqladmin -u root password #{node[:mysql][:server_root_password]}"
     action :run
     only_if "/usr/bin/mysql -u root -e 'show databases;'"
