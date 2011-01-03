@@ -236,5 +236,5 @@
     "mysql::server": "Installs packages required for mysql servers w/o manual intervention",
     "mysql::server_ec2": "Performs EC2-specific mountpoint manipulation"
   },
-  "version": "0.24.3"
+  "version": "0.24.4"
 }
