@@ -3,7 +3,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures all aspects of apache2 using Debian style symlinks with helper definitions"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.99.0"
+version           "0.99.1"
 recipe            "apache2", "Main Apache configuration"
 recipe            "apache2::mod_alias", "Apache module 'alias' with config file"
 recipe            "apache2::mod_auth_basic", "Apache module 'auth_basic'"
@@ -41,7 +41,7 @@ recipe            "apache2::mod_setenvif", "Apache module 'setenvif' with config
 recipe            "apache2::mod_ssl", "Apache module 'ssl' with config file, adds port 443 to listen_ports"
 recipe            "apache2::mod_status", "Apache module 'status' with config file"
 
-%w{redhat centos debian ubuntu}.each do |os|
+%w{redhat centos debian ubuntu arch}.each do |os|
   supports os
 end
 
