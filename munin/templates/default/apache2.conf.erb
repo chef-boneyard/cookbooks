@@ -2,16 +2,26 @@
   ServerAdmin     ops@example.com
   ServerName      <%= node[:fqdn] %>
 	ServerAlias     munin munin.<%= node[:app_environment] %>.<%= @public_domain %>
-  DocumentRoot    /var/www/munin
+<% case node[:platform] -%>
+<% when "arch" -%>
+  Alias /munin /srv/http/munin
+  DocumentRoot /srv/http/munin
+<% else -%>
+  DocumentRoot /var/www/munin
+  Alias /munin /var/www/munin
+<% end -%>
   CustomLog       <%= node[:apache][:log_dir] %>/munin_access.log combined
   ErrorLog        <%= node[:apache][:log_dir] %>/munin_error.log
-
-  Alias /munin /var/www/munin
 
   <Location />
     AuthName "Munin Server"
     AuthOpenIDEnabled On
+<% case node[:platform] -%>
+<% when "arch" -%>
+    AuthOpenIDDBLocation /var/cache/httpd/mod_auth_openid.db
+<% else -%>
     AuthOpenIDDBLocation /var/cache/apache2/mod_auth_openid.db
+<% end -%>
     AuthOpenIDUserProgram /usr/local/bin/mod_auth_openid.rb
   </Location>
 

@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: munin
-# Recipe:: client
+# Attributes:: default
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2010-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,26 +17,11 @@
 # limitations under the License.
 #
 
-package "munin-node"
-
-service "munin-node" do
-  supports :restart => true
-  action :enable
-end
-
-munin_servers = search(:node, "role:#{node['munin']['server_role']} AND app_environment:#{node['app_environment']}")
-
-template "/etc/munin/munin-node.conf" do
-  source "munin-node.conf.erb"
-  mode 0644
-  variables :munin_servers => munin_servers
-  notifies :restart, resources(:service => "munin-node")
-end
+default['munin']['server_role'] = 'monitoring'
 
 case node[:platform]
 when "arch"
-  execute "munin-node-configure --shell | sh" do
-    not_if { Dir.entries("/etc/munin/plugins").length > 2 }
-    notifies :restart, "service[munin-node]"
-  end
+  default['munin']['docroot'] = "/srv/http/munin"
+else
+  default['munin']['docroot'] = "/var/www/munin"
 end

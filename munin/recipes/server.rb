@@ -2,7 +2,7 @@
 # Cookbook Name:: munin
 # Recipe:: server
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2010-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,15 +24,24 @@ include_recipe "munin::client"
 
 package "munin"
 
-cookbook_file "/etc/cron.d/munin" do
-  source "munin-cron"
-  mode "0644"
-  owner "root"
-  group "root"
-  backup 0
+case node[:platform]
+when "arch"
+  cron "munin-graph-html" do
+    command "/usr/bin/munin-cron"
+    user "munin"
+    minute "*/5"
+  end
+else
+  cookbook_file "/etc/cron.d/munin" do
+    source "munin-cron"
+    mode "0644"
+    owner "root"
+    group "root"
+    backup 0
+  end
 end
 
-munin_servers = search(:node, "hostname:[* TO *] AND role:#{node[:app_environment]}")
+munin_servers = search(:node, "munin:[* TO *] AND role:#{node[:app_environment]}")
 
 if node[:public_domain]
   case node[:app_environment]
@@ -64,7 +73,7 @@ template "#{node[:apache][:dir]}/sites-available/munin.conf" do
   end
 end
 
-directory "/var/www/munin" do
+directory node['munin']['docroot'] do
   owner "munin"
   group "munin"
   mode 0755

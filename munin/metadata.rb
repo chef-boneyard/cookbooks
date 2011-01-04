@@ -1,10 +1,12 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Instsalls and configures munin"
-version           "0.9.2"
+description       "Installs and configures munin"
+long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version           "0.10.0"
 
 depends "apache2"
+supports "arch"
 supports "debian"
 supports "ubuntu"
 
