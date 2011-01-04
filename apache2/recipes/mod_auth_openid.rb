@@ -17,29 +17,53 @@
 # limitations under the License.
 #
 
-%w{ apache2-prefork-dev libopkele-dev libopkele3 }.each do |pkg|
-  package pkg
+openid_dev_pkgs = value_for_platform(
+  "ubuntu" => { "default" => %w{ apache2-prefork-dev libopkele-dev libopkele3 } },
+  "debian" => { "default" => %w{ apache2-prefork-dev libopkele-dev libopkele3 } },
+  "arch" => { "default" => ["libopkele"] }
+)
+
+case node[:platform]
+when "arch"
+  include_recipe "pacman"
+  package "tidyhtml"
 end
 
-remote_file "/tmp/mod_auth_openid-0.4.tar.gz" do
+openid_dev_pkgs.each do |pkg|
+  case node[:platform]
+  when "arch"
+    pacman_aur pkg do
+      action [:build, :install]
+    end
+  else
+    package pkg
+  end
+end
+
+remote_file "#{Chef::Config[:file_cache_path]}/mod_auth_openid-0.4.tar.gz" do
   source "http://butterfat.net/releases/mod_auth_openid/mod_auth_openid-0.4.tar.gz"
   mode 0644
 end
 
 bash "install mod_auth_openid" do
-  cwd "/tmp"
+  cwd Chef::Config[:file_cache_path]
   code <<-EOH
   tar zxvf mod_auth_openid-0.4.tar.gz
   cd mod_auth_openid-0.4 && ./configure
   perl -pi -e "s/-i -a -n 'authopenid'/-i -n 'authopenid'/g" Makefile
   make && make install
   EOH
-  not_if { File.exists?("/usr/lib/apache2/modules/mod_auth_openid.so") }
+  case node[:platform]
+  when "arch"
+    not_if { File.exists?("/usr/lib/httpd/modules/mod_auth_openid.so") }
+  else
+    not_if { File.exists?("/usr/lib/apache2/modules/mod_auth_openid.so") }
+  end
 end
 
-file "/var/cache/apache2/mod_auth_openid.db" do
+file "#{node[:apache][:cache_dir]}/mod_auth_openid.db" do
   owner node[:apache][:user]
-  mode 0600
+  mode 0640
 end
 
 template "#{node[:apache][:dir]}/mods-available/authopenid.load" do

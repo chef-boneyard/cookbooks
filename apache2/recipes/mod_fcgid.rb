@@ -19,7 +19,7 @@
 
 if platform?("debian", "ubuntu")
   package "libapache2-mod-fcgid"
-elsif platform?("centos", "redhat", "fedora")
+elsif platform?("centos", "redhat", "fedora", "arch")
   package "mod_fcgid" do
     notifies :run, resources(:execute => "generate-module-list"), :immediately
   end
@@ -33,10 +33,10 @@ elsif platform?("suse")
   package "httpd-devel"
   bash "install-fcgid" do
     code <<-EOH
-(cd /tmp; wget http://superb-east.dl.sourceforge.net/sourceforge/mod-fcgid/mod_fcgid.2.2.tgz)
-(cd /tmp; tar zxvf mod_fcgid.2.2.tgz)
-(cd /tmp; perl -pi -e 's!/usr/local/apache2!#{apache_lib_path}!g' ./mod_fcgid.2.2/Makefile)
-(cd /tmp/mod_fcgid.2.2; make install)
+(cd #{Chef::Config[:file_cache_path]}; wget http://superb-east.dl.sourceforge.net/sourceforge/mod-fcgid/mod_fcgid.2.2.tgz)
+(cd #{Chef::Config[:file_cache_path]}; tar zxvf mod_fcgid.2.2.tgz)
+(cd #{Chef::Config[:file_cache_path]}; perl -pi -e 's!/usr/local/apache2!#{apache_lib_path}!g' ./mod_fcgid.2.2/Makefile)
+(cd #{Chef::Config[:file_cache_path]}/mod_fcgid.2.2; make install)
 EOH
   end
 end

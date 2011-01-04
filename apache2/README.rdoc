@@ -6,7 +6,7 @@ Complete Debian/Ubuntu style Apache2 configuration.
 
 Debian or Ubuntu preferred.
 
-Red Hat/CentOS and Fedora can be used but will be converted to a Debian/Ubuntu style Apache as it's far easier to manage with chef. 
+Red Hat, CentOS, Fedora and ArchLinux can be used but will be converted to a Debian/Ubuntu style Apache as it's far easier to manage with Chef.
 
 = ATTRIBUTES:
 
@@ -27,32 +27,32 @@ For Red Hat, CentOS and Fedora you should first disable selinux as it's not supp
 
 == Defines:
 
-* apache_module: sets up an Apache module.
-* apache_conf: sets up a config file for an apache module.
-* apache_site: sets up a vhost site. The conf file must be available.
-* web_app: copies the template for a web app and enables it as a site via apache_site.
+* +apache_module+: sets up an Apache module.
+* +apache_conf+: sets up a config file for an apache module.
+* +apache_site+: sets up a vhost site. The conf file must be available.
+* +web_app+: copies the template for a web app and enables it as a site via +apache_site+.
 
 == Web Apps:
 
 Various applications that can be set up with Apache as the front end, such as PHP, Django, Rails and others can use the web_app define to set up the template and the Apache site. The define is kind of dumb, so the template needs have the application implementation settings, since we don't know what your app is or what is needed from Apache.
 
-We only prototype one parameter for the web_app define, "template". This is used to specify the name of the template to use in the current cookbook. When you use web_app, you can set up any parameters you want to use in your template. They will get passed to the template through the params hash. For example, the sample web_app.conf.erb template in this cookbook makes use of these.
+We only prototype one parameter for the +web_app+ define, "template". This is used to specify the name of the template to use in the current cookbook. When you use +web_app+, you can set up any parameters you want to use in your template. They will get passed to the template through the params hash. For example, the sample +web_app.conf.erb+ template in this cookbook makes use of these.
 
-* docroot
-* server_name
-* server_aliases
+* +docroot+
+* +server_name+
+* +server_aliases+
 
-These are available as @params[:docroot], @params[:server_name], @params[:server_aliases] within the template. 
+These are available as +params[:docroot]+, +params[:server_name]+, +params[:server_aliases]+ prefixed with an @ within the template.
 
-If 'cookbook' and 'template' are not specified, the current cookbook's templates/default/web_app.conf.erb will be used. If this template is not suitable for your application, copy it to your cookbook and customize as needed.
+If 'cookbook' and 'template' are not specified, the current cookbook's +templates/default/web_app.conf.erb+ will be used. If this template is not suitable for your application, copy it to your cookbook and customize as needed.
 
 == God Monitor:
 
-There's a new recipe, apache2::god_monitor. You will need to make sure to include the 'god' recipe before using the apache2::god_monitor recipe in your cookbook.
+There's a new recipe, +apache2::god_monitor+. You will need to make sure to include the 'god' recipe before using the +apache2::god_monitor+ recipe in your cookbook.
 
 == OpenID Auth
 
-Installs the mod_auth_openid module from source. Specify an array of OpenIDs that are allowed to authenticate with the attribute apache[:allowed_openids]. Use the following in a vhost to protect with OpenID authentication:
+Installs the +mod_auth_openid+ module from source. Specify an array of OpenIDs that are allowed to authenticate with the attribute +apache[:allowed_openids]+. Use the following in a vhost to protect with OpenID authentication:
 
     AuthOpenIDEnabled On
     AuthOpenIDDBLocation /var/cache/apache2/mod_auth_openid.db
