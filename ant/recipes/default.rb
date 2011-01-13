@@ -26,12 +26,12 @@ end
 
 ant_pkgs = value_for_platform(
   ["debian","ubuntu",] => {
-    "default" => ["ant1.8","ant-contrib","ivy"]
+    "default" => ["ant","ant-contrib","ivy"]
   },
   ["centos","redhat","fedora" ] => {
     "default" => ["ant","ant-contrib","ivy"]
   },
-  "default" => ["ant1.8","ant-contrib","ivy"]
+  "default" => ["ant","ant-contrib","ivy"]
 )
 
 ant_pkgs.each do |pkg|
