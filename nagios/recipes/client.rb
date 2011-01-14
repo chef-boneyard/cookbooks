@@ -25,7 +25,7 @@ mon_host = Array.new
 if node.run_list.roles.include?(node[:nagios][:server_role])
   mon_host << node[:ipaddress]
 else
-  search(:node, "role:#{node[:nagios][:server_role]}") do |n|
+  search(:node, "role:#{node[:nagios][:server_role]} AND app_environment:#{node[:app_environment]}") do |n|
     mon_host << n['ipaddress']
   end
 end

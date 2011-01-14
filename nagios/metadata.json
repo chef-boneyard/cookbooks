@@ -37,5 +37,5 @@
     "nagios::client": "Installs and configures a nagios client with nrpe",
     "nagios::server": "Installs and configures a nagios server"
   },
-  "version": "0.4.2"
+  "version": "0.4.3"
 }

@@ -26,7 +26,7 @@ include_recipe "apache2::mod_rewrite"
 include_recipe "nagios::client"
 
 sysadmins = search(:users, 'groups:sysadmin')
-nodes = search(:node, "hostname:[* TO *] AND role:#{node[:app_environment]}")
+nodes = search(:node, "hostname:[* TO *] AND app_environment:#{node[:app_environment]}")
 
 if nodes.empty?
   Chef::Log.info("No nodes returned from search, using this node so hosts.cfg has data")
@@ -43,7 +43,7 @@ role_list = Array.new
 service_hosts= Hash.new
 search(:role, "*:*") do |r|
   role_list << r.name
-  search(:node, "role:#{r.name}") do |n|
+  search(:node, "role:#{r.name} AND app_environment:#{node[:app_environment]}") do |n|
     service_hosts[r.name] = n['hostname']
   end
 end
