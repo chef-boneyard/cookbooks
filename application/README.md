@@ -41,15 +41,15 @@ Searches the `apps` data bag and checks that a server role in the app exists on 
 
 See below regarding the application data bag structure.
 
-java_webapp
+`java_webapp`
 -----------
 
-Using the node's `run_state` that contains the current application in the search, this recipe will install required packages, set up the deployment scaffolding, create the context configuration for the servlet container and then performs a remote_file deploy.
+Using the node's `run_state` that contains the current application in the search, this recipe will install required packages, set up the deployment scaffolding, create the context configuration for the servlet container and then performs a `remote_file` deploy.
 
 The servlet container context configuration (`context.xml`) exposes the following JNDI resources which can be referenced by the webapp's deployment descriptor (web.xml):
 
-* A JDBC datasource for all databases in the node's current app_environment.  The datasource uses the information (including JDBC driver) specified in the data bag item for the application.
-* An Environment entry that matches the node's current app_environment attribute value.  This is useful for loading environment specific properties files in the web application. 
+* A JDBC datasource for all databases in the node's current `app_environment`.  The datasource uses the information (including JDBC driver) specified in the data bag item for the application.
+* An Environment entry that matches the node's current `app_environment` attribute value.  This is useful for loading environment specific properties files in the web application. 
 
 This recipe assumes some sort of build process, such as Maven or a Continuous Integration server like Hudson, will create a deployable artifact and make it available for download via HTTP (such as S3).
 
