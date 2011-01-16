@@ -89,11 +89,11 @@ search(:apps) do |app|
     if app.has_key?("deploy_key")
       ruby_block "write_key" do
         block do
-          f = File.open("#{app['deploy_to']}/id_deploy", "w")
+          f = ::File.open("#{app['deploy_to']}/id_deploy", "w")
           f.print(app["deploy_key"])
           f.close
         end
-        not_if do File.exists?("#{app['deploy_to']}/id_deploy"); end
+        not_if do ::File.exists?("#{app['deploy_to']}/id_deploy"); end
       end
 
       file "#{app['deploy_to']}/id_deploy" do

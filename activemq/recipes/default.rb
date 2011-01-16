@@ -23,7 +23,7 @@ include_recipe "runit"
 version = node[:activemq][:version]
 mirror = node[:activemq][:mirror]
 
-unless File.exists?("/opt/apache-activemq-#{version}/bin/activemq")
+unless ::File.exists?("/opt/apache-activemq-#{version}/bin/activemq")
   remote_file "/tmp/apache-activemq-#{version}-bin.tar.gz" do
     source "#{mirror}/apache/activemq/apache-activemq/#{version}/apache-activemq-#{version}-bin.tar.gz"
     mode "0644"

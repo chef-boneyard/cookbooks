@@ -45,7 +45,7 @@ end
 end
 
 [:temp,:logs,:webapps,:conf].each do |dir|
-  link File.join(node[:tomcat6][:home],dir.to_s) do
+  link ::File.join(node[:tomcat6][:home],dir.to_s) do
     to node[:tomcat6][dir] # use values from attributes
   end
 end
@@ -67,7 +67,7 @@ bash "install_tomcat6" do
   tomcat_version_name_tgz = "#{tomcat_version_name}.tar.gz"
   user "root"
   cwd usr_share_dir
-  not_if do File.exists?(File.join(usr_share_dir,tomcat_version_name)) end
+  not_if do ::File.exists?(::File.join(usr_share_dir,tomcat_version_name)) end
   code <<-EOH
   wget http://archive.apache.org/dist/tomcat/tomcat-6/v#{node[:tomcat6][:version]}/bin/#{tomcat_version_name_tgz}
   tar -zxf #{tomcat_version_name_tgz}
@@ -79,21 +79,21 @@ end
 # just to have it here, may be overriden through own configuration
 bash "install_tomcat6_etc" do
   user node[:tomcat6][:user]
-  not_if do File.exists?(File.join(node[:tomcat6][:conf],"tomcat6.conf")) end
+  not_if do ::File.exists?(::File.join(node[:tomcat6][:conf],"tomcat6.conf")) end
   cwd node[:tomcat6][:conf]
   code <<-EOH
   cp -r #{usr_share_dir}/apache-tomcat-#{node[:tomcat6][:version]}/conf/* .
   EOH
 end
 
-link File.join(node[:tomcat6][:home],"lib") do
-  to File.join(usr_share_dir,"apache-tomcat-#{node[:tomcat6][:version]}","lib")
+link ::File.join(node[:tomcat6][:home],"lib") do
+  to ::File.join(usr_share_dir,"apache-tomcat-#{node[:tomcat6][:version]}","lib")
   notifies :run, resources(:bash => "update_manager"), :immediately
   notifies :restart, resources(:service => "tomcat6"), :delayed
 end
 
-link File.join(node[:tomcat6][:home],"bin") do
-  to File.join(usr_share_dir,"apache-tomcat-#{node[:tomcat6][:version]}","bin")
+link ::File.join(node[:tomcat6][:home],"bin") do
+  to ::File.join(usr_share_dir,"apache-tomcat-#{node[:tomcat6][:version]}","bin")
   notifies :restart, resources(:service => "tomcat6"), :delayed
 end
 
@@ -168,7 +168,7 @@ cookbook_file "/usr/bin/dtomcat6" do
   group "root"
 end
 
-cookbook_file File.join(node[:tomcat6][:dir],"logging.properties") do
+cookbook_file ::File.join(node[:tomcat6][:dir],"logging.properties") do
   source "logging.properties"
   mode 0644
   owner "root"

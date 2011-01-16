@@ -66,7 +66,7 @@ when "debian","ubuntu", "gentoo"
       source "runsvdir"
       mode 0644
       notifies :run, resources(:execute => "start-runsvdir"), :immediately
-      only_if do File.directory?("/etc/event.d") end
+      only_if do ::File.directory?("/etc/event.d") end
     end
   end
 end

@@ -7,9 +7,9 @@
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,7 +46,7 @@ template "trac-fcgi" do
   group "root"
   mode 0755
   variables(
-    :trac_environment => "#{node[:trac][:basedir]}/environment" 
+    :trac_environment => "#{node[:trac][:basedir]}/environment"
   )
 end
 
@@ -72,13 +72,13 @@ template "trac-ini" do
   group "www-data"
   mode 0775
   variables(
-    :trac_project_desc => node[:trac][:project_description], 
-    :trac_project_name => node[:trac][:project_name], 
-    :trac_mainnav => node[:trac][:mainnav], 
+    :trac_project_desc => node[:trac][:project_description],
+    :trac_project_name => node[:trac][:project_name],
+    :trac_mainnav => node[:trac][:mainnav],
     :trac_metanav => node[:trac][:metanav],
-    :trac_url => node[:trac][:vhosts].first, 
-    :trac_svn_branches => node[:trac][:svn_branches], 
-    :trac_svn_tags => node[:trac][:svn_tags], 
+    :trac_url => node[:trac][:vhosts].first,
+    :trac_svn_branches => node[:trac][:svn_branches],
+    :trac_svn_tags => node[:trac][:svn_tags],
     :trac_svn_repo => node[:trac][:svn_dir]
   )
 end
@@ -90,9 +90,9 @@ template "trac-conf" do
   group "root"
   mode 0644
   variables(
-    :trac_dir => node[:trac][:basedir], 
-    :trac_project_name => node[:trac][:project_name], 
-    :trac_required_groups => node[:trac][:required_groups], 
+    :trac_dir => node[:trac][:basedir],
+    :trac_project_name => node[:trac][:project_name],
+    :trac_required_groups => node[:trac][:required_groups],
     :trac_vhosts => node[:trac][:vhosts]
   )
 end
@@ -108,6 +108,5 @@ cron "trac-sync" do
   minute "0"
   command "trac-admin #{node[:trac][:basedir]}/environment resync"
   user "www-data"
-  only_if do File.exists?("#{node[:trac][:basedir]}/environment") end
+  only_if do ::File.exists?("#{node[:trac][:basedir]}/environment") end
 end
-

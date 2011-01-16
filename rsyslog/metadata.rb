@@ -3,7 +3,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures rsyslog"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.9.4"
+version           "0.9.5"
 
 recipe            "rsyslog", "Installs rsyslog"
 recipe            "rsyslog::client", "Sets up a client to log to a remote rsyslog server"

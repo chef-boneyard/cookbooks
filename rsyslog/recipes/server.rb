@@ -42,7 +42,7 @@ file "/etc/rsyslog.d/remote.conf" do
   action :delete
   backup false
   notifies :reload, resources(:service => "rsyslog"), :delayed
-  only_if do File.exists?("/etc/rsyslog.d/remote.conf") end
+  only_if do ::File.exists?("/etc/rsyslog.d/remote.conf") end
 end
 
 template "/etc/cron.d/rsyslog_gz" do

@@ -33,7 +33,7 @@ link "#{node['tomcat']['context_dir']}/ROOT.xml" do
   notifies :restart, resources(:service => "tomcat")
 end
 
-if File.symlink?(File.join(node['tomcat']['context_dir'], "ROOT.xml"))
+if ::File.symlink?(::File.join(node['tomcat']['context_dir'], "ROOT.xml"))
   d = resources(:remote_file => app['id'])
   d.notifies :restart, resources(:service => "tomcat")
 end
