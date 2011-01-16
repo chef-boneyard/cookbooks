@@ -42,7 +42,13 @@ end
 
 set_unless[:tomcat6][:version]          = "6.0.18"
 set_unless[:tomcat6][:with_native]      = false
-set_unless[:tomcat6][:with_snmp]        = !languages[:java][:runtime][:name].match(/^OpenJDK/)
+
+if languages[:java]
+  set_unless[:tomcat6][:with_snmp]      = !languages[:java][:runtime][:name].match(/^OpenJDK/)
+else
+  set_unless[:tomcat6][:with_snmp]      = false
+end
+
 set_unless[:tomcat6][:java_home]        = "/usr/lib/jvm/java"
 # snmp_opts fail with OpenJDK - results in silent exit(1) from the jre
 if tomcat6[:with_snmp]
