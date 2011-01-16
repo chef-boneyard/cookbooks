@@ -55,9 +55,9 @@ bash "install mod_auth_openid" do
   EOH
   case node[:platform]
   when "arch"
-    not_if { File.exists?("/usr/lib/httpd/modules/mod_auth_openid.so") }
+    not_if { ::File.exists?("/usr/lib/httpd/modules/mod_auth_openid.so") }
   else
-    not_if { File.exists?("/usr/lib/apache2/modules/mod_auth_openid.so") }
+    not_if { ::File.exists?("/usr/lib/apache2/modules/mod_auth_openid.so") }
   end
 end
 

@@ -37,7 +37,7 @@ define :apache_module, :enable => true, :conf => false do
     execute "a2dismod #{params[:name]}" do
       command "/usr/sbin/a2dismod #{params[:name]}"
       notifies :restart, resources(:service => "apache2")
-      only_if do File.symlink?("#{node[:apache][:dir]}/mods-enabled/#{params[:name]}.load") end
+      only_if do ::File.symlink?("#{node[:apache][:dir]}/mods-enabled/#{params[:name]}.load") end
     end
   end
 end

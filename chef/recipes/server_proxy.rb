@@ -53,7 +53,7 @@ bash "Create SSL Certificates" do
   openssl req -subj "#{node[:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key #{node[:chef][:server_fqdn]}.key > #{node[:chef][:server_fqdn]}.crt
   cat #{node[:chef][:server_fqdn]}.key #{node[:chef][:server_fqdn]}.crt > #{node[:chef][:server_fqdn]}.pem
   EOH
-  not_if { File.exists?("/etc/chef/certificates/#{node[:chef][:server_fqdn]}.pem") }
+  not_if { ::File.exists?("/etc/chef/certificates/#{node[:chef][:server_fqdn]}.pem") }
 end
 
 web_app "chef_server" do

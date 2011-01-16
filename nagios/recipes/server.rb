@@ -117,7 +117,7 @@ template "#{node[:apache][:dir]}/sites-available/nagios3.conf" do
   source "apache2.conf.erb"
   mode 0644
   variables :public_domain => public_domain
-  if File.symlink?("#{node[:apache][:dir]}/sites-enabled/nagios3.conf")
+  if ::File.symlink?("#{node[:apache][:dir]}/sites-enabled/nagios3.conf")
     notifies :reload, resources(:service => "apache2")
   end
 end

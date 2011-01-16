@@ -31,7 +31,7 @@ bash "install_redmine" do
     tar xf redmine-#{node[:redmine][:version]}.tar.gz
     chown -R #{node[:apache][:user]} redmine-#{node[:redmine][:version]}
   EOH
-  not_if { File.exists?("/srv/redmine-#{node[:redmine][:version]}/Rakefile") }
+  not_if { ::File.exists?("/srv/redmine-#{node[:redmine][:version]}/Rakefile") }
 end
 
 link "/srv/redmine" do
@@ -62,7 +62,7 @@ end
 execute "rake db:migrate RAILS_ENV='production'" do
   user node[:apache][:user]
   cwd "/srv/redmine-#{node[:redmine][:version]}"
-  not_if { File.exists?("/srv/redmine-#{node[:redmine][:version]}/db/schema.rb") }
+  not_if { ::File.exists?("/srv/redmine-#{node[:redmine][:version]}/db/schema.rb") }
 end
 
 web_app "redmine" do

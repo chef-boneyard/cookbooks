@@ -52,7 +52,7 @@ end
 
 execute "install-glassfish" do
   command "/tmp/glassfish.sh -a #{answer_file} -s"
-  creates File.join(node[:glassfish][:INSTALL_HOME],"uninstall.sh")
+  creates ::File.join(node[:glassfish][:INSTALL_HOME],"uninstall.sh")
   user node[:glassfish][:systemuser]
   action :run
 end

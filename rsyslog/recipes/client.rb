@@ -38,6 +38,6 @@ unless node[:rsyslog][:server]
   file "/etc/rsyslog.d/server.conf" do
     action :delete
     notifies :reload, resources(:service => "rsyslog"), :delayed
-    only_if do File.exists?("/etc/rsyslog.d/server.conf") end
+    only_if do ::File.exists?("/etc/rsyslog.d/server.conf") end
   end
 end

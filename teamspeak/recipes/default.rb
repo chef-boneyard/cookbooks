@@ -49,7 +49,7 @@ bash "install tsdisplay" do
 wget http://softlayer.dl.sourceforge.net/sourceforge/tsdisplay/TeamspeakDisplay-PR3.zip
 unzip TeamSpeakDisplay-PR3.zip  
 EOH
-  not_if { File.exists?("/srv/www/tsdisplay/TeamspeakDisplay-PR3.zip") }
+  not_if { ::File.exists?("/srv/www/tsdisplay/TeamspeakDisplay-PR3.zip") }
 end
 
 template "/srv/www/tsdisplay/demo.php" do

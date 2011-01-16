@@ -41,5 +41,5 @@ template "/etc/chef/client.rb" do
 end
 
 log "Add the chef::delete_validation recipe to the run list to remove the #{Chef::Config[:validation_key]}." do
-  only_if { File.exists?(Chef::Config[:validation_key]) }
+  only_if { ::File.exists?(Chef::Config[:validation_key]) }
 end
