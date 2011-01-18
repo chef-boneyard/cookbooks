@@ -1,6 +1,4 @@
-default[:nginx][:version]      = "0.7.67"
-default[:nginx][:install_path] = "/opt/nginx-#{nginx[:version]}"
-default[:nginx][:src_binary]   = "#{nginx[:install_path]}/sbin/nginx"
+default[:nginx][:version]      = "0.8.54"
 
 case platform
 when "debian","ubuntu"
@@ -14,13 +12,6 @@ else
   set[:nginx][:user]    = "www-data"
   set[:nginx][:binary]  = "/usr/sbin/nginx"
 end
-
-default[:nginx][:configure_flags] = [
-  "--prefix=#{nginx[:install_path]}",
-  "--conf-path=#{nginx[:dir]}/nginx.conf",
-  "--with-http_ssl_module",
-  "--with-http_gzip_static_module"
-]
 
 default[:nginx][:gzip] = "on"
 default[:nginx][:gzip_http_version] = "1.0"

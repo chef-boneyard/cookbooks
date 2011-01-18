@@ -5,7 +5,7 @@
 # Author:: Adam Jacob (<adam@opscode.com>)
 # Author:: Joshua Timberman (<joshua@opscode.com>)
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,16 +36,26 @@ packages.each do |devpkg|
 end
 
 nginx_version = node[:nginx][:version]
-configure_flags = node[:nginx][:configure_flags].join(" ")
-node.set[:nginx][:daemon_disable] = true
 
-remote_file "/tmp/nginx-#{nginx_version}.tar.gz" do
+node.set[:nginx][:install_path]    = "/opt/nginx-#{nginx_version}"
+node.set[:nginx][:src_binary]      = "#{node[:nginx][:install_path]}/sbin/nginx"
+node.set[:nginx][:daemon_disable]  = true
+node.set[:nginx][:configure_flags] = [
+  "--prefix=#{node[:nginx][:install_path]}",
+  "--conf-path=#{node[:nginx][:dir]}/nginx.conf",
+  "--with-http_ssl_module",
+  "--with-http_gzip_static_module"
+]
+
+configure_flags = node[:nginx][:configure_flags].join(" ")
+
+remote_file "#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version}.tar.gz" do
   source "http://sysoev.ru/nginx/nginx-#{nginx_version}.tar.gz"
   action :create_if_missing
 end
 
 bash "compile_nginx_source" do
-  cwd "/tmp"
+  cwd Chef::Config[:file_cache_path]
   code <<-EOH
     tar zxf nginx-#{nginx_version}.tar.gz
     cd nginx-#{nginx_version} && ./configure #{configure_flags}
