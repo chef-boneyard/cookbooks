@@ -1,5 +1,5 @@
 #
-# Author:: Benjamin Black (<b@b3k.us>)
+# Authors:: Benjamin Black (<b@b3k.us>) and Sean Cribbs (<sean@basho.com>)
 # Cookbook Name:: riak
 #
 # Copyright (c) 2010 Basho Technologies, Inc.
@@ -17,6 +17,7 @@
 # limitations under the License.
 #
 
-default.riak.core.web_ip = "127.0.0.1"
-default.riak.core.web_port = 8098
+default.riak.core.cluster_name = "default"
+default.riak.core.http = [["127.0.0.1",8098]]
 default.riak.core.ring_state_dir = "/var/lib/riak/ring"
+default.riak.core.handoff_port = 8099

@@ -1,5 +1,5 @@
 #
-# Author:: Benjamin Black (<b@b3k.us>)
+# Author:: Benjamin Black (<b@b3k.us>) and Sean Cribbs (<sean@basho.com>)
 # Cookbook Name:: riak
 #
 # Copyright (c) 2010 Basho Technologies, Inc.
@@ -17,8 +17,8 @@
 # limitations under the License.
 #
 
-default.riak.limit_port_range = true
-if node.riak.limit_port_range
+default.riak.kernel.limit_port_range = true
+if node.riak.kernel.limit_port_range
   default.riak.kernel.inet_dist_listen_min = 6000
   default.riak.kernel.inet_dist_listen_max = 7999
 end
