@@ -17,6 +17,9 @@
     ],
     "rhel": [
 
+    ],
+    "arch": [
+
     ]
   },
   "dependencies": {
@@ -24,6 +27,15 @@
 
     ],
     "runit": [
+
+    ],
+    "daemontools": [
+
+    ],
+    "bluepill": [
+
+    ],
+    "ucspi-tcp": [
 
     ]
   },
@@ -148,5 +160,5 @@
     "djbdns::internal_server": "Sets up internal TinyDNS",
     "djbdns::server": "Sets up external TinyDNS"
   },
-  "version": "0.8.4"
+  "version": "0.99.0"
 }

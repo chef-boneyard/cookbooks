@@ -1,0 +1,13 @@
+Bluepill.application("tinydns-internal") do |app|
+
+  app.process("tinydns-internal") do |process|
+    process.pid_file = "/var/run/tinydns-internal.pid"
+    process.start_command = "<%= node[:djbdns][:tinydns_internal_dir] %>/run"
+    process.working_dir = "<%= node[:djbdns][:tinydns_internal_dir] %>"
+    process.uid = process.gid = "tinydns"
+    process.start_grace_time = 5.seconds
+    process.stop_grace_time = 5.seconds
+    process.restart_grace_time = 30.seconds
+  end
+
+end

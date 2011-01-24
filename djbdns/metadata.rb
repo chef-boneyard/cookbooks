@@ -2,18 +2,18 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs djbdns and configures DNS services"
-version           "0.8.4"
+version           "0.99.0"
 recipe            "djbdns", "Installs djbdns from package or source and creates users"
 recipe            "djbdns::axfr", "Sets up djbdns AXFR service"
 recipe            "djbdns::cache", "Sets up public dnscache service"
 recipe            "djbdns::internal_server", "Sets up internal TinyDNS"
 recipe            "djbdns::server", "Sets up external TinyDNS"
 
-%w{ build-essential runit }.each do |cb|
+%w{ build-essential runit daemontools bluepill ucspi-tcp }.each do |cb|
   depends cb
 end
 
-%w{ ubuntu debian centos rhel }.each do |os|
+%w{ ubuntu debian centos rhel arch }.each do |os|
   supports os
 end
 

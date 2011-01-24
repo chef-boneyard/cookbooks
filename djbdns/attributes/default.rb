@@ -33,6 +33,11 @@ default[:djbdns][:tinydns_uid]  = 9999
 default[:djbdns][:public_dnscache_allowed_networks] = [ipaddress.split(".")[0,2].join(".")]
 default[:djbdns][:tinydns_internal_resolved_domain] = domain
 
+default[:djbdns][:axfrdns_dir]          = "/etc/djbdns/axfrdns"
+default[:djbdns][:tinydns_dir]          = "/etc/djbdns/tinydns"
+default[:djbdns][:tinydns_internal_dir] = "/etc/djbdns/tinydns-internal"
+default[:djbdns][:public_dnscache_dir]  = "/etc/djbdns/public-dnscache"
+
 case platform
 when "ubuntu"
   if platform_version.to_f >= 8.10
@@ -46,6 +51,8 @@ when "debian"
   else
     set[:djbdns][:bin_dir] = "/usr/local/bin"
   end 
+when "arch"
+  set[:djbdns][:bin_dir] = "/usr/bin"
 else
-    set[:djbdns][:bin_dir] = "/usr/local/bin"
+  set[:djbdns][:bin_dir] = "/usr/local/bin"
 end
