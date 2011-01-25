@@ -1,0 +1,11 @@
+{
+    "id": "zenossadmin",
+    "groups": "sysadmin",
+    "zenoss": {
+        "password": "abc",
+        "roles": ["Manager","ZenUser"],
+        "user_groups": ["sysadmin"],
+        "pager": "zenossadmin_pager@example.com",
+        "email": "zenossadmin@example.com"
+    }
+}
