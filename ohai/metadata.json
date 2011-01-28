@@ -20,11 +20,25 @@
   "replacing": {
   },
   "attributes": {
+    "ohai/plugin_path": {
+      "display_name": "Ohai Plugin Path",
+      "description": "Distribute plugins to this path.",
+      "type": "string",
+      "required": "optional",
+      "default": "/etc/chef/ohai_plugins",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "recipes": [
+
+      ]
+    }
   },
   "groupings": {
   },
   "recipes": {
     "ohai::default": "Distributes a directory of custom ohai plugins"
   },
-  "version": "0.9.0"
+  "version": "1.0.0"
 }
