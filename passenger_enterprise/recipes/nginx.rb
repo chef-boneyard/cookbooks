@@ -34,7 +34,7 @@ execute "passenger_nginx_module" do
   command %Q{
     #{node[:ruby_enterprise][:install_path]}/bin/passenger-install-nginx-module \
       --auto --prefix=#{nginx_install} \
-      --nginx-source-dir=/tmp/nginx-#{nginx_version} \
+      --nginx-source-dir=#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version} \
       --extra-configure-flags='#{configure_flags}'
   }
   not_if "#{nginx_install}/sbin/nginx -V 2>&1 | grep '#{node[:ruby_enterprise][:gems_dir]}/gems/passenger-#{node[:passenger_enterprise][:version]}/ext/nginx'"
