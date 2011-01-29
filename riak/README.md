@@ -38,20 +38,19 @@ Most Riak configuration is for networking, Erlang, and storage backends.  The on
 Networking
 ----------
 
-Riak clients communicate with the nodes in the cluster through either the HTTP or Protobufs interfaces, both of which may be used simultaneously.  Configuration for each interface includes the IP address and TCP port on which to listen for client connections.  The default for the HTTP interface, web ip, is localhost:8098 and for Protobufs 0.0.0.0:8087, meaning client connections to any address on the server, TCP port 8087, are accepted.  As the default `web_ip` is inaccessible to other nodes, it must be changed if you want clients to use the HTTP interface.
+Riak clients communicate with the nodes in the cluster through either the HTTP or Protobufs interfaces, both of which may be used simultaneously.  Configuration for each interface includes the IP address and TCP port on which to listen for client connections.  The default for the HTTP interface is localhost:8098 and for Protobufs 0.0.0.0:8087, meaning client connections to any address on the server, TCP port 8087, are accepted.  As the default HTTP configuration is inaccessible to other nodes, it must be changed if you want clients to use the HTTP interface.
 
-	node[:riak][:core][:web_ip] = "127.0.0.1"
-	node[:riak][:core][:web_port] = 8098
+	node[:riak][:core][:http] = [["127.0.0.1", 8098]]
 	node[:riak][:kv][:pb_ip] = "0.0.0.0"
 	node[:riak][:kv][:pb_port] = 8087
 
 Intra-cluster handoff occurs over a dedicated port, which defaults to 8099.
 
-	node[:riak][:kv][:handoff_port] = 8099
+	node[:riak][:core][:handoff_port] = 8099
 
 Finally, by default, options are included in the configuration to define the set of ports used for Erlang inter-node communication.  
 
-	node[:riak][:limit_port_range] = true
+	node[:riak][:kernel][:limit_port_range] = true
 	node[:riak][:kernel][:inet_dist_listen_min] = 6000
 	node[:riak][:kernel][:inet_dist_listen_max] = 7999
 
@@ -61,14 +60,15 @@ On Debian/Ubuntu platforms, IPTables rules corresponding to these settings to ex
 Erlang
 ------
 
-A number of Erlang parameters may be configured through the cookbook.  The node name and cookie are most important for creating multi-node clusters.  The rest of the parameters are primarily for performance tuning, with kernel polling and smp enabled by default.  Any available Erlang environment variable may be set with the env vars array. 
+A number of Erlang parameters may be configured through the cookbook.  The node name and cookie are most important for creating multi-node clusters.  The rest of the parameters are primarily for performance tuning, with kernel polling and smp enabled by default.  Any available Erlang environment variable may be set with the env vars hash. 
 
-	node[:riak][:erlang][:node_name] = "riak@#{node[:riak][:core][:web_ip]}"
+	node[:riak][:erlang][:node_name] = "riak@#{node[:fqdn]}"
 	node[:riak][:erlang][:cookie] = "riak"
 	node[:riak][:erlang][:kernel_polling] = (true | false)
-	node[:riak][:erlang][:async_threads] = 5
+	node[:riak][:erlang][:async_threads] = 64
 	node[:riak][:erlang][:smp] = ("enable" | "disable")
-	node[:riak][:erlang][:env_vars] = ["ERL_MAX_PORTS 4096", "ERL_FULLSWEEP_AFTER 10"]
+	node[:riak][:erlang][:env_vars][:ERL_MAX_PORTS] = 4096
+        node[:riak][:erlang][:env_vars][:ERL_FULLSWEEP_AFTER] = 10
 
 
 Storage Backends
@@ -82,16 +82,16 @@ Bitcask
 
 By virtue of its architecture, Bitcask requires much less tuning to achieve good performance than Innostore.
 
-	node[:riak][:kv][:storage_backend_options][:data_root] = "/var/lib/riak/bitcask"  
-	node[:riak][:kv][:storage_backend_options][:max_file_size] = 2147483648
-	node[:riak][:kv][:storage_backend_options][:open_timeout] = 4
-	node[:riak][:kv][:storage_backend_options][:sync_strategy] = :none
-	node[:riak][:kv][:storage_backend_options][:frag_merge_trigger] = 60
-	node[:riak][:kv][:storage_backend_options][:dead_bytes_merge_trigger] = 536870912
-	node[:riak][:kv][:storage_backend_options][:frag_threshold] = 40
-	node[:riak][:kv][:storage_backend_options][:dead_bytes_threshold] = 134217728
-	node[:riak][:kv][:storage_backend_options][:small_file_threshold] = 10485760
-	node[:riak][:kv][:storage_backend_options][:expiry_secs] = -1
+	node[:riak][:bitcask][:data_root] = "/var/lib/riak/bitcask"
+	node[:riak][:bitcask][:max_file_size] = 2147483648
+	node[:riak][:bitcask][:open_timeout] = 4
+	node[:riak][:bitcask][:sync_strategy] = :none
+	node[:riak][:bitcask][:frag_merge_trigger] = 60
+	node[:riak][:bitcask][:dead_bytes_merge_trigger] = 536870912
+	node[:riak][:bitcask][:frag_threshold] = 40
+	node[:riak][:bitcask][:dead_bytes_threshold] = 134217728
+	node[:riak][:bitcask][:small_file_threshold] = 10485760
+	node[:riak][:bitcask][:expiry_secs] = -1
 
 
 DETS
@@ -99,21 +99,21 @@ DETS
 
 DETS is the default storage backend for Riak.  It's very simple to setup, only requiring a path where it should store data files.  However, for production use Innostore and Bitcask are better choices.
 
-	node[:riak][:kv][:storage_backend_options][:riak_kv_dets_backend_root] = "/var/lib/riak/dets"
-
+	node[:riak][:kv][:riak_kv_dets_backend_root] = "/var/lib/riak/dets"
+\
 
 Innostore
 ---------
 
 Innostore is an Erlang wrapper around embedded InnoDB, a transactional storage engine developed for and generally used with MySQL.  It has an enormous set of tuning parameters, all of which are documented at the [InnoDB site][2].  The most common parameters are set to reasonable defaults by the Riak cookbook.
 
-	node[:riak][:kv][:storage_backend_options][:log_buffer_size] = 8388608
-	node[:riak][:kv][:storage_backend_options][:log_files_in_group] = 8
-	node[:riak][:kv][:storage_backend_options][:log_file_size] = 268435456
-	node[:riak][:kv][:storage_backend_options][:flush_log_at_trx_commit] = 1
-	node[:riak][:kv][:storage_backend_options][:data_home_dir] = "/var/lib/riak/innodb"
-	node[:riak][:kv][:storage_backend_options][:log_group_home_dir] = "/var/lib/riak/innodb"
-	node[:riak][:kv][:storage_backend_options][:buffer_pool_size] = 2147483648
+	node[:riak][:innostore][:log_buffer_size] = 8388608
+	node[:riak][:innostore][:log_files_in_group] = 8
+	node[:riak][:innostore][:log_file_size] = 268435456
+	node[:riak][:innostore][:flush_log_at_trx_commit] = 1
+	node[:riak][:innostore][:data_home_dir] = "/var/lib/riak/innodb"
+	node[:riak][:innostore][:log_group_home_dir] = "/var/lib/riak/innodb"
+	node[:riak][:innostore][:buffer_pool_size] = 2147483648
 
 
 [1]: http://basho.com/

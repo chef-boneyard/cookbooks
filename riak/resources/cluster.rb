@@ -1,5 +1,5 @@
 #
-# Author:: Benjamin Black (<b@b3k.us>) and Sean Cribbs (<sean@basho.com>)
+# Author:: Sean Cribbs (<sean@basho.com>)
 # Cookbook Name:: riak
 #
 # Copyright (c) 2010 Basho Technologies, Inc.
@@ -16,14 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+actions :join, :leave
 
-if node.riak.kv.storage_backend == :riak_kv_innostore_backend
-  default.riak.innostore.log_buffer_size = 8388608
-  default.riak.innostore.log_files_in_group = 8
-  default.riak.innostore.log_file_size = 268435456
-  default.riak.innostore.flush_log_at_trx_commit = 1
-  default.riak.innostore.data_home_dir = "/var/lib/riak/innodb"
-  default.riak.innostore.log_group_home_dir = "/var/lib/riak/innodb"
-  default.riak.innostore.buffer_pool_size = 2147483648
-  default.riak.innostore.flush_method = "O_DIRECT"
-end
+attribute :cluster_name, :kind_of => [String], :name_attribute => true
+attribute :cluster_members, :kind_of => [Array]
+attribute :node_name, :kind_of => [String], :required => true
+attribute :timeout, :kind_of => [Fixnum], :default => 30
+attribute :joined, :default => false
+attribute :riak_admin_path, :kind_of => [String], :default => "/usr/sbin"
+attribute :ring_ready
