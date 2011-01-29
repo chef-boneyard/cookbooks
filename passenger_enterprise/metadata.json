@@ -40,5 +40,5 @@
     "passenger_enterprise::apache2": "Enables Apache module configuration for passenger under Ruby Enterprise Edition",
     "passenger_enterprise::nginx": "Installs Passenger gem w/ REE, and recompiles support into Nginx"
   },
-  "version": "0.4.3"
+  "version": "0.99.0"
 }
