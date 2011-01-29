@@ -71,7 +71,7 @@ Resources and Providers
 
 This cookbook provides two resources and corresponding providers.
 
-ebs_volume.rb
+`ebs_volume.rb`
 -------------
 
 Manage Elastic Block Store (EBS) volumes with this resource.
@@ -95,7 +95,7 @@ Attribute Parameters:
 * `timeout` - connection timeout for EC2 API.
 * `snapshots_to_keep` - used with action `:prune` for number of snapshots to maintain.
 
-elastic_ip.rb
+`elastic_ip.rb`
 -------------
 
 Actions:
@@ -126,7 +126,7 @@ The resource only handles manipulating the EBS volume, additional resources need
 
     aws_ebs_volume "db_ebs_volume" do
       aws_access_key aws['aws_access_key_id']
-      aws_secret_access_key aws['aws_secret_access_key_id']
+      aws_secret_access_key aws['aws_secret_access_key']
       size 50
       device "/dev/sdi"
       action [ :create, :attach ]
@@ -136,7 +136,7 @@ This will create a 50G volume, attach it to the instance as `/dev/sdi`.
 
     aws_ebs_volume "db_ebs_volume_from_snapshot" do
       aws_access_key aws['aws_access_key_id']
-      aws_secret_access_key aws['aws_secret_access_key_id']
+      aws_secret_access_key aws['aws_secret_access_key']
       size 50
       device "/dev/sdi"
       snapshot_id "snap-ABCDEFGH"
@@ -164,7 +164,7 @@ Then to set up the Elastic IP on a system:
 
     aws_elastic_ip "eip_load_balancer_production" do
       aws_access_key aws['aws_access_key_id']
-      aws_secret_access_key aws['aws_secret_access_key_id']
+      aws_secret_access_key aws['aws_secret_access_key']
       lb ip_info['public_ip']
       action :associate
     end
