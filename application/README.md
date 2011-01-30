@@ -118,19 +118,10 @@ Unicorn is installed, default attributes are set for the node and an app specifi
 Deprecated Recipes
 ==================
 
-The following recipes are deprecated in favor of rails+unicorn, as that is performant enough for many Rails applications, and takes less time to provision new instances. Using these recipes may require additional work to the rest of the stack that wouldn't be required with rails+unicorn because they were early-phase development of this cookbook.
+The following recipes are deprecated and have been removed from the cookbook. To retrieve an older version, reference commit 4396ce6.
 
-passenger-nginx
----------------
-
-Builds passenger as an nginx module, drops off the configuration file and sets up the site to run the application under nginx with passenger. Does not deploy the code automatically.
-
+`passenger-nginx`
 `rails_nginx_ree_passenger`
----------------------------
-
-Sets up the application stack with Ruby Enterprise Edition, Nginx and Passenger.
-
-The recipe searches the apps data bag and then installs packages and gems, creates the nginx vhost config and enables the site, sets up the deployment scaffolding, and uses a revision-based deploy for the code. Database and memcached yaml files are written out as well, if required.
 
 ---
 Application Data Bag (Rail's version)
