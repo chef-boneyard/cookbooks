@@ -60,19 +60,16 @@ Recipes tested with Ohai >= 0.5.6
    VMware Tools for the ESX 4.1 release
  * See http://packages.vmware.com for more info
 
+* yumrepo::annvix
+ - Annvix repository for packages usable with Red Hat Enterprise Linux and
+   CentOS.
+
+* yumrepo::postgresql9
+ - PostgreSQL 9.0 RPMs from pgrpms.org
+
 = ATTRIBUTES:
 
 Notable overridable attributes are as follows.
-
-* yumrepo::epel
-
- - repo[:epel][:enabled] = true||false
-   * disables/enables repository in default recipe
-
-* yumrepo::elff
-
- - repo[:elff][:enabled] = true||false
-   * disables/enables repository in default recipe
 
 * yumrepo::dell
 
@@ -91,11 +88,13 @@ Notable overridable attributes are as follows.
    * Whether or not VMware's optional mouse, and X11
      drivers should be installed in the vmware-tools recipe.
 
-
 = LICENSE and AUTHOR:
 
 Author:: Eric G. Wolfe
 Copyright:: 2010
+
+Contributor:: Tippr, Inc.
+Copyright:: 2011
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

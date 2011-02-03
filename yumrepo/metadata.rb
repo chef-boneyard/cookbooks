@@ -16,19 +16,6 @@ recipe "yumrepo::postgresql9", "PostgreSQL 9.0 RPMs from pgrpms.org"
   supports os, ">= 5"
 end
 
-attribute "repo/epel/enabled",
-  :display_name => "repo/epel/enabled",
-  :description => "Boolean flag for the EPEL recipe",
-  :default => "true",
-  :required => "recommended"
-
-attribute "repo/elff/enabled",
-  :display_name => "repo/elff/enabled",
-  :description => "Boolean flag for the ELFF repository",
-  :default => "true",
-  :required => "recommended"
-
-attribute "repo/dell/community_url",
   :display_name => "repo/dell/community_url",
   :description => "URL for the Dell Community repository",
   :required => "optional"
