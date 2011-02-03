@@ -3,31 +3,18 @@ maintainer_email "wolfe21@marshall.edu"
 license          "Apache 2.0"
 description      "Installs and configures EPEL, ELFF, Dell, and VMware yum repositories."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.0.8"
+version          "0.10.0"
 recipe "yumrepo::default", "Installs EPEL, ELFF, Dell, and VMware Tools repositories."
 recipe "yumrepo::epel", "Installs Fedora Extra Packages for Enterprise Linux (EPEL) repository"
 recipe "yumrepo::elff", "Installs Enterprise Linux Fast Forward (ELFF) repository"
 recipe "yumrepo::dell", "Installs Dell (OpenManage) repository"
 recipe "yumrepo::vmware-tools", "Installs VMware (vmware-tools) repository"
+recipe "yumrepo::annvix", "Annvix repository for packages usable with Red Hat Enterprise Linux and CentOS."
+recipe "yumrepo::postgresql9", "PostgreSQL 9.0 RPMs from pgrpms.org"
 
 %w{ redhat centos }.each do |os|
   supports os, ">= 5"
 end
-
-attribute "repo",
-  :display_name => "repo",
-  :description => "Hash of repo attributes",
-  :type => "hash"
-
-attribute "repo/epel",
-  :display_name => "repo/epel",
-  :description => "EPEL repo attributes",
-  :type => "hash"
-
-attribute "repo/epel/url",
-  :display_name => "repo/epel/url",
-  :description => "URL for the EPEL repository",
-  :required => "optional"
 
 attribute "repo/epel/enabled",
   :display_name => "repo/epel/enabled",
@@ -35,26 +22,11 @@ attribute "repo/epel/enabled",
   :default => "true",
   :required => "recommended"
 
-attribute "repo/elff",
-  :display_name => "repo/elff",
-  :description => "ELFF repo attributes",
-  :type => "hash"
-
-attribute "repo/elff/url",
-  :display_name => "repo/elff/url",
-  :description => "URL for the ELFF repository",
-  :required => "optional"
-
 attribute "repo/elff/enabled",
   :display_name => "repo/elff/enabled",
   :description => "Boolean flag for the ELFF repository",
   :default => "true",
   :required => "recommended"
-
-attribute "repo/dell",
-  :display_name => "repo/dell",
-  :description => "Dell repo attributes",
-  :type => "hash"
 
 attribute "repo/dell/community_url",
   :display_name => "repo/dell/community_url",
@@ -85,11 +57,6 @@ attribute "repo/dell/install_optional",
   :display_name => "repo/dell/install_optional",
   :description => "Enable Dell optional components by setting to true",
   :required => "recommended"
-
-attribute "repo/vmware",
-  :display_name => "repo/vmware",
-  :description => "VMware repo attributes",
-  :type => "hash"
 
 attribute "repo/vmware/release",
   :display_name => "repo/vmware/release",
