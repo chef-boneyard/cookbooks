@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: yumrepo
-# Recipe:: dell
+# Definition:: yumrepo
 #
 # Copyright 2010, Tippr Inc.
 #

@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: yumrepo
-# Recipe:: pgdg90
+# Recipe:: postgresql9
 #
 # Copyright 2010, Tippr Inc.
 #
@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-yumrepo "pgdg90" do
+yumrepo "postgresql9" do
   action :enable
   definition "PostgreSQL 9.0"
   key "RPM-GPG-KEY-PGDG"
