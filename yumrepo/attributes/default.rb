@@ -18,12 +18,6 @@
 # limitations under the License.
 #
 
-# EPEL (default)
-default[:repo][:epel][:enabled] = true
-
-# ELFF
-default[:repo][:elff][:enabled] = true
-
 # Dell
 default[:repo][:dell][:community_url] = "http://linux.dell.com/repo/community//mirrors.cgi?osname=el$releasever\&basearch=$basearch"
 default[:repo][:dell][:firmware_url] = "http://linux.dell.com/repo/firmware/mirrors.pl?dellsysidpluginver=$dellsysidpluginver"

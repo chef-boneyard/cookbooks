@@ -11,11 +11,13 @@ recipe "yumrepo::dell", "Installs Dell (OpenManage) repository"
 recipe "yumrepo::vmware-tools", "Installs VMware (vmware-tools) repository"
 recipe "yumrepo::annvix", "Annvix repository for packages usable with Red Hat Enterprise Linux and CentOS."
 recipe "yumrepo::postgresql9", "PostgreSQL 9.0 RPMs from pgrpms.org"
+recipe "yumrepo::zenoss", "YUM repo for ZenOss stable"
 
 %w{ redhat centos }.each do |os|
   supports os, ">= 5"
 end
 
+attribute "repo/dell/community_url",
   :display_name => "repo/dell/community_url",
   :description => "URL for the Dell Community repository",
   :required => "optional"

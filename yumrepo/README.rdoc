@@ -67,6 +67,10 @@ Recipes tested with Ohai >= 0.5.6
 * yumrepo::postgresql9
  - PostgreSQL 9.0 RPMs from pgrpms.org
 
+* yumrepo::zenoss
+ - ZenOss Network Monitoring system (http://zenoss.org)
+   Repo available at http://dev.zenoss.org/yum/stable
+
 = ATTRIBUTES:
 
 Notable overridable attributes are as follows.
