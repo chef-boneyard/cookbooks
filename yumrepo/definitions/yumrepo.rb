@@ -21,12 +21,16 @@
 # /etc/pki/rpm-gpg; this is a design decision.
 
 define :yumrepo,
-    :templatesource => "generic.repo.erb",
-    :definition => nil,
-    :url => nil,
-    :key => nil,
-    :url_is_mirrorlist => false,
-    :action => :enable do
+  :templatesource => "generic.repo.erb",
+  :definition => nil,
+  :url => nil,
+  :key => nil,
+  :url_is_mirrorlist => false,
+  :action => :enable do
+
+  execute "yum -q makecache" do
+    action :nothing
+  end
 
   if node[:repo].has_key? params[:name] and node[:repo][params[:name]][:url] then
     url = node[:repo][params[:name]][:url]
@@ -51,10 +55,7 @@ define :yumrepo,
         :key_filename => params[:key],
         :use_mirrorlist => params[:url_is_mirrorlist]
       })
-      notifies :run, "execute[yum -q makecache]", :immediately
-    end
-    execute "yum -q makecache" do
-      action :nothing
+      notifies :run, resources(:execute => "yum -q makecache"), :immediately
     end
   else
     file "/etc/yum.repos.d/#{params[:name]}.repo" do
