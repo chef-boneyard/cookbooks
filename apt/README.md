@@ -26,7 +26,7 @@ Installs the apt-proxy package and service so the system can be an APT proxy.
 Resources/Providers
 ===================
 
-This cookbook contains an LWRP, `apt_repository`, which provides the `add` and `remove` actions for managing additional software repositories with entries in the `/etc/apt/sources.list.d/` directory.
+This cookbook contains an LWRP, `apt_repository`, which provides the `add` and `remove` actions for managing additional software repositories with entries in the `/etc/apt/sources.list.d/` directory. The LWRP also supports passing in a `key` and `keyserver` as attributes.
 
 * `add` takes a number of attributes and creates a repository file and builds the repository listing.
 * `remove` deletes the `/etc/apt/sources.list.d/#{new_resource.repo_name}-sources.list` file identified by the `repo_name` passed as the resource name.
