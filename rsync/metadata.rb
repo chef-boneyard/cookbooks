@@ -6,6 +6,6 @@ version           "0.7.1"
 
 recipe "rsync", "Installs rsync"
 
-%w{ centos fedora redhat ubuntu debian }.each do |os|
+%w{ centos fedora redhat ubuntu debian arch }.each do |os|
   supports os
 end
