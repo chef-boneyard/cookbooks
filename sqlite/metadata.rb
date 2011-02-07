@@ -6,6 +6,6 @@ version           "0.7.1"
 
 recipe "sqlite", "Installs sqlite"
 
-%w{ubuntu debian}.each do |os|
+%w{ubuntu debian arch}.each do |os|
   supports os
 end
