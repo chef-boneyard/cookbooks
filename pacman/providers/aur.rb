@@ -109,12 +109,14 @@ def get_pkg_version
   v = ''
   r = ''
   if ::File.exists?("#{new_resource.builddir}/#{new_resource.name}/PKGBUILD")
+    a = node.kernel.machine
     ::File.open("#{new_resource.builddir}/#{new_resource.name}/PKGBUILD").each do |line|
       v = line.split("=")[1].chomp if line =~ /^pkgver/
       r = line.split("=")[1].chomp if line =~ /^pkgrel/
+      a = 'any' if line =~ /arch=\([\s'"]+any[\s'"]+\)/
     end
     Chef::Log.debug("Setting version of #{new_resource.name} to #{v}-#{r}")
-    new_resource.version("#{v}-#{r}-#{node.kernel.machine}")
+    new_resource.version("#{v}-#{r}-#{a}")
   end
 end
 
