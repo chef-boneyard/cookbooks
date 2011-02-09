@@ -20,6 +20,7 @@
 package "libxml-devel" do
   package_name value_for_platform(
     [ "centos", "redhat", "suse", "fedora" ] => { "default" => "libxml2-devel" },
+    "arch"    => { 'default' => 'libxml2' },
     "default" => 'libxml2-dev'
   )
 end
