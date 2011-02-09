@@ -1,14 +1,14 @@
 Description
 ===========
 
-Installs a Java. Uses OpenJDK by default but supports installation of the Sun's Java (Debian and Ubuntu platforms only).
+Installs a Java. Uses OpenJDK by default but supports installation of the Sun's Java (Debian, Ubuntu and ArchLinux platforms only).
 
 Requirements
 ============
 
 Platform: 
 
-* Debian, Ubuntu (OpenJDK, Sun)
+* Debian, Ubuntu, Arch (OpenJDK, Sun)
 * CentOS, Red Hat, Fedora (OpenJDK)
 
 The following Opscode cookbooks are dependencies:

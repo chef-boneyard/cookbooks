@@ -20,6 +20,9 @@ node.run_state[:java_pkgs] = value_for_platform(
   ["debian","ubuntu"] => {
     "default" => ["sun-java6-jre","default-jre-headless"]
   },
+  "arch"    => {
+    "default" => ["jre"]
+  },
   "default" => ["sun-java6-jre"]
 )
 
@@ -32,6 +35,8 @@ when "debian","ubuntu"
     source "canonical.com.list.erb"
     notifies :run, resources(:execute => "apt-get update"), :immediately
   end
+when "arch"
+  # nothing
 else
   Chef::Log.error("Installation of Sun Java packages are only supported on Debian/Ubuntu at this time.")
 end

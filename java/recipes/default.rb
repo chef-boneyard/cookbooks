@@ -51,7 +51,7 @@ node.run_state[:java_pkgs].each do |pkg|
 end
 
 # re-run update-java-alternatives if our java flavor changes
-if node.languages.attribute?("java")
+if node.languages.attribute?("java") and node.languages.java.attribute?("hotspot")
   unless node.languages.java.hotspot.name.match(current_java_version_pattern)
     log "Java install_flavor has changed, re-running 'update-java-alternatives'" do
       level :info
