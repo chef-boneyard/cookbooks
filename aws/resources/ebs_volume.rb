@@ -2,6 +2,7 @@ actions :create, :attach, :detach, :snapshot, :prune
 
 attribute :aws_access_key,        :kind_of => String
 attribute :aws_secret_access_key, :kind_of => String
+attribute :aws_region,            :kind_of => String
 attribute :size,                  :kind_of => Integer
 attribute :snapshot_id,           :kind_of => String
 attribute :availability_zone,     :kind_of => String

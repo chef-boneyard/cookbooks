@@ -12,7 +12,7 @@ module Opscode
   module Aws
     module Ec2
       def find_snapshot_id(volume_id="")
-        snapshot_id = nil 
+        snapshot_id = nil
         ec2.describe_snapshots.sort { |a,b| b[:aws_started_at] <=> a[:aws_started_at] }.each do |snapshot|
           if snapshot[:aws_volume_id] == volume_id
             snapshot_id = snapshot[:aws_id]
@@ -24,7 +24,10 @@ module Opscode
       end
 
       def ec2
-        @@ec2 ||= RightAws::Ec2.new(new_resource.aws_access_key, new_resource.aws_secret_access_key, { :logger => Chef::Log })
+        @@ec2 ||= RightAws::Ec2.new(new_resource.aws_access_key, new_resource.aws_secret_access_key, {
+            :logger => Chef::Log,
+            :region => new_resource.aws_region,
+          })
       end
 
       def instance_id
