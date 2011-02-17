@@ -53,5 +53,5 @@
     "chef-client::service": "Sets up a client daemon to run periodically",
     "chef-client::delete_validation": "Deletes validation.pem after client registers"
   },
-  "version": "0.99.2"
+  "version": "0.99.3"
 }
