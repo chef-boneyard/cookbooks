@@ -1,0 +1,32 @@
+{
+  "name": "pdns",
+  "description": "Installs/Configures pdns",
+  "long_description": "Description\n===========\n\nInstalls and configures PowerDNS (pdns). Sets up a recursor by default and can set up an Authoritative Server with multiple backends.\n\nRequirements\n============\n\nTested on ArchLinux, and Ubuntu. Should work on Debian and Red Hat family, but needs EPEL repository enabled.\n\nAttributes\n==========\n\nAttributes used by the recipes and templates. Some correspond to configuration file values. The default setting in the attribute matches the default value in PowerDNS itself where possible and is populated in the appropriate template (`/etc/powerdns/recursor.conf` and `/etc/powerdns/pdns.conf` respectively for the recursor or server). Where applicable, values are namespaced in the attributes by `server` or `recursor`.\n\nWhere a list of values is used by the PowerDNS config, we use an Array value populated with the defaults. This gives more flexibility in recipes to manipulate the list easily using Ruby Array methods.\n\n* `node[\"pdns\"][\"user\"]` - User to setuid the pdns daemons, default pdns.\n* `node[\"pdns\"][\"group\"]` - Group to setuid the pdns daemons, default pdns.\n* `node[\"pdns\"][\"server\"][\"config_dir\"]` - Config directory location for pdns.conf.\n* `node[\"pdns\"][\"recursor\"][\"config_dir\"]` - Config directory location for recursor.conf.\n\nserver\n------\n\n* `node[\"pdns\"][\"server\"][\"backend\"]` - Selects the PDNS database backend, default 'sqlite3' (only option available at this time).\n* `node[\"pdns\"][\"server\"][\"sqlite_file\"]` - Filename for the sqlite database. Only used if the backend is gsqlite.\n* `node[\"pdns\"][\"server\"][\"local_address\"]` - Array list of the local IPv4 or IPv6 addresses to bind to, corresponds to the recursor.conf value `local-address` default [\"127.0.0.1\"] under the assumption that the recursor is used with an Authoritative Server on the same system and passes local zone requests to the loopback.\n\nrecursor\n--------\n\n* `node[\"pdns\"][\"recursor\"][\"allow_from\"]` - Array list of netmasks to recurse, corresponds to recursor.conf value `allow-from`, default [\"127.0.0.0/8\", \"0.0.0.0/8\", \"92.168.0.0/16\", \"72.16.0.0/12\", \":1/128\", \"e80::/10\"].\n* `node[\"pdns\"][\"recursor\"][\"auth_zones\"]` - Array list of 'zonename=filename' pairs served authoritatively, corresponds to recursor.conf value `auth-zones`, default [].\n* `node[\"pdns\"][\"recursor\"][\"forward_zones\"]` - Array list of 'zonename=IP' pairs. Queries for the zone are forwarded to the specified IP, corresponds to recursor.conf value `forward-zones`, default [].\n* `node[\"pdns\"][\"recursor\"][\"forward_zones_recurse\"]` - Array list of 'zonename=IP' pairs. Like `forward_zones` above, sets the `recursion_desired` bit to 1, corresponds to recursor.conf value `forward-zones-recurse`, default [].\n* `node[\"pdns\"][\"recursor\"][\"local_address\"]` - Array list of the local IPv4 or IPv6 addresses to bind to, corresponds to the recursor.conf value `local-address` default [ipaddress] under the assumption that the recursor is used with an Authoritative Server on the same system.\n* `node[\"pdns\"][\"recursor\"][\"local_port\"]` - Local port to bind, default '53'.\n\nRecipes\n=======\n\ndefault\n-------\n\nIncludes the `pdns::recursor` recipe.\n\nrecursor\n--------\n\nSets up a PowerDNS Recursor.\n\nserver\n------\n\nSets up a PowerDNS Authoritative Server. Uses the SQLite backend by default with the `pdns::sqlite` recipe.\n\nsqlite\n------\n\nSets up an SQLite database backend for the `pdns::server`. This backend is the default.\n\nUsage\n=====\n\nTo set up a Recursor, simply put `recipe[pdns]` in the run list. Modify the attributes via a role or on the node directly as required for the local configuration. If using the recursor with an Authoritative Server running on the same system, the local address and port should be changed to a public IP and the forward zones recurse setting to point at the loopback for the local zone. This is generally assumed, and the default listen interface for the recursor is set to the nodes ipaddress attribute.\n\nTo set up an authoritative server, put `recipe[pdns::server]` in the run list. If another backend besides SQLite is desired, change the `node[\"pdns\"][\"server\"][\"backend\"]` attribute.\n\nLicense and Author\n==================\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2010, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Opscode, Inc.",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
+  "platforms": {
+  },
+  "dependencies": {
+    "sqlite": [
+
+    ]
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.0.1"
+}
