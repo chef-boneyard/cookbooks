@@ -1,0 +1,10 @@
+#!/bin/bash
+# TODO make this more WSGI generic
+GUNICORN=<%= @options['virtualenv'] %>/bin/gunicorn_django
+ROOT=<%= @options['app']['deploy_to'] %>/current
+CONFIG=/etc/gunicorn/<%= @options['app']['id'] %>.py
+
+cd $ROOT
+
+exec 2>&1
+exec chpst -u <%= @options['app']['owner'] %>:<%= @options['app']['group'] %> $GUNICORN -c $CONFIG
