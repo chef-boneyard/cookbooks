@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: apt
-# Recipe:: proxy
+# Recipe:: cacher-client
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,19 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-package "apt-proxy" do 
-  action :install
+
+server = search(:node, 'recipes:apt\:\:cacher') || []
+if server.length > 0
+  Chef::Log.info("apt-cacher server #{server[0]}.")
+else
+  Chef::Log.info("No apt-cacher server found.")
 end
 
-service "apt-proxy" do
-  supports :restart => true, :status => false
-  action [ :enable, :start ]
-end
-
-cookbook_file "/etc/apt-proxy/apt-proxy-v2.conf" do
-  source "apt-proxy-v2.conf"
-  owner "root"
-  group "root"
-  mode 0644
-  notifies :restart, resources(:service => "apt-proxy")
-end
+#http://hypnotoad:3142/apt-cacher
