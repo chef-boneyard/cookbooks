@@ -54,8 +54,8 @@ Download a file via the [BitTorrent protocol](http://en.wikipedia.org/wiki/BitTo
 - continue_seeding: should the file continue to be seeded to the swarm after download? default is `false`.
 - owner: The owner for the file
 - group: The group owner of the file (string or id)
-- rpc_host: the address of the Transmission RPC host to connect to. default is `9091`.
-- rpc_port: the port of the Transmission RPC host to connect to. default is `localhost`.
+- rpc_host: the address of the Transmission RPC host to connect to. default is `localhost`.
+- rpc_port: the port of the Transmission RPC host to connect to. default is `9091`.
 - rpc_username: the username of the Transmission RPC account. default is `transmission`.
 - rpc_password: the password of the Transmission RPC account . should probably be `node['transmission']['rpc_password']` which by default is a secure password generated for this node.
 

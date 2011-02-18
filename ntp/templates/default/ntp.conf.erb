@@ -7,10 +7,10 @@ filegen peerstats file peerstats type day enable
 filegen clockstats file clockstats type day enable
 
 <% if node[:ntp][:is_server] -%>
-server 0.us.pool.ntp.org
-server 1.us.pool.ntp.org
-server 2.us.pool.ntp.org
-server 3.us.pool.ntp.org
+server 0.pool.ntp.org
+server 1.pool.ntp.org
+server 2.pool.ntp.org
+server 3.pool.ntp.org
 <% else -%>
 <% node[:ntp][:servers].each do |ntpserver| -%>
   server <%= ntpserver %>

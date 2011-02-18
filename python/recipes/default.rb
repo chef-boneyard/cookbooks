@@ -46,6 +46,12 @@ bash "install-pip" do
   easy_install pip
   EOH
   not_if "which pip"
+  action :nothing
+end
+remote_file "#{Chef::Config[:file_cache_path]}/distribute_setup.py" do
+  source "http://python-distribute.org/distribute_setup.py"
+  notifies :run, "bash[install-pip]", :immediate
+  not_if "which pip"
 end
 
 python_pip "virtualenv" do

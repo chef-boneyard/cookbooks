@@ -51,6 +51,18 @@ An example of The LWRP `apt_repository` `add` action:
       action :add
     end
 
+An example of `apt_repository` using a signing key:
+
+    apt_repository "hardy-rsyslog-ppa" do
+      uri "http://ppa.launchpad.net/a.bono/rsyslog/ubuntu"
+      distribution "hardy"
+      components ["main"]
+      keyserver "keyserver.ubuntu.com"
+      key "C0061A4A"
+      action :add
+      notifies :run, "execute[apt-get update]", :immediately
+    end
+
 and the `remove` action:
 
     apt_repository "zenoss" do
@@ -63,7 +75,7 @@ License and Author
 Author:: Joshua Timberman (<joshua@opscode.com>)
 Author:: Matt Ray (<matt@opscode.com>)
 
-Copyright 2009, 2010 Opscode, Inc.
+Copyright 2009-2011 Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

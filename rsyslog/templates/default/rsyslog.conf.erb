@@ -43,7 +43,7 @@ $FileCreateMode 0640
 #
 $IncludeConfig /etc/rsyslog.d/*.conf
 
-
+<% unless node[:platform] == 'ubuntu' -%>
 ###############
 #### RULES ####
 ###############
@@ -112,4 +112,4 @@ daemon.*;mail.*;\
 	news.err;\
 	*.=debug;*.=info;\
 	*.=notice;*.=warn	|/dev/xconsole
-
+<% end -%>
