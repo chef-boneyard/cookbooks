@@ -47,5 +47,5 @@ VALID_SERVER_HOOK_NAMES = [:when_ready, :pre_fork, :post_fork, :pre_exec, :pre_r
 
 private
   def self.validate_server_hook_hash_keys(server_hooks)
-    server_hooks.keys.reject{|key| VALID_SERVER_HOOK_NAMES.include?(key)}.empty?
+    server_hooks.keys.reject{|key| VALID_SERVER_HOOK_NAMES.include?(key.to_sym)}.empty?
   end
