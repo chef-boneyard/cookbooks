@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: apt
-# Recipe:: proxy
+# Author:: Matt Ray <matt@opscode.com>
+# Cookbook Name:: zenoss
+# Attributes:: default
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2011 Opscode, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,19 +17,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-package "apt-proxy" do 
-  action :install
-end
 
-service "apt-proxy" do
-  supports :restart => true, :status => false
-  action [ :enable, :start ]
-end
-
-cookbook_file "/etc/apt-proxy/apt-proxy-v2.conf" do
-  source "apt-proxy-v2.conf"
-  owner "root"
-  group "root"
-  mode 0644
-  notifies :restart, resources(:service => "apt-proxy")
-end
+#additional one-shots can be added by changing the name of the recipe
+default[:one_shot][:recipe]    = "one-shot::one-shot"

@@ -1,0 +1,19 @@
+<% if @django_version >= 1.2 -%>
+DATABASES = {
+    'default': {
+        'NAME': '<%= @database['database'] %>',
+        'ENGINE': 'django.db.backends.<%= @database['adapter'] %>',
+        'USER': '<%= @database['username'] %>',
+        'PASSWORD': '<%= @database['password'] %>',
+        'HOST': '<%= @host %>',
+        'PORT': '<%= @database['port']  %>'
+    }
+}
+<% else -%>
+DATABASE_ENGINE = '<%= @database['adapter'] %>'
+DATABASE_NAME = '<%= @database['database'] %>'
+DATABASE_USER = '<%= @database['username'] %>'
+DATABASE_PASSWORD = '<%= @database['password'] %>'
+DATABASE_HOST = '<%= @host %>'
+DATABASE_PORT = '<%= @database['port']  %>'
+<% end -%>

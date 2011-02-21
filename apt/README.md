@@ -8,20 +8,17 @@ Recipes
 
 default
 -------
-
 The default recipe runs apt-get update during the Compile Phase of the Chef run to ensure that the system's package cache is updated with the latest. It is recommended that this recipe appear first in a node's run list (directly or through a role) to ensure that when installing packages, Chef will be able to download the latest version available on the remote APT repository.
 
 This recipe also sets up a local cache directory for preseeding packages.
 
 cacher
 ------
+Installs the apt-cacher package and service so the system can provide APT caching. You can check the usage report at http://{hostname}:3142/report. The cacher recipe includes the `cacher-client` recipe, so it helps seed itself.
 
-Installs the apt-cacher package and service so the system can be an APT cache.
-
-proxy
------
-
-Installs the apt-proxy package and service so the system can be an APT proxy.
+cacher-client
+-------------
+Configures the node to use the apt-cacher server as a client.
 
 Resources/Providers
 ===================
@@ -42,6 +39,8 @@ Put `recipe[apt]` first in the run list. If you have other recipes that you want
 
 The above will run during execution phase since it is a normal template resource, and should appear before other package resources that need the sources in the template.
 
+Put `recipe[apt::cacher]` in the run_list for a server to provide APT caching and add `recipe[apt::cacher-client]` on the rest of the Debian-based nodes to take advantage of the caching server.
+
 An example of The LWRP `apt_repository` `add` action:
 
     apt_repository "zenoss" do
@@ -49,18 +48,6 @@ An example of The LWRP `apt_repository` `add` action:
       distribution "main"
       components ["stable"]
       action :add
-    end
-
-An example of `apt_repository` using a signing key:
-
-    apt_repository "hardy-rsyslog-ppa" do
-      uri "http://ppa.launchpad.net/a.bono/rsyslog/ubuntu"
-      distribution "hardy"
-      components ["main"]
-      keyserver "keyserver.ubuntu.com"
-      key "C0061A4A"
-      action :add
-      notifies :run, "execute[apt-get update]", :immediately
     end
 
 and the `remove` action:
