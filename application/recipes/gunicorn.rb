@@ -19,7 +19,7 @@
 
 app = node.run_state[:current_app] 
 
-ve = resources(:python_virtualenv => "#{app['id']}_env")
+ve = resources(:python_virtualenv => app['id'])
 node.default[:gunicorn][:virtualenv] = ve.path
 
 include_recipe "gunicorn"

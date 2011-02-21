@@ -54,5 +54,5 @@
     "application::tomcat": "Sets up the deployed Java application with Tomcat as the servlet container",
     "application::unicorn": "Sets up the deployed Rails application with Unicorn as the web server"
   },
-  "version": "0.99.3"
+  "version": "0.99.4"
 }

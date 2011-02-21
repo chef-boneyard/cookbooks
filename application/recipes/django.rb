@@ -48,7 +48,7 @@ directory "#{app['deploy_to']}/shared" do
 end
 
 ## Create a virtualenv for the app
-ve = python_virtualenv "#{app['id']}_env"  do
+ve = python_virtualenv app['id'] do
   path "#{app['deploy_to']}/shared/env"
   action :create
 end
