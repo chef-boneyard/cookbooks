@@ -26,12 +26,13 @@ unless platform?("centos","redhat","fedora")
   include_recipe "runit"
 end
 
-packages = value_for_platform(
-    ["centos","redhat","fedora"] => {'default' => ['pcre-devel', 'openssl-devel']},
-    "default" => ['libpcre3', 'libpcre3-dev', 'libssl-dev']
-  )
-
-packages.each do |devpkg|
+# packages = value_for_platform(
+#     ["centos","redhat","fedora"] => {'default' => ['pcre-devel', 'openssl-devel']},
+#     "default" => ['libpcre3', 'libpcre3-dev', 'libssl-dev']
+#   )
+#
+# packages.each do |devpkg|
+%w{ libpcre3 libpcre3-dev libssl-dev}.each do |devpkg|
   package devpkg
 end
 
