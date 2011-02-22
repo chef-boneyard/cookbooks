@@ -18,7 +18,7 @@
 #
 
 default[:postgresql][:listen] = "localhost"
-default[:postgresql][:port] = 5432
+default[:postgresql][:port] = "5432"
 
 case platform
 when "debian"

@@ -21,7 +21,7 @@ attribute "postgresql/listen",
 attribute "postgresql/port",
  :display_name => "PostgreSQL port number",
  :recipes => [ "server_debian", "server_redhat" ],
- :default => 5432,
+ :default => "5432",
  :description => "The port number for PostgreSQL to use."
 
 attribute "postgresql/dir",
