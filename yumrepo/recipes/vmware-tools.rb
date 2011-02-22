@@ -29,7 +29,7 @@ yumrepo "vmware-tools" do
   action :enable
   definition "VMware Tools"
   key "VMWARE-PACKAGING-GPG-KEY"
-  url "http://packages.vmware.com/tools/esx/#{repo[:vmware][:release]}/rhel#{node[:platform_version].split('.')[0]}/$basearch"
+  url "http://packages.vmware.com/tools/esx/#{node[:repo][:vmware][:release]}/rhel#{node[:platform_version].to_i}/$basearch"
 end
 
 package "VMwareTools" do
