@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: apt
-# Recipe:: proxy
+# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Cookbook Name:: transmission
+# Recipe:: package
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,19 +17,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-package "apt-proxy" do 
-  action :install
+
+transmission_pkgs = value_for_platform(
+  ["debian","ubuntu"] => {
+    "default" => ["transmission", "transmission-cli", "transmission-daemon"]
+  },
+  "default" => ["transmission", "transmission-cli", "transmission-daemon"]
+)
+
+transmission_pkgs.each do |pkg|
+  package pkg do
+    action :install
+  end
 end
 
-service "apt-proxy" do
-  supports :restart => true, :status => false
-  action [ :enable, :start ]
-end
-
-cookbook_file "/etc/apt-proxy/apt-proxy-v2.conf" do
-  source "apt-proxy-v2.conf"
-  owner "root"
-  group "root"
-  mode 0644
-  notifies :restart, resources(:service => "apt-proxy")
-end
+include_recipe "transmission::default"

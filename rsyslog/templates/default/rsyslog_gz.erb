@@ -1,2 +1,0 @@
-# Chef Name: rsyslog_gz
-0 4 * * * find <%= @log_dir %>/$(date +\%Y) -type f -mtime +1 -exec gzip -q {} \;

@@ -3,30 +3,41 @@ DESCRIPTION
 
 Installs and configures ntp, optionally set up a local NTP server.
 
+REQUIREMENTS
+============
+
+Should work on any Red Hat-family or Debian-family Linux distribution.
+
 USAGE
 =====
 
 Set up the ntp attributes in a role. For example in a base.rb role applied to all nodes:
 
-    "ntp" => {
-      "servers" => "time.int.example.org"
-    }
+    name "base"
+    description "Role applied to all systems"
+    default_attributes(
+      "ntp" => {
+        "servers" => ["time.int.example.org"]
+      }
+    )
 
-Then in an ntpserver.rb role that is applied to NTP servers:
+Then in an ntpserver.rb role that is applied to NTP servers (e.g., time.int.example.org):
 
-    "ntp" => {
-      "is_server" => "true",
-      "servers" => "0.us.pool.ntp.org"
-    }
-
-The time.int.example.org used in the base role is a CNAME for the NTP server.
+    name "ntp_server"
+    description "Role applied to the system that should be an NTP server."
+    default_attributes(
+      "ntp" => {
+        "is_server" => "true",
+        "servers" => ["0.pool.ntp.org", "1.pool.ntp.org"]
+      }
+    )
 
 LICENSE AND AUTHOR
 ==================
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
 
-Copyright 2009, Opscode, Inc.
+Copyright 2009-2011, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
