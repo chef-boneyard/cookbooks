@@ -1,6 +1,11 @@
 log_level        :info
 log_location     STDOUT
+
+<% if Chef::Config.has_key?(:chef_server_url) -%>
+chef_server_url  "<%= Chef::Config[:chef_server_url] %>"
+<% else -%>
 chef_server_url  "<%= node["chef_client"]["server_url"] %>"
+<% end -%>
 validation_client_name "<%= node["chef_client"]["validation_client_name"] %>"
 <% if @chef_node_name -%>
 node_name "<%= @chef_node_name %>"

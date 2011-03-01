@@ -24,7 +24,9 @@ module Opscode
       end
 
       def ec2
-        @@ec2 ||= RightAws::Ec2.new(new_resource.aws_access_key, new_resource.aws_secret_access_key, { :logger => Chef::Log })
+        region = instance_availability_zone
+        region = region[0, region.length-1]
+        @@ec2 ||= RightAws::Ec2.new(new_resource.aws_access_key, new_resource.aws_secret_access_key, { :logger => Chef::Log, :region => region })
       end
 
       def instance_id

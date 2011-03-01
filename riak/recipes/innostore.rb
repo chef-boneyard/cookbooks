@@ -20,7 +20,8 @@
 
 include_recipe "riak"
 
-inno_version = "1.0.0"
+inno_version = node[:riak][:innostore][:version]
+inno_build = node[:riak][:innostore][:build]
 base_uri = "http://downloads.basho.com/innostore/innostore-#{inno_version}/"
 base_filename = "innostore-#{inno_version}"
 
@@ -29,11 +30,9 @@ package_file =  case node[:riak][:package][:type]
                   case node[:platform]
                   when "debian","ubuntu"
                     machines = {"x86_64" => "amd64", "i386" => "i386"} 
-                    "#{base_filename.gsub(/\-/, '_')}-88_#{machines[node[:kernel][:machine]]}.deb"
+                    "#{base_filename.gsub(/\-/, '_')}-#{inno_build}_#{machines[node[:kernel][:machine]]}.deb"
                   when "centos","redhat","fedora","suse"
-                    "#{base_filename}-88.#{node[:kernel][:machine]}.rpm"
-                  # when "mac_os_x"
-                  #  "#{base_filename}.osx.#{node[:kernel][:machine]}.tar.gz"
+                    "#{base_filename}-#{inno_build}.#{node[:kernel][:machine]}.rpm"
                   end
                 when "source"
                   "#{base_filename}.tar.gz"
@@ -47,7 +46,7 @@ end
 
 case node[:riak][:package][:type]
 when "binary"
-  package "riak-inno-backend" do
+  package "innostore" do
     source "/tmp/riak_pkg/#{package_file}"
     action :install
     provider value_for_platform(

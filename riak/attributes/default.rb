@@ -1,5 +1,5 @@
 #
-# Author:: Benjamin Black (<b@b3k.us>)
+# Author:: Benjamin Black (<b@b3k.us>) and Sean Cribbs (<sean@basho.com>)
 # Cookbook Name:: riak
 #
 # Copyright (c) 2010 Basho Technologies, Inc.
@@ -23,3 +23,5 @@ include_attribute "riak::erlang"
 include_attribute "riak::kernel"
 include_attribute "riak::kv"
 include_attribute "riak::sasl"
+include_attribute "riak::err"
+include_attribute "riak::luwak"

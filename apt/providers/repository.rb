@@ -1,6 +1,14 @@
 action :add do
   unless ::File.exists?("/etc/apt/sources.list.d/#{new_resource.repo_name}-source.list")
     Chef::Log.info "Adding #{new_resource.repo_name} repository to /etc/apt/sources.list.d/#{new_resource.repo_name}-source.list"
+    # add key
+    if new_resource.key && new_resource.keyserver
+      e = execute "install-key #{new_resource.key}" do
+        command "apt-key adv --keyserver #{new_resource.keyserver} --recv #{new_resource.key}"
+        action :run
+      end
+      e.run_action(:run)
+    end
     # build our listing
     repository = "deb"
     repository = "deb-src" if new_resource.deb_src
@@ -23,7 +31,7 @@ action :add do
     e.run_action(:run)
     new_resource.updated_by_last_action(true)
   end
-end 
+end
 
 action :remove do
   if ::File.exists?("/etc/apt/sources.list.d/#{new_resource.repo_name}-source.list")

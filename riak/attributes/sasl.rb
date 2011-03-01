@@ -1,5 +1,5 @@
 #
-# Author:: Benjamin Black (<b@b3k.us>)
+# Author:: Benjamin Black (<b@b3k.us>) and Sean Cribbs (<sean@basho.com>)
 # Cookbook Name:: riak
 #
 # Copyright (c) 2010 Basho Technologies, Inc.

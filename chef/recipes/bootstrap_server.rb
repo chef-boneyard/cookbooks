@@ -89,6 +89,17 @@ end
     group root_group
     mode 0600
   end
+
+  # Set up symlinks so the redhat family init scripts work
+  if platform?("redhat","centos","fedora")
+    link "/etc/chef/webui.rb" do
+      to "/etc/chef/server.rb"
+    end
+
+    link "/etc/chef/solr-indexer.rb" do
+      to "/etc/chef/solr.rb"
+    end
+  end
 end
 
 directory node[:chef][:path] do

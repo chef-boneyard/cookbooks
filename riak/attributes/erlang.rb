@@ -1,5 +1,5 @@
 #
-# Author:: Benjamin Black (<b@b3k.us>)
+# Author:: Benjamin Black (<b@b3k.us>) and Sean Cribbs (<sean@basho.com>)
 # Cookbook Name:: riak
 #
 # Copyright (c) 2010 Basho Technologies, Inc.
@@ -19,9 +19,10 @@
 
 include_attribute "riak::core"
 
-default.riak.erlang.node_name = "riak@#{node.riak.core.web_ip}"
+default.riak.erlang.node_name = "riak@#{node.ipaddress}"
 default.riak.erlang.cookie = "riak"
 default.riak.erlang.kernel_polling = true
-default.riak.erlang.async_threads = 5
+default.riak.erlang.async_threads = 64
 default.riak.erlang.smp = "enable"
-default.riak.erlang.env_vars = ["ERL_MAX_PORTS 4096", "ERL_FULLSWEEP_AFTER 10"]
+default.riak.erlang.env_vars.ERL_MAX_PORTS = 4096
+default.riak.erlang.env_vars.ERL_FULLSWEEP_AFTER = 0

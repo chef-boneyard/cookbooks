@@ -1,5 +1,5 @@
 #
-# Author:: Benjamin Black (<b@b3k.us>)
+# Author:: Benjamin Black (<b@b3k.us>) and Sean Cribbs (<sean@basho.com>)
 # Cookbook Name:: riak
 #
 # Copyright (c) 2010 Basho Technologies, Inc.
@@ -17,12 +17,13 @@
 # limitations under the License.
 #
 
-if node.riak.kv.storage_backend == :innostore_riak
-  default.riak.kv.storage_backend_options.log_buffer_size = 8388608
-  default.riak.kv.storage_backend_options.log_files_in_group = 8
-  default.riak.kv.storage_backend_options.log_file_size = 268435456
-  default.riak.kv.storage_backend_options.flush_log_at_trx_commit = 1
-  default.riak.kv.storage_backend_options.data_home_dir = "/var/lib/riak/innodb"
-  default.riak.kv.storage_backend_options.log_group_home_dir = "/var/lib/riak/innodb"
-  default.riak.kv.storage_backend_options.buffer_pool_size = 2147483648
+if node.riak.kv.storage_backend == :riak_kv_innostore_backend
+  default.riak.innostore.log_buffer_size = 8388608
+  default.riak.innostore.log_files_in_group = 8
+  default.riak.innostore.log_file_size = 268435456
+  default.riak.innostore.flush_log_at_trx_commit = 1
+  default.riak.innostore.data_home_dir = "/var/lib/riak/innodb"
+  default.riak.innostore.log_group_home_dir = "/var/lib/riak/innodb"
+  default.riak.innostore.buffer_pool_size = 2147483648
+  default.riak.innostore.flush_method = "O_DIRECT"
 end

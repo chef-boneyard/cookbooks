@@ -3,6 +3,11 @@
 <% if node[:riak][:limit_port_range] %>
 -A INPUT -p TCP --dst <%= node[:riak][:core][:web_ip] %> --dport <%= node[:riak][:kernel][:inet_dist_listen_min] %>:<%= node[:riak][:kernel][:inet_dist_listen_max] %> -j ACCEPT
 <% end %>
--A INPUT -p TCP --dst <%= node[:riak][:core][:web_ip] %> --dport <%= node[:riak][:core][:web_port] %> -j ACCEPT
+<% (node[:riak][:core][:http] || []).each do |(ip, port)| %>
+-A INPUT -p TCP --dst <%= ip %> --dport <%= port %> -j ACCEPT
+<% end %>
+<% (node[:riak][:core][:https] || []).each do |(ip, port)| %>
+-A INPUT -p TCP --dst <%= ip %> --dport <%= port %> -j ACCEPT
+<% end %>
 -A INPUT -p TCP --dst <%= node[:riak][:kv][:pb_ip] %> --dport <%= node[:riak][:kv][:pb_port] %> -j ACCEPT
 -A INPUT -p TCP --dst <%= node[:riak][:kv][:pb_ip] %> --dport <%= node[:riak][:kv][:handoff_port] %> -j ACCEPT
