@@ -1,3 +1,6 @@
 [submodule "mettabook"]
 	path = mettabook
 	url = git@github.com:johnmetta/mettabook
+[submodule "sti-chinook"]
+	path = sti-chinook
+	url = git@github.com:mettadore/sti-chinook
