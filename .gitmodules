@@ -1,0 +1,3 @@
+[submodule "mettabook"]
+	path = mettabook
+	url = git@github.com:johnmetta/mettabook
