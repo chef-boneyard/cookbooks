@@ -1,0 +1,81 @@
+{
+  "dependencies": {
+    "rubygems": [
+
+    ]
+  },
+  "maintainer_email": "cookbooks@jackhq.com",
+  "conflicting": {
+
+  },
+  "description": "Installs bundler and provides recipes to bundle actions",
+  "recipes": {
+    "bundler": "",
+    "bundler": "install",
+    "bundler": "pack",
+    "bundler": "lock",
+    "bundler": "unlock"
+    
+  },
+  "providing": {
+    "bundler": [
+
+    ]
+  },
+  "platforms": {
+    "ubuntu": [
+
+    ],
+    "debian": [
+
+    ]
+  },
+  "version": "0.2.0",
+  "name": "bundler",
+  "replacing": {
+
+  },
+  "groupings": {
+
+  },
+  "long_description": "See Readme.md",
+  "attributes": {
+    "bundler/app_path": {
+      "default": "/home/ubuntu/apps",
+      "calculated": false,
+      "type": "string",
+      "choice": [
+
+      ],
+      "description": "Your Rack App Path",
+      "display_name": "Application Path",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    },
+    "bundler/app": {
+      "default": "my_app",
+      "calculated": false,
+      "type": "string",
+      "choice": [
+
+      ],
+      "description": "Your Rack App",
+      "display_name": "Application Name",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    }
+    
+  },
+  "recommendations": {
+
+  },
+  "license": "Apache 2.0",
+  "maintainer": "Jack Russell Software Company, LLC",
+  "suggestions": {
+
+  }
+}
