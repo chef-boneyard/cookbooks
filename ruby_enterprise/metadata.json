@@ -1,5 +1,5 @@
 {
-  "version": "0.2.4",
+  "version": "0.2.5",
   "providing": {
   },
   "recipes": {
@@ -77,7 +77,7 @@
       "choice": [
 
       ],
-      "default": "http://rubyforge.org/frs/download.php/71096/ruby-enterprise-ruby_enterprise_version",
+      "default": "http://rubyenterpriseedition.googlecode.com/files/ruby-enterprise-ruby_enterprise_version",
       "type": "string",
       "recipes": [
 
@@ -91,7 +91,7 @@
       "choice": [
 
       ],
-      "default": "1.8.7-2010.02",
+      "default": "1.8.7-2011.03",
       "type": "string",
       "recipes": [
 
