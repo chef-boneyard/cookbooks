@@ -6,7 +6,7 @@
 # Author:: Sean Cribbs (<seancribbs@gmail.com>)
 # Author:: Michael Hale (<mikehale@gmail.com>)
 # 
-# Copyright:: 2009-2010, Opscode, Inc.
+# Copyright:: 2009-2011, Opscode, Inc.
 # Copyright:: 2009, Sean Cribbs
 # Copyright:: 2009, Michael Hale
 #

@@ -9,7 +9,7 @@ Opscode's build-essential cookbook to get a compiler and associated files instal
 = ATTRIBUTES: 
 
 * ruby_enterprise[:install_path] - Location to install REE. Default /opt/ruby-enterprise
-* ruby_enterprise[:version] - Version-datestamp to use. Default 1.8.7-2010.02. May lag behind latest REE release.
+* ruby_enterprise[:version] - Version-datestamp to use. Default 1.8.7-2011.03. May lag behind latest REE release.
 * ruby_enterprise[:url] - URL to download. Default is from RubyForge, with the version specified. Note the download ID must be updated when there are new releases.
 
 = USAGE:
@@ -35,7 +35,7 @@ Author:: Joshua Timberman (<joshua@opscode.com>)
 Author:: Sean Cribbs (<seancribbs@gmail.com>)
 Author:: Michael Hale (<mikehale@gmail.com>)
 
-Copyright:: 2009-2010, Opscode, Inc.
+Copyright:: 2009-2011, Opscode, Inc.
 Copyright:: 2009, Sean Cribbs
 Copyright:: 2009, Michael Hale
 
