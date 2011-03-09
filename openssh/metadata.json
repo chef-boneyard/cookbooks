@@ -1,29 +1,10 @@
 {
-  "name": "openssh",
-  "description": "Installs openssh",
-  "long_description": "",
-  "maintainer": "Opscode, Inc.",
+  "replacing": {
+  },
+  "attributes": {
+  },
   "maintainer_email": "cookbooks@opscode.com",
-  "license": "Apache 2.0",
-  "platforms": {
-    "redhat": [
-
-    ],
-    "centos": [
-
-    ],
-    "fedora": [
-
-    ],
-    "ubuntu": [
-
-    ],
-    "debian": [
-
-    ],
-    "arch": [
-
-    ]
+  "groupings": {
   },
   "dependencies": {
   },
@@ -31,18 +12,37 @@
   },
   "suggestions": {
   },
+  "platforms": {
+    "debian": [
+
+    ],
+    "fedora": [
+
+    ],
+    "centos": [
+
+    ],
+    "arch": [
+
+    ],
+    "ubuntu": [
+
+    ],
+    "redhat": [
+
+    ]
+  },
+  "license": "Apache 2.0",
+  "version": "0.8.0",
   "conflicting": {
   },
+  "long_description": "",
+  "name": "openssh",
   "providing": {
   },
-  "replacing": {
-  },
-  "attributes": {
-  },
-  "groupings": {
-  },
+  "description": "Installs openssh",
   "recipes": {
     "openssh": "Installs openssh"
   },
-  "version": "0.8.0"
+  "maintainer": "Opscode, Inc."
 }
