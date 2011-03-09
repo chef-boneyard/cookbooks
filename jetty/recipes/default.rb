@@ -45,7 +45,11 @@ service "jetty" do
     supports :restart => true
   when "debian","ubuntu"
     service_name "jetty"
-    supports :restart => true, :status => true
+    if node["platform"] == "ubuntu" and node["platform_version"] == "10.04"
+      supports :status => true
+    else
+      supports :restart => true, :status => true
+    end
     action [:enable, :start]
   end
 end
