@@ -40,9 +40,9 @@ d-i pkgsel/include string openssh-server ruby ruby1.8-dev build-essential wget l
 # configure users
 # Generate the PASSWORDHASH with:
 # mkpasswd -m sha-512
-d-i passwd/user-fullname string Matt Ray
-d-i passwd/username string mray
-d-i passwd/user-password-crypted password $6$71VGxUqoD$o1JFbW6FK2aA7EuTWR/YZ6qKO1C8jbpvedexgLPtBPED78hENQ20cs5AbJICPGIiwj5fe/FWbrql64n73wSOW1
+d-i passwd/user-fullname string <%= node[:pxe_dust][:user][:fullname] %>
+d-i passwd/username string <%= node[:pxe_dust][:user][:username] %>
+d-i passwd/user-password-crypted password <%= node[:pxe_dust][:user][:crypted_password] %>
 d-i user-setup/encrypt-home boolean false
 
 ### Finishing up the installation
