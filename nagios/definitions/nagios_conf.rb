@@ -20,7 +20,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-define :nagios_conf, :variables => {}, :config_subdir => true do
+define :nagios_conf, :variables => {}, :config_subdir => true, :restart => false do
+  action = params[:restart] ? :restart : :reload
 
   subdir = if params[:config_subdir]
     "/#{node[:nagios][:config_subdir]}/"
@@ -34,7 +35,7 @@ define :nagios_conf, :variables => {}, :config_subdir => true do
     source "#{params[:name]}.cfg.erb"
     mode 0644
     variables params[:variables]
-    notifies :restart, resources(:service => "nagios3")
+    notifies action, resources(:service => "nagios3")
     backup 0
   end
 end

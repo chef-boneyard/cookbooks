@@ -70,15 +70,28 @@ define command {
 }
 
 define command {
+  command_name    check_memcache
+  command_line    $USER1$/check_memcache.py -H $HOSTADDRESS$ -w 2 -c 5
+}
+
+define command {
   command_name    check_solr
   command_line    $USER1$/check_solr.rb -c 10 -h $HOSTADDRESS$ -r 10 -p $ARG1$
-
 }
 
 define command {
   command_name    query_solr
   command_line    $USER1$/check_solr.rb -c 10 -h $HOSTADDRESS$ -r 10 -p $ARG1$ -q $ARG2$
+}
 
+define command {
+  command_name    check_solr_port
+  command_line    $USER1$/check_solr.rb -c 10 -h $HOSTADDRESS$ -r 10 -P $ARG1$ -p $ARG2$
+}
+
+define command {
+  command_name    query_solr_port
+  command_line    $USER1$/check_solr.rb -c 10 -h $HOSTADDRESS$ -r 10 -P $ARG1$ -p $ARG2$ -q $ARG3$
 }
 
 define command {
@@ -145,6 +158,11 @@ define command {
 define command {
   command_name    check_http_content
   command_line    $USER1$/check_http -I $HOSTADDRESS$ -H $ARG1$ -u $ARG2$ -s $ARG3$
+}
+
+define command {
+  command_name    check_http_content_port
+  command_line    $USER1$/check_http -I $HOSTADDRESS$ -H $ARG1$ -p $ARG2$ -u $ARG3$ -s $ARG4$
 }
 
 define command {
@@ -310,18 +328,23 @@ define command {
 # Notification
 define command {
   command_name  host-notify-by-email
-  command_line  /usr/bin/printf "%b" "$LONGDATETIME$\n\n$HOSTALIAS$ $NOTIFICATIONTYPE$ $HOSTSTATE$\n\n$HOSTOUTPUT$\n\nLogin: ssh://$HOSTNAME$" | /bin/mail -s "$NOTIFICATIONTYPE$ - $HOSTALIAS$ $HOSTSTATE$!" $CONTACTEMAIL$
+  command_line  /usr/bin/printf "%b" "$LONGDATETIME$\n\n$HOSTALIAS$ $NOTIFICATIONTYPE$ $HOSTSTATE$\n\n$HOSTOUTPUT$" | /usr/bin/mail -s "$NOTIFICATIONTYPE$ [$HOSTNOTIFICATIONNUMBER$#] - $HOSTALIAS$ $HOSTSTATE$!" $CONTACTEMAIL$
 }
 
 define command {
-  command_name  host-notify-by-sms-email
-  command_line  /usr/bin/printf "%b" "$HOSTALIAS$ $NOTIFICATIONTYPE$ $HOSTSTATE$\n\n$HOSTOUTPUT$" | /bin/mail -s "$HOSTALIAS$ $HOSTSTATE$!" $CONTACTPAGER$
+  command_name  host-notify-by-sms-gateway
+  command_line  /usr/bin/sms -k '<%=node[:nagios][:sms][:api_id]%>' -u '<%=node[:nagios][:sms][:user]%>' -p '<%=node[:nagios][:sms][:password]%>' "$CONTACTPAGER$" "ANYCLIP:$HOSTALIAS$ $NOTIFICATIONTYPE$ $HOSTSTATE$ $HOSTOUTPUT$" 
 }
 
 # 'notify-by-email' command definition
 define command {
   command_name  service-notify-by-email
-  command_line  /usr/bin/printf "%b" "$LONGDATETIME$ - $SERVICEDESC$ $SERVICESTATE$\n\n$HOSTALIAS$  $NOTIFICATIONTYPE$\n\n$SERVICEOUTPUT$\n\nLogin: ssh://$HOSTNAME$" | /bin/mail -s "** $NOTIFICATIONTYPE$ - $HOSTALIAS$ - $SERVICEDESC$ - $SERVICESTATE$" $CONTACTEMAIL$
+  command_line  /usr/bin/printf "%b" "$LONGDATETIME$ - $SERVICEDESC$ $SERVICESTATE$\n\n$HOSTALIAS$  $NOTIFICATIONTYPE$\n\n$SERVICEOUTPUT$" | /usr/bin/mail -s "** $NOTIFICATIONTYPE$ [$SERVICENOTIFICATIONNUMBER$#] - $HOSTALIAS$ - $SERVICEDESC$ - $SERVICESTATE$" $CONTACTEMAIL$
+}
+
+define command {
+  command_name  service-notify-by-sms-gateway
+  command_line  /usr/bin/sms -k '<%=node[:nagios][:sms][:api_id]%>' -u '<%=node[:nagios][:sms][:user]%>' -p '<%=node[:nagios][:sms][:password]%>' "$CONTACTPAGER$" "ANYCLIP:$SERVICEDESC$ on $HOSTALIAS$ is $SERVICESTATE$, $NOTIFICATIONTYPE$ $SERVICEOUTPUT$" 
 }
 
 #define command {

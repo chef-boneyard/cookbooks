@@ -39,6 +39,13 @@ Choice.options do
     desc 'Solr host'
   end    
 
+  option :port do
+    short '-P'
+    long '--port=VALUE'
+    desc 'Solr port'
+    default 8983
+  end
+
   option :prefix do
     short '-p'
     long '--prefix=VALUE'
@@ -81,9 +88,9 @@ if c[:crit]
 
   value = 0
   begin
-    url = URI.parse("http://#{c[:host]}:8983/")
+    url = URI.parse("http://#{c[:host]}:#{c[:port]}/")
     res = Net::HTTP.start(url.host, url.port) do |http|
-      http.get("/#{c[:prefix]}/select/?q=#{c[:query]}&version=#{c[:version]}&start=#{c[:start]}&rows=#{c[:rows]}&indent=on")
+      http.get("/#{c[:prefix]}/select/?q=#{c[:query]}&version=#{c[:version]}&start=#{c[:start]}&rows=#{c[:rows]}&indent=on".sub('//', '/'))
     end
 
     solr = XmlSimple.xml_in(res.body, { 'ForceArray' => false, 'KeepRoot' => false })
@@ -91,9 +98,15 @@ if c[:crit]
       next unless str['name'] == 'rows'
       value = str['content'].to_i
     end
+  rescue Errno::ETIMEDOUT
+    puts "Timeout while connecting to service"
+    exit(EXIT_CRITICAL)
+  rescue Errno::ECONNREFUSED
+    puts "Connection refused"
+    exit(EXIT_CRITICAL)
   rescue Exception => e
-   puts "Error checking Solr: #{e.message}"
-   exit(EXIT_UNKNOWN)
+    puts "Error checking Solr: #{e.message}"
+    exit(EXIT_UNKNOWN)
   end
   
 

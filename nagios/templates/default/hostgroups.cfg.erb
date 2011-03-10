@@ -7,6 +7,25 @@ define hostgroup {
   members *
 }
 
+define hostgroup {
+  hostgroup_name external
+  alias external
+}
+
+define hostgroup {
+  hostgroup_name ec2
+  alias EC2 Instances
+}
+
+define hostgroup {
+  hostgroup_name rackspace
+  alias Linode Instances
+}
+
+define hostgroup {
+  hostgroup_name routers
+}
+
 <% @roles.each do |r| -%>
 define hostgroup {
   hostgroup_name <%= r %>

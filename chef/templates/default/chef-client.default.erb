@@ -1,0 +1,4 @@
+LOGFILE=<%= ::File.join(node[:chef][:log_dir], "client.log") %>
+CONFIG=/etc/chef/client.rb
+INTERVAL=<%= node[:chef][:client_interval] %>
+SPLAY=<%= node[:chef][:client_splay] %>

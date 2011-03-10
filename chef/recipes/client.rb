@@ -25,6 +25,8 @@ root_group = value_for_platform(
   "default" => "root"
 )
 
+chef_node_name = Chef::Config[:node_name] == node["fqdn"] ? nil : Chef::Config[:node_name]
+
 ruby_block "reload_client_config" do
   block do
     Chef::Config.from_file("/etc/chef/client.rb")
@@ -32,11 +34,20 @@ ruby_block "reload_client_config" do
   action :nothing
 end
 
+cookbook_file "/etc/chef/nagios_handler.rb" do
+  owner "root"
+  group root_group
+  mode "644"
+  only_if { node.recipe? "nagios::nsca-client" }
+  notifies :create, resources(:ruby_block => "reload_client_config")
+end
+
 template "/etc/chef/client.rb" do
   source "client.rb.erb"
   owner "root"
   group root_group
   mode "644"
+  variables :chef_node_name => chef_node_name
   notifies :create, resources(:ruby_block => "reload_client_config")
 end
 

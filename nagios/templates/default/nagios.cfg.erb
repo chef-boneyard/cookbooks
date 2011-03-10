@@ -14,8 +14,8 @@ precached_object_file=<%= node[:nagios][:cache_dir] %>/objects.precache
 resource_file=/etc/nagios3/resource.cfg
 status_file=<%= node[:nagios][:cache_dir] %>/status.dat
 status_update_interval=10
-nagios_user=nagios
-nagios_group=nagios
+nagios_user=<%= node[:nagios][:user] %>
+nagios_group=<%= node[:nagios][:group] %>
 check_external_commands=<%= nagios_boolean(node[:nagios][:check_external_commands]) %>
 
 # NOTE: Setting this value to -1 causes Nagios to check the external command file as often as possible.
@@ -152,5 +152,5 @@ enable_environment_macros=1
 
 debug_level=0
 debug_verbosity=1
-debug_file=<% node[:nagios][:state_dir] %>/nagios.debug
+debug_file=<%= node[:nagios][:log_dir] %>/nagios.debug
 max_debug_file_size=1000000

@@ -27,6 +27,9 @@ set[:nagios][:state_dir] = "/var/lib/nagios3"
 set[:nagios][:docroot]   = "/usr/share/nagios3/htdocs"
 set[:nagios][:config_subdir] = "conf.d"
 
+default[:nagios][:user]      = "nagios"
+default[:nagios][:group]      = "nagios"
+
 default[:nagios][:notifications_enabled]   = 0
 default[:nagios][:check_external_commands] = true
 default[:nagios][:default_contact_groups]  = %w(admins)

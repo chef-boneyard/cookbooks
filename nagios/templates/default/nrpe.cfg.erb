@@ -14,13 +14,14 @@ command[check_zombie_procs]=/usr/lib/nagios/plugins/check_procs -w 5 -c 10 -s Z
 command[check_total_procs]=/usr/lib/nagios/plugins/check_procs -w 500 -c 800
 command[check_swap]=/usr/lib/nagios/plugins/check_swap -w '50%' -c '25%'
 command[check_mem]=/usr/lib/nagios/plugins/check_mem.sh -w <%= node[:nagios][:checks][:memory][:warning] %> -c <%= node[:nagios][:checks][:memory][:critical] %> -p
-command[check_chef_client]=/usr/lib/nagios/plugins/check_procs -w 1:2 -c 1:2 -C chef-client
+command[check_chef_client]=/usr/bin/sudo /usr/lib/nagios/plugins/force_chef.sh
 command[check_smtp]=/usr/lib/nagios/plugins/check_smtp -H <%= node[:nagios][:checks][:smtp_host] %>
 command[check_nginx]=/usr/lib/nagios/plugins/check_procs -w 2:3 -c 1:5 -C nginx
 command[check_sphinx]=/usr/lib/nagios/plugins/check_procs -c 1:1 -C searchd
 <% unless node[:mysql].nil? -%>
 command[check_mysql_server]=/usr/lib/nagios/plugins/check_mysql -H localhost -u debian-sys-maint -p <%= node[:mysql][:server_debian_password] %>
 <% end -%>
+command[check_nagios]=/usr/lib/nagios/plugins/check_procs -C nagios3
 #command[check_unicorn]=/usr/lib/nagios/plugins/check_procs -c 4:8 -C unicorn_rails
 #
 # memcached checks require cpan modules, "Cache::Memcached" and "Nagios::Plugins::Memcached"

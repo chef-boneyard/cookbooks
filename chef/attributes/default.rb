@@ -18,8 +18,8 @@
 # limitations under the License.
 
 default[:chef][:umask]      = "0022"
-default[:chef][:url_type]   = "http"
-default[:chef][:init_style] = "runit"
+default[:chef][:url_type]   = "https"
+default[:chef][:init_style] = "init"
 
 case platform
 when "openbsd","freebsd"
@@ -28,11 +28,11 @@ when "openbsd","freebsd"
   default[:chef][:cache_path] = "/var/chef/cache"
   default[:chef][:serve_path] = "/var/chef"
 else
-  default[:chef][:path]       = "/srv/chef"
-  default[:chef][:serve_path] = "/srv/chef"
-  default[:chef][:run_path]   = "#{chef[:path]}/run"
-  default[:chef][:cache_path] = "#{chef[:path]}/cache"
-  default[:chef][:backup_path] = "#{chef[:path]}/backup"
+  default[:chef][:path]       = "/var/lib/chef"
+  default[:chef][:serve_path] = "/var/lib/chef"
+  default[:chef][:run_path]   = "/var/run/chef"
+  default[:chef][:cache_path] = "/var/cache/chef"
+  default[:chef][:backup_path] = "/var/backups/chef"
 end
 
 default[:chef][:server_version]  = node.chef_packages.chef[:version]

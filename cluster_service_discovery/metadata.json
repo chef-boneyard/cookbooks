@@ -1,0 +1,29 @@
+{
+  "name": "cluster_service_discovery",
+  "description": "Allow nodes to discover the location for a given service at runtime, adapting when new services register.",
+  "long_description": "\nClusterServiceDiscovery --\n\nSince there's no good way to do this yet, let's at least put an abstraction in\nplace.\n\nAllow nodes to discover the location for a given service at runtime, adapting\nwhen new services register.\n\nBased in good part on code from Ben Black's cassandra recipes\n\nOperations:\n\n* register for a service. A timestamp records the last registry.\n* discover all chef nodes that have registered for the given service.\n* discover the most recent chef node for that service.\n* get the 'public_ip' for a service -- the address that nodes in the larger\n  world should use\n* get the 'public_ip' for a service -- the address that nodes on the local\n  subnet / private cloud should use\n\nImplementation\n\nNodes register a service by setting the +[:provides_service][service_name]+\nattribute. This attribute is a hash containing at 'timestamp' (the time of\nregistry), but the service can pass in an arbitrary hash of values to merge\nin.\n\n",
+  "maintainer": "Flip Kromer and Infochimps, Inc",
+  "maintainer_email": "info@infochimps.org",
+  "license": "Apache 2.0",
+  "platforms": {
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.1.0"
+}

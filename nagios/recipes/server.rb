@@ -25,8 +25,10 @@ include_recipe "apache2::mod_ssl"
 include_recipe "apache2::mod_rewrite"
 include_recipe "nagios::client"
 
-sysadmins = search(:users, 'groups:sysadmin')
-nodes = search(:node, "hostname:[* TO *] AND app_environment:#{node[:app_environment]}")
+contacts = search(:users, "groups:(#{node[:nagios][:contact_groups].join(" ")})")
+nodes = search(:node, "hostname:[* TO *] AND cluster_environment:#{node[:cluster][:environment]} AND nagios_monitored:true")
+default_gw = `route -n | grep ^0.0.0.0 | awk \'{print \$2}\'`
+groups = contacts.map{|c| c['groups']}.flatten.uniq
 
 if nodes.empty?
   Chef::Log.info("No nodes returned from search, using this node so hosts.cfg has data")
@@ -34,20 +36,17 @@ if nodes.empty?
   nodes << node
 end
 
-members = Array.new
-sysadmins.each do |s|
-  members << s['id']
-end
-
-role_list = Array.new
-service_hosts= Hash.new
-search(:role, "*:*") do |r|
-  role_list << r.name
-  search(:node, "role:#{r.name} AND app_environment:#{node[:app_environment]}") do |n|
-    service_hosts[r.name] = n['hostname']
+role_list = search(:role, "*:*").map{|r| r.name}
+service_hosts = nodes.inject(Hash.new) do |role_hosts, n|
+  n.roles.each do |r|
+    if role_hosts.has_key? r
+      role_hosts[r].push n
+    else
+      role_hosts[r] = [n]
+    end
   end
+  role_hosts
 end
-
 if node[:public_domain]
   public_domain = node[:public_domain]
 else
@@ -64,6 +63,7 @@ service "nagios3" do
 end
 
 nagios_conf "nagios" do
+  restart true
   config_subdir false
 end
 
@@ -104,7 +104,7 @@ else
     group node[:apache][:user]
     mode 0640
     variables(
-      :sysadmins => sysadmins
+      :contacts => contacts
     )
   end
 end
@@ -130,7 +130,7 @@ apache_site "nagios3.conf"
   end
 end
 
-%w{ commands templates timeperiods}.each do |conf|
+%w{ commands templates timeperiods escalations}.each do |conf|
   nagios_conf conf
 end
 
@@ -139,7 +139,7 @@ nagios_conf "services" do
 end
 
 nagios_conf "contacts" do
-  variables :admins => sysadmins, :members => members
+  variables :contacts => contacts, :groups => groups
 end
 
 nagios_conf "hostgroups" do
@@ -147,5 +147,21 @@ nagios_conf "hostgroups" do
 end
 
 nagios_conf "hosts" do
-  variables :nodes => nodes
+  variables :nodes => nodes, :default_gw => default_gw
 end
+
+cookbook_file ::File.join(node[:nagios][:dir], node[:nagios][:config_subdir], "external.cfg") do
+  ignore_failure true
+  owner "nagios"
+  group "nagios"
+  mode "0644"
+  notifies :reload, 'service[nagios3]'
+end
+
+cookbook_file "/usr/bin/sms" do
+  source "clickatell-sms.py"
+  mode "0755"
+end
+
+node[:nagios][:monitored] = true
+provide_service("monitoring")

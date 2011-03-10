@@ -17,8 +17,8 @@ define contact {
   host_notification_period        24x7
   service_notification_options    w,u,c,r,f,s
   host_notification_options       d,u,r,f,s
-  service_notification_commands   service-notify-by-sms-gateway
-  host_notification_commands      host-notify-by-sms-gateway
+  service_notification_commands   service-notify-by-email,service-notify-by-sms-gateway
+  host_notification_commands      host-notify-by-email,host-notify-by-sms-gateway
   register                        0
 }
 
@@ -38,6 +38,34 @@ define host {
 
 define host {
   name                    server
+  use                     default-host
+  parents                 default-gw
+  check_period            24x7
+  check_interval          <%= nagios_interval(nagios_attr(:default_host)[:check_interval]) %>
+  retry_interval          <%= nagios_interval(nagios_attr(:default_host)[:retry_interval]) %>
+  max_check_attempts      <%= nagios_attr(:default_host)[:max_check_attempts] %>
+  check_command           check-host-alive
+  notification_interval   <%= nagios_interval(nagios_attr(:default_host)[:notification_interval]) %>
+  notification_options    d,u,r
+  contact_groups          <%= nagios_attr(:default_contact_groups).join(",") %>
+  register                0
+}
+
+define host {
+  name                    ec2-host
+  use                     server
+  initial_state           o
+  active_checks_enabled   0
+}
+
+define host {
+  name                    rackspace-host
+  use                     server
+  initial_state           o
+}
+
+define host {
+  name router
   use                     default-host
   check_period            24x7
   check_interval          <%= nagios_interval(nagios_attr(:default_host)[:check_interval]) %>

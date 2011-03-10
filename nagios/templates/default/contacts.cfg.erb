@@ -7,26 +7,36 @@ define contact {
   host_notification_options       d,r
   service_notification_commands   service-notify-by-email
   host_notification_commands      host-notify-by-email
-  email                           root@localhost
+  email                           <%= node[:nagios][:sysadmin_email] %>
+}
+
+<% @groups.each do |grp| %>
+define contactgroup {
+  contactgroup_name <%= grp %>
 }
 
 define contactgroup {
-  contactgroup_name admins
-  alias             Nagios Administrators
-  members           <%= @members.join(',') %>
+  contactgroup_name <%= grp %>-sms
 }
+<% end %>
 
-define contactgroup {
-  contactgroup_name admins-sms
-  alias             Sysadmin SMS
-  members           <%= @members.join(',') %>
-}
-
-<% @admins.each do |a| -%>
+<% @contacts.each do |c| %>
 define contact {
+  contact_name <%= c['id'] %>
+  email        <%= c['email'] %>
   use          default-contact
-  contact_name <%= a['id'] %>
-  email        <%= a['nagios']['email'] %>
+  contactgroups <%= c[:groups].join(',') %>
 }
+<% if c.has_key?('pager') %>
+define contact {
+  contact_name <%= c['id'] %>-sms
+  email        <%= c['email'] %>
+  pager        <%= c['pager'] %>
+  use          sms-contact
+  contactgroups <%= c[:groups].map{|g| g + '-sms'}.join(',') %>
+}
+<% end %>
 
-<% end -%>
+<% end %>
+
+

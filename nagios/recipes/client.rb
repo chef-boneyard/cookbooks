@@ -20,15 +20,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+include_recipe "sudo"
 mon_host = Array.new
 
 if node.run_list.roles.include?(node[:nagios][:server_role])
   mon_host << node[:ipaddress]
 else
-  search(:node, "role:#{node[:nagios][:server_role]} AND app_environment:#{node[:app_environment]}") do |n|
+  search(:node, "role:#{node[:nagios][:server_role]} AND cluster_environment:#{node[:cluster][:environment]}") do |n|
     mon_host << n['ipaddress']
   end
 end
+if node.nagios.attribute? :external_monitors
+  mon_host += node[:nagios][:external_monitors]
+end
+
+gem_package "choice"
 
 %w{
   nagios-nrpe-server
@@ -59,4 +66,10 @@ template "/etc/nagios/nrpe.cfg" do
   mode "0644"
   variables :mon_host => mon_host
   notifies :restart, resources(:service => "nagios-nrpe-server")
+end
+
+ruby_block "nagios-monitored" do
+  block do
+    node[:nagios][:monitored] = true
+  end
 end

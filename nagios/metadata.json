@@ -16,6 +16,15 @@
   "dependencies": {
     "apache2": [
 
+    ],
+    "openssl": [
+
+    ],
+    "cluster_service_discovery": [
+
+    ],
+    "sudo": [
+
     ]
   },
   "recommendations": {
@@ -35,7 +44,9 @@
   "recipes": {
     "nagios": "Includes the client recipe.",
     "nagios::client": "Installs and configures a nagios client with nrpe",
-    "nagios::server": "Installs and configures a nagios server"
+    "nagios::server": "Installs and configures a nagios server",
+    "nagios::nsca-server": "Install and configure the NSCA daemon",
+    "nagios::nsca-client": "Install and configure the NSCA client"
   },
-  "version": "0.4.4"
+  "version": "0.4.5"
 }

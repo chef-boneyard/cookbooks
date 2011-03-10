@@ -4,7 +4,7 @@
 
 define service {
     use                 default-service
-    host_name           *
+    hostgroup_name      all,!external,!routers
     service_description ping
     check_command       check_ping!200.0,20%!500.0,60%
 }
@@ -34,38 +34,49 @@ define service {
 #    check_command    	  check_chef_client
 #    use                 default-service
 #}
+#
+define service {
+    service_description chef-client run status
+    hostgroup_name      chef-client
+    use                 default-service
+    freshness_threshold 720
+    active_checks_enabled 0
+    check_freshness     1
+    check_command    	  check_chef_client
+    is_volatile            1
+}
 
 define service {
     service_description Free Space All Disks
-    hostgroup_name      all
+    hostgroup_name      all,!external,!routers
     check_command    		check_all_disks
     use                 default-service
 }
 
 define service {
     service_description Load Average
-    hostgroup_name      all
+    hostgroup_name      all,!external,!routers
     check_command			  check_load
     use                 default-service
 }
 
 define service {
     service_description Free Memory
-    hostgroup_name      all
+    hostgroup_name      all,!external,!routers
     check_command    		check_mem
     use                 default-service
 }
 
 define service {
     service_description SSH
-    hostgroup_name      all
+    hostgroup_name      all,!external,!routers
     check_command       check_ssh
     use                 default-service
 }
 
 define service {
     service_description Processes
-    hostgroup_name      all
+    hostgroup_name      all,!external,!routers
     check_command       check_local_procs
     use                 default-service
 }
@@ -88,33 +99,59 @@ define service {
 #}
 
 <% end -%>
-<% unless @service_hosts['webserver'].nil? -%>
+<% unless @service_hosts['solr-slave'].nil? -%>
+  <% @service_hosts['solr-slave'].map{|n| n[:solr][:cores].keys}.flatten.uniq.each do |core| -%>
+  define service {
+      service_description Solr <%=core%> core index
+      hostgroup_name      solr-slave
+      check_command       check_solr_port!8080!/solr/<%=core%>
+      use                 default-service
+  }
+  <% end -%>
+<% end -%>
+<% unless @service_hosts['webui-webservers'].nil? -%>
 # basic web server http check
 define service {
-    service_description HTTP Processes
-    hostgroup_name      webserver
-    check_command       check_http
+    service_description HTTP WebUI
+    hostgroup_name      webui-webservers
+    check_command	check_http_content!www.anyclip.com!/movies/recent!Recently added movies
     use                 default-service
+    contact_groups      webui-admins,<%=node[:nagios][:default_contact_groups].join(',')%>
 }
 
 <% end -%>
-<% unless @service_hosts['appserver'].nil? -%>
+<% unless @service_hosts['api-appservers'].nil? -%>
 # basic check if appserver role is running unicorn
 define service {
-    service_description Unicorn Processes
-    hostgroup_name      appserver
-    check_command       check_nrpe!check_unicorn
+    service_description Tomcat API
+    hostgroup_name      api-appservers
+    check_command	check_http_content_port!apis.anyclip.com!8080!'/api/title/tWyTmZx3x/?cid=C9DX7VqQ&format=JSON&sig=66260cdf934b4157c7e5420bbe80f9a4f3f53878'!where-in-the-world-is-osama-bin-laden
     use                 default-service
-}
-
-define service {
-    service_description Unicorn HTTP
-    hostgroup_name      appserver
-    check_command       check_http_port_expect!8080!"HTTP/1.1 302 Found"
-    use                 default-service
+    contact_groups      api-admins,<%=node[:nagios][:default_contact_groups].join(',')%>
 }
 
 <% end -%>
+<% unless @service_hosts['web-backend'].nil? -%>
+define service {
+    service_description Memcached
+    hostgroup_name      web-backend
+    check_command       check_memcache
+    use                 default-service
+    contact_groups      <%=node[:nagios][:default_contact_groups].join(',')%>
+}
+
+<% end -%>
+<% unless @service_hosts['api-cassandra'].nil? %>
+define service {
+    service_description Cassandra port 9160
+    hostgroup_name      api-cassandra
+    check_command       check_tcp!9160
+    use                 default-service
+    contact_groups      <%=node[:nagios][:default_contact_groups].join(',')%>
+}
+
+
+<% end %>
 <% unless @service_hosts['database_master'].nil? -%>
 # basic check if the database_master role is a mysql server
 # database_master service checks
@@ -126,3 +163,4 @@ define service {
 }
 
 <% end -%>
+

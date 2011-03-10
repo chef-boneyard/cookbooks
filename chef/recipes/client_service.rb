@@ -66,8 +66,8 @@ when "init"
     mode 0755
   end
 
-  file "/etc/#{conf_dir}/chef-client" do
-    content conf_content
+  template "/etc/#{conf_dir}/chef-client" do
+    source "chef-client.default.erb"
     mode 0644
   end
 
