@@ -1,9 +1,9 @@
 #
-# Author:: Avishai Ish-Shalom <avishai@mobival.com>
+# Author:: Avishai Ish-Shalom <avishai@fewbytes.com>
 # Cookbook Name:: php
 # Recipe:: module_xcache
 #
-# Copyright 2010, Mobival Inc.
+# Copyright 2010, Fewbytes LTD.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
