@@ -45,7 +45,10 @@ add additional users via zendmd (extend zendmd LWRP for user-management)
 use the "sysadmins" data bag to populate the users
 provide example data_bag files for loading users
 
-0.7 *CURRENT*
+0.6.2 *CURRENT*
+add support for Zenoss 3.1.0
+
+0.7 
 CentOS 5.5 via yum
 yum::repo
 add a repo to /etc/yum/sources.list.d/ or whatever
