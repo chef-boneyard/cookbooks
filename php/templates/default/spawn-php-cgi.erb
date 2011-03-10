@@ -1,0 +1,45 @@
+#! /bin/sh
+
+# spawn-fcgi wrapper
+
+PHP_USER="<%=node[:php][:cgi][:user]%>"
+PHP_FCGI_CHILDREN=<%=node[:php][:cgi][:children]%>
+PHP_FCGI_MAX_REQUESTS=<%=node[:php][:cgi][:max_requests]%>
+PHP_CGI=<%=node[:php][:cgi][:bin]%>
+PHP_PIDFILE=<%=node[:php][:cgi][:pidfile]%>
+PHP_PORT=<%=node[:php][:cgi][:port]%>
+PHP_BINDADDRESS=<%=node[:php][:cgi][:bindaddress]%>
+<%if node[:php][:cgi][:php_ini] %>
+PHP_INI="<%=node[:php][:cgi][:php_ini]%>"
+<%end%>
+
+[ -n "$PHP_INI" ] && PHP_OPTIONS="-c $PHP_INI" 
+
+start () {
+  start-stop-daemon -x $PHP_CGI -b -m --start --oknodo -c $PHP_USER -g $PHP_USER --pidfile $PHP_PIDFILE --startas /usr/bin/env -- PHP_FCGI_CHILDREN=$PHP_FCGI_CHILDREN PHP_FCGI_MAX_REQUESTS=$PHP_FCGI_MAX_REQUESTS $PHP_CGI -b $PHP_BINDADDRESS:$PHP_PORT $PHP_OPTIONS
+}
+stop () {
+  start-stop-daemon --pidfile $PHP_PIDFILE -m --stop --oknodo -x $PHP_CGI --retry 5
+  echo -n "Waiting for workers to die... "
+  KILLED=FAILED
+  for i in $(seq 1 10); do
+    if pgrep -u $PHP_USER php-cgi >/dev/null; then
+      sleep 1
+    else
+      KILLED=OK
+      break
+    fi
+  done
+  echo "$KILLED"
+  [ "$KILLED" = "OK" ]
+  return $?
+}
+case $1 in
+start)
+  start;;
+stop)
+  stop;;
+restart)
+  stop && start
+  ;;
+esac

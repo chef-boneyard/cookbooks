@@ -1,0 +1,15 @@
+upstream <%=@upstream %> {
+<% @servers.each do |server| %>
+  <% weight = nil
+    if node[:nginx][:upstream][:fair_mode] == "weight_mode=peak" and node[:nginx][:upstream][:fair]
+      weight = server[:apache][:prefork][:maxclients]
+    else
+      begin; weight = server[:nginx][:weight]; end
+    end
+  %>
+  server <%= server[:ipaddress] %> max_fails=<%= node[:nginx][:upstream][:max_fails] %> fail_timeout=<%= node[:nginx][:upstream][:fail_timeout] %><%= " weight=#{weight}" unless weight.nil? %>;
+<% end %>
+<% if node[:nginx][:upstream][:fair] %>
+  fair<%= " #{node[:nginx][:upstream][:fair_mode]}" if node[:nginx][:upstream].attribute? :fair_mode %>;
+<%end%>
+}

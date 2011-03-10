@@ -18,6 +18,7 @@
 # limitations under the License.
 #
 
+#include_recipe "apache2"
 include_recipe "php::module_mysql"
 include_recipe "php::module_sqlite3"
 include_recipe "php::module_memcache"
@@ -31,4 +32,40 @@ case node[:platform]
     package "php5-cgi" do
       action :upgrade
     end
+end
+
+user "www-data" do
+  uid "33"
+  gid "www-data"
+  shell "/bin/true"
+  home "/var/www"
+end
+
+service "php-cgi" do
+  supports :restart => true , :start => true, :stop => true
+  action :nothing
+end
+
+
+memcache_servers = search(:node, "recipes:memcached AND cluster_environment:#{node[:cluster][:environment]}")
+template value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "/etc/php.ini"}, "default" => "/etc/php5/cgi/php.ini") do
+  source "php.ini.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  variables :memcache_servers => memcache_servers
+  notifies :restart, resources(:service => "php-cgi"), :delayed
+end
+
+template "/etc/init.d/php-cgi" do
+  source "spawn-php-cgi.erb"
+  mode "0755"
+  notifies :restart, resources(:service => "php-cgi"), :immediately
+end
+
+service "php-cgi" do
+  running true
+  supports :restart => true , :start => true, :stop => true, :reload => false
+  enabled true
+  action [ :enable, :start ]
 end

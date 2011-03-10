@@ -1,9 +1,9 @@
 #
-# Author::  Joshua Timberman (<joshua@opscode.com>)
+# Author::  Avishai Ish-Shalom (<avishai@mobival.com>)
 # Cookbook Name:: php
-# Recipe:: module_ldap
+# Recipe:: php5-cli
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2010, Mobival, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,8 +18,13 @@
 # limitations under the License.
 #
 
-pack = value_for_platform([ "centos", "redhat", "fedora", "suse" ] => {"default" => "php-ldap"}, "default" => "php5-ldap")
+include_recipe "php::module_mysql"
+include_recipe "php::module_sqlite3"
+include_recipe "php::module_memcache"
+include_recipe "php::module_gd"
+include_recipe "php::module_pgsql"
+include_recipe "php::pear"
 
-package pack do
+package "php5-cli" do
   action :upgrade
 end

@@ -20,26 +20,23 @@
 
 include_recipe "apache2"
 include_recipe "php::module_mysql"
-include_recipe "php::module_ldap"
+#include_recipe "php::module_ldap"
 include_recipe "php::module_memcache"
 include_recipe "php::module_gd"
 include_recipe "php::module_pgsql"
 include_recipe "php::pear"
 
-cookbook_file value_for_platform([ "centos", "redhat", "fedora", "suse" ] => {"default" => "/etc/php.ini"}, "default" => "/etc/php5/apache2/php.ini") do
-  source "apache2-php5.ini"
+memcache_servers = search(:node, "recipes:memcached AND mobival_environment:#{node[:mobival][:environment]}")
+template value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "/etc/php.ini"}, "default" => "/etc/php5/apache2/php.ini") do
+  source "php.ini.erb"
   owner "root"
   group "root"
   mode 0644
+  variables :memcache_servers => memcache_servers
   notifies :restart, resources("service[apache2]"), :delayed
 end
 
-packages = value_for_platform(
-  [ "centos", "redhat", "fedora", "suse" ] => {
-    "default" => %w(php php-cli php-Smarty)
-  },
-  "default" => %w{php5 php5-cli smarty}
-)
+packages = value_for_platform([ "centos", "redhat", "fedora", "suse" ] => {"default" => %w(php php-cli php-Smarty)}, "default" => %w{php5 php5-cli smarty})
 
 packages.each do |pkg|
   package pkg do

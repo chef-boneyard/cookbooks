@@ -1,0 +1,9 @@
+extension=apc.so
+apc.shm_size=<%=@node[:php][:apc][:shm_size]%>
+apc.stat=<%=@node[:php][:apc][:stat]%>
+apc.include_once_override=<%=@node[:php][:apc][:include_once_override]%>
+apc.enabled=<%=@node[:php][:apc][:enabled]%>
+apc.ttl=<%=@node[:php][:apc][:ttl]%>
+<%unless @node[:php][:apc][:filters]="" %>apc.filters=<%=@node[:php][:apc][:filters]%><%end%>
+apc.cache_by_default=<%=@node[:php][:apc][:cache_by_default]%>
+apc.max_file_size=<%=@node[:php][:apc][:max_file_size]%>

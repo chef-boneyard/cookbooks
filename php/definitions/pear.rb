@@ -1,7 +1,7 @@
 #
 # Author::  Joshua Timberman (<joshua@opscode.com>)
 # Cookbook Name:: php
-# Recipe:: module_ldap
+# Recipe:: pear
 #
 # Copyright 2009, Opscode, Inc.
 #
@@ -18,8 +18,26 @@
 # limitations under the License.
 #
 
-pack = value_for_platform([ "centos", "redhat", "fedora", "suse" ] => {"default" => "php-ldap"}, "default" => "php5-ldap")
+define :pear_module, :module => nil, :enable => true do
+  
+  include_recipe "php::pear"
+  
+  if params[:enable]
+    execute "/usr/bin/pear install -a #{params[:module]}" do
+      only_if "/bin/sh -c '! /usr/bin/pear info #{params[:module]} 2>&1 1>/dev/null"
+    end
+  end
+  
+end
 
-package pack do
-  action :upgrade
+define :pear_channel, :channel => nil, :enable => true do
+  
+  include_recipe "php::pear"
+  
+  if params[:enable]
+    execute "/usr/bin/pear channel-discover #{params[:channel]}" do
+      only_if "/bin/sh -c '! /usr/bin/pear/channel-info #{params[:channel]} 2>&1 1>/dev/null"
+    end
+  end
+  
 end

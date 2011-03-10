@@ -1,0 +1,68 @@
+; configuration for php Xcache module
+
+[xcache-common]
+;; install as zend extension (recommended), normally "$extension_dir/xcache.so"
+zend_extension = /usr/lib/php5/20090626+lfs/xcache.so
+
+[xcache.admin]
+xcache.admin.enable_auth = On
+; Configure this to use admin pages
+xcache.admin.user = "<%=@node[:php][:xcache][:admin_user]%>"
+xcache.admin.pass = md5(<%=@node[:php][:xcache][:admin_pass]%>)
+; xcache.admin.pass = ""
+
+[xcache]
+; ini only settings, all the values here is default unless explained
+
+; select low level shm/allocator scheme implemenation
+xcache.shm_scheme =        "mmap"
+; to disable: xcache.size=0
+; to enable : xcache.size=64M etc (any size > 0) and your system mmap allows
+xcache.size  =                <%=@node[:php][:xcache][:size]%>
+; set to cpu count (cat /proc/cpuinfo |grep -c processor)
+xcache.count =                 <%=@node[:cpu][:total]%>
+; just a hash hints, you can always store count(items) > slots
+xcache.slots =                8K
+; ttl of the cache item, 0=forever
+xcache.ttl   =                 86400
+; interval of gc scanning expired items, 0=no scan, other values is in seconds
+xcache.gc_interval =           86400
+
+; same as aboves but for variable cache
+xcache.var_size  =            0M
+xcache.var_count =             1
+xcache.var_slots =            8K
+; default ttl
+xcache.var_ttl   =             0
+xcache.var_maxttl   =          0
+xcache.var_gc_interval =     300
+
+xcache.test =                Off
+; N/A for /dev/zero
+xcache.readonly_protection = Off
+; for *nix, xcache.mmap_path is a file path, not directory.
+; Use something like "/tmp/xcache" if you want to turn on ReadonlyProtection
+; 2 group of php won't share the same /tmp/xcache
+; for win32, xcache.mmap_path=anonymous map name, not file path
+xcache.mmap_path =    "/dev/zero"
+
+
+; leave it blank(disabled) or "/tmp/phpcore/"
+; make sure it's writable by php (without checking open_basedir)
+xcache.coredump_directory =   ""
+
+; per request settings
+xcache.cacher =               On
+xcache.stat   =               On
+xcache.optimizer =            Off
+
+[xcache.coverager]
+; per request settings
+; enable coverage data collecting for xcache.coveragedump_directory and xcache_coverager_start/stop/get/clean() functions (will hurt executing performance)
+xcache.coverager =          Off
+
+; ini only settings
+; make sure it's readable (care open_basedir) by coverage viewer script
+; requires xcache.coverager=On
+xcache.coveragedump_directory = ""
+

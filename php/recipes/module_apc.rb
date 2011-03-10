@@ -18,15 +18,24 @@
 # limitations under the License.
 #
 
-pack = value_for_platform(
-  [ "centos", "redhat", "fedora", "suse" ] => {
-    "default" => "php-pecl-apc"
-  },
-  "default" => "php5-apc"
-)
-
+pack = value_for_platform([ "centos", "redhat", "fedora", "suse" ] => {"default" => "php-pecl-apc"}, "default" => "php5-apc")
 if pack
   package pack do
     action :upgrade
   end
 end
+
+#Xcache has conflicts with apc
+xcache_pack = value_for_platform([ "centos", "redhat", "fedora", "suse" ] => {"default" => "php-pecl-xcache"}, "default" => "php5-xcache")
+package xcache_pack do
+  action :remove
+end
+
+file "/etc/php5/conf.d/xcache.ini" do
+  action :delete
+end
+
+template "/etc/php5/conf.d/apc.ini" do
+  source "apc.ini.erb"
+end
+

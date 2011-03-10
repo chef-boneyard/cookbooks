@@ -1,9 +1,9 @@
 #
-# Author::  Joshua Timberman (<joshua@opscode.com>)
+# Author:: Avishai Ish-Shalom <avishai@mobival.com>
 # Cookbook Name:: php
-# Recipe:: module_ldap
+# Recipe:: module_xcache
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2010, Mobival Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,8 +18,12 @@
 # limitations under the License.
 #
 
-pack = value_for_platform([ "centos", "redhat", "fedora", "suse" ] => {"default" => "php-ldap"}, "default" => "php5-ldap")
-
-package pack do
+package "php5-xcache" do
   action :upgrade
 end
+
+template "/etc/php5/conf.d/xcache.ini" do
+  source "xcache.ini.erb"
+  mode 0644
+end
+
