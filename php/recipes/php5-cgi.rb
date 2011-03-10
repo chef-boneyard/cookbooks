@@ -47,7 +47,7 @@ service "php-cgi" do
 end
 
 
-memcache_servers = search(:node, "recipes:memcached AND cluster_environment:#{node[:cluster][:environment]}")
+memcache_servers = all_providers_for_service("memcached")
 template value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "/etc/php.ini"}, "default" => "/etc/php5/cgi/php.ini") do
   source "php.ini.erb"
   owner "root"
