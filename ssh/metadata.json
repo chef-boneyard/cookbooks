@@ -1,0 +1,29 @@
+{
+  "maintainer_email": "YOUR_EMAIL",
+  "groupings": {
+  },
+  "attributes": {
+  },
+  "recommendations": {
+  },
+  "dependencies": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "license": "All rights reserved",
+  "platforms": {
+  },
+  "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
+  "version": "0.0.1",
+  "providing": {
+  },
+  "name": "ssh",
+  "maintainer": "YOUR_COMPANY_NAME",
+  "recipes": {
+  },
+  "replacing": {
+  },
+  "description": "Installs/Configures ssh"
+}
