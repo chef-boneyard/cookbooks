@@ -1,5 +1,6 @@
 include_recipe "Doat"
 include_recipe "Doat::redis"
+include_recipe "Doat::scribe-client"
 
 link "/etc/init.d/cored" do
   to "/opt/doat/etc/servers/core/init.d/cored"
