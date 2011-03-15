@@ -92,5 +92,5 @@
     "rsyslog::client": "Sets up a client to log to a remote rsyslog server",
     "rsyslog::server": "Sets up an rsyslog server"
   },
-  "version": "0.99.1"
+  "version": "0.99.2"
 }

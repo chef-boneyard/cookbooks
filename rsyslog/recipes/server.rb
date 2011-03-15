@@ -53,7 +53,7 @@ file "/etc/rsyslog.d/remote.conf" do
 end
 
 cron "rsyslog_gz" do
-  command "find #{node[:rsyslog][:log_dir]}/$(date +\%Y) -type f -mtime +1 -exec gzip -q {} \\;"
+  command "find #{node[:rsyslog][:log_dir]}/$(date +\\%Y) -type f -mtime +1 -exec gzip -q {} \\;"
   minute "0"
   hour "4"
 end
