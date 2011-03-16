@@ -1,0 +1,68 @@
+[core]
+### redis ###
+redis_wait_recv_timeout = 10
+redis_wait_interval = 5
+redis_loading_retries = 100
+
+### melt ###
+melt_master_redis_host = prod-redis-master
+melt_master_redis_port = 6379
+melt_slave_redis_host = prod-redis-slave
+melt_slave_redis_port = 6379
+melt_redis_db = 15
+
+sql_host = sql
+sql_user = doat
+sql_password = rajDER9
+sql_db = doat
+sql_port = 3306
+
+### classifier ###
+search_redis_host = redis
+search_redis_port = 6379
+
+tf_factor = 5000.0
+default_classification = Web
+solr_url = http://solr:8080/solr
+max_experiences_autocomplete = 4
+
+### autocompelte ###
+autocomplete_host = autocomplete
+autocomplete_port = 9191
+
+
+### thrift ###
+thrift_port = 9091
+num_thrift_ports = 1
+
+### monitoring ###
+monitor_sample_length = 36000
+bucket_reset_interval = 5
+monitor_listen_port = 9000
+ping_listen_port = 9001
+
+### misc ###
+image_web_root = /img
+storage_path = /opt/doat/shared/img
+
+log_file=/tmp/core.log
+
+encryption_salt = glfFKfDjWkNheXVX
+encryption_secret = MuKzmBUiJcpiAphNKQvxnCJkDRFwAxvO
+
+default_app_limit = 8
+
+shared_item_url = http://stg2.doat.com/share/item/%s
+shared_screenshot_url = http://stg2.doat.com/img/screenshot/%s
+
+# turn this on to enable app sorting by radar. False until enough users available
+enable_radar = False
+
+# turn this off at capaccity limit to prevent new mobile device registration
+allow_new_devices = True
+
+# turn this on to enable sharing through facebook, twitter etc.
+share_external = False
+
+# turn this on to use Bing for spellchecking, otherwise null
+use_bing = False

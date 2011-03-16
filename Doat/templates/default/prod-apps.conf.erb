@@ -1,0 +1,34 @@
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName flyapps.me
+        DocumentRoot /opt/doat/apps
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /opt/doat/apps>
+                Options FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+        ErrorLog /var/log/apache2/error.log
+
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+        CustomLog /var/log/apache2/access.log combined
+</VirtualHost>
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        ServerName flyapps.me
+        ServerAlias *.flyapps.me
+        UseCanonicalName Off
+        VirtualDocumentRoot /opt/doat/apps/%1/
+        AliasMatch ^/min(.*) /opt/doat/apps/_common/min$1
+
+        RewriteEngine On        
+	#minify rewrite
+	RewriteRule ^/min/([a-z]=.*) /min/index.php?$1 [L,NE]
+</VirtualHost>
+
