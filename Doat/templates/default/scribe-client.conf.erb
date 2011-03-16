@@ -26,7 +26,7 @@
 # them on disk and keep retrying.
 
 
-port=1464
+port=<%= node[:scribe][:port] %>
 max_msg_per_second=2000000
 check_interval=3
 
@@ -44,8 +44,8 @@ retry_interval_range=10
 
 <primary>
 type=network
-remote_host=scriber
-remote_port=1463
+remote_host=<%= @scribe[:ipaddress] %>
+remote_port=<%= @scribe[:scribe][:port] %>
 </primary>
 
 <secondary>
