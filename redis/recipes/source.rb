@@ -8,7 +8,7 @@ directory node[:redis][:build_dir] do
 end
 
 remote_file ::File.join(node[:redis][:build_dir], ::File.basename(node[:redis][:source_url])) do
-  source node[:redis][:source_url])
+  source node[:redis][:source_url]
   mode "0644"
 end
 
