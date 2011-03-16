@@ -23,6 +23,10 @@ end
 
 group "doat"
 
+directory "/var/log/doat" do
+  mode "0777"
+end
+
 common_settings = data_bag_item('doat', 'common')
 subversion "/opt/doat" do
   repository common_settings['repo_url']
