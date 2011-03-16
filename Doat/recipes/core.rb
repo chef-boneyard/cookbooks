@@ -10,6 +10,13 @@ link "/etc/init.d/autocompleted" do
   "/opt/doat/etc/scripts/autocompleted"
 end
 
+redis_master = provider_for_service(:redis_melt, :filters => {:replication => "master"})
+template "/opt/doat/etc/servers/core/core.conf" do
+  source "core.conf.erb"
+  variables :redis_master => redis_master, :redis_search_node => node
+  notifies :restart, "service[cored]"
+end
+
 service "autocompleted" do
   action [:start, :enable]
   supports :restart => false
