@@ -1,0 +1,17 @@
+<?php
+
+	_define('LOG_FILE', '/tmp/api.log');
+	_define('CORE_SERVER_HOST', 'core');
+        _define('CORE_SERVER_PORT', 9091);
+        
+	error_reporting(E_ERROR | E_PARSE | E_COMPILE_ERROR | E_CORE_ERROR | E_RECOVERABLE_ERROR);
+        
+	_define("API_HOST", "http://api." . str_replace("www.", "", $_SERVER['SERVER_NAME']));
+
+        _define("STORAGE_PATH", '/opt/doat/shared/img');
+
+        _define('REDIS_HOST', 'redis');
+        _define('REDIS_PORT', 6379);
+        _define('REDIS_DB', 15);
+
+//        _define('DISABLE_ALL_REQUESTS', true);
