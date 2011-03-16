@@ -1,0 +1,16 @@
+<?php
+
+_define('STORAGE_PATH', '/opt/doat/shared/img/');
+
+_define('MYSQL_HOST', 'sql');
+_define('MYSQL_USER', 'root');
+_define('MYSQL_PASSWORD', '');
+_define('MYSQL_DB', 'doat');
+
+// list of core servers, format 'HOST1:PORT1 HOST2:PORT2' etc. Host names must be unique!
+_define('CORES', 'core:9091');
+
+_define('CDN_HOST', '');
+_define('API_HOST', 'http://api.' . str_replace('www.', '', $_SERVER['SERVER_NAME']));
+_define('NATIVE_APP_DOWNLOAD_APPSTORE', 'http://itunes.apple.com/us/app/do/id423328852?mt=8&ls=1');
+_define('NATIVE_APP_DOWNLOAD_ANDROID', 'http://android');
