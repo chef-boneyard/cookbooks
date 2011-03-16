@@ -16,8 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "Doat::scribe-client"
-
 user "doat" do
   supports :manage_home => true
   action [:create, :manage]
