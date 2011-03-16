@@ -1,0 +1,11 @@
+= DESCRIPTION:
+This cookbooks installs Redis 2 key-value datastore server. Redis can be installed from packages (where available) or source.
+
+= REQUIREMENTS:
+For compiling from source: build-essential
+
+= ATTRIBUTES: 
+
+= USAGE:
+
+
