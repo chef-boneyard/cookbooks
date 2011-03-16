@@ -5,6 +5,13 @@ directory node[:scribe][:tmp_dir] do
   group node[:scribe][:group]
 end
 
+scribe = provider_for_service(:scribe)
+
+template "/opt/doat/etc/Scribe/scribe-client.conf" do
+  source "scribe-client.conf.erb"
+  variables :scribe => scribe
+end
+
 link "/etc/init.d/scribe-client" do
   to "/opt/doat/etc/servers/scribe/init/scribed-client"
 end
