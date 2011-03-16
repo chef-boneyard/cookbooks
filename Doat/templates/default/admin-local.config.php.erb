@@ -2,14 +2,14 @@
 
 _define('STORAGE_PATH', '/opt/doat/shared/img/');
 
-_define('MYSQL_HOST', 'sql');
-_define('MYSQL_USER', 'root');
-_define('MYSQL_PASSWORD', '');
-_define('MYSQL_DB', 'doat');
+_define('MYSQL_HOST', '<%= @sql[:hostname] %>');
+_define('MYSQL_USER', '<%= @sql_credentials[:user] %>');
+_define('MYSQL_PASSWORD', '<%= @sql_credentials[:password] %>');
+_define('MYSQL_DB', '<%= @app_config[:db] %>');
 
 // list of core servers, format 'HOST1:PORT1 HOST2:PORT2' etc. Host names must be unique!
-_define('CORES', 'core:9091');
+_define('CORES', '<%= @cores.map{|ip, port| "#{ip}:#{port}"}.join(" ") %>');
 
-_define('MELT_REDIS_HOST', 'redis');
-_define('MELT_REDIS_PORT', 6379);
-_define('MELT_REDIS_DB', 15);
+_define('MELT_REDIS_HOST', '<%= @redis_master[:ipaddress] %>');
+_define('MELT_REDIS_PORT', <%= @redis_master[:redis][:instances][:melt][:port] %>);
+_define('MELT_REDIS_DB', <%= node[:doat][:core][:redis_db] %>);
