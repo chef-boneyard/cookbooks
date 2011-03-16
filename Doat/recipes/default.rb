@@ -27,7 +27,7 @@ directory "/var/log/doat" do
   mode "0777"
 end
 
-common_settings = data_bag_item('doat', 'common')
+common_settings = data_bag_item('doat_config', 'common')
 subversion "/opt/doat" do
   repository common_settings['repo_url']
   user "doat"
