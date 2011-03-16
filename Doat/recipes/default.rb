@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include_recipe "Doat::scribe-client"
 
 user "doat" do
   supports :manage_home => true
@@ -32,12 +33,4 @@ subversion "/opt/doat" do
   svn_arguments "--non-interactive --no-auth-cache --trust-server-cert"
   svn_username common_settings['repo_user']
   svn_password common_settings['repo_password']
-end
-
-link "/etc/init.d/scribed-client" do
-  to "/opt/doat/etc/servers/scribe/init/scribed-client"
-end
-
-service "scribed-client" do
-  action [:start, :enable]
 end

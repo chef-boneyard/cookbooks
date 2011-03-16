@@ -11,4 +11,5 @@ remote_directory ::File.join(node[:nginx][:dir], "ssl") do
   owner node[:nginx][:user]
   group node[:nginx][:group]
   source "ssl"
+  notifies :restart, "service[nginx]"
 end
