@@ -186,20 +186,44 @@ deploy_revision app['id'] do
         cwd release_path
       end
 
-    elsif node.app_environment && app['databases'].has_key?(node.app_environment)
+    else
       # chef runs before_migrate, then symlink_before_migrate symlinks, then migrations,
       # yet our before_migrate needs database.yml to exist (and must complete before
       # migrations).
       #
       # maybe worth doing run_symlinks_before_migrate before before_migrate callbacks,
       # or an add'l callback.
-      execute "(ln -s ../../../shared/database.yml config/database.yml && rake gems:install); rm config/database.yml" do
-        ignore_failure true
+      
+      shared_db_config = "../../../shared/database.yml"
+      
+      if ::File.exists?(shared_db_config)
+        execute("ln -s #{shared_db_config} config/database.yml") do
+          ignore_failure true
+          cwd release_path
+        end
+      end
+      
+      execute("rake gems:install") do
         cwd release_path
       end
+      
+      if ::File.exists?(shared_db_config)
+        execute("rm config/database.yml") do
+          ignore_failure true
+          cwd release_path
+        end
+      end      
+    end
+    
+    # Don't create symlinks if doing so would replace an existing file
+    # with a link to nowhere.
+    
+    new_resource.symlink_before_migrate.delete_if do |src, dst|
+      !(::File.exists?("#{new_resource.shared_path}/#{src}")) &&
+      ::File.exists?("#{release_path}/#{dst}")
     end
   end
-
+  
   symlink_before_migrate({
     "database.yml" => "config/database.yml",
     "memcached.yml" => "config/memcached.yml"
