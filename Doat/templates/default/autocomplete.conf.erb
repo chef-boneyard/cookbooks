@@ -5,14 +5,13 @@
 ############################################################################
 
 #Listening port configuration
-port = 9191
+port = <%= node[:doat][:autocompleted][:port] %>
 
 #Dump file configuration - where we load/save the dictionary
-file = /opt/doat/Search/data/autocomplete6.dump
+file = <%= node[:doat][:autocompleted][:dump_file] %>
 
 #do we want to daemonize the server?
 daemonize = true
-
 
 #After how many changes do we want to save a dump? leave 0 to not save
 #NOTE: save is blocking!!! @TODO: Fix this :)
