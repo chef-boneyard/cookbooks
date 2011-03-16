@@ -35,8 +35,13 @@ end
 
 directory node[:redis][:conf_dir]
 
+if node[:redis][:replication][:role] == "slave"
+  master_node = search(:node, "role:#{node[:redis][:replication][:master_role]}").first
+end
+
 template ::File.join(node[:redis][:conf_dir], "redis.conf") do
   source "redis.conf.erb"
+  variables :master => master_node if node[:redis][:replication][:role] == "slave"
 end
 
 service "redis" do
