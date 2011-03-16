@@ -10,8 +10,12 @@ link "/etc/init.d/autocompleted" do
   "/opt/doat/etc/scripts/autocompleted"
 end
 
-%w(cored autocompleted).each do |srv|
-  service srv do
-    action [:start, :enable]
-  end
+service "autocompleted" do
+  action [:start, :enable]
+  supports :restart => false
 end
+
+service "cored" do
+  action [:start, :enable]
+end
+
