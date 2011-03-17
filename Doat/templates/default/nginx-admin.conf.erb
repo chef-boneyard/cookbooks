@@ -1,18 +1,17 @@
 server {
-  server_name api.doat.com api.prod.doat.com;
-  listen 80;
+  server_name admin.doat.com admin.prod.doat.com;
   listen 443 ssl;
   ssl_certificate <%= node[:nginx][:dir] %>/ssl/<%= node[:doat][:web][:ssl_certificate] %>;
   ssl_certificate_key <%= node[:nginx][:dir] %>/ssl/<%= node[:doat][:web][:ssl_certificate_key] %>;
-  root /opt/doat/www/gondor;
-  error_log <%= node[:nginx][:log_dir] %>/api.doat.com_error.log;
-  access_log <%= node[:nginx][:log_dir] %>/api.doat.com_access.log;
+  root /opt/doat/www/admin/webroot;
+  error_log <%= node[:nginx][:log_dir] %>/admin.doat.com_error.log;
+  access_log <%= node[:nginx][:log_dir] %>/admin.doat.com_access.log;
   location ~ "\.svn" {
     deny all;
   }
   location / {
     index index.php;
-    try_files $uri /index.php?r=$uri&$args;
+    try_files $uri /index.php?url=$uri&$args;
   }
   location /favicon.ico {
   }
@@ -27,4 +26,5 @@ server {
     fastcgi_pass_header       Set-Cookie;
   }
 }
+
 

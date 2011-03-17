@@ -1,15 +1,17 @@
 server {
-  server_name doat.com prod.doat.com www.prod.doat.com;
+  server_name www.doat.com prod.doat.com www.prod.doat.com;
   listen 80;
   root /opt/doat/www/app/webroot;
-  error_log <%= node[:nginx][:log_dir] %>/doat.com_error.log;
-  access_log <%= node[:nginx][:log_dir] %>/doat.com_access.log;
+  error_log <%= node[:nginx][:log_dir] %>/www.doat.com_error.log;
+  access_log <%= node[:nginx][:log_dir] %>/www.doat.com_access.log;
   location ~ "\.svn" {
     deny all;
   }
   location / {
     index index.php;
     try_files $uri /index.php?url=$uri&$args;
+  }
+  location /favicon.ico {
   }
   location ~ .*\.php(/.*)?$ {
     include fastcgi_params;
@@ -23,4 +25,8 @@ server {
   }
 }
 
-
+server {
+  listen 80;
+  server_name doat.com;
+  rewrite ^/(.*) http://www.doat.com/$1 permanent;
+}
