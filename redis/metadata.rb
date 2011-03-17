@@ -26,7 +26,7 @@ attribute "redis/log_dir",
 attribute "redis/instances/default/timeout",
   :display_name => "Timeout before connection close",
   :description => "Close the connection after a client is idle for N seconds (0 to disable)",
-  :default => 300
+  :default => "300"
 attribute "redis/instances/default/dumpdb_filename",
   :display_name => "Database dump filename",
   :default => "dump.db"
@@ -39,7 +39,7 @@ attribute "redis/instances/default/activerehashing",
   :default => "yes"
 attribute "redis/instances/default/databases", 
   :display_name => "Number of Redis database",
-  :default => 16
+  :default => "16"
 attribute "redis/instances/default/vm/enabled",
   :display_name => "Enable Redis swapping to disk",
   :default => "no"
@@ -53,20 +53,20 @@ attribute "redis/instances/default/vm/max_memory",
 attribute "redis/instances/default/vm/page_size",
   :display_name => "Memory page size (bytes) in swap file",
   :description => "Redis swap files is split into pages. An object can be saved using multiple contiguous pages, but pages can't be shared between different objects. So if your page is too big, small objects swapped out on disk will waste a lot of space. If you page is too small, there is less space in the swap file (assuming you configured the same number of total swap file pages).",
-  :default => 32 # bytes
+  :default => "32" # bytes
 attribute "redis/instances/default/vm/pages",
   :display_name => "Number of memory pages in the swap file",
   :description => "Number of total memory pages in the swap file. Given that the page table (a bitmap of free/used pages) is taken in memory, every 8 pages on disk will consume 1 byte of RAM. The total swap size is vm-page-size * vm-pages. With the default of 32-bytes memory pages and 134217728 pages Redis will use a 4 GB swap file, that will use 16 MB of RAM for the page table. It's better to use the smallest acceptable value for your application, but the default is large in order to work in most conditions.",
-  :default => 134217728 
+  :default => "134217728"
 attribute "redis/instances/default/vm/max_threads",
   :display_name => "Number of VM IO threads",
-  :default => 4
+  :default => "4"
 attribute "redis/instances/default/maxmemory",
   :display_name => "Maximum memory to use for redis",
   :default => "Unset"
 attribute "redis/instances/default/maxmemory_samples",
   :display_name => "Sample size for eviction algorithms",
-  :default => 3
+  :default => "3"
 attribute "redis/instances/default/maxmemory_policy",
   :display_name => "Memory eviction algorithm",
   :default => "volatile-lru"
