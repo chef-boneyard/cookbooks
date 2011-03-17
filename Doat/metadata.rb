@@ -7,3 +7,4 @@ version          "0.1"
 
 depends          "subversion"
 depends          "cluster_service_discovery"
+depends          "redis"
