@@ -1,7 +1,7 @@
 Description
 ===========
 
-Installs and configures Python 2.6.  Also includes LWRPs for managing `pip` packages and `virtualenv` isolated Python environments.
+Installs and configures Python.  Also includes LWRPs for managing python packages with `pip` and `virtualenv` isolated Python environments.
 
 Requirements
 ============
@@ -15,10 +15,17 @@ Platform
 Cookbooks
 ---------
 
+* build-essential
+
 Attributes
 ==========
 
-None at this time.
+* `node["python"]["install_method"]` = method to install python with, default `package`.
+
+The file also contains the following attribute types:
+
+* platform specific locations and settings.
+* source installation settings
 
 Resource/Provider
 =================
@@ -109,7 +116,31 @@ Install packages using the new hotness in Python package management...[`pip`](ht
 Usage
 =====
 
-Simply include the recipe where you want Python 2.6 installed.
+default
+-------
+
+Include default recipe in a run list, to get `python`, `pip` and `virtualenv`. Installs python by package or source depending on the platform.
+
+package
+-------
+
+Installs Python from packages.
+
+source
+------
+
+Installs Python from source.
+
+pip
+---
+
+Installs `pip` from source.
+
+virtualenv
+----------
+
+Installs virtualenv using the `python_pip` resource.
+
 
 License and Author
 ==================

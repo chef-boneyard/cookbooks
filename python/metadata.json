@@ -1,6 +1,6 @@
 {
   "name": "python",
-  "description": "Installs python packages. Includes LWRPs for managing `pip` packages and `virtualenv` isolated Python environments.",
+  "description": "Installs Python, pip and virtualenv. Includes LWRPs for managing Python packages with `pip` and `virtualenv` isolated Python environments.",
   "long_description": "",
   "maintainer": "Opscode, Inc.",
   "maintainer_email": "cookbooks@opscode.com",
@@ -23,6 +23,9 @@
     ]
   },
   "dependencies": {
+    "build-essential": [
+
+    ]
   },
   "recommendations": {
   },
@@ -39,7 +42,11 @@
   "groupings": {
   },
   "recipes": {
-    "python": "Installs python, pip, and virtualenv"
+    "python": "Installs python, pip, and virtualenv",
+    "python::package": "Installs python using packages.",
+    "python::source": "Installs python from source.",
+    "python::pip": "Installs pip from source.",
+    "python::virtualenv": "Installs virtualenv using the python_pip resource."
   },
-  "version": "1.0.1"
+  "version": "1.0.2"
 }
