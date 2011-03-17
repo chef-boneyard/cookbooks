@@ -2,6 +2,11 @@ include_recipe "Doat"
 include_recipe "Doat::redis"
 include_recipe "Doat::scribe-client"
 
+package "python-crypto"
+package "python-nltk"
+easy_install_package "PySQLPool"
+easy_install_package "Crypto.Ciper"
+
 link "/etc/init.d/cored" do
   to "/opt/doat/etc/servers/core/init.d/cored"
 end
