@@ -1,4 +1,4 @@
-# Redis configuration file example
+# Redis configuration file template
 
 # Note on units: when memory size is needed, it is possible to specifiy
 # it in the usual form of 1k 5GB 4M and so forth:
@@ -22,14 +22,14 @@ pidfile /var/run/redis.pid
 
 # Accept connections on the specified port, default is 6379.
 # If port 0 is specified Redis will not listen on a TCP socket.
-port <%= node[:redis][:port] %>
+port <%= @conf[:port] %>
 
 # If you want you can bind a single interface, if the bind option is not
 # specified all the interfaces will listen for incoming connections.
 #
 # bind 127.0.0.1
-<% if node[:redis].attribute? :bindaddress %>
-bind <%= node[:redis][:bindaddress] %>
+<% if conf.attribute? :bindaddress %>
+bind <%= @conf[:bindaddress] %>
 <% end %>
 
 # Specify the path for the unix socket that will be used to listen for
@@ -37,12 +37,12 @@ bind <%= node[:redis][:bindaddress] %>
 # on a unix socket when not specified.
 #
 # unixsocket /tmp/redis.sock
-<% if node[:redis].attribute? :socket %>
-unixsocket <%= node[:redis][:socket] %>
+<% if conf.attribute? :socket %>
+unixsocket <%= @conf[:socket] %>
 <% end %>
 
 # Close the connection after a client is idle for N seconds (0 to disable)
-timeout <%= node[:redis][:timeout] %>
+timeout <%= @conf[:timeout] %>
 
 # Set server verbosity to 'debug'
 # it can be one of:
@@ -55,7 +55,7 @@ loglevel verbose
 # Specify the log file name. Also 'stdout' can be used to force
 # Redis to log on the standard output. Note that if you use standard
 # output for logging but daemonize, logs will be sent to /dev/null
-logfile <%= node[:redis][:log_dir] %>/redis.log
+logfile <%= ::File.join(@conf[:log_dir], "redis_#{@instance}.log" %>
 
 # To enable logging to the system logger, just set 'syslog-enabled' to yes,
 # and optionally update the other syslog parameters to suit your needs.
@@ -70,7 +70,7 @@ logfile <%= node[:redis][:log_dir] %>/redis.log
 # Set the number of databases. The default database is DB 0, you can select
 # a different one on a per-connection basis using SELECT <dbid> where
 # dbid is a number between 0 and 'databases'-1
-databases <%= node[:redis][:databases] %>
+databases <%= @conf[:databases] %>
 
 ################################ SNAPSHOTTING  #################################
 #
@@ -99,7 +99,7 @@ save 60 10000
 rdbcompression yes
 
 # The filename where to dump the DB
-dbfilename <%= node[:redis][:dumpdb_filename] %>
+dbfilename <%= @conf[:dumpdb_filename] %>
 
 # The working directory.
 #
@@ -109,9 +109,9 @@ dbfilename <%= node[:redis][:dumpdb_filename] %>
 # Also the Append Only File will be created inside this directory.
 # 
 # Note that you must specify a directory here, not a file name.
-dir <%= node[:redis][:data_dir] %>
+dir <%= @conf[:data_dir] %>
 
-<% if node[:redis][:replication][:role] == "slave" %>
+<% if @conf[:replication][:role] == "slave" %>
 ################################# REPLICATION #################################
 
 # Master-Slave replication. Use slaveof to make a Redis instance a copy of
@@ -157,8 +157,8 @@ slave-serve-stale-data yes
 # 150k passwords per second against a good box. This means that you should
 # use a very strong password otherwise it will be very easy to break.
 #
-<% if node[:redis][:requirepass] %>
-requirepass <% node[:redis][:requirepass] %>
+<% if @conf[:requirepass] %>
+requirepass <% @conf[:requirepass] %>
 <% end %>
 
 # Command renaming.
@@ -185,7 +185,7 @@ requirepass <% node[:redis][:requirepass] %>
 # Once the limit is reached Redis will close all the new connections sending
 # an error 'max number of clients reached'.
 #
-<% if node[:redis][:maxclients] %>maxclients <%= node[:redis][:maxclients] %><% end %>
+<% if @conf[:maxclients] %>maxclients <%= node[:redis][:maxclients] %><% end %>
 
 # Don't use more memory than the specified amount of bytes.
 # When the memory limit is reached Redis will try to remove keys with an
@@ -234,10 +234,10 @@ requirepass <% node[:redis][:requirepass] %>
 # using the following configuration directive.
 #
 # maxmemory-samples 3
-<% if node[:redis][:maxmemory] %>
-maxmemory <%= node[:redis][:maxmemory] %>
-maxmemory-policy <%= node[:redis][:maxmemory_policy] %>
-maxmemory-samples <%= node[:redis][:maxmemory_samples] %>
+<% if @conf[:maxmemory] %>
+maxmemory <%= @conf[:maxmemory] %>
+maxmemory-policy <%= @conf[:maxmemory_policy] %>
+maxmemory-samples <%= @conf[:maxmemory_samples] %>
 <% end %>
 
 ############################## APPEND ONLY MODE ###############################
@@ -258,7 +258,7 @@ maxmemory-samples <%= node[:redis][:maxmemory_samples] %>
 # IMPORTANT: Check the BGREWRITEAOF to check how to rewrite the append
 # log file in background when it gets too big.
 
-appendonly <%= node[:redis][:appendonly] %>
+appendonly <%= @conf[:appendonly] %>
 
 # The name of the append only file (default: "appendonly.aof")
 # appendfilename appendonly.aof
@@ -283,7 +283,7 @@ appendonly <%= node[:redis][:appendonly] %>
 #
 # If unsure, use "everysec".
 
-appendfsync <%= node[:redis][:appendfsync] %>
+appendfsync <%= @conf[:appendfsync] %>
 
 # When the AOF fsync policy is set to always or everysec, and a background
 # saving process (a background save or AOF log background rewriting) is
@@ -303,7 +303,7 @@ appendfsync <%= node[:redis][:appendfsync] %>
 # 
 # If you have latency problems turn this to "yes". Otherwise leave it as
 # "no" that is the safest pick from the point of view of durability.
-no-appendfsync-on-rewrite <%= node[:redis][:no_appendfsync_on_rewrite] %>
+no-appendfsync-on-rewrite <%= @conf[:no_appendfsync_on_rewrite] %>
 
 ################################ VIRTUAL MEMORY ###############################
 
@@ -316,7 +316,7 @@ no-appendfsync-on-rewrite <%= node[:redis][:no_appendfsync_on_rewrite] %>
 # To enable VM just set 'vm-enabled' to yes, and set the following three
 # VM parameters accordingly to your needs.
 
-vm-enabled <%= node[:redis][:vm][:enabled] %>
+vm-enabled <%= @conf[:vm][:enabled] %>
 
 # This is the path of the Redis swap file. As you can guess, swap files
 # can't be shared by different Redis instances, so make sure to use a swap
@@ -329,7 +329,7 @@ vm-enabled <%= node[:redis][:vm][:enabled] %>
 # *** WARNING *** if you are using a shared hosting the default of putting
 # the swap file under /tmp is not secure. Create a dir with access granted
 # only to Redis user and configure Redis to create the swap file there.
-vm-swap-file <%= node[:redis][:vm][:swap_file] %>
+vm-swap-file <%= @conf[:vm][:swap_file] %>
 
 # vm-max-memory configures the VM to use at max the specified amount of
 # RAM. Everything that deos not fit will be swapped on disk *if* possible, that
@@ -339,7 +339,7 @@ vm-swap-file <%= node[:redis][:vm][:swap_file] %>
 # default, just specify the max amount of RAM you can in bytes, but it's
 # better to leave some margin. For instance specify an amount of RAM
 # that's more or less between 60 and 80% of your free RAM.
-vm-max-memory <%= node[:redis][:vm][:max_memory] %>
+vm-max-memory <%= @conf[:vm][:max_memory] %>
 
 # Redis swap files is split into pages. An object can be saved using multiple
 # contiguous pages, but pages can't be shared between different objects.
@@ -350,7 +350,7 @@ vm-max-memory <%= node[:redis][:vm][:max_memory] %>
 # If you use a lot of small objects, use a page size of 64 or 32 bytes.
 # If you use a lot of big objects, use a bigger page size.
 # If unsure, use the default :)
-vm-page-size <%= node[:redis][:vm][:page_size] %>
+vm-page-size <%= @conf[:vm][:page_size] %>
 
 # Number of total memory pages in the swap file.
 # Given that the page table (a bitmap of free/used pages) is taken in memory,
@@ -363,7 +363,7 @@ vm-page-size <%= node[:redis][:vm][:page_size] %>
 #
 # It's better to use the smallest acceptable value for your application,
 # but the default is large in order to work in most conditions.
-vm-pages <%= node[:redis][:vm][:pages] %>
+vm-pages <%= @conf[:vm][:pages] %>
 
 # Max number of VM I/O threads running at the same time.
 # This threads are used to read/write data from/to swap file, since they
@@ -374,7 +374,7 @@ vm-pages <%= node[:redis][:vm][:pages] %>
 #
 # The special value of 0 turn off threaded I/O and enables the blocking
 # Virtual Memory implementation.
-vm-max-threads <%= node[:redis][:vm][:max_threads] %>
+vm-max-threads <%= @conf[:vm][:max_threads] %>
 
 ############################### ADVANCED CONFIG ###############################
 
@@ -416,7 +416,7 @@ set-max-intset-entries 512
 #
 # use "activerehashing yes" if you don't have such hard requirements but
 # want to free memory asap when possible.
-activerehashing <%= node[:redis][:activerehashing] %>
+activerehashing <%= @conf[:activerehashing] %>
 
 ################################## INCLUDES ###################################
 
@@ -427,3 +427,4 @@ activerehashing <%= node[:redis][:activerehashing] %>
 #
 # include /path/to/local.conf
 # include /path/to/other.conf
+include <%= ::File.join(node[:redis][:conf_dir], "#{@instance}_local.conf") %> 
