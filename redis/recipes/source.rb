@@ -23,10 +23,3 @@ EOS
   interpreter "bash"
 end
 
-init_script = value_for_platform([:debian, :ubuntu] => {:default => "/etc/init.d/redis-server"},
-                              [:centos, :redhat] => {:default => "/etc/rc.d/init.d/redis"},
-                              :default => "/etc/init.d/redis")
-cookbook_file init_script do
-  source "redis.init"
-  mode "0755"
-end

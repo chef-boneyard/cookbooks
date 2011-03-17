@@ -27,7 +27,7 @@ user node[:redis][:user] do
   system true
 end
 
-directory node[:redis][:data_dir] do
+directory node[:redis][:instances][:default][:data_dir] do
   user node[:redis][:user]
   mode "0750"
   recursive true
@@ -35,17 +35,7 @@ end
 
 directory node[:redis][:conf_dir]
 
-if node[:redis][:replication][:role] == "slave"
-  master_node = search(:node, "role:#{node[:redis][:replication][:master_role]}").first
-end
-
-template ::File.join(node[:redis][:conf_dir], "redis.conf") do
-  source "redis.conf.erb"
-  variables :master => master_node if node[:redis][:replication][:role] == "slave"
-end
-
 service "redis" do
   service_name value_for_platform(:default => "redis", [:ubuntu, :debian] => {:default => "redis-server"})
-  pattern "redis-server"
-  action [:enable, :start]
+  action :disable
 end

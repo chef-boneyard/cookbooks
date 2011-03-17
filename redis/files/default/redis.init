@@ -14,7 +14,12 @@
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/local/bin/redis-server
-DAEMON_ARGS=/etc/redis/redis.conf
+INSTANCE_NAME=$(basename $0)
+if [ "$INSTANCE_NAME" == "redis-server" ]; then
+  DAEMON_ARGS=/etc/redis/redis.conf
+else
+  DAEMON_ARGS=/etc/redis/$INSTANCE_NAME.conf
+fi
 NAME=redis-server
 DESC=redis-server
 PIDFILE=/var/run/redis.pid
