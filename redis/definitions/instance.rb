@@ -1,4 +1,4 @@
-define :instance, :port => nil, :data_dir => nil do
+define :redis_instance, :port => nil, :data_dir => nil do
   include_recipe "redis"
   instance_name = "redis_#{params[:name]}"
   node[:redis][:instances][params[:name]] = ::Chef::Attribute.new unless node[:redis][:instances][params[:name]].is_a?(::Chef::Attribute)
