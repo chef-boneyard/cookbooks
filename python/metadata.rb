@@ -1,10 +1,16 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Installs python packages. Includes LWRPs for managing `pip` packages and `virtualenv` isolated Python environments."
-version           "1.0.1"
+description       "Installs Python, pip and virtualenv. Includes LWRPs for managing Python packages with `pip` and `virtualenv` isolated Python environments."
+version           "1.0.2"
+
+depends           "build-essential"
 
 recipe "python", "Installs python, pip, and virtualenv"
+recipe "python::package", "Installs python using packages."
+recipe "python::source", "Installs python from source."
+recipe "python::pip", "Installs pip from source."
+recipe "python::virtualenv", "Installs virtualenv using the python_pip resource."
 
 %w{ debian ubuntu centos redhat fedora }.each do |os|
   supports os

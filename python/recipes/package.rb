@@ -1,7 +1,7 @@
 #
 # Author:: Seth Chisamore <schisamo@opscode.com>
 # Cookbook Name:: python
-# Recipe:: default
+# Recipe:: package
 #
 # Copyright 2011, Opscode, Inc.
 #
@@ -18,6 +18,19 @@
 # limitations under the License.
 #
 
-include_recipe "python::#{node['python']['install_method']}"
-include_recipe "python::pip"
-include_recipe "python::virtualenv"
+python_pkgs = value_for_platform(
+  ["debian","ubuntu"] => {
+    "default" => ["python","python-dev"]
+  },
+  ["centos","redhat","fedora"] => {
+    "default" => ["python26","python26-devel"]
+  },
+  "default" => ["python","python-dev"]
+)
+
+python_pkgs.each do |pkg|
+  package pkg do
+    action :install
+  end
+end
+
