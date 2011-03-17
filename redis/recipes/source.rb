@@ -12,9 +12,12 @@ remote_file ::File.join(node[:redis][:build_dir], ::File.basename(node[:redis][:
   mode "0644"
 end
 
+url = node[:redis][:source_url]
+tarball = url.split("?").first.split("/").last
 script "unpack and make" do
   cwd node[:redis][:build_dir]
   code <<EOS
+  wget -O #{tarball} #{url}
   tar -xzf #{tarball}
   cd #{tarball.sub('.tar.gz','')}
   make
