@@ -28,7 +28,7 @@ user node[:redis][:user] do
 end
 
 directory node[:redis][:instances][:default][:data_dir] do
-  user node[:redis][:user]
+  owner node[:redis][:user]
   mode "0750"
   recursive true
 end

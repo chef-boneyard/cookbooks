@@ -1,3 +1,4 @@
+default[:redis][:install_from] = "package"
 default[:redis][:log_dir] =  "/var/log/redis"
 default[:redis][:conf_dir] = "/etc/redis"
 default[:redis][:user] =     "redis"
