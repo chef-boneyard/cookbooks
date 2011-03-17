@@ -1,12 +1,10 @@
 server {
-  server_name api.doat.com api.prod.doat.com;
+  server_name developer.doat.com;
   listen 80;
-  listen 443 ssl;
-  ssl_certificate <%= node[:nginx][:dir] %>/ssl/<%= node[:doat][:web][:ssl_certificate] %>;
-  ssl_certificate_key <%= node[:nginx][:dir] %>/ssl/<%= node[:doat][:web][:ssl_certificate_key] %>;
   root /opt/doat/www/gondor;
-  error_log <%= node[:nginx][:log_dir] %>/api.doat.com_error.log;
-  access_log <%= node[:nginx][:log_dir] %>/api.doat.com_access.log;
+  error_log <%= node[:nginx][:log_dir] %>/developer.doat.com_error.log;
+  access_log <%= node[:nginx][:log_dir] %>/developer.doat.com_access.log;
+  rewrite ^/min/([a-z]=.*) /min/index.php?$1 last;
   location ~ "\.svn" {
     deny all;
   }

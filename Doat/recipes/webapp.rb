@@ -15,4 +15,10 @@ template ::File.join(node[:nginx][:conf_dir], "sites-enabled", "doat-webui") do
   notifies :reload, "service[nginx]"
 end
 
+template ::File.join(node[:nginx][:conf_dir], "sites-enabled", "doat-developer") do
+  source "nginx-developer.conf.erb"
+  notifies :reload, "service[nginx]"
+end
+
 nginx_site "doat-webui"
+nginx_site "doat-developer"
