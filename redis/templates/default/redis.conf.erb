@@ -55,7 +55,7 @@ loglevel verbose
 # Specify the log file name. Also 'stdout' can be used to force
 # Redis to log on the standard output. Note that if you use standard
 # output for logging but daemonize, logs will be sent to /dev/null
-logfile <%= ::File.join(@conf[:log_dir], "redis_#{@instance_name}.log") %>
+logfile <%= ::File.join(node[:redis][:log_dir], "redis_#{@instance_name}.log") %>
 
 # To enable logging to the system logger, just set 'syslog-enabled' to yes,
 # and optionally update the other syslog parameters to suit your needs.
