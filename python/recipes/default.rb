@@ -50,7 +50,7 @@ bash "install-pip" do
 end
 remote_file "#{Chef::Config[:file_cache_path]}/distribute_setup.py" do
   source "http://python-distribute.org/distribute_setup.py"
-  notifies :run, "bash[install-pip]", :immediate
+  notifies :run, "bash[install-pip]", :immediately
   not_if "which pip"
 end
 
