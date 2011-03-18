@@ -1,0 +1,33 @@
+{
+    "providing": {
+    },
+    "attributes": {
+    },
+    "replacing": {
+    },
+    "dependencies": {
+    },
+    "groupings": {
+    },
+    "recommendations": {
+    },
+    "platforms": {
+      "ubuntu": [
+
+      ]
+    },
+    "license": "Apache 2.0",
+    "version": "0.1.0",
+    "maintainer": "Erlang Solutions Ltd.",
+    "suggestions": {
+    },
+    "recipes": {
+      "latex": "Installs latex"
+    },
+    "maintainer_email": "roberto@erlang-solutions.com",
+    "name": "latex",
+    "conflicting": {
+    },
+    "description": "Installs LateX.",
+    "long_description": ""
+  }
