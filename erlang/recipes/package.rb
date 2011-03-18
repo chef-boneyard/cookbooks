@@ -1,8 +1,8 @@
 # Cookbook Name:: erlang
-# Recipe:: default
-# Author:: Roberto Aloi <roberto@erlang-solutions.com>
+# Recipe:: package
+# Author:: Joe Williams <joe@joetify.com>
 #
-# Copyright 2011, Erlang Solutions Ltd.
+# Copyright 2008-2009, Joe Williams
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,4 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "erlang::#{node[:erlang][:install_method]}"
+
+case node[:platform]
+when "debian", "ubuntu"
+  erlpkg = node[:erlang][:gui_tools] ? "erlang" : "erlang-nox"
+  package erlpkg
+  package "erlang-dev"
+else
+  package "erlang"
+end

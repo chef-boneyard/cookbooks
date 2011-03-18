@@ -6,6 +6,12 @@
     "replacing": {
     },
     "dependencies": {
+	  "build-essential": [
+
+	  ],
+	  "openssl": [
+
+	  ]
     },
     "groupings": {
     },
@@ -20,17 +26,19 @@
       ]
     },
     "license": "Apache 2.0",
-    "version": "0.8.2",
-    "maintainer": "Opscode, Inc.",
+    "version": "0.8.3",
+    "maintainer": "Opscode, Inc. - Erlang Solutions Ltd.",
     "suggestions": {
     },
     "recipes": {
-      "erlang": "Installs erlang"
+      "erlang": "Installs Erlang (default from package)",
+      "erlang::package": "Installs Erlang from package",
+      "erlang:source": "Installs Erlang from source"
     },
     "maintainer_email": "cookbooks@opscode.com",
     "name": "erlang",
     "conflicting": {
     },
-    "description": "Installs erlang, optionally install GUI tools.",
+    "description": "Installs Erlang from package (optionally with GUI tools) or from source code.",
     "long_description": ""
   }

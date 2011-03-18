@@ -1,5 +1,5 @@
 # Cookbook Name:: erlang
-# Recipe:: default
+# Recipe:: source
 # Author:: Roberto Aloi <roberto@erlang-solutions.com>
 #
 # Copyright 2011, Erlang Solutions Ltd.
@@ -16,4 +16,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "erlang::#{node[:erlang][:install_method]}"
+
+# Install required packages
+%w{libncurses5-dev libssl-dev}.each do |pkg|
+  package pkg do
+    action :install
+  end
+end
+
+# Get Erlang and install it
+bash "install_erlang" do
+user "root"
+  cwd "/tmp"
+  code <<-EOH
+  wget http://www.erlang.org/download/otp_src_#{node[:erlang][:version]}.tar.gz
+  tar -zxf otp_src_#{node[:erlang][:version]}.tar.gz
+  cd otp_src_#{node[:erlang][:version]}
+  ./configure
+  make
+  make install
+  EOH
+end

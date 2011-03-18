@@ -1,1 +1,1 @@
-default[:erlang][:gui_tools] = false
+default[:erlang][:install_method] = "package"
