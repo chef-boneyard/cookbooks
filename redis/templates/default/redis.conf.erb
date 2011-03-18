@@ -28,7 +28,7 @@ port <%= @conf[:port] %>
 # specified all the interfaces will listen for incoming connections.
 #
 # bind 127.0.0.1
-<% if @conf.attribute? :bindaddress %>
+<% if @conf.has_key? :bindaddress %>
 bind <%= @conf[:bindaddress] %>
 <% end %>
 
@@ -37,7 +37,7 @@ bind <%= @conf[:bindaddress] %>
 # on a unix socket when not specified.
 #
 # unixsocket /tmp/redis.sock
-<% if @conf.attribute? :socket %>
+<% if @conf.has_key? :socket %>
 unixsocket <%= @conf[:socket] %>
 <% end %>
 
