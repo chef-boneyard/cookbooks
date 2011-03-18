@@ -24,20 +24,22 @@ define :redis_instance, :port => nil, :data_dir => nil do
     mode "0750"
   end
 
-  conf_vars = {:conf => conf}
-  if node[:redis][:instances][:default][:replication][:role] == "slave"
-    master_node = search(:node, "role:#{node[:redis][:default][:replication][:replication][:master_role]}").first
+  conf_vars = {:conf => conf, :instance_name => params[:name]}
+  if node[:redis][:instances][params[:name]][:replication][:role] == "slave"
+    master_node = search(:node, "role:#{node[:redis][params[:name]][:replication][:replication][:master_role]}").first
     conf_vars[:master] = master_node
   end
 
   template ::File.join(node[:redis][:conf_dir], "#{instance_name}.conf") do
     source "redis.conf.erb"
+    cookbook "redis"
     variables conf_vars
     notifies :restart, "service[#{instance_name}]"
   end
 
   cookbook_file ::File.join(init_dir, instance_name) do
     source "redis.init"
+    cookbook "redis"
     mode "0755"
   end
 
