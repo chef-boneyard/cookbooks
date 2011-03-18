@@ -5,23 +5,23 @@ redis_wait_interval = 5
 redis_loading_retries = 100
 
 ### melt ###
-melt_master_redis_host = <%= @redis_master[:ipaddress] %>
-melt_master_redis_port = <%= @redis_master[:redis][:instances][:melt][:port] %>
-melt_slave_redis_host = <%= @redis_slave[:ipaddress] %>
-melt_slave_redis_port = <%= @redis_slave[:redis][:instances][:melt][:port] %>
+melt_master_redis_host = <%= @redis_melt_master[:ipaddress] %>
+melt_master_redis_port = <%= @redis_melt_master[:redis][:instances][:melt][:port] %>
+melt_slave_redis_host = <%= @redis_melt_slave[:ipaddress] %>
+melt_slave_redis_port = <%= @redis_melt_slave[:redis][:instances][:melt][:port] %>
 melt_redis_db = <%= node[:doat][:core][:melt][:redis_db] %>
 
 sql_host = <%= @sql[:hostname] %>
-sql_user = <%= @sql_credentials[:user] %>
+sql_user = <%= @sql_credentials[:username] %>
 sql_password = <%= @sql_credentials[:password] %>
-sql_db = <%= node[:doat][:core][:melt][:db] %>
-sql_port = <%= @sql[:mysql][:port] %>
+sql_db = <%= @app_config["db"] %>
+sql_port = <%= @sql["mysql"]["port"] %>
 
 ### classifier ###
 search_redis_host = <%= @redis_search_node[:ipaddress] %>
 search_redis_port = <%= @redis_search_node[:redis][:instances][:search][:port] %>
 
-max_experiences_autocomplete = <%= @app_config[:max_experiences_autocomplete] %>
+max_experiences_autocomplete = <%= @app_config["max_experiences_autocomplete"] %>
 
 ### autocomplete ###
 autocomplete_host = <%= @autocomplete_node[:ipaddress] %>
@@ -42,22 +42,22 @@ ping_listen_port = <%= node[:doat][:core][:ping_port] %>
 image_web_root = /img
 storage_path = /opt/doat/shared/img
 
-encryption_salt = <%= @app_config[:encryption_salt] %>
-encryption_secret = <%= @app_config[:encryption_secret] %>
+encryption_salt = <%= @app_config["encryption_salt"] %>
+encryption_secret = <%= @app_config["encryption_secret"] %>
 
-default_app_limit = <%= @app_config[:default_app_limit] %>
+default_app_limit = <%= @app_config["default_app_limit"] %>
 
-shared_item_url = <%= @app_config[:shared_item_url] %>
-shared_screenshot_url = <%= @app_config[:shared_screenshot_url] %>
+shared_item_url = <%= @app_config["shared_item_url"] %>
+shared_screenshot_url = <%= @app_config["shared_screenshot_url"] %>
 
 # turn this on to enable app sorting by radar. False until enough users available
-enable_radar = <%= @app_config[:enable_radar] %>
+enable_radar = <%= @app_config["enable_radar"] %>
 
 # turn this off at capaccity limit to prevent new mobile device registration
-allow_new_devices = <%= @app_config[:allow_new_devices] %>
+allow_new_devices = <%= @app_config["allow_new_devices"] %>
 
 # turn this on to enable sharing through facebook, twitter etc.
-share_external = <%= @app_config[:share_external] %>
+share_external = <%= @app_config["share_external"] %>
 
 # turn this on to use Bing for spellchecking, otherwise null
-use_bing = <%= @app_config[:use_bing] %>
+use_bing = <%= @app_config["use_bing"] %>

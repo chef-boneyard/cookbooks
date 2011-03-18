@@ -3,13 +3,13 @@
 
     // CDN configurations
     define('CDN_ENABLED', <%= node[:doat][:apps][:cdn_enabled] %>);
-    define('CDN_TEMPLATE', '<%= @app_config[:cdn_template] %>');
+    define('CDN_TEMPLATE', '<%= @app_config["cdn_template"] %>');
     define('CDN_SERVER_COUNT', <%= node[:doat][:apps][:cdn_server_count] %>);
 
     //Mysql host
     define("SQL_HOST", "<%= @sql[:hostname] %>");
     //mysql database user
-    define("SQL_USER", "<%= @sql_credentials[:user] %>");
+    define("SQL_USER", "<%= @sql_credentials[:username] %>");
     //mysql password
     define("SQL_PASS", "<%= @sql_credentials[:password] %>");
 
@@ -20,5 +20,5 @@
     /* APPS */
 
     // Facebook
-    define("FACEBOOK_APP_ID", "<%= @app_config[:facebook_app_id] %>");
-    define("FACEBOOK_SECRET", "<%= @app_config[:facebook_secret] %>");
+    define("FACEBOOK_APP_ID", "<%= @app_config["facebook_app_id"] %>");
+    define("FACEBOOK_SECRET", "<%= @app_config["facebook_secret"] %>");
