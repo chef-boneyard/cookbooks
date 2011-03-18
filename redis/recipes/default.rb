@@ -37,5 +37,5 @@ directory node[:redis][:conf_dir]
 
 service "redis" do
   service_name value_for_platform(:default => "redis", [:ubuntu, :debian] => {:default => "redis-server"})
-  action :disable
+  action [:disable, :stop]
 end

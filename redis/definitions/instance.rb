@@ -43,6 +43,7 @@ define :redis_instance, :port => nil, :data_dir => nil do
     source "redis.conf.erb"
     cookbook "redis"
     variables conf_vars
+    mode "0644"
     notifies :restart, "service[#{instance_name}]"
   end
 
