@@ -16,6 +16,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+include_recipe "apt"
+
+apt_repository "doat-s3" do
+  key "5B26B6739742320A9AB12D674DAB07B9B95D95FC"
+  keyserver "keyserver.ubuntu.com"
+  uri "http://doat-apt.s3.amazonaws.com/"
+  distribution node[:lsb][:codename]
+  components %w(main)
+  action :add
+end
+
 user "doat" do
   supports :manage_home => true
   action [:create, :manage]
