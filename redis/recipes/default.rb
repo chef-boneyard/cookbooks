@@ -35,6 +35,12 @@ end
 
 directory node[:redis][:conf_dir]
 
+directory node[:redis][:pid_dir] do
+  owner node[:redis][:user]
+  mode "0750"
+  recursive true
+end
+
 service "redis" do
   service_name value_for_platform(:default => "redis", [:ubuntu, :debian] => {:default => "redis-server"})
   action [:disable, :stop]

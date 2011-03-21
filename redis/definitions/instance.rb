@@ -64,6 +64,7 @@ define :redis_instance, :port => nil, :data_dir => nil do
   service instance_name do
     if node.platform == "ubuntu"
       supports :reload => false, :restart => true, :start => true, :stop => true
+      provider ::Chef::Provider::Service::Upstart
     else
       supports :reload => false, :restart => false, :start => true, :stop => true
     end

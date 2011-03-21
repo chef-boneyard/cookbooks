@@ -1,6 +1,7 @@
 default[:redis][:install_from] = "package"
 default[:redis][:log_dir] =  "/var/log/redis"
 default[:redis][:conf_dir] = "/etc/redis"
+default[:redis][:pid_dir] = "/var/run/redis"
 default[:redis][:user] =     "redis"
 default[:redis][:instances][:default][:timeout] = 300
 default[:redis][:instances][:default][:dumpdb_filename] = "dump.db"
