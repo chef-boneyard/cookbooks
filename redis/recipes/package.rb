@@ -4,3 +4,4 @@ pkg = value_for_platform( [:ubuntu, :debian] => {:default => "redis-server"},
                          [:centos, :redhat] => {:default => "redis"},
                          :default => "redis")
 package pkg
+node[:redis][:daemon] = "/usr/bin/redis-server"

@@ -47,14 +47,26 @@ define :redis_instance, :port => nil, :data_dir => nil do
     notifies :restart, "service[#{instance_name}]"
   end
 
-  cookbook_file ::File.join(init_dir, instance_name) do
-    source "redis.init"
-    cookbook "redis"
-    mode "0755"
+  if node.platform == "ubuntu"
+    template "/etc/init/#{instance_name}.conf" do
+      cookbook "redis"
+      source "redis.upstart.conf.erb"
+      variables :instance_name => instance_name
+    end
+  else
+    cookbook_file ::File.join(init_dir, instance_name) do
+      source "redis.init"
+      cookbook "redis"
+      mode "0755"
+    end
   end
 
   service instance_name do
-    supports :reload => false, :restart => true, :start => true, :stop => true
+    if node.platform == "ubuntu"
+      supports :reload => false, :restart => true, :start => true, :stop => true
+    else
+      supports :reload => false, :restart => false, :start => true, :stop => true
+    end
     running true
     action [:start, :enable]
   end
