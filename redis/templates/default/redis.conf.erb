@@ -427,4 +427,3 @@ activerehashing <%= @conf[:activerehashing] %>
 #
 # include /path/to/local.conf
 # include /path/to/other.conf
-include <%= ::File.join(node[:redis][:conf_dir], "#{@instance_name}_local.conf") %> 
