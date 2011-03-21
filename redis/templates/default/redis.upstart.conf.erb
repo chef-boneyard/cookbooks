@@ -1,0 +1,6 @@
+# Upstart job file for redis instance
+start on started networking
+stop on runlevel [!2345]
+
+expect fork
+exec /sbin/start-stop-daemon --start -c <%= node[:redis][:user] %> --exec <%= node[:redis][:daemon] %> -p <%= ::File.join(node[:redis][:pid_dir], @instance_name + ".pid")%> -- <%= ::File.join(node[:redis][:conf_dir], "#{@instance_name}.conf") %>
