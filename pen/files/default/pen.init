@@ -1,0 +1,96 @@
+#! /bin/sh
+#set -x
+#
+# Start und Stopskript fuer den Loadbalancer Pen
+#
+# /etc/init.d/pen
+#
+# Written by Miquel van Smoorenburg <miquels@drinkel.ow.org>.
+# Modified for Debian GNU/Linux by Ian Murdock <imurdock@gnu.ai.mit.edu>.
+# Modified for exim by Tim Cutts <timc@chiark.greenend.org.uk>
+# Modified for pen by Torsten Goedicke <goedicke@wlw.de>
+
+#set -e
+
+JOBNAME="$0"
+NAME=pen
+DAEMON=/usr/local/bin/${NAME}_mon.sh
+CF=/etc/pen/$NAME.cf
+
+case `uname` in
+  SunOS) ECHOSW=""
+         ECHONL="\c"
+         PS="ps -ef"
+         ;;
+  Linux) ECHOSW="-n"
+         ECHONL=""
+         PS="ps x"
+         ;;
+  *)     ;;
+esac
+
+PIDDIR="/var/run"
+PIDALL="$PIDDIR/run$NAME.pid"
+
+if [ -f $CF ]; then
+  . $CF
+else
+  echo "Error: Configuration file $CF not found" && exit 0
+fi
+
+test -x $DAEMON || exit 0
+
+case "$1" in
+  start)
+    PID=`$PS | grep $NAME | grep -v grep | grep -v $JOBNAME`
+    if [ -n "$PID" ]; then
+      echo "Loadbalancer $NAME is already running as"
+      echo "$PID"
+    else
+      echo $ECHOSW "Starting Loadbalancer: $ECHONL"
+      for i in $COUNT
+      do
+        eval PIDFILE=\$PID${i}
+        eval OPTIONS=\$PEN${i}
+        CFFILE=`echo $PIDFILE | sed 's/pid/conf/'`
+        echo $OPTIONS > $CFFILE
+        $DAEMON $CFFILE &
+        echo $! >> $PIDALL
+      done
+      echo "$NAME."
+    fi
+    ;;
+  stop)
+    echo $ECHOSW "Stopping Loadbalancer: $ECHONL"
+    test -f $PIDALL && kill -TERM `cat $PIDALL` 2> /dev/null
+    test -f $PIDALL && kill -KILL `cat $PIDALL` 2> /dev/null
+    rm -f $PIDALL
+    for i in $COUNT
+    do
+      eval PIDFILE=\$PID${i}
+      eval OPTIONS=\$PEN${i}
+      CFFILE=`echo $PIDFILE | sed 's/pid/conf/'`
+      test -f $PIDFILE && kill -TERM `cat $PIDFILE` 2> /dev/null
+      rm -f $PIDFILE $CFFILE
+    done
+    echo "$NAME."
+    ;;
+  restart)
+    echo $ECHOSW "Restarting Loadbalancer: $ECHONL"
+    for i in $COUNT
+    do
+      eval PIDFILE=\$PID${i}
+      eval OPTIONS=\$PEN${i}
+      CFFILE=`echo $PIDFILE | sed 's/pid/conf/'`
+      echo $OPTIONS > $CFFILE
+      kill -TERM `cat $PIDFILE`
+    done
+    echo "$NAME."
+    ;;
+  *)
+    echo "Usage: /etc/init.d/$NAME {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0

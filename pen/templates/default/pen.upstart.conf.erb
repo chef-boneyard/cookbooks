@@ -1,0 +1,7 @@
+author "Avishai Ish-Shalom <avishai@fewbytes.com>"
+description "Upstart job for Pen load balancer cluster: <%= @name %>"
+
+service
+respawn
+respawn limit 5 15
+exec /usr/bin/pen <%= @port %> <%= @pen_nodes.join(" ") %>
