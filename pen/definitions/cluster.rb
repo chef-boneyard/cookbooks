@@ -1,5 +1,6 @@
 define :pen_cluster, :nodes => nil, :port => nil, :user => 'root',
   :timeout => 5, :check_interval => 60 do
+  include_recipe "pen"
   svc = "pen-#{params[:name]}"
 
   pen_nodes = params[:nodes].map do |n|
