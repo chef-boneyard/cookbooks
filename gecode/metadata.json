@@ -1,0 +1,32 @@
+{
+  "attributes": {
+  },
+  "providing": {
+  },
+  "dependencies": {
+    "apt": [
+
+    ]
+  },
+  "maintainer": "YOUR_COMPANY_NAME",
+  "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
+  "replacing": {
+  },
+  "maintainer_email": "YOUR_EMAIL",
+  "groupings": {
+  },
+  "platforms": {
+  },
+  "license": "All rights reserved",
+  "version": "0.0.1",
+  "recipes": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "name": "gecode",
+  "description": "Installs/Configures gecode",
+  "conflicting": {
+  }
+}
