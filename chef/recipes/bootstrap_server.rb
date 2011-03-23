@@ -45,6 +45,7 @@ when "ubuntu"
 
   include_recipe "java"
   include_recipe "rabbitmq_chef"
+  include_recipe "gecode"
 when "debian"
   if node[:platform_version] =~ /.*sid/
     include_recipe "couchdb"
@@ -54,14 +55,17 @@ when "debian"
 
   include_recipe "java"
   include_recipe "rabbitmq_chef"
+  include_recipe "gecode"
 when "centos","redhat","fedora"
   include_recipe "java"
   include_recipe "couchdb"
   include_recipe "rabbitmq_chef"
+  include_recipe "gecode"
 else
   log("Unknown platform for CouchDB. Manual installation of CouchDB required.")
   log("Unknown platform for RabbitMQ. Manual installation of RabbitMQ required.")
   log("Unknown platform for Java. Manual installation of Java required.")
+  log("Unknown platform for gecode. Manual installation of gecode required.")
   log("Components that rely on these packages being installed may fail to start.")
 end
 
