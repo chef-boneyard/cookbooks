@@ -19,7 +19,7 @@ define :pen_cluster, :nodes => nil, :port => nil, :user => 'root',
   end
 
   service svc do
-    running :true
+    running true
     start_command "pen " + params[:nodes].join(" ")
     action :start
   end
