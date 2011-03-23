@@ -32,7 +32,7 @@ template "/etc/teamspeak-server/server.ini" do
   mode "0600"
 end
 
-include_recipe "php::php5"
+include_recipe "php"
 include_recipe "apache2::mod_php5"
 
 directory "/srv/www/tsdisplay" do

@@ -17,3 +17,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+include_recipe "php::#{node['php']['install_method']}"
+
+# update the main channels
+php_pear_channel 'pear.php.net' do
+  action :update
+end
+
+php_pear_channel 'pecl.php.net' do
+  action :update
+end

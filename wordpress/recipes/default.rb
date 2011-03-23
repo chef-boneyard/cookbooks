@@ -105,7 +105,15 @@ template "#{node[:wordpress][:dir]}/wp-config.php" do
   notifies :write, resources(:log => "Navigate to 'http://#{server_fqdn}/wp-admin/install.php' to complete wordpress installation")
 end
 
-include_recipe %w{php::php5 php::module_mysql}
+include_recipe "php"
+include_recipe "apache2::mod_php5"
+
+package "php-mysql" do
+  package_name value_for_platform(
+  ["centos", "redhat", "fedora"] => { "default" => "php-mysql" },
+  "default" => "php5-mysql"
+  )
+end
 
 web_app "wordpress" do
   template "wordpress.conf.erb"

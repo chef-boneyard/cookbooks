@@ -1,65 +1,56 @@
 {
-    "providing": {
-    },
-    "platforms": {
-      "debian": [
+  "name": "php",
+  "description": "Installs and maintains php and php modules",
+  "long_description": "",
+  "maintainer": "Opscode, Inc.",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "debian": [
 
-      ],
-      "fedora": [
+    ],
+    "ubuntu": [
 
-      ],
-      "centos": [
+    ],
+    "centos": [
 
-      ],
-      "suse": [
+    ],
+    "redhat": [
 
-      ],
-      "ubuntu": [
+    ],
+    "fedora": [
 
-      ],
-      "redhat": [
+    ]
+  },
+  "dependencies": {
+    "build-essential": [
 
-      ]
-    },
-    "description": "Installs and maintains php and php modules",
-    "attributes": {
-    },
-    "replacing": {
-    },
-    "dependencies": {
-      "apache2": [
+    ],
+    "xml": [
 
-      ]
-    },
-    "version": "0.9.2",
-    "groupings": {
-    },
-    "long_description": "",
-    "recommendations": {
-    },
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
-    },
-    "license": "Apache 2.0",
-    "name": "php",
-    "maintainer_email": "cookbooks@opscode.com",
-    "recipes": {
-      "php::php4": "Install packages for PHP version 4",
-      "php::module_fpdf": "Install the php-fpdf package",
-      "php::php5": "Install php5 packages and php.ini config file",
-      "php::php5-cgi": "Install the php5-cgi package",
-      "php": "Empty, use one of the other recipes",
-      "php::module_sqlite3": "Install the php5-sqlite3 package",
-      "php::module_ldap": "Install the php5-ldap package",
-      "php::module_gd": "Install the php5-gd package",
-      "php::module_apc": "Install the php5-apc package",
-      "php::module_memcache": "Install the php5-memcache package",
-      "php::module_mysql": "Install the php5-mysql package",
-      "php::module_fileinfo": "Install the php5-fileinfo package",
-      "php::module_curl": "Install the php5-curl package",
-      "php::pear": "Install the php-pear package",
-      "php::module_pgsql": "Install the php5-pgsql packag"
-    },
-    "conflicting": {
-    }
-  }
+    ],
+    "mysql": [
+
+    ]
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "php": "Installs php",
+    "python::package": "Installs php using packages.",
+    "python::source": "Installs php from source."
+  },
+  "version": "0.99.0"
+}
