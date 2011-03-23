@@ -17,6 +17,6 @@ recipe            "chef::server_proxy", "Configures Apache2 proxy for API and We
   supports os
 end
 
-%w{ runit bluepill daemontools couchdb rabbitmq_chef apache2 openssl zlib xml java }.each do |cb|
+%w{ runit bluepill daemontools couchdb rabbitmq_chef apache2 openssl zlib xml java gecode}.each do |cb|
   depends cb
 end
