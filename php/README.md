@@ -180,7 +180,7 @@ This recipe installs PHP from source.
 Deprecated Recipes
 ==================
 
-The following recipes are deprecated and have been removed from the cookbook. To retrieve an older version, reference version 0.9.1 of this cookbook.
+The following recipes are deprecated and will be removed from a future version of this cookbook.
 
 * `module_apc`
 * `module_curl`
