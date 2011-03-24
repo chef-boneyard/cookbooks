@@ -48,7 +48,6 @@ when "init"
   chef_version = node.chef_packages.chef["version"]
 
   init_content = IO.read("#{node["languages"]["ruby"]["gems_dir"]}/gems/chef-#{chef_version}/distro/#{dist_dir}/etc/init.d/chef-client")
-  conf_content = IO.read("#{node["languages"]["ruby"]["gems_dir"]}/gems/chef-#{chef_version}/distro/#{dist_dir}/etc/#{conf_dir}/chef-client")
 
   file "/etc/init.d/chef-client" do
     content init_content
@@ -56,8 +55,8 @@ when "init"
     notifies :restart, "service[chef-client]", :delayed
   end
 
-  file "/etc/#{conf_dir}/chef-client" do
-    content conf_content
+  template File.join( File::SEPARATOR,"etc",conf_dir,"chef-client" ) do
+    source "chef-client.erb"
     mode 0644
   end
 

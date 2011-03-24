@@ -1,0 +1,7 @@
+LOGFILE=<%= node["chef_client"]["log_file"] %>
+CONFIG=/etc/chef/client.rb
+INTERVAL=<%= node["chef_client"]["interval"] %>
+SPLAY=<%= node["chef_client"]["splay"] %>
+PIDFILE=/var/run/chef/client.pid
+LOCKFILE=/var/lock/subsys/chef-client
+OPTIONS="-L $LOGFILE -d -c $CONFIG -i $INTERVAL -s $SPLAY"
