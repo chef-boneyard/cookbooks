@@ -119,7 +119,7 @@ dir <%= @conf[:data_dir] %>
 # so for example it is possible to configure the slave to save the DB with a
 # different interval, or to listen to another port, and so on.
 #
-slaveof <%= @master[:ipaddress] %> <%= @master[:redis][:port] %>
+slaveof <%= @master[:ipaddress] %> <%= @master[:redis][:instances][@instance_name][:port] %>
 
 # If the master is password protected (using the "requirepass" configuration
 # directive below) it is possible to tell the slave to authenticate before

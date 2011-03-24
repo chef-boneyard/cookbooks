@@ -35,7 +35,7 @@ define :redis_instance, :port => nil, :data_dir => nil do
 
   conf_vars = {:conf => conf, :instance_name => params[:name]}
   if node[:redis][:instances][params[:name]][:replication][:role] == "slave"
-    master_node = search(:node, "role:#{node[:redis][params[:name]][:replication][:replication][:master_role]}").first
+    master_node = search(:node, "role:#{node[:redis][:instances][params[:name]][:replication][:master_role]}").first
     conf_vars[:master] = master_node
   end
 
