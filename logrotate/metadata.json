@@ -1,42 +1,42 @@
 {
-    "recommendations": {
-    },
-    "attributes": {
-    },
-    "maintainer": "Scott M. Likens",
-    "suggestions": {
-    },
-    "dependencies": {
-    },
-    "maintainer_email": "scott@likens.us",
-    "conflicting": {
-    },
-    "platforms": {
-      "debian": [
+  "name": "logrotate",
+  "description": "Keeps logrotate package updated and has definition for logrotate configs",
+  "long_description": "DESCRIPTION\n====\n\nManages the logrotate package and provides a definition to manage application specific logrotate configuration.\n\nREQUIREMENTS\n====\n\nShould work on any platform that includes a 'logrotate' package and writes logrotate configuration to /etc/logrotate.d. Tested on Ubuntu, Debian and Red Hat/CentOS.\n\nDEFINITIONS\n====\n\n* ``logrotate_app``\n\nThis definition can be used to drop off customized logrotate config files on a per application basis.\n\nThe definition takes the following params:\n\n* path: specifies a single path (string) or multiple paths (array) that should have logrotation stanzas created in the config file. No default, this must be specified.\n* enable: true/false, if true it will create the template in /etc/logrotate.d.\n* frequency: sets the frequency for rotation. Default value is 'weekly'. Valid values are: daily, weekly, monthly, yearly, see the logrotate man page for more information.\n* template: sets the template source, default is \"logrotate.erb\".\n* cookbook: select the template source from the specified cookbook. By default it will use the cookbook where the definition is used.\n* create: creation parameters for the logrotate \"create\" config, follows the form \"mode owner group\".\n\nSee USAGE below.\n\nUSAGE\n====\n\nThe default recipe will ensure logrotate is always up to date.\n\nTo create application specific logrotate configs, use the `logrotate_app` definition. For example, to rotate logs for a tomcat application named myapp that writes its log file to /var/log/tomcat/myapp.log:\n\n    logrotate_app \"tomcat-myapp\" do\n      cookbook \"logrotate\"\n      path \"/var/log/tomcat/myapp.log\"\n      frequency \"daily\"\n      rotate 30\n      create \"644 root adm\"\n    end\n\nTo rotate multiple logfile paths, specify the path as an array:\n\n    logrotate_app \"tomcat-myapp\" do\n      cookbook \"logrotate\"\n      path [ \"/var/log/tomcat/myapp.log\", \"/opt/local/tomcat/catalina.out\" ]\n      frequency \"daily\"\n      create \"644 root adm\"\n      rotate 7\n    end\n\nLICENSE AND AUTHOR\n====\n\nAuthor:: Scott M. Likens (<scott@likens.us>)\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\nCopyright:: 2009, Scott M. Likens\nCopyright:: 2011, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Opscode, Inc.",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "redhat": [
 
-      ],
-      "centos": [
+    ],
+    "centos": [
 
-      ],
-      "ubuntu": [
+    ],
+    "debian": [
 
-      ],
-      "redhat": [
+    ],
+    "ubuntu": [
 
-      ]
-    },
-    "license": "Apache 2.0",
-    "version": "0.8.1",
-    "providing": {
-    },
-    "recipes": {
-      "logrotate": "Installs logrotate"
-    },
-    "replacing": {
-    },
-    "name": "logrotate",
-    "description": "Installs logrotate",
-    "groupings": {
-    },
-    "long_description": "= DESCRIPTION:\n\nLogrotate configuration\n\n= REQUIREMENTS:\n\nDebian or Ubuntu preferred.\n\nRed Hat/CentOS and Fedora can be used but will be converted to a Debian/Ubuntu style Apache as it's far easier to manage with chef. \n\n= ATTRIBUTES:\n\n* none\n\nGeneral settings and prefork/worker attributes are tunable.\n\n= USAGE:\n\ninclude the recipe and it will install a default logrotate, if you want it to do more however...\n\nmake a recipe such as,\n\nlogrotate_app \"chef\" do\n  paths \"/var/log/chef/*.log\"\n  rotate 4\nend\n\n== Defines:\n\n* logrotate_app:: sets up a logrotate configuration file\n\n= LICENSE & AUTHOR:\n\nAuthor:: Scott M. Likens (<scott@likens.us>)\nCopyright:: 2009, Scott M. Likens\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n"
-  }
+    ]
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "logrotate": "Keeps logrotate package updated"
+  },
+  "version": "0.8.2"
+}

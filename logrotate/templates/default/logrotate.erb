@@ -1,9 +1,12 @@
-<%= @paths %> {
-        weekly
-        missingok
-        rotate <%= @rotate %>
-        compress
-        delaycompress
-        copytruncate
+<% @path.each do |p| -%>
+<%= p %> {
+  <%= @frequency %>
+  missingok
+  rotate <%= @rotate %>
+  compress
+  delaycompress
+  copytruncate
+  notifempty
+  create <%= @create %>
 }
-
+<% end -%>

@@ -17,26 +17,36 @@
 # limitations under the License.
 #
 
-define :logrotate_app, :enable => true do
+define :logrotate_app, :enable => true, :frequency => "weekly", :template => "logrotate.erb", :cookbook => "logrotate" do
   include_recipe "logrotate"
 
-    if params[:enable]
-      template "/etc/logrotate.d/#{params[:name]}" do
-        source "logrotate.erb"
-        mode 0440
-        owner "root"
-        group "root"
-        backup false
-        variables(
-          :paths => params[:paths],
-          :rotate => params[:rotate]
-        )
-      end
-    else
-      execute "rm /etc/logrotate.d/#{params[:name]}" do
+  path = params[:path].respond_to?(:each) ? params[:path] : params[:path].split
+  create = params[:create] ? params[:create] : "644 root adm"
+
+  if params[:enable]
+
+    template "/etc/logrotate.d/#{params[:name]}" do
+      source params[:template]
+      cookbook params[:cookbook]
+      mode 0440
+      owner "root"
+      group "root"
+      backup false
+      variables(
+        :path => path,
+        :create => create,
+        :frequency => params[:frequency],
+        :rotate => params[:rotate]
+      )
+    end
+
+  else
+
+    execute "rm /etc/logrotate.d/#{params[:name]}" do
       only_if FileTest.exists?("/etc/logrotate.d/#{params[:name]}")
       command "rm /etc/logrotate.d/#{params[:name]}"
-      end
     end
+
+  end
 end
 
