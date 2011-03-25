@@ -17,8 +17,8 @@
 # limitations under the License.
 #
 
-Chef::Log.warn("This recipe will be deprecated soon, please use java::default")
+Chef::Log.warn("This recipe will be deprecated soon, please use java::sun")
 
-node["java"]["install_flavor"] = "sun"
+node.set['java']['install_flavor'] = "sun"
 
 include_recipe "java"
