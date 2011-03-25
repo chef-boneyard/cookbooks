@@ -1,6 +1,6 @@
 = DESCRIPTION:
 
-Installs and configures Nagios 3 for a server and for clients using Chef 0.8 search capabilities.
+Installs and configures Nagios 3 for a server and for clients using Chef 0.8 search capabilities. Also can setup nsca client for passive checks.
 
 = REQUIREMENTS:
 
@@ -23,6 +23,16 @@ Tested on Ubuntu 9.04+ and Debian 5+.
 = ATTRIBUTES:
 
 Attributes under the 'nagios' namespace.
+
+== Send_nsca:
+
+
+nsca.config - Where the send_nsca.cfg file is stored
+nsca.package - nsca package name
+nsca.password
+nsca.encryption_method
+nsca.port
+
 
 == Client:
 
