@@ -496,5 +496,5 @@
     "apache2::mod_ssl": "Apache module 'ssl' with config file, adds port 443 to listen_ports",
     "apache2::mod_status": "Apache module 'status' with config file"
   },
-  "version": "0.99.2"
+  "version": "0.99.3"
 }
