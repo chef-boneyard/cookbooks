@@ -1,48 +1,50 @@
 {
-  "providing": {
-  },
+  "name": "java",
+  "description": "Installs Java runtime.",
+  "long_description": "Description\n===========\n\nInstalls a Java. Uses OpenJDK by default but supports installation of the Sun's Java (Debian and Ubuntu platforms only).\n\n---\nRequirements\n============\n\nPlatform\n--------\n\n* Debian, Ubuntu (OpenJDK, Sun)\n* CentOS, Red Hat, Fedora (OpenJDK)\n\nCookbooks\n---------\n\n* apt\n\n---\nAttributes\n==========\n\n* `node[\"java\"][\"install_flavor\"]` - Flavor of JVM you would like installed (`sun` or `openjdk`), default `openjdk`.\n\n---\nRecipes\n=======\n\ndefault\n-------\n\nInclude the default recipe in a run list, to get `java`.  By default the `openjdk` flavor of Java is installed, but this can be changed by using the `install_flavor` attribute.\n\nopenjdk\n-------\n\nThis recipe installs the `openjdk` flavor of Java.\n\nsun\n---\n\nThis recipe installs the `sun` flavor of Java.  The Sun flavor of Java is only supported on Debian and Ubuntu systems, the recipe will preseed the package and update java alternatives.\n\n---\nUsage\n=====\n\nSimply include the `php` recipe where ever you would like php installed.  To install from source override the `node['java']['install_flavor']` attribute with in a role:\n\n    name \"java\"\n    description \"Install Sun Java.\"\n    override_attributes(\n      \"java\" => {\n        \"install_flavor\" => \"source\"\n      }\n    )\n    run_list(\n      \"recipe[java]\"\n    )\n\nLicense and Author\n==================\n\nAuthor:: Seth Chisamore (<schisamo@opscode.com>)\n\nCopyright:: 2008-2011, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
   "maintainer": "Opscode, Inc.",
-  "replacing": {
-  },
-  "description": "Installs java via openjdk.",
   "maintainer_email": "cookbooks@opscode.com",
-  "groupings": {
-  },
-  "attributes": {
-  },
-  "recommendations": {
+  "license": "Apache 2.0",
+  "platforms": {
+    "debian": [
+
+    ],
+    "ubuntu": [
+
+    ],
+    "centos": [
+
+    ],
+    "redhat": [
+
+    ],
+    "fedora": [
+
+    ]
   },
   "dependencies": {
     "apt": [
 
     ]
   },
+  "recommendations": {
+  },
   "suggestions": {
   },
-  "long_description": "Description\n===========\n\nInstalls a Java. Uses OpenJDK by default but supports installation of the Sun's Java (Debian and Ubuntu platforms only).\n\nRequirements\n============\n\nPlatform: \n\n* Debian, Ubuntu (OpenJDK, Sun)\n* CentOS, Red Hat, Fedora (OpenJDK)\n\nThe following Opscode cookbooks are dependencies:\n\n* apt\n\nAttributes\n==========\n\n* `node[\"java\"][\"install_flavor\"]` - Type of JRE you would like installed (\"sun\" or \"openjdk\"), default \"openjdk\".\n\nUsage\n=====\n\nSimply include the recipe where you want Java installed.\n\nIf you would like to use the Sun flavor of Java, create a role and set the `java[install_flavor]` attribute to `'sun'`.  \n\n    % knife role show java\n    {\n      \"name\": \"java\",\n      \"chef_type\": \"role\",\n      \"json_class\": \"Chef::Role\",\n      \"default_attributes\": {\n        \"java\": {\n          \"install_flavor\":\"sun\"\n        }\n      },\n      \"description\": \"\",\n      \"run_list\": [\n        \"recipe[java]\"\n      ],\n      \"override_attributes\": {\n      }\n    }\n\nThe Sun flavor of Java is only supported on Debian and Ubuntu systems, the recipe will preseed the package and update java alternatives.\n\nLicense and Author\n==================\n\nAuthor:: Seth Chisamore (<schisamo@opscode.com>)\n\nCopyright:: 2008-2010, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
-  "platforms": {
-    "debian": [
-
-    ],
-    "fedora": [
-
-    ],
-    "centos": [
-
-    ],
-    "ubuntu": [
-
-    ],
-    "redhat": [
-
-    ]
-  },
-  "name": "java",
-  "version": "0.10.3",
   "conflicting": {
   },
-  "license": "Apache 2.0",
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
   "recipes": {
-    "java": "Installs openjdk to provide Java"
-  }
+    "java": "Installs Java runtime",
+    "java::openjdk": "Installs the OpenJDK flavor of Java",
+    "java::sun": "Installs the Sun flavor of Java"
+  },
+  "version": "1.0.0"
 }

@@ -1,25 +1,10 @@
 {
-  "providing": {
-  },
-  "maintainer": "Opscode, Inc.",
-  "replacing": {
-  },
+  "name": "java_sun",
   "description": "Installs Sun java",
-  "maintainer_email": "cookbooks@opscode.com",
-  "groupings": {
-  },
-  "attributes": {
-  },
-  "recommendations": {
-  },
-  "dependencies": {
-    "java": [
-
-    ]
-  },
-  "suggestions": {
-  },
   "long_description": "Description\n===========\n\n*THIS COOKBOOK HAS BEEN DEPRECATED.*  Please use the `java` cookbook with the proper `install_flavor` attribute set.\n\nThe default recipe in this cookbook simply points to the `java::default` recipe with the `node[\"java\"][\"install_flavor\"]` attribute set to `sun`\n\nRequirements\n============\n\nPlatform: Ubuntu, Debian.\n\nUsage\n=====\n\nSimply include the recipe where you want Sun Java installed.\n\nLicense and Author\n==================\n\nCopyright 2008-2010, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Opscode, Inc.",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
   "platforms": {
     "debian": [
 
@@ -28,12 +13,27 @@
 
     ]
   },
-  "name": "java_sun",
-  "version": "0.10.0",
+  "dependencies": {
+    "java": [
+
+    ]
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
   "conflicting": {
   },
-  "license": "Apache 2.0",
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
   "recipes": {
     "java_sun": "Installs Sun Java using preseed to accept terms"
-  }
+  },
+  "version": "0.10.0"
 }
