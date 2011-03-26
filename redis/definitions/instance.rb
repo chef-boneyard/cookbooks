@@ -68,7 +68,6 @@ define :redis_instance, :port => nil, :data_dir => nil do
     else
       supports :reload => false, :restart => false, :start => true, :stop => true
     end
-    running true
     action [:start, :enable]
   end
 end
