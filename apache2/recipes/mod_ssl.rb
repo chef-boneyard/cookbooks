@@ -35,6 +35,7 @@ template "#{node[:apache][:dir]}/ports.conf" do
   source "ports.conf.erb"
   variables :apache_listen_ports => ports
   notifies :restart, resources(:service => "apache2")
+  mode 0644
 end
 
 apache_module "ssl" do
