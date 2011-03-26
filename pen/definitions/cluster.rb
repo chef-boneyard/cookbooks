@@ -12,16 +12,27 @@ define :pen_cluster, :nodes => nil, :port => nil, :user => 'root',
     a.join(':')
   end
 
-  template "/etc/init/#{svc}.conf" do
+  if node[:pen][:init_style] == "upstart"
+    init_file = "/etc/init/#{svc}.conf"
+    init_template = "pen.upstart.conf.erb"
+  else
+    init_file = "/etc/init.d/#{svc}.conf"
+    init_template = "pen.init.erb"
+  end
+
+  template init_file do
     notifies :restart, "service[#{svc}]"
-    variables :pen_nodes => pen_nodes, :port => params[:port], :name => params[:node]
-    source "pen.upstart.conf.erb"
+    variables :pen_nodes => pen_nodes, :port => params[:port], :name => params[:name]
+    source init_template
     cookbook "pen"
   end
 
   service svc do
     action :start
-    provider ::Chef::Provider::Service::Upstart
+    if node[:pen][:init_style] == "upstart"
+      provider ::Chef::Provider::Service::Upstart
+      restart_command "stop #{svc}; start #{svc}"
+    end
   end
 end
 
