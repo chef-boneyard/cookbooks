@@ -21,14 +21,14 @@ pkgs = value_for_platform(
   ["centos","redhat","fedora"] => {
     "default" => ["java-1.6.0-openjdk","java-1.6.0-openjdk-devel"]
   },
-  "default" => ["openjdk-6-jre","openjdk-6-jdk","default-jre"]
+  "default" => ["openjdk-6-jdk","default-jdk"]
 )
 
 execute "update-java-alternatives" do
   command "update-java-alternatives -s java-6-openjdk"
   returns [0,2]
   action :nothing
-  only_if do platform?("ubuntu", "debian") end
+  only_if { platform?("ubuntu", "debian") }
 end
 
 pkgs.each do |pkg|
