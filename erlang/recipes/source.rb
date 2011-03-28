@@ -25,8 +25,9 @@
 end
 
 # Get Erlang and install it
-bash "install_erlang" do
-user "root"
+script "install_erlang" do
+  interpreter "bash"
+  user "root"
   cwd "/tmp"
   code <<-EOH
   wget http://www.erlang.org/download/otp_src_#{node[:erlang][:version]}.tar.gz

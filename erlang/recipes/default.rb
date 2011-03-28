@@ -17,3 +17,21 @@
 # limitations under the License.
 #
 include_recipe "erlang::#{node[:erlang][:install_method]}"
+
+if #{node[:erlang][:eqc][:install]} == true
+    package "unzip" do
+      action :install
+    end
+    script "install_eqc" do
+    interpreter "bash"
+    user "root"
+    cwd "/tmp"
+    code <<-EOH
+      wget #{node[:erlang][:eqc][:url]}
+      unzip -o eqc.zip
+      cd QuickCheck
+      cp -r eqc-* eqc_mcerlang-* pulse-* /usr/local/lib/erlang/lib/
+      erl -noinput -sname eqc -eval 'rpc:call(nonode@nohost, eqc, registration, ["#{node[:erlang][:eqc][:licence]}"]).' -s init stop
+      EOH
+  end
+end

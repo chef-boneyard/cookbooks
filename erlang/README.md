@@ -2,6 +2,7 @@ DESCRIPTION
 ===========
 
 Installs Erlang from package (optionally with GUI tools) or from source code.
+Optionally installs Erlang Quickcheck
 
 REQUIREMENTS
 ============
@@ -24,6 +25,9 @@ ATTRIBUTES
 * `node[:erlang][:install_method]` - "package" (default) or "source"
 * `node[:erlang][:version]` - Erlang Version to Install (e.g. "R14B02"). Used only during installation from source
 * `node[:erlang][:gui_tools]` - Optionally installs GUI tools. Used only during installation from package
+* `node[:erlang][:eqc][:install]` = Optionally installs Erlang QuickCheck
+* `node[:erlang][:eqc][:url]` = URL for Erlang QuickCheck
+* `node[:erlang][:eqc][:licence]` = License code for Erlang QuickCheck
 
 RECIPES
 =======
