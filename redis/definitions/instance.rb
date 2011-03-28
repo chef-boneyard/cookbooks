@@ -1,6 +1,8 @@
 define :redis_instance, :port => nil, :data_dir => nil do
   include_recipe "redis"
   instance_name = "redis_#{params[:name]}"
+  # if no explicit replication role was defined, it's a master
+  node.default[:redis][params[:name]][:replication][:role] = "master"
   node[:redis][:instances][params[:name]] = {} unless node[:redis][:instances].has_key? params[:name]
   node[:redis][:instances][params[:name]][:port] = params[:port] if params[:port]
   node[:redis][:instances][params[:name]][:data_dir] = params[:data_dir] if params[:data_dir]
@@ -34,7 +36,7 @@ define :redis_instance, :port => nil, :data_dir => nil do
   end
 
   conf_vars = {:conf => conf, :instance_name => params[:name]}
-  if node[:redis][:instances][params[:name]][:replication][:role] == "slave"
+  unless node[:redis][:instances][params[:name]][:replication][:role] == "slave"
     master_node = search(:node, "role:#{node[:redis][:instances][params[:name]][:replication][:master_role]}").first
     conf_vars[:master] = master_node
   end
