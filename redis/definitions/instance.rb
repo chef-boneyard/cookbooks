@@ -1,4 +1,4 @@
-define :redis_instance, :port => nil, :data_dir => nil do
+define :redis_instance, :port => nil, :data_dir => nil, :master => nil do
   include_recipe "redis"
   instance_name = "redis_#{params[:name]}"
   # if no explicit replication role was defined, it's a master
@@ -36,9 +36,8 @@ define :redis_instance, :port => nil, :data_dir => nil do
   end
 
   conf_vars = {:conf => conf, :instance_name => params[:name]}
-  unless node[:redis][:instances][params[:name]][:replication][:role] == "slave"
-    master_node = search(:node, "role:#{node[:redis][:instances][params[:name]][:replication][:master_role]}").first
-    conf_vars[:master] = master_node
+  if node[:redis][:instances][params[:name]][:replication][:role] == "slave"
+    conf_vars[:master] = params[:master]
   end
 
   template ::File.join(node[:redis][:conf_dir], "#{instance_name}.conf") do
@@ -72,4 +71,5 @@ define :redis_instance, :port => nil, :data_dir => nil do
     end
     action [:start, :enable]
   end
+  provide_service instance_name, :replication => node[:redis][:instances][params[:name]][:replication][:role]
 end
