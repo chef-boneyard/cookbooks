@@ -2,12 +2,13 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil do
   include_recipe "redis"
   instance_name = "redis_#{params[:name]}"
   # if no explicit replication role was defined, it's a master
-  node.default[:redis][params[:name]][:replication][:role] = "master"
+  node.default_unless[:redis][:instances][params[:name]][:replication][:role] = "master"
   node[:redis][:instances][params[:name]] = {} unless node[:redis][:instances].has_key? params[:name]
-  node[:redis][:instances][params[:name]][:port] = params[:port] if params[:port]
-  node[:redis][:instances][params[:name]][:data_dir] = params[:data_dir] if params[:data_dir]
+  node[:redis][:instances][params[:name]][:port] = params[:port] unless params[:port].nil?
+  node.default_unless[:redis][:instances][params[:name]][:port] = node[:redis][:instances][:default][:port]
+  node[:redis][:instances][params[:name]][:data_dir] = params[:data_dir] unless params[:data_dir].nil?
 
-  if node[:redis][:instances][params[:name]][:data_dir] == node[:redis][:instances][:default][:data_dir]
+  if (not node[:redis][:instances][params[:name]].has_key?(:data_dir)) or node[:redis][:instances][params[:name]][:data_dir] == node[:redis][:instances][:default][:data_dir]
     node[:redis][:instances][params[:name]][:data_dir] = ::File.join(node[:redis][:instances][:default][:data_dir], params[:name])
   end
   swap_file = begin; node[:redis][:instances][params[:name]][:vm][:swap_file]; rescue; nil; end
