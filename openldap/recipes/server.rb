@@ -19,32 +19,33 @@
 include_recipe "openldap::client"
 
 case node[:platform]
-when "debian","ubuntu"
+when "ubuntu"
+  if (node[:platform_version].to_f >= 10.04)
+    package "db4.8-util" do
+      action :upgrade
+    end
+  else
+    package "db4.2-util" do
+      action :upgrade
+    end
+  end
   cookbook_file "/var/cache/local/preseeding/slapd.seed" do
     source "slapd.seed"
-    mode 0600
+    mode 0600 
     owner "root"
     group "root"
   end
-end
-
-package "db4.2-util" do
-  action :upgrade
-end
-
-cookbook_file "/var/cache/local/preseeding/slapd.seed" do
-  source "slapd.seed"
-  mode 0600 
-  owner "root"
-  group "root"
-end
-
-package "slapd" do
-  case node[:platform]
-  when "debian","ubuntu"
-    response_file "/var/cache/local/preseeding/slapd.seed"
+  package "slapd" do
+    response_file "slapd.seed"
+    action :upgrade
   end
-  action :upgrade
+else
+  package "db4.2-util" do
+    action :upgrade
+  end
+  package "slapd" do
+    action :upgrade
+  end
 end
 
 cookbook_file "#{node[:openldap][:ssl_dir]}/#{node[:openldap][:server]}.pem" do
@@ -58,8 +59,7 @@ service "slapd" do
   action [:enable, :start]
 end
 
-case node[:lsb][:codename]
-when "intrepid","jaunty"
+if (node[:platform] == "ubuntu") and (node[:platform_version].to_f >= 8.10)
   template "/etc/default/slapd" do
     source "default_slapd.erb"
     owner "root"
