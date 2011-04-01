@@ -111,7 +111,7 @@ dbfilename <%= @conf[:dumpdb_filename] %>
 # Note that you must specify a directory here, not a file name.
 dir <%= @conf[:data_dir] %>
 
-<% if @conf[:replication][:role] == "slave" %>
+<% unless @master.nil? %>
 ################################# REPLICATION #################################
 
 # Master-Slave replication. Use slaveof to make a Redis instance a copy of

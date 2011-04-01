@@ -36,10 +36,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil do
     mode "0750"
   end
 
-  conf_vars = {:conf => conf, :instance_name => params[:name]}
-  if node[:redis][:instances][params[:name]][:replication][:role] == "slave"
-    conf_vars[:master] = params[:master]
-  end
+  conf_vars = {:conf => conf, :instance_name => params[:name], :master => params[:master]}
 
   template ::File.join(node[:redis][:conf_dir], "#{instance_name}.conf") do
     source "redis.conf.erb"
