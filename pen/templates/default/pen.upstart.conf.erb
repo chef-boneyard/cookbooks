@@ -1,6 +1,9 @@
 author "Avishai Ish-Shalom <avishai@fewbytes.com>"
 description "Upstart job for Pen load balancer cluster: <%= @name %>"
 
+start on started networking
+
+expect fork
 respawn
 respawn limit 5 15
 exec /usr/bin/pen <%= @port %> <%= @pen_nodes.join(" ") %>
