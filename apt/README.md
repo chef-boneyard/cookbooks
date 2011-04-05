@@ -23,11 +23,56 @@ Configures the node to use the apt-cacher server as a client.
 Resources/Providers
 ===================
 
-This cookbook contains an LWRP, `apt_repository`, which provides the `add` and `remove` actions for managing additional software repositories with entries in the `/etc/apt/sources.list.d/` directory. The LWRP also supports passing in a `key` and `keyserver` as attributes.
+This LWRP provides an easy way to manage additional APT repositories.
 
-* `add` takes a number of attributes and creates a repository file and builds the repository listing.
-* `remove` deletes the `/etc/apt/sources.list.d/#{new_resource.repo_name}-sources.list` file identified by the `repo_name` passed as the resource name.
+# Actions
 
+- :add: creates a repository file and builds the repository listing
+- :remove: removes the repository file
+
+# Attribute Parameters
+
+- repo_name: name attribute. The name of the channel to discover
+- uri: the base of the Debian distribution
+- distribution: this is usually your release's codename...ie something like `karmic`, `lucid` or `maverick`
+- components: package groupings..when it doubt use `main`
+- deb_src: whether or not to add the repository as a source repo as well
+- key_server: the GPG keyserver where the key for the repo should be retrieved
+- key: if a `key_server` is provided, this is assumed to be the fingerprint, otherwise it is the URI to the GPG key for the repo
+
+# Example
+
+    # add the Zenoss repo
+    apt_repository "zenoss" do
+      uri "http://dev.zenoss.org/deb"
+      components ["main","stable"]
+      action :add
+    end
+    
+    # add the Nginx PPA; grab key from keyserver
+    apt_repository "nginx-php" do
+      uri "http://ppa.launchpad.net/nginx/php5/ubuntu"
+      distribution node['lsb']['codename']
+      components ["main"]
+      keyserver "keyserver.ubuntu.com"
+      key "C300EE8C"
+      action :add
+    end
+    
+    # add the Cloudkick Repo
+    apt_repository "cloudkick" do
+      uri "http://packages.cloudkick.com/ubuntu"
+      distribution node['lsb']['codename']
+      components ["main"]
+      key "http://packages.cloudkick.com/cloudkick.packages.key"
+      action :add
+    end
+    
+    # remove Zenoss repo
+    apt_repository "zenoss" do
+      action :remove
+    end
+    
 Usage
 =====
 
@@ -41,26 +86,12 @@ The above will run during execution phase since it is a normal template resource
 
 Put `recipe[apt::cacher]` in the run_list for a server to provide APT caching and add `recipe[apt::cacher-client]` on the rest of the Debian-based nodes to take advantage of the caching server.
 
-An example of The LWRP `apt_repository` `add` action:
-
-    apt_repository "zenoss" do
-      uri "http://dev.zenoss.org/deb"
-      distribution "main"
-      components ["stable"]
-      action :add
-    end
-
-and the `remove` action:
-
-    apt_repository "zenoss" do
-      action :remove
-    end
-
 License and Author
 ==================
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
 Author:: Matt Ray (<matt@opscode.com>)
+Author:: Seth Chisamore (<schisamo@opscode.com>)
 
 Copyright 2009-2011 Opscode, Inc.
 
