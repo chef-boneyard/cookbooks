@@ -2,14 +2,14 @@
 # Cookbook Name:: cloudkick
 # Recipe:: default
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2010-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,19 +18,13 @@
 #
 
 case node.platform
-when "ubuntu" 
-  include_recipe "apt"
- 
-  package "curl"
-
-  execute "curl http://packages.cloudkick.com/cloudkick.packages.key | apt-key add -" do
-    not_if "apt-key finger | grep '0B80 27BD B5FB A7F1 8FF3  DC1F 2B5E 7CE0 8EE6 154E'"
-  end
-
-  template "/etc/apt/sources.list.d/cloudkick.com.list" do
-    mode "0644"
-    source "cloudkick.com.list.erb"
-    notifies :run, resources(:execute => "apt-get update"), :immediately
+when "ubuntu"
+  apt_repository "cloudkick" do
+    uri "http://packages.cloudkick.com/ubuntu"
+    distribution node['lsb']['codename']
+    components ["main"]
+    key "http://packages.cloudkick.com/cloudkick.packages.key"
+    action :add
   end
 when "centos", "redhat"
   execute "yum check-update" do
@@ -56,6 +50,7 @@ template "/etc/cloudkick.conf" do
   mode "0644"
   source "cloudkick.conf.erb"
   variables({
+    :node_name => node.name,
     :cloudkick_tags => node.run_list.roles
   })
 end
@@ -69,17 +64,14 @@ service "cloudkick-agent" do
   subscribes :restart, resources(:template => "/etc/cloudkick.conf")
 end
 
-ruby_block "initial cloudkick data load" do
+gem_package "cloudkick"
+
+ruby_block "cloudkick data load" do
   block do
     require 'rubygems'
     Gem.clear_paths
     require 'cloudkick'
-    node.set[:cloudkick][:data] = Chef::CloudkickData.get(node)
+    node.set['cloudkick']['data'] = Chef::CloudkickData.get(node)
   end
-  action :nothing
+  action :create
 end
-
-gem_package "cloudkick" do
-  notifies :create, resources(:ruby_block => "initial cloudkick data load"), :immediately
-end
-
