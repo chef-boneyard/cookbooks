@@ -19,7 +19,11 @@
 
 define :yumkey do
 
-  package "gnupg"
+  if node[:platform_version].to_i <= 5
+    package "gnupg"
+  elsif node[:platform_version].to_i >= 6
+    package "gnupg2"
+  end
 
   execute "rpm --import /etc/pki/rpm-gpg/#{params[:name]}" do
     action :nothing

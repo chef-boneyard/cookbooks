@@ -3,7 +3,7 @@ maintainer_email "wolfe21@marshall.edu"
 license          "Apache 2.0"
 description      "Installs and configures EPEL, ELFF, Dell, and VMware yum repositories."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.10.1"
+version          "0.11.0"
 recipe "yumrepo::default", "Installs EPEL, ELFF, Dell, and VMware Tools repositories."
 recipe "yumrepo::epel", "Installs Fedora Extra Packages for Enterprise Linux (EPEL) repository"
 recipe "yumrepo::elff", "Installs Enterprise Linux Fast Forward (ELFF) repository"
@@ -42,8 +42,8 @@ attribute "repo/dell/enabled",
   :description => "Boolean for the Dell recipe. This is dynamically determined by hardware platform.",
   :calculated => true
 
-attribute "repo/dell/install_optional",
-  :display_name => "repo/dell/install_optional",
+attribute "repo/dell/download_firmware",
+  :display_name => "repo/dell/download_firmware",
   :description => "Enable Dell optional components by setting to true",
   :required => "recommended"
 

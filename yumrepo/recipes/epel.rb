@@ -18,10 +18,16 @@
 # limitations under the License.
 #
 
+if node[:platform_version].to_i <= 5
+  epel_key = "RPM-GPG-KEY-EPEL"
+elsif node[:platform_version].to_i == 6
+  epel_key = "RPM-GPG-KEY-EPEL6"
+end
+
 yumrepo "epel" do
   action :enable
   definition "Extra Packages for Enterprise Linux"
-  key "RPM-GPG-KEY-EPEL"
+  key epel_key
   url "http://mirrors.fedoraproject.org/mirrorlist?repo=epel-#{node[:platform_version].split('.')[0]}&arch=$basearch"
   url_is_mirrorlist true
 end

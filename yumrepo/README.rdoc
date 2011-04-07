@@ -7,10 +7,13 @@ EPEL, ELFF, Dell OMSA, Dell Community, Dell Firmware, VMware Tools
 
 = REQUIREMENTS:
 
-This cookbook requires RHEL or CentOS 5.x.  It has not been tested on
-other platforms.  It probably will not work with RHEL 4 or CentOS 4,
-especially if you have not taken the steps to install yum on that
-platform.
+This cookbook requires RHEL or CentOS 5.x, and newer.
+It has not been tested on other platforms.  It probably will
+not work with RHEL 4 or CentOS 4, especially if you have not
+taken action to manually install yum on that platform.
+
+RHEL 6 support is very new, and has been tested on only a few systems.
+Let me know if you find a bug, related to one of the recipes.
 
 The yumrepo::dell recipe requires Dell manufactured hardware.  This
 recipe should automatically disable itself by default if non-Dell
@@ -26,7 +29,7 @@ Recipes tested with Ohai >= 0.5.6
 
 * yumrepo::default
 
- - includes epel, elff, dell, and vmware-tools recipes
+ - includes epel, dell, and vmware-tools recipes
 
 * yumrepo::epel
 
@@ -77,7 +80,7 @@ Notable overridable attributes are as follows.
 
 * yumrepo::dell
 
- - repo[:dell][:install_optional] = true||false
+ - repo[:dell][:download_firmware] = true||false
    * disables/enables community/firmware repositories in dell recipe
    * OMSA (hardware) repository will detect Dell hardware platform and
      enable itself, dynamically. It is not affected by this attribute.
@@ -95,7 +98,7 @@ Notable overridable attributes are as follows.
 = LICENSE and AUTHOR:
 
 Author:: Eric G. Wolfe
-Copyright:: 2010
+Copyright:: 2010-2011
 
 Contributor:: Tippr, Inc.
 Copyright:: 2011

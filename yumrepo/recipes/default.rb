@@ -18,6 +18,5 @@
 #
 
 include_recipe "yumrepo::epel"
-include_recipe "yumrepo::elff"
 include_recipe "yumrepo::dell"
 include_recipe "yumrepo::vmware-tools"
