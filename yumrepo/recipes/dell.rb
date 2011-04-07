@@ -25,7 +25,7 @@ end
 yumkey "RPM-GPG-KEY-dell"
 yumkey "RPM-GPG-KEY-libsmbios"
 
-yumrepo "dell-community" do
+yumrepo "dell-community-repository" do
   templatesource "dell-community-repository.repo.erb"
 end
 
@@ -38,14 +38,23 @@ yumrepo "dell-firmware-repository" do
 end
 
 package "srvadmin-all" do
-  action :install
+  ignore_failure true
 end
 
-if node[:repo][:dell][:install_optional]
+if node[:repo][:dell][:download_firmware]
   package "firmware-tools" do
-    action :install
+    ignore_failure true
   end
-  # yum install $(bootstrap_firmware) at your own risk
+
+  # This execute block only downloads firmware images
+  # You have to run 'update_firmware' --yes to apply
+  # any pending firmware udpates.
+  script "bootstrap_firmware" do
+    interpreter "bash"
+    code <<-EOH
+      yum -y install $(bootstrap_firmware)
+    EOH
+  end
 end
 
 # vim: ai et sts=2 sw=2 ts=2

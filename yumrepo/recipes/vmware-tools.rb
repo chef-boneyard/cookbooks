@@ -41,24 +41,8 @@ execute "/usr/bin/vmware-uninstall-tools.pl" do
   only_if {File.exists?("/usr/bin/vmware-uninstall-tools.pl")}
 end
 
-package "vmware-tools-nox" do
-  action :install
-end
-
-package "vmware-tools-common" do
-  action :install
-end
-
-package "vmware-open-vm-tools-common" do
-  action :install
-end
-
-package "vmware-open-vm-tools-nox" do
-  action :install
-end
-
-package "vmware-open-vm-tools-kmod" do
-  action :install
+node[:repo][:vmware][:required_packages].each do |vmware_pkg|
+  package vmware_pkg
 end
 
 service "vmware-tools" do
@@ -67,12 +51,8 @@ service "vmware-tools" do
 end
 
 if node[:repo][:vmware][:install_optional]
-  package "vmware-open-vm-tools-xorg-drv-display" do
-    action :install
-  end
-
-  package "vmware-open-vm-tools-xorg-drv-mouse" do
-    action :install
+  node[:repo][:vmware][:required_packages].each do |optional_pkg|
+    package optional_pkg
   end
 end
 
