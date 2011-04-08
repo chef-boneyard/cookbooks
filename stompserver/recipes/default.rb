@@ -17,14 +17,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "packages"
+if platform?("centos","redhat","debian","ubuntu")
 
-if platform?("centos","redhat","debian","ubuntu") and dist_only?
   package value_for_platform(
     "centos" => { "default" => "rubygem-stompserver" },
     "redhat" => { "default" => "rubygem-stompserver" },
     "debian" => { "default" => "stompserver" },
-    "ubuntu" => { "default" => "stompserver" }
+    "ubuntu" => { "default" => "stompserver" },
+    "default" => "stompserver"
   )
 
   service "stompserver" do
@@ -32,13 +32,4 @@ if platform?("centos","redhat","debian","ubuntu") and dist_only?
     action [ :enable, :start ]
   end
 
-  return
 end
-
-include_recipe "runit"
-
-gem_package "stompserver" do
-  action :install
-end
-
-runit_service "stompserver"

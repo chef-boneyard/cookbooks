@@ -4,4 +4,24 @@ This is a cookbook for managing RabbitMQ with Chef.  It has sane defaults, but c
 
 2) The Erlang run parameters are currently an opaque string.  They should really be a set of tunables to be manipulated by name.
 
-Share and enjoy!
+The rabbitmq::chef recipe was moved over from the rabbitmq_chef cookbook. The recipe specifically sets up RabbitMQ for Chef Server usage, including setup of the chef vhost and user in rabbitmq.
+
+License and Author:
+
+Author:: Benjamin Black <b@b3k.us>
+Author:: Daniel DeLeo <dan@kallistec.com>
+
+Copyright 2009, Daniel DeLeo
+Copyright 2009, Benjamin Black
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

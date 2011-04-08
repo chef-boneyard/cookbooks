@@ -8,12 +8,6 @@
   "platforms": {
   },
   "dependencies": {
-    "ruby": [
-
-    ],
-    "rubygems": [
-
-    ]
   },
   "recommendations": {
   },
@@ -32,5 +26,5 @@
   "recipes": {
     "unicorn": "Installs unicorn rubygem"
   },
-  "version": "0.1.4"
+  "version": "1.0.0"
 }
