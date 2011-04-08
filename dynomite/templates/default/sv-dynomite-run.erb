@@ -1,9 +1,0 @@
-#!/bin/sh
-exec 2>&1
-exec /usr/bin/env HOME="/tmp" dynoctl \
-  -n <%= node[:dynomite][:num_nodes] %> \
-  -d <%= node[:dynomite][:data_dir] %> \
-  -o <%= node[:dynomite][:node_name] %> \
-  -a <%= node[:dynomite][:ascii_port] %> \
-  -t <%= node[:dynomite][:thrift_port] %> \
-  -h <%= node[:dynomite][:web_port] %>
