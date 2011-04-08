@@ -1,7 +1,0 @@
-maintainer       "Opscode, Inc."
-maintainer_email "matt@opscode.com"
-license          "Apache 2.0"
-description      "Runs the contents of the one-shot.rb and removes it from the run_list"
-version          "0.1"
-recipe           "one-shot::one-shot", "The recipe to be executed a single time."
-recipe           "default", "Includes the `one-shot` recipe and removes itself from the run_list."
