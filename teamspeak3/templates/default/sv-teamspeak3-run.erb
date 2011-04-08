@@ -1,5 +1,0 @@
-#!/bin/bash
-cd /srv/teamspeak3
-export LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH"
-exec 2>&1
-exec chpst -u teamspeak-server ./ts3server_linux_<%= node[:ts3][:arch] %>

@@ -2,7 +2,7 @@
 # Author:: Daniel DeLeo <dan@kallistec.com>
 #
 # Cookbook Name:: rabbitmq
-# Recipe:: default
+# Recipe:: chef
 #
 # Copyright 2009, Daniel DeLeo
 #
@@ -39,7 +39,7 @@ if (platform?("ubuntu") && node.platform_version.to_f <= 9.10) || debian_before_
     action :install
   end
 else
-  package "rabbitmq-server"
+  include_recipe "rabbitmq::default"
 end
 
 service "rabbitmq-server" do
