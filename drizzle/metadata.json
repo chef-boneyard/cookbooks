@@ -1,0 +1,91 @@
+{
+    "license": "Apache 2.0",
+    "replacing": {
+    },
+    "long_description": "= DESCRIPTION:\n\nInstalls and configures Drizzle client or server.\n\n= REQUIREMENTS:\n\n== Platform:\n\nBest tested on Ubuntu 10.04.\n\n== Cookbooks:\n\n= RESOURCES AND PROVIDERS\n\n* +create_db+ - specify a database to be created.\n\nFor example see the USAGE section below.\n\n= ATTRIBUTES:\n\n= USAGE:\n\nOn client nodes,\n\n  include_recipe \"drizzle::client\"\n\nThis will install the Drizzle client libraries and development headers on the system.\n\n  r = package ... do\n    action :nothing\n  end\n\n  r.run_action(:install)\n\nThis creates a resource object for the package and does the installation before other recipes are parsed. You'll need to have the C compiler and such (ie, build-essential on Ubuntu) before running the recipes, but we already do that when installing Chef :-).\n\nOn server nodes,\n\n  include_recipe \"drizzle::server\"\n\nThe client recipe is already included by server and 'default' recipes.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Padraig O'Sullivan (<osullivan.padraig@gmail.com>)\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+    "groupings": {
+    },
+    "recommendations": {
+    },
+    "description": "Installs and configures drizzle for client or server",
+    "platforms": {
+      "debian": [
+
+      ],
+      "fedora": [
+
+      ],
+      "centos": [
+
+      ],
+      "suse": [
+
+      ],
+      "ubuntu": [
+
+      ],
+      "redhat": [
+
+      ]
+    },
+    "maintainer": "Padraig O'Sullivan",
+    "attributes": {
+      "drizzle/bind_address": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "default": "ipaddress",
+        "type": "string",
+        "recipes": [
+
+        ],
+        "display_name": "Drizzle Bind Address",
+        "description": "Address that drizzled should listen on"
+      },
+      "drizzle/tunable": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "type": "hash",
+        "recipes": [
+
+        ],
+        "display_name": "Drizzle Tunables",
+        "description": "Hash of Drizzle tunable attributes"
+      },
+      "drizzle/datadir": {
+        "required": "optional",
+        "calculated": false,
+        "choice": [
+
+        ],
+        "default": "/var/lib/drizzle",
+        "type": "string",
+        "recipes": [
+
+        ],
+        "display_name": "Drizzle Data Directory",
+        "description": "Location of drizzle databases"
+      }
+    },
+    "suggestions": {
+    },
+    "recipes": {
+      "drizzle::client": "Installs packages required for drizzle clients using run_action magic",
+      "drizzle": "Includes the client recipe to configure a client",
+      "drizzle::server": "Installs packages required for drizzle servers"
+    },
+    "dependencies": {
+    },
+    "maintainer_email": "osullivan.padraig@gmail.com",
+    "version": "0.1.0",
+    "conflicting": {
+    },
+    "name": "drizzle",
+    "providing": {
+    }
+  }
