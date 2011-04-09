@@ -24,7 +24,7 @@
   },
   "providing": {
   },
-  "version": "0.11.0",
+  "version": "0.11.1",
   "attributes": {
     "repo/dell/download_firmware": {
       "required": "recommended",
