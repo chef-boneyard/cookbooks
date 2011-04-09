@@ -2,43 +2,15 @@
 
 Installs and configures Drizzle client or server.
 
-= REQUIREMENTS:
-
-== Platform:
+= Platform:
 
 Best tested on Ubuntu 10.04.
 
-== Cookbooks:
-
-= RESOURCES AND PROVIDERS
-
-* +create_db+ - specify a database to be created.
-
-For example see the USAGE section below.
-
-= ATTRIBUTES:
-
 = USAGE:
 
-On client nodes,
+include_recipe "drizzle"
 
-  include_recipe "drizzle::client"
-
-This will install the Drizzle client libraries and development headers on the system.
-
-  r = package ... do
-    action :nothing
-  end
-
-  r.run_action(:install)
-
-This creates a resource object for the package and does the installation before other recipes are parsed. You'll need to have the C compiler and such (ie, build-essential on Ubuntu) before running the recipes, but we already do that when installing Chef :-).
-
-On server nodes,
-
-  include_recipe "drizzle::server"
-
-The client recipe is already included by server and 'default' recipes.
+This will install the Drizzle client libraries, Drizzle server, and development headers on the system.
 
 = LICENSE and AUTHOR:
 
