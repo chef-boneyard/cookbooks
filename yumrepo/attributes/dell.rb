@@ -19,7 +19,7 @@
 #
 
 # Dell
-default[:repo][:dell][:community_url] = "http://linux.dell.com/repo/community//mirrors.cgi?osname=el$releasever\&basearch=$basearch"
+default[:repo][:dell][:community_url] = "http://linux.dell.com/repo/community/mirrors.cgi?osname=el#{node[:platform_version].to_i}\&basearch=$basearch"
 default[:repo][:dell][:firmware_url] = "http://linux.dell.com/repo/firmware/mirrors.pl?dellsysidpluginver=$dellsysidpluginver"
 default[:repo][:dell][:omsa_independent_url] = "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&dellsysidpluginver=$dellsysidpluginver"
 default[:repo][:dell][:omsa_specific_url] = "http://linux.dell.com/repo/hardware/latest/mirrors.cgi?osname=el$releasever&basearch=$basearch&native=1&sys_ven_id=$sys_ven_id&sys_dev_id=$sys_dev_id&dellsysidpluginver=$dellsysidpluginver"
