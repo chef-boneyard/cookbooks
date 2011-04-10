@@ -29,7 +29,8 @@ include_recipe "python"
 node.default[:apps][app['id']][node.app_environment][:run_migrations] = false
 
 # the Django split-settings file name varies from project to project...+1 for standardization
-local_settings_file_name = app[:local_settings_file_name] || 'settings_local.py'
+local_settings_full_path = app['local_settings_file'] || 'settings_local.py'
+local_settings_file_name = local_settings_full_path.split(/[\\\/]/).last
 
 ## Create required directories
 
@@ -122,7 +123,7 @@ if app["database_master_role"]
   # Assuming we have one...
   if dbm
     # local_settings.py
-    template "#{app['deploy_to']}/shared/settings_local.py" do
+    template "#{app['deploy_to']}/shared/#{local_settings_file_name}" do
       source "settings.py.erb"
       owner app["owner"]
       group app["group"]
@@ -134,7 +135,7 @@ if app["database_master_role"]
       )
     end
   else
-    Chef::Log.warn("No node with role #{app["database_master_role"][0]}, settings_local.py not rendered!")
+    Chef::Log.warn("No node with role #{app["database_master_role"][0]}, #{local_settings_file_name} not rendered!")
   end
 end
 
@@ -169,7 +170,7 @@ deploy_revision app['id'] do
   end
 
   symlink_before_migrate({
-    "settings_local.py" => local_settings_file_name
+    local_settings_file_name => local_settings_full_path
   })
 
   if app['migrate'][node.app_environment] && node[:apps][app['id']][node.app_environment][:run_migrations]
