@@ -7,8 +7,8 @@
   "type": {
     "my_app": [
       "recipes in this application cookbook to run for this role",
-      "java_webapp",
-      "tomcat"
+      "php",
+      "mod_php_apache2"
     ]
   },
   "database_slave_role": [
@@ -28,13 +28,10 @@
   },
   "databases": {
     "production": {
-      "max_active": "100",
-      "max_idle": "30",
-      "max_wait": "10000",
+      "reconnect": "true",
+      "encoding": "utf8",
       "username": "db_user",
       "adapter": "mysql",
-      "driver": "com.mysql.jdbc.Driver",
-      "port": "3306",
       "password": "awesome_password",
       "database": "db_name_production"
     }
@@ -57,5 +54,10 @@
   "packages": {
     "package_name": "specific packages required for installation at the OS level to run the app like libraries and specific version, e.g.",
     "curl": "7.19.5-1ubuntu2"
-  }
+  },
+  "pears": {
+    "pear_name": "specific gems required for installation to run the application, and if a specific version is required, e.g.",
+    "mongo": "1.1.4"
+  },
+  "local_settings_file": "some/realative/path/LocalSettings.php"
 }
