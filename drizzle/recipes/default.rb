@@ -23,11 +23,11 @@ when "ubuntu"
 
   # add drizzle PPA
   execute "apt-add-repository ppa:drizzle-developers/ppa" do
-    command "apt-add-repository ppa:drizzle-developers/ppa"
+    action :run
   end
 
   execute "apt-get update" do
-    command "apt-get update"
+    action :run
   end
 
   package "drizzle" do
@@ -35,7 +35,7 @@ when "ubuntu"
   end
 when "centos","redhat","fedora"
   execute "yum clean all" do
-    action :nothing
+    action :run
   end
 
   template "/etc/yum.repos.d/drizzle.repo" do
