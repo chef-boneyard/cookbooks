@@ -6,8 +6,9 @@ This cookbook is initially designed to be able to describe and deploy web applic
 * Rails
 * Java
 * Django
+* PHP
 
-Other application stacks (PHP, etc) will be supported as new recipes at a later date.
+Other application stacks (Rack, WSGI, etc) will be supported as new recipes at a later date.
 
 This cookbook aims to provide primitives to install/deploy any kind of application driven entirely by data defined in an abstract way through a data bag.
 
@@ -15,7 +16,7 @@ This cookbook aims to provide primitives to install/deploy any kind of applicati
 Requirements
 ============
 
-Chef 0.8 or higher required.
+Chef 0.9.14 or higher required.
 
 The following Opscode cookbooks are dependencies:
 
@@ -25,11 +26,8 @@ The following Opscode cookbooks are dependencies:
 * tomcat
 * python
 * gunicorn
-
-The following are also dependencies, though the recipes are considered deprecated, may be useful for future development.
-
-* `ruby_enterprise`
-* `passenger_enterprise`
+* apache2
+* php
 
 ---
 Recipes
@@ -52,7 +50,7 @@ Using the node's `run_state` that contains the current application in the search
 * create an application specific virtualenv
 * install required packages and pips
 * set up the deployment scaffolding
-* creates settings_local.py file with the database connection information if required
+* creates `settings_local.py` file with the database connection information if required
 * performs a revision-based deploy
 
 This recipe can be used on nodes that are going to run the application, or on nodes that need to have the application code checkout available such as supporting utility nodes or a configured load balancer that needs static assets stored in the application repository.
@@ -90,7 +88,7 @@ Requires `gunicorn` cookbook.
 
 Gunicorn is installed, default attributes are set for the node and an app specific gunicorn config and runit service are created.
 
-`java_webapp`
+java_webapp
 -----------
 
 Using the node's `run_state` that contains the current application in the search, this recipe will:
@@ -107,17 +105,29 @@ The servlet container context configuration (`context.xml`) exposes the followin
 
 This recipe assumes some sort of build process, such as Maven or a Continuous Integration server like Hudson, will create a deployable artifact and make it available for download via HTTP (such as S3 or artifactory).
 
-`passenger_apache2`
--------------------
+mod\_php\_apache2
+-----------------
 
-Requires `apache2` and `passenger_apache2` cookbooks. The `recipe[apache2]` entry should come before `recipe[application]` in the run list.
+Requires `apache2` cookbook. Sets up a mod_php vhost template for the application using the `apache2` cookbook's `web_app` definition. See data bag example below.
 
-    "run_list": [
-      "recipe[apache2]",
-      "recipe[application]"
-    ],
+passenger_apache2
+-----------------
 
-Sets up a passenger vhost template for the application using the `apache2` cookbook's `web_app` definition. Use this with the `rails` recipe, in the list of recipes for a specific application type. See data bag example below.
+Requires `apache2` and `passenger_apache2` cookbooks. Sets up a passenger vhost template for the application using the `apache2` cookbook's `web_app` definition. Use this with the `rails` recipe, in the list of recipes for a specific application type. See data bag example below.
+
+php
+---
+
+Using the node's `run_state` that contains the current application in the search, this recipe will:
+
+* install required packages and pears/pecls
+* set up the deployment scaffolding
+* creates a `local_settings.php` (specific file name and project path is configurable) file with the database connection information if required
+* performs a revision-based deploy
+
+This recipe can be used on nodes that are going to run the application, or on nodes that need to have the application code checkout available such as supporting utility nodes or a configured load balancer that needs static assets stored in the application repository.
+
+Since PHP projects do not have a standard `local_settings.php` file (or format) that contains database connection information. This recipe assumes you will provide a template in an application specific cookbook.  See additional notes in the 'Application Data Bag' section below.
 
 rails
 -----
@@ -217,9 +227,63 @@ Note about `databases`, the data specified will be rendered as the `settings_loc
 
 Note about pips, the version is optional. If specified, the version will be passed as a parameter to the resource. Otherwise it will use the latest available version per the default `:install` action for the python_pip package provider.
 
-The `local_settings_file_name` value may be used to supply an alternate name for the environment specific `settings_local.py`, since Django projects do not have a standard name for this file.
+The `local_settings_file` value may be used to supply an alternate name for the environment specific `settings_local.py`, since Django projects do not have a standard name for this file.
 
 An example is data bag item is included in this cookbook at `examples/data_bags/apps/django_app.json`.
+
+PHP version additional notes
+----------------------------
+
+Note about `databases`, the data specified will be rendered as the `local_settings.php` file. In the `database` cookbook, this information is also used to set up privileges for the application user, and create the databases.
+
+Note about pears/pecls, the version is optional. If specified, the version will be passed as a parameter to the resource. Otherwise it will use the latest available version per the default `:install` action for the php_pear package provider.
+
+The `local_settings_file` value is used to supply the name, and relative local project path, for the environment specific `local_settings.php`, since PHP projects do not have a standard name (or location) for this file.
+
+For applications that look for this file in the project root just supply a name:
+
+MediaWiki:
+
+    "local_settings_file": "LocalSettings.php"
+    
+Wordpress:
+
+    "local_settings_file": "wp-config.php"
+
+For applications that expect the file nested within the project root, you can supply a relative path:
+
+CakePHP:
+
+    "local_settings_file": "app/config/database.php"
+
+The template used to render this `local_settings.php` file is assumed to be provided in an application specific cookbook named after the application being deployed.  For example if you were deploying code for an application named `mediawiki` you would create a cookbook named `mediawiki` and in that cookbook place a template named `LocalSettings.php.erb`:
+
+    mediawiki/
+    ├── files
+    │   └── default
+    │       └── schema.sql
+    ├── metadata.rb
+    ├── README.md
+    ├── recipes
+    │   ├── db_bootstrap.rb
+    │   └── default.rb
+    └── templates
+        └── default
+            └── LocalSettings.php.erb
+
+The template will be passed the following variables which can be used to dynamically fill values in the ERB:
+
+* path - fill path to the 'current' project path
+* host - database master fqdn
+* database - environment specific database information from the application's data bag item
+* app - Ruby mash representation of the complete application data bag item for this app, useful if other arbitrary config data has been stashed in the data bag item.
+
+A few example `local_settings` templates are included in this cookbook at `examples/templates/defaults/*`:
+
+* MediaWiki - LocalSettings.php.erb
+* Wordpress - wp-config.php.erb
+
+An example is data bag item is included in this cookbook at `examples/data_bags/apps/php_app.json`.
 
 ---
 Usage
