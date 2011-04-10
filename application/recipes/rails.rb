@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: application
-# Recipe:: default
+# Recipe:: rails
 #
 # Copyright 2009, Opscode, Inc.
 #
