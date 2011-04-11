@@ -18,7 +18,7 @@
 #
 
 openid_dev_pkgs = value_for_platform(
-  "ubuntu" => { "default" => %w{ apache2-prefork-dev libopkele-dev libopkele3 } },
+  "ubuntu" => { "default" => %w{ g++ apache2-prefork-dev libopkele-dev libopkele3 } },
   "debian" => { "default" => %w{ apache2-prefork-dev libopkele-dev libopkele3 } },
   "arch" => { "default" => ["libopkele"] }
 )
