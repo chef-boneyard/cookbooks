@@ -22,6 +22,8 @@ default['munin']['server_role'] = 'monitoring'
 case node[:platform]
 when "arch"
   default['munin']['docroot'] = "/srv/http/munin"
+when "centos","redhat"
+  default['munin']['docroot'] = "/var/www/html/munin"
 else
   default['munin']['docroot'] = "/var/www/munin"
 end
