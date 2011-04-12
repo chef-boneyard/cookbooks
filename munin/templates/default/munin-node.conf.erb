@@ -36,7 +36,7 @@ host_name <%= node[:hostname] %>.ec2.internal
 # doesn't understand CIDR-style network notation.  You may repeat
 # the allow line as many times as you'd like
 
-<% @munin_servers.each do |server| -%>
+<% @munin_servers.sort.each do |server| -%>
 allow ^<%= server[:ipaddress].to_s.gsub(/\./, '\.') %>$
 <% end -%>
 allow ^127\.0\.0\.1$
