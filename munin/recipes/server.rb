@@ -42,6 +42,7 @@ else
 end
 
 munin_servers = search(:node, "munin:[* TO *] AND role:#{node[:app_environment]}")
+munin_servers.sort! { |a,b| a[:fqdn] <=> b[:fqdn] }
 
 if node[:public_domain]
   case node[:app_environment]
