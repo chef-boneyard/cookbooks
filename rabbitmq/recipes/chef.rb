@@ -1,5 +1,6 @@
 #
 # Author:: Daniel DeLeo <dan@kallistec.com>
+# Author:: Joshua Timberman <joshua@opscode.com>
 #
 # Cookbook Name:: rabbitmq
 # Recipe:: chef
@@ -39,7 +40,7 @@ if (platform?("ubuntu") && node.platform_version.to_f <= 9.10) || debian_before_
     action :install
   end
 else
-  include_recipe "rabbitmq::default"
+  package "rabbitmq-server"
 end
 
 service "rabbitmq-server" do
