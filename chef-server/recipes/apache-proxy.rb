@@ -1,9 +1,9 @@
 #
 # Author:: Joshua Timberman <joshua@opscode.com>
-# Cookbook Name:: chef
-# Recipe:: server_proxy
+# Cookbook Name:: chef-server
+# Recipe:: apache-proxy
 #
-# Copyright 2009, Opscode, Inc
+# Copyright 2009-2011, Opscode, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,12 +23,11 @@ root_group = value_for_platform(
   "default" => "root"
 )
 
-node[:apache][:listen_ports] << "443" unless node[:apache][:listen_ports].include?("443")
-if node[:chef][:webui_enabled]
-  node[:apache][:listen_ports] << "444" unless node[:apache][:listen_ports].include?("444")
+node['apache']['listen_ports'] << "443" unless node['apache']['listen_ports'].include?("443")
+if node['chef_server']['webui_enabled']
+  node['apache']['listen_ports'] << "444" unless node['apache']['listen_ports'].include?("444")
 end
 
-include_recipe "chef::server"
 include_recipe "apache2"
 include_recipe "apache2::mod_ssl"
 include_recipe "apache2::mod_proxy"
@@ -49,16 +48,16 @@ bash "Create SSL Certificates" do
   cwd "/etc/chef/certificates"
   code <<-EOH
   umask 077
-  openssl genrsa 2048 > #{node[:chef][:server_fqdn]}.key
-  openssl req -subj "#{node[:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key #{node[:chef][:server_fqdn]}.key > #{node[:chef][:server_fqdn]}.crt
-  cat #{node[:chef][:server_fqdn]}.key #{node[:chef][:server_fqdn]}.crt > #{node[:chef][:server_fqdn]}.pem
+  openssl genrsa 2048 > chef-server-proxy.key
+  openssl req -subj "#{node['chef_server']['ssl_req']}" -new -x509 -nodes -sha1 -days 3650 -key chef-server-proxy.key > chef-server-proxy.crt
+  cat chef-server-proxy.key chef-server-proxy.crt > chef-server-proxy.pem
   EOH
-  not_if { ::File.exists?("/etc/chef/certificates/#{node[:chef][:server_fqdn]}.pem") }
+  not_if { ::File.exists?("/etc/chef/certificates/chef-server-proxy.pem") }
 end
 
-web_app "chef_server" do
+web_app "chef-server-proxy" do
   template "chef_server.conf.erb"
-  server_name node[:chef][:server_fqdn]
-  server_aliases [ node[:hostname], node[:fqdn], node[:chef][:server_fqdn] ]
-  log_dir node[:apache][:log_dir]
+  server_name "localhost"
+  server_aliases [ node['hostname'], node['fqdn'], 'chef-server-proxy', "chef.#{node['domain']}" ]
+  log_dir node['apache']['log_dir']
 end
