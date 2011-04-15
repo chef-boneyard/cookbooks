@@ -26,10 +26,21 @@ service "rabbitmq-server" do
   action [ :enable, :start ]
 end
 
-template "/etc/rabbitmq/rabbitmq.config" do
-  source "rabbitmq.config.erb"
-  owner "root"
-  group "root"
-  mode 0644
-  notifies :restart, resources(:service => "rabbitmq-server")
+case node[:platform]
+when "ubuntu"
+  template "/etc/rabbitmq/rabbitmq.conf" do
+    source "rabbitmq.config.erb"
+    owner "root"
+    group "root"
+    mode 0644
+    notifies :restart, resources(:service => "rabbitmq-server")
+  end
+else
+  template "/etc/rabbitmq/rabbitmq.config" do
+    source "rabbitmq.config.erb"
+    owner "root"
+    group "root"
+    mode 0644
+    notifies :restart, resources(:service => "rabbitmq-server")
+  end
 end
