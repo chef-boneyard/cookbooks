@@ -14,7 +14,7 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
 DESC="Pen load balancer <%= @name %> cluster"
 NAME=<%= @name %>
 DAEMON=$(which pen)
-DAEMON_ARGS="--options <%= @port %> <%= @pen_nodes %>"
+DAEMON_ARGS="<%= @pen_options %> <%= @port %> <%= @pen_nodes %>"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 

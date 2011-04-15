@@ -22,7 +22,7 @@ define :pen_cluster, :nodes => nil, :port => nil, :user => 'root',
 
   template init_file do
     notifies :restart, "service[#{svc}]"
-    variables :pen_nodes => pen_nodes.sort, :port => params[:port], :name => params[:name]
+    variables :pen_nodes => pen_nodes.sort, :port => params[:port], :name => params[:name], :pen_options => params[:arguments]
     source init_template
     cookbook "pen"
   end

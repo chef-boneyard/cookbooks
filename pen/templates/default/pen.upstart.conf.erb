@@ -6,4 +6,4 @@ start on started networking
 expect fork
 respawn
 respawn limit 5 15
-exec /usr/bin/pen <%= @port %> <%= @pen_nodes.join(" ") %>
+exec /usr/bin/pen <%= @pen_options %> <%= @port %> <%= @pen_nodes.join(" ") %>
