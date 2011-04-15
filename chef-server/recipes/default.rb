@@ -1,10 +1,10 @@
 #
 # Author:: Joshua Timberman <joshua@opscode.com>
 # Author:: Joshua Sierles <joshua@37signals.com>
-# Cookbook Name:: chef
-# Recipe:: server
+# Cookbook Name:: chef-server
+# Recipe:: default
 #
-# Copyright 2008-2009, Opscode, Inc
+# Copyright 2008-2011, Opscode, Inc
 # Copyright 2009, 37signals
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,7 @@
 # limitations under the License.
 
 require 'open-uri'
+<<<<<<< HEAD
 
 root_group = value_for_platform(
   "openbsd" => { "default" => "wheel" },
@@ -53,6 +54,8 @@ template "/etc/chef/server.rb" do
   end
 end
 
+=======
+>>>>>>> Refactoring chef -> chef-server cookbook
 http_request "compact chef couchDB" do
   action :post
   url "#{Chef::Config[:couchdb_url]}/chef/_compact"
@@ -67,6 +70,7 @@ http_request "compact chef couchDB" do
 end
 
 %w(nodes roles registrations clients data_bags data_bag_items users).each do |view|
+
   http_request "compact chef couchDB view #{view}" do
     action :post
     url "#{Chef::Config[:couchdb_url]}/chef/_compact/#{view}"
@@ -79,4 +83,5 @@ end
       end
     end
   end
+
 end

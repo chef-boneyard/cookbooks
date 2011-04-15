@@ -5,13 +5,11 @@
 
 log_location       STDOUT
 
-search_index_path    "<%= node[:chef][:path] %>/search_index"
-
-supportdir = "<%= node[:chef][:path] %>/support"
+supportdir = "<%= node['chef_server']['path'] %>"
 solr_jetty_path File.join(supportdir, "solr", "jetty")
 solr_data_path  File.join(supportdir, "solr", "data")
 solr_home_path  File.join(supportdir, "solr", "home")
-solr_heap_size  "<%= node[:chef][:solr_heap_size] %>"
+solr_heap_size  "<%= node['chef_server']['solr_heap_size'] %>"
 
 solr_url        "http://localhost:8983"
 
