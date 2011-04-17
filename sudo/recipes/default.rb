@@ -22,6 +22,7 @@ package "sudo" do
 end
 
 template "/etc/sudoers" do
+  path "/usr/local/etc/sudoers" if platform?("freebsd")
   source "sudoers.erb"
   mode 0440
   owner "root"
