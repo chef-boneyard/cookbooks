@@ -1,6 +1,6 @@
 #
 # Author:: David Abdemoulaie <opscode@hobodave.com>
-# Cookbook Name:: chef-server
+# Cookbook Name:: chef
 # Attributes:: server_proxy
 #
 # Copyright 2009, David Abdemoulaie
@@ -18,9 +18,12 @@
 # limitations under the License.
 
 include_attribute "apache2"
-include_attribute "chef-server"
+include_attribute "chef"
 
-default['chef_server']['doc_root'] = "#{node['languages']['ruby']['gems_dir']}/gems/chef-server-webui-#{node['chef_packages']['chef']['version']}/public"
-default['chef_server']['ssl_req']  = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=chef-server-proxy/emailAddress=root@localhost"
-default['chef_server']['proxy']['css_expire_hours'] = "120"
-default['chef_server']['proxy']['js_expire_hours']  = "24"
+default[:chef][:doc_root] = "#{languages[:ruby][:gems_dir]}/gems/chef-server-webui-#{chef[:server_version]}/public"
+
+default[:chef][:server_ssl_req]  = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/" +
+  "CN=#{node.chef.server_fqdn}/emailAddress=ops@#{node.chef.server_fqdn}"
+
+default[:chef][:server_proxy][:css_expire_hours] = "120"
+default[:chef][:server_proxy][:js_expire_hours]  = "24"
