@@ -94,6 +94,9 @@ end
 chef_dirs = [
   node['chef_server']['log_dir'],
   node['chef_server']['path'],
+  node['chef_server']['cache_path'],
+  node['chef_server']['backup_path'],
+  node['chef_server']['run_path'],
   "/etc/chef"
 ]
 
