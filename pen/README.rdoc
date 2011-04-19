@@ -1,8 +1,19 @@
 = DESCRIPTION:
+Install and configure the pen load balancer program
 
 = REQUIREMENTS:
 
 = ATTRIBUTES: 
 
 = USAGE:
+<tt>pen_cluster "internal-http" do
+	arguments "-r -x 250"
+	nodes pen_nodes.map{|n| :host => n[:ipaddress], :port => 80, :hard_max_clients => 10, :max_clients => 8 }
+	port 8080
+    end
+</tt>
 
+<tt>pen_cluster</tt> will generate a pen cluster listening on the specified port bound to 127.0.0.1
+<tt>nodes provides an arry of node hashes containing node options: :port, :host, :hard_max_clients, :max_clients, :weight, :priority
+
+There is no need to include_recipe "pen", pen_cluster will do that for you.
