@@ -13,10 +13,14 @@ ATTRIBUTES
 
 The following attributes are set to blank arrays:
 
-    node[:authorization][:sudo][:groups]
-    node[:authorization][:sudo][:users]
+    node['authorization']['sudo']['groups']
+    node['authorization']['sudo']['users']
 
 They are passed into the sudoers template which iterates over the values to add sudo permission to the specified users and groups.
+
+If you prefer to use passwordless sudo just set the following attribute to true:
+
+    node['authorization']['sudo']['passwordless']
 
 USAGE
 =====
@@ -26,7 +30,8 @@ To use this cookbook, set the attributes above on the node via a role or the nod
     "authorization" => {
       "sudo" => {
         "groups" => ["admin", "wheel", "sysadmin"],
-        "users" => ["jerry", "greg"]
+        "users" => ["jerry", "greg"],
+        "passwordless" => true
       }
     }
 
@@ -42,7 +47,8 @@ In JSON (role.json or on the node object):
         "users": [
           "jerry",
           "greg"
-        ]
+        ],
+        "passwordless": true
       }
     }
 
@@ -52,8 +58,9 @@ LICENSE AND AUTHOR
 ==================
 
 Author:: Adam Jacob <adam@opscode.com>
+Author:: Seth Chisamore <schisamo@opscode.com>
 
-Copyright 2009-2010, Opscode, Inc.
+Copyright 2009-2011, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
