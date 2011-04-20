@@ -1,32 +1,35 @@
 {
-  "attributes": {
-  },
-  "providing": {
+  "name": "gecode",
+  "description": "Installs gecode",
+  "long_description": "Description\n===========\n\nInstalls Gecode 3.5.0+ development package.\n\nRequirements\n============\n\nTested on Ubuntu and Debian with Opscode APT repository and build from source.\n\nTested on CentOS for build from source. See USAGE for information on installing RPMs.\n\nRequires the following cookbooks:\n\n* apt - for installing packages from apt.opscode.com\n* build-essential - for compiling from source\n\nUsage\n=====\n\nThe recipe is primarily used to install gecode's development package or from source in order to install the `dep_selector` gem, which needs to compile native extensions.\n\nNote that compiling gecode takes a long time, up to ~30 minutes on a 4 core Macbook Pro.\n\nOn Debian and Ubuntu systems, the recipe will attempt to install packages from apt.opscode.com. It uses the apt repository LWRP in Opscode's apt cookbook to enable the repository.\n\nOn Red Hat family distros, the recipe will attempt to install gecode from source. To install using a package the recipe needs to be updated to account for a package repository. Implementation varies depending on the package repository. For example, to retrieve the /etc/yum.repos.d/somewhere.repo that has the package available, add a condition to the main 'if' block:\n\n    remote_file \"/etc/yum.repos.d/somewhere.repo\" do\n      source \"http://somewhere.example.com/yum/el5/somewhere.repo\"\n      owner \"root\"\n      group \"root\"\n      mode 0644\n    end\n\n    package \"gecode-devel\"\n\nLicense and Author\n==================\n\nAuthor:: Chris Walters (<cw@opscode.com>)\nAuthor:: Nuo Yan (<nuo@opscode.com>)\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright 2009-2011, Opscode, Inc.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Opscode, Inc.",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
+  "platforms": {
   },
   "dependencies": {
     "apt": [
 
+    ],
+    "build-essential": [
+
     ]
-  },
-  "maintainer": "YOUR_COMPANY_NAME",
-  "long_description": "= DESCRIPTION:\n\n= REQUIREMENTS:\n\n= ATTRIBUTES:\n\n= USAGE:\n\n",
-  "replacing": {
-  },
-  "maintainer_email": "YOUR_EMAIL",
-  "groupings": {
-  },
-  "platforms": {
-  },
-  "license": "All rights reserved",
-  "version": "0.0.1",
-  "recipes": {
   },
   "recommendations": {
   },
   "suggestions": {
   },
-  "name": "gecode",
-  "description": "Installs/Configures gecode",
   "conflicting": {
-  }
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.99.0"
 }

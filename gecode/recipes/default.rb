@@ -1,6 +1,7 @@
 #
 # Author:: Christopher Walters <cw@opscode.com>
 # Author:: Nuo Yan <nuo@opscode.com>
+# Author:: Joshua Timberman <joshua@opscode.com>
 # Cookbook Name:: gecode
 # Recipe:: default
 #
@@ -23,7 +24,7 @@ deb_exists = (node['platform'] == 'ubuntu' && ["lucid", "maverick"].include?(nod
              (node['platform'] == 'debian' && node["lsb"]["codename"] == "lenny")
 
 # we have tested building from source on the following platforms
-can_build_from_src = ['ubuntu', 'debian', 'redhat', 'rhel', 'centos'].include?(node['platform']) # TODO: verify these are correct strings
+can_build_from_src = ['ubuntu', 'debian', 'redhat', 'centos'].include?(node['platform'])
 
 if deb_exists
   include_recipe 'apt'
@@ -42,8 +43,11 @@ if deb_exists
   apt_package 'libgecode-dev' do
     action :install
   end
+
 elsif can_build_from_src
-  # build from source
+
+  include_recipe 'build-essential'
+
   bash "build gecode from source" do
     cwd "/tmp"
     code <<-EOH
@@ -53,6 +57,7 @@ elsif can_build_from_src
     make && make install
     EOH
   end
+
 else
-  raise "This recipe does not yet support installing Gecode for your platform"
+  raise "This recipe does not yet support installing Gecode 3.5.0+ for your platform"
 end
