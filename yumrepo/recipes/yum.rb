@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: yumrepo
-# Recipe:: default 
+# Recipe:: yum 
 #
-# Copyright 2010, Eric G. Wolfe
+# Copyright 2011, Eric G. Wolfe
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@
 # limitations under the License.
 #
 
-include_recipe "yumrepo::yum"
-include_recipe "yumrepo::epel"
-include_recipe "yumrepo::dell"
-include_recipe "yumrepo::vmware-tools"
+case node[:platform]
+  when "redhat","centos"
+    template "/etc/yum.conf" do
+      source "yum-rhel#{node[:platform_version].to_i}.conf.erb"
+    end
+end

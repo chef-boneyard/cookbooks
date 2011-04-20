@@ -51,7 +51,7 @@ service "vmware-tools" do
 end
 
 if node[:repo][:vmware][:install_optional]
-  node[:repo][:vmware][:required_packages].each do |optional_pkg|
+  node[:repo][:vmware][:optional_packages].each do |optional_pkg|
     package optional_pkg
   end
 end

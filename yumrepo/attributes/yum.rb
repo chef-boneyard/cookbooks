@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: yumrepo
-# Recipe:: default 
+# Attributes:: yum 
 #
-# Copyright 2010, Eric G. Wolfe
+# Copyright 2011, Eric G. Wolfe 
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "yumrepo::yum"
-include_recipe "yumrepo::epel"
-include_recipe "yumrepo::dell"
-include_recipe "yumrepo::vmware-tools"
+# Example: override.yum.exclude = "kernel* compat-glibc*"
+default[:yum][:exclude]
+default[:yum][:installonlypkgs]

@@ -37,9 +37,7 @@ yumrepo "dell-firmware-repository" do
   templatesource "dell-firmware-repository.repo.erb"
 end
 
-package "srvadmin-all" do
-  ignore_failure true
-end
+package "srvadmin-all"
 
 if node[:repo][:dell][:download_firmware]
   package "firmware-tools" do
@@ -52,7 +50,9 @@ if node[:repo][:dell][:download_firmware]
   script "bootstrap_firmware" do
     interpreter "bash"
     code <<-EOH
-      yum -y install $(bootstrap_firmware)
+      if [ -x /usr/sbin/bootstrap_firmware ]; then
+        yum -y install $(bootstrap_firmware)
+      fi
     EOH
   end
 end
