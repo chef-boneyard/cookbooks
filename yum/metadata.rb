@@ -7,7 +7,7 @@ recipe            "yum", "Runs 'yum update' during compile phase"
 recipe            "yum::yum", "manages yum configuration"
 
 %w{ redhat centos scientific }.each do |os|
-  supports os, ">= 5"
+  supports os, ">= 5.0"
 end
 
 attribute "yum/exclude",
