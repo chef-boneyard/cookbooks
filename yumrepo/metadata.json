@@ -1,4 +1,6 @@
 {
+  "recommendations": {
+  },
   "platforms": {
     "centos": [
       ">= 5"
@@ -15,6 +17,7 @@
     "yumrepo::elff": "Installs Enterprise Linux Fast Forward (ELFF) repository",
     "yumrepo::epel": "Installs Fedora Extra Packages for Enterprise Linux (EPEL) repository",
     "yumrepo::zenoss": "YUM repo for ZenOss stable",
+    "yumrepo::yum": "manages yum",
     "yumrepo::vmware-tools": "Installs VMware (vmware-tools) repository",
     "yumrepo::dell": "Installs Dell (OpenManage) repository",
     "yumrepo::annvix": "Annvix repository for packages usable with Red Hat Enterprise Linux and CentOS.",
@@ -22,9 +25,7 @@
   },
   "conflicting": {
   },
-  "providing": {
-  },
-  "version": "0.11.1",
+  "version": "0.11.2",
   "attributes": {
     "repo/dell/download_firmware": {
       "required": "recommended",
@@ -159,17 +160,17 @@
       "description": "URL for the Dell Community repository"
     }
   },
+  "providing": {
+  },
+  "license": "Apache 2.0",
   "maintainer": "Eric G. Wolfe",
   "replacing": {
   },
-  "license": "Apache 2.0",
-  "maintainer_email": "wolfe21@marshall.edu",
-  "long_description": "= DESCRIPTION:\n\nManages Yum Repository files in /etc/yum.repos.d on CentOS / RHEL 5.x.\n\nYum repositories included in this recipe:\nEPEL, ELFF, Dell OMSA, Dell Community, Dell Firmware, VMware Tools\n\n= REQUIREMENTS:\n\nThis cookbook requires RHEL or CentOS 5.x, and newer.\nIt has not been tested on other platforms.  It probably will\nnot work with RHEL 4 or CentOS 4, especially if you have not\ntaken action to manually install yum on that platform.\n\nRHEL 6 support is very new, and has been tested on only a few systems.\nLet me know if you find a bug, related to one of the recipes.\n\nThe yumrepo::dell recipe requires Dell manufactured hardware.  This\nrecipe should automatically disable itself by default if non-Dell\nhardware is detected by Ohai\n\nThe yumrepo::vmware-tools recipe requires a VMWare Virtual Machine.\nThis recipe should automatically disable itself by default if\nnon-VMWare hardware is detected by Ohai.\n\nRecipes tested with Ohai >= 0.5.6\n\n= USAGE:\n\n* yumrepo::default\n\n - includes epel, dell, and vmware-tools recipes\n\n* yumrepo::epel\n\n - Provides RPM keys and repo file for\n   Fedora EPEL (Extra Packages for Enterprise Linux)\n * See http://fedoraproject.org/wiki/EPEL for more info\n\n* yumrepo::elff\n\n - Provides RPM keys and repo file for\n   ELFF (Enterprise Linux Fast Forward)\n * See http://elff.bravenet.com for more info\n\n* yumrepo::dell\n\n - Provides repo files for the following Dell repositories.\n   - hardware / Open Manage Server Administrator\n   - community / formerly the software repository\n   - firmware / Convenient but unsupported by Dell\n   * See http://linux.dell.com for more info\n\n* yumrepo::vmware-tools\n\n - Uninstalls VMwareTools rpm installed from the\n   VMware ESX \"Install/Upgrade VMware Tools\" menu\n - Uninstalls manually installed vmware-tools\n   packages, the recipe needs to first run\n   vmware-uninstall-tools.pl to use the RPM packages\n   from the repo.\n - Provides RPM keys and repo file for\n   VMware Tools for the ESX 4.1 release\n * See http://packages.vmware.com for more info\n\n* yumrepo::annvix\n - Annvix repository for packages usable with Red Hat Enterprise Linux and\n   CentOS.\n\n* yumrepo::postgresql9\n - PostgreSQL 9.0 RPMs from pgrpms.org\n\n* yumrepo::zenoss\n - ZenOss Network Monitoring system (http://zenoss.org)\n   Repo available at http://dev.zenoss.org/yum/stable\n\n= ATTRIBUTES:\n\nNotable overridable attributes are as follows.\n\n* yumrepo::dell\n\n - repo[:dell][:download_firmware] = true||false\n   * disables/enables community/firmware repositories in dell recipe\n   * OMSA (hardware) repository will detect Dell hardware platform and\n     enable itself, dynamically. It is not affected by this attribute.\n\n* yumrepo::vmware\n\n - repo[:vmware][:release] (ESX version number, default 4.1)\n   * This is used to determine the correct URL in the\n     VMware RHEL5/CentOS repository.\n\n - repo[:vmware][:install_optional] = true||false\n   * Whether or not VMware's optional mouse, and X11\n     drivers should be installed in the vmware-tools recipe.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Eric G. Wolfe\nCopyright:: 2010-2011\n\nContributor:: Tippr, Inc.\nCopyright:: 2011\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n\n",
   "name": "yumrepo",
-  "groupings": {
-  },
   "dependencies": {
   },
-  "recommendations": {
+  "maintainer_email": "wolfe21@marshall.edu",
+  "long_description": "= DESCRIPTION:\n\nManages Yum Repository files in /etc/yum.repos.d on CentOS / RHEL 5.x.\n\nYum repositories included in this recipe:\nEPEL, ELFF, Dell OMSA, Dell Community, Dell Firmware, VMware Tools\n\n= REQUIREMENTS:\n\nThis cookbook requires RHEL or CentOS 5.x, and newer.\nIt has not been tested on other platforms.  It probably will\nnot work with RHEL 4 or CentOS 4, especially if you have not\ntaken action to manually install yum on that platform.\n\nRHEL 6 support is very new, and has been tested on only a few systems.\nLet me know if you find a bug, related to one of the recipes.\n\nThe yumrepo::dell recipe requires Dell manufactured hardware.  This\nrecipe should automatically disable itself by default if non-Dell\nhardware is detected by Ohai\n\nThe yumrepo::vmware-tools recipe requires a VMWare Virtual Machine.\nThis recipe should automatically disable itself by default if\nnon-VMWare hardware is detected by Ohai.\n\nRecipes tested with Ohai >= 0.5.6\n\n= USAGE:\n\n* yumrepo::default\n\n - includes epel, dell, and vmware-tools recipes\n\n* yumrepo::epel\n\n - Provides RPM keys and repo file for\n   Fedora EPEL (Extra Packages for Enterprise Linux)\n * See http://fedoraproject.org/wiki/EPEL for more info\n\n* yumrepo::elff\n\n - Provides RPM keys and repo file for\n   ELFF (Enterprise Linux Fast Forward)\n * See http://elff.bravenet.com for more info\n\n* yumrepo::dell\n\n - Provides repo files for the following Dell repositories.\n   - hardware / Open Manage Server Administrator\n   - community / formerly the software repository\n   - firmware / Convenient but unsupported by Dell\n   * See http://linux.dell.com for more info\n\n* yumrepo::vmware-tools\n\n - Uninstalls VMwareTools rpm installed from the\n   VMware ESX \"Install/Upgrade VMware Tools\" menu\n - Uninstalls manually installed vmware-tools\n   packages, the recipe needs to first run\n   vmware-uninstall-tools.pl to use the RPM packages\n   from the repo.\n - Provides RPM keys and repo file for\n   VMware Tools for the ESX 4.1 release\n * See http://packages.vmware.com for more info\n\n* yumrepo::annvix\n - Annvix repository for packages usable with Red Hat Enterprise Linux and\n   CentOS.\n\n* yumrepo::postgresql9\n - PostgreSQL 9.0 RPMs from pgrpms.org\n\n* yumrepo::zenoss\n - ZenOss Network Monitoring system (http://zenoss.org)\n   Repo available at http://dev.zenoss.org/yum/stable\n\n= ATTRIBUTES:\n\nNotable overridable attributes are as follows.\n\n* yumrepo::dell\n\n - repo[:dell][:download_firmware] = true||false\n   * disables/enables community/firmware repositories in dell recipe\n   * OMSA (hardware) repository will detect Dell hardware platform and\n     enable itself, dynamically. It is not affected by this attribute.\n\n* yumrepo::vmware\n\n - repo[:vmware][:release] (ESX version number, default 4.1)\n   * This is used to determine the correct URL in the\n     VMware RHEL5/CentOS repository.\n\n - repo[:vmware][:install_optional] = true||false\n   * Whether or not VMware's optional mouse, and X11\n     drivers should be installed in the vmware-tools recipe.\n\n= LICENSE and AUTHOR:\n\nAuthor:: Eric G. Wolfe\nCopyright:: 2010-2011\n\nContributor:: Tippr, Inc.\nCopyright:: 2011\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n\n",
+  "groupings": {
   }
 }

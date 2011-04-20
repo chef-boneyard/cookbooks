@@ -3,7 +3,7 @@
 [dell-community]
 name=Dell Community Repository
 type=rpm-md
-baseurl=http://linux.dell.com/repo/community//content/el$releasever-$basearch/
+baseurl=http://linux.dell.com/repo/community/content/el<%= node[:platform_version].to_i %>-$basearch/
 mirrorlist=<%= node[:repo][:dell][:community_url] %>
 gpgcheck=1
 gpgkey=http://linux.dell.com/repo/community//mirrors.cgi?osname=el$releasever&basearch=$basearch&redirpath=/repodata/repomd.xml.key
