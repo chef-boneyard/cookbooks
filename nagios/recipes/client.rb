@@ -30,21 +30,37 @@ else
   end
 end
 
-%w{
-  nagios-nrpe-server
-  nagios-plugins
-  nagios-plugins-basic
-  nagios-plugins-standard
-}.each do |pkg|
+nagioslib = "/usr/lib/nagios"
+service = "nagios-nrpe-server"
+
+case node[:platform]
+when "centos","redhat","fedora"
+  nagioslib = "/usr/lib64/nagios" if node[:kernel][:machine] == "x86_64"
+  service = "nrpe"
+
+  pkgs = %w{
+    nagios-nrpe
+    nagios-plugins
+  }
+when "debian","ubuntu"
+  pkgs = %w{
+    nagios-nrpe-server
+    nagios-plugins
+    nagios-plugins-basic
+    nagios-plugins-standard
+  }
+end
+
+pkgs.each do |pkg|
   package pkg
 end
 
-service "nagios-nrpe-server" do
+service "#{service}" do
   action :enable
   supports :restart => true, :reload => true
 end
 
-remote_directory "/usr/lib/nagios/plugins" do
+remote_directory "#{nagioslib}/plugins" do
   source "plugins"
   owner "nagios"
   group "nagios"
@@ -57,6 +73,6 @@ template "/etc/nagios/nrpe.cfg" do
   owner "nagios"
   group "nagios"
   mode "0644"
-  variables :mon_host => mon_host
-  notifies :restart, resources(:service => "nagios-nrpe-server")
+  variables(:mon_host => mon_host, :nagioslib => nagioslib)
+  notifies :restart, resources(:service => "#{service}")
 end
