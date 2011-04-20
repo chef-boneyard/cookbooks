@@ -63,12 +63,13 @@ This LWRP provides an easy way to manage additional YUM repositories. GPG keys c
 # Attribute Parameters
 
 - repo_name: name attribute. The name of the channel to discover
-- name. The description of the repository
+- description. The description of the repository
 - url: The URL providing the packages
 - mirrorlist: Default is `false`,  if `true` the `url` is considered a list of mirrors
 - key: Optional, the name of the GPG key file installed by the `key` LWRP.
 - enabled: Default is `1`, set to `0` if the repository is disabled.
 - type: Optional, alternate type of repository
+- failovermethod: Optional, failovermethod
 - bootstrapurl: Optional, bootstrapurl
 
 # Example
@@ -97,8 +98,11 @@ License and Author
 ==================
 
 Author:: Eric G. Wolfe
+
 Copyright:: 2010-2011
+
 Author:: Matt Ray (<matt@opscode.com>)
+
 Copyright:: 2011 Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
