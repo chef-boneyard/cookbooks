@@ -24,9 +24,10 @@
 action :add do
   unless ::File.exists?("/etc/yum.repos.d/#{new_resource.repo_name}.repo")
     Chef::Log.info "Adding #{new_resource.repo_name} repository to /etc/yum.repos.d/#{new_resource.repo_name}.repo"
-    #import the gpg key
+    #import the gpg key. If it needs to be downloaded or imported from a cookbook
+    #that can be done in the calling recipe
     if new_resource.key then
-      yumkey new_resource.key
+      yum_key new_resource.key
     end
     #get the metadata
     execute "yum -q makecache" do
@@ -34,7 +35,7 @@ action :add do
     end
     #write out the file
     template "/etc/yum.repos.d/#{new_resource.repo_name}.repo" do
-      source "generic.repo.erb"
+      source "repo.erb"
       variables({
                   :repo_name => new_resource.repo_name,
                   :name => new_resouce.name,
