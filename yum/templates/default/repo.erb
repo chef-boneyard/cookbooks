@@ -5,7 +5,7 @@ name=<%= @description %>
 <% if @type %>
 type=<%= @type %>
 <% end %>
-<% if @use_mirrorlist %>
+<% if @mirrorlist %>
 mirrorlist=<%= @url %>
 <% else %>
 baseurl=<%= @url %>
@@ -17,7 +17,7 @@ gpgkey=file:///etc/pki/rpm-gpg/<%= @key %>
 gpgcheck=0
 <% end %>
 enabled=<%= @enabled %>
-< if @failovermethod %>
+<% if @failovermethod %>
 failovermethod=<%= @failovermethod %>
 <% end %>
 <% if @bootstrapurl %>
