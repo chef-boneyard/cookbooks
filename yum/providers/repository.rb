@@ -35,6 +35,7 @@ action :add do
     end
     #write out the file
     template "/etc/yum.repos.d/#{new_resource.repo_name}.repo" do
+      cookbook "yum"
       source "repo.erb"
       mode "0644"
       variables({
