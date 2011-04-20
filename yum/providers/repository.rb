@@ -36,15 +36,17 @@ action :add do
     #write out the file
     template "/etc/yum.repos.d/#{new_resource.repo_name}.repo" do
       source "repo.erb"
+      mode "0644"
       variables({
                   :repo_name => new_resource.repo_name,
-                  :name => new_resouce.name,
-                  :url => url,
+                  :description => new_resource.description,
+                  :url => new_resource.url,
                   :mirrorlist => new_resource.mirrorlist,
                   :key => new_resource.key,
                   :enabled => new_resource.enabled,
                   :type => new_resource.type,
-                  :key => new_resource.bootstrapurl
+                  :failovermethod => new_resource.failovermethod,
+                  :bootstrapurl => new_resource.bootstrapurl
                 })
       notifies :run, resources(:execute => "yum -q makecache"), :immediately
     end
