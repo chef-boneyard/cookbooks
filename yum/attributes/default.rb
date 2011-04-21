@@ -24,4 +24,4 @@ default[:yum][:exclude] = Array.new
 default[:yum][:installonlypkgs] = Array.new
 
 # boolean attribute to update system
-default[:yum][:upgrade] = 0
+default[:yum][:upgrade] = false 
