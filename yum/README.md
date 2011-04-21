@@ -28,6 +28,7 @@ Manages the configuration of the `/etc/yum.conf` via attributes.
   usage: override.yum.exclude = [ "kernel*", "compat-glibc*" ]
          override.yum.installonlypkgs = [ "kernel*", "compat-glibc*" ]
 
+Resources/Providers
 ===================
 
 key
