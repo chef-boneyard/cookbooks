@@ -17,9 +17,13 @@
 # limitations under the License.
 #
 
-yumrepo "zenoss" do
-  action :enable
-  definition "ZenOss Stable repo"
+yum_key "RPM-GPG-KEY-zenoss" do
+  actioN :add
+end
+
+yum_repository "zenoss" do
+  description "ZenOss Stable repo"
   key "RPM-GPG-KEY-zenoss"
   url "http://dev.zenoss.com/yum/stable/"
+  action :add
 end

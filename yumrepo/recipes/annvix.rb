@@ -17,9 +17,13 @@
 # limitations under the License.
 #
 
-yumrepo "annvix" do
-  action :enable
-  definition "CentOS/RHEL-EL#{node[:platform_version].split('.')[0]} - Annvix"
+yum_key "RPM-GPG-KEY-annvix" do
+  action :add
+end
+
+yum_repository "annvix" do
+  description "CentOS/RHEL-EL#{node[:platform_version].split('.')[0]} - Annvix"
   key "RPM-GPG-KEY-annvix"
   url "http://repo.annvix.org/media/EL#{node[:platform_version].split('.')[0]}/$basearch"
+  action :add
 end

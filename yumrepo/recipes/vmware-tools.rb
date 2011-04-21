@@ -19,23 +19,29 @@
 #
 
 if not node[:repo][:vmware][:enabled]
-  yumrepo "vmware-tools" do
-    action :disable
+  yum_repository "vmware-tools" do
+    action :remove
   end
   return
 end
 
-yumrepo "vmware-tools" do
-  action :enable
-  definition "VMware Tools"
-  key "VMWARE-PACKAGING-GPG-KEY"
-  url "http://packages.vmware.com/tools/esx/#{node[:repo][:vmware][:release]}/rhel#{node[:platform_version].to_i}/$basearch"
+yum_key "VMWARE-PACKAGING-GPG-KEY" do
+  action :add
 end
 
+yum_repository "vmware-tools" do
+  description "VMware Tools"
+  key "VMWARE-PACKAGING-GPG-KEY"
+  url "http://packages.vmware.com/tools/esx/#{node[:repo][:vmware][:release]}/rhel#{node[:platform_version].to_i}/$basearch"
+  action :add
+end
+
+# Cleanup VMwareTools rpm, if exists
 package "VMwareTools" do
   action :remove
 end
 
+# Cleanup manually vmware-tools installation, if exists
 execute "/usr/bin/vmware-uninstall-tools.pl" do
   action :run
   only_if {File.exists?("/usr/bin/vmware-uninstall-tools.pl")}

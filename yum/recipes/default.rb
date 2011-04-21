@@ -17,4 +17,6 @@
 # limitations under the License.
 #
 
-execute "yum update"
+if node[:yum][:upgrade]
+  execute "yum -y upgrade"
+end

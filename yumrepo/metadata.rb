@@ -2,8 +2,9 @@ maintainer       "Eric G. Wolfe"
 maintainer_email "wolfe21@marshall.edu"
 license          "Apache 2.0"
 description      "Installs and configures EPEL, ELFF, Dell, and VMware yum repositories."
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.11.2"
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version          "0.12.0"
+depends          "yum"
 recipe "yumrepo::default", "Installs EPEL, ELFF, Dell, and VMware Tools repositories."
 recipe "yumrepo::epel", "Installs Fedora Extra Packages for Enterprise Linux (EPEL) repository"
 recipe "yumrepo::elff", "Installs Enterprise Linux Fast Forward (ELFF) repository"
@@ -15,7 +16,7 @@ recipe "yumrepo::zenoss", "YUM repo for ZenOss stable"
 recipe "yumrepo::yum", "manages yum"
 
 %w{ redhat centos }.each do |os|
-  supports os, ">= 5"
+  supports os, ">= 5.0"
 end
 
 attribute "repo/dell/community_url",

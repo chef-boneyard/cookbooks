@@ -17,9 +17,13 @@
 # limitations under the License.
 #
 
-yumrepo "postgresql9" do
-  action :enable
-  definition "PostgreSQL 9.0"
+yum_key "RPM-GPG-KEY-PGDG" do
+  action :add
+end
+
+yum_repository "postgresql9" do
+  description "PostgreSQL 9.0"
   key "RPM-GPG-KEY-PGDG"
   url "http://yum.pgrpms.org/9.0/redhat/rhel-$releasever-$basearch"
+  action :add
 end

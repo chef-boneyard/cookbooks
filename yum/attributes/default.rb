@@ -18,6 +18,10 @@
 # limitations under the License.
 #
 
-# Example: override.yum.exclude = "kernel* compat-glibc*"
-default[:yum][:exclude]
-default[:yum][:installonlypkgs]
+# Example: override.yum.exclude = [ "kernel*", "compat-glibc*" ]
+#          override.yum.installonlypkgs = [ "kernel*", "compat-glibc*" ]
+default[:yum][:exclude] = Array.new
+default[:yum][:installonlypkgs] = Array.new
+
+# boolean attribute to update system
+default[:yum][:upgrade] = 0
