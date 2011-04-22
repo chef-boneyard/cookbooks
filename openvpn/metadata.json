@@ -112,5 +112,5 @@
     "openvpn": "Installs and configures openvpn",
     "openvpn::users": "Sets up openvpn cert/configs for users data bag items"
   },
-  "version": "0.99.0"
+  "version": "0.99.1"
 }
