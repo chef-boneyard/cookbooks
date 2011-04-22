@@ -76,9 +76,6 @@ execute "mysql-install-application-privileges" do
   subscribes :run, resources(:template => "/etc/mysql/app_grants.sql"), :immediately
 end
 
-Gem.clear_paths
-require 'mysql'
-
 search(:apps) do |app|
   (app['database_master_role'] & node.run_list.roles).each do |dbm_role|
     app['databases'].each do |env,db|
