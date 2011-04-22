@@ -26,6 +26,15 @@ root_group = value_for_platform(
 
 chef_node_name = Chef::Config[:node_name] == node["fqdn"] ? false : Chef::Config[:node_name]
 
+%w{run_path cache_path backup_path log_dir}.each do |key|
+  directory node['chef_client'][key] do
+    recursive true
+    owner "root"
+    group root_group
+    mode 0755
+  end
+end
+
 template "/etc/chef/client.rb" do
   source "client.rb.erb"
   owner "root"
