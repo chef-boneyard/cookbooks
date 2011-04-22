@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: activemq
-# Attributes:: activemq
+# Attributes:: default
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,5 +17,8 @@
 # limitations under the License.
 #
 
-default[:activemq][:mirror]  = "http://mirrors.ibiblio.org/pub/mirrors"
-default[:activemq][:version] = "5.3.2"
+default['activemq']['mirror']  = "http://apache.mirrors.tds.net"
+default['activemq']['version'] = "5.5.0"
+default['activemq']['home']  = "/opt"
+default['activemq']['wrapper']['max_memory'] = "512"
+default['activemq']['wrapper']['useDedicatedTaskRunner'] = "true"

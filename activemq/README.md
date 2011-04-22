@@ -1,30 +1,34 @@
-= DESCRIPTION:
+# DESCRIPTION:
 
-Installs activemq and sets up a runit service.
+Installs activemq and sets up a service using the init script that comes with it.
 
-= REQUIREMENTS:
+# REQUIREMENTS:
 
-Tested on Ubuntu 9.04.
+Platform:
+
+Tested on Ubuntu 10.04 and CentOS 5.5. Should work on any Debian or Red Hat family distributions.
 
 Opscode cookbooks:
 
 * java
-* runit
 
-= ATTRIBUTES:
+# ATTRIBUTES:
 
-* activemq[:mirror] - download URL up to the apache/activemq/apache-activemq directory.
-* activemq[:version] - version to install.
+* `activemq[:mirror]` - download URL up to the activemq/apache-activemq directory.
+* `activemq[:version]` - version to install.
+* `activemq[:deploy]` - directory to deploy to (/opt by default)
 
-= USAGE:
+# USAGE:
 
-Include the default recipe on systems where you want to run activemq. At this time the cookbook doesn't use any custom configuration for activemq.
+Simply add `recipe[activemq]` to a run list.
 
-= LICENSE AND AUTHOR:
+This cookbook doesn't use any custom configuration for activemq.
+
+# LICENSE AND AUTHOR:
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
 
-Copyright:: 2009, Opscode, Inc
+Copyright:: 2009-2011, Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
