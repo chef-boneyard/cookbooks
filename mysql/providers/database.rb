@@ -20,6 +20,12 @@ action :create_db do
   end
 end
 
+action :query do
+  Chef::Log.info "mysql_database: Performing Query: #{new_resource.sql}"
+  db.query(new_resource.query)
+  new_resource.updated_by_last_action(true)
+end
+
 def load_current_resource
   @mysqldb = Chef::Resource::MysqlDatabase.new(new_resource.name)
   @mysqldb.database(new_resource.database)
