@@ -12,6 +12,14 @@ Requirements
 
 Chef 0.8 or higher required.
 
+Platform
+--------
+
+Ubuntu, Debian, Red Hat, CentOS or Fedora.
+
+Cookbooks
+---------
+
 The following Opscode cookbooks are dependencies:
 
 * mysql
@@ -144,8 +152,9 @@ License and Author
 Author:: Adam Jacob (<adam@opscode.com>)
 Author:: Joshua Timberman (<joshua@opscode.com>)
 Author:: AJ Christensen (<aj@opscode.com>)
+Author:: Seth Chisamore (<schisamo@opscode.com>)
 
-Copyright 2009-2010, Opscode, Inc.
+Copyright 2009-2011, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
