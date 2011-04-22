@@ -1,42 +1,44 @@
 {
-    "providing": {
-    },
-    "attributes": {
-    },
-    "replacing": {
-    },
-    "dependencies": {
-      "runit": [
+  "name": "activemq",
+  "description": "Installs activemq and sets it up as service",
+  "long_description": "# DESCRIPTION:\n\nInstalls activemq and sets up a service using the init script that comes with it.\n\n# REQUIREMENTS:\n\nPlatform:\n\nTested on Ubuntu 10.04 and CentOS 5.5. Should work on any Debian or Red Hat family distributions.\n\nOpscode cookbooks:\n\n* java\n\n# ATTRIBUTES:\n\n* `activemq[:mirror]` - download URL up to the activemq/apache-activemq directory.\n* `activemq[:version]` - version to install.\n* `activemq[:deploy]` - directory to deploy to (/opt by default)\n\n# USAGE:\n\nSimply add `recipe[activemq]` to a run list.\n\nThis cookbook doesn't use any custom configuration for activemq.\n\n# LICENSE AND AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009-2011, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Opscode, Inc.",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "ubuntu": [
 
-      ],
-      "java": [
+    ],
+    "debian": [
 
-      ]
-    },
-    "groupings": {
-    },
-    "recommendations": {
-    },
-    "platforms": {
-      "debian": [
+    ],
+    "redhat": [
 
-      ],
-      "ubuntu": [
+    ],
+    "centos": [
 
-      ]
-    },
-    "license": "Apache 2.0",
-    "version": "0.3.3",
-    "maintainer": "Opscode, Inc.",
-    "suggestions": {
-    },
-    "recipes": {
-      "activemq": "Installs ActiveMQ from source and sets it up as a runit service"
-    },
-    "maintainer_email": "cookbooks@opscode.com",
-    "name": "activemq",
-    "conflicting": {
-    },
-    "description": "Installs activemq and sets it up as a runit service",
-    "long_description": "= DESCRIPTION:\n\nInstalls activemq and sets up a runit service.\n\n= REQUIREMENTS:\n\nTested on Ubuntu 9.04.\n\nOpscode cookbooks:\n\n* java\n* runit\n\n= ATTRIBUTES:\n\n* activemq[:mirror] - download URL up to the apache/activemq/apache-activemq directory.\n* activemq[:version] - version to install.\n\n= USAGE:\n\nInclude the default recipe on systems where you want to run activemq. At this time the cookbook doesn't use any custom configuration for activemq.\n\n= LICENSE AND AUTHOR:\n\nAuthor:: Joshua Timberman (<joshua@opscode.com>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n"
-  }
+    ]
+  },
+  "dependencies": {
+    "java": [
+
+    ]
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "1.0.0"
+}

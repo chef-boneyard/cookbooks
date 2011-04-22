@@ -32,8 +32,8 @@ search(:apps) do |app|
     %w{ root repl debian }.each do |user|
       user_pw = app["mysql_#{user}_password"]
       if !user_pw.nil? and user_pw[node.app_environment]
-        Chef::Log.debug("Saving password for #{user} as node attribute node[:mysql][:server_#{user}_password")
-        node.set[:mysql]["server_#{user}_password"] = user_pw[node.app_environment]
+        Chef::Log.debug("Saving password for #{user} as node attribute node['mysql']['server_#{user}_password'")
+        node.set['mysql']["server_#{user}_password"] = user_pw[node.app_environment]
         node.save
       else
         log "A password for MySQL user #{user} was not found in DataBag 'apps' item '#{app["id"]}' for environment ' for #{node.app_environment}'." do
@@ -71,19 +71,16 @@ template "/etc/mysql/app_grants.sql" do
 end
 
 execute "mysql-install-application-privileges" do
-  command "/usr/bin/mysql -u root #{node[:mysql][:server_root_password].empty? ? '' : '-p' }#{node[:mysql][:server_root_password]} < #{grants_path}"
+  command "/usr/bin/mysql -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }#{node['mysql']['server_root_password']} < #{grants_path}"
   action :nothing
   subscribes :run, resources(:template => "/etc/mysql/app_grants.sql"), :immediately
 end
 
-Gem.clear_paths
-require 'mysql'
-
 search(:apps) do |app|
   (app['database_master_role'] & node.run_list.roles).each do |dbm_role|
     app['databases'].each do |env,db|
-      if env =~ /#{node[:app_environment]}/
-        root_pw = node["mysql"]["server_root_password"]
+      if env =~ /#{node['app_environment']}/
+        root_pw = node['mysql']['server_root_password']
         mysql_database "create #{db['database']}" do
           host "localhost"
           username "root"

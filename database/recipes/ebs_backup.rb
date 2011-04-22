@@ -19,7 +19,7 @@
 #
 
 begin
-  aws = Chef::DataBagItem.load(:aws, :main)
+  aws = Chef::DataBagItem.load('aws', 'main')
   Chef::Log.info("Loaded AWS information from DataBagItem aws[#{aws['id']}]")
 rescue
   Chef::Log.fatal("Could not find the 'main' item in the 'aws' data bag")
@@ -35,7 +35,7 @@ search(:apps) do |app|
   db_master_role = app["database_master_role"]
 end
 
-ebs_info = Chef::DataBagItem.load(:aws, "ebs_#{db_master_role}_#{node[:app_environment]}")
+ebs_info = Chef::DataBagItem.load(:aws, "ebs_#{db_master_role}_#{node['app_environment']}")
 
 gem_package "dbi"
 gem_package "dbd-mysql"
@@ -71,14 +71,14 @@ end
     group "root"
     mode 0700
     variables(
-      :mysql_root_passwd => node[:mysql][:server_root_password],
-      :mysql_device => node[:mysql][:ebs_vol_dev],
+      :mysql_root_passwd => node['mysql']['server_root_password'],
+      :mysql_device => node['mysql']['ebs_vol_dev'],
       :ebs_vol_id => ebs_info['volume_id']
     )
   end
 end
 
-if db_type == "master" && node[:app_environment] == "production"
+if db_type == "master" && node['app_environment'] == "production"
   template "/etc/cron.d/db-backup" do
     source "ebs-backup-cron.erb"
     owner "root"

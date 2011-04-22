@@ -31,7 +31,7 @@ if node[:ec2]
     raise
   end
 
-  ebs_vol_dev = node[:mysql][:ebs_vol_dev]
+  ebs_vol_dev = node['mysql']['ebs_vol_dev']
   ebs_vol_id = String.new
   db_type = String.new
   db_role = String.new
@@ -176,19 +176,19 @@ if node[:ec2]
     end
 
   %w{ec2_path datadir}.each do |dir|
-    directory node[:mysql][dir] do
+    directory node['mysql'][dir] do
       mode 0755
     end
   end
 
-  mount node[:mysql][:ec2_path] do
+  mount node['mysql']['ec2_path'] do
     device ebs_vol_dev
     fstype "xfs"
     action :mount
   end
 
-  mount node[:mysql][:datadir] do
-    device node[:mysql][:ec2_path]
+  mount node['mysql']['datadir'] do
+    device node['mysql']['ec2_path']
     fstype "none"
     options "bind,rw"
     action :mount

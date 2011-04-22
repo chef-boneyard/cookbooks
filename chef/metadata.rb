@@ -3,7 +3,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures Chef for chef-client and chef-server"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           "0.99.0"
+version           "0.99.1"
 recipe            "chef", "Default recipe is empty, use one of the other recipes."
 recipe            "chef::client", "Sets up a client to talk to a chef-server"
 recipe            "chef::client_service", "Sets up a client daemon to run periodically"

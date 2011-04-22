@@ -6,32 +6,16 @@
   "maintainer_email": "cookbooks@opscode.com",
   "license": "Apache 2.0",
   "platforms": {
-    "debian": [
-
-    ],
-    "ubuntu": [
-
-    ],
-    "centos": [
-
-    ],
-    "redhat": [
-
-    ],
-    "fedora": [
-
-    ]
+    "debian": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "redhat": ">= 0.0.0",
+    "fedora": ">= 0.0.0"
   },
   "dependencies": {
-    "build-essential": [
-
-    ],
-    "xml": [
-
-    ],
-    "mysql": [
-
-    ]
+    "build-essential": ">= 0.0.0",
+    "xml": ">= 0.0.0",
+    "mysql": ">= 0.0.0"
   },
   "recommendations": {
   },
@@ -49,8 +33,8 @@
   },
   "recipes": {
     "php": "Installs php",
-    "python::package": "Installs php using packages.",
-    "python::source": "Installs php from source.",
+    "php::package": "Installs php using packages.",
+    "php::source": "Installs php from source.",
     "php::module_apc": "Install the php5-apc package",
     "php::module_curl": "Install the php5-curl package",
     "php::module_fileinfo": "Install the php5-fileinfo package",
@@ -62,5 +46,5 @@
     "php::module_pgsql": "Install the php5-pgsql packag",
     "php::module_sqlite3": "Install the php5-sqlite3 package"
   },
-  "version": "0.99.2"
+  "version": "1.0.0"
 }
