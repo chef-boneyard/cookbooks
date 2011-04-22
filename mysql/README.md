@@ -62,9 +62,6 @@ This will install the MySQL client libraries and development headers on the syst
 
 This creates a resource object for the package and does the installation before other recipes are parsed. You'll need to have the C compiler and such (ie, build-essential on Ubuntu) before running the recipes, but we already do that when installing Chef :-). If you want to be able to access a MySQL database via Ruby within another recipe, you could do so, like so:
 
-    Gem.clear_paths # needed for Chef to find the gem...
-    require 'mysql' # requires the mysql gem
-
     mysql_database "create application_production database" do
       host "localhost"
       username "root"
@@ -98,8 +95,9 @@ License and Author
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
 Author:: AJ Christensen (<aj@opscode.com>)
+Author:: Seth Chisamore (<schisamo@opscode.com>)
 
-Copyright:: 2009, Opscode, Inc
+Copyright:: 2009-2011 Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

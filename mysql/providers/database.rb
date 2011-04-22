@@ -27,6 +27,9 @@ action :query do
 end
 
 def load_current_resource
+  Gem.clear_paths
+  require 'mysql'
+
   @mysqldb = Chef::Resource::MysqlDatabase.new(new_resource.name)
   @mysqldb.database(new_resource.database)
   exists = db.list_dbs.include?(new_resource.database)
