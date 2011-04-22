@@ -2,6 +2,9 @@
   "recommendations": {
   },
   "platforms": {
+    "scientific": [
+      ">= 5.0"
+    ],
     "centos": [
       ">= 5.0"
     ],
@@ -17,7 +20,6 @@
     "yumrepo::elff": "Installs Enterprise Linux Fast Forward (ELFF) repository",
     "yumrepo::epel": "Installs Fedora Extra Packages for Enterprise Linux (EPEL) repository",
     "yumrepo::zenoss": "YUM repo for ZenOss stable",
-    "yumrepo::yum": "manages yum",
     "yumrepo::vmware-tools": "Installs VMware (vmware-tools) repository",
     "yumrepo::dell": "Installs Dell (OpenManage) repository",
     "yumrepo::annvix": "Annvix repository for packages usable with Red Hat Enterprise Linux and CentOS.",

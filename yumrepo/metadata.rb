@@ -13,9 +13,8 @@ recipe "yumrepo::vmware-tools", "Installs VMware (vmware-tools) repository"
 recipe "yumrepo::annvix", "Annvix repository for packages usable with Red Hat Enterprise Linux and CentOS."
 recipe "yumrepo::postgresql9", "PostgreSQL 9.0 RPMs from pgrpms.org"
 recipe "yumrepo::zenoss", "YUM repo for ZenOss stable"
-recipe "yumrepo::yum", "manages yum"
 
-%w{ redhat centos }.each do |os|
+%w{ redhat centos scientific }.each do |os|
   supports os, ">= 5.0"
 end
 
