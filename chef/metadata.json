@@ -84,5 +84,5 @@
     "chef::bootstrap_server": "Set up rubygem installed chef server",
     "chef::server_proxy": "Configures Apache2 proxy for API and WebUI"
   },
-  "version": "0.99.0"
+  "version": "0.99.1"
 }
