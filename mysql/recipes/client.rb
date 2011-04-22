@@ -17,30 +17,18 @@
 # limitations under the License.
 #
 
-p = package "mysql-devel" do
+devpkg = package "mysql-devel" do
   package_name value_for_platform(
     [ "centos", "redhat", "suse", "fedora"] => { "default" => "mysql-devel" },
-    "debian" => {
-      "5.0" => "libmysqlclient15-dev",
-      "5.0.1" => "libmysqlclient15-dev",
-      "5.0.2" => "libmysqlclient15-dev",
-      "5.0.3" => "libmysqlclient15-dev",
-      "5.0.4" => "libmysqlclient15-dev",
-      "5.0.5" => "libmysqlclient15-dev"
-    },
-    "ubuntu" => {
-      "8.04" => "libmysqlclient15-dev",
-      "8.10" => "libmysqlclient15-dev",
-      "9.04" => "libmysqlclient15-dev"
-    },
+    ["debian", "ubuntu"] => { "default" => 'libmysqlclient-dev' },
     "default" => 'libmysqlclient-dev'
   )
   action :nothing
 end
 
-p.run_action(:install)
+devpkg.run_action(:install)
 
-o = package "mysql-client" do
+clntpkg = package "mysql-client" do
   package_name value_for_platform(
     [ "centos", "redhat", "suse", "fedora"] => { "default" => "mysql" },
     "default" => "mysql-client"
@@ -48,26 +36,27 @@ o = package "mysql-client" do
   action :nothing
 end
 
-o.run_action(:install)
+clntpkg.run_action(:install)
 
-r = gem_package "mysql" do
-  action :nothing
-end
+if platform?(%w{debian ubuntu redhat centos fedora suse})
 
-case node[:node]
-when "centos",
-  if node[:platform_version].to_f >= 5.0
-    r.run_action(:install)
-  else
-    package "ruby-mysql" do
-      action :install
-    end
+  rbpkg = package "mysql-ruby" do
+    package_name value_for_platform(
+      [ "centos", "redhat", "suse", "fedora"] => { "default" => "ruby-mysql" },
+      ["debian", "ubuntu"] => { "default" => 'libmysql-ruby' },
+      "default" => 'libmysql-ruby'
+    )
+    action :nothing
   end
-when "redhat", "suse", "fedora"
-  package "ruby-mysql" do
-    action :install
-  end
+
+  rbpkg.run_action(:install)
 
 else
-  r.run_action(:install)
+
+  rbpkg = gem_package "mysql" do
+    action :nothing
+  end
+
+  rbpkg.run_action(:install)
+
 end

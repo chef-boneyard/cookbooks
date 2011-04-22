@@ -19,8 +19,7 @@
 
 include_recipe "mysql::client"
 
-case node[:platform]
-when "debian","ubuntu"
+if platform?(%w{debian ubuntu})
 
   directory "/var/cache/local/preseeding" do
     owner "root"
@@ -41,12 +40,14 @@ when "debian","ubuntu"
     mode "0600"
     notifies :run, resources(:execute => "preseed mysql-server"), :immediately
   end
+
   template "/etc/mysql/debian.cnf" do
     source "debian.cnf.erb"
     owner "root"
     group "root"
     mode "0600"
   end
+
 end
 
 package "mysql-server" do
@@ -83,12 +84,14 @@ end
 
 # set the root password on platforms 
 # that don't support pre-seeding
-unless %w{debian ubuntu}.include?(node[:platform])
+unless platform?(%w{debian ubuntu})
+
   execute "assign-root-password" do
     command "/usr/bin/mysqladmin -u root password #{node[:mysql][:server_root_password]}"
     action :run
     only_if "/usr/bin/mysql -u root -e 'show databases;'"
   end
+
 end
 
 grants_path = value_for_platform(
@@ -99,9 +102,9 @@ grants_path = value_for_platform(
 )
 
 begin
-  t = resources(:template => "/etc/mysql/grants.sql")
+  t = resources("template[/etc/mysql/grants.sql]")
 rescue
-  Chef::Log.warn("Could not find previously defined grants.sql resource")
+  Chef::Log.info("Could not find previously defined grants.sql resource")
   t = template "/etc/mysql/grants.sql" do
     path grants_path
     source "grants.sql.erb"
@@ -115,5 +118,5 @@ end
 execute "mysql-install-privileges" do
   command "/usr/bin/mysql -u root #{node[:mysql][:server_root_password].empty? ? '' : '-p' }#{node[:mysql][:server_root_password]} < #{grants_path}"
   action :nothing
-  subscribes :run, resources(:template => "/etc/mysql/grants.sql"), :immediately
+  subscribes :run, resources("template[/etc/mysql/grants.sql]"), :immediately
 end
