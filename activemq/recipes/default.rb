@@ -18,26 +18,37 @@
 #
 
 include_recipe "java"
-include_recipe "runit"
 
+tmp = Chef::Config[:file_cache_path]
 version = node[:activemq][:version]
 mirror = node[:activemq][:mirror]
+home = node[:activemq][:home]
 
-unless ::File.exists?("/opt/apache-activemq-#{version}/bin/activemq")
-  remote_file "/tmp/apache-activemq-#{version}-bin.tar.gz" do
-    source "#{mirror}/apache/activemq/apache-activemq/#{version}/apache-activemq-#{version}-bin.tar.gz"
+config = value_for_platform(
+  ["ubuntu","debian"] => { "default" => "/etc/default/activemq" },
+  "default" => "/.activemqrc"
+)
+
+unless ::File.exists?("#{home}/apache-activemq-#{version}/bin/activemq")
+  remote_file "#{tmp}/apache-activemq-#{version}-bin.tar.gz" do
+    source "#{mirror}/activemq/apache-activemq/#{version}/apache-activemq-#{version}-bin.tar.gz"
     mode "0644"
   end
 
-  execute "tar zxf /tmp/apache-activemq-#{version}-bin.tar.gz" do
-    cwd "/opt"
+  execute "tar zxf #{tmp}/apache-activemq-#{version}-bin.tar.gz" do
+    cwd home
   end
 end
 
-file "/opt/apache-activemq-#{version}/bin/activemq" do
+file "#{home}/apache-activemq-#{version}/bin/activemq" do
   owner "root"
   group "root"
   mode "0755"
 end
 
-runit_service "activemq"
+if platform?("ubuntu", "debian")
+  include_recipe "runit"
+  runit_service "activemq"
+else
+  Chef::Log.info("Your platform is not known to have a runit package available. Manual configuration of ActiveMQ as a service is required.")
+end
