@@ -105,24 +105,12 @@ max_binlog_size         = 100M
 #binlog_do_db           = include_database_name
 #binlog_ignore_db       = include_database_name
 #
-# * BerkeleyDB
-#
-# Using BerkeleyDB is now discouraged as its support will cease in 5.1.12.
-skip-bdb
-#
 # * InnoDB
 #
 # InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.
 # Read the manual for more InnoDB related options. There are many!
 # You might want to disable InnoDB to shrink the mysqld process by circa 100MB.
 #skip-innodb
-#
-# * Federated
-#
-# The FEDERATED storage engine is disabled since 5.0.67 by default in the .cnf files
-# shipped with MySQL distributions (my-huge.cnf, my-medium.cnf, and so forth).
-#
-skip-federated
 #
 # * Security Features
 #
