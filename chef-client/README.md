@@ -111,8 +111,19 @@ The default Chef Server will be `http://localhost:4000` which is the `Chef::Conf
         "validation_client_name" => "ORGNAME-validator"
       }
     )
-
 Where ORGNAME is your Opscode Platform organization name. Be sure to add these attributes to the role if modifying per the section below.
+
+You can also set all of the `Chef::Config` http proxy related settings.  By default Chef will not use a proxy.
+
+    override_attributes(
+      "chef_client" => {
+        "http_proxy" => "http://proxy.vmware.com:3128",
+        "https_proxy" => "http://proxy.vmware.com:3128",
+        "http_proxy_user" => "my_username",
+        "http_proxy_pass" => "Awe_some_Pass_Word!",
+        "no_proxy" => "*.vmware.com,10.*"
+      }
+    )
 
 Alternate Init Styles
 ---------------------
@@ -218,7 +229,8 @@ LICENSE AND AUTHORS
 ===================
 
 * Author: Joshua Timberman <joshua@opscode.com>
-* Copyright 2010, Opscode, Inc.
+* Author: Seth Chisamore <schisamo@opscode.com>
+* Copyright 2010-2011, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
