@@ -22,19 +22,45 @@ if not node[:repo][:dell][:enabled]
   return
 end
 
-yumkey "RPM-GPG-KEY-dell"
-yumkey "RPM-GPG-KEY-libsmbios"
-
-yumrepo "dell-community-repository" do
-  templatesource "dell-community-repository.repo.erb"
+yum_key "RPM-GPG-KEY-dell" do
+  action :add
 end
 
-yumrepo "dell-omsa-repository" do
-  templatesource "dell-omsa-repository.repo.erb"
+yum_repository "dell-community-repository" do
+  description "Dell Community Repository"
+  url node[:repo][:dell][:community_url]
+  mirrorlist true
+  key "RPM-GPG-KEY-dell"
+  action :add
 end
 
-yumrepo "dell-firmware-repository" do
-  templatesource "dell-firmware-repository.repo.erb"
+# Cleanup old version of repo which lists two repos, in one file
+yum_repository "dell-omsa-repository" do
+  action :remove
+end
+
+yum_repository "dell-omsa-indep" do
+  description "Dell OMSA repository - Hardware independent"
+  url node[:repo][:dell][:omsa_independent_url]
+  mirrorlist true
+  key "RPM-GPG-KEY-dell"
+  action :add
+end
+
+yum_repository "dell-omsa-specific" do
+  description "Dell OMSA repository - Hardware specific"
+  url node[:repo][:dell][:omsa_specific_url]
+  mirrorlist true
+  key "RPM-GPG-KEY-dell"
+  action :add
+end
+
+yum_repository "fwupdate" do
+  description "Firmware updates"
+  url node[:repo][:dell][:firmware_url]
+  mirrorlist true
+  key "RPM-GPG-KEY-dell"
+  action :add
 end
 
 package "srvadmin-all"

@@ -18,9 +18,13 @@
 # limitations under the License.
 #
 
-yumrepo "elff" do
-  action :enable
-  definition "Enterprise Linux Fast Forward"
+yum_key "RPM-GPG-KEY-ELFF" do
+  action :add
+end
+
+yum_repository "elff" do
+  description "Enterprise Linux Fast Forward"
   key "RPM-GPG-KEY-ELFF"
   url "http://download.elff.bravenet.com/#{node[:platform_version].split('.')[0]}/$basearch"
+  action :add
 end

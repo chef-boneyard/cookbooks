@@ -20,6 +20,14 @@ yum
 ---
 Manages the configuration of the `/etc/yum.conf` via attributes.
 
+# Attribute Parameters
+
+- yum.exclude: Packages to exclude from `yum update`
+- yum.installonlypkgs: Packages to install, not upgrade on a `yum update`
+
+  usage: override.yum.exclude = [ "kernel*", "compat-glibc*" ]
+         override.yum.installonlypkgs = [ "kernel*", "compat-glibc*" ]
+
 Resources/Providers
 ===================
 
@@ -77,7 +85,7 @@ This LWRP provides an easy way to manage additional YUM repositories. GPG keys c
 ``` ruby
 # add the Zenoss repository
 yum_repository "zenoss" do
-  name "Zenoss Stable repo"
+  description "Zenoss Stable repo"
   url "http://dev.zenoss.com/yum/stable/"
   key "RPM-GPG-KEY-zenoss"
   action :add
@@ -100,6 +108,10 @@ License and Author
 Author:: Eric G. Wolfe
 
 Copyright:: 2010-2011
+
+Author:: Tippr, Inc.
+
+Copyright:: 2010
 
 Author:: Matt Ray (<matt@opscode.com>)
 
