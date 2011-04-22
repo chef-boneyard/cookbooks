@@ -18,7 +18,7 @@
 #
 
 yum_key "RPM-GPG-KEY-zenoss" do
-  actioN :add
+  action :add
 end
 
 yum_repository "zenoss" do
