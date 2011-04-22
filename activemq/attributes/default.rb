@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: activemq
-# Attributes:: activemq
+# Attributes:: default
 #
 # Copyright 2009-2011, Opscode, Inc.
 #
@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
-default[:activemq][:mirror]  = "http://apache.mirrors.tds.net"
-default[:activemq][:version] = "5.5.0"
-default[:activemq][:home]  = "/opt"
+default['activemq']['mirror']  = "http://apache.mirrors.tds.net"
+default['activemq']['version'] = "5.5.0"
+default['activemq']['home']  = "/opt"
+default['activemq']['wrapper']['max_memory'] = "512"
+default['activemq']['wrapper']['useDedicatedTaskRunner'] = "true"

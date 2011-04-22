@@ -1,15 +1,16 @@
 # DESCRIPTION:
 
-Installs activemq. On Debian and Ubuntu, it sets up a runit service.
+Installs activemq and sets up a service using the init script that comes with it.
 
 # REQUIREMENTS:
 
-Platform: Debian or Ubuntu to have a runit service set up automatically. Other platforms may work but have not been tested.
+Platform:
+
+Tested on Ubuntu 10.04 and CentOS 5.5. Should work on any Debian or Red Hat family distributions.
 
 Opscode cookbooks:
 
 * java
-* runit
 
 # ATTRIBUTES:
 
@@ -19,7 +20,7 @@ Opscode cookbooks:
 
 # USAGE:
 
-Include the default recipe on systems where you want to run activemq.
+Simply add `recipe[activemq]` to a run list.
 
 This cookbook doesn't use any custom configuration for activemq.
 
