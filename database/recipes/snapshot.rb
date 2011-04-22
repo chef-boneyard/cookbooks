@@ -20,9 +20,6 @@
 include_recipe "aws"
 include_recipe "xfs"
 
-Gem.clear_paths
-require 'mysql'
-
 %w{ebs_vol_dev db_role app_environment username password aws_access_key_id aws_secret_access_key snapshots_to_keep volume_id}.collect do |key|
   Chef::Application.fatal!("Required db_snapshot configuration #{key} not found.", -47) unless node.db_snapshot.has_key? key
 end
