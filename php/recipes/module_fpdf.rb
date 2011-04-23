@@ -1,9 +1,10 @@
 #
 # Author::  Joshua Timberman (<joshua@opscode.com>)
+# Author::  Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: php
 # Recipe:: module_fpdf
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,11 +19,17 @@
 # limitations under the License.
 #
 
-case node[:platform]
-  when "centos", "redhat", "fedora"
-    #placeholder modify when available
-  when "debian" "ubuntu"
-    package "php-fpdf" do
-      action :upgrade
-    end
+case node['platform']
+when "centos", "redhat", "fedora"
+  pearhub_chan = php_pear_channel "pearhub.org" do
+    action :discover
+  end
+  php_pear "FPDF" do
+    channel pearhub_chan.channel_name
+    action :install
+  end
+when "debian", "ubuntu"
+  package "php-fpdf" do
+    action :install
+  end
 end
