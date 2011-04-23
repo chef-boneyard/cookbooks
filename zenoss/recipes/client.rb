@@ -33,9 +33,7 @@ end
 #create a home directory for them
 directory "/home/zenoss/.ssh" do
   owner "zenoss"
-  group "zenoss"
-  mode "0755"
-  recursive true
+  mode "0700"
   action :create
 end
 
