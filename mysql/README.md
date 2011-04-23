@@ -9,7 +9,8 @@ Requirements
 Platform
 --------
 
-Ubuntu, Debian, Red Hat, CentOS or Fedora.
+* Debian, Ubuntu
+* CentOS, Red Hat, Fedora
 
 Cookbooks
 ---------
