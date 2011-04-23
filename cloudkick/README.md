@@ -1,12 +1,27 @@
-= DESCRIPTION:
+Description
+===========
 
 Installs and configures the Cloudkick Agent, and integrates it with Chef.
 
-= REQUIREMENTS:
+Requirements
+============
 
-You must be running a platform supported by the Cloudkick Agent - at this time, that means Ubuntu, CentOS or Red Hat.
+Platform
+--------
 
-= USAGE:
+* Debian, Ubuntu
+* CentOS, Red Hat, Fedora
+
+Cookbooks
+---------
+
+* apt (leverages apt_repository LWRP)
+* yum (leverages yum_repository LWRP)
+
+The `apt_repository` and `yum_repository` LWRPs are used from these cookbooks to create the proper repository entries so the cloudkick agent can be downloaded and installed.
+
+Usage
+=====
 
 In order for the agent to function, you'll need to have defined your Cloudkick API key and secret.  We recommend you do this in a Role, which should also take care of applying the cloudkick::default recipe.
 
@@ -74,7 +89,8 @@ We automatically add a tag for each Role applied to your node.  For example, if 
 
 The node will automatically have the 'webserver' and 'database_master' tags within Cloudkick.
 
-= LICENSE & AUTHOR:
+License and Author
+==================
 
 Author:: Adam Jacob (<adam@opscode.com>)
 Author:: Seth Chisamore (<schisamo@opscode.com>)

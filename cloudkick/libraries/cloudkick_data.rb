@@ -21,7 +21,7 @@ class Chef
   class CloudkickData
     def self.get(node)
       ckb = Cloudkick::Base.new(node['cloudkick']['oauth_key'], node['cloudkick']['oauth_secret'])
-      node = ckb.get("nodes", "node:#{node['hostname']}").nodes.first
+      node = ckb.get("nodes", "node:#{node.name}").nodes.first
       data = {
         :agent_state => node.agent_state,
         :color => node.color,
