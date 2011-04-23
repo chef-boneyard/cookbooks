@@ -54,7 +54,7 @@ end
 action :query do
   begin
     Chef::Log.info "mysql_database: Performing Query: #{new_resource.sql}"
-    db.query(new_resource.query)
+    db.query(new_resource.sql)
     new_resource.updated_by_last_action(true)
   ensure
     db.close
