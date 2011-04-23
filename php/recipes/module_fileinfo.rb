@@ -1,9 +1,10 @@
 #
 # Author::  Joshua Timberman (<joshua@opscode.com>)
+# Author::  Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: php
 # Recipe:: module_fileinfo
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,11 +19,11 @@
 # limitations under the License.
 #
 
-case node[:platform]
-  when "centos", "redhat", "fedora"
-    #placeholder modify when available
-  when "debian" "ubuntu"
-    package "php5-fileinfo" do
-      action :upgrade
-    end
+case node['platform']
+when "centos", "redhat", "fedora"
+  # enabled by default in php53
+when "debian", "ubuntu"
+  package "php5-fileinfo" do
+    action :upgrade
+  end
 end
