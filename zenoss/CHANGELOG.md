@@ -64,6 +64,7 @@ CentOS 5.6 and Scientific Linux 5.5 support via yum_repository LWRP
 
 
 0.8
+mysql::server dependency for rpm installs
 notify zendmd at end of run to load everything (before zenbatchload)
 optimize creation of device classes, systems and groups by using hashes instead of individual calls or by comparing against previous values
 diff previous zenbatchload run
@@ -91,7 +92,6 @@ LDAP logins
 snmpd cookbook
 ERB template for monitoring via Zenoss that exposes the basics in a secure fashion
 change default community string to "cookbook"
-
 
 CHEF SERVER ZENPACK
 list of managed nodes
