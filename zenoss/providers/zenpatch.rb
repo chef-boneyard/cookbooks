@@ -6,6 +6,7 @@ action :install do
     #apply the patch
     execute "#{node[:zenoss][:server][:zenhome]}/bin/zenpatch #{patch}" do
       user "zenoss"
+      environment ({'ZENHOME' => node[:zenoss][:server][:zenhome]})
       action :run
     end
   end
