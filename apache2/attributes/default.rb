@@ -32,6 +32,7 @@ when "redhat","centos","scientific","fedora","suse"
   else
     set[:apache][:pid_file] = "/var/run/httpd.pid"
   end
+  set[:apache][:lib_dir] = node[:architecture] == "i386" ? "/usr/lib/httpd" : "/usr/lib64/httpd"
 when "debian","ubuntu"
   set[:apache][:dir]     = "/etc/apache2"
   set[:apache][:log_dir] = "/var/log/apache2"
@@ -40,6 +41,7 @@ when "debian","ubuntu"
   set[:apache][:icondir] = "/usr/share/apache2/icons"
   set[:apache][:cache_dir] = "/var/cache/apache2"
   set[:apache][:pid_file]  = "/var/run/apache2.pid"
+  set[:apache][:lib_dir] = "/usr/lib/apache2"
 when "arch"
   set[:apache][:dir]     = "/etc/httpd"
   set[:apache][:log_dir] = "/var/log/httpd"
@@ -48,6 +50,7 @@ when "arch"
   set[:apache][:icondir] = "/usr/share/httpd/icons"
   set[:apache][:cache_dir] = "/var/cache/httpd"
   set[:apache][:pid_file]  = "/var/run/httpd/httpd.pid"
+  set[:apache][:lib_dir] = "/usr/lib/httpd"
 else
   set[:apache][:dir]     = "/etc/apache2"
   set[:apache][:log_dir] = "/var/log/apache2"
@@ -56,6 +59,7 @@ else
   set[:apache][:icondir] = "/usr/share/apache2/icons"
   set[:apache][:cache_dir] = "/var/cache/apache2"
   set[:apache][:pid_file]  = "logs/httpd.pid"
+  set[:apache][:lib_dir] = "/usr/lib/apache2"
 end
 
 ###
