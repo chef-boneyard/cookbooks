@@ -259,17 +259,17 @@ CakePHP:
 The template used to render this `local_settings.php` file is assumed to be provided in an application specific cookbook named after the application being deployed.  For example if you were deploying code for an application named `mediawiki` you would create a cookbook named `mediawiki` and in that cookbook place a template named `LocalSettings.php.erb`:
 
     mediawiki/
-    ├── files
-    │   └── default
-    │       └── schema.sql
-    ├── metadata.rb
-    ├── README.md
-    ├── recipes
-    │   ├── db_bootstrap.rb
-    │   └── default.rb
-    └── templates
-        └── default
-            └── LocalSettings.php.erb
+    +-- files
+    |   +-- default
+    |       +-- schema.sql
+    +-- metadata.rb
+    +-- README.md
+    +-- recipes
+    |   +-- db_bootstrap.rb
+    |   +-- default.rb
+    +-- templates
+        +-- default
+            +-- LocalSettings.php.erb
 
 The template will be passed the following variables which can be used to dynamically fill values in the ERB:
 
