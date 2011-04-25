@@ -20,27 +20,31 @@
 include Opscode::Mysql::Database
 
 action :flush_tables_with_read_lock do
-  begin
-    Chef::Log.info "mysql_database: flushing tables with read lock"
-    db.query "flush tables with read lock"
-    new_resource.updated_by_last_action(true)
-  ensure
-    db.close
+  if exists?
+    begin
+      Chef::Log.info "mysql_database: flushing tables with read lock"
+      db.query "flush tables with read lock"
+      new_resource.updated_by_last_action(true)
+    ensure
+      db.close
+    end
   end
 end
 
 action :unflush_tables do
-  begin
-    Chef::Log.info "mysql_database: unlocking tables"
-    db.query "unlock tables"
-    new_resource.updated_by_last_action(true)
-  ensure
-    db.close
+  if exists?
+    begin
+      Chef::Log.info "mysql_database: unlocking tables"
+      db.query "unlock tables"
+      new_resource.updated_by_last_action(true)
+    ensure
+      db.close
+    end
   end
 end
 
 action :create_db do
-  unless @mysqldb.exists
+  unless exists?
     begin
       Chef::Log.info "mysql_database: Creating database #{new_resource.database}"
       db.query("create database #{new_resource.database}")
@@ -52,12 +56,14 @@ action :create_db do
 end
 
 action :query do
-  begin
-    Chef::Log.info "mysql_database: Performing Query: #{new_resource.sql}"
-    db.query(new_resource.sql)
-    new_resource.updated_by_last_action(true)
-  ensure
-    db.close
+  if exists?
+    begin
+      Chef::Log.info "mysql_database: Performing Query: #{new_resource.sql}"
+      db.query(new_resource.sql)
+      new_resource.updated_by_last_action(true)
+    ensure
+      db.close
+    end
   end
 end
 
@@ -67,6 +73,9 @@ def load_current_resource
 
   @mysqldb = Chef::Resource::MysqlDatabase.new(new_resource.name)
   @mysqldb.database(new_resource.database)
-  exists = db.list_dbs.include?(new_resource.database)
-  @mysqldb.exists(exists)
+end
+
+private
+def exists?
+  db.list_dbs.include?(new_resource.database)
 end
