@@ -29,7 +29,7 @@ package "ntp" do
 end
 
 service node[:ntp][:service] do
-  action :start
+  action [:enable, :start]
 end
 
 template "/etc/ntp.conf" do
