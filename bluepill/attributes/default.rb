@@ -16,6 +16,7 @@
 # limitations under the License.
 
 default["bluepill"]["bin"] = "#{languages[:ruby][:bin_dir]}/bluepill"
+default["bluepill"]["bpsv_bin"] = "#{languages[:ruby][:bin_dir]}/bpsv"
 default["bluepill"]["logfile"] = "/var/log/bluepill.log"
 default["bluepill"]["conf_dir"] = "/etc/bluepill"
 default["bluepill"]["pid_dir"] = "/var/run/bluepill"
