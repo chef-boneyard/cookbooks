@@ -24,7 +24,7 @@ include Chef::Mixin::Command
 action :enable do
   unless @bp.enabled
     link "#{node['bluepill']['init_dir']}/#{new_resource.service_name}" do
-      to node['bluepill']['bpsv_bin']
+      to node['bluepill']['bin']
       only_if { ::File.exists?("#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill") }
     end
   end
