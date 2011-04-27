@@ -18,9 +18,7 @@
 #
 
 gem_package "i18n"
-gem_package "bluepill" do
-  options :wrappers => false
-end
+gem_package "bluepill"
 
 [
   node["bluepill"]["conf_dir"],
