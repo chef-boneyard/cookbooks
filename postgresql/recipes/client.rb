@@ -17,11 +17,32 @@
 # limitations under the License.
 #
 
+# Install the postgresql OS packages and the pg gem immediately, so that the
+# postgresql_database resource can be used right away.
 case node.platform
 when "ubuntu","debian"
-  package "postgresql-client"
+  %w{postgresql-client libpq-dev}.each do |pkg|
+    p = package pkg do
+      action :nothing
+    end
+    p.run_action(:install)
+  end
 when "fedora","suse"
-  package "postgresql-devel"
+  p = package "postgresql-devel" do
+    action :nothing
+  end
+  p.run_action(:install)
 when "redhat","centos"
-  package "postgresql#{node.postgresql.version.split('.').join}-devel"
+  p = package "postgresql#{node.postgresql.version.split('.').join}-devel" do
+    action :nothing
+  end
+  p.run_action(:install)
 end
+
+g = gem_package "pg" do
+  action :nothing
+end
+g.run_action(:install)
+
+Gem.clear_paths
+require "pg"
