@@ -20,42 +20,7 @@
 # limitations under the License.
 
 require 'open-uri'
-<<<<<<< HEAD
 
-root_group = value_for_platform(
-  "openbsd" => { "default" => "wheel" },
-  "freebsd" => { "default" => "wheel" },
-  "default" => "root"
-)
-
-include_recipe "chef::client"
-
-%w{chef-solr chef-solr-indexer chef-server}.each do |svc|
-  service svc do
-    action :nothing
-  end
-end
-
-if node[:chef][:webui_enabled]
-  service "chef-server-webui" do
-    action :nothing
-  end
-end
-
-template "/etc/chef/server.rb" do
-  source "server.rb.erb"
-  owner "root"
-  group root_group
-  mode "644"
-  if node[:chef][:webui_enabled]
-    notifies :restart, resources( :service => [ "chef-solr", "chef-solr-indexer", "chef-server", "chef-server-webui" ]), :delayed
-  else
-    notifies :restart, resources( :service => [ "chef-solr", "chef-solr-indexer", "chef-server" ]), :delayed
-  end
-end
-
-=======
->>>>>>> Refactoring chef -> chef-server cookbook
 http_request "compact chef couchDB" do
   action :post
   url "#{Chef::Config[:couchdb_url]}/chef/_compact"
