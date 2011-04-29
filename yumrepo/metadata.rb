@@ -3,7 +3,7 @@ maintainer_email "wolfe21@marshall.edu"
 license          "Apache 2.0"
 description      "Installs and configures EPEL, ELFF, Dell, and VMware yum repositories."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.12.0"
+version          "0.12.4"
 depends          "yum"
 recipe "yumrepo::default", "Installs EPEL, ELFF, Dell, and VMware Tools repositories."
 recipe "yumrepo::epel", "Installs Fedora Extra Packages for Enterprise Linux (EPEL) repository"

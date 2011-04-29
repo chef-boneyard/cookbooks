@@ -22,6 +22,8 @@ if not node[:repo][:dell][:enabled]
   return
 end
 
+cookbook_file "#{node[:yumrepo][:key_path]}/RPM-GPG-KEY-dell"
+
 yum_key "RPM-GPG-KEY-dell" do
   action :add
 end
@@ -32,11 +34,6 @@ yum_repository "dell-community-repository" do
   mirrorlist true
   key "RPM-GPG-KEY-dell"
   action :add
-end
-
-# Cleanup old version of repo which lists two repos, in one file
-yum_repository "dell-omsa-repository" do
-  action :remove
 end
 
 yum_repository "dell-omsa-indep" do

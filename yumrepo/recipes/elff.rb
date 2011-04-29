@@ -18,6 +18,8 @@
 # limitations under the License.
 #
 
+cookbook_file "#{node[:yumrepo][:key_path]}/RPM-GPG-KEY-ELFF"
+
 yum_key "RPM-GPG-KEY-ELFF" do
   action :add
 end

@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: yumrepo
-# Recipe:: annvix
+# Attributes:: default
 #
-# Copyright 2010, Tippr Inc.
+# Copyright 2011, Eric G. Wolfe 
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,15 +17,4 @@
 # limitations under the License.
 #
 
-cookbook_file "#{node[:yumrepo][:key_path]}/RPM-GPG-KEY-annvix"
-
-yum_key "RPM-GPG-KEY-annvix" do
-  action :add
-end
-
-yum_repository "annvix" do
-  description "CentOS/RHEL-EL#{node[:platform_version].split('.')[0]} - Annvix"
-  key "RPM-GPG-KEY-annvix"
-  url "http://repo.annvix.org/media/EL#{node[:platform_version].split('.')[0]}/$basearch"
-  action :add
-end
+default[:yumrepo][:key_path] = "/etc/pki/rpm-gpg"

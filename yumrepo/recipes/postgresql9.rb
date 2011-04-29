@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+cookbook_file "#{node[:yumrepo][:key_path]}/RPM-GPG-KEY-PGDG"
+
 yum_key "RPM-GPG-KEY-PGDG" do
   action :add
 end

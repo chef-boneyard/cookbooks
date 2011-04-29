@@ -26,6 +26,7 @@ if not node[:repo][:vmware][:enabled]
 end
 
 yum_key "VMWARE-PACKAGING-GPG-KEY" do
+  url "http://packages.vmware.com/tools/VMWARE-PACKAGING-GPG-KEY.pub"
   action :add
 end
 
