@@ -40,7 +40,7 @@ web_app app['id'] do
   rails_env node.app_environment
 end
 
-d = resources(:deploy => app['id'])
+d = resources(:deploy_revision => app['id'])
 d.restart_command do
   service "apache2" do action :restart; end
 end
