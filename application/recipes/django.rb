@@ -116,7 +116,7 @@ if app["database_master_role"]
   
   # we need the django version to render the correct type of settings.py file
   django_version = 1.2
-  if app['pips'].has_key?('django') && !app['pips']['django'].blank?
+  if app['pips'].has_key?('django') && !app['pips']['django'].strip.empty?
     django_version = app['pips']['django'].to_f
   end
 
