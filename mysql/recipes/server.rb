@@ -17,7 +17,14 @@
 # limitations under the License.
 #
 
+::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+
 include_recipe "mysql::client"
+
+# generate all passwords
+node.set_unless['mysql']['server_debian_password'] = secure_password
+node.set_unless['mysql']['server_root_password']   = secure_password
+node.set_unless['mysql']['server_repl_password']   = secure_password
 
 if platform?(%w{debian ubuntu})
 
