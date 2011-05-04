@@ -3,5 +3,5 @@
 cd <%= @options[:app]['deploy_to'] %>/current
 
 exec 2>&1
-exec chpst -u <%= @options[:app]["owner"] %>:<%= @options[:app]["group"] %> unicorn -E <%= node[:app_environment] %> -c /etc/unicorn/<%= @options[:app]['id'] %>.rb
+exec chpst -u <%= @options[:app]["owner"] %>:<%= @options[:app]["group"] %> <%= @options[:smells_like_rack] ? 'unicorn' : 'unicorn_rails' %> -E <%= node[:app_environment] %> -c /etc/unicorn/<%= @options[:app]['id'] %>.rb
 
