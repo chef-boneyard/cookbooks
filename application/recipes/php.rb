@@ -134,7 +134,7 @@ deploy_revision app['id'] do
   deploy_to app['deploy_to']
   action app['force'][node.app_environment] ? :force_deploy : :deploy
   ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
-
+  shallow_clone true
   purge_before_symlink([])
   create_dirs_before_symlink([])
   symlinks({})
