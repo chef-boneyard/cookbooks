@@ -41,7 +41,10 @@ end
 runit_service app['id'] do
   template_name 'unicorn'
   cookbook 'application'
-  options(:app => app)
+  options(
+    :app => app,
+    :smells_like_rack => ::File.exists?(::File.join(app['deploy_to'], "current", "config.ru"))
+  )
   run_restart false
 end
 
