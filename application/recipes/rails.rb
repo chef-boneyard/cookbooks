@@ -169,7 +169,7 @@ deploy_revision app['id'] do
   environment 'RAILS_ENV' => node.app_environment
   action app['force'][node.app_environment] ? :force_deploy : :deploy
   ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
-
+  shallow_clone true
   before_migrate do
     if app['gems'].has_key?('bundler')
       link "#{release_path}/vendor/bundle" do
