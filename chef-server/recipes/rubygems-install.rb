@@ -43,7 +43,7 @@ when "ubuntu"
   end
 
   include_recipe "java"
-  include_recipe "rabbitmq::chef"
+  include_recipe "rabbitmq_chef"
   include_recipe "gecode"
 
 when "debian"
