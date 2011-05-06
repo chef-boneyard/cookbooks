@@ -1,2 +1,5 @@
 # Dropped off by Chef, thanks!
-<%= @ssh_keys %>
+<% key_list = @ssh_keys.kind_of?(Array) ? @ssh_keys : [ @ssh_keys ] %>
+<% key_list.each do |key| %>
+<%= key %>
+<% end %>
