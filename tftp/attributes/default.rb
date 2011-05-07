@@ -1,6 +1,6 @@
 #
 # Author:: Matt Ray <matt@opscode.com>
-# Cookbook Name:: pxe_dust
+# Cookbook Name:: tftp
 # Attributes:: default
 #
 # Copyright 2011 Opscode, Inc
@@ -18,8 +18,8 @@
 # limitations under the License.
 #
 
-default[:pxe_dust][:arch] = "amd64"
-default[:pxe_dust][:version] = "maverick"
-default[:pxe_dust][:user][:fullname] = "Ubuntu"
-default[:pxe_dust][:user][:username] = "ubuntu"
-default[:pxe_dust][:user][:crypted_password] = nil
+default[:tftp][:username] = "tftp"
+default[:tftp][:directory] = "/var/lib/tftpboot"
+default[:tftp][:address] = "0.0.0.0:69"
+default[:tftp][:tftp_options] = "--secure"
+default[:tftp][:options] = "-l -s /var/lib/tftpboot"
