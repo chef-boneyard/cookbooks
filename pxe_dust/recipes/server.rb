@@ -19,29 +19,27 @@
 
 include_recipe "apache2"
 
-package "tftpd-hpa"
-
-#tftpd service?
+include_recipe "tftp::server"
 
 execute "tar -xzf netboot.tar.gz" do
-  cwd node[:pxe_dust][:tftpboot]
+  cwd node[:tftp][:directory]
   action :nothing
 end
 
-remote_file "#{node[:pxe_dust][:tftpboot]}/netboot.tar.gz" do
+remote_file "#{node[:tftp][:directory]}/netboot.tar.gz" do
   source "http://archive.ubuntu.com/ubuntu/dists/#{node[:pxe_dust][:version]}/main/installer-#{node[:pxe_dust][:arch]}/current/images/netboot/netboot.tar.gz"
   notifies :run, resources(:execute => "tar -xzf netboot.tar.gz"), :immediate
 end
 
 #skips the prompt for which installer to use
-template "#{node[:pxe_dust][:tftpboot]}/pxelinux.cfg/default" do
+template "#{node[:tftp][:directory]}/pxelinux.cfg/default" do
   source "syslinux.cfg.erb"
   mode "0644"
   action :create
 end
 
 #sets the URL to the preseed
-template "#{node[:pxe_dust][:tftpboot]}/ubuntu-installer/#{node[:pxe_dust][:arch]}/boot-screens/txt.cfg" do
+template "#{node[:tftp][:directory]}/ubuntu-installer/#{node[:pxe_dust][:arch]}/boot-screens/txt.cfg" do
   source "txt.cfg.erb"
   mode "0644"
   action :create

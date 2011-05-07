@@ -1,12 +1,12 @@
 Description
 ===========
 
-Installs and configures a tftpd server for serving Ubuntu installers over PXE and setting them to run a provided preseed.cfg.
+Configures a tftpd server for serving Ubuntu installers over PXE and setting them to run a provided preseed.cfg.
 
 Requirements
 ============
 
-Written and tested with Chef 0.9.14 and Ubuntu 10.10.
+Written and last tested with Chef 0.10.0 and Ubuntu 10.04.
 
 Attributes
 ==========
@@ -14,7 +14,6 @@ Attributes
 Attributes under the `pxe_dust` namespace.
 
 * `["pxe_dust"]["arch"]` - Architecture of the netboot.tar.gz to use as the source of pxeboot images.
-* `["pxe_dust"]["tftpboot"]` - Path of the tftpboot directory used for sharing images.
 * `["pxe_dust"]["version"]` - Ubuntu version of the netboot.tar.gz to use as the source of pxeboot images.
 * `["pxe_dust"]["user"]["fullname"]` - Full name of the default user, default "Ubuntu".
 * `["pxe_dust"]["user"]["username"]` - Username of the default user, default "ubuntu".
@@ -49,12 +48,12 @@ The default recipe passes through to `pxe_dust::server`.
 Server
 ------
 
-The server includes the `apache2` recipe and installs the `tftpd-hpa` package.
+The server includes the `apache2` and `tftp::server` recipes.
 
 The recipe does the following:
 
 1. Downloads the proper netboot.tar.gz to boot from.
-2. Untars it to the tftpboot directory.
+2. Untars it to the `[:tftp][:directory]` directory.
 3. Instructs the installer prompt to automatically install.
 4. Passes the URL of the preseed.cfg to the installer.
 5. Uses the preseed.cfg template to pass in any `apt-cacher` proxies.

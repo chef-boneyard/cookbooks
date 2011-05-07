@@ -1,9 +1,9 @@
 #
 # Author:: Matt Ray <matt@opscode.com>
-# Cookbook Name:: pxe_dust
-# Attributes:: default
+# Cookbook Name:: tftp
+# Recipe:: server
 #
-# Copyright 2011 Opscode, Inc
+# Copyright 2011, Opscode, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,8 +18,18 @@
 # limitations under the License.
 #
 
-default[:pxe_dust][:arch] = "amd64"
-default[:pxe_dust][:version] = "maverick"
-default[:pxe_dust][:user][:fullname] = "Ubuntu"
-default[:pxe_dust][:user][:username] = "ubuntu"
-default[:pxe_dust][:user][:crypted_password] = nil
+package "tftpd-hpa"
+
+service "tftpd-hpa" do
+  supports :restart => true, :status => true, :reload => true
+  action [ :enable ]
+end
+
+template "/etc/default/tftpd-hpa" do
+  owner "root"
+  group "root"
+  mode 0644
+  source "tftpd-hpa.erb"
+  notifies :restart, "service[tftpd-hpa]"
+end
+
