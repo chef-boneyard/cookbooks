@@ -3,7 +3,7 @@ label install
 	menu label ^Install-Opscode
 	menu default
 	kernel ubuntu-installer/<%= node[:pxe_dust][:arch] %>/linux
-	append vga=788 initrd=ubuntu-installer/<%= node[:pxe_dust][:arch] %>/initrd.gz locale=en_US console-setup/ask_detect=false console-setup/layoutcode=us netcfg/get_hostname= url=http://<%= node[:fqdn] %>/preseed.cfg -- quiet 
+	append vga=788 initrd=ubuntu-installer/<%= node[:pxe_dust][:arch] %>/initrd.gz locale=en_US console-setup/ask_detect=false console-setup/layoutcode=us netcfg/get_hostname= url=http://<%= node[:ipaddress] %>/preseed.cfg -- quiet 
 label cli
 	menu label ^Command-line install
 	kernel ubuntu-installer/<%= node[:pxe_dust][:arch] %>/linux

@@ -19,7 +19,6 @@
 #
 
 default[:pxe_dust][:arch] = "amd64"
-default[:pxe_dust][:tftpboot] = "/var/lib/tftpboot"
 default[:pxe_dust][:version] = "maverick"
 default[:pxe_dust][:user][:fullname] = "Ubuntu"
 default[:pxe_dust][:user][:username] = "ubuntu"
