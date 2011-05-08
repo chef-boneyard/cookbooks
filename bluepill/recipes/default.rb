@@ -27,6 +27,6 @@ gem_package "bluepill"
 ].each do |dir|
   directory dir do
     owner "root"
-    group "root"
+    group platform?("freebsd") ? "wheel" : "root"
   end
 end
