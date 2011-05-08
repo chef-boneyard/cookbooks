@@ -10,7 +10,7 @@ validation_client_name "<%= node["chef_client"]["validation_client_name"] %>"
 <% if @chef_node_name -%>
 node_name "<%= @chef_node_name %>"
 <% else -%>
-# Using default node name"
+# Using default node name
 <% end -%>
 
 file_backup_path   "<%= node["chef_client"]["backup_path"] %>"
