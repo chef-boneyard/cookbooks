@@ -38,7 +38,7 @@ when "openbsd","freebsd","mac_os_x"
   default["chef_client"]["init_style"]  = "bsd"
   default["chef_client"]["run_path"]    = "/var/run"
   default["chef_client"]["cache_path"]  = "/var/chef/cache"
-  default["chef_client"]["backup_path"] = "/var/chef/cache"
+  default["chef_client"]["backup_path"] = "/var/chef/backup"
 else
   default["chef_client"]["init_style"]  = "none"
   default["chef_client"]["run_path"]    = "/var/run"
