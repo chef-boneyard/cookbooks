@@ -10,6 +10,8 @@ ServerRoot "<%= node[:apache][:dir] %>"
 #
 <% if node[:platform] == "debian" || node[:platform] == "ubuntu" -%>
 LockFile /var/lock/apache2/accept.lock
+<% elsif node[:platform] == "freebsd" -%>
+LockFile /var/log/accept.lock
 <% else %>
 LockFile logs/accept.lock
 <% end -%>
@@ -20,7 +22,7 @@ LockFile logs/accept.lock
 #
 <% if node[:platform] == "debian" || node[:platform] == "ubuntu" -%>
 PidFile /var/run/apache2.pid
-<% elsif node[:platform] == "centos" || node[:platform] == "redhat" || node[:platform] == "fedora" -%>
+<% elsif node[:platform] == "centos" || node[:platform] == "redhat" || node[:platform] == "fedora" || node[:platform] == "freebsd" -%>
 PidFile /var/run/httpd.pid
 <% elsif node[:platform] == "arch" -%>
 PidFile /var/run/httpd/httpd.pid

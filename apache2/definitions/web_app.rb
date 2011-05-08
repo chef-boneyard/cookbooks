@@ -29,7 +29,7 @@ define :web_app, :template => "web_app.conf.erb" do
   template "#{node[:apache][:dir]}/sites-available/#{application_name}.conf" do
     source params[:template]
     owner "root"
-    group "root"
+    group platform?("freebsd") ? "wheel" : "root"
     mode 0644
     if params[:cookbook]
       cookbook params[:cookbook]

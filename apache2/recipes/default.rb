@@ -25,6 +25,8 @@ package "apache2" do
     package_name "apache2"
   when "arch"
     package_name "apache"
+  when "freebsd"
+    package_name "apache22"
   end
   action :install
 end
@@ -44,6 +46,8 @@ service "apache2" do
     reload_command "/usr/sbin/invoke-rc.d apache2 reload && sleep 1"
   when "arch"
     service_name "httpd"
+  when "freebsd"
+    service_name "apache22"
   end
   supports value_for_platform(
     "debian" => { "4.0" => [ :restart, :reload ], "default" => [ :restart, :reload, :status ] },
@@ -52,12 +56,13 @@ service "apache2" do
     "redhat" => { "default" => [ :restart, :reload, :status ] },
     "fedora" => { "default" => [ :restart, :reload, :status ] },
     "arch" => { "default" => [ :restart, :reload, :status ] },
+    "freebsd" => { "default" => [ :restart, :reload, :status ] },
     "default" => { "default" => [:restart, :reload ] }
   )
   action :enable
 end
 
-if platform?("centos", "redhat", "fedora", "suse", "arch")
+if platform?("centos", "redhat", "fedora", "suse", "arch", "freebsd")
   directory node[:apache][:log_dir] do
     mode 0755
     action :create
@@ -67,25 +72,30 @@ if platform?("centos", "redhat", "fedora", "suse", "arch")
     source "apache2_module_conf_generate.pl"
     mode 0755
     owner "root"
-    group "root"
+    group platform?("freebsd") ? "wheel" : "root"
   end
 
   %w{sites-available sites-enabled mods-available mods-enabled}.each do |dir|
     directory "#{node[:apache][:dir]}/#{dir}" do
       mode 0755
       owner "root"
-      group "root"
+      group platform?("freebsd") ? "wheel" : "root"
       action :create
     end
   end
     
   execute "generate-module-list" do
-    if node[:kernel][:machine] == "x86_64" 
-      libdir = value_for_platform("arch" => { "default" => "lib" }, "default" => "lib64")
-    else 
-      libdir = "lib"
+    if platform?("freebsd")
+      libdir = "/usr/local/libexec/apache22"
+    else
+      if node[:kernel][:machine] == "x86_64" 
+        libdir = value_for_platform("arch" => { "default" => "lib" }, "default" => "lib64")
+      else
+        libdir = "lib"
+      end
+      libdir = "/usr/#{libdir}/httpd/modules"
     end
-    command "/usr/local/bin/apache2_module_conf_generate.pl /usr/#{libdir}/httpd/modules /etc/httpd/mods-available"
+    command "/usr/local/bin/apache2_module_conf_generate.pl #{libdir} #{node[:apache][:dir]}/mods-available"
     action :run
   end
   
@@ -94,7 +104,7 @@ if platform?("centos", "redhat", "fedora", "suse", "arch")
       source "#{modscript}.erb"
       mode 0755
       owner "root"
-      group "root"
+      group platform?("freebsd") ? "wheel" : "root"
     end  
   end
 
@@ -119,14 +129,14 @@ directory "#{node[:apache][:dir]}/ssl" do
   action :create
   mode 0755
   owner "root"
-  group "root"
+  group platform?("freebsd") ? "wheel" : "root"
 end
 
 directory "#{node[:apache][:dir]}/conf.d" do
   action :create
   mode 0755
   owner "root"
-  group "root"
+  group platform?("freebsd") ? "wheel" : "root"
 end
 
 directory node[:apache][:cache_dir] do
@@ -141,10 +151,12 @@ template "apache2.conf" do
     path "#{node[:apache][:dir]}/conf/httpd.conf"
   when "debian","ubuntu"
     path "#{node[:apache][:dir]}/apache2.conf"
+  when "freebsd"
+    path "#{node[:apache][:dir]}/httpd.conf"
   end
   source "apache2.conf.erb"
   owner "root"
-  group "root"
+  group platform?("freebsd") ? "wheel" : "root"
   mode 0644
   notifies :restart, resources(:service => "apache2")
 end
@@ -153,7 +165,7 @@ template "security" do
   path "#{node[:apache][:dir]}/conf.d/security"
   source "security.erb"
   owner "root"
-  group "root"
+  group platform?("freebsd") ? "wheel" : "root"
   mode 0644
   backup false
   notifies :restart, resources(:service => "apache2")
@@ -163,7 +175,7 @@ template "charset" do
   path "#{node[:apache][:dir]}/conf.d/charset"
   source "charset.erb"
   owner "root"
-  group "root"
+  group platform?("freebsd") ? "wheel" : "root"
   mode 0644
   backup false
   notifies :restart, resources(:service => "apache2")
@@ -171,7 +183,7 @@ end
 
 template "#{node[:apache][:dir]}/ports.conf" do
   source "ports.conf.erb"
-  group "root"
+  group platform?("freebsd") ? "wheel" : "root"
   owner "root"
   variables :apache_listen_ports => node[:apache][:listen_ports]
   mode 0644
@@ -181,7 +193,7 @@ end
 template "#{node[:apache][:dir]}/sites-available/default" do
   source "default-site.erb"
   owner "root"
-  group "root"
+  group platform?("freebsd") ? "wheel" : "root"
   mode 0644
   notifies :restart, resources(:service => "apache2")
 end
@@ -200,7 +212,7 @@ include_recipe "apache2::mod_env"
 include_recipe "apache2::mod_mime"
 include_recipe "apache2::mod_negotiation"
 include_recipe "apache2::mod_setenvif"
-include_recipe "apache2::mod_log_config" if platform?("centos", "redhat", "fedora", "suse", "arch")
+include_recipe "apache2::mod_log_config" if platform?("centos", "redhat", "fedora", "suse", "arch", "freebsd")
 
 apache_site "default" if platform?("centos", "redhat", "fedora")
 
