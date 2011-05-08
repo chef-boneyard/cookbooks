@@ -76,14 +76,14 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse", "freebs
     source "apache2_module_conf_generate.pl"
     mode 0755
     owner "root"
-    group "root"
+    group node[:apache][:root_group]
   end
 
   %w{sites-available sites-enabled mods-available mods-enabled}.each do |dir|
     directory "#{node[:apache][:dir]}/#{dir}" do
       mode 0755
       owner "root"
-      group "root"
+      group node[:apache][:root_group]
       action :create
     end
   end
@@ -103,7 +103,7 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse", "freebs
       source "#{modscript}.erb"
       mode 0755
       owner "root"
-      group "root"
+      group node[:apache][:root_group]
     end
   end
 
@@ -126,14 +126,14 @@ directory "#{node[:apache][:dir]}/ssl" do
   action :create
   mode 0755
   owner "root"
-  group "root"
+  group node[:apache][:root_group]
 end
 
 directory "#{node[:apache][:dir]}/conf.d" do
   action :create
   mode 0755
   owner "root"
-  group "root"
+  group node[:apache][:root_group]
 end
 
 directory node[:apache][:cache_dir] do
@@ -154,7 +154,7 @@ template "apache2.conf" do
   end
   source "apache2.conf.erb"
   owner "root"
-  group "root"
+  group node[:apache][:root_group]
   mode 0644
   notifies :restart, resources(:service => "apache2")
 end
@@ -163,7 +163,7 @@ template "security" do
   path "#{node[:apache][:dir]}/conf.d/security"
   source "security.erb"
   owner "root"
-  group "root"
+  group node[:apache][:root_group]
   mode 0644
   backup false
   notifies :restart, resources(:service => "apache2")
@@ -173,7 +173,7 @@ template "charset" do
   path "#{node[:apache][:dir]}/conf.d/charset"
   source "charset.erb"
   owner "root"
-  group "root"
+  group node[:apache][:root_group]
   mode 0644
   backup false
   notifies :restart, resources(:service => "apache2")
@@ -182,7 +182,7 @@ end
 template "#{node[:apache][:dir]}/ports.conf" do
   source "ports.conf.erb"
   owner "root"
-  group "root"
+  group node[:apache][:root_group]
   variables :apache_listen_ports => node[:apache][:listen_ports].map{|p| p.to_i}.uniq
   mode 0644
   notifies :restart, resources(:service => "apache2")
@@ -191,7 +191,7 @@ end
 template "#{node[:apache][:dir]}/sites-available/default" do
   source "default-site.erb"
   owner "root"
-  group "root"
+  group node[:apache][:root_group]
   mode 0644
   notifies :restart, resources(:service => "apache2")
 end

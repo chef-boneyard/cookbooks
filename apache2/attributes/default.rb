@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+set[:apache][:root_group]  = "root"
+
 # Where the various parts of apache are
 case platform
 when "redhat","centos","scientific","fedora","suse"
@@ -56,6 +58,7 @@ when "arch"
 when "freebsd"
   set[:apache][:dir]     = "/usr/local/etc/apache22"
   set[:apache][:log_dir] = "/var/log"
+  set[:apache][:root_group] = "wheel"
   set[:apache][:user]    = "www"
   set[:apache][:group]    = "www"
   set[:apache][:binary]  = "/usr/local/sbin/httpd"
