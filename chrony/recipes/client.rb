@@ -25,7 +25,20 @@ service "chrony" do
   action [ :enable ]
 end
 
-#search for the server, if found populate the template accordingly
+#search for the chrony master(s), if found populate the template accordingly
+#typical deployment will only have 1 master, but still allow for multiple
+masters = search(:node, 'recipes:chrony\:\:master') || []
+if masters.length > 0
+  node[:chrony][:servers] = {}
+  masters.each do |master|
+    node[:chrony][:servers][master.ipaddress] = master[:chrony][:server_options]
+    node[:chrony][:allow].push "allow #{master.ipaddress}"
+    #only use 1 server to sync initslewstep
+    node[:chrony][:initslewstep] = "initslewstep 20 #{master.ipaddress}"
+  end
+else
+  Chef::Log.info("No chrony master(s) found, using node[:chrony][:servers] attribute.")
+end
 
 template "/etc/chrony/chrony.conf" do
   owner "root"

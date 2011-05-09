@@ -1,7 +1,7 @@
 #
 # Author:: Matt Ray <matt@opscode.com>
 # Cookbook Name:: chrony
-# Recipe:: server
+# Recipe:: master
 #
 # Copyright 2011, Opscode, Inc
 #
@@ -23,6 +23,27 @@ package "chrony"
 service "chrony" do
   supports :restart => true, :status => true, :reload => true
   action [ :enable ]
+end
+
+ip = node.ipaddress.split('.')
+#set the allowed hosts to the class B
+node[:chrony][:allow] = ["allow #{ip[0]}.#{ip[1]}"]
+
+#if there are NTP servers, use the first 3 for the initslew
+if node[:chrony][:servers].length > 0
+  node[:chrony][:initslewstep] = "initslewstep 30"
+  keys = node[:chrony][:servers].keys.sort
+  count = 3
+  count = keys.length if keys.length < count
+  count.times {|x| node[:chrony][:initslewstep] += " #{node[:chrony][:servers][keys[x]]}" }
+else #else use first 3 clients
+  clients = search(:node, 'recipes:chrony\:\:client').sort || []
+  if clients.length > 0
+    node[:chrony][:initslewstep] = "initslewstep 30"
+    count = 3
+    count = clients.length if clients.length < count
+    count.times {|x| node[:chrony][:initslewstep] += " #{clients[x].ipaddress}" }
+  end
 end
 
 template "/etc/chrony/chrony.conf" do

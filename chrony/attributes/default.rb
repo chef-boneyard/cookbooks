@@ -18,12 +18,18 @@
 # limitations under the License.
 #
 
-#list of default servers in the chrony.conf from Ubuntu
-default[:chrony][:servers] = [
-                              "server 0.debian.pool.ntp.org offline minpoll 8",
-                              "server 1.debian.pool.ntp.org offline minpoll 8",
-                              "server 2.debian.pool.ntp.org offline minpoll 8",
-                              "server 3.debian.pool.ntp.org offline minpoll 8"
-                             ]
+#hash of default servers in the chrony.conf from Ubuntu
+default[:chrony][:servers] = {
+  "0.debian.pool.ntp.org" => "offline minpoll 8",
+  "1.debian.pool.ntp.org" => "offline minpoll 8",
+  "2.debian.pool.ntp.org" => "offline minpoll 8",
+  "3.debian.pool.ntp.org" => "offline minpoll 8"
+}
 
+default[:chrony][:server_options] = "offline minpoll 8"
 
+#set in the client & master recipes
+default[:chrony][:allow] = []
+
+#set in the client & master recipes
+default[:chrony][:initslewstep] = ""
