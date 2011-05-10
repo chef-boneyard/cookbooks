@@ -27,7 +27,7 @@ service "rabbitmq-server" do
 end
 
 case node[:platform]
-when "ubuntu"
+when "ubuntu","redhat","centos"
   template "/etc/rabbitmq/rabbitmq.conf" do
     source "rabbitmq.config.erb"
     owner "root"
