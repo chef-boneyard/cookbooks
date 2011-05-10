@@ -43,6 +43,20 @@ template "nginx.conf" do
   mode 0644
 end
 
+directory "#{node[:nginx][:dir]}/sites-available" do
+  mode 0644
+  owner "root"
+  group "root"
+  action :create
+end
+
+directory "#{node[:nginx][:dir]}/sites-enabled" do
+  mode 0644
+  owner "root"
+  group "root"
+  action :create
+end
+
 template "#{node[:nginx][:dir]}/sites-available/default" do
   source "default-site.erb"
   owner "root"
