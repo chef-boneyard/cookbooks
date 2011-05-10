@@ -26,11 +26,21 @@ template "#{node[:varnish][:dir]}default.vcl" do
   mode 0644
 end
 
-template "#{node[:varnish][:default]}" do
-  source "ubuntu-default.erb"
-  owner "root"
-  group "root"
-  mode 0644
+case node[:platform]
+when "ubuntu"
+  template "#{node[:varnish][:default]}" do
+    source "ubuntu-default.erb"
+    owner "root"
+    group "root"
+    mode 0644
+  end
+when "redhat","centos"
+  template "#{node[:varnish][:default]}" do
+    source "centos-default.erb"
+    owner "root"
+    group "root"
+    mode 0644
+  end
 end
 
 service "varnish" do
