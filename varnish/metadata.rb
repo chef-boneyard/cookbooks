@@ -6,6 +6,6 @@ version           "0.8"
 
 recipe "varnish", "Installs and configures varnish"
 
-%w{ubuntu debian}.each do |os|
+%w{ubuntu debian redhat centos}.each do |os|
   supports os
 end
