@@ -5,6 +5,8 @@ default[:postfix][:myorigin]   = "$myhostname"
 default[:postfix][:relayhost]  = ""
 default[:postfix][:mail_relay_networks] = "127.0.0.0/8"
 
+default[:postfix][:smtpd_use_tls] = "yes"
+
 default[:postfix][:smtp_sasl_auth_enable] = "no"
 default[:postfix][:smtp_sasl_password_maps]    = "hash:/etc/postfix/sasl_passwd"
 default[:postfix][:smtp_sasl_security_options] = "noanonymous"
