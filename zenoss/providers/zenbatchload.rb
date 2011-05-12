@@ -4,6 +4,9 @@ action :run do
   locations = new_resource.locations
   groups = new_resource.groups
   batch = ""
+  Chef::Log.debug "zenbatchload devices:#{devices}"
+  Chef::Log.debug "zenbatchload locations:#{locations}"
+  Chef::Log.debug "zenbatchload groups:#{groups}"
   #sort the hash and construct the batchload file
   devices.keys.sort!.each do |dclass|
     batch += "#{dclass}\n"

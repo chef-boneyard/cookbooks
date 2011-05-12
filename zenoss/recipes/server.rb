@@ -235,7 +235,8 @@ nodes.each do |node|
     end
   end
 end
-zenoss_zenbatchload devices do
+zenoss_zenbatchload "zenbatchloading devices" do
+  devices devices
   locations locationlist
   groups grouplist
   action :run
