@@ -17,4 +17,4 @@
 # limitations under the License.
 #
 
-execute "yum update"
+execute "yum update -y"
