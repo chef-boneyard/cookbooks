@@ -222,20 +222,21 @@ systems.each do |system|
     action :system
   end
 end
-#using the nodes list, write out a zenbatchload 
+#using the nodes list, write out a zenbatchload
 #find all the device classes and the devices each one has.
-devices = {}
+devs = {}
 nodes.each do |node|
   if node.attribute["zenoss"] and node.attribute["zenoss"]["device"]
     dclass = node.attribute["zenoss"]["device"]["device_class"]
-    if devices.has_key?(dclass)
-      devices[dclass].push(node)
+    if devs.has_key?(dclass)
+      devs[dclass].push(node)
     else
-      devices[dclass] = [node]
+      devs[dclass] = [node]
     end
   end
 end
-zenoss_zenbatchload devices do
+zenoss_zenbatchload 'devices' do
+  devices devs
   locations locationlist
   groups grouplist
   action :run
