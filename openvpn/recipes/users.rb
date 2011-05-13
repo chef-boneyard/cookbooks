@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-search(:users) do |u|
+search("users", "*:*") do |u|
   execute "generate-openvpn-#{u['id']}" do
     command "./pkitool #{u['id']}"
     cwd "/etc/openvpn/easy-rsa"
