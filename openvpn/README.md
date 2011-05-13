@@ -33,6 +33,7 @@ These attributes are set by the cookbook by default.
 
 * `node["openvpn"]["local"]` - IP to listen on, defaults to node[:ipaddress]
 * `node["openvpn"]["proto"]` - Valid values are 'udp' or 'tcp', defaults to 'udp'.
+* `node["openvpn"]["port"]` - Port to listen on, defaults to '1194'.
 * `node["openvpn"]["type"]` - Valid values are 'server' or 'server-bridge'. Default is 'server' and it will create a routed IP tunnel, and use the 'tun' device. 'server-bridge' will create an ethernet bridge and requires a tap0 device bridged with the ethernet interface, and is beyond the scope of this cookbook.
 * `node["openvpn"]["subnet"]` - Used for server mode to configure a VPN subnet to draw client addresses. Default is 10.8.0.0, which is what the sample OpenVPN config package uses.
 * `node["openvpn"]["netmask"]` - Netmask for the subnet, default is 255.255.0.0.

@@ -1,7 +1,7 @@
 client
 dev tun
-proto udp
-remote <%= node["openvpn"]["gateway"] %> 1194
+proto <%= node["openvpn"]["proto"] %>
+remote <%= node["openvpn"]["gateway"] %> <%= node["openvpn"]["port"] %>
 resolv-retry infinite
 nobind
 persist-key
