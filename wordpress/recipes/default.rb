@@ -46,6 +46,7 @@ directory "#{node['wordpress']['dir']}" do
   group "root"
   mode "0755"
   action :create
+  recursive true
 end
 
 execute "untar-wordpress" do
