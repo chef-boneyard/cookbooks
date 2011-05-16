@@ -20,7 +20,7 @@
 # better to use IP numbers than host names.
 
 <% node[:chrony][:servers].each do |server, options| %>
-<%= "server #{server} #{options}\n" %>
+<%= "server #{server} #{options}" %>
 <% end %>
 
 # Look here for the admin password needed for chronyc.  The initial

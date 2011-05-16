@@ -32,15 +32,15 @@ end
 
 #if there are NTP servers, use the first 3 for the initslew
 if node[:chrony][:servers].length > 0
-  node[:chrony][:initslewstep] = "initslewstep 30"
+  node[:chrony][:initslewstep] = "initslewstep 10"
   keys = node[:chrony][:servers].keys.sort
   count = 3
   count = keys.length if keys.length < count
-  count.times {|x| node[:chrony][:initslewstep] += " #{node[:chrony][:servers][keys[x]]}" }
+  count.times {|x| node[:chrony][:initslewstep] += " #{keys[x]}" }
 else #else use first 3 clients
   clients = search(:node, 'recipes:chrony\:\:client').sort || []
   if clients.length > 0
-    node[:chrony][:initslewstep] = "initslewstep 30"
+    node[:chrony][:initslewstep] = "initslewstep 10"
     count = 3
     count = clients.length if clients.length < count
     count.times {|x| node[:chrony][:initslewstep] += " #{clients[x].ipaddress}" }

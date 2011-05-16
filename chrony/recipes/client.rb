@@ -25,11 +25,14 @@ service "chrony" do
   action [ :enable ]
 end
 
+#clients aren't servers by default
+node.default[:chrony][:allow] = []
+
 #search for the chrony master(s), if found populate the template accordingly
 #typical deployment will only have 1 master, but still allow for multiple
 masters = search(:node, 'recipes:chrony\:\:master') || []
 if masters.length > 0
-  node[:chrony][:servers] = {}
+  node.default[:chrony][:servers] = {}
   masters.each do |master|
     node[:chrony][:servers][master.ipaddress] = master[:chrony][:server_options]
     node[:chrony][:allow].push "allow #{master.ipaddress}"
