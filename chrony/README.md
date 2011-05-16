@@ -1,6 +1,6 @@
 Description
 ===========
-Configures the time synchronization application `chrony` as a client or master timeserver. Isolated networks are supported as well.
+Configures the time synchronization application `chrony` as a client or master timeserver, maintaining the accuracy of the system clock (similar to NTP). Isolated networks are supported as well.
 
 Recipes
 =======

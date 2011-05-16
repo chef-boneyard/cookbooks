@@ -25,9 +25,10 @@ service "chrony" do
   action [ :enable ]
 end
 
-ip = node.ipaddress.split('.')
+#set the allowed hosts to the subnet
+#ip = node.ipaddress.split('.')
 #set the allowed hosts to the class B
-node[:chrony][:allow] = ["allow #{ip[0]}.#{ip[1]}"]
+#node[:chrony][:allow] = ["allow #{ip[0]}.#{ip[1]}"]
 
 #if there are NTP servers, use the first 3 for the initslew
 if node[:chrony][:servers].length > 0

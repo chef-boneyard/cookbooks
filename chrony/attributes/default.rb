@@ -29,7 +29,7 @@ default[:chrony][:servers] = {
 default[:chrony][:server_options] = "offline minpoll 8"
 
 #set in the client & master recipes
-default[:chrony][:allow] = []
+default[:chrony][:allow] = ["allow"]
 
 #set in the client & master recipes
 default[:chrony][:initslewstep] = ""
