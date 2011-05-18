@@ -70,7 +70,6 @@ The chef-server cookbook requires the following cookbooks from Opscode. Some are
 * openssl
 * gecode
 * java
-* rabbitmq
 * xml
 * zlib
 * erlang
@@ -238,7 +237,7 @@ Use this recipe to "bootstrap" a system to become a Chef Server. This recipe doe
 * Creates a `chef` user.
 * Installs CouchDB from package or source depending on the platform.
 * Installs Java for the `chef-solr` search engine.
-* Installs RabbitMQ with the `rabbitmq::chef` recipe in the rabbitmq cookbook for the chef-expander consumer.
+* Installs RabbitMQ with the `chef-server::rabbitmq` recipe for the chef-expander consumer.
 * Installs Gecode with the `gecode` cookbook. On Debian/Ubuntu, Opscode's APT repository will be used. On other platforms, Gecode will be installed from source, which can take a long time.
 * Installs all the Server-related RubyGems.
 * Creates the server configuration file `/etc/chef/server.rb` based on the configuration passed via JSON.
