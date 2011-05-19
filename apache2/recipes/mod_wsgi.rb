@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: apache2
-# Recipe:: python 
+# Recipe:: mod_wsgi 
 #
 # Copyright 2008-2009, Opscode, Inc.
 #
@@ -17,11 +17,17 @@
 # limitations under the License.
 #
 
-case node[:platform]
-when "debian","ubuntu"
+if platform?("debian", "ubuntu")
   package "libapache2-mod-wsgi"
-when "redhat","centos","fedora", "arch"
-  package "mod_wsgi"
+elsif platform?("centos", "redhat", "fedora", "arch")
+  package "mod_wsgi" do
+    notifies :run, resources(:execute => "generate-module-list"), :immediately
+  end
+
+  file "#{node[:apache][:dir]}/conf.d/wsgi.conf" do
+    action :delete
+    backup false 
+  end
 end
 
 apache_module "wsgi"
