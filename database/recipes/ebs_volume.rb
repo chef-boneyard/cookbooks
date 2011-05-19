@@ -44,8 +44,8 @@ if node[:ec2]
     if (app["database_master_role"] & node.run_list.roles).length == 1 || (app["database_slave_role"] & node.run_list.roles).length == 1
       master_role = app["database_master_role"]
       slave_role = app["database_slave_role"]
-      root_pw = app["mysql_root_password"][node.app_environment]
-      snapshots_to_keep = app["snapshots_to_keep"][node.app_environment]
+      root_pw = app["mysql_root_password"][node.chef_environment]
+      snapshots_to_keep = app["snapshots_to_keep"][node.chef_environment]
 
       if (master_role & node.run_list.roles).length == 1
         db_type = "master"
@@ -60,27 +60,27 @@ if node[:ec2]
   end
 
   begin
-    ebs_info = Chef::DataBagItem.load(:aws, "ebs_#{db_role}_#{node[:app_environment]}")
+    ebs_info = Chef::DataBagItem.load(:aws, "ebs_#{db_role}_#{node.chef_environment}")
     Chef::Log.info("Loaded #{ebs_info['volume_id']} from DataBagItem aws[#{ebs_info['id']}]")
   rescue
-    Chef::Log.warn("Could not find the 'ebs_#{db_role}_#{node[:app_environment]}' item in the 'aws' data bag")
+    Chef::Log.warn("Could not find the 'ebs_#{db_role}_#{node.chef_environment}' item in the 'aws' data bag")
     ebs_info = Hash.new
   end
 
   begin
-    master_info = Chef::DataBagItem.load(:aws, "ebs_#{master_role}_#{node.app_environment}")
+    master_info = Chef::DataBagItem.load(:aws, "ebs_#{master_role}_#{node.chef_environment}")
     Chef::Log.info "Loaded #{master_info['volume_id']} from DataBagItem aws[#{master_info['id']}]"
   rescue
     Chef::Application.fatal! "Could not load replication masters snapshot details", -41 if db_type == "slave"
   end
 
-  ruby_block "store_#{db_role}_#{node[:app_environment]}_volid" do
+  ruby_block "store_#{db_role}_#{node.chef_environment}_volid" do
     block do
-      ebs_vol_id = node[:aws][:ebs_volume]["#{db_role}_#{node[:app_environment]}"][:volume_id]
+      ebs_vol_id = node[:aws][:ebs_volume]["#{db_role}_#{node.chef_environment}"][:volume_id]
 
       unless ebs_info['volume_id']
         item = {
-          "id" => "ebs_#{db_role}_#{node[:app_environment]}",
+          "id" => "ebs_#{db_role}_#{node.chef_environment}",
           "volume_id" => ebs_vol_id
         }
         Chef::Log.info "Storing volume_id #{item.inspect}"
@@ -94,7 +94,7 @@ if node[:ec2]
     action :nothing
   end
 
-  aws_ebs_volume "#{db_role}_#{node[:app_environment]}" do
+  aws_ebs_volume "#{db_role}_#{node.chef_environment}" do
     aws_access_key aws['aws_access_key_id']
     aws_secret_access_key aws['aws_secret_access_key']
     size 50
@@ -111,7 +111,7 @@ if node[:ec2]
       else
         action [ :create, :attach ]
       end
-      notifies :create, resources(:ruby_block => "store_#{db_role}_#{node[:app_environment]}_volid")
+      notifies :create, resources(:ruby_block => "store_#{db_role}_#{node.chef_environment}_volid")
     when "slave"
       if master_info['volume_id']
         snapshot_id master_info['volume_id']
@@ -141,7 +141,7 @@ if node[:ec2]
           'db_snapshot' => {
             'ebs_vol_dev' => node.mysql.ec2_path,
             'db_role' => db_role,
-            'app_environment' => node.app_environment,
+            'app_environment' => node.chef_environment,
             'username' => 'root',
             'password' => root_pw,
             'aws_access_key_id' => aws['aws_access_key_id'],

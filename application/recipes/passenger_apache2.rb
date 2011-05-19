@@ -37,7 +37,7 @@ web_app app['id'] do
   server_name "#{app['id']}.#{node[:domain]}"
   server_aliases server_aliases
   log_dir node[:apache][:log_dir]
-  rails_env node.app_environment
+  rails_env node.chef_environment
 end
 
 if ::File.exists?(::File.join(app['deploy_to'], "current"))

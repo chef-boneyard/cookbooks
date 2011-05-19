@@ -1,6 +1,6 @@
 <Context docBase="<%= @war %>" path="/"
         debug="5" reloadable="true" crossContext="true" allowLinking="true">
-  <Environment name="appEnvironment" value="<%= node['app_environment'] %>"
+  <Environment name="appEnvironment" value="<%= node.chef_environment %>"
           type="java.lang.String" override="false"/>
   <Resource name="jdbc/<%= @app %>" auth="Container" type="javax.sql.DataSource"
                maxActive="<%= @database['max_active'] %>" maxIdle="<%= @database['max_idle'] %>" maxWait="<%= @database['max_wait'] %>"

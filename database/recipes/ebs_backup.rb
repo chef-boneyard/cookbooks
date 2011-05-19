@@ -35,7 +35,7 @@ search(:apps) do |app|
   db_master_role = app["database_master_role"]
 end
 
-ebs_info = Chef::DataBagItem.load(:aws, "ebs_#{db_master_role}_#{node['app_environment']}")
+ebs_info = Chef::DataBagItem.load(:aws, "ebs_#{db_master_role}_#{node.chef_environment}")
 
 gem_package "dbi"
 gem_package "dbd-mysql"
@@ -78,7 +78,7 @@ end
   end
 end
 
-if db_type == "master" && node['app_environment'] == "production"
+if db_type == "master" && node.chef_environment == "production"
   template "/etc/cron.d/db-backup" do
     source "ebs-backup-cron.erb"
     owner "root"

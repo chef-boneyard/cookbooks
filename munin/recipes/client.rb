@@ -17,14 +17,14 @@
 # limitations under the License.
 #
 
+munin_servers = search(:node, "role:#{node['munin']['server_role']} AND chef_environment:#{node.chef_environment}")
+
 package "munin-node"
 
 service "munin-node" do
   supports :restart => true
   action :enable
 end
-
-munin_servers = search(:node, "role:#{node['munin']['server_role']} AND app_environment:#{node['app_environment']}")
 
 template "/etc/munin/munin-node.conf" do
   source "munin-node.conf.erb"
