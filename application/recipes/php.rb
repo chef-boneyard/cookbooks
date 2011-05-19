@@ -26,7 +26,7 @@ include_recipe "php"
 # default application recipe work it's mojo for you.
 ###
 
-node.default['apps'][app['id']][node.app_environment]['run_migrations'] = false
+node.default['apps'][app['id']][node.chef_environment]['run_migrations'] = false
 
 # the PHP projects have no standard local settings file name..or path in the project
 local_settings_full_path = app['local_settings_file'] || 'LocalSettings.php'
@@ -98,7 +98,7 @@ if app["database_master_role"]
     dbm = node
   else
   # Find the database master
-    results = search(:node, "run_list:role\\[#{app['database_master_role'][0]}\\] AND app_environment:#{node['app_environment']}", nil, 0, 1)
+    results = search(:node, "run_list:role\\[#{app['database_master_role'][0]}\\] AND chef_environment:#{node.chef_environment}", nil, 0, 1)
     rows = results[0]
     if rows.length == 1
       dbm = rows[0]
@@ -116,7 +116,7 @@ if app["database_master_role"]
       variables(
         :path => "#{app['deploy_to']}/current",
         :host => dbm['fqdn'],
-        :database => app['databases'][node['app_environment']],
+        :database => app['databases'][node.chef_environment],
         :app => app
       )
     end
@@ -127,12 +127,12 @@ end
 
 ## Then, deploy
 deploy_revision app['id'] do
-  revision app['revision'][node.app_environment]
+  revision app['revision'][node.chef_environment]
   repository app['repository']
   user app['owner']
   group app['group']
   deploy_to app['deploy_to']
-  action app['force'][node.app_environment] ? :force_deploy : :deploy
+  action app['force'][node.chef_environment] ? :force_deploy : :deploy
   ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
   shallow_clone true
   purge_before_symlink([])
