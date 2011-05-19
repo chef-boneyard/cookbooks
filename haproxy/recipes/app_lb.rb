@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+pool_members = search("node", "role:#{node['haproxy']['app_server_role']} AND chef_environment:#{node.chef_environment}") || []
+
 package "haproxy" do
   action :install
 end
@@ -32,8 +34,6 @@ service "haproxy" do
   supports :restart => true, :status => true, :reload => true
   action [:enable, :start]
 end
-
-pool_members = search("node", "role:#{node['haproxy']['app_server_role']} AND app_environment:#{node['app_environment']}") || []
 
 template "/etc/haproxy/haproxy.cfg" do
   source "haproxy-app_lb.cfg.erb"
