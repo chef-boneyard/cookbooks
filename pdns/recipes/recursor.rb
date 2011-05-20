@@ -38,5 +38,5 @@ template "/etc/powerdns/recursor.conf" do
   owner "root"
   group "root"
   mode 0644
-  notifies :restart, resource(:service => "pdns-recursor"), :immediately
+  notifies :restart, "service[pdns-recursor]", :immediately
 end
