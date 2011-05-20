@@ -1,30 +1,30 @@
 {
-    "recommendations": {
-    },
-    "attributes": {
-    },
-    "maintainer": "Scott M. Likens",
-    "suggestions": {
-    },
-    "dependencies": {
-    },
-    "maintainer_email": "scott@likens.us",
-    "conflicting": {
-    },
-    "platforms": {
-    },
-    "license": "Apache 2.0",
-    "version": "0.2.2",
-    "providing": {
-    },
-    "recipes": {
-      "ssh_known_hosts": "Dyanmically generates /etc/ssh/known_hosts based on search indexes"
-    },
-    "replacing": {
-    },
-    "name": "ssh_known_hosts",
-    "description": "Dyanmically generates /etc/ssh/known_hosts based on search indexes",
-    "groupings": {
-    },
-    "long_description": "= DESCRIPTION: \n\nBuild /etc/ssh/known_hosts based on search indexes and build it based on data retrieved by ohai.\n\n= REQUIREMENTS: \n\n== Platform: Doesn't matter, should work on anything.\n\n= ATTRIBUTES:\n\n= USAGE: Generates /etc/ssh/known_hosts based on search indexes.\n\n= LICENSE and AUTHOR: \n\nAuthor:: Scott M. Likens (<scott@likens.us>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n    \n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an \"AS IS\" BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n"
-  }
+  "name": "ssh_known_hosts",
+  "description": "Dyanmically generates /etc/ssh/known_hosts based on search indexes",
+  "long_description": "= DESCRIPTION: \n\nBuild /etc/ssh/known_hosts based on search indexes and build it based on data retrieved by ohai.\n\n= REQUIREMENTS: \n\n== Platform: Doesn't matter, should work on anything.\n\n= ATTRIBUTES:\n\n= USAGE: Generates /etc/ssh/known_hosts based on search indexes.\n\n= LICENSE and AUTHOR: \n\nAuthor:: Scott M. Likens (<scott@likens.us>)\n\nCopyright:: 2009, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n    \n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an \"AS IS\" BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n",
+  "maintainer": "Scott M. Likens",
+  "maintainer_email": "scott@likens.us",
+  "license": "Apache 2.0",
+  "platforms": {
+  },
+  "dependencies": {
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "ssh_known_hosts": "Dyanmically generates /etc/ssh/known_hosts based on search indexes"
+  },
+  "version": "0.2.3"
+}
