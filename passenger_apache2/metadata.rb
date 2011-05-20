@@ -8,9 +8,7 @@ version           "0.99.0"
 recipe "passenger_apache2", "Installs Passenger as an Apache module"
 recipe "passenger_apache2::mod_rails", "Enables Apache module configuration for passenger module"
 
-%w{ packages apache2 }.each do |cb|
-  depends cb
-end
+depends "apache2"
 
 %w{ redhat centos ubuntu debian }.each do |os|
   supports os
