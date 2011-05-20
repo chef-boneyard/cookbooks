@@ -8,7 +8,7 @@ version           "0.11.3"
 recipe "radiant", "Installs Radiant CMS"
 recipe "radiant::db_bootstrap", "Bootstrap the Radiant database, used with application cookbook (destructive)"
 
-%w{ git sqlite rails apache2 mysql passenger_apache2 apache2 }.each do |cb|
+%w{ git sqlite apache2 mysql passenger_apache2 }.each do |cb|
   depends cb
 end
 
