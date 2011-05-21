@@ -1,24 +1,35 @@
-= DESCRIPTION:
+Description
+===========
 
 Installs haproxy and prepares the configuration location.
 
-= REQUIREMENTS:
+Changes
+=======
 
-== Platform:
+## v1.0.0:
+
+* Use `node.chef_environment` instead of `node['app_environment']`
+
+Requirements
+============
+
+## Platform
 
 Tested on Ubuntu 8.10 and higher.
 
-== Cookbooks:
+## Cookbooks:
 
-= ATTRIBUTES:
+Attributes
+==========
 
 * `node['haproxy']['member_port']` - the port that member systems will be listening on, default 80
 * `node['haproxy']['enable_admin']` - whether to enable the admin interface. default true. Listens on port 22002.
 * `node['haproxy']['app_server_role']` - used by the `app_lb` recipe to search for a specific role of member systems. Default `webserver`.
 
-= USAGE:
+Usage
+=====
 
-Use either the default recipe or the app_lb recipe.
+Use either the default recipe or the `app_lb` recipe.
 
 When using the default recipe, modify the haproxy.cfg.erb file with listener(s) for your sites/servers.
 
@@ -33,20 +44,19 @@ The app_lb recipe is designed to be used with the application cookbook, and prov
       }
     )
 
-The search also relies on an attribute "app_environment" being set on the node and a role named with the same value. For example, production:
+The search uses the node's `chef_environment`. For example, create `environments/production.rb`, then upload it to the server with knife
 
-
+    % cat environments/production.rb
     name "production"
     description "Nodes in the production environment."
-    default_attributes(
-      "app_environment" => "production"
-    )
+    % knife environment from file production.rb
 
-= LICENSE and AUTHOR:
+License and Author
+==================
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
 
-Copyright:: 2009-2010, Opscode, Inc
+Copyright:: 2009-2011, Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

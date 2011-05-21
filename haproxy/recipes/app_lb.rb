@@ -41,5 +41,5 @@ template "/etc/haproxy/haproxy.cfg" do
   group "root"
   mode 0644
   variables :pool_members => pool_members
-  notifies :restart, resources(:service => "haproxy")
+  notifies :restart, "service[haproxy]"
 end

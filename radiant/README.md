@@ -1,12 +1,16 @@
-= DESCRIPTION:
+Description
+===========
 
 Installs RadiantCMS, a Ruby on Rails content management system.
 
-= REQUIREMENTS:
+Requirements
+============
 
-== Platform:
+Requires Chef 0.10.0
 
-The db_bootstrap recipe requires using the Opscode application cookbook.
+## Platform
+
+The `db_bootstrap` recipe requires using the Opscode application cookbook.
 
 Tested on Ubuntu 9.04, uses the Opscode Apache2 cookbook which is Ubuntu/Debian specific.
 
@@ -14,7 +18,7 @@ Requires Chef 0.7.12 for Deploy resource when installing from Radiant's git repo
 
 The `db_bootstrap` recipe requires Chef 0.9.10+ for the notifies resource syntax.
 
-== Cookbooks:
+## Cookbooks
 
 Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
 
@@ -22,8 +26,10 @@ Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
 * sqlite
 * rails
 * apache2
+* passenger_apache2
 
-= ATTRIBUTES:
+Attributes
+==========
 
 * radiant[:edge] - Do a deploy from github repo if true, use gems if false, default false.
 * radiant[:branch] - Branch to deploy from, default HEAD.
@@ -34,7 +40,8 @@ Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
 * radiant[:action] - Whether to deploy, rollback or nothing, default nothing.
 * radiant[:db_bootstrap] - rake task to bootstrap a fresh database, use once and with care, it will delete the database contents.
 
-= USAGE:
+Usage
+=====
 
 This recipe uses SQLite3 for the database by default. To set up the default database to get Radiant rolling, run a db:bootstrap by changing the radiant[:migrate] command to the following in the webui:
 
@@ -48,7 +55,7 @@ Change as required for your environment. If the target system doesn't have /usr/
 
 Radiant supports other database backends. We don't yet have automation ready to set up a database user and grant privileges, or creating the database itself.
 
-== Database Bootstrap
+## Database Bootstrap
 
 This recipe is DESTRUCTIVE.
 
@@ -60,11 +67,11 @@ This recipe wraps the rake db:bootstrap from above. Only use this recipe if you 
 
 This recipe is designed to be used with the Opscode application cookbook, and only one time. It removes itself with a Ruby block resource when the rake resource executes successfully.
 
-= LICENSE and AUTHOR:
-
+License and Author
+==================
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
-Copyright:: 2009, Opscode, Inc.
+Copyright:: 2009-2011, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
