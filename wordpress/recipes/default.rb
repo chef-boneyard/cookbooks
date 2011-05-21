@@ -18,12 +18,22 @@
 #
 
 include_recipe "apache2"
+include_recipe "mysql::server"
+include_recipe "apache2::mod_php5"
+include_recipe "php"
+include_recipe "php::module_mysql"
 
 if node.has_key?("ec2")
   server_fqdn = node.ec2.public_hostname
 else
   server_fqdn = node.fqdn
 end
+
+node.set[:wordpress][:db][:password] = secure_password
+node.set[:wordpress][:keys][:auth] = secure_password
+node.set[:wordpress][:keys][:secure_auth] = secure_password
+node.set[:wordpress][:keys][:logged_in] = secure_password
+node.set[:wordpress][:keys][:nonce] = secure_password
 
 remote_file "#{Chef::Config[:file_cache_path]}/wordpress-#{node[:wordpress][:version]}.tar.gz" do
   checksum node[:wordpress][:checksum]
@@ -49,11 +59,6 @@ execute "mysql-install-wp-privileges" do
   action :nothing
 end
 
-include_recipe "mysql::server"
-require 'rubygems'
-Gem.clear_paths
-require 'mysql'
-
 template "/etc/mysql/wp-grants.sql" do
   path "/etc/mysql/wp-grants.sql"
   source "grants.sql.erb"
@@ -71,9 +76,11 @@ end
 execute "create #{node[:wordpress][:db][:database]} database" do
   command "/usr/bin/mysqladmin -u root -p#{node[:mysql][:server_root_password]} create #{node[:wordpress][:db][:database]}"
   not_if do
+    require 'mysql'
     m = Mysql.new("localhost", "root", node[:mysql][:server_root_password])
     m.list_dbs.include?(node[:wordpress][:db][:database])
   end
+  notifies :create, "ruby_block[save node data]", :immediately
 end
 
 # save node data after writing the MYSQL root password, so that a failed chef-client run that gets this far doesn't cause an unknown password to get applied to the box without being saved in the node data.
@@ -102,17 +109,7 @@ template "#{node[:wordpress][:dir]}/wp-config.php" do
     :logged_in_key   => node[:wordpress][:keys][:logged_in],
     :nonce_key       => node[:wordpress][:keys][:nonce]
   )
-  notifies :write, resources(:log => "Navigate to 'http://#{server_fqdn}/wp-admin/install.php' to complete wordpress installation")
-end
-
-include_recipe "php"
-include_recipe "apache2::mod_php5"
-
-package "php-mysql" do
-  package_name value_for_platform(
-  ["centos", "redhat", "fedora"] => { "default" => "php-mysql" },
-  "default" => "php5-mysql"
-  )
+  notifies :write, "log[Navigate to 'http://#{server_fqdn}/wp-admin/install.php' to complete wordpress installation]"
 end
 
 web_app "wordpress" do
