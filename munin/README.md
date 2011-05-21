@@ -1,21 +1,28 @@
-DESCRIPTION
+Description
 ====
 
 Installs and configures Munin for a server and for clients using Chef 0.8 search capabilities.
 
-REQUIREMENTS
+Changes
+=======
+
+## v0.99.0
+
+* Use Chef 0.10's `node.chef_environment` instead of `node['app_environment']`.
+
+Requirements
 ====
 
-Requires Chef 0.8+ for search capability of roles and data bags.
+Requires Chef 0.10 for Chef environments.
 
-The monitoring server that uses this recipe should have a role named 'monitoring'. A role named after the environment (e.g., "production") and a node attribute `app_environment` with a value of the same should be created for all nodes. The server uses this to search for only nodes that belong to its same environment.
+The monitoring server that uses this recipe should have a role named 'monitoring'. The recipes use search, and narrow the results to nodes in the same `chef_environment`.
 
 Because of the heavy use of search, this recipe will not work with Chef Solo, as it cannot do any searches without a server.
 
 Platform
 ----
 
-Tested on Ubuntu 9.04, Ubuntu 9.10, Ubuntu 10.04, Debian 5, and ArchLinux.
+Tested on Ubuntu, Debian, and ArchLinux.
 
 Cookbooks
 ----
@@ -28,13 +35,13 @@ To install perl cpan modules for munin plugins
 
 * perl
 
-ATTRIBUTES
+Attributes
 ====
 
 * `['munin']['server_role']` - role of the munin server. Default is monitoring.
 * `['munin']['docroot']` - document root for the server apache vhost. on archlinux, the default is `/srv/http/munin`, or `/var/www/munin` on other platforms.
 
-RECIPES
+Recipes
 ====
 
 client
@@ -47,7 +54,7 @@ server
 
 The server recipe will set up the munin server with Apache. It will create a cron job for generating the munin graphs, search for any nodes that have munin attributes (`node['munin']`), and use those nodes to connect for the graphs.
 
-USAGE
+Usage
 ====
 
 Create a role named `monitoring` that includes the munin::server recipe in the run list. Adjust the docroot to suit your environment.
@@ -61,7 +68,14 @@ Create a role named `monitoring` that includes the munin::server recipe in the r
 
 Apply this role to a node and it will be the munin server. Optionally create a DNS entry for it as munin, that will be used in the Apache vhost.
 
-Clients will automatically search for the server based on the value of the `node['munin']['server_role']` attribute. If you don't use `monitoring` as the role name, change it in a role that is applied to any nodes that get the `munin::client` recipe.
+Use Chef 0.10's environments. For example, create a "production" environment Ruby DSL file and upload it to the Chef Server
+
+    % cat environments/production.rb
+    name "production"
+    description "Nodes in production"
+    % knife environment from file production.rb
+
+Clients will automatically search for the server based on the value of the `node['munin']['server_role']` attribute in the same environment. If you don't use `monitoring` as the role name, change it in a role that is applied to any nodes that get the `munin::client` recipe.
 
 Custom Plugins
 ----
@@ -114,7 +128,7 @@ Then for example in your memcache recipe
       end
     end
 
-LICENSE and AUTHOR
+License and Author
 ====
 
 Author:: Nathan Haneysmith <nathan@opscode.com>
