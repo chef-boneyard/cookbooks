@@ -12,13 +12,21 @@ Other application stacks (Rack, WSGI, etc) will be supported as new recipes at a
 
 This cookbook aims to provide primitives to install/deploy any kind of application driven entirely by data defined in an abstract way through a data bag.
 
----
+Note that as of version 0.99.10, this cookbook uses Chef 0.10's environments instead of the `app_environment` attribute. If you do not set up any environments for your nodes, they will be in the `_default` environment. See __Usage__ below for information on how to set up environments.
+
+Changes
+=======
+
+## v0.99.10:
+
+* Use Chef 0.10's `node.chef_environment` instead of `node['app_environment']`.
+
 Requirements
 ============
 
-Chef 0.9.14 or higher required.
+Chef 0.10.0 or higher required (for Chef environment use).
 
-The following Opscode cookbooks are dependencies:
+The following Opscode cookbooks are dependencies, as this cookbook supports automating a large number of web application stacks.
 
 * runit
 * unicorn
@@ -29,7 +37,6 @@ The following Opscode cookbooks are dependencies:
 * apache2
 * php
 
----
 Recipes
 =======
 
@@ -55,7 +62,7 @@ Using the node's `run_state` that contains the current application in the search
 
 This recipe can be used on nodes that are going to run the application, or on nodes that need to have the application code checkout available such as supporting utility nodes or a configured load balancer that needs static assets stored in the application repository.
 
-For pip requirements.txt files: ensure the requirements.txt file is present in the root of the application code (APP_ROOT/requirements.txt) or named after the node's current app_environment in a directory named requirements (requirements/production.txt) and `pip install -r` will be run before migrations.
+For pip requirements.txt files: ensure the requirements.txt file is present in the root of the application code (APP_ROOT/requirements.txt) or named after the node's current `chef_environment` in a directory named requirements (requirements/production.txt) and `pip install -r` will be run before migrations.
 
 In order to manage running database migrations (python manage.py migrate), you can use a role that sets the `run_migrations` attribute for the application (`my_app`, below) in the correct environment (production, below). Note the data bag item needs to have migrate set to true. See the data bag example below.
 
@@ -100,8 +107,8 @@ Using the node's `run_state` that contains the current application in the search
 
 The servlet container context configuration (`context.xml`) exposes the following JNDI resources which can be referenced by the webapp's deployment descriptor (web.xml):
 
-* A JDBC datasource for all databases in the node's current `app_environment`.  The datasource uses the information (including JDBC driver) specified in the data bag item for the application.
-* An Environment entry that matches the node's current `app_environment` attribute value.  This is useful for loading environment specific properties files in the web application. 
+* A JDBC datasource for all databases in the node's current `chef_environment`.  The datasource uses the information (including JDBC driver) specified in the data bag item for the application.
+* An Environment entry that matches the node's current `chef_environment` attribute value.  This is useful for loading environment specific properties files in the web application. 
 
 This recipe assumes some sort of build process, such as Maven or a Continuous Integration server like Hudson, will create a deployable artifact and make it available for download via HTTP (such as S3 or artifactory).
 
@@ -110,8 +117,8 @@ mod\_php\_apache2
 
 Requires `apache2` cookbook. Sets up a mod_php vhost template for the application using the `apache2` cookbook's `web_app` definition. See data bag example below.
 
-passenger_apache2
------------------
+passenger\_apache2
+------------------
 
 Requires `apache2` and `passenger_apache2` cookbooks. Sets up a passenger vhost template for the application using the `apache2` cookbook's `web_app` definition. Use this with the `rails` recipe, in the list of recipes for a specific application type. See data bag example below.
 
@@ -183,22 +190,20 @@ Requires `unicorn` cookbook.
 
 Unicorn is installed, default attributes are set for the node and an app specific unicorn config and runit service are created.
 
----
 Deprecated Recipes
 ==================
 
 The following recipes are deprecated and have been removed from the cookbook. To retrieve an older version, reference commit 4396ce6.
 
-`passenger-nginx`
-`rails_nginx_ree_passenger`
+* `passenger-nginx`
+* `rails_nginx_ree_passenger`
 
----
 Application Data Bag 
 =====================
 
 The applications data bag expects certain values in order to configure parts of the recipe. Below is a paste of the JSON, where the value is a description of the key. Use your own values, as required. Note that this data bag is also used by the `database` cookbook, so it will contain database information as well. Items that may be ambiguous have an example.
 
-The application used in examples is named `my_app` and the environment is `production`. Most top-level keys are Arrays, and each top-level key has an entry that describes what it is for, followed by the example entries. Entries that are hashes themselves will have the description in the value.
+The application used in examples is named `my_app` and the environment is `production`. Most top-level keys are Arrays, and each top-level key has an entry that describes what it is for, followed by the example entries. Entries that are hashes themselves will have the description in the value. In order to use the environment `production` you must create the environment as described below under __Usage__.
 
 Note about "type": the recipes listed in the "type" will be included in the run list via `include_recipe` in the application default recipe based on the type matching one of the `server_roles` values.
 
@@ -285,13 +290,12 @@ A few example `local_settings` templates are included in this cookbook at `examp
 
 An example is data bag item is included in this cookbook at `examples/data_bags/apps/php_app.json`.
 
----
 Usage
 =====
 
 To use the application cookbook, we recommend creating a role named after the application, e.g. `my_app`. This role should match one of the `server_roles` entries, that will correspond to a `type` entry, in the databag. Create a Ruby DSL role in your chef-repo, or create the role directly with knife.
 
-    % knife role show my_app
+    % knife role show my_app -Fj
     {
       "name": "my_app",
       "chef_type": "role",
@@ -308,27 +312,22 @@ To use the application cookbook, we recommend creating a role named after the ap
 
 Also recommended is a cookbook named after the application, e.g. `my_app`, for additional application specific setup such as other config files for queues, search engines and other components of your application. The `my_app` recipe can be used in the run list of the role, if it includes the `application` recipe.
 
-You should also have a role for the environment(s) you wish to use this cookbook. Similar to the role above, create the Ruby DSL file in chef-repo, or create with knife directly.
+You should also create an environment. We use `production` in the examples and the documentation above. An example is in the source code's "examples" directory, and the JSON for an environment is below:
 
-    % knife role show production
+    % knife environment show production -Fj
     {
       "name": "production",
-      "chef_type": "role",
-      "json_class": "Chef::Role",
-      "default_attributes": {
-        "app_environment": "production"
+      "description": "",
+      "cookbook_versions": {
       },
-      "description": "production environment role",
-      "run_list": [
-
-      ],
+      "json_class": "Chef::Environment",
+      "chef_type": "environment",
+      "default_attributes": {
+      },
       "override_attributes": {
       }
     }
 
-This role uses a default attribute so nodes can be moved into other environments on the fly simply by modifying their node object directly on the Chef Server.
-
----
 License and Author
 ==================
 

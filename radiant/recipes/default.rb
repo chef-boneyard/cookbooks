@@ -29,6 +29,12 @@ include_recipe "passenger_apache2::mod_rails"
 
 gem_package "sqlite3-ruby"
 
+group "railsdev"
+
+user "railsdev" do
+  group "railsdev"
+end
+
 directory "/srv/#{appname}/current/" do
   recursive true
   owner "railsdev"
@@ -49,5 +55,5 @@ web_app "#{appname}" do
   template "#{appname}.conf.erb"
   server_name "#{appname}.#{node[:domain]}"
   server_aliases [ "#{appname}", node[:hostname] ]
-  rails_env node[:radiant][:environment]
+  rails_env node.chef_environment
 end
