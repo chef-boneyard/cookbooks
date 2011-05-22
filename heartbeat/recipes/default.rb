@@ -2,7 +2,7 @@
 # Cookbook Name:: heartbeat
 # Recipe:: default
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 # * /etc/ha.d/haresources
 # * /etc/ha.d/authkeys
 
-%w{ heartbeat-2 heartbeat-2-dev }.each do |pkg|
+%w{ heartbeat heartbeat-dev }.each do |pkg|
   package pkg do
     action :install
   end
