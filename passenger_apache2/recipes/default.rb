@@ -23,11 +23,13 @@
 # limitations under the License.
 
 include_recipe "apache2"
+include_recipe "build-essential"
 
 if platform?("centos","redhat")
   package "httpd-devel"
+  package "curl-devel"
 else
-  %w{ apache2-prefork-dev libapr1-dev }.each do |pkg|
+  %w{ apache2-prefork-dev libapr1-dev libcurl4-gnutls-dev }.each do |pkg|
     package pkg do
       action :upgrade
     end
