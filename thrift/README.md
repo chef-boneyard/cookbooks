@@ -1,14 +1,16 @@
-= DESCRIPTION:
+Description
+====
 
 Installs Thrift from source.
 
-= REQUIREMENTS:
+Requirements
+====
 
-== Platform:
+## Platform
 
-Only tested on Ubuntu 9.04.
+Only tested on Ubuntu 10.04.
 
-== Cookbooks:
+## Cookbooks
 
 Opscode cookbooks:
 
@@ -17,17 +19,18 @@ Opscode cookbooks:
 * subversion
 * boost
 
-= USAGE:
+Usage
+====
 
 Include the Thrift recipe to install Thrift from source on your systems.
 
   include_recipe "thrift"
 
-= LICENSE and AUTHOR:
-
+License and Author
+====
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
-Copyright:: 2009, Opscode, Inc.
+Copyright:: 2009-2011, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
