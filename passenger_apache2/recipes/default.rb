@@ -33,6 +33,8 @@ if platform?("centos","redhat")
     return
   else
     package "httpd-devel"
+    #Passenger 3 requires curl headers for compilation
+    package "curl-devel" if node[:passenger][:version][0].to_i > 2
   end
 else
   %w{ apache2-prefork-dev libapr1-dev }.each do |pkg|
