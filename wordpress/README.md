@@ -1,14 +1,16 @@
-= DESCRIPTION:
+Description
+====
 
 Installs and configures Wordpress according to the instructions at http://codex.wordpress.org/Installing_WordPress. Does not set up a wordpress blog. You will need to do this manually by going to http://hostname/wp-admin/install.php (this URL may be different if you change the attribute values).
 
-= REQUIREMENTS:
+Requirements
+====
 
-== Platform:
+## Platform
 
 Tested on Ubuntu 9.04, 9.10.
 
-== Cookbooks:
+## Cookbooks
 
 Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
 
@@ -17,11 +19,12 @@ Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
 * apache2
 * opensssl
 
-== Libraries:
+## Libraries
 
 The openssl library is required from the openssl cookbook to generate secure passwords.
 
-= ATTRIBUTES:
+Attributes
+====
 
 * wordpress[:version] - Set the version to download.
 * wordpress[:checksum] - sha256sum of the tarball, make sure this matches for the version!
@@ -39,7 +42,8 @@ Attributes will probably never need to change (these all default to randomly gen
 
 The random generation is handled with the secure_password method in the openssl cookbook which is a cryptographically secure random generator and not predictable like the random method in the ruby standard library.
 
-= USAGE:
+Usage
+====
 
 If a different version than the default is desired, download that version and get the SHA256 checksum (sha256sum on Linux systems), and set the version and checksum attributes.
 
@@ -49,15 +53,17 @@ Chef will install and configure mysql, php, and apache2 according to the instruc
 
 The mysql::server recipe needs to come first, and contain an execute resource to install mysql privileges from the grants.sql template in this cookbook.
 
-== Note about MySQL:
+## Note about MySQL
 
 This cookbook will decouple the mysql::server and be smart about detecting whether to use a local database or find a database server in the environment in a later version.
 
-= LICENSE and AUTHOR:
+License and Author
+====
 
-Author:: Barry Steinglass (barry@opscode.com>)
+Author:: Barry Steinglass (barry@opscode.com)
+Author:: Joshua Timberman (joshua@opscode.com)
 
-Copyright:: 2010, Opscode, Inc
+Copyright:: 2010-2011, Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
