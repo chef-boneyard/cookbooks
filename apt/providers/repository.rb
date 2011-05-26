@@ -26,13 +26,26 @@ action :add do
         command "apt-key adv --keyserver #{new_resource.keyserver} --recv #{new_resource.key}"
         action :nothing
       end.run_action(:run)
-    elsif new_resource.key && (new_resource.key =~ /http/)
+    elsif new_resource.key
       key_name = new_resource.key.split(/\//).last
-      remote_file "#{Chef::Config[:file_cache_path]}/#{key_name}" do
-        source new_resource.key
-        mode "0644"
-        action :nothing
-      end.run_action(:create_if_missing)
+      target = "#{Chef::Config[:file_cache_path]}/#{key_name}"
+
+      if (new_resource.key =~ /http/)
+        r = remote_file target do
+          source new_resource.key
+          mode "0644"
+          action :nothing
+        end.run_action(:create_if_missing)
+      else
+        r = cookbook_file target do
+          source new_resource.key
+          mode "0644"
+          action :nothing
+        end
+      end
+
+      r.run_action(:create_if_missing)
+
       execute "install-key #{key_name}" do
         command "apt-key add #{Chef::Config[:file_cache_path]}/#{key_name}"
         action :nothing
