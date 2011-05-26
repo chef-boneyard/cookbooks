@@ -21,7 +21,7 @@ include_recipe "boost"
 include_recipe "java"
 include_recipe "subversion"
 
-%w{ flex bison libtool autoconf pkg-config }.each do |pkg|
+%w{ flex bison libtool autoconf pkg-config python-dev}.each do |pkg|
   package pkg
 end
 
