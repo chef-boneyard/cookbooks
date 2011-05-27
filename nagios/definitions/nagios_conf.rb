@@ -2,11 +2,12 @@
 # Author:: Joshua Sierles <joshua@37signals.com>
 # Author:: Joshua Timberman <joshua@opscode.com>
 # Author:: Nathan Haneysmith <nathan@opscode.com>
+# Author:: Seth Chisamore <schisamo@opscode.com>
 # Cookbook Name:: nagios
 # Definition:: nagios_conf
 #
 # Copyright 2009, 37signals
-# Copyright 2009-2010, Opscode, Inc
+# Copyright 2009-2011, Opscode, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,20 +22,16 @@
 # limitations under the License.
 #
 define :nagios_conf, :variables => {}, :config_subdir => true do
+  
+  conf_dir = params[:config_subdir] ? node['nagios']['config_dir'] : node['nagios']['conf_dir']
 
-  subdir = if params[:config_subdir]
-    "/#{node[:nagios][:config_subdir]}/"
-  else
-    "/"
-  end
-
-  template "#{node[:nagios][:dir]}#{subdir}#{params[:name]}.cfg" do
+  template "#{conf_dir}/#{params[:name]}.cfg" do
     owner "nagios"
     group "nagios"
     source "#{params[:name]}.cfg.erb"
     mode 0644
     variables params[:variables]
-    notifies :restart, resources(:service => "nagios3")
+    notifies :restart, "service[nagios]"
     backup 0
   end
 end

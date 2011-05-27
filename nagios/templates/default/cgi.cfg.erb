@@ -6,14 +6,14 @@
 # The CGIs will read the main and host config files for any other
 # data they might need.
 
-main_config_file=<%= node[:nagios][:dir] %>/nagios.cfg
+main_config_file=<%= node['nagios']['conf_dir'] %>/nagios.cfg
 
 # PHYSICAL HTML PATH
 # This is the path where the HTML files for Nagios reside.  This
 # value is used to locate the logo images needed by the statusmap
 # and statuswrl CGIs.
 
-physical_html_path=<%= node[:nagios][:docroot] %>
+physical_html_path=<%= node['nagios']['docroot'] %>
 
 # URL HTML PATH
 # This is the path portion of the URL that corresponds to the
@@ -48,7 +48,7 @@ show_context_help=1
 # have to be tweaked a bit, as different versions of the plugin
 # use different command line arguments/syntaxes.
 
-nagios_check_command=/usr/lib/nagios/plugins/check_nagios <%= node[:nagios][:cache_dir] %>/status.dat 5 '/usr/sbin/nagios3'
+nagios_check_command=<%= node['nagios']['plugin_dir'] %>/check_nagios <%= node['nagios']['cache_dir'] %>/status.dat 5 '/usr/sbin/nagios3'
 
 # AUTHENTICATION USAGE
 # This option controls whether or not the CGIs will use any 

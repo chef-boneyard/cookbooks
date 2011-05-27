@@ -12,7 +12,7 @@ define service {
 # monitoring service checks
 define service {
     service_description Nagios
-    hostgroup_name      monitoring
+    hostgroup_name      <%= node['nagios']['server_role'] %>
     check_command       check-nagios
     contact_groups      admins
     use                 default-service
@@ -30,29 +30,29 @@ define service {
 # Uncomment if you're running chef-client as a daemon
 #define service {
 #    service_description Chef Client
-#    hostgroup_name      base
-#    check_command    	  check_chef_client
-#    use                 default-service
+#    hostgroup_name     base
+#    check_command      check_chef_client
+#    use                default-service
 #}
 
 define service {
     service_description Free Space All Disks
     hostgroup_name      all
-    check_command    		check_all_disks
+    check_command       check_all_disks
     use                 default-service
 }
 
 define service {
     service_description Load Average
     hostgroup_name      all
-    check_command			  check_load
+    check_command       check_load
     use                 default-service
 }
 
 define service {
     service_description Free Memory
     hostgroup_name      all
-    check_command    		check_mem
+    check_command       check_mem
     use                 default-service
 }
 
@@ -119,10 +119,10 @@ define service {
 # basic check if the database_master role is a mysql server
 # database_master service checks
 define service {
-		service_description MySQL
-		hostgroup_name			database_master
-		check_command				check_nrpe!check_mysql_server
-		use									default-service
+    service_description MySQL
+    hostgroup_name      database_master
+    check_command       check_nrpe!check_mysql_server
+    use                 default-service
 }
 
 <% end -%>
