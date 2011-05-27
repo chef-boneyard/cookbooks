@@ -1,0 +1,65 @@
+#!/bin/sh
+#
+# Installed by Chef 
+#
+#  Created 2000-01-03 by jaclu@grm.se
+#
+# nagios-nrpe-server This shell script takes care of starting and stopping
+#               nrpe.
+#
+# chkconfig: 2345 80 30
+# description: nrpe is a daemon for a remote nagios server, \
+#              running nagios plugins on this host.
+# processname: nrpe
+# config: /usr/local/nagios/etc/nrpe.cfg
+
+
+# Source function library
+if [ -f /etc/rc.d/init.d/functions ]; then
+. /etc/rc.d/init.d/functions
+elif [ -f /etc/init.d/functions ]; then
+. /etc/init.d/functions
+elif [ -f /etc/rc.d/functions ]; then
+. /etc/rc.d/functions
+fi
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] && exit 0
+
+NrpeBin=/usr/bin/nrpe
+NrpeCfg=<%= node['nagios']['nrpe']['conf_dir'] %>/nrpe.cfg
+LockFile=/var/lock/subsys/nrpe
+
+# See how we were called.
+case "$1" in
+  start)
+  # Start daemons.
+  echo -n "Starting nagios-nrpe-server: "
+  daemon $NrpeBin -c $NrpeCfg -d
+  echo
+  touch $LockFile
+  ;;
+  stop)
+  # Stop daemons.
+  echo -n "Shutting down nagios-nrpe-server: "
+  killproc nagios-nrpe-server
+  echo
+  rm -f $LockFile
+  ;;
+  restart)
+  $0 stop
+  $0 start
+  ;;
+  status)
+  status nagios-nrpe-server
+  ;;
+  *)
+  echo "Usage: nagios-nrpe-server {start|stop|restart|status}"
+  exit 1
+esac
+
+exit 0
+
