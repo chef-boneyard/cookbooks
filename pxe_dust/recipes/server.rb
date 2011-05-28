@@ -28,6 +28,7 @@ end
 
 remote_file "#{node[:tftp][:directory]}/netboot.tar.gz" do
   source "http://archive.ubuntu.com/ubuntu/dists/#{node[:pxe_dust][:version]}/main/installer-#{node[:pxe_dust][:arch]}/current/images/netboot/netboot.tar.gz"
+  action :create_if_missing
   notifies :run, resources(:execute => "tar -xzf netboot.tar.gz"), :immediate
 end
 
