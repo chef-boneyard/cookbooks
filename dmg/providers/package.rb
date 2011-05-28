@@ -43,11 +43,18 @@ action :install do
       not_if "hdiutil info | grep -q 'image-path.*#{dmg_file}'"
     end
 
-    execute "cp -r '/Volumes/#{volumes_dir}/#{new_resource.app}.app' '#{new_resource.destination}'"
+    case new_resource.type
+    when "app"
+      execute "cp -r '/Volumes/#{volumes_dir}/#{new_resource.app}.app' '#{new_resource.destination}'"
+    when "mpkg"
+      execute "sudo installer -pkg /Volumes/#{volumes_dir}/#{new_resource.app}.mpkg -target /"
+    end
+
     execute "hdiutil detach '/Volumes/#{volumes_dir}'"
 
     file "#{new_resource.destination}/#{new_resource.app}.app/Contents/MacOS/#{new_resource.app}" do
       mode 0755
+      ignore_failure true
     end
 
   end

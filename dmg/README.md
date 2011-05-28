@@ -1,22 +1,34 @@
 Description
 ===========
 
-Lightweight resource and provider to install OS X applications (.app) from dmg files
+Lightweight resource and provider to install OS X applications (.app) from dmg files.
+
+Changes
+=======
+
+## v0.6.0:
+
+- option to install software that is an .mpkg inside a .dmg
+- ignore failure on chmod in case mode is already set, or is root owned
 
 Requirements
 ============
 
-Platform: Mac OS X
+## Platform:
+
+* Mac OS X
 
 Resources and Providers
 =======================
 
-`dmg_package`
--------------
+dmg\_package
+------------
 
 This resource will install a DMG "Package". It will retrieve the DMG from a remote URL, mount it using OS X's `hdid`, copy the application (.app directory) to the specified destination (/Applications), and detach the image using `hdiutil`. The dmg file will be stored in the `Chef::Config[:file_cache_path]`. If you want to install an application that has already been downloaded (not using the `source` parameter), copy it to the appropriate location. You can find out what directory this is with the following command on the node to run chef:
 
     knife exec -E 'p Chef::Config[:file_cache_path]' -c /etc/chef/client.rb
+
+Optionally, the LWRP can install an "mpkg" package using installer(8).
 
 # Actions:
 
@@ -28,6 +40,7 @@ This resource will install a DMG "Package". It will retrieve the DMG from a remo
 * `source` - remote URL for the dmg to download if specified. Default is nil.
 * `destination` - directory to copy the .app into. Default is /Applications.
 * `checksum` - sha256 checksum of the dmg to download. Default is nil.
+* `type` - type of package, "app" or "mpkg". Default is "app". When using "mpkg", the destination must be /Applications.
 * `volumes_dir` - Directory under /Volumes where the dmg is mounted. Not all dmgs are mounted into a /Volumes location matching the name of the dmg. If not specified, this will use the name attribute.
 * `dmg_name` - Specify the name of the dmg if it is not the same as `app`, or if the name has spaces.
 
@@ -69,6 +82,13 @@ Install MacIrssi to `~/Applications` from the local file downloaded to the cache
       action :install
     end
 
+Install Virtualbox to `/Applications` from the .mpkg:
+
+    dmg_package "Virtualbox" do
+      source "http://dlc.sun.com.edgesuite.net/virtualbox/4.0.8/VirtualBox-4.0.8-71778-OSX.dmg"
+      type "mpkg"
+    end
+
 To do
 =====
 
@@ -82,7 +102,6 @@ Some things that would be nice to have at some point.
 * use hdiutil to mount/attach the disk image
 * automatically detect the `volumes_dir` where the image is attached
 * be able to automatically accept license agreements
-* install software that is a .pkg inside a .dmg instead of just .app's
 
 License and Author
 ==================
