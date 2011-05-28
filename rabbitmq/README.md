@@ -1,6 +1,6 @@
 Description
 ===========
-This is a cookbook for managing RabbitMQ with Chef.  It has sane defaults, but can also be configured via attributes.  
+This is a cookbook for managing RabbitMQ with Chef.  It uses the default settings, but can also be configured via attributes.
 
 Recipes
 =======
@@ -12,20 +12,63 @@ cluster
 -------
 Configures nodes to be members of a RabbitMQ cluster, but does not actually join them.
 
+Resources/Providers
+===================
+There are 2 LWRPs for interacting with RabbitMQ.
+
+user
+----
+Adds and deletes users, fairly simplistic permissions management.
+
+- `:add` adds a `user` with a `password`
+- `:delete` deletes a `user`
+- `:set_permissions` sets the `permissions` for a `user`, `vhost` is optional
+- `:clear_permissions` clears the permissions for a `user`
+
+### Examples
+``` ruby
+rabbitmq_user "guest" do
+  action :delete
+end
+
+rabbitmq_user "nova" do
+  password "sekret"
+  action :add
+end
+
+rabbitmq_user "nova" do
+  vhost "/nova"
+  permissions "\".*\" \".*\" \".*\""
+  action :set_permissions
+end
+```
+
+vhost
+-----
+Adds and deletes vhosts.
+
+- `:add` adds a `vhost`
+- `:delete` deletes a `vhost`
+
+### Example
+``` ruby
+rabbitmq_vhost "/nova" do
+  action :add
+end
+```
+
 Limitations
 ===========
-It is quite useful as is, but has several areas for improvement:
+It is quite useful as is, but clustering configuration does not currently do the dance to join the cluster members to each other.
 
-1) While it can create cluster configuration files, it does not currently do the dance to join the cluster members to each other.
-
-2) There should be LWRPs for manipulating vhosts, users and the `rabbitmq-server` service. Essentially everything you'd do with rabbitmqctl.
-
-The rabbitmq::chef recipe was only used for the chef-server cookbook and has been moved to chef-server::rabitmq.
+The rabbitmq::chef recipe was only used for the chef-server cookbook and has been moved to chef-server::rabbitmq.
 
 License and Author
 ==================
 Author:: Benjamin Black <b@b3k.us>
+
 Author:: Daniel DeLeo <dan@kallistec.com>
+
 Author:: Matt Ray <matt@opscode.com>
 
 Copyright:: 2009-2011 Opscode, Inc
