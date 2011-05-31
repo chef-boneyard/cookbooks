@@ -6,7 +6,6 @@
   RailsBaseURI /
   RailsEnv <%= @params[:rails_env] %>
   RailsAllowModRewrite on
-  PassengerMaxPoolSize <%= node[:rails][:max_pool_size] %>
 
   <Directory <%= @params[:docroot] %>>
     Options FollowSymLinks

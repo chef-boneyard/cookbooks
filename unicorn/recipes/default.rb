@@ -18,7 +18,4 @@
 # limitations under the License.
 #
 
-include_recipe "ruby"
-include_recipe "rubygems"
-
 gem_package "unicorn"

@@ -6,8 +6,6 @@
   RailsBaseURI /
   RailsEnv <%= @params[:rails_env] %>
 
-  PassengerMaxPoolSize <%= node[:rails][:max_pool_size] %>
-
   <Directory <%= @params[:docroot] %>>
     Options FollowSymLinks
     AllowOverride None

@@ -2,14 +2,14 @@ maintainer       "Barry Steinglass"
 maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
 description      "Installs/Configures wordpress"
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.7.2"
-depends          "php"
-depends          "apache2"
-depends          "mysql"
-depends          "openssl"
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version          "0.8.1"
 
 recipe "wordpress", "Installs and configures wordpress LAMP stack on a single system"
+
+%w{ php apache2 mysql openssl }.each do |cb|
+  depends cb
+end
 
 %w{ debian ubuntu }.each do |os|
   supports os

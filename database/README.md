@@ -7,10 +7,17 @@ This cookbook is written primarily to use MySQL and the Opscode mysql cookbook. 
 
 This cookbook does not automatically restore database dumps, but does install tools to help with that.
 
+Changes
+=======
+
+## v0.99.1
+
+* Use Chef 0.10's `node.chef_environment` instead of `node['app_environment']`.
+
 Requirements
 ============
 
-Chef 0.8 or higher required.
+Chef 0.10.0 or higher required (for Chef environment use).
 
 Platform
 --------
@@ -29,8 +36,8 @@ The following Opscode cookbooks are dependencies:
 Recipes
 =======
 
-`ebs_volume`
-------------
+ebs\_volume
+-----------
 
 Loads the aws information from the data bag. Searches the applications data bag for the database master or slave role and checks that role is applied to the node. Loads the EBS information and the master information from data bags. Uses the aws cookbook LWRP, `aws_ebs_volume` to manage the volume.
 
@@ -75,8 +82,8 @@ Deprecated Recipes
 
 The following recipe is considered deprecated. It is kept for reference purposes.
 
-`ebs_backup`
-------------
+ebs\_backup
+-----------
 
 Older style of doing mysql snapshot and replication using Adam Jacob's [ec2_mysql](http://github.com/adamhjk/ec2_mysql) script and library.
 
@@ -110,7 +117,7 @@ Usage
 
 Aside from the application data bag (see the README in the application cookbook), create a role for the database master. Use a role.rb in your chef-repo, or create the role directly with knife.
 
-    % knife role show my_app_database_master
+    % knife role show my_app_database_master -Fj
     {
       "name": "my_app_database_master",
       "chef_type": "role",
@@ -126,23 +133,22 @@ Aside from the application data bag (see the README in the application cookbook)
       }
     }
 
-Also create a `production` role, or other role based on your desired environment. This is also used in the `application` cookbook.
+Create a `production` environment. This is also used in the `application` cookbook.
 
-    % knife role show production
+    % knife environment show production -Fj
     {
       "name": "production",
-      "chef_type": "role",
-      "json_class": "Chef::Role",
-      "default_attributes": {
-        "app_environment": "production"
+      "description": "",
+      "cookbook_versions": {
       },
-      "description": "production environment role",
-      "run_list": [
-
-      ],
+      "json_class": "Chef::Environment",
+      "chef_type": "environment",
+      "default_attributes": {
+      },
       "override_attributes": {
       }
     }
+    
 
 The cookbook `my_app_database` is recommended to set up any application specific database resources such as configuration templates, trending monitors, etc. It is not required, but you would need to create it separately in `site-cookbooks`. Add it to the `my_app_database_master` role.
 

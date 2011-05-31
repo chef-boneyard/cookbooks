@@ -19,27 +19,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-root_group = value_for_platform(
-  "openbsd" => { "default" => "wheel" },
-  "freebsd" => { "default" => "wheel" },
-  "default" => "root"
-)
+Chef::Log.warn("The chef::client recipe is deprecated. It is replaced by the chef-client::config recipe.")
+Chef::Log.warn("Including the chef-client::config recipe now.")
 
-ruby_block "reload_client_config" do
-  block do
-    Chef::Config.from_file("/etc/chef/client.rb")
-  end
-  action :nothing
-end
+node.set['chef_client']['init_style'] = node['chef']['init_style']
+node.set['chef_client']['path'] = node['chef']['path']
+node.set['chef_client']['run_path'] = node['chef']['run_path']
+node.set['chef_client']['cache_path'] = node['chef']['cache_path']
+node.set['chef_client']['backup_path'] = node['chef']['backup_path']
+node.set['chef_client']['umask'] = node['chef']['umask']
+node.set['chef_client']['server_url'] = node['chef']['server_url']
+node.set['chef_client']['log_dir'] = node['chef']['log_dir']
+node.set['chef_client']['validation_client_name'] = node['chef']['validation_client_name']
+node.set['chef_client']['interval'] = node['chef']['interval']
+node.set['chef_client']['splay'] = node['chef']['splay']
 
-template "/etc/chef/client.rb" do
-  source "client.rb.erb"
-  owner "root"
-  group root_group
-  mode "644"
-  notifies :create, resources(:ruby_block => "reload_client_config")
-end
-
-log "Add the chef::delete_validation recipe to the run list to remove the #{Chef::Config[:validation_key]}." do
-  only_if { ::File.exists?(Chef::Config[:validation_key]) }
-end
+include_recipe "chef-client::config"

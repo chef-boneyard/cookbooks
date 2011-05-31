@@ -19,64 +19,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'open-uri'
+Chef::Log.warn("The chef::server recipe is deprecated. It is replaced by the chef-server recipe.")
+Chef::Log.warn("Including the chef-server recipe now.")
 
-root_group = value_for_platform(
-  "openbsd" => { "default" => "wheel" },
-  "freebsd" => { "default" => "wheel" },
-  "default" => "root"
-)
+node.set['chef_server']['init_style'] = node['chef']['init_style']
+node.set['chef_server']['path'] = node['chef']['path']
+node.set['chef_server']['run_path'] = node['chef']['run_path']
+node.set['chef_server']['cache_path'] = node['chef']['cache_path']
+node.set['chef_server']['backup_path'] = node['chef']['backup_path']
+node.set['chef_server']['umask'] = node['chef']['umask']
+node.set['chef_server']['url'] = node['chef']['server_url']
+node.set['chef_server']['log_dir'] = node['chef']['log_dir']
+node.set['chef_server']['api_port'] = node['chef']['server_port']
+node.set['chef_server']['webui_port'] = node['chef']['webui_port']
+node.set['chef_server']['webui_enabled'] = node['chef']['webui_enabled']
+node.set['chef_server']['solr_heap_size'] = node['chef']['solr_heap_size']
+node.set['chef_server']['validation_client_name'] = node['chef']['validation_client_name']
+node.set['chef_server']['doc_root'] = node['chef']['doc_root']
+node.set['chef_server']['ssl_req'] = node['chef']['server_ssl_req']
 
-include_recipe "chef::client"
-
-%w{chef-solr chef-solr-indexer chef-server}.each do |svc|
-  service svc do
-    action :nothing
-  end
-end
-
-if node[:chef][:webui_enabled]
-  service "chef-server-webui" do
-    action :nothing
-  end
-end
-
-template "/etc/chef/server.rb" do
-  source "server.rb.erb"
-  owner "root"
-  group root_group
-  mode "644"
-  if node[:chef][:webui_enabled]
-    notifies :restart, resources( :service => [ "chef-solr", "chef-solr-indexer", "chef-server", "chef-server-webui" ]), :delayed
-  else
-    notifies :restart, resources( :service => [ "chef-solr", "chef-solr-indexer", "chef-server" ]), :delayed
-  end
-end
-
-http_request "compact chef couchDB" do
-  action :post
-  url "#{Chef::Config[:couchdb_url]}/chef/_compact"
-  only_if do
-    begin
-      open("#{Chef::Config[:couchdb_url]}/chef")
-      JSON::parse(open("#{Chef::Config[:couchdb_url]}/chef").read)["disk_size"] > 100_000_000
-    rescue OpenURI::HTTPError
-      nil
-    end
-  end
-end
-
-%w(nodes roles registrations clients data_bags data_bag_items users).each do |view|
-  http_request "compact chef couchDB view #{view}" do
-    action :post
-    url "#{Chef::Config[:couchdb_url]}/chef/_compact/#{view}"
-    only_if do
-      begin
-        open("#{Chef::Config[:couchdb_url]}/chef/_design/#{view}/_info")
-        JSON::parse(open("#{Chef::Config[:couchdb_url]}/chef/_design/#{view}/_info").read)["view_index"]["disk_size"] > 100_000_000
-      rescue OpenURI::HTTPError
-        nil
-      end
-    end
-  end
-end
+include_recipe "chef-server"

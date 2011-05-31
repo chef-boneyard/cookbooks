@@ -17,6 +17,10 @@
 # limitations under the License.
 #
 
-exec 'brew install parallel' do
-  not_if "brew list parallel"
+include_recipe "homebrew"
+
+if Chef::Platform.find_provider_for_node(node, :package) == Chef::Provider::Package::Homebrew
+  package p do
+    action :install
+  end
 end

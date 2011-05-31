@@ -1,19 +1,10 @@
-BOOTSTRAP CHANGES
-=================
+IMPORTANT CHANGES - version 0.99.9
+==================================
 
-The `bootstrap` cookbook's recipes for configuring a RubyGem installation of Chef have been merged into this cookbook. Do not use the `bootstrap` cookbook on versions of Chef after 0.8.2.
+In the interest of user experience and clarity of intention, this cookbook is deprecated. It has been split into two cookbooks. For compatibility reasons, it will depend on the cookbooks it is split into and use the recipes from those cookbooks where applicable.
 
-    bootstrap::client -> chef::bootstrap_client
-    bootstrap::server -> chef::bootstrap_server
-
-Be aware of the following changes to this cookbook.
-
-* Bootstrap no longer generates a random password for the webui admin user. The default password is displayed on the webui login page and should be changed immediately after logging in.
-* Server configuration now has a setting for the cookbook tarballs. See the server.rb.erb template.
-* We now set the signing key/cert locations and set owner / group. See the server.rb.erb template.
-* The validation client name is configurable. See the attributes.
-
-The client service setup has been moved from the `chef::bootstrap_client` recipe into its own recipe, `chef::client_service`. This is to improve use with Knife bootstrap which already configures the client configuration file.
+* chef-client: All the client related configuration/setup.
+* chef-server: All the server related configuration/setup.
 
 DESCRIPTION
 ===========

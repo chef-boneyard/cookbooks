@@ -17,8 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-file Chef::Config[:validation_key] do
-  action :delete
-  backup false
-  only_if { ::File.exists?(Chef::Config[:client_key]) }
-end
+Chef::Log.warn("The chef::delete_validation recipe is deprecated. It has been replaced with chef-client::delete_validation.")
+Chef::Log.warn("Including the chef-client::delete_validation recipe now.")
+
+include_recipe "chef-client::delete_validation"

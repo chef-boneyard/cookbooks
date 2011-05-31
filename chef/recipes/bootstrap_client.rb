@@ -18,35 +18,5 @@
 # limitations under the License.
 #
 
-root_group = value_for_platform(
-  "openbsd" => { "default" => "wheel" },
-  "freebsd" => { "default" => "wheel" },
-  "default" => "root"
-)
-
-gem_package "chef" do
-  version node[:chef][:client_version]
-end
-
-chef_dirs = [
-  node[:chef][:log_dir],
-  node[:chef][:path],
-  "/etc/chef"
-]
-
-chef_dirs.each do |dir|
-  directory dir do
-    owner "root"
-    group root_group
-    mode "755"
-  end
-end
-
-template "/etc/chef/client.rb" do
-  source "client.rb.erb"
-  owner "root"
-  group root_group
-  mode "644"
-end
-
-include_recipe "chef::client_service"
+Chef::Log.warn("The chef::bootstrap_client recipe has been deprecated. Use 'knife bootstrap' to bootstrap new systems to be chef clients.")
+Chef::Log.warn("See 'knife help bootstrap' for more information from the knife bootstrap man page.")

@@ -45,5 +45,5 @@ template "/etc/powerdns/pdns.conf" do
   owner "root"
   group "root"
   mode 0644
-  notifies :restart, resource(:service => "pdns"), :immediately
+  notifies :restart, "service[pdns]", :immediately
 end

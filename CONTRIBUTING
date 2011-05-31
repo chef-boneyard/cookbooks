@@ -1,3 +1,13 @@
+How to contribute to Opscode Open Source Projects:
+
+* http://wiki.opscode.com/display/chef/How+to+Contribute
+
+Opscode Open Source Ticket Tracking System:
+
+* http://tickets.opscode.com
+
+Cookbooks (this repository) use the COOK project.
+
 Chef Project home pages:
 
 * Wiki: http://wiki.opscode.com/display/chef
@@ -6,13 +16,3 @@ Chef Project home pages:
 Opscode Cookbook Source code repository:
 
 * http://github.com/opscode/cookbooks
-
-Opscode Open Source Ticket Tracking System:
-
-* http://tickets.opscode.com
-
-Cookbooks (this repository) use the COOK project.
-
-How to contribute to Chef:
-
-* http://wiki.opscode.com/display/chef/How+to+Contribute

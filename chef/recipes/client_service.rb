@@ -18,90 +18,19 @@
 # limitations under the License.
 #
 
-root_group = value_for_platform(
-  "openbsd" => { "default" => "wheel" },
-  "freebsd" => { "default" => "wheel" },
-  "default" => "root"
-)
+Chef::Log.warn("This recipe is deprecated. It has been replaced by chef-client::service.")
+Chef::Log.warn("Including the chef-client::service recipe now.")
 
-directory node["chef"]["log_dir"] do
-  recursive true
-  owner "root"
-  group root_group
-  mode 0755
-end
+node.set['chef_client']['init_style'] = node['chef']['init_style']
+node.set['chef_client']['path'] = node['chef']['path']
+node.set['chef_client']['run_path'] = node['chef']['run_path']
+node.set['chef_client']['cache_path'] = node['chef']['cache_path']
+node.set['chef_client']['backup_path'] = node['chef']['backup_path']
+node.set['chef_client']['umask'] = node['chef']['umask']
+node.set['chef_client']['server_url'] = node['chef']['server_url']
+node.set['chef_client']['log_dir'] = node['chef']['log_dir']
+node.set['chef_client']['validation_client_name'] = node['chef']['validation_client_name']
+node.set['chef_client']['interval'] = node['chef']['interval']
+node.set['chef_client']['splay'] = node['chef']['splay']
 
-case node[:chef][:init_style]
-when "runit"
-
-  include_recipe "runit"
-  runit_service "chef-client"
-
-when "init"
-
-  directory node[:chef][:run_path] do
-    action :create
-    owner "root"
-    group root_group
-    mode "755"
-  end
-
-  dist_dir = value_for_platform(
-    ["ubuntu", "debian"] => { "default" => "debian" },
-    ["redhat", "centos", "fedora"] => { "default" => "redhat"}
-  )
-
-  conf_dir = value_for_platform(
-    ["ubuntu", "debian"] => { "default" => "default" },
-    ["redhat", "centos", "fedora"] => { "default" => "sysconfig"}
-  )
-
-  chef_version = node.chef_packages.chef[:version]
-
-  init_content = IO.read("#{node[:languages][:ruby][:gems_dir]}/gems/chef-#{chef_version}/distro/#{dist_dir}/etc/init.d/chef-client")
-  conf_content = IO.read("#{node[:languages][:ruby][:gems_dir]}/gems/chef-#{chef_version}/distro/#{dist_dir}/etc/#{conf_dir}/chef-client")
-
-  file "/etc/init.d/chef-client" do
-    content init_content
-    mode 0755
-  end
-
-  file "/etc/#{conf_dir}/chef-client" do
-    content conf_content
-    mode 0644
-  end
-
-  service "chef-client" do
-    action :enable
-  end
-
-when "bluepill"
-
-  include_recipe "bluepill"
-
-  template "#{node[:bluepill][:conf_dir]}/chef-client.pill" do
-    source "chef-client.pill.erb"
-    mode 0644
-  end
-
-  bluepill_service "chef-client" do
-    action [:enable,:load,:start]
-  end
-
-when "daemontools"
-
-  include_recipe "daemontools"
-
-  daemontools_service "chef-client" do
-    directory "/etc/sv/chef-client"
-    template "chef-client"
-    action [:enable,:start]
-    log true
-  end
-
-when "bsd"
-  log("You specified service style 'bsd'. You will need to set up your rc.local file.")
-  log("Hint: chef-client -i #{node[:chef][:client_interval]} -s #{node[:chef][:client_splay]}")
-else
-  log("Could not determine service init style, manual intervention required to start up the chef-client service.")
-end
+include_recipe "chef-client::service"
