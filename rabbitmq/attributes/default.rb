@@ -1,6 +1,6 @@
 default[:rabbitmq][:nodename]  = node[:hostname]
 default[:rabbitmq][:address]  = nil
-default[:rabbitmq][:port]  = nil
+default[:rabbitmq][:port]  = 5672
 default[:rabbitmq][:config] = nil
 default[:rabbitmq][:logdir] = nil
 default[:rabbitmq][:mnesiadir] = nil
