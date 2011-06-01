@@ -16,6 +16,8 @@
 # limitations under the License.
 #
 
+domain = node["domain"] || []
+openldap = default[:openldap]
 if domain.length > 0
   default[:openldap][:basedn] = "dc=#{domain.split('.').join(",dc=")}"
   default[:openldap][:server] = "ldap.#{domain}"
@@ -40,7 +42,7 @@ else
 end
 
 openldap[:ssl_dir] = "#{openldap[:dir]}/ssl"
-openldap[:cafile]  = "#{openldap[:ssl_dir]}/ca.crt"
+openldap[:cafile]  = "#{openldap[:dir]}/ssl/ca.crt"
 
 # Server settings.
 openldap[:slapd_type] = nil
