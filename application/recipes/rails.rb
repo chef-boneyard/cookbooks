@@ -19,6 +19,10 @@
 
 app = node.run_state[:current_app]
 
+# make the _default chef_environment look like the Rails production environment
+rails_env = (node.chef_environment =~ /_default/ ? "production" : node.chef_environment)
+node.run_state[:rails_env] = rails_env
+
 ###
 # You really most likely don't want to run this recipe from here - let the
 # default application recipe work it's mojo for you.
@@ -119,7 +123,8 @@ if app["database_master_role"]
       mode "644"
       variables(
         :host => dbm['fqdn'],
-        :databases => app['databases']
+        :databases => app['databases'],
+        :rails_env => rails_env
       )
     end
   else
@@ -153,7 +158,7 @@ deploy_revision app['id'] do
   user app['owner']
   group app['group']
   deploy_to app['deploy_to']
-  environment 'RAILS_ENV' => node.chef_environment
+  environment 'RAILS_ENV' => rails_env
   action app['force'][node.chef_environment] ? :force_deploy : :deploy
   ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
   shallow_clone true
