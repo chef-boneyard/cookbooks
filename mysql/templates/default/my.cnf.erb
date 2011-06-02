@@ -79,8 +79,8 @@ max_heap_table_size     = <%= node['mysql']['tunable']['max_heap_table_size'] %>
 #
 # * Query Cache Configuration
 #
-query_cache_limit       = 1M
-query_cache_size        = 16M
+query_cache_limit       = <%= node['mysql']['tunable']['query_cache_limit'] %>
+query_cache_size        = <%= node['mysql']['tunable']['query_cache_size'] %>
 #
 # * Logging and Replication
 #
