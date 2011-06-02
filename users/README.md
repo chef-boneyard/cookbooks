@@ -48,12 +48,13 @@ Remove a user, johndoe1.
     knife data bag users johndoe1
     {
       "id": "johndoe1",
+      "groups": [ "sysadmin", "dba", "devops" ],
       "uid": 2002,
       "action": "remove",
       "comment": "User quit, retired, or fired."
     }
 
-    * Note only user bags with the "action : remove" attribute will be purged by the :remove action.
+    * Note only user bags with the "action : remove" and a search-able "group" attribute will be purged by the :remove action.
 
 The default recipe makes use of the "users_manage" Lightweight Resource Provider (LWRP), and looks like this:
 
