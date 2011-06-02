@@ -1,9 +1,10 @@
 #
 # Author::  Joshua Timberman (<joshua@opscode.com>)
+# Author::  Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: php
 # Recipe:: module_pgsql
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,8 +19,11 @@
 # limitations under the License.
 #
 
-pack = value_for_platform([ "centos", "redhat", "fedora" ] => {"default" => "php-pgsql"}, "default" => "php5-pgsql")
+pkg = value_for_platform(
+    [ "centos", "redhat", "fedora" ] => {"default" => "php53-pgsql"}, 
+    "default" => "php5-pgsql"
+  )
 
-package pack do
-  action :upgrade
+package pkg do
+  action :install
 end

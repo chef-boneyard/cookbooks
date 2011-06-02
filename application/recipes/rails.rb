@@ -2,7 +2,7 @@
 # Cookbook Name:: application
 # Recipe:: rails
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,18 +19,16 @@
 
 app = node.run_state[:current_app]
 
+# make the _default chef_environment look like the Rails production environment
+rails_env = (node.chef_environment =~ /_default/ ? "production" : node.chef_environment)
+node.run_state[:rails_env] = rails_env
+
 ###
 # You really most likely don't want to run this recipe from here - let the
 # default application recipe work it's mojo for you.
 ###
 
-# Are we using REE?
-use_ree = false
-if node.run_state[:seen_recipes].has_key?("ruby_enterprise")
-  use_ree = true
-end
-
-node.default[:apps][app['id']][node.app_environment][:run_migrations] = false
+node.default[:apps][app['id']][node.chef_environment][:run_migrations] = false
 
 ## First, install any application specific packages
 if app['packages']
@@ -45,16 +43,9 @@ end
 ## Next, install any application specific gems
 if app['gems']
   app['gems'].each do |gem,ver|
-    if use_ree
-      ree_gem gem do
-        action :install
-        version ver if ver && ver.length > 0
-      end
-    else
-      gem_package gem do
-        action :install
-        version ver if ver && ver.length > 0
-      end
+    gem_package gem do
+      action :install
+      version ver if ver && ver.length > 0
     end
   end
 end
@@ -116,7 +107,7 @@ if app["database_master_role"]
     dbm = node
   else
   # Find the database master
-    results = search(:node, "run_list:role\\[#{app["database_master_role"][0]}\\] AND app_environment:#{node[:app_environment]}", nil, 0, 1)
+    results = search(:node, "role:#{app["database_master_role"][0]} AND chef_environment:#{node.chef_environment}", nil, 0, 1)
     rows = results[0]
     if rows.length == 1
       dbm = rows[0]
@@ -132,7 +123,8 @@ if app["database_master_role"]
       mode "644"
       variables(
         :host => dbm['fqdn'],
-        :databases => app['databases']
+        :databases => app['databases'],
+        :rails_env => rails_env
       )
     end
   else
@@ -141,7 +133,7 @@ if app["database_master_role"]
 end
 
 if app["memcached_role"]
-  results = search(:node, "role:#{app["memcached_role"][0]} AND app_environment:#{node[:app_environment]} NOT hostname:#{node[:hostname]}")
+  results = search(:node, "role:#{app["memcached_role"][0]} AND chef_environment:#{node.chef_environment} NOT hostname:#{node[:hostname]}")
   if results.length == 0
     if node.run_list.roles.include?(app["memcached_role"][0])
       results << node
@@ -161,22 +153,22 @@ end
 
 ## Then, deploy
 deploy_revision app['id'] do
-  revision app['revision'][node.app_environment]
+  revision app['revision'][node.chef_environment]
   repository app['repository']
   user app['owner']
   group app['group']
   deploy_to app['deploy_to']
-  environment 'RAILS_ENV' => node.app_environment
-  action app['force'][node.app_environment] ? :force_deploy : :deploy
+  environment 'RAILS_ENV' => rails_env
+  action app['force'][node.chef_environment] ? :force_deploy : :deploy
   ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
-
+  shallow_clone true
   before_migrate do
     if app['gems'].has_key?('bundler')
       link "#{release_path}/vendor/bundle" do
         to "#{app['deploy_to']}/shared/vendor_bundle"
       end
       common_groups = %w{development test cucumber staging production}
-      execute "bundle install --deployment --without #{(common_groups -([node.app_environment])).join(' ')}" do
+      execute "bundle install --deployment --without #{(common_groups -([node.chef_environment])).join(' ')}" do
         ignore_failure true
         cwd release_path
       end
@@ -186,7 +178,7 @@ deploy_revision app['id'] do
         cwd release_path
       end
 
-    elsif node.app_environment && app['databases'].has_key?(node.app_environment)
+    elsif node.chef_environment && app['databases'].has_key?(node.chef_environment)
       # chef runs before_migrate, then symlink_before_migrate symlinks, then migrations,
       # yet our before_migrate needs database.yml to exist (and must complete before
       # migrations).
@@ -205,7 +197,7 @@ deploy_revision app['id'] do
     "memcached.yml" => "config/memcached.yml"
   })
 
-  if app['migrate'][node.app_environment] && node[:apps][app['id']][node.app_environment][:run_migrations]
+  if app['migrate'][node.chef_environment] && node[:apps][app['id']][node.chef_environment][:run_migrations]
     migrate true
     migration_command app['migration_command'] || "rake db:migrate"
   else

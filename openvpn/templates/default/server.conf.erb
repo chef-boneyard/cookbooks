@@ -12,8 +12,10 @@ dev tun
 keepalive 10 120
 comp-lzo
 local <%= node["openvpn"]["local"] %>
+<% if node['openvpn']['routes'] -%>
 <% node["openvpn"]["routes"].each do |route| -%>
 <%= route %>
+<% end -%>
 <% end -%>
 up /etc/openvpn/server.up.sh
 

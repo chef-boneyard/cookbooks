@@ -37,12 +37,14 @@ web_app app['id'] do
   server_name "#{app['id']}.#{node[:domain]}"
   server_aliases server_aliases
   log_dir node[:apache][:log_dir]
-  rails_env node.app_environment
+  rails_env node.chef_environment
 end
 
-d = resources(:deploy => app['id'])
-d.restart_command do
-  service "apache2" do action :restart; end
+if ::File.exists?(::File.join(app['deploy_to'], "current"))
+  d = resources(:deploy_revision => app['id'])
+  d.restart_command do
+    service "apache2" do action :restart; end
+  end
 end
 
 apache_site "000-default" do

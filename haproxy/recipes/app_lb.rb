@@ -2,7 +2,7 @@
 # Cookbook Name:: haproxy
 # Recipe:: app_lb
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+pool_members = []
+# if we are the load balancer and pool
+if node.run_list.roles.include?(node['haproxy']['app_server_role'])
+  pool_members << node
+else
+  pool_members << search("node", "role:#{node['haproxy']['app_server_role']} AND chef_environment:#{node.chef_environment}")
+end
 
 package "haproxy" do
   action :install
@@ -33,13 +41,11 @@ service "haproxy" do
   action [:enable, :start]
 end
 
-pool_members = search("node", "role:#{node['haproxy']['app_server_role']} AND app_environment:#{node['app_environment']}") || []
-
 template "/etc/haproxy/haproxy.cfg" do
   source "haproxy-app_lb.cfg.erb"
   owner "root"
   group "root"
   mode 0644
   variables :pool_members => pool_members
-  notifies :restart, resources(:service => "haproxy")
+  notifies :restart, "service[haproxy]"
 end

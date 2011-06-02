@@ -1,7 +1,7 @@
 Description
 ===========
 
-Installs and configures PHP and the PEAR package management system.  Also includes LWRPs for managing PEAR (and PECL) packages along with PECL channels.
+Installs and configures PHP 5.3 and the PEAR package management system.  Also includes LWRPs for managing PEAR (and PECL) packages along with PECL channels.
 
 ---
 Requirements

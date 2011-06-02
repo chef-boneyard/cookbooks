@@ -1,7 +1,7 @@
 <VirtualHost *:80>
   ServerAdmin     ops@example.com
   ServerName      <%= node[:fqdn] %>
-	ServerAlias     munin munin.<%= node[:app_environment] %>.<%= @public_domain %>
+  ServerAlias     munin munin.<%= node.chef_environment =~ /_default/ ? "default" : node.chef_environment %>.<%= @public_domain %>
 <% case node[:platform] -%>
 <% when "arch" -%>
   Alias /munin /srv/http/munin

@@ -1,18 +1,19 @@
 Description
 ===========
-WORK IN PROGRESS, TODO.txt covers planned features
-
 Installs and configures a Zenoss server with the `zenoss::server` recipe. Devices can be added to the Zenoss server by using the `zenoss::client` recipe and utilizing Chef roles to map to Zenoss Device Classes, Locations and Groups. LWRPs are available for installing ZenPacks, zenpatches, loading devices and users and running zendmd commands.
+
+CHANGELOG.md covers history and planned features
 
 Requirements
 ============
-Written with Chef 0.9.12 and uses fairly recent search capabilities of roles.
+Written with Chef 0.10.0.rc.0 and uses fairly recent search capabilities of roles.
 
 The example roles in the `zenoss/roles` directory should be loaded for use, refer to the Roles subsection.
 
 Testing
 -------
 Tested on Ubuntu 10.04 and 10.10 and tested with Chef 0.9.12.
+Tested on CentOS 5.6 and Scientific Linux 5.5 and tested with Chef 0.10.0.rc.0.
 
 Attributes
 ==========
@@ -25,7 +26,7 @@ Attributes under the `zenoss` namespace.
 * `["zenoss"]["device"]["templates"]` - Monitoring Templates used by the device, may be set at the Role or Node.
 * `["zenoss"]["server"]["admin_password"]` - Password for the `admin` account, default is `chefzenoss`
 * `["zenoss"]["server"]["installed_zenpacks"]` - Hash of ZenPacks and their versions, defaults are `"ZenPacks.zenoss.LinuxMonitor" => "1.1.5", "ZenPacks.community.MySQLSSH" => "0.4"`
-* `["zenoss"]["server"]["zenhome"]` - Directory of the Zenoss server installation, default is `/usr/local/zenoss/zenoss`
+* `["zenoss"]["server"]["zenhome"]` - Directory of the Zenoss server installation, default is `/usr/local/zenoss/zenoss` for Debian/Ubuntu and `/opt/zenoss` for CentOS/RHEL/Scientific Linux.
 * `["zenoss"]["server"]["zenoss_pubkey"]` - Public key for the `zenoss` user used for monitoring. Set on the server automatically if it does not exist.
 * `["zenoss"]["server"]["zenpatches"]` - Hash of patches and the tickets providing the patches, defaults are `"23716" => "http://dev.zenoss.com/trac/ticket/7485", "23833" => "http://dev.zenoss.com/trac/ticket/6959"`
 
@@ -63,8 +64,8 @@ The server includes the `openssh` and `apt` recipes. The server recipe installs 
 
 The recipe does the following:
 
-1. Installs Zenoss.
-2. Applies post-3.0.3 patches from closed tickets.
+1. Installs Zenoss per the Zenoss Installation Guide.
+2. Applies post-3.1.0 patches from closed tickets.
 3. Starts server.
 4. Sets the `admin` password.
 5. Adds any other users to the proper Zenoss roles.

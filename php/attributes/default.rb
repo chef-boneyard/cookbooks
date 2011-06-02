@@ -18,19 +18,27 @@
 # limitations under the License.
 #
 
+lib_dir = kernel['machine'] =~ /x86_64/ ? 'lib64' : 'lib'
+
 default['php']['install_method'] = 'package'
 
 case node["platform"]
 when "centos", "redhat", "fedora"
-  default['php']['conf_dir'] = '/etc'
-  default['php']['ext_conf_dir'] = '/etc/php.d'
-  default['php']['fpm_user'] = 'nobody'
-  default['php']['fpm_group'] = 'nobody'
+  default['php']['conf_dir']      = '/etc'
+  default['php']['ext_conf_dir']  = '/etc/php.d'
+  default['php']['fpm_user']      = 'nobody'
+  default['php']['fpm_group']     = 'nobody'
+  default['php']['ext_dir']       = "/usr/#{lib_dir}/php/modules"
+when "debian", "ubuntu"
+  default['php']['conf_dir']      = '/etc/php5/cli'
+  default['php']['ext_conf_dir']  = '/etc/php5/conf.d'
+  default['php']['fpm_user']      = 'www-data'
+  default['php']['fpm_group']     = 'www-data'
 else
-  default['php']['conf_dir'] = '/etc/php5/cli'
-  default['php']['ext_conf_dir'] = '/etc/php5/conf.d'
-  default['php']['fpm_user'] = 'www-data'
-  default['php']['fpm_group'] = 'www-data'
+  default['php']['conf_dir']      = '/etc/php5/cli'
+  default['php']['ext_conf_dir']  = '/etc/php5/conf.d'
+  default['php']['fpm_user']      = 'www-data'
+  default['php']['fpm_group']     = 'www-data'
 end
 
 default['php']['url'] = 'http://us.php.net/distributions'
@@ -39,7 +47,7 @@ default['php']['checksum'] = 'a25ddae6a59d7345bcbb69ef2517784f56c2069af663ae4611
 default['php']['prefix_dir'] = '/usr/local'
 
 default['php']['configure_options'] = %W{--prefix=#{php['prefix_dir']}
-                                          --with-libdir=#{kernel['machine'] =~ /x86_64/ ? 'lib64' : 'lib'}
+                                          --with-libdir=#{lib_dir}
                                           --with-config-file-path=#{php['conf_dir']}
                                           --with-config-file-scan-dir=#{php['ext_conf_dir']}
                                           --with-pear

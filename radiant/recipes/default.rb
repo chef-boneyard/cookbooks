@@ -22,68 +22,36 @@
 
 appname = "radiant"
 
-include_recipe "git"
 include_recipe "sqlite"
-include_recipe "rails"
 include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
 include_recipe "passenger_apache2::mod_rails"
 
+gem_package "rake" do
+  version "0.8.7"
+end
+
 gem_package "sqlite3-ruby"
 
-if radiant_edge?
+group "railsdev"
 
-  %w{config log pids sqlite system}.each do |dir|
-    directory "/srv/#{appname}/shared/#{dir}" do
-      recursive true
-      owner "railsdev"
-      group "railsdev"
-      mode "0775"
-    end
-  end
+user "railsdev" do
+  group "railsdev"
+end
 
-  template "/srv/#{appname}/shared/config/database.yml" do
-    source "database.yml.erb"
-    owner "railsdev"
-    group "railsdev"
-    variables :appname => appname
-    mode "0664"
-  end
+directory "/srv/#{appname}/current/" do
+  recursive true
+  owner "railsdev"
+  group "railsdev"
+  mode "0775"
+end
 
-  file "/srv/#{appname}/shared/sqlite/production.sqlite3" do
-    owner "railsdev"
-    group "railsdev"
-    mode "0664"
-  end
+gem_package "radiant"
 
-  deploy "/srv/#{appname}" do
-    repo "git://github.com/radiant/radiant.git"
-    branch node[:radiant][:branch]
-    user "railsdev"
-    enable_submodules false
-    migrate node[:radiant][:migrate]
-    migration_command node[:radiant][:migrate_command]
-    environment node[:radiant][:environment]
-    shallow_clone true
-    revision node[:radiant][:revision]
-    action node[:radiant][:action].to_sym
-    restart_command "touch tmp/restart.txt"
-  end
-else
-  directory "/srv/#{appname}/current/" do
-    recursive true
-    owner "railsdev"
-    group "railsdev"
-    mode "0775"
-  end
-
-  gem_package "radiant"
-
-  execute "radiant_generate" do
-    command "radiant -d sqlite3 /srv/#{appname}/current/"
-    creates "/srv/#{appname}/current/public"
-    user "railsdev"
-  end
+execute "radiant_generate" do
+  command "radiant -d sqlite3 /srv/#{appname}/current/"
+  creates "/srv/#{appname}/current/public"
+  user "railsdev"
 end
 
 web_app "#{appname}" do
@@ -91,5 +59,5 @@ web_app "#{appname}" do
   template "#{appname}.conf.erb"
   server_name "#{appname}.#{node[:domain]}"
   server_aliases [ "#{appname}", node[:hostname] ]
-  rails_env node[:radiant][:environment]
+  rails_env node['radiant']['environment']
 end

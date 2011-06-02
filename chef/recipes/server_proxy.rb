@@ -17,48 +17,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-root_group = value_for_platform(
-  "openbsd" => { "default" => "wheel" },
-  "freebsd" => { "default" => "wheel" },
-  "default" => "root"
-)
+Chef::Log.warn("The chef::server_proxy recipe is deprecated. It is replaced by the chef-server::apache-proxy recipe.")
+Chef::Log.warn("Including the chef-server::apache-proxy recipe now.")
 
-node[:apache][:listen_ports] << "443" unless node[:apache][:listen_ports].include?("443")
-if node[:chef][:webui_enabled]
-  node[:apache][:listen_ports] << "444" unless node[:apache][:listen_ports].include?("444")
-end
+node.set['chef_server']['init_style'] = node['chef']['init_style']
+node.set['chef_server']['path'] = node['chef']['path']
+node.set['chef_server']['run_path'] = node['chef']['run_path']
+node.set['chef_server']['cache_path'] = node['chef']['cache_path']
+node.set['chef_server']['backup_path'] = node['chef']['backup_path']
+node.set['chef_server']['umask'] = node['chef']['umask']
+node.set['chef_server']['url'] = node['chef']['server_url']
+node.set['chef_server']['log_dir'] = node['chef']['log_dir']
+node.set['chef_server']['api_port'] = node['chef']['server_port']
+node.set['chef_server']['webui_port'] = node['chef']['webui_port']
+node.set['chef_server']['webui_enabled'] = node['chef']['webui_enabled']
+node.set['chef_server']['solr_heap_size'] = node['chef']['solr_heap_size']
+node.set['chef_server']['validation_client_name'] = node['chef']['validation_client_name']
+node.set['chef_server']['doc_root'] = node['chef']['doc_root']
+node.set['chef_server']['ssl_req'] = node['chef']['server_ssl_req']
+node.set['chef_server']['proxy']['css_expire_hours'] = node['chef']['proxy']['css_expire_hours']
+node.set['chef_server']['proxy']['js_expire_hours'] = node['chef']['proxy']['js_expire_hours']
 
-include_recipe "chef::server"
-include_recipe "apache2"
-include_recipe "apache2::mod_ssl"
-include_recipe "apache2::mod_proxy"
-include_recipe "apache2::mod_proxy_http"
-include_recipe "apache2::mod_proxy_balancer"
-include_recipe "apache2::mod_rewrite"
-include_recipe "apache2::mod_headers"
-include_recipe "apache2::mod_expires"
-include_recipe "apache2::mod_deflate"
-
-directory "/etc/chef/certificates" do
-  owner "root"
-  group root_group
-  mode "700"
-end
-
-bash "Create SSL Certificates" do
-  cwd "/etc/chef/certificates"
-  code <<-EOH
-  umask 077
-  openssl genrsa 2048 > #{node[:chef][:server_fqdn]}.key
-  openssl req -subj "#{node[:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key #{node[:chef][:server_fqdn]}.key > #{node[:chef][:server_fqdn]}.crt
-  cat #{node[:chef][:server_fqdn]}.key #{node[:chef][:server_fqdn]}.crt > #{node[:chef][:server_fqdn]}.pem
-  EOH
-  not_if { ::File.exists?("/etc/chef/certificates/#{node[:chef][:server_fqdn]}.pem") }
-end
-
-web_app "chef_server" do
-  template "chef_server.conf.erb"
-  server_name node[:chef][:server_fqdn]
-  server_aliases [ node[:hostname], node[:fqdn], node[:chef][:server_fqdn] ]
-  log_dir node[:apache][:log_dir]
-end
+include_recipe "chef-server::apache-proxy"

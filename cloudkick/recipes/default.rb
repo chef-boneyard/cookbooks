@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-case node.platform
+case node['platform']
 when "ubuntu"
   apt_repository "cloudkick" do
     uri "http://packages.cloudkick.com/ubuntu"
@@ -27,14 +27,9 @@ when "ubuntu"
     action :add
   end
 when "centos", "redhat"
-  execute "yum check-update" do
-    action :nothing
-  end
-
-  template "/etc/yum.repos.d/cloudkick.repo" do
-    mode "0644"
-    source "cloudkick.repo.erb"
-    notifies :run, resources(:execute => "yum check-update"), :immediately
+  yum_repository "cloudkick" do
+    url "http://packages.cloudkick.com/redhat/$basearch"
+    action :add
   end
 end
 
@@ -64,11 +59,12 @@ service "cloudkick-agent" do
   subscribes :restart, resources(:template => "/etc/cloudkick.conf")
 end
 
-gem_package "cloudkick"
+gem_package "cloudkick" do
+  action :install
+end
 
 ruby_block "cloudkick data load" do
   block do
-    require 'rubygems'
     Gem.clear_paths
     require 'cloudkick'
     node.set['cloudkick']['data'] = Chef::CloudkickData.get(node)

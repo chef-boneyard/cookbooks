@@ -1,31 +1,31 @@
 DESCRIPTION
 ===========
 
+Installs and configures CouchDB. Optionally can install CouchDB from sources.
+
 REQUIREMENTS
 ============
 
 Requires a platform that can install Erlang from distribution packages.
 
-Platform
---------
+## Platform
 
-Works on Debian 5+, Ubuntu 8.10+, OpenBSD and FreeBSD.
+Tested on Debian 5+, Ubuntu 8.10+, OpenBSD and FreeBSD.
 
 Also works on Red Hat, CentOS and Fedora, requires the EPEL yum repository.
 
-Cookbooks
----------
+## Cookbooks
 
-Requires the erlang cookbook so erlang can be installed.
+* erlang
 
 ATTRIBUTES
 ==========
 
 Cookbook attributes are named under the `couch_db` keyspace. The attributes specified in the cookbook are used in the `couchdb::source` recipe only.
 
-* `node[:couch_db][:src_checksum]` - sha256sum of the default version of couchdb to download
-* `node[:couch_db][:src_version]` - default version of couchdb to download, used in the full URL to download.
-* `node[:couch_db][:src_mirror]` - full URL to download.
+* `node['couch_db']['src_checksum']` - sha256sum of the default version of couchdb to download
+* `node['couch_db']['src_version']` - default version of couchdb to download, used in the full URL to download.
+* `node['couch_db']['src_mirror']` - full URL to download.
 
 RECIPES
 =======
@@ -45,7 +45,7 @@ LICENSE AND AUTHOR
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
 
-Copyright 2009, Opscode, Inc.
+Copyright 2009-2011, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

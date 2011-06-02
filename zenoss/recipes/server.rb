@@ -19,33 +19,78 @@
 # limitations under the License.
 #
 
-include_recipe "openssh"
-include_recipe "apt"
+include_recipe "zenoss::client"
 
-# Zenoss apt repository
-apt_repository "zenoss" do
-  uri "http://dev.zenoss.org/deb"
-  distribution "main"
-  components ["stable"]
-  action :add
-end
+case node[:platform]
+when "centos","redhat","scientific"
+  include_recipe "yum"
+  
+  yum_key "RPM-GPG-KEY-zenoss" do
+    url "http://dev.zenoss.com/yum/RPM-GPG-KEY-zenoss"
+    action :add
+  end
+  
+  yum_repository "zenoss" do
+    description "Zenoss Stable repo"
+    key "RPM-GPG-KEY-zenoss"
+    url "http://dev.zenoss.com/yum/stable/"
+    failovermethod "priority"
+    action :add
+  end
+  
+  packages = %w{mysql-server net-snmp net-snmp-utils gmp libgomp libgcj liberation-fonts}
+  packages.each do |pkg|
+    yum_package pkg do
+      action :install
+    end
+  end
 
-#Debian/Ubuntu specific required packages
-packages = %w{ttf-liberation ttf-linux-libertine}
-packages.each do |pkg|
-  apt_package pkg do
+  #mysql setup from the installation guide, this should be replaced with proper use of mysql::server
+  service "mysqld" do
+    action [:enable, :start]
+  end
+
+  execute "/usr/bin/mysqladmin -u root password ''"
+  execute "/usr/bin/mysqladmin -u root -h localhost password ''"
+
+  #from the install guide, would be worthwhile to configure properly
+  service "iptables" do
+    action [:stop, :disable]
+  end
+
+  yum_package "zenoss" do
     action :install
   end
+
+  #end redhat/centos/scientific block
+when "debian","ubuntu"
+  include_recipe "apt"
+  
+  apt_repository "zenoss" do
+    uri "http://dev.zenoss.org/deb"
+    distribution "main"
+    components ["stable"]
+    action :add
+  end
+  
+  packages = %w{ttf-liberation ttf-linux-libertine}
+  packages.each do |pkg|
+    apt_package pkg do
+      action :install
+    end
+  end
+  
+  #Zenoss hasn't signed their repository http://dev.zenoss.org/trac/ticket/7421
+  apt_package "zenoss-stack" do
+    version node["zenoss"]["server"]["version"]
+    options "--allow-unauthenticated"
+    action :install
+  end
+  #end of debian/ubuntu
 end
 
-#Zenoss hasn't signed their repository http://dev.zenoss.org/trac/ticket/7421
-apt_package "zenoss-stack" do
-  version node["zenoss"]["server"]["version"]
-  options "--allow-unauthenticated"
-  action :install
-end
 
-#apply post 3.0.3 patches from http://dev.zenoss.com/trac/report/6 marked 'closed'
+#apply post 3.1.0 patches from http://dev.zenoss.com/trac/report/6 marked 'closed'
 node["zenoss"]["server"]["zenpatches"].each do |patch, url| 
   zenoss_zenpatch patch do
     ticket url
@@ -58,11 +103,10 @@ service "zenoss" do
   case node["platform"]
   when "debian", "ubuntu"
     service_name "zenoss-stack"
-    action [ :start ]
-  else
-    #need to have mysql restart too
+  when "redhat", "centos", "scientific"
     service_name "zenoss"
   end
+    action [:enable, :start ]
 end
 
 #skip the new install Wizard.
@@ -78,8 +122,13 @@ zenoss_zendmd "set admin pass" do
 end
 
 #search the 'users' databag and pull out sysadmins for users and groups
+begin
+  admins = search(:users, 'groups:sysadmin') || []
+rescue
+  admins = []
+end
 zenoss_zendmd "add users" do
-  users search(:users, 'groups:sysadmin') || []
+  users admins
   action :users
 end
 
@@ -104,7 +153,7 @@ execute "ssh-keygen -q -t dsa -f /home/zenoss/.ssh/id_dsa -N \"\" " do
   not_if {File.exists?("/home/zenoss/.ssh/id_dsa.pub")}
   notifies :create, resources(:ruby_block => "zenoss public key"), :immediate
 end
-  
+
 #this list should get appended by other recipes
 node["zenoss"]["server"]["installed_zenpacks"].each do |package, zpversion| 
   zenoss_zenpack "#{package}" do
@@ -160,10 +209,10 @@ zenoss_zendmd "move Zenoss server" do
 end
 
 #all nodes (for now, until pick a role or other flag to standardize on)
-nodes = search(:node, 'zenoss:device*')
+nodes = search(:node, 'zenoss:device*') || []
 #find the recipes and create Systems for them
 systems = []
-nodes.each {|node| systems.push(node.run_list.expand.recipes)}
+nodes.each {|node| systems.push(node.expand!.recipes)}
 systems.flatten!
 systems.uniq!
 #make suborganizers with recipes
@@ -186,7 +235,8 @@ nodes.each do |node|
     end
   end
 end
-zenoss_zenbatchload devices do
+zenoss_zenbatchload "zenbatchloading devices" do
+  devices devices
   locations locationlist
   groups grouplist
   action :run

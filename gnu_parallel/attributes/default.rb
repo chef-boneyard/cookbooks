@@ -25,6 +25,6 @@ else
 end
 
 default['gnu_parallel']['url'] = 'http://ftp.gnu.org/gnu/parallel'
-default['gnu_parallel']['version'] = '20110205'
-default['gnu_parallel']['checksum'] = '72ffaf2fa8497595321dc8e04b9cc8770969d75328cb09cbb7e1138deba13e7c'
+default['gnu_parallel']['version'] = '20110522'
+default['gnu_parallel']['checksum'] = '2e60c2052af9b49f8e82b5a32e19c6e9af5cb9b8bfd13717dab79a518dc867be'
 default['gnu_parallel']['configure_options'] = []

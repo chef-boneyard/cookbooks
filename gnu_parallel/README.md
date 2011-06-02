@@ -6,12 +6,18 @@ Installs GNU parallel.
 Requirements
 ============
 
-Requires `build-essential` cookbook for installing from source, which is the default.
+Requires `build-essential` cookbook for installing from source.
+
+On OS X, requires the `homebrew` cookbook, available from http://community.opscode.com/cookbooks/homebrew.
 
 Attributes
 ==========
 
-For now see the attributes file :).
+* `node['gnu_parallel']['install_method']` - Specifies the recipe to use for installing homebrew. On OSX, homebrew is used, on everything else source is used, as there are no native packages for GNU parallel in most distributions.
+* `node['gnu_parallel']['url']` - base url to download from. Default is the GNU software distribution FTP server.
+* `node['gnu_parallel']['version']` - version of parallel to install.
+* `node['gnu_parallel']['checksum']` - checksum of the source tarball.
+* `node['gnu_parallel']['configure_options']` - array of options to pass to ./configure for compiling parallel.
 
 Usage
 =====

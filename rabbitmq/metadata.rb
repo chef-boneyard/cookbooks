@@ -1,10 +1,11 @@
-maintainer        "Benjamin Black"
-maintainer_email  "b@b3k.us"
+maintainer        "Opscode, Inc."
+maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures RabbitMQ server"
-version           "0.3"
+version           "1.2.0"
 recipe            "rabbitmq", "Install and configure RabbitMQ"
 recipe            "rabbitmq::cluster", "Set up RabbitMQ clustering."
+depends           "apt", "> 1.1"
 
 %w{ubuntu debian}.each do |os|
   supports os
@@ -17,42 +18,42 @@ attribute "rabbitmq",
 
 attribute "rabbitmq/nodename",
   :display_name => "RabbitMQ Erlang node name",
-  :description => "The Erlang node name for this server.  The default is rabbit.",
-  :default => "rabbit"
+  :description => "The Erlang node name for this server.",
+  :default => "node[:hostname]"
     
 attribute "rabbitmq/address",
   :display_name => "RabbitMQ server IP address",
-  :description => "IP address to bind.  The default is any.",
-  :default => "0.0.0.0"
+  :description => "IP address to bind."
 
 attribute "rabbitmq/port",
   :display_name => "RabbitMQ server port",
-  :description => "TCP port to bind.  The default is 5672.",
-  :default => "5672"
+  :description => "TCP port to bind."
+
+attribute "rabbitmq/config",
+  :display_name => "RabbitMQ config file to load",
+  :description => "Path to the rabbitmq.config file, if any."
 
 attribute "rabbitmq/logdir",
   :display_name => "RabbitMQ log directory",
-  :description => "Path to the directory for log files.  The default is /var/log/rabbitmq.",
-  :default => "/var/log/rabbitmq"
+  :description => "Path to the directory for log files."
 
 attribute "rabbitmq/mnesiadir",
   :display_name => "RabbitMQ Mnesia database directory",
-  :description => "Path to the directory for Mnesia database files.  The default is /var/lib/rabbitmq/mnesia.",
-  :default => "/var/lib/rabbitmq/mnesia"
+  :description => "Path to the directory for Mnesia database files."
 
 attribute "rabbitmq/cluster",
   :display_name => "RabbitMQ clustering",
-  :description => "Whether to activate clustering.  The default is no.",
+  :description => "Whether to activate clustering.",
   :default => "no"
   
 attribute "rabbitmq/cluster_config",
   :display_name => "RabbitMQ clustering configuration file",
-  :description => "Path to the clustering configuration file, if cluster is yes.  The default is /etc/rabbitmq/rabbitmq_cluster.config.",
+  :description => "Path to the clustering configuration file, if cluster is yes.",
   :default => "/etc/rabbitmq/rabbitmq_cluster.config"
 
 attribute "rabbitmq/cluster_disk_nodes",
   :display_name => "RabbitMQ cluster disk nodes",
-  :description => "Array of member Erlang nodenames for the disk-based storage nodes in the cluster.  The default is [].",
+  :description => "Array of member Erlang nodenames for the disk-based storage nodes in the cluster.",
   :default => [],
   :type => "array"
 

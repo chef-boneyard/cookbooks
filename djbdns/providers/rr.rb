@@ -23,10 +23,11 @@ action :add do
   ip = new_resource.ip
   cwd = new_resource.cwd ? new_resource.cwd : "#{node[:djbdns][:tinydns_internal_dir]}/root"
 
-  execute "./add-#{type} #{fqdn} #{ip}" do
-    cwd cwd
-    ignore_failure true
-    not_if "grep '^[\.\+=]#{fqdn}:#{ip}' #{cwd}/data"
+  unless IO.readlines("#{cwd}/data").grep(/^[\.\+=]#{fqdn}:#{ip}/).length >= 1
+    execute "./add-#{type} #{fqdn} #{ip}" do
+      cwd cwd
+      ignore_failure true
+    end
+    new_resource.updated_by_last_action(true)
   end
-  new_resource.updated_by_last_action(true)
 end
