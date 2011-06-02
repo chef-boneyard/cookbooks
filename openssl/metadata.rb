@@ -1,8 +1,8 @@
 maintainer       "Opscode, Inc."
 maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
-description      "Installs/Configures openssl"
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.1"
+description      "Provides a library with a method for generating secure random passwords."
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version          "1.0.0"
 
-recipe "openssl", "Empty, this cookbook provides a library, see README"
+recipe "openssl", "Empty, this cookbook provides a library, see README.md"
