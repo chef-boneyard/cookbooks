@@ -77,18 +77,20 @@ action :create do
       home home_dir
     end
 
-    directory "#{home_dir}/.ssh" do
-      owner u['id']
-      group u['gid'] || u['id']
-      mode "0700"
-    end
+    if home_dir != "/dev/null"
+      directory "#{home_dir}/.ssh" do
+        owner u['id']
+        group u['gid'] || u['id']
+        mode "0700"
+      end
 
-    template "#{home_dir}/.ssh/authorized_keys" do
-      source "authorized_keys.erb"
-      owner u['id']
-      group u['gid'] || u['id']
-      mode "0600"
-      variables :ssh_keys => u['ssh_keys']
+      template "#{home_dir}/.ssh/authorized_keys" do
+        source "authorized_keys.erb"
+        owner u['id']
+        group u['gid'] || u['id']
+        mode "0600"
+        variables :ssh_keys => u['ssh_keys']
+      end
     end
   end
 
