@@ -94,7 +94,7 @@ end
 unless platform?(%w{debian ubuntu})
 
   execute "assign-root-password" do
-    command "/usr/bin/mysqladmin -u root password #{node['mysql']['server_root_password']}"
+    command "/usr/bin/mysqladmin -u root password \"#{node['mysql']['server_root_password']}\""
     action :run
     only_if "/usr/bin/mysql -u root -e 'show databases;'"
   end
