@@ -57,6 +57,7 @@ Remove a user, johndoe1.
 
 The default recipe makes use of the "users_manage" Lightweight Resource Provider (LWRP), and looks like this:
 
+
 ```
   users_manage "sysadmin" do
     group_id 2300
@@ -76,6 +77,7 @@ If you have different requirements, for example:
    - group_name "wheel"
 
 Putting these requirements together our recipe might look like this:
+
 ```
   users_manage "postmaster" do
     data_bag "mail"
