@@ -3,6 +3,16 @@ Description
 
 Installs and configures MySQL client or server.
 
+Changes
+=======
+
+### v1.0.4:
+
+* fix regressions on debian platform
+* [COOK-578] wrap root password in quotes
+* [COOK-562] expose all tunables in my.cnf
+
+
 Requirements
 ============
 
