@@ -112,6 +112,9 @@ max_binlog_size         = 100M
 # You might want to disable InnoDB to shrink the mysqld process by circa 100MB.
 #skip-innodb
 innodb_buffer_pool_size = <%= node['mysql']['tunable']['innodb_buffer_pool_size'] %>
+
+<% case node['platform'] -%>
+<% when "centos", "redhat", "fedora", "ubuntu" -%>
 #
 # * Federated
 #
@@ -119,6 +122,7 @@ innodb_buffer_pool_size = <%= node['mysql']['tunable']['innodb_buffer_pool_size'
 # shipped with MySQL distributions (my-huge.cnf, my-medium.cnf, and so forth).
 #
 skip-federated
+<% end %>
 #
 # * Security Features
 #
