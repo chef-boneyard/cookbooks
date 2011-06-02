@@ -67,6 +67,7 @@ The default recipe makes use of the "users_manage" Lightweight Resource Provider
 Note this LWRP searches the "users" data bag for the "sysadmin" group attribute, and adds those users to a Unix security group "sysadmin".  The only required attribute is group_id, which represents the numeric Unix gid and *must* be unique.  The default action for the LWRP is ":create" only.
 
 If you have different requirements, for example:
+
  * You want to search a different data bag specific to a role such as mail.  You may change the data_bag searched.
    - data_bag "mail"
  * You want to search for a different group attribute named "postmaster".  You may change the search_group attribute.  This attribute defaults to the LWRP resource name.
