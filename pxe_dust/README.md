@@ -6,7 +6,7 @@ Configures a tftpd server for serving Ubuntu installers over PXE and setting the
 Requirements
 ============
 
-Written and last tested with Chef 0.10.0 and Ubuntu 10.04.
+Written and last tested with Chef 0.10.0 and Ubuntu 10.04 and 10.10.
 
 Attributes
 ==========
@@ -14,7 +14,7 @@ Attributes
 Attributes under the `pxe_dust` namespace.
 
 * `["pxe_dust"]["arch"]` - Architecture of the netboot.tar.gz to use as the source of pxeboot images.
-* `["pxe_dust"]["version"]` - Ubuntu version of the netboot.tar.gz to use as the source of pxeboot images.
+* `["pxe_dust"]["version"]` - Ubuntu version of the netboot.tar.gz to use as the source of pxeboot images (e.g. 'lucid', 'maverick')
 * `["pxe_dust"]["user"]["fullname"]` - Full name of the default user, default "Ubuntu".
 * `["pxe_dust"]["user"]["username"]` - Username of the default user, default "ubuntu".
 * `["pxe_dust"]["user"]["crypted_password"]` - SHA512 password for the default user, default nil. This must be generated and added as an attribute or you won't be able to login.
