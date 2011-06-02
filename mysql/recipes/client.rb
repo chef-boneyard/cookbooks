@@ -20,7 +20,7 @@
 package "mysql-devel" do
   package_name value_for_platform(
     [ "centos", "redhat", "suse", "fedora"] => { "default" => "mysql-devel" },
-    ["debian", "ubuntu"] => { "default" => 'libmysqlclient-dev' },
+    ["debian", "ubuntu"] => { 5.0 => 'libmysqlclient15-dev', "default" =>  'libmysqlclient-dev'},
     "default" => 'libmysqlclient-dev'
   )
   action :install
