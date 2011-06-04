@@ -23,10 +23,10 @@ require 'openssl'
 module Opscode
   module OpenSSL
     module Password
-      def secure_password
+      def secure_password(length=40)
         pw = String.new
         
-        while pw.length < 20
+        while pw.length < length
           pw << ::OpenSSL::Random.random_bytes(1).gsub(/\W/, '')
         end
 
