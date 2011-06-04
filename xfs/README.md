@@ -1,15 +1,21 @@
-= DESCRIPTION:
+Description
+====
 
 Installs packages for working with XFS filesystems.
 
-= REQUIREMENTS:
+Requirements
+====
 
-Ubuntu or Debian package names are assumed.
+Tested on Ubuntu 10.04, CentOS 5.5 and Scientific Linux 6.0.
 
-= LICENSE and AUTHOR:
+Should work on any Debian or Red Hat family Linux distributions that
+have the xfs packages in a default repository.
+
+License and Author
+====
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
-Copyright:: 2009, Opscode, Inc.
+Copyright:: 2009-2011, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
