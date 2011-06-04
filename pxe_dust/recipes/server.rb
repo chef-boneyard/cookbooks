@@ -39,7 +39,7 @@ template "#{node['tftp']['directory']}/pxelinux.cfg/default" do
   source "syslinux.cfg.erb"
   mode "0644"
   variables(
-            :arch => defaults['arch']
+      :arch => defaults['arch']
   )
   action :create
 end
@@ -53,6 +53,9 @@ template "#{node['tftp']['directory']}/ubuntu-installer/#{defaults['arch']}/boot
   end
   source "txt.cfg.erb"
   mode "0644"
+  variables(
+      :arch => defaults['arch']
+  )
   action :create
 end
 
@@ -69,17 +72,39 @@ template "/var/www/preseed.cfg" do
   source "preseed.cfg.erb"
   mode "0644"
   variables(
-            :proxy => proxy,
-            :user_fullname => defaults['user']['fullname'],
-            :user_username => defaults['user']['username'],
-            :crypted_password => defaults['user']['crypted_password']
+      :proxy => proxy,
+      :user_fullname => defaults['user']['fullname'],
+      :user_username => defaults['user']['username'],
+      :crypted_password => defaults['user']['crypted_password']
   )
   action :create
 end
 
-#location of the Chef bootstrap
+bootstrap_version_string = ""
+http_proxy, http_proxy_user, http_proxy_pass, https_proxy = nil
+if defaults['bootstrap']
+  bootstrap_version_string = defaults['bootstrap']['bootstrap_version_string'] if defaults['bootstrap']['bootstrap_version_string']
+  http_proxy = defaults['bootstrap']['http_proxy'] if defaults['bootstrap']['http_proxy']
+  http_proxy_user = defaults['bootstrap']['http_proxy_user'] if defaults['bootstrap']['http_proxy_user']
+  http_proxy_pass = defaults['bootstrap']['http_proxy_pass'] if defaults['bootstrap']['http_proxy_pass']
+  https_proxy = defaults['bootstrap']['https_proxy'] if defaults['bootstrap']['https_proxy']
+end
+
+#Chef bootstrap script run by new installs
 template "/var/www/chef-bootstrap" do
   source "chef-bootstrap.sh.erb"
   mode "0644"
+  variables(
+      :bootstrap_version_string => bootstrap_version_string,
+      :http_proxy => http_proxy,
+      :http_proxy_user => http_proxy_user,
+      :http_proxy_pass => http_proxy_pass,
+      :https_proxy => https_proxy
+  )
   action :create
+end
+
+#link the validation_key where it can be downloaded SECURITY??? 
+link "/var/www/validation.pem" do
+  to Chef::Config[:validation_key]
 end
