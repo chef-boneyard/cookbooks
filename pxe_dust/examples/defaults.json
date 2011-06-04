@@ -1,0 +1,18 @@
+{
+    "id": "defaults",
+    "arch": "amd64",
+    "version": "lucid",
+    "bootstrap": {
+        "bootstrap_version_string": "",
+        "chef_server_url": "https://api.opscode.com/organizations/EXAMPLE",
+        "validation_client_name": "melicloud-validator",
+        "http_proxy",
+        "https_proxy",
+        "run_list": ""
+    }
+    "user": {
+        "fullname": "Ubuntu",
+        "username": "ubuntu",
+        "crypted_password": "$6$Trby4Y5R$bi90k7uYY5ImXe5MWGFW9kel2BnMCcYO9EnwngTFIXKG2/nWcLKTJZ3verMFnpFbITI9.eHwZ.HR1UPeKbCAV1"
+    }
+}
