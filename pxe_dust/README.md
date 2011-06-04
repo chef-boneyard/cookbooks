@@ -22,6 +22,14 @@ Where the contents of the included `defaults.json` are:
     "id": "defaults",
     "arch": "amd64",
     "version": "lucid",
+    "run_list": "",
+    "bootstrap": {
+        "bootstrap_version_string": "",
+        "http_proxy": "",
+        "http_proxy_user": "",
+        "http_proxy_pass": "",
+        "https_proxy: ""
+    },
     "user": {
         "fullname": "Ubuntu",
         "username": "ubuntu",
@@ -33,6 +41,20 @@ Where the contents of the included `defaults.json` are:
 * `arch`: Architecture of the netboot.tar.gz to use as the source of pxeboot images, default is 'amd64'.
 
 * `version`: Ubuntu version of the netboot.tar.gz to use as the source of pxeboot images, default is 'lucid'.
+
+* `run_list`: Default run list for nodes.
+    
+* `bootstrap`: 
+
+    `bootstrap_version_string`: for building specific version of Chef, default is none.
+
+    `http_proxy`: HTTP proxy, default is none.
+
+    `http_proxy_user`: HTTP proxy user, default is none.
+
+    `http_proxy_pass`: HTTP proxy pass, default is none.
+
+    `https_proxy`: HTTPS proxy, default is none.
 
 * `user`: 
 
