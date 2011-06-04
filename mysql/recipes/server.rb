@@ -58,6 +58,7 @@ if platform?(%w{debian ubuntu})
 end
 
 package "mysql-server" do
+  version node['mysql']['version']
   action :install
 end
 
