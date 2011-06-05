@@ -19,6 +19,7 @@
 
 app = node.run_state[:current_app] 
 
+include_recipe "application::rails"
 include_recipe "unicorn"
 
 node.default[:unicorn][:worker_timeout] = 60
