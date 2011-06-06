@@ -25,10 +25,10 @@ d-i partman/confirm boolean true
 ### Boot loader installation
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
-d-i	debian-installer/splash	boolean false
+d-i debian-installer/splash	boolean false
 
 ## Package installation
-d-i	pkgsel/install-language-support	boolean false
+d-i pkgsel/install-language-support	boolean false
 d-i base-installer/kernel/override-image string linux-server
 d-i pkgsel/update-policy select unattended-upgrades
 d-i pkgsel/upgrade select safe-upgrade
