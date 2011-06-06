@@ -75,7 +75,7 @@ template "/var/www/preseed.cfg" do
       :proxy => proxy,
       :user_fullname => defaults['user']['fullname'],
       :user_username => defaults['user']['username'],
-      :crypted_password => defaults['user']['crypted_password']
+      :user_crypted_password => defaults['user']['crypted_password']
   )
   action :create
 end
