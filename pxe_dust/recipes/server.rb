@@ -39,8 +39,7 @@ template "#{node['tftp']['directory']}/pxelinux.cfg/default" do
   source "syslinux.cfg.erb"
   mode "0644"
   variables(
-      :arch => defaults['arch'],
-      :domain => defaults['domain']
+      :arch => defaults['arch']
   )
   action :create
 end
@@ -55,7 +54,9 @@ template "#{node['tftp']['directory']}/ubuntu-installer/#{defaults['arch']}/boot
   source "txt.cfg.erb"
   mode "0644"
   variables(
-      :arch => defaults['arch']
+      :arch => defaults['arch'],
+      :domain => defaults['domain']
+
   )
   action :create
 end
