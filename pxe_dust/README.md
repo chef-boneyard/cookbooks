@@ -15,7 +15,7 @@ In order to manage configuration of machines registering themselves with their C
 % knife data bag from file pxe_dust examples/defaults.json
 ```
 
-Where the contents of the included `defaults.json` are:
+Here is an example of the defaults.json:
 
 ```json
 {
@@ -23,12 +23,6 @@ Where the contents of the included `defaults.json` are:
     "arch": "amd64",
     "version": "lucid",
     "run_list": "",
-    "bootstrap": {
-        "bootstrap_version_string": "",
-        "http_proxy": "",
-        "http_proxy_user": "",
-        "http_proxy_pass": "",
-        "https_proxy: ""
     },
     "user": {
         "fullname": "Ubuntu",
@@ -38,13 +32,17 @@ Where the contents of the included `defaults.json` are:
 }
 ```
 
+Here are currently supported options available for inclusion in the `defaults.json`.:
+
 * `arch`: Architecture of the netboot.tar.gz to use as the source of pxeboot images, default is 'amd64'.
 
 * `version`: Ubuntu version of the netboot.tar.gz to use as the source of pxeboot images, default is 'lucid'.
 
+* `domain`: Default domain for nodes, default is none.
+    
 * `run_list`: Default run list for nodes.
     
-* `bootstrap`: 
+* `bootstrap`: Optional additional bootstrapping configuration.
 
     `bootstrap_version_string`: for building specific version of Chef, default is none.
 
@@ -73,11 +71,15 @@ Sets the boot prompt to automatically run the installer.
 
 txt.cfg.erb
 -----------
-Sets the URL to the preseed file.
+Sets the URL to the preseed file, architecture, the domain and which interfaces to use.
 
 preseed.cfg.erb
 ---------------
-The preseed file is full of opinions, you will want to update this. If there is a node providing an apt-cacher proxy via the `[apt::cacher]` recipe, it is provided in the preseed.cfg.
+The preseed file is full of opinions, you will want to update this. If there is a node providing an apt-cacher proxy via the `[apt::cacher]` recipe, it is provided in the preseed.cfg. The initial user and password is configured. The preseed finishes by calling the `chef-bootstrap` script.
+
+chef-bootstrap.sh.erb
+---------------------
+This is the `preseed/late_command` that bootstraps the node with Chef via gems.
 
 Recipes
 =======
