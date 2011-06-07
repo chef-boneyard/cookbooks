@@ -21,7 +21,7 @@
 include_recipe "build-essential"
 
 pkgs = value_for_platform(
-    ["redhat","centos","fedora"] =>
+    ["redhat","centos","fedora","scientific"] =>
         {"default" => %w{ openssl-devel gd-devel }},
     [ "debian", "ubuntu" ] =>
         {"default" => %w{ libssl-dev libgd2-xpm-dev }},
