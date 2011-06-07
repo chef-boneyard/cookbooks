@@ -175,7 +175,7 @@ if node[:ec2]
       only_if "xfs_admin -l #{ebs_vol_dev} 2>&1 | grep -qx 'xfs_admin: #{ebs_vol_dev} is not a valid XFS filesystem (unexpected SB magic number 0x00000000)'"
     end
 
-  %w{ec2_path datadir}.each do |dir|
+  %w{ec2_path data_dir}.each do |dir|
     directory node['mysql'][dir] do
       mode 0755
     end
@@ -187,7 +187,7 @@ if node[:ec2]
     action :mount
   end
 
-  mount node['mysql']['datadir'] do
+  mount node['mysql']['data_dir'] do
     device node['mysql']['ec2_path']
     fstype "none"
     options "bind,rw"

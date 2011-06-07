@@ -25,7 +25,7 @@ if (node.attribute?('ec2') && ! FileTest.directory?(node['mysql']['ec2_path']))
   end
 
   execute "install-mysql" do
-    command "mv #{node['mysql']['datadir']} #{node['mysql']['ec2_path']}"
+    command "mv #{node['mysql']['data_dir']} #{node['mysql']['ec2_path']}"
     not_if do FileTest.directory?(node['mysql']['ec2_path']) end
   end
 
@@ -34,7 +34,7 @@ if (node.attribute?('ec2') && ! FileTest.directory?(node['mysql']['ec2_path']))
     group "mysql"
   end
 
-  mount node['mysql']['datadir'] do
+  mount node['mysql']['data_dir'] do
     device node['mysql']['ec2_path']
     fstype "none"
     options "bind,rw"

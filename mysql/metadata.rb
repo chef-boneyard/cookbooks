@@ -3,7 +3,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures mysql for client or server"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           "1.0.4"
+version           "1.0.5"
 recipe            "mysql", "Includes the client recipe to configure a client"
 recipe            "mysql::client", "Installs packages required for mysql clients using run_action magic"
 recipe            "mysql::server", "Installs packages required for mysql servers w/o manual intervention"
@@ -25,10 +25,15 @@ attribute "mysql/bind_address",
   :description => "Address that mysqld should listen on",
   :default => "ipaddress"
 
-attribute "mysql/datadir",
+attribute "mysql/data_dir",
   :display_name => "MySQL Data Directory",
   :description => "Location of mysql databases",
   :default => "/var/lib/mysql"
+
+attribute "mysql/conf_dir",
+  :display_name => "MySQL Conf Directory",
+  :description => "Location of mysql conf files",
+  :default => "/etc/mysql"
 
 attribute "mysql/ec2_path",
   :display_name => "MySQL EC2 Path",

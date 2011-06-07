@@ -18,14 +18,16 @@
 #
 
 default['mysql']['bind_address']              = ipaddress
-default['mysql']['datadir']                   = "/var/lib/mysql"
+default['mysql']['data_dir']                   = "/var/lib/mysql"
 
 case node["platform"]
 when "centos", "redhat", "fedora", "suse"
+  set['mysql']['conf_dir']                    = '/etc'
   set['mysql']['socket']                      = "/var/lib/mysql/mysql.sock"
   set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   set['mysql']['old_passwords']               = 1
 else
+  set['mysql']['conf_dir']                    = '/etc/mysql'
   set['mysql']['socket']                      = "/var/run/mysqld/mysqld.sock"
   set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"
   set['mysql']['old_passwords']               = 0

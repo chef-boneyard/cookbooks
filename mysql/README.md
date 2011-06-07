@@ -6,6 +6,13 @@ Installs and configures MySQL client or server.
 Changes
 =======
 
+### v1.0.5:
+
+* [COOK-465] allow optional remote root connections to mysql
+* [COOK-455] improve platform version handling
+* externalize conf_dir attribute for easier cross platform support
+* change datadir attribute to data_dir for consistency
+
 ### v1.0.4:
 
 * fix regressions on debian platform
@@ -21,6 +28,12 @@ Platform
 
 * Debian, Ubuntu
 * CentOS, Red Hat, Fedora
+
+Tested on:
+
+* Debian 5.0
+* Ubuntu 10.04
+* CentOS 5.5
 
 Cookbooks
 ---------
@@ -44,23 +57,24 @@ For example see the USAGE section below.
 Attributes
 ==========
 
-* `mysql[:server_root_password]` - Set the server's root password with this, default is a randomly generated password with `OpenSSL::Random.random_bytes`.
-* `mysql[:server_repl_password]` - Set the replication user 'repl' password with this, default is a randomly generated password with `OpenSSL::Random.random_bytes`.
-* `mysql[:server_debian_password]` - Set the debian-sys-maint user password with this, default is a randomly generated password with `OpenSSL::Random.random_bytes`.
-* `mysql[:bind_address]` - Listen address for MySQLd, default is node's ipaddress.
-* `mysql[:datadir]` - Location for mysql data directory, default is "/var/lib/mysql"
-* `mysql[:ec2_path]` - location of mysql datadir on EC2 nodes, default "/mnt/mysql"
+* `mysql['server_root_password']` - Set the server's root password with this, default is a randomly generated password with `OpenSSL::Random.random_bytes`.
+* `mysql['server_repl_password']` - Set the replication user 'repl' password with this, default is a randomly generated password with `OpenSSL::Random.random_bytes`.
+* `mysql['server_debian_password']` - Set the debian-sys-maint user password with this, default is a randomly generated password with `OpenSSL::Random.random_bytes`.
+* `mysql['bind_address']` - Listen address for MySQLd, default is node's ipaddress.
+* `mysql['data_dir']` - Location for mysql data directory, default is "/var/lib/mysql"
+* `mysql['conf_dir']` - Location for mysql conf directory, default is "/etc/mysql"
+* `mysql['ec2_path']` - location of mysql data_dir on EC2 nodes, default "/mnt/mysql"
 
 Performance tuning attributes, each corresponds to the same-named parameter in my.cnf; default values listed
 
-* `mysql[:tunable][:key_buffer]`          = "250M"
-* `mysql[:tunable][:max_connections]`     = "800"
-* `mysql[:tunable][:wait_timeout]`        = "180"
-* `mysql[:tunable][:net_write_timeout]`   = "30"
-* `mysql[:tunable][:net_write_timeout]`   = "30"
-* `mysql[:tunable][:back_log]`            = "128"
-* `mysql[:tunable][:table_cache]`         = "128"
-* `mysql[:tunable][:max_heap_table_size]` = "32M"
+* `mysql['tunable']['key_buffer']`          = "250M"
+* `mysql['tunable']['max_connections']`     = "800"
+* `mysql['tunable']['wait_timeout']`        = "180"
+* `mysql['tunable']['net_write_timeout']`   = "30"
+* `mysql['tunable']['net_write_timeout']`   = "30"
+* `mysql['tunable']['back_log']`            = "128"
+* `mysql['tunable']['table_cache']`         = "128"
+* `mysql['tunable']['max_heap_table_size']` = "32M"
 
 Usage
 =====
@@ -93,7 +107,7 @@ On EC2 nodes,
 
     include_recipe "mysql::server_ec2"
 
-When the `ec2_path` doesn't exist we look for a mounted filesystem (eg, EBS) and move the datadir there.
+When the `ec2_path` doesn't exist we look for a mounted filesystem (eg, EBS) and move the data_dir there.
 
 The client recipe is already included by server and 'default' recipes.
 
