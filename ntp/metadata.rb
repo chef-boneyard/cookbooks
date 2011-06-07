@@ -30,5 +30,16 @@ attribute "ntp/servers",
   :display_name => "NTP Servers",
   :description => "Array of servers we should talk to",
   :type => "array",
-  :default => ["0.pool.ntp.org", "1.pool.ntp.org"]
+  :default => ["0.pool.ntp.org", "1.pool.ntp.org", "2.pool.ntp.org", "3.pool.ntp.org" ]
 
+attribute "ntp/peers",
+  :display_name => "NTP Peers",
+  :description => "Array of local NTP servers, we should peer with",
+  :type => "array",
+  :default => []
+
+attribute "ntp/restrictions",
+  :display_name => "Restriction lines",
+  :description => "Array of restriction lines to apply to NTP servers",
+  :type => "array",
+  :default => []
