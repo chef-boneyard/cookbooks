@@ -39,8 +39,8 @@ template "#{node['tftp']['directory']}/pxelinux.cfg/default" do
   source "syslinux.cfg.erb"
   mode "0644"
   variables(
-      :arch => defaults['arch']
-  )
+    :arch => defaults['arch']
+    )
   action :create
 end
 
@@ -54,10 +54,10 @@ template "#{node['tftp']['directory']}/ubuntu-installer/#{defaults['arch']}/boot
   source "txt.cfg.erb"
   mode "0644"
   variables(
-      :arch => defaults['arch'],
-      :domain => defaults['domain']
+    :arch => defaults['arch'],
+    :domain => defaults['domain']
 
-  )
+    )
   action :create
 end
 
@@ -65,25 +65,23 @@ end
 servers = search(:node, 'recipes:apt\:\:cacher') || []
 if servers.length > 0
   proxy = "d-i mirror/http/proxy string http://#{servers[0].ipaddress}:3142"
-  run_list = "recipe[apt::cacher-client]"
 else
   proxy = "#d-i mirror/http/proxy string url"
-  run_list = ""
 end
 template "/var/www/preseed.cfg" do
   source "preseed.cfg.erb"
   mode "0644"
   variables(
-      :proxy => proxy,
-      :user_fullname => defaults['user']['fullname'],
-      :user_username => defaults['user']['username'],
-      :user_crypted_password => defaults['user']['crypted_password']
-  )
+    :proxy => proxy,
+    :user_fullname => defaults['user']['fullname'],
+    :user_username => defaults['user']['username'],
+    :user_crypted_password => defaults['user']['crypted_password']
+    )
   action :create
 end
 
-bootstrap_version_string = ""
-http_proxy, http_proxy_user, http_proxy_pass, https_proxy = nil
+#bootstrap_version_string, run_list, http_proxy, http_proxy_user, http_proxy_pass, https_proxy = nil
+run_list = defaults['run_list']
 if defaults['bootstrap']
   bootstrap_version_string = defaults['bootstrap']['bootstrap_version_string'] if defaults['bootstrap']['bootstrap_version_string']
   http_proxy = defaults['bootstrap']['http_proxy'] if defaults['bootstrap']['http_proxy']
@@ -97,16 +95,17 @@ template "/var/www/chef-bootstrap" do
   source "chef-bootstrap.sh.erb"
   mode "0644"
   variables(
-      :bootstrap_version_string => bootstrap_version_string,
-      :http_proxy => http_proxy,
-      :http_proxy_user => http_proxy_user,
-      :http_proxy_pass => http_proxy_pass,
-      :https_proxy => https_proxy
-  )
+    :bootstrap_version_string => bootstrap_version_string,
+    :http_proxy => http_proxy,
+    :http_proxy_user => http_proxy_user,
+    :http_proxy_pass => http_proxy_pass,
+    :https_proxy => https_proxy,
+    :run_list => run_list
+    )
   action :create
 end
 
-#link the validation_key where it can be downloaded SECURITY??? 
+#link the validation_key where it can be downloaded SECURITY???
 link "/var/www/validation.pem" do
   to Chef::Config[:validation_key]
 end

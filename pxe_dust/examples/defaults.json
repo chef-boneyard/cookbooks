@@ -2,7 +2,6 @@
     "id": "defaults",
     "arch": "amd64",
     "version": "lucid",
-    "run_list": "",
     "user": {
         "fullname": "Ubuntu",
         "username": "ubuntu",

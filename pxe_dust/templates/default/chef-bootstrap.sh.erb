@@ -8,7 +8,7 @@ if [ ! -f /usr/bin/chef-client ]; then
 fi
 
 gem install ohai --no-rdoc --no-ri --verbose
-gem install chef --no-rdoc --no-ri --verbose <%= @bootstrap_version_string %>
+gem install chef --no-rdoc --no-ri --verbose <% if @bootstrap_version_string %><%= @bootstrap_version_string %><% end %>
 
 mkdir -p /etc/chef
 
@@ -27,7 +27,7 @@ EOF
 
 cat > /etc/chef/first-boot.json <<EOF
 {
- "run_list": [ "<%= @run_list %>" ]
+<% if @run_list %>"run_list": [ "<%= @run_list %>" ]<% end %>
 }
 EOF
 
