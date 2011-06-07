@@ -13,6 +13,6 @@ recipe "nagios::server", "Installs and configures a nagios server"
   depends cb
 end
 
-%w{ debian ubuntu rhel centos fedora }.each do |os|
+%w{ debian ubuntu redhat centos fedora scientific}.each do |os|
   supports os
 end

@@ -25,7 +25,7 @@
 case node['platform']
 when "ubuntu","debian"
   set['nagios']['client']['install_method'] = 'package'
-when "redhat","centos","fedora"
+when "redhat","centos","fedora","scientific"
   set['nagios']['client']['install_method'] = 'source'
 else
   set['nagios']['client']['install_method'] = 'source'
