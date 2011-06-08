@@ -76,8 +76,8 @@ action :prune do
       old_snapshots << snapshot
     end 
   end
-  if old_snapshots.length >= new_resource.snapshots_to_keep 
-    old_snapshots[new_resource.snapshots_to_keep - 1, old_snapshots.length].each do |die|
+  if old_snapshots.length > new_resource.snapshots_to_keep 
+    old_snapshots[new_resource.snapshots_to_keep, old_snapshots.length].each do |die|
       Chef::Log.info "Deleting old snapshot #{die[:aws_id]}"
       ec2.delete_snapshot(die[:aws_id])
       new_resource.updated_by_last_action(true)
