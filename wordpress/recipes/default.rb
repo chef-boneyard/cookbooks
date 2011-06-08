@@ -19,14 +19,14 @@
 
 include_recipe "apache2"
 include_recipe "mysql::server"
-include_recipe "apache2::mod_php5"
 include_recipe "php"
 include_recipe "php::module_mysql"
+include_recipe "apache2::mod_php5"
 
 if node.has_key?("ec2")
-  server_fqdn = node.ec2.public_hostname
+  server_fqdn = node['ec2']['public_hostname']
 else
-  server_fqdn = node.fqdn
+  server_fqdn = node['fqdn']
 end
 
 node.set['wordpress']['db']['password'] = secure_password
@@ -56,12 +56,11 @@ execute "untar-wordpress" do
 end
 
 execute "mysql-install-wp-privileges" do
-  command "/usr/bin/mysql -u root -p#{node['mysql']['server_root_password']} < /etc/mysql/wp-grants.sql"
+  command "/usr/bin/mysql -u root -p#{node['mysql']['server_root_password']} < #{node['mysql']['conf_dir']}/wp-grants.sql"
   action :nothing
 end
 
-template "/etc/mysql/wp-grants.sql" do
-  path "/etc/mysql/wp-grants.sql"
+template "#{node['mysql']['conf_dir']}/wp-grants.sql" do
   source "grants.sql.erb"
   owner "root"
   group "root"
@@ -121,5 +120,5 @@ web_app "wordpress" do
   template "wordpress.conf.erb"
   docroot "#{node['wordpress']['dir']}"
   server_name server_fqdn
-  server_aliases node.fqdn
+  server_aliases node['fqdn']
 end
