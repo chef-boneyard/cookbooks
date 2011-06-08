@@ -28,7 +28,7 @@ when "arch"
     notifies :run, resources(:execute => "generate-module-list"), :immediately
   end
 when "centos", "redhat", "fedora"
-  package "php" do
+  package "php53" do
     action :install
     notifies :run, resources(:execute => "generate-module-list"), :immediately
   end
