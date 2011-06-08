@@ -1,49 +1,62 @@
 Description
-====
+===========
 
 Installs and configures Wordpress according to the instructions at http://codex.wordpress.org/Installing_WordPress. Does not set up a wordpress blog. You will need to do this manually by going to http://hostname/wp-admin/install.php (this URL may be different if you change the attribute values).
 
+Changes
+=======
+
+### v0.8.2:
+
+* [COOK-435] Don't set the mysql root user password in wordpress cookbook
+* [COOK-535] - recursively create the directory
+* RHEL/CentOS/Fedora support (yeah!)
+* cleaned up node attribute keys
+* cleaned up README.md
+
 Requirements
-====
+============
 
-## Platform
+Platform
+--------
 
-Tested on Ubuntu 9.04, 9.10.
+* Debian, Ubuntu
+* RHEL, CentOS, Fedora
 
-## Cookbooks
+Tested on:
 
-Opscode cookbooks, http://github.com/opscode/cookbooks/tree/master:
+* Ubuntu 9.04, 9.10, 10.04
+* Centos 5.5
+
+Cookbooks
+---------
 
 * mysql
 * php
 * apache2
-* opensssl
-
-## Libraries
-
-The openssl library is required from the openssl cookbook to generate secure passwords.
+* opensssl (uses library to generate secure passwords)
 
 Attributes
-====
+==========
 
-* wordpress[:version] - Set the version to download.
-* wordpress[:checksum] - sha256sum of the tarball, make sure this matches for the version!
-* wordpress[:dir] - Set the location to place wordpress files. Default is /var/www.
-* wordpress[:db][:database] - Wordpress will use this MySQL database to store its data.
-* wordpress[:db][:user] - Wordpress will connect to MySQL using this user.
-* wordpress[:db][:password] - Password for the Wordpress MySQL user. The default is a randomly generated string.
+* `node['wordpress']['version']` - Set the version to download.
+* `node['wordpress']['checksum']` - sha256sum of the tarball, make sure this matches for the version!
+* `node['wordpress']['dir']` - Set the location to place wordpress files. Default is /var/www.
+* `node['wordpress']['db']['database']` - Wordpress will use this MySQL database to store its data.
+* `node['wordpress']['db']['user']` - Wordpress will connect to MySQL using this user.
+* `node['wordpress']['db']['password']` - Password for the Wordpress MySQL user. The default is a randomly generated string.
 
 Attributes will probably never need to change (these all default to randomly generated strings):
 
-* wordpress[:keys][:auth]
-* wordpress[:keys][:secure_auth]
-* wordpress[:keys][:logged_in]
-* wordpress[:keys][:nonce]
+* `node['wordpress']['keys']['auth']`
+* `node['wordpress']['keys']['secure_auth']`
+* `node['wordpress']['keys']['logged_in']`
+* `node['wordpress']['keys']['nonce']`
 
 The random generation is handled with the secure_password method in the openssl cookbook which is a cryptographically secure random generator and not predictable like the random method in the ruby standard library.
 
 Usage
-====
+=====
 
 If a different version than the default is desired, download that version and get the SHA256 checksum (sha256sum on Linux systems), and set the version and checksum attributes.
 
@@ -58,10 +71,11 @@ The mysql::server recipe needs to come first, and contain an execute resource to
 This cookbook will decouple the mysql::server and be smart about detecting whether to use a local database or find a database server in the environment in a later version.
 
 License and Author
-====
+==================
 
 Author:: Barry Steinglass (barry@opscode.com)
 Author:: Joshua Timberman (joshua@opscode.com)
+Author:: Seth Chisamore (schisamo@opscode.com)
 
 Copyright:: 2010-2011, Opscode, Inc
 
