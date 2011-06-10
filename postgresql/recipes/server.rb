@@ -34,3 +34,20 @@ when "redhat", "centos", "fedora", "suse"
 when "debian", "ubuntu"
   include_recipe "postgresql::server_debian"
 end
+
+# Default PostgreSQL install has 'ident' checking on unix user 'postgres'
+# and 'md5' password checking with connections from 'localhost'. This script
+# runs as user 'postgres', so we can execute the 'role' and 'database' resources
+# as 'root' later on, passing the below credentials in the PG client.
+ruby "assign-postgres-password" do
+  user 'postgres'
+  code <<-EOH
+require 'rubygems'
+require 'pg'
+conn = PGconn.connect(nil, 5432, nil, nil, nil, nil, nil)
+conn.exec("ALTER ROLE postgres ENCRYPTED PASSWORD '#{node[:postgresql][:password][:postgres]}';")
+conn.finish
+  EOH
+  action :run
+end
+
