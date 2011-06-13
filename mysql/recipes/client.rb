@@ -19,12 +19,12 @@
 
 ::Chef::Resource::Package.send(:include, Opscode::Mysql::Helpers)
 
-if platform?(%w{ debian ubuntu})
-
-  package "mysql-client" do
-    action :install
-  end
-
+package "mysql-client" do
+  package_name value_for_platform(
+    [ "centos", "redhat", "suse", "fedora"] => { "default" => "mysql" },
+    "default" => "mysql-client"
+  )
+  action :install
 end
 
 package "mysql-devel" do
