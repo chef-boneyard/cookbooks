@@ -6,6 +6,10 @@ Installs and configures MySQL client or server.
 Changes
 =======
 
+### v1.0.6:
+
+* [COOK-605] install mysql-client package on ubuntu/debian
+
 ### v1.0.5:
 
 * [COOK-465] allow optional remote root connections to mysql
