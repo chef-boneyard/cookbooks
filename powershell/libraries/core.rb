@@ -31,10 +31,21 @@ class Chef
         super
         @resource_name = :powershell
         @provider = Chef::Provider::PowershellScript
-        @interpreter = "powershell.exe"
+        @interpreter = locate_powershell_interperter
         @returns = [0,42] # successful commands return exit code 42
       end
 
+      private
+        def locate_powershell_interperter
+          # force 64-bit powershell from 32-bit ruby process
+          if ::File.exist?("c:/windows/sysnative/WindowsPowershell/v1.0/powershell.exe") 
+            "c:/windows/sysnative/WindowsPowershell/v1.0/powershell.exe"
+          elsif ::File.exist?("c:/windows/system32/WindowsPowershell/v1.0/powershell.exe")
+            "c:/windows/system32/WindowsPowershell/v1.0/powershell.exe"
+          else
+            "powershell.exe"
+          end
+        end
     end 
   end
 
