@@ -20,15 +20,6 @@
 Ohai::Config[:plugin_path] << node['ohai']['plugin_path']
 Chef::Log.info("ohai plugins will be at: #{node['ohai']['plugin_path']}")
 
-remote_directory node['ohai']['plugin_path'] do
-  source 'plugins'
-  owner 'root'
-  group 'root'
-  mode 0755
-  action :nothing
-  notify "ruby_block[run_ohai]"
-end.run_action(:create)
-
 ruby_block "run_ohai" do
   block do
     o = Ohai::System.new
@@ -37,3 +28,13 @@ ruby_block "run_ohai" do
   end
   action :nothing
 end
+
+remote_directory node['ohai']['plugin_path'] do
+  source 'plugins'
+  owner 'root'
+  group 'root'
+  mode 0755
+  action :nothing
+  notifies "ruby_block[run_ohai]"
+end.run_action(:create)
+
