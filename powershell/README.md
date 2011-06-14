@@ -3,6 +3,17 @@ Description
 
 Installs and configures PowerShell 2.0.  Also includes a resource/provider for executing scripts using the PowerShell interpreter.
 
+Changes
+=======
+
+## v1.0.1:
+
+* [COOK-581] force 64-bit powershell process from 32-bit ruby processes
+
+## v1.0.0:
+
+* initial release
+
 Requirements
 ============
 
