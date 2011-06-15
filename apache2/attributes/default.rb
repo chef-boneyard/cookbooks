@@ -22,28 +22,24 @@ case platform
 when "redhat","centos","fedora","suse"
   set[:apache][:dir]     = "/etc/httpd"
   set[:apache][:log_dir] = "/var/log/httpd"
-  set[:apache][:user]    = "apache"
   set[:apache][:binary]  = "/usr/sbin/httpd"
   set[:apache][:icondir] = "/var/www/icons/"
   set[:apache][:cache_dir] = "/var/cache/httpd"
 when "debian","ubuntu"
   set[:apache][:dir]     = "/etc/apache2"
   set[:apache][:log_dir] = "/var/log/apache2"
-  set[:apache][:user]    = "www-data"
   set[:apache][:binary]  = "/usr/sbin/apache2"
   set[:apache][:icondir] = "/usr/share/apache2/icons"
   set[:apache][:cache_dir] = "/var/cache/apache2"
 when "arch"
   set[:apache][:dir]     = "/etc/httpd"
   set[:apache][:log_dir] = "/var/log/httpd"
-  set[:apache][:user]    = "http"
   set[:apache][:binary]  = "/usr/sbin/httpd"
   set[:apache][:icondir] = "/usr/share/httpd/icons"
   set[:apache][:cache_dir] = "/var/cache/httpd"
 else
   set[:apache][:dir]     = "/etc/apache2"
   set[:apache][:log_dir] = "/var/log/apache2"
-  set[:apache][:user]    = "www-data"
   set[:apache][:binary]  = "/usr/sbin/apache2"
   set[:apache][:icondir] = "/usr/share/apache2/icons"
   set[:apache][:cache_dir] = "/var/cache/apache2"
@@ -53,6 +49,18 @@ end
 # These settings need the unless, since we want them to be tunable,
 # and we don't want to override the tunings.
 ###
+
+# Platform specific general settings
+case platform
+when "redhat","centos","fedora","suse"
+  default[:apache][:user] = "apache"
+when "debian","ubuntu"
+  default[:apache][:user] = "www-data"
+when "arch"
+  default[:apache][:user] = "http"
+else
+  default[:apache][:user] = "www-data"
+end
 
 # General settings
 default[:apache][:listen_ports] = [ "80","443" ]
