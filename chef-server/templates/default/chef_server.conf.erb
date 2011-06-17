@@ -1,7 +1,7 @@
 # Server Proxy for API
 <VirtualHost *:443>
-  ServerName <%= @params['server_name'] %>
-  ServerAlias <% @params['server_aliases'].each do |a| %><%= "#{a}" %> <% end %>
+  ServerName <%= @params[:server_name] %>
+  ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
 
   DocumentRoot <%= node['chef_server']['doc_root'] %>
 
@@ -12,18 +12,18 @@
   ExpiresByType application/javascript "access plus <%= node['chef_server']['proxy']['js_expire_hours'] %> hours"
 
   <Proxy balancer://chef_server>
-    BalancerMember http://127.0.0.1:<%= node['chef_server'][port] %>
+    BalancerMember http://127.0.0.1:<%= node['chef_server']['api_port'] %>
     Order deny,allow
     Allow from all
   </Proxy>
 
   LogLevel info
-  ErrorLog <%= @params['log_dir'] %>/<%= @params['name'] %>-error.log
-  CustomLog <%= @params['log_dir'] %>/<%= @params['name'] %>-access.log combined
+  ErrorLog <%= @params[:log_dir] %>/<%= @params[:name] %>-error.log
+  CustomLog <%= @params[:log_dir] %>/<%= @params[:name] %>-access.log combined
 
   SSLEngine On
-  SSLCertificateFile /etc/chef/certificates/<%= @params['server_name'] %>.pem
-  SSLCertificateKeyFile /etc/chef/certificates/<%= @params['server_name'] %>.pem
+  SSLCertificateFile /etc/chef/certificates/chef-server-proxy.pem
+  SSLCertificateKeyFile /etc/chef/certificates/chef-server-proxy.pem
 
   RequestHeader set X_FORWARDED_PROTO 'https'
 
@@ -35,8 +35,8 @@
 <% if node['chef_server']['webui_enabled'] -%>
 # Server Proxy for WebUI
 <VirtualHost *:444>
-  ServerName <%= @params['server_name'] %>
-  ServerAlias <% @params['server_aliases'].each do |a| %><%= "#{a}" %> <% end %>
+  ServerName <%= @params[:server_name] %>
+  ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
 
   DocumentRoot <%= node['chef_server']['doc_root'] %>
 
@@ -53,12 +53,12 @@
   </Proxy>
 
   LogLevel info
-  ErrorLog <%= @params['log_dir'] %>/<%= @params['name'] %>-error.log
-  CustomLog <%= @params['log_dir'] %>/<%= @params['name'] %>-access.log combined
+  ErrorLog <%= @params[:log_dir] %>/<%= @params[:name] %>-error.log
+  CustomLog <%= @params[:log_dir] %>/<%= @params[:name] %>-access.log combined
 
   SSLEngine On
-  SSLCertificateFile /etc/chef/certificates/<%= @params['server_name'] %>.pem
-  SSLCertificateKeyFile /etc/chef/certificates/<%= @params['server_name'] %>.pem
+  SSLCertificateFile /etc/chef/certificates/chef-server-proxy.pem
+  SSLCertificateKeyFile /etc/chef/certificates/chef-server-proxy.pem
 
   RequestHeader set X_FORWARDED_PROTO 'https'
 
