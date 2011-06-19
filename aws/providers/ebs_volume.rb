@@ -61,7 +61,7 @@ end
 
 action :snapshot do
   vol = determine_volume
-  snapshot = ec2.create_snapshot(vol[:aws_id])
+  snapshot = ec2.create_snapshot(vol[:aws_id],new_resource.description)
   new_resource.updated_by_last_action(true)
   Chef::Log.info("Created snapshot of #{vol[:aws_id]} as #{snapshot[:aws_id]}")
 end
