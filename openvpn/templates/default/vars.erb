@@ -1,0 +1,68 @@
+# easy-rsa parameter settings
+
+# NOTE: If you installed from an RPM,
+# don't edit this file in place in
+# /usr/share/openvpn/easy-rsa --
+# instead, you should copy the whole
+# easy-rsa directory to another location
+# (such as /etc/openvpn) so that your
+# edits will not be wiped out by a future
+# OpenVPN package upgrade.
+
+# This variable should point to
+# the top level of the easy-rsa
+# tree.
+export EASY_RSA="`pwd`"
+
+#
+# This variable should point to
+# the requested executables
+#
+export OPENSSL="openssl"
+export PKCS11TOOL="pkcs11-tool"
+export GREP="grep"
+
+
+# This variable should point to
+# the openssl.cnf file included
+# with easy-rsa.
+export KEY_CONFIG="${EASY_RSA}/openssl.cnf"
+
+# Edit this variable to point to
+# your soon-to-be-created key
+# directory.
+#
+# WARNING: clean-all will do
+# a rm -rf on this directory
+# so make sure you define
+# it correctly!
+export KEY_DIR="<%= node["openvpn"]["key_dir"] %>"
+
+# Issue rm -rf warning
+echo NOTE: If you run ./clean-all, I will be doing a rm -rf on $KEY_DIR
+
+# PKCS11 fixes
+export PKCS11_MODULE_PATH="dummy"
+export PKCS11_PIN="dummy"
+
+# Increase this to 2048 if you
+# are paranoid.  This will slow
+# down TLS negotiation performance
+# as well as the one-time DH parms
+# generation process.
+export KEY_SIZE=<%= node["openvpn"]["key"]["size"] %>
+
+# In how many days should the root CA key expire?
+export CA_EXPIRE=<%= node["openvpn"]["key"]["ca_expire"] %>
+
+# In how many days should certificates expire?
+export KEY_EXPIRE=<%= node["openvpn"]["key"]["expire"] %>
+
+# These are the default values for fields
+# which will be placed in the certificate.
+# Don't leave any of these fields blank.
+export KEY_COUNTRY="<%= node["openvpn"]["key"]["country"] %>"
+export KEY_PROVINCE="<%= node["openvpn"]["key"]["province"] %>"
+export KEY_CITY="<%= node["openvpn"]["key"]["city"] %>"
+export KEY_ORG="<%= node["openvpn"]["key"]["org"] %>"
+export KEY_EMAIL="<%= node["openvpn"]["key"]["email"] %>

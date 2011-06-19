@@ -1,0 +1,26 @@
+#
+# <%= node[:openldap][:dir] %>.conf generated for <%= node[:hostname] %>
+#
+# Managed by Chef
+# 
+
+host <%= node[:openldap][:server] %>
+port 389
+bind_policy soft
+
+ldap_version 3
+
+# Where to find data
+base <%= node[:openldap][:basedn] %>
+scope sub
+nss_base_passwd ou=people,<%= node[:openldap][:basedn] %>
+nss_base_shadow ou=people,<%= node[:openldap][:basedn] %>
+nss_base_group ou=group,<%= node[:openldap][:basedn] %>
+nss_base_automount ou=automount,<%= node[:openldap][:basedn] %>
+
+# TLS Options
+ssl start_tls
+tls_checkpeer no
+
+# Password options
+pam_password md5

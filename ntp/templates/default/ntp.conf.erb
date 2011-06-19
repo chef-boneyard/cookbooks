@@ -1,0 +1,21 @@
+driftfile /var/lib/ntp/ntp.drift
+statsdir /var/log/ntpstats/
+
+statistics loopstats peerstats clockstats
+filegen loopstats file loopstats type day enable
+filegen peerstats file peerstats type day enable
+filegen clockstats file clockstats type day enable
+
+<% if node[:ntp][:is_server] -%>
+server 0.pool.ntp.org
+server 1.pool.ntp.org
+server 2.pool.ntp.org
+server 3.pool.ntp.org
+<% else -%>
+<% node[:ntp][:servers].each do |ntpserver| -%>
+  server <%= ntpserver %>
+<% end -%>
+<% end -%>
+restrict default kod notrap nomodify nopeer noquery
+
+restrict 127.0.0.1 nomodify

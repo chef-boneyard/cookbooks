@@ -1,0 +1,13 @@
+diff -Nur daemontools-0.76.old/src/svscanboot.sh daemontools-0.76/src/svscanboot.sh
+--- daemontools-0.76.old/src/svscanboot.sh      2001-07-13 00:49:49.000000000 +0800
++++ daemontools-0.76/src/svscanboot.sh  2009-11-07 23:46:47.000000000 +0800
+@@ -5,7 +5,7 @@
+ exec >/dev/null
+ exec 2>/dev/null
+ 
+-/command/svc -dx /service/* /service/*/log
++/usr/sbin/svc -dx /etc/service/* /etc/service/*/log
+ 
+-env - PATH=$PATH svscan /service 2>&1 | \
++env - PATH=$PATH svscan /etc/service 2>&1 | \
+ env - PATH=$PATH readproctitle service errors: ................................................................................................................................................................................................................................................................................................................................................................................................................

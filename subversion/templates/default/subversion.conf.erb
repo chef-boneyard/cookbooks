@@ -1,0 +1,15 @@
+<Location /svn>
+
+  DAV svn
+
+  SVNPath /srv/svn/repo
+
+  AuthType Basic
+
+  AuthName "Subversion repository"
+
+  AuthUserFile /srv/svn/htpasswd
+
+  Require valid-user
+
+</Location>

@@ -1,0 +1,36 @@
+# Contributor: jianingy <jianingy.yang@gmail.com>
+
+pkgname=daemontools
+pkgrel=4
+pkgver=0.76
+pkgdesc="daemontools is a collection of tools for managing UNIX services."
+arch=(i686 x86_64)
+url="http://cr.yp.to/daemontools.html"
+license=('public domain')
+depends=('pacman>=3.1.0')
+backups=('/etc/inittab')
+install=daemontools.install
+source=(
+        "http://cr.yp.to/daemontools/$pkgname-$pkgver.tar.gz"
+        'daemontools-0.76.errno.patch'
+        'daemontools-0.76.svscanboot-path-fix.patch'
+)
+md5sums=(
+        '1871af2453d6e464034968a0fbcb2bfc'
+        '1ab80be37239e920542425baa8f1c5b9'
+        '1854f01aed93f0fd1577db2da51f1935'
+)
+sha1sums=(
+        '70a1be67e7dbe0192a887905846acc99ad5ce5b7'
+        'ee5b43b333dae9ee3ad0d2f9aeb9c1e2537f0978'
+        '5fd9c45aab2e9bd83e71440092dfb0e2482bfb4f'
+)
+
+build() {
+        cd $srcdir/admin/$pkgname-$pkgver || exit 1
+        patch -p1 < $srcdir/daemontools-0.76.errno.patch || exit 1
+        patch -p1 < $srcdir/daemontools-0.76.svscanboot-path-fix.patch || exit 1
+        package/compile || exit 1
+        mkdir -pv $pkgdir/usr/sbin $pkgdir/etc/service || exit 1
+        cp -a command/* $pkgdir/usr/sbin || exit 1
+}

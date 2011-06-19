@@ -1,0 +1,4 @@
+#!/bin/sh
+exec 2>&1
+exec chpst -e ./env sh -c '
+  exec chpst -U axfrdns -d300000 tcpserver -vDRHl0 -x tcp.cdb -- "$IP" 53 <%= node[:djbdns][:bin_dir] %>/axfrdns'

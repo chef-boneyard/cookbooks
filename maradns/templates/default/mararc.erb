@@ -1,0 +1,31 @@
+##
+# mararc file
+#
+# - Created by Chef Local Changes will be overridden. -
+##
+
+csv2 = {}
+csv2["<%= node[:domain] %>."] = "db.<%= node[:domain] %>"
+bind_address = "<%= node[:ipaddress] %>"
+chroot_dir = "/etc/maradns"
+maradns_uid = 109
+maradns_gid = 109
+maxprocs = 96
+no_fingerprint = 0
+default_rrany_set = 3
+max_chain = 8
+max_ar_chain = 1
+max_total = 20
+hide_disclaimer = "YES"
+
+# The number of messages we log to stdout
+# 0: No messages except for fatal parsing errors and the legal disclaimer
+# 1: Only startup messages logged (default)
+# 2: Error queries logged
+# 3: All queries logged (but not very verbosely right now)
+verbose_level = 1
+
+# The following line must be uncommented to enable recursive queries
+root_servers = {}
+
+recursive_acl = "<%= node[:maradns][:recursive_acl] %>"

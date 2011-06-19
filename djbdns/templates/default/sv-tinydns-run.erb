@@ -1,0 +1,3 @@
+#!/bin/sh
+exec 2>&1
+exec chpst -U tinydns -e ./env -d300000 <%= node[:djbdns][:bin_dir] %>/tinydns

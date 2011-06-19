@@ -1,0 +1,13 @@
+client
+dev tun
+proto udp
+remote <%= node["openvpn"]["gateway"] %> 1194
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+ca ca.crt
+cert <%= @username %>.crt
+key <%= @username %>.key
+comp-lzo
+verb 3

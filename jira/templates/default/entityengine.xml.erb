@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE entity-config PUBLIC "-//OFBiz//DTD Entity Engine Config//EN" "http://www.ofbiz.org/dtds/entity-config.dtd">
+<!--
+This file configures the OFBiz Entity Engine which JIRA uses to store persist data in a datasource.
+
+For detailed configuration help see:
+
+   http://www.atlassian.com/software/jira/docs/latest/entityengine.html
+
+Or our server specific setup guides (these take you through the setup process for each server):
+
+   http://www.atlassian.com/software/jira/docs/latest/servers/
+
+Normally, you will only need to edit the 'field-type-name' attribute of the <datasource> tag, near the bottom of this
+file.
+
+Less commonly, you may wish to change then JNDI lookup paths for:
+ - the Transaction Manager (<transaction-factory> element)
+ -  Database connection (<jndi-jdbc> element).
+
+If you not using the 12 preconfigured DBs, you may also need to add your own field type definition
+-->
+<entity-config>
+    <resource-loader name="maincp" class="org.ofbiz.core.config.ClasspathLoader"/>
+
+    <!-- TRANSACTION FACTORY - This configures how JIRA finds the application server's transaction management.
+    The default ('java:comp/UserTransaction') is fine except for Tomcat 5.5 ('java:comp/env/UserTransaction'), JBoss and
+    Resin.
+    - see:
+        http://www.atlassian.com/software/jira/docs/latest/entityengine.html#transactionfactory
+    -->
+    <transaction-factory class="org.ofbiz.core.entity.transaction.JNDIFactory">
+      <user-transaction-jndi jndi-server-name="default" jndi-name="java:comp/env/UserTransaction"/>
+      <transaction-manager-jndi jndi-server-name="default" jndi-name="java:comp/env/UserTransaction"/>
+    </transaction-factory>
+
+    <delegator name="default" entity-model-reader="main" entity-group-reader="main">
+        <group-map group-name="default" datasource-name="defaultDS"/>
+    </delegator>
+
+    <entity-model-reader name="main">
+        <resource loader="maincp" location="entitydefs/entitymodel.xml"/>
+    </entity-model-reader>
+
+    <entity-group-reader name="main" loader="maincp" location="entitydefs/entitygroup.xml"/>
+
+    <field-type name="cloudscape" loader="maincp" location="entitydefs/fieldtype-cloudscape.xml"/>
+    <field-type name="firebird" loader="maincp" location="entitydefs/fieldtype-firebird.xml"/>
+    <field-type name="hsql" loader="maincp" location="entitydefs/fieldtype-hsql18.xml"/>
+    <field-type name="mckoidb" loader="maincp" location="entitydefs/fieldtype-mckoidb.xml"/>
+    <field-type name="mysql" loader="maincp" location="entitydefs/fieldtype-mysql.xml"/>
+    <field-type name="mssql" loader="maincp" location="entitydefs/fieldtype-mssql.xml"/>
+    <!--
+        This field type is deprecated, and should ONLY be used with Oracle 8i.
+        If you are using Oracle 9i or 10g please use Oracle 10g JDBC drivers and the 'oracle10g' field type, which is specified below
+    -->
+    <field-type name="oracle" loader="maincp" location="entitydefs/fieldtype-oracle.xml"/>
+    <!--
+        Please use this field type for Oracle 9i and 10g. Please ensure that you are using Oracle 10g JDBC drivers which are compatible with Oracle 9i.
+        The 10g JDBC drivers can be downloaded from here: http://www.oracle.com/technology/software/tech/java/sqlj_jdbc/index.html
+    -->
+    <field-type name="oracle10g" loader="maincp" location="entitydefs/fieldtype-oracle10g.xml"/>
+    <field-type name="postgres" loader="maincp" location="entitydefs/fieldtype-postgres.xml"/>
+    <field-type name="postgres72" loader="maincp" location="entitydefs/fieldtype-postgres72.xml"/> <!-- use for postgres 7.2 and above -->
+    <field-type name="sapdb" loader="maincp" location="entitydefs/fieldtype-sapdb.xml"/>
+    <field-type name="sybase" loader="maincp" location="entitydefs/fieldtype-sybase.xml"/>
+    <field-type name="db2" loader="maincp" location="entitydefs/fieldtype-db2.xml"/>
+    <!--
+        JRA-4202: FrontBase has 'type' and 'position' as reserved words so make the following changes the entitymodel.xml
+        <field name="type" type="short-varchar"/> to <field name="type" col-name="TYPE_" type="short-varchar"/>
+        <field name="type" type="long-varchar"/> to <field name="type" col-name="TYPE_" type="long-varchar"/>
+        <field name="position" type="integer"/> to <field name="position" col-name="POSITION_" type="integer"/>
+    -->
+    <field-type name="frontbase" loader="maincp" location="entitydefs/fieldtype-frontbase.xml"/>
+
+
+    <!-- DATASOURCE - You will need to update this tag for your installation.
+
+        1. Update field-type-name attribute to match your database.
+           Possible values include: cloudscape, db2, firebird, frontbase, hsql, mckoidb, mysql, mssql, oracle10g, oracle, postgres, postgres72, sapdb, sybase
+        2. If using Orion or JBoss you will need to customize the <jndi-jdbc> tag.
+           See http://www.atlassian.com/software/jira/docs/latest/servers/
+        3. If using Postgres 7.3+ (schema-aware), use:
+               field-type-name="postgres72" 
+           and:
+               schema-name="public"
+           in the datasource attribute list below.
+        4. If using DB2, add:
+             constraint-name-clip-length="15"
+           to the datasource attribute list below, and an appropriate schema-name attribute, eg:
+             schema-name="DB2INST1"
+        5. If not using HSQLDB remove:
+             schema-name="PUBLIC"
+
+        PLEASE DO NOT CHANGE the datasource name from 
+        defaultDS unless instructed to by Atlassian Support.
+
+        PLEASE DO NOT set the use-foreign-key* values to "true" as JIRA does not currently support this.
+     -->
+    <datasource name="defaultDS" field-type-name="<%= node[:jira][:database] %>"
+      helper-class="org.ofbiz.core.entity.GenericHelperDAO"
+      check-on-start="true"
+      use-foreign-keys="false"
+      use-foreign-key-indices="false"
+      check-fks-on-start="false"
+      check-fk-indices-on-start="false"
+      add-missing-on-start="true"
+      check-indices-on-start="true">
+        <jndi-jdbc jndi-server-name="default" jndi-name="java:comp/env/jdbc/JiraDS"/>
+<!-- Orion format: <jndi-jdbc jndi-server-name="default" jndi-name="jdbc/JiraDS"/> -->
+<!-- JBoss format: <jndi-jdbc jndi-server-name="default" jndi-name="java:/DefaultDS"/> -->
+<!-- Weblogic format: <jndi-jdbc jndi-server-name="default" jndi-name="JiraDS"/> -->
+    </datasource>
+</entity-config>

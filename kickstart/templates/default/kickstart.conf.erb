@@ -1,0 +1,27 @@
+<VirtualHost *:80>
+
+  DocumentRoot <%= @docroot %>
+  
+  ServerName <%= @virtual_host_name %>
+  ServerAlias <%= @virtual_host_name.split('.')[0] %>
+  
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+
+  LogLevel info
+  ErrorLog <%= node[:apache][:log_dir] %>/kickstart-error.log
+  CustomLog <%= node[:apache][:log_dir] %>/kickstart-access.log combined
+
+  <Directory <%= @docroot %>>
+    Options Indexes FollowSymLinks MultiViews
+    AllowOverride All 
+    Order allow,deny
+    allow from all
+  </Directory>
+  
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml
+  
+</VirtualHost>
+

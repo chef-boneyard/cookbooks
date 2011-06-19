@@ -1,0 +1,5 @@
+# THIS FILE IS MAINTAINED BY CHEF, DO NOT MODIFY AS IT WILL BE OVERWRITTEN
+<% @nodes.each do |n| -%>
+<%= n['hostname'] %>,<%= n['ipaddress'] %> ssh-rsa <%= n['keys']['ssh']['host_rsa_public'] %>
+<%= n['hostname'] %>,<%= n['ipaddress'] %> ssh-dsa <%= n['keys']['ssh']['host_dsa_public'] %>
+<% end -%>

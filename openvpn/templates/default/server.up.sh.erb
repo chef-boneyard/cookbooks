@@ -1,0 +1,9 @@
+#!/bin/sh
+# 
+# This script will be run by OpenVPN on startup via the 'up' configuration
+# directive in /etc/openvpn/server.conf.
+# 
+# Turn on IP forwarding
+/sbin/sysctl -w net.ipv4.ip_forward=1
+
+# Set up iptables NAT rules as needed.

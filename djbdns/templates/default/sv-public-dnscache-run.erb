@@ -1,0 +1,6 @@
+#!/bin/sh
+exec 2>&1
+exec <seed
+exec chpst -e ./env sh -c '
+  exec chpst -U dnscache -o250 -d "$DATALIMIT" <%= node[:djbdns][:bin_dir] %>/dnscache
+'

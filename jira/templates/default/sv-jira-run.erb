@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd <%= node[:jira][:install_path] %>
+exec 2>&1
+exec chpst -u <%= node[:jira][:run_user] %> env JAVA_HOME=/usr/lib/jvm/java-6-sun JAVA_OPTS="-Xms256m -Xmx256m" <%= node[:jira][:install_path] %>/bin/startup.sh 

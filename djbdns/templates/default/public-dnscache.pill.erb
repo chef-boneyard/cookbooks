@@ -1,0 +1,12 @@
+Bluepill.application("public-dnscache") do |app|
+
+  app.process("public-dnscache") do |process|
+    process.pid_file = "/var/run/public-dnscache.pid"
+    process.start_command = "./run"
+    process.working_dir = "<%= node[:djbdns][:public_dnscache_dir] %>"
+    process.start_grace_time = 5.seconds
+    process.stop_grace_time = 5.seconds
+    process.restart_grace_time = 30.seconds
+  end
+
+end

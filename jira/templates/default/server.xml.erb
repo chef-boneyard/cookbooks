@@ -1,0 +1,90 @@
+<Server port="8005" shutdown="SHUTDOWN">
+
+  <Service name="Catalina">
+
+    <Connector port="8080"
+      maxHttpHeaderSize="8192" maxThreads="150" minSpareThreads="25" maxSpareThreads="75" useBodyEncodingForURI="true"
+      enableLookups="false" redirectPort="8443" acceptCount="100" connectionTimeout="20000" disableUploadTimeout="true" />
+
+    <Engine name="Catalina" defaultHost="localhost">
+      <Host name="localhost" appBase="webapps" unpackWARs="true" autoDeploy="true">
+
+        <Context path="" docBase="${catalina.home}/atlassian-jira" reloadable="false">
+          <Resource name="jdbc/JiraDS" auth="Container" type="javax.sql.DataSource"
+            username="<%= node[:jira][:database_user] %>"
+            password="<%= node[:jira][:database_password] %>"
+            driverClassName="com.mysql.jdbc.Driver"            
+url="jdbc:<%= node[:jira][:database] %>://<%= node[:jira][:database_host] %>/jiradb?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8"
+            maxActive="20" />
+
+          <!-- NOTE: When a database server reboots or their is a network failure all the connections in the
+          * connection pool are broken and normally this requires a Application Server reboot. If you include the
+          * parameter validationQuery="{QUERY FOR YOUR DB HERE} as show below a new connection is created to replace it.
+          * For more information see http://confluence.atlassian.com/display/JIRA/Surviving+Connection+Closures
+          *
+          * validationQuery="Select 1"
+             -->
+
+          <!-- NOTE: If you use a database other than hsqldb:
+          * delete the minEvictableIdleTimeMillis and timeBetweenEvictionRunsMillis attributes
+          * change the database type in atlassian-jira/WEB-INF/classes/entityengine.xml
+          -->
+
+          <Resource name="UserTransaction" auth="Container" type="javax.transaction.UserTransaction"
+            factory="org.objectweb.jotm.UserTransactionFactory" jotm.timeout="60"/>
+          <Manager pathname=""/>
+        </Context>
+
+      </Host>
+
+      <!-- Enable access logging. This should produce access_log.<date> files in the 'logs' directory. -->
+      <Valve className="org.apache.catalina.valves.AccessLogValve"
+         pattern="%h %l %u %t &quot;%r&quot; %s %b %T" resolveHosts="false" />
+
+      <!--
+           Alternatively to track user interactions, comment out the valve above and uncomment the valve below.
+           This will print the session ID in the logs.
+           Note: ensure access to the access log is then restricted, as obtaining session IDs poses a security risk
+      -->
+      <!--
+                <Valve className="org.apache.catalina.valves.AccessLogValve"
+                 pattern="%h %l %u %t &quot;%r&quot; %s %b %T %S" resolveHosts="false" />
+      -->
+
+    </Engine>
+
+        <!-- To run JIRA via HTTPS:
+              * Uncomment the Connector below
+              * Execute:
+                  %JAVA_HOME%\bin\keytool -genkey -alias tomcat -keyalg RSA (Windows)
+                  $JAVA_HOME/bin/keytool -genkey -alias tomcat -keyalg RSA  (Unix)
+                with a password value of "changeit" for both the certificate and the keystore itself.
+              * If you are on JDK1.3 or earlier, download and install JSSE 1.0.2 or later, and put the JAR files into
+                "$JAVA_HOME/jre/lib/ext"
+              * Restart and visit https://localhost:8443/
+
+              For more info, see http://jakarta.apache.org/tomcat/tomcat-5.5-doc/ssl-howto.html
+         -->
+        <!--
+            <Connector port="8443" maxHttpHeaderSize="8192"
+              maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+              enableLookups="false" disableUploadTimeout="true"
+              acceptCount="100" scheme="https" secure="true"
+              clientAuth="false" sslProtocol="TLS" />
+        -->
+
+        <!-- To connect to an external web server (typically Apache) -->
+        <!-- Define an AJP 1.3 Connector on port 8009 -->
+        <!--
+            <Connector port="8009" 
+              enableLookups="false" redirectPort="8443" protocol="AJP/1.3" />
+        -->
+
+
+  </Service>
+
+  <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <Listener className="org.apache.catalina.storeconfig.StoreConfigLifecycleListener"/>
+
+</Server>

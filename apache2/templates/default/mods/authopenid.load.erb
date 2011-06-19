@@ -1,0 +1,6 @@
+<% case node[:platform] -%>
+<% when "arch" -%>
+LoadModule authopenid_module /usr/lib/httpd/modules/mod_auth_openid.so
+<% else -%>
+LoadModule authopenid_module /usr/lib/apache2/modules/mod_auth_openid.so
+<% end -%>

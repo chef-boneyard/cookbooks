@@ -1,0 +1,4 @@
+search <%= node[:resolver][:search] %>
+<% node[:resolver][:nameservers].each do |nameserver| -%>
+nameserver <%= nameserver %>
+<% end -%>
