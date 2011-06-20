@@ -24,7 +24,9 @@ default['radiant']['migrate_command'] = "rake db:migrate"
 default['radiant']['revision']     = "HEAD"
 default['radiant']['action']       = "nothing"
 default['radiant']['edge']         = false
-default['radiant']['environment']  = chef_environment =~ /_default/ ? "production" : chef_environment
+if attribute?("chef_environment")
+  default['radiant']['environment']  = chef_environment =~ /_default/ ? "production" : chef_environment
+end
 default['radiant']['db_bootstrap'] = <<EOS
 yes | rake #{radiant['environment']} db:bootstrap \
 ADMIN_NAME=Administrator \
