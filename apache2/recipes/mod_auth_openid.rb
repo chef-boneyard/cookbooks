@@ -69,7 +69,7 @@ end
 template "#{node[:apache][:dir]}/mods-available/authopenid.load" do
   source "mods/authopenid.load.erb"
   owner "root"
-  group "root"
+  group platform?("freebsd") ? "wheel" : "root"
   mode 0644
 end
 

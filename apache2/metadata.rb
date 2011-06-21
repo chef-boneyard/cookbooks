@@ -41,7 +41,7 @@ recipe            "apache2::mod_setenvif", "Apache module 'setenvif' with config
 recipe            "apache2::mod_ssl", "Apache module 'ssl' with config file, adds port 443 to listen_ports"
 recipe            "apache2::mod_status", "Apache module 'status' with config file"
 
-%w{redhat centos debian ubuntu arch}.each do |os|
+%w{redhat centos debian ubuntu arch freebsd}.each do |os|
   supports os
 end
 
