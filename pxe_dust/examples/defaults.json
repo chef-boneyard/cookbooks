@@ -1,7 +1,7 @@
 {
     "id": "defaults",
     "arch": "amd64",
-    "version": "lucid",
+    "version": "natty",
     "user": {
         "fullname": "Ubuntu",
         "username": "ubuntu",

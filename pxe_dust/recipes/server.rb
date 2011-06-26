@@ -20,47 +20,6 @@
 include_recipe "apache2"
 include_recipe "tftp::server"
 
-#get the 'pxe_dust' data bag
-defaults = data_bag_item('pxe_dust', 'defaults')
-
-execute "tar -xzf netboot.tar.gz" do
-  cwd node['tftp']['directory']
-  action :nothing
-end
-
-remote_file "#{node['tftp']['directory']}/netboot.tar.gz" do
-  source "http://archive.ubuntu.com/ubuntu/dists/#{defaults['version']}/main/installer-#{defaults['arch']}/current/images/netboot/netboot.tar.gz"
-  notifies :run, resources(:execute => "tar -xzf netboot.tar.gz"), :immediate
-  action :create_if_missing
-end
-
-#skips the prompt for which installer to use
-template "#{node['tftp']['directory']}/pxelinux.cfg/default" do
-  source "syslinux.cfg.erb"
-  mode "0644"
-  variables(
-    :arch => defaults['arch']
-    )
-  action :create
-end
-
-#sets the URL to the preseed
-template "#{node['tftp']['directory']}/ubuntu-installer/#{defaults['arch']}/boot-screens/(txt.cfg|text.cfg)"  do
-  if defaults['version'] == 'lucid'
-    path "#{node['tftp']['directory']}/ubuntu-installer/#{defaults['arch']}/boot-screens/text.cfg"
-  else
-    path "#{node['tftp']['directory']}/ubuntu-installer/#{defaults['arch']}/boot-screens/txt.cfg"
-  end
-  source "txt.cfg.erb"
-  mode "0644"
-  variables(
-    :arch => defaults['arch'],
-    :domain => defaults['domain']
-
-    )
-  action :create
-end
-
 #search for any apt-cacher proxies
 servers = search(:node, 'recipes:apt\:\:cacher') || []
 if servers.length > 0
@@ -68,26 +27,93 @@ if servers.length > 0
 else
   proxy = "#d-i mirror/http/proxy string url"
 end
-template "/var/www/preseed.cfg" do
-  source "preseed.cfg.erb"
-  mode "0644"
-  variables(
-    :proxy => proxy,
-    :user_fullname => defaults['user']['fullname'],
-    :user_username => defaults['user']['username'],
-    :user_crypted_password => defaults['user']['crypted_password']
-    )
-  action :create
+
+#loop over the other data bag items here
+pxe_dust = data_bag('pxe_dust')
+default = data_bag_item('pxe_dust', 'default')
+pxe_dust.each do |id| 
+  image = data_bag_item('pxe_dust', id)
+  image_dir "#{node['tftp']['directory']}/#{id}"
+  arch = image['arch'] || default['arch']
+  domain = image['domain'] || default['domain']
+  version = image['version'] || default['version']
+  netboot_url = image['netboot_url'] || default['netboot_url']
+  user_fullname = image['user']['fullname'] || default['user']['fullname']
+  user_username = image['user']['username'] || default['user']['username']
+  user_crypted_password = image['user']['crypted_password'] || default['user']['crypted_password']
+  
+  remote_file "#{image_dir}/netboot.tar.gz" do
+    source netboot_url
+    action :create_if_missing
+  end
+
+  execute "tar -xzf netboot.tar.gz" do
+    cwd image_dir
+    subscribes :run, resources(:remote_file => "#{image_dir}/netboot.tar.gz"), :immediately
+    action :nothing
+  end
+
+  #skips the prompt for which installer to use
+  template "#{image_dir}/pxelinux.cfg/default" do
+    source "syslinux.cfg.erb"
+    mode "0644"
+    variables(
+      :id => id,
+      :arch => arch
+      )
+    action :create
+  end
+
+  #sets the URL to the preseed
+  template "#{image_dir}/ubuntu-installer/#{arch}/boot-screens/(txt.cfg|text.cfg)"  do
+    if version == 'lucid'
+      path "#{image_dir}/ubuntu-installer/#{arch}/boot-screens/text.cfg"
+    else
+      path "#{image_dir}/ubuntu-installer/#{arch}/boot-screens/txt.cfg"
+    end
+    source "txt.cfg.erb"
+    mode "0644"
+    variables(
+      :arch => arch,
+      :domain => domain
+      )
+    action :create
+  end
+
+  template "/var/www/preseed.cfg" do
+    source "preseed.cfg.erb"
+    mode "0644"
+    variables(
+      :proxy => proxy,
+      :user_fullname => user_fullname,
+      :user_username => user_username,
+      :user_crypted_password => user_crypted_password
+      )
+    action :create
+  end
+
+end
+
+link "#{node['tftp']['directory']}/pxelinux.0" do
+  to "#{node['tftp']['directory']}/default/pxelinux.0"
+end
+
+link "#{node['tftp']['directory']}/pxelinux.cfg" do
+  to "#{node['tftp']['directory']}/default/pxelinux.cfg"
+end
+
+link "#{node['tftp']['directory']}/ubuntu-installer" do
+  to "#{node['tftp']['directory']}/default/ubuntu-installer"
 end
 
 #bootstrap_version_string, run_list, http_proxy, http_proxy_user, http_proxy_pass, https_proxy = nil
-run_list = defaults['run_list']
-if defaults['bootstrap']
-  bootstrap_version_string = defaults['bootstrap']['bootstrap_version_string'] if defaults['bootstrap']['bootstrap_version_string']
-  http_proxy = defaults['bootstrap']['http_proxy'] if defaults['bootstrap']['http_proxy']
-  http_proxy_user = defaults['bootstrap']['http_proxy_user'] if defaults['bootstrap']['http_proxy_user']
-  http_proxy_pass = defaults['bootstrap']['http_proxy_pass'] if defaults['bootstrap']['http_proxy_pass']
-  https_proxy = defaults['bootstrap']['https_proxy'] if defaults['bootstrap']['https_proxy']
+run_list = default['run_list']
+if default['bootstrap']
+  bootstrap_version_string = default['bootstrap']['bootstrap_version_string'] if default['bootstrap']['bootstrap_version_string']
+  http_proxy = default['bootstrap']['http_proxy'] if default['bootstrap']['http_proxy']
+  http_proxy_user = default['bootstrap']['http_proxy_user'] if default['bootstrap']['http_proxy_user']
+  http_proxy_pass = default['bootstrap']['http_proxy_pass'] if default['bootstrap']['http_proxy_pass']
+  https_proxy = default['bootstrap']['https_proxy'] if default['bootstrap']['https_proxy']
 end
 
 #Chef bootstrap script run by new installs
