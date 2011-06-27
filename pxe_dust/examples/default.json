@@ -1,7 +1,10 @@
 {
-    "id": "defaults",
+    "id": "default",
     "arch": "amd64",
-    "version": "natty",
+    "version": "lucid",
+    "domain": "localdomain",
+    "run_list": "role[base]",
+    "netboot_url": "http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-amd64/current/images/netboot/netboot.tar.gz",
     "user": {
         "fullname": "Ubuntu",
         "username": "ubuntu",

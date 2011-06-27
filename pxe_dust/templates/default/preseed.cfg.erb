@@ -3,7 +3,7 @@ d-i mirror/http/countries select US
 d-i mirror/http/hostname string us.archive.ubuntu.com
 d-i mirror/http/directory string /ubuntu/
 d-i mirror/http/mirror select us.archive.ubuntu.com
-d-i mirror/protocol selecthttp
+d-i mirror/protocol select http
 d-i mirror/country string US
 <%= @proxy %>
 
@@ -53,5 +53,5 @@ d-i user-setup/encrypt-home boolean false
 # This will power off the machine instead of just halting it.
 #d-i debian-installer/exit/poweroff boolean true
 d-i preseed/late_command string in-target wget --no-proxy -O /tmp/chef-bootstrap \
-  http://<%= node[:ipaddress] %>/chef-bootstrap ;\
+  http://<%= node[:ipaddress] %>/<%= @id %>-chef-bootstrap ;\
   chroot /target /bin/bash /tmp/chef-bootstrap

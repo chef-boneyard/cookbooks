@@ -33,15 +33,39 @@ pxe_dust = data_bag('pxe_dust')
 default = data_bag_item('pxe_dust', 'default')
 pxe_dust.each do |id| 
   image = data_bag_item('pxe_dust', id)
-  image_dir "#{node['tftp']['directory']}/#{id}"
+  image_dir = "#{node['tftp']['directory']}/#{id}"
   arch = image['arch'] || default['arch']
   domain = image['domain'] || default['domain']
   version = image['version'] || default['version']
   netboot_url = image['netboot_url'] || default['netboot_url']
-  user_fullname = image['user']['fullname'] || default['user']['fullname']
-  user_username = image['user']['username'] || default['user']['username']
-  user_crypted_password = image['user']['crypted_password'] || default['user']['crypted_password']
+  run_list = image['run_list'] || default['run_list'] || ''
+  if image['user']
+    user_fullname = image['user']['fullname']
+    user_username = image['user']['username']
+    user_crypted_password = image['user']['crypted_password']
+  elsif default['user']
+    user_fullname = default['user']['fullname']
+    user_username = default['user']['username']
+    user_crypted_password = default['user']['crypted_password']
+  end
+  if image['bootstap']
+    bootstrap_version_string = image['bootstrap']['bootstrap_version_string']
+    http_proxy = image['bootstrap']['http_proxy']
+    http_proxy_user = image['bootstrap']['http_proxy_user']
+    http_proxy_pass = image['bootstrap']['http_proxy_pass']
+    https_proxy = image['bootstrap']['https_proxy']
+  elsif default['bootstrap']
+    bootstrap_version_string = default['bootstrap']['bootstrap_version_string']
+    http_proxy = default['bootstrap']['http_proxy']
+    http_proxy_user = default['bootstrap']['http_proxy_user']
+    http_proxy_pass = default['bootstrap']['http_proxy_pass']
+    https_proxy = default['bootstrap']['https_proxy']
+  end
   
+  directory image_dir do
+    mode "0755"
+  end
+
   remote_file "#{image_dir}/netboot.tar.gz" do
     source netboot_url
     action :create_if_missing
@@ -74,16 +98,18 @@ pxe_dust.each do |id|
     source "txt.cfg.erb"
     mode "0644"
     variables(
+      :id => id,
       :arch => arch,
       :domain => domain
       )
     action :create
   end
 
-  template "/var/www/preseed.cfg" do
+  template "/var/www/#{id}-preseed.cfg" do
     source "preseed.cfg.erb"
     mode "0644"
     variables(
+      :id => id,
       :proxy => proxy,
       :user_fullname => user_fullname,
       :user_username => user_username,
@@ -92,8 +118,24 @@ pxe_dust.each do |id|
     action :create
   end
 
+  #Chef bootstrap script run by new installs
+  template "/var/www/#{id}-chef-bootstrap" do
+    source "chef-bootstrap.sh.erb"
+    mode "0644"
+    variables(
+      :bootstrap_version_string => bootstrap_version_string,
+      :http_proxy => http_proxy,
+      :http_proxy_user => http_proxy_user,
+      :http_proxy_pass => http_proxy_pass,
+      :https_proxy => https_proxy,
+      :run_list => run_list
+      )
+    action :create
+  end
+  
 end
 
+#defaults are linked for when only a single image is supported (ie. no dhcpd) 
 link "#{node['tftp']['directory']}/pxelinux.0" do
   to "#{node['tftp']['directory']}/default/pxelinux.0"
 end
@@ -106,32 +148,7 @@ link "#{node['tftp']['directory']}/ubuntu-installer" do
   to "#{node['tftp']['directory']}/default/ubuntu-installer"
 end
 
-#bootstrap_version_string, run_list, http_proxy, http_proxy_user, http_proxy_pass, https_proxy = nil
-run_list = default['run_list']
-if default['bootstrap']
-  bootstrap_version_string = default['bootstrap']['bootstrap_version_string'] if default['bootstrap']['bootstrap_version_string']
-  http_proxy = default['bootstrap']['http_proxy'] if default['bootstrap']['http_proxy']
-  http_proxy_user = default['bootstrap']['http_proxy_user'] if default['bootstrap']['http_proxy_user']
-  http_proxy_pass = default['bootstrap']['http_proxy_pass'] if default['bootstrap']['http_proxy_pass']
-  https_proxy = default['bootstrap']['https_proxy'] if default['bootstrap']['https_proxy']
-end
-
-#Chef bootstrap script run by new installs
-template "/var/www/chef-bootstrap" do
-  source "chef-bootstrap.sh.erb"
-  mode "0644"
-  variables(
-    :bootstrap_version_string => bootstrap_version_string,
-    :http_proxy => http_proxy,
-    :http_proxy_user => http_proxy_user,
-    :http_proxy_pass => http_proxy_pass,
-    :https_proxy => https_proxy,
-    :run_list => run_list
-    )
-  action :create
-end
-
-#link the validation_key where it can be downloaded SECURITY???
+#link the validation_key where it can be downloaded
 link "/var/www/validation.pem" do
   to Chef::Config[:validation_key]
 end
