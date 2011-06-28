@@ -85,6 +85,27 @@ pxe_dust.each do |id|
     to "#{id}/pxelinux.0"
   end
 
+  if image['addresses'] 
+    mac_addresses = image['addresses'].keys
+  else
+    mac_addresses = []
+  end
+
+  mac_addresses.each do |mac_address|
+    mac = mac_address.gsub(/:/, '-')
+    mac.downcase!
+    template "#{node['tftp']['directory']}/pxelinux.cfg/01-#{mac}" do
+      source "pxelinux.cfg.erb"
+      mode "0644"
+      variables(
+        :id => id,
+        :arch => arch,
+        :domain => domain
+        )
+      action :create
+    end
+  end
+
   template "/var/www/#{id}-preseed.cfg" do
     source "preseed.cfg.erb"
     mode "0644"
