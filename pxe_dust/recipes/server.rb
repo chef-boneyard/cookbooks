@@ -28,6 +28,10 @@ else
   proxy = "#d-i mirror/http/proxy string url"
 end
 
+directory "#{node['tftp']['directory']}/pxelinux.cfg" do
+  mode "0755"
+end
+
 #loop over the other data bag items here
 pxe_dust = data_bag('pxe_dust')
 default = data_bag_item('pxe_dust', 'default')
@@ -105,6 +109,10 @@ pxe_dust.each do |id|
     action :create
   end
 
+  link "#{node['tftp']['directory']}/pxe-#{id}.0" do
+    to "#{id}/pxelinux.0"
+  end
+
   template "/var/www/#{id}-preseed.cfg" do
     source "preseed.cfg.erb"
     mode "0644"
@@ -137,15 +145,15 @@ end
 
 #defaults are linked for when only a single image is supported (ie. no dhcpd) 
 link "#{node['tftp']['directory']}/pxelinux.0" do
-  to "#{node['tftp']['directory']}/default/pxelinux.0"
+  to "default/pxelinux.0"
 end
 
-link "#{node['tftp']['directory']}/pxelinux.cfg" do
-  to "#{node['tftp']['directory']}/default/pxelinux.cfg"
+link "#{node['tftp']['directory']}/pxelinux.cfg/default" do
+  to "../default/pxelinux.cfg/default"
 end
 
 link "#{node['tftp']['directory']}/ubuntu-installer" do
-  to "#{node['tftp']['directory']}/default/ubuntu-installer"
+  to "default/ubuntu-installer"
 end
 
 #link the validation_key where it can be downloaded
