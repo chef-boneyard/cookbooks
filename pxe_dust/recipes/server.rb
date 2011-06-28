@@ -81,34 +81,6 @@ pxe_dust.each do |id|
     action :nothing
   end
 
-  #skips the prompt for which installer to use
-  template "#{image_dir}/pxelinux.cfg/default" do
-    source "syslinux.cfg.erb"
-    mode "0644"
-    variables(
-      :id => id,
-      :arch => arch
-      )
-    action :create
-  end
-
-  #sets the URL to the preseed
-  template "#{image_dir}/ubuntu-installer/#{arch}/boot-screens/(txt.cfg|text.cfg)"  do
-    if version == 'lucid'
-      path "#{image_dir}/ubuntu-installer/#{arch}/boot-screens/text.cfg"
-    else
-      path "#{image_dir}/ubuntu-installer/#{arch}/boot-screens/txt.cfg"
-    end
-    source "txt.cfg.erb"
-    mode "0644"
-    variables(
-      :id => id,
-      :arch => arch,
-      :domain => domain
-      )
-    action :create
-  end
-
   link "#{node['tftp']['directory']}/pxe-#{id}.0" do
     to "#{id}/pxelinux.0"
   end
@@ -143,17 +115,20 @@ pxe_dust.each do |id|
   
 end
 
-#defaults are linked for when only a single image is supported (ie. no dhcpd) 
+#configure the defaults
 link "#{node['tftp']['directory']}/pxelinux.0" do
   to "default/pxelinux.0"
 end
 
-link "#{node['tftp']['directory']}/pxelinux.cfg/default" do
-  to "../default/pxelinux.cfg/default"
-end
-
-link "#{node['tftp']['directory']}/ubuntu-installer" do
-  to "default/ubuntu-installer"
+template "#{node['tftp']['directory']}/pxelinux.cfg/default"  do
+  source "pxelinux.cfg.erb"
+  mode "0644"
+  variables(
+    :id => 'default',
+    :arch => default['arch'],
+    :domain => default['domain']
+    )
+  action :create
 end
 
 #link the validation_key where it can be downloaded
