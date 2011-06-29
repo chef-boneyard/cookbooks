@@ -20,26 +20,21 @@
 Ohai::Config[:plugin_path] << node['ohai']['plugin_path']
 Chef::Log.info("ohai plugins will be at: #{node['ohai']['plugin_path']}")
 
-d = directory node['ohai']['plugin_path'] do
-  owner 'root'
-  group 'root'
-  mode 0755
-  recursive true
+ruby_block "run_ohai" do
+  block do
+    o = Ohai::System.new
+    o.all_plugins
+    node.automatic_attrs.merge! o.data
+  end
   action :nothing
 end
 
-d.run_action(:create)
-
-rd = remote_directory node['ohai']['plugin_path'] do
+remote_directory node['ohai']['plugin_path'] do
   source 'plugins'
   owner 'root'
   group 'root'
   mode 0755
   action :nothing
-end
+  notifies "ruby_block[run_ohai]"
+end.run_action(:create)
 
-rd.run_action(:create)
-
-o = Ohai::System.new
-o.all_plugins
-node.automatic_attrs.merge! o.data
