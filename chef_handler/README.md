@@ -3,6 +3,13 @@ Description
 
 Creates a configured handler path for distributing [Chef report and exception handlers](http://wiki.opscode.com/display/chef/Exception+and+Report+Handlers).  Also exposes an LWRP for enabling Chef handlers from within recipe code (as opposed to hard coding in the client.rb file).  This is useful for cookbook authors who may want to ship a product specific handler (see the `cloudkick` cookbook for an example) with their cookbook.
 
+Changes
+=======
+
+## 1.0.1:
+
+* [COOK-620] ensure handler code is reloaded during daemonized chef runs
+
 Attributes
 ==========
 
