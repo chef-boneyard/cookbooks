@@ -62,6 +62,7 @@ end
     owner "nobody"
     group "nogroup"
     variables(
+      :allow => apt_repo["allow"],
       :codenames => apt_repo["codenames"],
       :architectures => apt_repo["architectures"],
       :incoming => apt_repo["incoming"],
