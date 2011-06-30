@@ -19,9 +19,25 @@
 
 pool_members = search("node", "role:#{node['haproxy']['app_server_role']} AND chef_environment:#{node.chef_environment}") || []
 
-# load balancer is in the pool
-if node.run_list.roles.include?(node['haproxy']['app_server_role'])
-  pool_members << node
+# load balancer may be in the pool
+pool_members << node if node.run_list.roles.include?(node['haproxy']['app_server_role'])
+
+# we prefer connecting via local_ipv4 if 
+# pool members are in the same cloud
+# TODO refactor this logic into library...see COOK-494
+pool_members.map! do |member|
+  server_ip = begin
+    if member.attribute?('cloud')
+      if node.attribute?('cloud') && (member['cloud']['provider'] == node['cloud']['provider'])
+         member['cloud']['local_ipv4']
+      else
+        member['cloud']['public_ipv4']
+      end
+    else
+      member['ipaddress']
+    end
+  end
+  {:ipaddress => server_ip, :hostname => member['hostname']}
 end
 
 package "haproxy" do
