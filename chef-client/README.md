@@ -1,9 +1,9 @@
-DESCRIPTION
+Description
 ===========
 
 This cookbook is used to configure a system as a Chef Client.
 
-REQUIREMENTS
+Requirements
 ============
 
 Chef 0.9.12 or later is required.
@@ -33,7 +33,7 @@ Other cookbooks can be used with this cookbook but they are not explicitly requi
 
 See __USAGE__ below.
 
-ATTRIBUTES
+Attributes
 ==========
 
 * `node["chef_client"]["interval"]` - Sets `Chef::Config[:interval]` via command-line option for number of seconds between chef-client daemon runs. Default 1800.
@@ -46,7 +46,7 @@ ATTRIBUTES
 * `node["chef_client"]["cache_path"]` - Directory location for `Chef::Config[:file_cache_path]` where chef-client will cache various files. Default is based on platform, falls back to "/var/chef/cache".
 * `node["chef_client"]["backup_path"]` - Directory location for `Chef::Config[:file_backup_path]` where chef-client will backup templates and cookbook files. Default is based on platform, falls back to "/var/chef/backup".
 
-RECIPES
+Recipes
 =======
 
 This section describes the recipes in the cookbook and how to use them in your environment.
@@ -205,7 +205,7 @@ Change the `init_style` to runit in the base role and add the daemontools recipe
 
 The `chef-client` recipe will create the chef-cilent service configured under daemontools. It uses the same sv run scripts as the runit recipe. The run script will be located in `/etc/sv/chef-client/run`. The output log will be in the daemontools service directory, `/etc/sv/chef-client/log/main/current`.
 
-TEMPLATES
+Templates
 =========
 
 chef-client.pill.erb
@@ -225,12 +225,12 @@ Runit and Daemontools run script for chef-client service and logs.
 
 Logs will be located in the `node["chef_client"]["log_dir"]`.
 
-LICENSE AND AUTHORS
-===================
+License and Author
+==================
 
-* Author: Joshua Timberman <joshua@opscode.com>
-* Author: Seth Chisamore <schisamo@opscode.com>
-* Copyright 2010-2011, Opscode, Inc.
+Author:: Joshua Timberman (<joshua@opscode.com>)
+Author:: Seth Chisamore (<schisamo@opscode.com>)
+Copyright:: 2010-2011, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
