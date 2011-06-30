@@ -2,7 +2,7 @@
 # Cookbook Name:: ohai
 # Recipe:: default
 #
-# Copyright 2010, Opscode, Inc
+# Copyright 2011, Opscode, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +20,8 @@
 Ohai::Config[:plugin_path] << node['ohai']['plugin_path']
 Chef::Log.info("ohai plugins will be at: #{node['ohai']['plugin_path']}")
 
-d = directory node['ohai']['plugin_path'] do
+rd = remote_directory node['ohai']['plugin_path'] do
+  source 'plugins'
   owner 'root'
   group 'root'
   mode 0755
@@ -28,18 +29,15 @@ d = directory node['ohai']['plugin_path'] do
   action :nothing
 end
 
-d.run_action(:create)
-
-rd = remote_directory node['ohai']['plugin_path'] do
-  source 'plugins'
-  owner 'root'
-  group 'root'
-  mode 0755
-  action :nothing
-end
-
 rd.run_action(:create)
 
-o = Ohai::System.new
-o.all_plugins
-node.automatic_attrs.merge! o.data
+# only reload ohai if new plugins were dropped off OR
+# node['ohai']['plugin_path'] does not exists in client.rb
+if rd.updated? || 
+  !(::IO.read(Chef::Config[:config_file]) =~ /Ohai::Config\[:plugin_path\]\s*<<\s*["']#{node['ohai']['plugin_path']}["']/)
+
+  ohai 'custom_plugins' do
+    action :nothing
+  end.run_action(:reload)
+
+end

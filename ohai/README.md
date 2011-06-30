@@ -1,14 +1,14 @@
 Description
 ===========
 
-Creates a configured plugin path for distributing custom Ohai plugins, and reloads them via Ohai within the context of a Chef Client run during the compile phase.
+Creates a configured plugin path for distributing custom Ohai plugins, and reloads them via Ohai within the context of a Chef Client run during the compile phase (if needed).
 
 Attributes
 ==========
 
-`node[:ohai][:plugin_path]` - location to drop off plugins directory, default is `/etc/chef/ohai_plugins`. This is not FHS-compliant, an FHS location would be something like `/var/lib/ohai/plugins`, or `/var/lib/chef/ohai_plugins` or similar.
+`node['ohai']['plugin_path']` - location to drop off plugins directory, default is `/etc/chef/ohai_plugins`. This is not FHS-compliant, an FHS location would be something like `/var/lib/ohai/plugins`, or `/var/lib/chef/ohai_plugins` or similar.
 
-Neither an FHS location or the default value of this attribute are in the default Ohai plugin path. Set the Ohai plugin path with the config setting "`Ohai::Config[:plugin_path`" in the Chef config file. The attribute is not set to the default plugin path that Ohai ships with because we don't want to risk destroying existing essential plugins for Ohai.
+Neither an FHS location or the default value of this attribute are in the default Ohai plugin path. Set the Ohai plugin path with the config setting "`Ohai::Config[:plugin_path]`" in the Chef config file (the `chef::config` recipe does this automatically for you!). The attribute is not set to the default plugin path that Ohai ships with because we don't want to risk destroying existing essential plugins for Ohai.  
 
 Usage
 =====
@@ -21,12 +21,18 @@ For information on how to write custom plugins for Ohai, please see the Chef wik
 
 http://wiki.opscode.com/display/chef/Writing+Ohai+Plugins
 
+*PLEASE NOTE* - This recipe reloads the Ohai plugins a 2nd time during the Chef run if:
+
+* The "`Ohai::Config[:plugin_path]`" config setting has *NOT* been properly set in the Chef config file
+* The "`Ohai::Config[:plugin_path]`" config setting has been properly set in the Chef config file and there are updated plugins dropped off at "`node['ohai']['plugin_path']`".
+
 License and Author
 ==================
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
+Author:: Seth Chisamore (<schisamo@opscode.com>)
 
-Copyright:: 2010, Opscode, Inc
+Copyright:: 2011, Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
