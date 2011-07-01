@@ -6,6 +6,11 @@ Installs and configures MySQL client or server.
 Changes
 =======
 
+### v1.0.7:
+
+* [COOK-614] expose all mysql tunable settings in config
+* [COOK-617] bind to private IP if available
+
 ### v1.0.6:
 
 * [COOK-605] install mysql-client package on ubuntu/debian
@@ -79,6 +84,8 @@ Performance tuning attributes, each corresponds to the same-named parameter in m
 * `mysql['tunable']['back_log']`            = "128"
 * `mysql['tunable']['table_cache']`         = "128"
 * `mysql['tunable']['max_heap_table_size']` = "32M"
+* `mysql['tunable']['expire_logs_days']`    = "10"
+* `mysql['tunable']['max_binlog_size']`     = "100M"
 
 Usage
 =====
