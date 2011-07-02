@@ -39,7 +39,7 @@ action :install do
       end
     end
 
-    execute "hdid #{dmg_file}" do
+    execute "hdid '#{dmg_file}'" do
       not_if "hdiutil info | grep -q 'image-path.*#{dmg_file}'"
     end
 
