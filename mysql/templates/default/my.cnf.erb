@@ -59,9 +59,9 @@ bind-address            = <%= node['mysql']['bind_address'] %>
 # * Fine Tuning
 #
 key_buffer              = <%= node['mysql']['tunable']['key_buffer'] %>
-max_allowed_packet      = 16M
-thread_stack            = 128K
-thread_cache_size       = 8
+max_allowed_packet      = <%= node['mysql']['tunable']['max_allowed_packet'] %>
+thread_stack            = <%= node['mysql']['tunable']['thread_stack'] %>
+thread_cache_size       = <%= node['mysql']['tunable']['thread_cache_size'] %>
 # This replaces the startup script and checks MyISAM tables if needed
 # the first time they are touched
 myisam-recover          = BACKUP
@@ -100,8 +100,8 @@ log-queries-not-using-indexes
 #       other settings you may need to change.
 #server-id              = 1
 #log_bin                        = /var/log/mysql/mysql-bin.log
-expire_logs_days        = 10
-max_binlog_size         = 100M
+expire_logs_days        = <%= node['mysql']['tunable']['expire_logs_days'] %>
+max_binlog_size         = <%= node['mysql']['tunable']['max_binlog_size'] %>
 #binlog_do_db           = include_database_name
 #binlog_ignore_db       = include_database_name
 #
@@ -138,13 +138,13 @@ skip-federated
 [mysqldump]
 quick
 quote-names
-max_allowed_packet      = 16M
+max_allowed_packet      = <%= node['mysql']['tunable']['max_allowed_packet'] %>
 
 [mysql]
 #no-auto-rehash # faster start of mysql but no tab completition
 
 [isamchk]
-key_buffer              = 16M
+key_buffer              = <%= node['mysql']['tunable']['max_allowed_packet'] %>
 
 #
 # * NDB Cluster
