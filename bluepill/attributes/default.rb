@@ -24,8 +24,11 @@ default["bluepill"]["state_dir"] = "/var/lib/bluepill"
 case platform
 when "arch"
   default["bluepill"]["init_dir"] = "/etc/rc.d"
+  default["bluepill"]["group"] = "root"
 when "freebsd"
   default["bluepill"]["init_dir"] = "/usr/local/etc/rc.d"
+  default["bluepill"]["group"] = "wheel"
 else
   default["bluepill"]["init_dir"] = "/etc/init.d"
+  default["bluepill"]["group"] = "root"
 end
