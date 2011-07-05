@@ -34,4 +34,7 @@ when "centos", "redhat", "fedora"
   end
 end
 
-apache_module "php5"
+case node[:platform]
+when "debian", "debian", "arch"
+  apache_module "php5"
+end
