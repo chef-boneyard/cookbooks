@@ -34,7 +34,6 @@ when "centos", "redhat", "fedora"
   end
 end
 
-case node[:platform]
-when "debian", "debian", "arch"
-  apache_module "php5"
+apache_module "php5" do
+  enable false if platform?(%w{ centos redhat fedora })
 end
