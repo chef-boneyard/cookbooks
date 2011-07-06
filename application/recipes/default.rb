@@ -19,9 +19,16 @@
 
 search(:apps) do |app|
   (app["server_roles"] & node.run_list.roles).each do |app_role|
-    app["type"][app_role].each do |thing|
+    app["type"][app_role].each do |recipe|
       node.run_state[:current_app] = app
-      include_recipe "application::#{thing}"
+      recipe = "application::#{recipe}"
+
+      # Allow the same application to be installed for different app databags.
+      if node.run_state[:seen_recipes].include?(recipe)
+        node.run_state[:seen_recipes].delete(recipe)
+      end
+
+      include_recipe recipe
     end
   end
 end
