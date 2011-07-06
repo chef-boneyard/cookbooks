@@ -24,10 +24,10 @@ include_recipe "apache2::mod_ssl"
 include_recipe "apache2::mod_rewrite"
 include_recipe "passenger_apache2::mod_rails"
 
-server_aliases = [ "#{app['id']}.#{node[:domain]}", node.fqdn ]
+server_aliases = [ "#{app['id']}.#{node['domain']}", node['fqdn'] ]
 
-if node.has_key?("ec2")
-  server_aliases << node.ec2.public_hostname
+if node.has_key?("cloud")
+  server_aliases << node['cloud']['public_hostname']
 end
   
 web_app app['id'] do
