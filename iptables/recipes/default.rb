@@ -28,7 +28,7 @@ directory "/etc/iptables.d" do
   action :create
 end
 
-cookbook_file "/usr/sbin/rebuild-iptables" do
+remote_file "/usr/sbin/rebuild-iptables" do
   source "rebuild-iptables"
   mode 0755
 end
@@ -38,13 +38,14 @@ when "redhat", "centos"
   iptables_save_file = "/etc/sysconfig/iptables"
 when "ubuntu", "debian"
   iptables_save_file = "/etc/iptables/general"
-end
 
-template "/etc/network/if-pre-up.d/iptables_load" do
-  source "iptables_load.erb"
-  mode 0755
-  variables :iptables_save_file => iptables_save_file
+  template "/etc/network/if-pre-up.d/iptables_load" do
+    source "iptables_load.erb"
+    mode 0755
+    variables :iptables_save_file => iptables_save_file
+  end
 end
 
 iptables_rule "all_established"
 iptables_rule "all_icmp"
+
