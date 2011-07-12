@@ -27,10 +27,10 @@ include_recipe "apache2::mod_deflate"
 include_recipe "apache2::mod_headers"
 include_recipe "apache2::mod_php5"
 
-server_aliases = [ "#{app['id']}.#{node['domain']}", node.fqdn ]
+server_aliases = [ "#{app['id']}.#{node['domain']}", node['fqdn'] ]
 
-if node.has_key?("ec2")
-  server_aliases << node.ec2.public_hostname
+if node.has_key?("cloud")
+  server_aliases << node['cloud']['public_hostname']
 end
 
 web_app app['id'] do

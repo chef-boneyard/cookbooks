@@ -129,7 +129,7 @@ if app["database_master_role"]
       group app["group"]
       mode "644"
       variables(
-        :host => dbm['fqdn'],
+        :host => (dbm.attribute?('cloud') ? dbm['cloud']['local_ipv4'] : dbm['ipaddress']),
         :database => app['databases'][node.chef_environment],
         :django_version => django_version
       )
