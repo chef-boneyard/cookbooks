@@ -3,32 +3,6 @@ Description
 
 Installs and configures MySQL client or server.
 
-Changes
-=======
-
-### v1.0.7:
-
-* [COOK-614] expose all mysql tunable settings in config
-* [COOK-617] bind to private IP if available
-
-### v1.0.6:
-
-* [COOK-605] install mysql-client package on ubuntu/debian
-
-### v1.0.5:
-
-* [COOK-465] allow optional remote root connections to mysql
-* [COOK-455] improve platform version handling
-* externalize conf_dir attribute for easier cross platform support
-* change datadir attribute to data_dir for consistency
-
-### v1.0.4:
-
-* fix regressions on debian platform
-* [COOK-578] wrap root password in quotes
-* [COOK-562] expose all tunables in my.cnf
-
-
 Requirements
 ============
 
@@ -125,6 +99,36 @@ The client recipe is already included by server and 'default' recipes.
 For more infromation on the compile vs execution phase of a Chef run:
 
 * http://wiki.opscode.com/display/chef/Anatomy+of+a+Chef+Run
+
+Changes/Roadmap
+===============
+
+### v1.0.8:
+
+* [COOK-633] ensure "cloud" attribute is available
+
+### v1.0.7:
+
+* [COOK-614] expose all mysql tunable settings in config
+* [COOK-617] bind to private IP if available
+
+### v1.0.6:
+
+* [COOK-605] install mysql-client package on ubuntu/debian
+
+### v1.0.5:
+
+* [COOK-465] allow optional remote root connections to mysql
+* [COOK-455] improve platform version handling
+* externalize conf_dir attribute for easier cross platform support
+* change datadir attribute to data_dir for consistency
+
+### v1.0.4:
+
+* fix regressions on debian platform
+* [COOK-578] wrap root password in quotes
+* [COOK-562] expose all tunables in my.cnf
+
 
 License and Author
 ==================
