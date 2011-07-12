@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-default['mysql']['bind_address']               = cloud ? cloud['local_ipv4'] : ipaddress
+default['mysql']['bind_address']               = attribute?('cloud') ? cloud['local_ipv4'] : ipaddress
 default['mysql']['data_dir']                   = "/var/lib/mysql"
 
 case node["platform"]
