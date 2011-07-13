@@ -17,7 +17,16 @@
 # limitations under the License.
 #
 
-e = execute "apt-get update" do
+command = value_for_platform(
+  [ "centos", "redhat", "fedora" ] => {
+    "default" => "yum -y"
+  },
+  [ "debian", "ubuntu" ] => {
+    "default" => "apt-get"
+  }
+)
+
+e = execute "#{command} update" do
   action :nothing
 end
 
