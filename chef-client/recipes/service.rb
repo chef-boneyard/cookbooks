@@ -93,13 +93,13 @@ when "upstart"
 
 when "arch"
 
-  cookbook_file "/etc/rc.d/chef-client" do
-    source "rc.d/chef-client"
+  template "/etc/rc.d/chef-client" do
+    source "rc.d/chef-client.erb"
     mode 0755
   end
 
-  cookbook_file "/etc/conf.d/chef-client.conf" do
-    source "conf.d/chef-client.conf"
+  template "/etc/conf.d/chef-client.conf" do
+    source "conf.d/chef-client.conf.erb"
     mode 0644
   end
 
