@@ -1,3 +1,11 @@
+QUESTIONS
+* path vs dir...WTF
+* nasty subdirectories in templates/default (mimics gem distro dir)
+* path to chef-client bin
+* upstart splay???
+
+* windows support
+
 Description
 ===========
 
