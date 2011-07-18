@@ -176,13 +176,15 @@ def installed_packages
   @installed_packages || begin
     installed_packages = {}
     # Computer\HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall
-    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE))
-    # Read 64-bit reg values from 32-bit processes 
-    # http://nogeekhere.blogspot.com/2009/04/readwrite-windows-registry-on-windows.html
+    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE)) rescue nil
+    # 64-bit registry view
     # Computer\HKEY_LOCAL_MACHINE\Software\Wow6464Node\Microsoft\Windows\CurrentVersion\Uninstall
-    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE, (Win32::Registry::Constants::KEY_READ | 0x0100)))
+    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE, (Win32::Registry::Constants::KEY_READ | 0x0100))) rescue nil
+    # 32-bit registry view
+    # Computer\HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall
+    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE, (Win32::Registry::Constants::KEY_READ | 0x0200))) rescue nil
     # Computer\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall
-    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_CURRENT_USER))
+    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_CURRENT_USER)) rescue nil
     installed_packages
   end
 end
