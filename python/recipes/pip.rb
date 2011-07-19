@@ -28,10 +28,11 @@ remote_file "#{Chef::Config[:file_cache_path]}/distribute_setup.py" do
   not_if "which pip"
 end
 
+base_version = node['python']['base_version']
 bash "install-pip" do
   cwd Chef::Config[:file_cache_path]
   code <<-EOF
-  python distribute_setup.py
+  python#{base_version} distribute_setup.py
   easy_install pip
   EOF
   not_if "which pip"

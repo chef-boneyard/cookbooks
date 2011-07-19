@@ -18,6 +18,11 @@
 # limitations under the License.
 #
 
+# Version of python to use when installing distribute/pip
+# default is '', which uses the 'python' binary.
+# example value = '2.6' which will use the python2.6 binary
+default['python']['base_version'] = ''
+
 default['python']['install_method'] = 'package'
 
 default['python']['url'] = 'http://www.python.org/ftp/python'
