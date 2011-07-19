@@ -27,10 +27,16 @@ template "#{node[:varnish][:dir]}default.vcl" do
 end
 
 template "#{node[:varnish][:default]}" do
-  source "ubuntu-default.erb"
+  source "varnish.erb"
   owner "root"
   group "root"
   mode 0644
+end
+
+# This next section ensures that the directory for varnish storage is created
+directory "/var/lib/varnish/#{node[:fqdn]}" do
+  owner "root"
+  group "root"
 end
 
 service "varnish" do
