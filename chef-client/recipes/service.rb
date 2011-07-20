@@ -1,9 +1,10 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
+# Author:: Joshua Timberman (<joshua@opscode.com>)
+# Author:: Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: chef
 # Recipe:: bootstrap_client
 #
-# Copyright 2009-2010, Opscode, Inc.
+# Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,47 +19,55 @@
 # limitations under the License.
 #
 
-chef_version = node["chef_packages"]["chef"]["version"]
-
 root_group = value_for_platform(
   ["openbsd", "freebsd", "mac_os_x"] => { "default" => "wheel" },
   "default" => "root"
 )
 
-directory node["chef_client"]["log_dir"] do
-  recursive true
-  owner "root"
-  group root_group
-  mode 0755
+# COOK-635 account for alternate gem paths
+# try to use the bin provided by the node attribute
+if ::File.executable?(node["chef_client"]["bin"])
+  client_bin = node["chef_client"]["bin"]
+# search for the bin in some sane paths
+elsif (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.executable?(p)}.compact.first) && chef_in_sane_path
+  client_bin = chef_in_sane_path
+# last ditch search for a bin in PATH
+elsif (chef_in_path=%x{which chef-client}.chomp) && ::File.executable?(chef_in_path)
+  client_bin = chef_in_path
+else
+  raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding node['chef_client']['bin'] in a role."
+end
+
+%w{run_path cache_path backup_path log_dir}.each do |key|
+  directory node["chef_client"][key] do
+    recursive true
+    owner "root"
+    group root_group
+    mode 0755
+  end
 end
 
 case node["chef_client"]["init_style"]
 when "init"
 
-  dist_dir = value_for_platform(
-    ["ubuntu", "debian"] => { "default" => "debian" },
-    ["amazon", "redhat", "centos", "fedora"] => { "default" => "redhat"}
+  dist_dir, conf_dir = value_for_platform(
+    ["ubuntu", "debian"] => { "default" => ["debian", "default"] },
+    ["redhat", "centos", "fedora", "scientific", "amazon"] => { "default" => ["redhat", "sysconfig"]}
   )
 
-  conf_dir = value_for_platform(
-    ["ubuntu", "debian"] => { "default" => "default" },
-    ["amazon", "redhat", "centos", "fedora"] => { "default" => "sysconfig"}
-  )
-
-  chef_version = node.chef_packages.chef["version"]
-
-  init_content = IO.read("#{node["languages"]["ruby"]["gems_dir"]}/gems/chef-#{chef_version}/distro/#{dist_dir}/etc/init.d/chef-client")
-  conf_content = IO.read("#{node["languages"]["ruby"]["gems_dir"]}/gems/chef-#{chef_version}/distro/#{dist_dir}/etc/#{conf_dir}/chef-client")
-
-  file "/etc/init.d/chef-client" do
-    content init_content
+  template "/etc/init.d/chef-client" do
+    source "#{dist_dir}/init.d/chef-client.erb"
     mode 0755
+    variables(
+      :client_bin => client_bin
+    )
     notifies :restart, "service[chef-client]", :delayed
   end
 
-  file "/etc/#{conf_dir}/chef-client" do
-    content conf_content
+  template "/etc/#{conf_dir}/chef-client" do
+    source "#{dist_dir}/#{conf_dir}/chef-client.erb"
     mode 0644
+    notifies :restart, "service[chef-client]", :delayed
   end
 
   service "chef-client" do
@@ -67,8 +76,6 @@ when "init"
   end
 
 when "upstart"
-
-  upstart_content = IO.read("#{node["languages"]["ruby"]["gems_dir"]}/gems/chef-#{chef_version}/distro/debian/etc/init/chef-client.conf")
 
   case node["platform"]
   when "ubuntu"
@@ -81,9 +88,13 @@ when "upstart"
     end
   end
 
-  file "#{upstart_job_dir}/chef-client#{upstart_job_suffix}" do
-    content upstart_content
+  template "#{upstart_job_dir}/chef-client#{upstart_job_suffix}" do
+    source "debian/init/chef-client.conf.erb"
     mode 0644
+    variables(
+      :client_bin => client_bin
+    )
+    notifies :restart, "service[chef-client]", :delayed
   end
 
   service "chef-client" do
@@ -93,14 +104,19 @@ when "upstart"
 
 when "arch"
 
-  cookbook_file "/etc/rc.d/chef-client" do
-    source "rc.d/chef-client"
+  template "/etc/rc.d/chef-client" do
+    source "rc.d/chef-client.erb"
     mode 0755
+    variables(
+      :client_bin => client_bin
+    )
+    notifies :restart, "service[chef-client]", :delayed
   end
 
-  cookbook_file "/etc/conf.d/chef-client.conf" do
-    source "conf.d/chef-client.conf"
+  template "/etc/conf.d/chef-client.conf" do
+    source "conf.d/chef-client.conf.erb"
     mode 0644
+    notifies :restart, "service[chef-client]", :delayed
   end
 
   service "chef-client" do
@@ -126,6 +142,7 @@ when "bluepill"
   template "#{node["bluepill"]["conf_dir"]}/chef-client.pill" do
     source "chef-client.pill.erb"
     mode 0644
+    notifies :restart, "bluepill_service[chef-client]", :delayed
   end
 
   bluepill_service "chef-client" do
