@@ -24,8 +24,22 @@ root_group = value_for_platform(
   "default" => "root"
 )
 
+# COOK-635 account for alternate gem paths
+# try to use the bin provided by the node attribute
+if ::File.executable?(node["chef_client"]["bin"])
+  client_bin = node["chef_client"]["bin"]
+# search for the bin in some sane paths
+elsif (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.executable?(p)}.compact.first) && chef_in_sane_path
+  client_bin = chef_in_sane_path
+# last ditch search for a bin in PATH
+elsif (chef_in_path=%x{which chef-client}.chomp) && ::File.executable?(chef_in_path)
+  client_bin = chef_in_path
+else
+  raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding node['chef_client']['bin'] in a role."
+end
+
 %w{run_path cache_path backup_path log_dir}.each do |key|
-  directory node['chef_client'][key] do
+  directory node["chef_client"][key] do
     recursive true
     owner "root"
     group root_group
@@ -44,6 +58,9 @@ when "init"
   template "/etc/init.d/chef-client" do
     source "#{dist_dir}/init.d/chef-client.erb"
     mode 0755
+    variables(
+      :client_bin => client_bin
+    )
     notifies :restart, "service[chef-client]", :delayed
   end
 
@@ -74,6 +91,9 @@ when "upstart"
   template "#{upstart_job_dir}/chef-client#{upstart_job_suffix}" do
     source "debian/init/chef-client.conf.erb"
     mode 0644
+    variables(
+      :client_bin => client_bin
+    )
     notifies :restart, "service[chef-client]", :delayed
   end
 
@@ -87,6 +107,9 @@ when "arch"
   template "/etc/rc.d/chef-client" do
     source "rc.d/chef-client.erb"
     mode 0755
+    variables(
+      :client_bin => client_bin
+    )
     notifies :restart, "service[chef-client]", :delayed
   end
 

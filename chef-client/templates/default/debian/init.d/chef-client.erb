@@ -15,7 +15,7 @@
 # description: starts up chef-client in daemon mode.
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/usr/bin/chef-client
+DAEMON=<%= @client_bin %>
 NAME=chef-client
 DESC=chef-client
 PIDFILE=<%= node["chef_client"]["run_path"] %>/client.pid

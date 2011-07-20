@@ -11,7 +11,7 @@ respawn
 respawn limit 5 30
 
 pre-start script
-    test -x /usr/bin/chef-client || { stop; exit 0; }
+    test -x <%= @client_bin %> || { stop; exit 0; }
 end script
 
-exec /usr/bin/chef-client -i <%= node["chef_client"]["interval"] %> -L <%= node["chef_client"]["log_dir"] %>/client.log
+exec <%= @client_bin %> -i <%= node["chef_client"]["interval"] %> -L <%= node["chef_client"]["log_dir"] %>/client.log
