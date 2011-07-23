@@ -3,6 +3,13 @@ Description
 
 Provides a set of Windows-specific primitives (Chef resources) meant to aid in the creation of cookbooks/recipes targeting the Windows platform.
 
+Changes
+=======
+
+## v1.0.1:
+
+* COOK-656, begin/rescue on win32/registry
+
 Requirements
 ============
 

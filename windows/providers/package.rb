@@ -17,8 +17,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+begin
+  require 'win32/registry'
+rescue LoadError
+  Chef::Log.warn("Could not load win32/registry")
+end
 
-require 'win32/registry'
 require 'chef/mixin/shell_out'
 require 'chef/mixin/language'
 include Chef::Mixin::ShellOut
