@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
+include_recipe "imagemagick"
+
 dev_pkg = value_for_platform(
   ["redhat", "centos", "fedora"] => { "default" => "ImageMagick-devel" },
   "debian" => { "default" => "libmagickwand-dev" },
