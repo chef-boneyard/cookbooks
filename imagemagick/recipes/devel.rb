@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: imagemagick
-# Recipe:: rmagick
+# Recipe:: default
 #
 # Copyright 2009, Opscode, Inc.
 #
@@ -16,7 +16,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-include_recipe "imagemagick"
-include_recipe "imagemagick::devel"
 
-gem_package "rmagick"
+dev_pkg = value_for_platform(
+  ["redhat", "centos", "fedora"] => { "default" => "ImageMagick-devel" },
+  "debian" => { "default" => "libmagickwand-dev" },
+  "ubuntu" => {
+    "8.04" => "libmagick9-dev",
+    "8.10" => "libmagick9-dev",
+    "default" => "libmagickwand-dev"
+  }
+)
+
+package dev_pkg
