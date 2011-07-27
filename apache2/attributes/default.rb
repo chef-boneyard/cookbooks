@@ -26,6 +26,12 @@ when "redhat","centos","fedora","suse"
   set[:apache][:binary]  = "/usr/sbin/httpd"
   set[:apache][:icondir] = "/var/www/icons/"
   set[:apache][:cache_dir] = "/var/cache/httpd"
+  if platform_version == '6.0'
+    set[:apache][:run_dir] = "/var/run/httpd"
+  else
+    set[:apache][:run_dir] = "/var/run"
+  end
+  set[:apache][:pid_file]  = "#{apache[:run_dir]}/httpd.pid"
 when "debian","ubuntu"
   set[:apache][:dir]     = "/etc/apache2"
   set[:apache][:log_dir] = "/var/log/apache2"
@@ -33,6 +39,8 @@ when "debian","ubuntu"
   set[:apache][:binary]  = "/usr/sbin/apache2"
   set[:apache][:icondir] = "/usr/share/apache2/icons"
   set[:apache][:cache_dir] = "/var/cache/apache2"
+  set[:apache][:run_dir] = "/var/run"
+  set[:apache][:pid_file]  = "#{apache[:run_dir]}/apache2.pid"
 when "arch"
   set[:apache][:dir]     = "/etc/httpd"
   set[:apache][:log_dir] = "/var/log/httpd"
@@ -40,6 +48,8 @@ when "arch"
   set[:apache][:binary]  = "/usr/sbin/httpd"
   set[:apache][:icondir] = "/usr/share/httpd/icons"
   set[:apache][:cache_dir] = "/var/cache/httpd"
+  set[:apache][:run_dir] = "/var/run/httpd"
+  set[:apache][:pid_file]  = "#{apache[:run_dir]}/httpd.pid"
 else
   set[:apache][:dir]     = "/etc/apache2"
   set[:apache][:log_dir] = "/var/log/apache2"
@@ -47,6 +57,8 @@ else
   set[:apache][:binary]  = "/usr/sbin/apache2"
   set[:apache][:icondir] = "/usr/share/apache2/icons"
   set[:apache][:cache_dir] = "/var/cache/apache2"
+  set[:apache][:run_dir] = "logs"
+  set[:apache][:pid_file]  = "#{apache[:run_dir]}/httpd.pid"
 end
 
 ###
