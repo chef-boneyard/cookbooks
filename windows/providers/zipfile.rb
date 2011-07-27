@@ -24,7 +24,7 @@ include Windows::Helpers
 
 action :unzip do
   ensure_rubyzip_gem_installed
-  Chef::Log.debug("unzip #{@new_resource.source} => #{@new_resource.path} (force=#{@new_resource.force})")
+  Chef::Log.debug("unzip #{@new_resource.source} => #{@new_resource.path} (overwrite=#{@new_resource.overwrite})")
 
   Zip::ZipFile.open(cached_file(@new_resource.source)) do |zip|
     zip.each do |entry|
