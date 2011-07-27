@@ -20,6 +20,8 @@ LockFile logs/accept.lock
 #
 <% if node[:platform] == "debian" || node[:platform] == "ubuntu" -%>
 PidFile /var/run/apache2.pid
+<% elsif node[:platform] == "centos" && node[:platform_version] == "6.0" -%>
+PidFile /var/run/httpd/httpd.pid
 <% elsif node[:platform] == "centos" || node[:platform] == "redhat" || node[:platform] == "fedora" -%>
 PidFile /var/run/httpd.pid
 <% elsif node[:platform] == "arch" -%>
