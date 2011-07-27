@@ -3,13 +3,6 @@ Description
 
 Provides a set of Windows-specific primitives (Chef resources) meant to aid in the creation of cookbooks/recipes targeting the Windows platform.
 
-Changes
-=======
-
-## v1.0.1:
-
-* COOK-656, begin/rescue on win32/registry
-
 Requirements
 ============
 
@@ -183,6 +176,12 @@ Changes/Roadmap
 
 * package preseeding/response_file support
 * package installation location via a `target_dir` attribute.
+* [COOK-666] windows_package should support CoApp packages
+
+## v1.0.2:
+
+* [COOK-647] account for Wow6432Node registry redirecter
+* [COOK-656] begin/rescue on win32/registry
 
 ## 1.0.0:
 
