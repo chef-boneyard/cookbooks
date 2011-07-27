@@ -235,6 +235,10 @@ Changes/Roadmap
 
 * windows platform support
 
+## 1.0.2:
+
+* [CHEF-2491] init scripts should implement reload
+
 ## 1.0.0:
 
 * [COOK-204] chef::client pid template doesn't match package expectations
