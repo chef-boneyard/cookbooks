@@ -75,6 +75,35 @@ when "init"
     action :enable
   end
 
+when "smf"
+  local_path = ::File.join(Chef::Config[:file_cache_path], "/")
+  template "/lib/svc/method/chef-client" do
+    source "solaris/chef-client.erb"
+    owner "root"
+    group "root"
+    mode "0777"
+    notifies :restart, "service[chef-client]"
+  end
+  
+  template (local_path + "chef-client.xml") do
+    source "solaris/manifest.xml.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+    notifies :run, "execute[load chef-client manifest]", :immediately
+  end
+  
+  execute "load chef-client manifest" do
+    action :nothing
+    command "svccfg import #{local_path}chef-client.xml"
+    notifies :restart, "service[chef-client]"
+  end
+  
+  service "chef-client" do
+    action [:enable, :start]
+    provider Chef::Provider::Service::Solaris
+  end
+
 when "upstart"
 
   case node["platform"]
