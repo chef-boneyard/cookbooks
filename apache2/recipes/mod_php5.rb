@@ -34,4 +34,6 @@ when "centos", "redhat", "fedora"
   end
 end
 
-apache_module "php5"
+apache_module "php5" do
+  enable false if platform?(%w{ centos redhat fedora })
+end
