@@ -57,6 +57,7 @@ when 'redhat','centos'
     cd gecode-3.5.0 && ./configure
     make && make install
     EOH
+    not_if {::File.exists? "/usr/local/lib/libgecodekernel.so" }
   end
 
 else
