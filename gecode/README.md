@@ -35,6 +35,18 @@ On Red Hat family distros, the recipe will attempt to install gecode from source
 
     package "gecode-devel"
 
+Changes/Roadmap
+===============
+
+## 1.0.0:
+
+* [COOK-538] fix gecode install on newer ubuntu and debian releases
+* [COOK-680] don't rebuild gecode if it is already installed
+
+## 0.99.0
+
+* initial release
+
 License and Author
 ==================
 
