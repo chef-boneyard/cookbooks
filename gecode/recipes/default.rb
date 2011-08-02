@@ -1,11 +1,12 @@
 #
-# Author:: Christopher Walters <cw@opscode.com>
-# Author:: Nuo Yan <nuo@opscode.com>
-# Author:: Joshua Timberman <joshua@opscode.com>
+# Author:: Christopher Walters (<cw@opscode.com>)
+# Author:: Nuo Yan (<nuo@opscode.com>)
+# Author:: Joshua Timberman (<joshua@opscode.com>)
+# Author:: Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: gecode
 # Recipe:: default
 #
-# Copyright 2011, Opscode, Inc
+# Copyright:: Copyright (c) 2011 Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,32 +20,33 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# we have pre-built packages for the following platforms/versions
-deb_exists = (node['platform'] == 'ubuntu' && ["lucid", "maverick"].include?(node['lsb']['codename'])) ||
-             (node['platform'] == 'debian' && node["lsb"]["codename"] == "lenny")
+case node['platform']
+when 'ubuntu','debian'
 
-# we have tested building from source on the following platforms
-can_build_from_src = ['ubuntu', 'debian', 'redhat', 'centos'].include?(node['platform'])
-
-if deb_exists
   include_recipe 'apt'
 
-  # add Opscode's apt repo to sources
-  apt_repository "opscode" do
-    uri "http://apt.opscode.com"
-    components ["main"]
-    distribution node['lsb']['codename']
-    key "2940ABA983EF826A"
-    keyserver "pgpkeys.mit.edu"
-    action :add
-    notifies :run, resources(:execute => "apt-get update"), :immediately
+  # use opscode apt repo for older releases
+  if (platform?("debian") && (node.platform_version.to_f < 7.0)) || 
+      (platform?("ubuntu") && (node.platform_version.to_f < 11.0))
+
+    # add Opscode's apt repo to sources
+    apt_repository "opscode" do
+      uri "http://apt.opscode.com"
+      components ["main"]
+      distribution node['lsb']['codename']
+      key "2940ABA983EF826A"
+      keyserver "pgpkeys.mit.edu"
+      action :add
+      notifies :run, resources(:execute => "apt-get update"), :immediately
+    end
+
   end
 
   apt_package 'libgecode-dev' do
     action :install
   end
 
-elsif can_build_from_src
+when 'redhat','centos'
 
   include_recipe 'build-essential'
 
