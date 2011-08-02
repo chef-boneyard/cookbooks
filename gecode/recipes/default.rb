@@ -37,7 +37,6 @@ when 'ubuntu','debian'
       key "2940ABA983EF826A"
       keyserver "pgpkeys.mit.edu"
       action :add
-      notifies :run, resources(:execute => "apt-get update"), :immediately
     end
 
   end
