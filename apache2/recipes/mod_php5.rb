@@ -22,16 +22,40 @@ when "debian", "ubuntu"
   package "libapache2-mod-php5" do
     action :install
   end  
+
 when "arch"
   package "php-apache" do
     action :install
     notifies :run, resources(:execute => "generate-module-list"), :immediately
   end
-when "centos", "redhat", "fedora"
-  package "php53" do
+
+when "redhat", "centos", "scientific"
+  package "php package" do
+    if node.platform_version.to_f < 6.0
+      package_name "php53"
+    else
+      package_name "php"
+    end
     action :install
     notifies :run, resources(:execute => "generate-module-list"), :immediately
   end
+
+  file "#{node[:apache][:dir]}/conf.d/php.conf" do
+    action :delete
+  end
+
+when "fedora"
+  package "php package" do
+     package_name "php"
+     action :install
+     notifies :run, resources(:execute => "generate-module-list"), :immediately
+  end
+
+  file "#{node[:apache][:dir]}/conf.d/php.conf" do
+    action :delete
+  end
+
 end
 
 apache_module "php5"
+
