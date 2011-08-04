@@ -139,7 +139,7 @@ end
 
 template "apache2.conf" do
   case node[:platform]
-  when "centos","redhat","fedora","arch"
+  when "redhat", "centos", "scientific", "fedora", "arch"
     path "#{node[:apache][:dir]}/conf/httpd.conf"
   when "debian","ubuntu"
     path "#{node[:apache][:dir]}/apache2.conf"

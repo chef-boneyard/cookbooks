@@ -22,7 +22,7 @@ case node[:platform]
     package "libapache2-mod-python" do
       action :install
     end
-  when "centos", "redhat", "fedora"
+  when "redhat", "centos", "scientific", "fedora"
     package "mod_python" do
       action :install
       notifies :run, resources(:execute => "generate-module-list"), :immediately

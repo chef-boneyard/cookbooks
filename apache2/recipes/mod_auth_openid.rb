@@ -24,6 +24,8 @@ openid_dev_pkgs = value_for_platform(
   "redhat" => { "default" => %w{ gcc-c++ httpd-devel curl-devel libtidy libtidy-devel } },
   # libtidy and libtidy-devel are in EPEL repository
   "centos" => { "default" => %w{ gcc-c++ httpd-devel curl-devel libtidy libtidy-devel } },
+  "scientific" => { "default" => %w{ gcc-c++ httpd-devel curl-devel libtidy libtidy-devel } },
+  "fedora" => { "default" => %w{ gcc-c++ httpd-devel curl-devel libtidy libtidy-devel } },
   "arch" => { "default" => ["libopkele"] }
 )
 
@@ -45,7 +47,7 @@ openid_dev_pkgs.each do |pkg|
 end
 
 case node[:platform]
-when "centos","redhat"
+when "redhat", "centos", "scientific", "fedora"
   remote_file "#{Chef::Config[:file_cache_path]}/libopkele-2.0.4.tar.gz" do
     source "http://kin.klever.net/dist/libopkele-2.0.4.tar.gz"
     mode 0644

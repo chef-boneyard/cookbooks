@@ -3,7 +3,7 @@
   IPCConnectTimeout 20
 </IfModule>
 
-<% if node[:platform] == "centos" || node[:platform] == "redhat" || node[:platform] == "fedora" -%>
+<% if %w{ redhat centos scientific fedora }.include?(node[:platform]) -%>
 # Sane place to put sockets and shared memory file
 SocketPath run/mod_fcgid
 SharememPath run/mod_fcgid/fcgid_shm
