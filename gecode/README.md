@@ -22,7 +22,7 @@ The recipe is primarily used to install gecode's development package or from sou
 
 Note that compiling gecode takes a long time, up to ~30 minutes on a 4 core Macbook Pro.
 
-On Debian and Ubuntu systems, the recipe will attempt to install packages from apt.opscode.com. It uses the apt repository LWRP in Opscode's apt cookbook to enable the repository.
+On Debian and Ubuntu systems, the recipe will attempt to install packages from apt.opscode.com. It uses the apt repository LWRP in Opscode's apt cookbook to enable the repository.  For releases after Debian 7.0 (Wheezy) and Ubuntu 11.04 (Natty), Gecode 3.5.0+ exists in the main repositories.
 
 On Red Hat family distros, the recipe will attempt to install gecode from source. To install using a package the recipe needs to be updated to account for a package repository. Implementation varies depending on the package repository. For example, to retrieve the /etc/yum.repos.d/somewhere.repo that has the package available, add a condition to the main 'if' block:
 
@@ -35,12 +35,25 @@ On Red Hat family distros, the recipe will attempt to install gecode from source
 
     package "gecode-devel"
 
+Changes/Roadmap
+===============
+
+## 1.0.0:
+
+* [COOK-538] fix gecode install on newer ubuntu and debian releases
+* [COOK-680] don't rebuild gecode if it is already installed
+
+## 0.99.0
+
+* initial release
+
 License and Author
 ==================
 
 Author:: Chris Walters (<cw@opscode.com>)
 Author:: Nuo Yan (<nuo@opscode.com>)
 Author:: Joshua Timberman (<joshua@opscode.com>)
+Author:: Seth Chisamore (<schisamo@opscode.com>)
 
 Copyright 2009-2011, Opscode, Inc.
 

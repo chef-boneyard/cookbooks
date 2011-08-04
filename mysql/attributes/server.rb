@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-default['mysql']['bind_address']              = ipaddress
+default['mysql']['bind_address']               = attribute?('cloud') ? cloud['local_ipv4'] : ipaddress
 default['mysql']['data_dir']                   = "/var/lib/mysql"
 
 case node["platform"]
@@ -61,5 +61,8 @@ default['mysql']['tunable']['query_cache_size']     = "16M"
 
 default['mysql']['tunable']['log_slow_queries']     = "/var/log/mysql/slow.log"
 default['mysql']['tunable']['long_query_time']      = 2
+
+default['mysql']['tunable']['expire_logs_days']     = 10
+default['mysql']['tunable']['max_binlog_size']      = "100M"
 
 default['mysql']['tunable']['innodb_buffer_pool_size']  = "256M"

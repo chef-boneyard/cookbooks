@@ -5,6 +5,14 @@ Configures various YUM components on Red Hat-like systems.  Includes LWRP for ma
 
 Based on the work done by Eric Wolfe and Charles Duffy on the yumrepo cookbook. http://github.com/atomic-penguin/cookbooks/tree/yumrepo/yumrepo
 
+Changes
+=======
+
+## v.0.1.2:
+
+* Remove yum update in default recipe, that doesn't update caches, it
+  updates packages installed.
+
 Requirements
 ============
 RHEL, CentOS or Scientific Linux 5.x or newer. It has not been tested on other platforms or earlier versions. RHEL 6 support is untested (testing and patches are welcome).

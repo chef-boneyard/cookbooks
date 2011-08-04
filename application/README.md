@@ -14,13 +14,6 @@ This cookbook aims to provide primitives to install/deploy any kind of applicati
 
 Note that as of version 0.99.10, this cookbook uses Chef 0.10's environments instead of the `app_environment` attribute. If you do not set up any environments for your nodes, they will be in the `_default` environment. See __Usage__ below for information on how to set up environments.
 
-Changes
-=======
-
-## v0.99.10:
-
-* Use Chef 0.10's `node.chef_environment` instead of `node['app_environment']`.
-
 Requirements
 ============
 
@@ -327,6 +320,26 @@ You should also create an environment. We use `production` in the examples and t
       "override_attributes": {
       }
     }
+
+Changes/Roadmap
+===============
+
+## Future
+
+* [COOK-634] application cookbook should be updated to use LWRPs (vs clever recipe loading)
+
+## v0.99.12:
+
+* [COOK-606] application cookbook deployment recipes should use ipaddress instead of fqdn
+
+## v0.99.11:
+
+* make the _default chef_environment look like production rails env
+
+## v0.99.10:
+
+* Use Chef 0.10's `node.chef_environment` instead of `node['app_environment']`.
+
 
 License and Author
 ==================

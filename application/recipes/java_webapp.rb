@@ -81,7 +81,7 @@ if app["database_master_role"]
       dbm = rows[0]
     end
   end
-  
+
   # Assuming we have one...
   if dbm
     template "#{app['deploy_to']}/shared/#{app['id']}.xml" do
@@ -90,7 +90,7 @@ if app["database_master_role"]
       group app["group"]
       mode "644"
       variables(
-        :host => dbm['fqdn'],
+        :host => (dbm.attribute?('cloud') ? dbm['cloud']['local_ipv4'] : dbm['ipaddress']),
         :app => app['id'],
         :database => app['databases'][node.chef_environment],
         :war => "#{app['deploy_to']}/releases/#{app['war'][node.chef_environment]['checksum']}.war"

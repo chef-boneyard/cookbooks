@@ -19,10 +19,20 @@
 #
 
 action :enable do
-    require @new_resource.source
-    klass = @new_resource.class_name.split('::').inject(Kernel) {|scope, const_name| scope.const_get(const_name)}
-    handler = klass.send(:new, *collect_args(@new_resource.arguments))
-    @new_resource.supports.each_key do |type|
+  # use load instead of require to ensure the handler file
+  # is reloaded into memory each chef run. fixes COOK-620
+  begin
+    Object.send(:remove_const, klass)
+    GC.start
+  rescue
+    Chef::Log.debug("#{@new_resource.class_name} has not been loaded.")
+  end
+  file_name = @new_resource.source
+  file_name << ".rb" unless file_name =~ /.*\.rb$/
+  load file_name
+  handler = klass.send(:new, *collect_args(@new_resource.arguments))
+  @new_resource.supports.each do |type, enable|
+    if enable
       # we have to re-enable the handler every chef run
       # to ensure daemonized Chef always has the latest
       # handler code.  TODO: add a :reload action
@@ -31,6 +41,7 @@ action :enable do
       Chef::Config.send("#{type.to_s}_handlers") << handler
       new_resource.updated_by_last_action(true)
     end
+  end
 end
 
 action :disable do
@@ -62,5 +73,11 @@ def collect_args(resource_args = [])
     resource_args
   else
     [resource_args]
+  end
+end
+
+def klass
+  @klass ||= begin
+    @new_resource.class_name.split('::').inject(Kernel) {|scope, const_name| scope.const_get(const_name)}
   end
 end
