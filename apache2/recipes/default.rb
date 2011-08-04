@@ -64,7 +64,7 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
     mode 0755
     action :create
   end
-  
+
   cookbook_file "/usr/local/bin/apache2_module_conf_generate.pl" do
     source "apache2_module_conf_generate.pl"
     mode 0755
@@ -80,7 +80,7 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
       action :create
     end
   end
-    
+
   execute "generate-module-list" do
     if node[:kernel][:machine] == "x86_64" 
       libdir = value_for_platform("arch" => { "default" => "lib" }, "default" => "lib64")
@@ -90,7 +90,7 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
     command "/usr/local/bin/apache2_module_conf_generate.pl /usr/#{libdir}/httpd/modules /etc/httpd/mods-available"
     action :run
   end
-  
+
   %w{a2ensite a2dissite a2enmod a2dismod}.each do |modscript|
     template "/usr/sbin/#{modscript}" do
       source "#{modscript}.erb"
@@ -113,6 +113,7 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
     action :delete
     backup false
   end
+end
 
 directory "#{node[:apache][:dir]}/ssl" do
   action :create
