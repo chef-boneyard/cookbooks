@@ -19,19 +19,19 @@
 
 # Where the various parts of apache are
 case platform
-when "redhat","centos","fedora","suse"
+when "redhat","centos","scientific","fedora","suse"
   set[:apache][:dir]     = "/etc/httpd"
   set[:apache][:log_dir] = "/var/log/httpd"
   set[:apache][:user]    = "apache"
+  set[:apache][:group]    = "apache"
   set[:apache][:binary]  = "/usr/sbin/httpd"
   set[:apache][:icondir] = "/var/www/icons/"
   set[:apache][:cache_dir] = "/var/cache/httpd"
-  if platform_version == '6.0'
-    set[:apache][:run_dir] = "/var/run/httpd"
+  if node.platform_version.to_f >= 6 then
+    set[:apache][:pid_file] = "/var/run/httpd/httpd.pid"
   else
-    set[:apache][:run_dir] = "/var/run"
+    set[:apache][:pid_file] = "/var/run/httpd.pid"
   end
-  set[:apache][:pid_file]  = "#{apache[:run_dir]}/httpd.pid"
 when "debian","ubuntu"
   set[:apache][:dir]     = "/etc/apache2"
   set[:apache][:log_dir] = "/var/log/apache2"
@@ -39,8 +39,7 @@ when "debian","ubuntu"
   set[:apache][:binary]  = "/usr/sbin/apache2"
   set[:apache][:icondir] = "/usr/share/apache2/icons"
   set[:apache][:cache_dir] = "/var/cache/apache2"
-  set[:apache][:run_dir] = "/var/run"
-  set[:apache][:pid_file]  = "#{apache[:run_dir]}/apache2.pid"
+  set[:apache][:pid_file]  = "/var/run/apache2.pid"
 when "arch"
   set[:apache][:dir]     = "/etc/httpd"
   set[:apache][:log_dir] = "/var/log/httpd"
@@ -48,8 +47,7 @@ when "arch"
   set[:apache][:binary]  = "/usr/sbin/httpd"
   set[:apache][:icondir] = "/usr/share/httpd/icons"
   set[:apache][:cache_dir] = "/var/cache/httpd"
-  set[:apache][:run_dir] = "/var/run/httpd"
-  set[:apache][:pid_file]  = "#{apache[:run_dir]}/httpd.pid"
+  set[:apache][:pid_file]  = "/var/run/httpd/httpd.pid"
 else
   set[:apache][:dir]     = "/etc/apache2"
   set[:apache][:log_dir] = "/var/log/apache2"
@@ -57,8 +55,7 @@ else
   set[:apache][:binary]  = "/usr/sbin/apache2"
   set[:apache][:icondir] = "/usr/share/apache2/icons"
   set[:apache][:cache_dir] = "/var/cache/apache2"
-  set[:apache][:run_dir] = "logs"
-  set[:apache][:pid_file]  = "#{apache[:run_dir]}/httpd.pid"
+  set[:apache][:pid_file]  = "logs/httpd.pid"
 end
 
 ###

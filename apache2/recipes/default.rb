@@ -19,7 +19,7 @@
 
 package "apache2" do
   case node[:platform]
-  when "centos","redhat","fedora","suse"
+  when "redhat","centos","scientific","fedora","suse"
     package_name "httpd"
   when "debian","ubuntu"
     package_name "apache2"
@@ -31,7 +31,7 @@ end
 
 service "apache2" do
   case node[:platform]
-  when "centos","redhat","fedora","suse"
+  when "redhat","centos","scientific","fedora","suse"
     service_name "httpd"
     # If restarted/reloaded too quickly httpd has a habit of failing.
     # This may happen with multiple recipes notifying apache to restart - like
@@ -48,16 +48,18 @@ service "apache2" do
   supports value_for_platform(
     "debian" => { "4.0" => [ :restart, :reload ], "default" => [ :restart, :reload, :status ] },
     "ubuntu" => { "default" => [ :restart, :reload, :status ] },
-    "centos" => { "default" => [ :restart, :reload, :status ] },
     "redhat" => { "default" => [ :restart, :reload, :status ] },
+    "centos" => { "default" => [ :restart, :reload, :status ] },
+    "scientific" => { "default" => [ :restart, :reload, :status ] },
     "fedora" => { "default" => [ :restart, :reload, :status ] },
     "arch" => { "default" => [ :restart, :reload, :status ] },
+    "suse" => { "default" => [ :restart, :reload, :status ] },
     "default" => { "default" => [:restart, :reload ] }
   )
   action :enable
 end
 
-if platform?("centos", "redhat", "fedora", "suse", "arch")
+if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
   directory node[:apache][:log_dir] do
     mode 0755
     action :create
@@ -200,9 +202,9 @@ include_recipe "apache2::mod_env"
 include_recipe "apache2::mod_mime"
 include_recipe "apache2::mod_negotiation"
 include_recipe "apache2::mod_setenvif"
-include_recipe "apache2::mod_log_config" if platform?("centos", "redhat", "fedora", "suse", "arch")
+include_recipe "apache2::mod_log_config" if platform?("redhat", "centos", "scientific", "fedora", "suse", "arch")
 
-apache_site "default" if platform?("centos", "redhat", "fedora")
+apache_site "default" if platform?("redhat", "centos", "scientific", "fedora")
 
 service "apache2" do
   action :start
