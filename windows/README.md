@@ -109,7 +109,11 @@ For maximum flexibility the `source` attribute supports both remote and local in
 -----------------
 
 Creates and modifies Windows registry keys.
-
+### Convience Methods
+	Registry::value_exists?('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
+	Registry::key_exists?('HKLM\SOFTWARE\Microsoft')
+	BgInfo = Registry::get_value('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
+	
 ### Actions
 
 - :create: create a new registry key with the provided values.
