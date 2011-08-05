@@ -40,8 +40,15 @@ when "redhat", "centos", "scientific"
     notifies :run, resources(:execute => "generate-module-list"), :immediately
   end
 
+  # delete stock config
   file "#{node[:apache][:dir]}/conf.d/php.conf" do
     action :delete
+  end
+
+  # replace with debian style config
+  template "#{node[:apache][:dir]}/mods-available/php5.conf" do
+    source "mods/php5.conf.erb" 
+    notifies :restart, "service[apache2]"
   end
 
 when "fedora"
@@ -51,10 +58,16 @@ when "fedora"
      notifies :run, resources(:execute => "generate-module-list"), :immediately
   end
 
+  # delete stock config
   file "#{node[:apache][:dir]}/conf.d/php.conf" do
     action :delete
   end
 
+  # replace with debian style config
+  template "#{node[:apache][:dir]}/mods-available/php5.conf" do
+    source "mods/php5.conf.erb" 
+    notifies :restart, "service[apache2]"
+  end
 end
 
 apache_module "php5"
