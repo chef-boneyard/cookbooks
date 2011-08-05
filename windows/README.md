@@ -109,7 +109,7 @@ For maximum flexibility the `source` attribute supports both remote and local in
 -----------------
 
 Creates and modifies Windows registry keys.
-### Convience Methods
+### Convenience Methods
 	Registry::value_exists?('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
 	Registry::key_exists?('HKLM\SOFTWARE\Microsoft')
 	BgInfo = Registry::get_value('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
@@ -182,6 +182,11 @@ Changes/Roadmap
 * package installation location via a `target_dir` attribute.
 * [COOK-666] windows_package should support CoApp packages
 
+## v1.1.0
+* Open the registry in the bitednes of the OS
+* Provide convenience methods to check if keys and values exit
+* Provide convenience method for reading registry values
+
 ## v1.0.2:
 
 * [COOK-647] account for Wow6432Node registry redirecter
@@ -196,6 +201,7 @@ License and Author
 
 Author:: Seth Chisamore (<schisamo@opscode.com>)
 Author:: Doug MacEachern (<dougm@vmware.com>)
+Author:: Paul Morton (<pmorton@biaprotect.com>)
 
 Copyright:: 2011, Opscode, Inc.
 
