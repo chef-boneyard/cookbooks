@@ -83,9 +83,11 @@ module Windows
 		  hive, reg_path, hive_name, root_key, hive_loaded = get_reg_path_info(path)
 		  key_name = reg_path.join("\\")
 		  
-		  Chef::Log.debug("Registry Mode (#{mode})")
+		  Chef::Log.debug("Creating #{path})")
 		  
-		  Chef::Log.debug("Registry Constant #@@native_registry_constant")
+		  if !key_exists?(path,true)
+		  	create_key(path)
+		  end
 		  
 		  hive.send(mode, key_name, Win32::Registry::KEY_ALL_ACCESS | @@native_registry_constant) do |reg|
 			values.each do |k,val|
@@ -130,6 +132,27 @@ module Windows
 			end
 			
 			
+		end
+		
+		def delete_value(path,values)
+			hive, reg_path, hive_name, root_key, hive_loaded = get_reg_path_info(path)
+			key = reg_path.join("\\")
+			Chef::Log.debug("Deleting values in #{path}")
+			hive.open(key, Win32::Registry::KEY_ALL_ACCESS | @@native_registry_constant) do | reg |
+				values.each_key { |key|
+					name = "#{key}"
+					Chef::Log.debug("Deleting value #{name} in #{path}")
+					reg.delete_value(name)
+				}
+			end
+			
+		end
+		
+		def create_key(path)
+			hive, reg_path, hive_name, root_key, hive_loaded = get_reg_path_info(path)
+			key = reg_path.join("\\")
+			Chef::Log.debug("Creating registry key #{path}")
+			hive.create(key)
 		end
 		
 		def value_exists?(path,value)

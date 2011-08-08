@@ -22,6 +22,8 @@
 # limitations under the License.
 #
 
+include Windows::RegistryHelper
+
 action :create do
   registry_update(:create)
 end
@@ -30,7 +32,10 @@ action :modify do
   registry_update(:open)
 end
 
-include Windows::RegistryHelper
+action :remove do
+	delete_value(@new_resource.key_name,@new_resource.values)
+end
+
 
 
 def registry_update(mode)
