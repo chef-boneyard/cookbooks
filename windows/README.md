@@ -156,13 +156,34 @@ Creates and modifies Windows registry keys.
 - :program: The program to be run at login
 - :args: The arguments for the program
 
-## Examples
+### Examples
 	# Run BGInfo at login
 	windows_auto_run 'BGINFO' do
 	  program "C:/Sysinternals/bginfo.exe"
 	  args "\"C:/Sysinternals/Config.bgi\" /NOLICPROMPT /TIMER:0"
 	  not_if { Registry.value_exists?(Windows::KeyHelper::AUTO_RUN_KEY, 'BGINFO') }
 	  action :create
+	end
+
+'windows_path'
+--------------
+
+### Actions
+- :add: Add an item to the system path
+- :remove: Remove an item from the system path
+
+### Attribute Parameters
+- :path: Name attribute. The name of the value to add to the system path
+
+### Examples
+	#Add Sysinternals to the system path
+	windows_path 'C:\Sysinternals' do
+		action :add
+	end
+	
+	#Remove Sysinternals from the system path
+	windows_path 'C:\Sysinternals' do
+		action :remove
 	end
 
 `windows_zipfile`
