@@ -118,6 +118,7 @@ Creates and modifies Windows registry keys.
 
 - :create: create a new registry key with the provided values.
 - :modify: modify an existing registry key with the provided values.
+- :remove: removes a value from an existing registry key
 
 ### Attribute Parameters
 
@@ -136,6 +137,33 @@ Creates and modifies Windows registry keys.
     windows_registry 'HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server' do
       values 'FdenyTSConnections' => 0
     end
+    
+    # Delete an item from the registry
+    windows_registry 'HKCU\Software\Test' do
+    	#Key is the name of the value that you want to delete the value is always empty
+    	values 'ValueToDelete' => ''
+    end
+    
+'windows_auto_run'
+------------------
+
+### Actions
+- :create: Create an item to be run at login
+- :remove: Remove an item that was previously setup to run at login
+
+### Attribute Parameters
+- :name: Name attribute. The name of the value to be stored in the registry
+- :program: The program to be run at login
+- :args: The arguments for the program
+
+## Examples
+	# Run BGInfo at login
+	windows_auto_run 'BGINFO' do
+	  program "C:/Sysinternals/bginfo.exe"
+	  args "\"C:/Sysinternals/Config.bgi\" /NOLICPROMPT /TIMER:0"
+	  not_if { Registry.value_exists?(Windows::KeyHelper::AUTO_RUN_KEY, 'BGINFO') }
+	  action :create
+	end
 
 `windows_zipfile`
 -----------------
