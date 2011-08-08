@@ -1,7 +1,3 @@
-def initianize(*args)
-	super
-	@action = :create
-end
 
 action :create do
 	windows_registry 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' do
