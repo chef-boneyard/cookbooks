@@ -1,3 +1,8 @@
+def initianize(name,run_context=nil)
+	super
+	@action = :create
+end
+
 actions :create, :remove
 
 attribute :program, :kind_of => String
