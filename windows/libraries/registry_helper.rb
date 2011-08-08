@@ -26,8 +26,9 @@ module Windows
 	module RegistryHelper
 	  require 'win32/registry'
   	  require 'ruby-wmi'
+  	 
   	  	@@native_registry_constant = ENV['PROCESSOR_ARCHITEW6432'] == 'AMD64' ? 0x0100 : 0x0200
-
+		
 		def get_hive_name(path)
 			Chef::Log.debug("Resolving registry shortcuts to full names")
 			
