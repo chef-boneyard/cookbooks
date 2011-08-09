@@ -102,6 +102,11 @@ Changes/Roadmap
 * [COOK-690] create firewall_chain resource
 * [COOK-693] create pf firewall providers for all resources
 
+## 0.5.2
+
+* add missing 'requires' statements. fixes 'NameError: uninitialized constant' error.  
+thanks to Ernad Husremović for the fix.
+
 ## 0.5.0
 
 * [COOK-686] create firewall and firewall_rule resources
