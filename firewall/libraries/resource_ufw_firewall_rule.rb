@@ -18,6 +18,7 @@
 
 require 'chef/resource'
 
+require File.join(File.dirname(__FILE__), 'resource_firewall_rule')
 class Chef
   class Resource
     class UfwFirewallRule < Chef::Resource::FirewallRule

@@ -1,0 +1,35 @@
+= DESCRIPTION:
+
+= REQUIREMENTS:
+
+= ATTRIBUTES:
+
+= USAGE:
+
+Vagrantfile
+
+```
+IP_ADDR = "33.33.33.10"
+HOST_NAME = "desk-1b"
+
+
+Vagrant::Config.run do |config|
+  
+  config.vm.box = "lucid-desktop"
+
+  config.vm.network "#{IP_ADDR}"
+
+  config.vm.provision :chef_solo do |chef|
+     chef.cookbooks_path = "cookbooks"
+     chef.add_recipe "hosts"
+  
+     # You may also specify custom JSON attributes:
+     chef.json.merge!( 
+         {   
+            :hosts =>  { :hostname => HOST_NAME, :ip_addr => IP_ADDR }
+         }   
+     )   
+  end 
+
+end
+```
