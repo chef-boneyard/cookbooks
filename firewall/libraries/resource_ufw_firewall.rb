@@ -17,6 +17,7 @@
 #
 
 require 'chef/resource'
+require File.join(File.dirname(__FILE__), 'resource_firewall')
 
 class Chef
   class Resource
