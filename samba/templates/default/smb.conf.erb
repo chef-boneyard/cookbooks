@@ -16,7 +16,7 @@
   dns proxy = <%= node["samba"]["dns_proxy"] %>
   unix extensions = no
   guest account = guest
-
+  client lanman auth = yes
 #============================ Share Definitions ==============================
 <% @shares.each do |share,option| -%>
 [<%= share %>]
