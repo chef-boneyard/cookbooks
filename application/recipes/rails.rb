@@ -171,6 +171,7 @@ deploy_revision app['id'] do
       execute "bundle install --deployment --without #{(common_groups -([node.chef_environment])).join(' ')}" do
         ignore_failure true
         cwd release_path
+        environment({"GIT_SSH" => "#{app['deploy_to']}/deploy-ssh-wrapper"}) if app['deploy_key']
       end
     elsif app['gems'].has_key?('bundler08')
       execute "gem bundle" do
