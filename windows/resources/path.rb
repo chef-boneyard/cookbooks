@@ -1,6 +1,6 @@
 def initianize(name,run_context=nil)
-	super
-	@action = :add
+  super
+  @action = :add
 end
 
 actions :add, :remove

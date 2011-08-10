@@ -109,11 +109,7 @@ For maximum flexibility the `source` attribute supports both remote and local in
 -----------------
 
 Creates and modifies Windows registry keys.
-### Convenience Methods
-	Registry::value_exists?('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
-	Registry::key_exists?('HKLM\SOFTWARE\Microsoft')
-	BgInfo = Registry::get_value('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
-	
+
 ### Actions
 
 - :create: create a new registry key with the provided values.
@@ -140,10 +136,17 @@ Creates and modifies Windows registry keys.
     
     # Delete an item from the registry
     windows_registry 'HKCU\Software\Test' do
-    	#Key is the name of the value that you want to delete the value is always empty
-    	values 'ValueToDelete' => ''
+      #Key is the name of the value that you want to delete the value is always empty
+      values 'ValueToDelete' => ''
+      action :remove
     end
     
+### Library Methods
+
+    Registry::value_exists?('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
+    Registry::key_exists?('HKLM\SOFTWARE\Microsoft')
+    BgInfo = Registry::get_value('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
+
 'windows_auto_run'
 ------------------
 
@@ -157,13 +160,14 @@ Creates and modifies Windows registry keys.
 - :args: The arguments for the program
 
 ### Examples
-	# Run BGInfo at login
-	windows_auto_run 'BGINFO' do
-	  program "C:/Sysinternals/bginfo.exe"
-	  args "\"C:/Sysinternals/Config.bgi\" /NOLICPROMPT /TIMER:0"
-	  not_if { Registry.value_exists?(Windows::KeyHelper::AUTO_RUN_KEY, 'BGINFO') }
-	  action :create
-	end
+
+  # Run BGInfo at login
+  windows_auto_run 'BGINFO' do
+    program "C:/Sysinternals/bginfo.exe"
+    args "\"C:/Sysinternals/Config.bgi\" /NOLICPROMPT /TIMER:0"
+    not_if { Registry.value_exists?(Windows::KeyHelper::AUTO_RUN_KEY, 'BGINFO') }
+    action :create
+  end
 
 'windows_path'
 --------------
@@ -176,15 +180,16 @@ Creates and modifies Windows registry keys.
 - :path: Name attribute. The name of the value to add to the system path
 
 ### Examples
-	#Add Sysinternals to the system path
-	windows_path 'C:\Sysinternals' do
-		action :add
-	end
-	
-	#Remove Sysinternals from the system path
-	windows_path 'C:\Sysinternals' do
-		action :remove
-	end
+
+    #Add Sysinternals to the system path
+    windows_path 'C:\Sysinternals' do
+    	action :add
+    end
+
+    #Remove Sysinternals from the system path
+    windows_path 'C:\Sysinternals' do
+    	action :remove
+    end
 
 `windows_zipfile`
 -----------------
@@ -215,7 +220,6 @@ Most version of Windows do not ship with native cli utility for managing compres
       source "c:/foo/baz/the_codez.zip"
       action :unzip
     end
-
 
 Usage
 =====

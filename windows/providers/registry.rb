@@ -36,12 +36,10 @@ action :remove do
 	delete_value(@new_resource.key_name,@new_resource.values)
 end
 
-
-
 def registry_update(mode)
-  
+
   Chef::Log.debug("Registry Mode (#{mode})")
   updated = set_value(mode,@new_resource.key_name,@new_resource.values)
   @new_resource.updated_by_last_action(updated)
-  
+
 end
