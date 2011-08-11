@@ -22,10 +22,13 @@
 # limitations under the License.
 #
 
+if RUBY_PLATFORM =~ /mswin|mingw32|windows/
+  require 'win32/registry'
+  require 'ruby-wmi'
+end
+
 module Windows
   module RegistryHelper
-    require 'win32/registry'
-    require 'ruby-wmi'
 
     @@native_registry_constant = ENV['PROCESSOR_ARCHITEW6432'] == 'AMD64' ? 0x0100 : 0x0200
 

@@ -20,7 +20,7 @@
 # limitations under the License.
 #
 
-include Windows::Helpers
+include Windows::PackageHelper
 
 action :unzip do
   ensure_rubyzip_gem_installed

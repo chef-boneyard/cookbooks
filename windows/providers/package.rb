@@ -18,10 +18,8 @@
 # limitations under the License.
 #
 
-begin
+if RUBY_PLATFORM =~ /mswin|mingw32|windows/
   require 'win32/registry'
-rescue LoadError
-  Chef::Log.warn("Could not load win32/registry")
 end
 
 require 'chef/mixin/shell_out'
