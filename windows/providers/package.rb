@@ -17,6 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 begin
   require 'win32/registry'
 rescue LoadError
@@ -25,8 +26,9 @@ end
 
 require 'chef/mixin/shell_out'
 require 'chef/mixin/language'
+
 include Chef::Mixin::ShellOut
-include Windows::Helpers
+include Windows::PackageHelper
 
 # the logic in all action methods mirror that of 
 # the Chef::Provider::Package which will make
