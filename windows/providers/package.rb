@@ -119,6 +119,7 @@ end
 def install_package(name,version)
   Chef::Log.debug("Processing #{@new_resource} as a #{installer_type} installer.")
   install_args = [cached_file(@new_resource.source),"#{expand_options(unattended_installation_flags)}#{expand_options(@new_resource.options)}"]
+  Chef::Log.info("Starting installation...this could take awhile.")
   shell_out!(sprintf(install_command_template, *install_args), {:returns => [0,42]})
 end
 
@@ -172,7 +173,6 @@ def unattended_installation_flags
   when :wise
     "/s"
   else
-    "/s"
   end
 end
 
@@ -180,15 +180,17 @@ def installed_packages
   @installed_packages || begin
     installed_packages = {}
     # Computer\HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall
-    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE)) rescue nil
+    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE)) #rescue nil
     # 64-bit registry view
     # Computer\HKEY_LOCAL_MACHINE\Software\Wow6464Node\Microsoft\Windows\CurrentVersion\Uninstall
-    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE, (Win32::Registry::Constants::KEY_READ | 0x0100))) rescue nil
+    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE, (Win32::Registry::Constants::KEY_READ | 0x0100))) #rescue nil
     # 32-bit registry view
     # Computer\HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall
-    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE, (Win32::Registry::Constants::KEY_READ | 0x0200))) rescue nil
+    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE, (Win32::Registry::Constants::KEY_READ | 0x0200))) #rescue nil
     # Computer\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall
-    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_CURRENT_USER)) rescue nil
+    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_CURRENT_USER)) #rescue nil
+    # require 'pp'
+    # pp installed_packages
     installed_packages
   end
 end
@@ -197,13 +199,16 @@ def extract_installed_packages_from_key(hkey = Win32::Registry::HKEY_LOCAL_MACHI
   uninstall_subkey = 'Software\Microsoft\Windows\CurrentVersion\Uninstall'
   packages = {}
   Win32::Registry.open(hkey, uninstall_subkey, desired) do |reg|
-    reg.each_key do |key,wtime|
+    reg.each_key do |key, wtime|
       k = reg.open(key)
-      begin
-        packages[k["DisplayName"]] = {:name => k["DisplayName"], 
-                                      :version => k["DisplayVersion"],
-                                      :uninstall_string => k["UninstallString"]}
-      rescue
+      display_name = k["DisplayName"] rescue nil
+      version = k["DisplayVersion"] rescue "NO VERSION"
+      uninstall_string = k["UninstallString"] rescue nil
+
+      if display_name
+        packages[display_name] = {:name => display_name,
+                                  :version => version,
+                                  :uninstall_string => uninstall_string}
       end
     end
   end
