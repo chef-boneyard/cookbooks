@@ -114,6 +114,7 @@ Creates and modifies Windows registry keys.
 
 - :create: create a new registry key with the provided values.
 - :modify: modify an existing registry key with the provided values.
+- :remove: removes a value from an existing registry key
 
 ### Attribute Parameters
 
@@ -131,6 +132,63 @@ Creates and modifies Windows registry keys.
     # enable Remote Desktop and poke the firewall hole
     windows_registry 'HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server' do
       values 'FdenyTSConnections' => 0
+    end
+    
+    # Delete an item from the registry
+    windows_registry 'HKCU\Software\Test' do
+      #Key is the name of the value that you want to delete the value is always empty
+      values 'ValueToDelete' => ''
+      action :remove
+    end
+    
+### Library Methods
+
+    Registry::value_exists?('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
+    Registry::key_exists?('HKLM\SOFTWARE\Microsoft')
+    BgInfo = Registry::get_value('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
+
+'windows_auto_run'
+------------------
+
+### Actions
+- :create: Create an item to be run at login
+- :remove: Remove an item that was previously setup to run at login
+
+### Attribute Parameters
+- :name: Name attribute. The name of the value to be stored in the registry
+- :program: The program to be run at login
+- :args: The arguments for the program
+
+### Examples
+
+  # Run BGInfo at login
+  windows_auto_run 'BGINFO' do
+    program "C:/Sysinternals/bginfo.exe"
+    args "\"C:/Sysinternals/Config.bgi\" /NOLICPROMPT /TIMER:0"
+    not_if { Registry.value_exists?(Windows::KeyHelper::AUTO_RUN_KEY, 'BGINFO') }
+    action :create
+  end
+
+'windows_path'
+--------------
+
+### Actions
+- :add: Add an item to the system path
+- :remove: Remove an item from the system path
+
+### Attribute Parameters
+- :path: Name attribute. The name of the value to add to the system path
+
+### Examples
+
+    #Add Sysinternals to the system path
+    windows_path 'C:\Sysinternals' do
+    	action :add
+    end
+
+    #Remove Sysinternals from the system path
+    windows_path 'C:\Sysinternals' do
+    	action :remove
     end
 
 `windows_zipfile`
@@ -163,7 +221,6 @@ Most version of Windows do not ship with native cli utility for managing compres
       action :unzip
     end
 
-
 Usage
 =====
 
@@ -177,6 +234,11 @@ Changes/Roadmap
 * package preseeding/response_file support
 * package installation location via a `target_dir` attribute.
 * [COOK-666] windows_package should support CoApp packages
+
+## v1.1.0
+* Open the registry in the bitednes of the OS
+* Provide convenience methods to check if keys and values exit
+* Provide convenience method for reading registry values
 
 ## v1.0.2:
 
@@ -192,8 +254,12 @@ License and Author
 
 Author:: Seth Chisamore (<schisamo@opscode.com>)
 Author:: Doug MacEachern (<dougm@vmware.com>)
+Author:: Paul Morton (<pmorton@biaprotect.com>)
 
 Copyright:: 2011, Opscode, Inc.
+Copyright:: 2010, VMware, Inc.
+Copyright:: 2011, Business Intelligence Associates, Inc
+
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

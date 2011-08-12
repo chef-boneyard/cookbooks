@@ -19,7 +19,7 @@
 #
 
 module Windows
-  module Helpers
+  module PackageHelper
 
     def cached_file(source, windows_path=true)
       @installer_file_path ||= begin

@@ -1,11 +1,9 @@
 #
-# Author:: Doug MacEachern (<dougm@vmware.com>)
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Author:: Paul Morotn (<pmorton@biaprotect.com>)
 # Cookbook Name:: windows
-# Resource:: registry
+# Provider:: auto_run
 #
-# Copyright:: 2010, VMware, Inc.
-# Copyright:: 2011, Opscode, Inc.
+# Copyright:: 2011, Business Intelligence Associates, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,13 +18,15 @@
 # limitations under the License.
 #
 
-actions :modify, :create, :remove
+action :create do
+  windows_registry 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' do
+    values new_resource.name => "\"#{new_resource.program}\" #{new_resource.args}"
+  end
+end
 
-attribute :key_name, :kind_of => String, :name_attribute => true
-attribute :values, :kind_of => Hash
-
-def initialize(name, run_context=nil)
-  super
-  @action = :modify
-  @key_name = name
+action :remove do 
+  windows_registry 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' do
+    values new_resource.name => ''
+    action :remove
+  end
 end
