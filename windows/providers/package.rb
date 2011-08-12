@@ -118,7 +118,7 @@ end
 
 def install_package(name,version)
   Chef::Log.debug("Processing #{@new_resource} as a #{installer_type} installer.")
-  install_args = [cached_file(@new_resource.source),"#{expand_options(unattended_installation_flags)}#{expand_options(@new_resource.options)}"]
+  install_args = [cached_file(@new_resource.source, @new_resource.checksum), expand_options(unattended_installation_flags), expand_options(@new_resource.options)]
   Chef::Log.info("Starting installation...this could take awhile.")
   shell_out!(sprintf(install_command_template, *install_args), {:returns => [0,42]})
 end
@@ -143,9 +143,9 @@ private
 def install_command_template
   case installer_type
   when :msi
-    "msiexec %2$s %1$s"
+    "msiexec%2$s %1$s%3$s"
   else
-    "start /wait %1$s %2$s"
+    "start /wait %1$s%2$s%3$s"
   end
 end
 

@@ -21,7 +21,7 @@
 module Windows
   module PackageHelper
 
-    def cached_file(source, windows_path=true)
+    def cached_file(source, checksum=nil, windows_path=true)
       @installer_file_path ||= begin
 
         if(source =~ /^(https?:\/\/)(.*\/)(.*)$/)
@@ -31,6 +31,7 @@ module Windows
           r.source(source)
           r.backup(false)
           r.mode("0755")
+          r.checksum(checksum) if checksum
           r.run_action(:create)
         else
           cache_file_path = source
