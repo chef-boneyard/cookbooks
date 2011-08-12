@@ -33,7 +33,7 @@ The following application installers are currently supported:
 
 If the proper installer type is not passed into the resource's installer_type attribute, the provider will do it's best to identify the type by introspecting the installation package.  If the installation type cannot be properly identified the `:custom` value can be passed into the installer_type attribute along with the proper flags for silent/quiet installation (using the `options` attribute..see example below).
 
-__PLEASE NOTE__ - the resource's `package_name` should be the same as the 'DisplayName' registry value in the uninstallation data that is created during package installation.  The easiest way to definitively find the proper 'DisplayName' value is to install the package on a machine and search for the uninstall information under the following registry keys:
+__PLEASE NOTE__ - For proper idempotence the resource's `package_name` should be the same as the 'DisplayName' registry value in the uninstallation data that is created during package installation.  The easiest way to definitively find the proper 'DisplayName' value is to install the package on a machine and search for the uninstall information under the following registry keys:
 
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall`
 * `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall`
@@ -83,7 +83,7 @@ For maximum flexibility the `source` attribute supports both remote and local in
     
     # install Firefox as custom installer and manually set the silent install flags
     windows_package "Mozilla Firefox 5.0 (x86 en-US)" do
-      source "http://3347-mozilla.voxcdn.com/pub/mozilla.org/firefox/releases/5.0/win32/en-US/Firefox%20Setup%205.0.exe"
+      source "http://archive.mozilla.org/pub/mozilla.org/mozilla.org/firefox/releases/5.0/win32/en-US/Firefox%20Setup%205.0.exe"
       options "-ms"
       installer_type :custom
       action :install
@@ -123,13 +123,13 @@ Creates and modifies Windows registry keys.
 - values: hash of the values to set under the registry key. The individual hash items will become respective 'Value name' => 'Value data' items in the registry key.
 
 ### Examples
-
+  
     # make the local windows proxy match the one set for Chef
     proxy = URI.parse(Chef::Config[:http_proxy])
     windows_registry 'HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings' do
       values 'ProxyEnable' => 1, 'ProxyServer' => "#{proxy.host}:#{proxy.port}", 'ProxyOverride' => '<local>'
     end
-
+    
     # enable Remote Desktop and poke the firewall hole
     windows_registry 'HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server' do
       values 'FdenyTSConnections' => 0
@@ -184,12 +184,12 @@ Creates and modifies Windows registry keys.
 
     #Add Sysinternals to the system path
     windows_path 'C:\Sysinternals' do
-    	action :add
+      action :add
     end
-
+    
     #Remove Sysinternals from the system path
     windows_path 'C:\Sysinternals' do
-    	action :remove
+      action :remove
     end
 
 `windows_zipfile`
@@ -236,10 +236,17 @@ Changes/Roadmap
 * package installation location via a `target_dir` attribute.
 * [COOK-666] windows_package should support CoApp packages
 
-## v1.1.0
-* Open the registry in the bitednes of the OS
-* Provide convenience methods to check if keys and values exit
-* Provide convenience method for reading registry values
+## v1.0.4
+
+* [COOK-700] new resources and improvements to the windows_registry provider (thanks Paul Morton!)
+  * Open the registry in the bitednes of the OS
+  * Provide convenience methods to check if keys and values exit
+  * Provide convenience method for reading registry values
+  * NEW - `windows_auto_run` resource/provider
+  * NEW - `windows_env_vars` resource/provider
+  * NEW - `windows_path` resource/provider
+* re-write of the windows_package logic for determining current installed packages
+* new checksum attribute for windows_package resource...useful for remote packages
 
 ## v1.0.2:
 
