@@ -166,7 +166,7 @@ module Windows
         key = reg_path.join("\\")
 
         Chef::Log.debug("Attempting to open #{key}");
-        Chef::Log.debug("Native Constant #@@native_registry_constant")
+        Chef::Log.debug("Native Constant #{@@native_registry_constant}")
         Chef::Log.debug("Hive #{hive}")
 
         hive.open(key, Win32::Registry::KEY_READ | @@native_registry_constant) do | reg |

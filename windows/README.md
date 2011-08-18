@@ -115,6 +115,7 @@ Creates and modifies Windows registry keys.
 
 - :create: create a new registry key with the provided values.
 - :modify: modify an existing registry key with the provided values.
+- :force_modify: modify an existing registry key with the provided values.  ensures the value is actually set by checking multiple times. useful for fighting race conditions where two processes are trying to set the same registry key.  This will be updated in the near future to use 'RegNotifyChangeKeyValue' which is exposed by the WinAPI and allows a process to register for notification on a registry key change.
 - :remove: removes a value from an existing registry key
 
 ### Attribute Parameters
@@ -235,6 +236,7 @@ Changes/Roadmap
 * package preseeding/response_file support
 * package installation location via a `target_dir` attribute.
 * [COOK-666] windows_package should support CoApp packages
+* windows_registry :force_modify action should use RegNotifyChangeKeyValue from WinAPI
 
 ## v1.0.4
 
