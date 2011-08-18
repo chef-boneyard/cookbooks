@@ -16,25 +16,33 @@
 # limitations under the License.
 #
 
-require 'chef/resource'
+require File.join(File.dirname(__FILE__), 'resource_database')
 
 class Chef
   class Resource
     class DatabaseUser < Chef::Resource::Database
 
-      VALID_PRIVELAGES = [:select, :insert, :update, :delete, :create, :index, :drop, :alter, :all]
+      #VALID_PRIVELAGES = [:select, :insert, :update, :delete, :create, :index, :drop, :alter, :all]
 
       def initialize(name, run_context=nil)
         super
         @resource_name = :database_user
         @username = name
 
-        @database_name = '*'
-        @table = '*'
+        @database_name = nil
+        @table = nil
         @host = 'localhost'
         @privileges = [:all]
 
         @allowed_actions.push(:create, :drop, :grant)
+      end
+
+      def database_name(arg=nil)
+        set_or_return(
+          :database_name,
+          arg,
+          :kind_of => String
+        )
       end
 
       def username(arg=nil)

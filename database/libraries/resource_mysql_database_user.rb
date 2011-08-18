@@ -16,7 +16,8 @@
 # limitations under the License.
 #
 
-require 'chef/resource/package'
+require File.join(File.dirname(__FILE__), 'resource_database_user')
+require File.join(File.dirname(__FILE__), 'provider_database_mysql_user')
 
 class Chef
   class Resource

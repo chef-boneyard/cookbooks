@@ -16,10 +16,7 @@
 # limitations under the License.
 #
 
-require 'chef/log'
 require 'chef/provider'
-require 'chef/mixin/shell_out'
-require 'fileutils'
 
 class Chef
   class Provider
@@ -79,7 +76,13 @@ class Chef
 
         def db
           @db ||= begin
-            ::Mysql.new(@new_resource.connection[:host], @new_resource.connection[:username], @new_resource.connection[:password])
+            ::Mysql.new(
+              @new_resource.connection[:host],
+              @new_resource.connection[:username],
+              @new_resource.connection[:password],
+              nil,
+              @new_resource.connection[:port] || 3306
+            )
           end
         end
 
