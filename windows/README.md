@@ -243,6 +243,12 @@ Changes/Roadmap
 * [COOK-666] windows_package should support CoApp packages
 * windows_registry :force_modify action should use RegNotifyChangeKeyValue from WinAPI
 
+## v1.0.6
+
+* added force_modify action to windows_registry resource
+* add win_friendly_path helper
+* re-purpose default recipe to install useful supporting windows related gems
+
 ## v1.0.4
 
 * [COOK-700] new resources and improvements to the windows_registry provider (thanks Paul Morton!)
