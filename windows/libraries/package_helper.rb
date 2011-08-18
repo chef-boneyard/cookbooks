@@ -1,7 +1,7 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: windows
-# Library:: helper
+# Library:: package_helper
 #
 # Copyright:: 2011, Opscode, Inc.
 #
@@ -37,8 +37,7 @@ module Windows
           cache_file_path = source
         end
 
-        cache_file_path.gsub!(::File::SEPARATOR, ::File::ALT_SEPARATOR) if windows_path
-        cache_file_path
+        windows_path ? Windows::Helper.win_friendly_path(cache_file_path) : cache_file_path
       end
     end
 

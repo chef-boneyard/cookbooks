@@ -1,7 +1,7 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: windows
-# Recipe:: default
+# Library:: helper
 #
 # Copyright:: 2011, Opscode, Inc.
 #
@@ -18,17 +18,12 @@
 # limitations under the License.
 #
 
-# gems with precompiled binaries
-%w{ win32-api win32-service }.each do |win_gem|
-  gem_package win_gem do
-    options '--platform=mswin32'
-    action :install
-  end
-end
+module Windows
+  class Helper
 
-# the rest
-%w{ windows-api windows-pr win32-dir win32-event win32-mutex }.each do |win_gem|
-  gem_package win_gem do
-    action :install
+    def self.win_friendly_path(path)
+      path.gsub(::File::SEPARATOR, ::File::ALT_SEPARATOR) if path
+    end
+
   end
 end
