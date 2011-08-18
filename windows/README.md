@@ -228,6 +228,11 @@ Usage
 
 Just place an explicit dependency on this cookbook (using depends in the cookbook's metadata.rb) from any cookbook where you would like to use these Windows-specific resources.
 
+default
+-------
+
+Convenience recipe that installs many useful supporting Windows gems.
+
 Changes/Roadmap
 ===============
 
