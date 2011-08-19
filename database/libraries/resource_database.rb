@@ -27,6 +27,7 @@ class Chef
         @resource_name = :database
         @database_name = name
         @allowed_actions.push(:create, :drop, :query)
+        @action = :create
       end
 
       def database_name(arg=nil)

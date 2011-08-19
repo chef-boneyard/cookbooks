@@ -22,8 +22,6 @@ class Chef
   class Resource
     class DatabaseUser < Chef::Resource::Database
 
-      #VALID_PRIVELAGES = [:select, :insert, :update, :delete, :create, :index, :drop, :alter, :all]
-
       def initialize(name, run_context=nil)
         super
         @resource_name = :database_user
@@ -35,6 +33,7 @@ class Chef
         @privileges = [:all]
 
         @allowed_actions.push(:create, :drop, :grant)
+        @action = :create
       end
 
       def database_name(arg=nil)
