@@ -19,21 +19,23 @@
 #
 
 action :add do
-  path = ENV['PATH'].split(';')
+  path = Registry::get_value(Windows::KeyHelper::ENV_KEY,'Path').split(";")
   if !path.include?(new_resource.path)
-    path.insert(-1,new_resource.path)
+    path << new_resource.path
   end
 
-  windows_registry Windows::KeyHelper::ENV_KEY do
+  windows_registry "RegPathAdd #{new_resource.path}" do
+  	key_name Windows::KeyHelper::ENV_KEY
     values 'Path' => path.join(';')
   end
   timeoutVars
 end
 
 action :remove do
-  path = ENV['PATH'].split(';')
+  path = Registry::get_value(Windows::KeyHelper::ENV_KEY,'Path').split(';')
   path.delete(new_resource.path)
-  windows_registry Windows::KeyHelper::ENV_KEY do
+  windows_registry "RegPathRemove #{new_resource.path}" do
+  	key_name Windows::KeyHelper::ENV_KEY
     values 'Path' => path.join(';')
   end
   timeoutVars

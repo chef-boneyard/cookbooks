@@ -22,11 +22,11 @@
 
 actions :create, :modify, :force_modify, :remove
 
-attribute :key_name, :kind_of => String, :name_attribute => true
-attribute :values, :kind_of => Hash
+attribute :name, :kind_of => String, :name_attribute => true
+attribute :key_name, :kind_of => String, :required => true
+attribute :values, :kind_of => Hash, :required => true
 
 def initialize(name, run_context=nil)
   super
   @action = :modify
-  @key_name = name
 end

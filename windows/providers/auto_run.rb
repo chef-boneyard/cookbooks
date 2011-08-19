@@ -19,13 +19,15 @@
 #
 
 action :create do
-  windows_registry 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' do
+  windows_registry "CreateAutoRun #{new_resource.program} #{new_resource.args}" do
+  	key_name 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
     values new_resource.name => "\"#{new_resource.program}\" #{new_resource.args}"
   end
 end
 
 action :remove do 
-  windows_registry 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' do
+  windows_registry "RemoveAutoRun #{new_resource.program} #{new_resource.args}" do
+    key_name 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
     values new_resource.name => ''
     action :remove
   end

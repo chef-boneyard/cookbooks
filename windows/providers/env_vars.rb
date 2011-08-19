@@ -19,14 +19,16 @@
 #
 
 action :create do
-  windows_registry Windows::KeyHelper::ENV_KEY do
+  windows_registry "CreateEnv #{new_resource.name} #{new_resource.value}" do
+    key_name Windows::KeyHelper::ENV_KEY
     values new_resource.name => new_resource.value
     action :create
   end
 end
 
 action :remove do 
-  windows_registry Windows::KeyHelper::ENV_KEY do
+  windows_registry "RemoveEnv #{new_resource.name} #{new_resource.value}" do
+    key_name Windows::KeyHelper::ENV_KEY
     values new_resource.name => ''
     action :remove
   end
