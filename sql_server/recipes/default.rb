@@ -1,7 +1,7 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: windows
-# Library:: helper
+# Cookbook Name:: sql_server
+# Recipe:: default
 #
 # Copyright:: 2011, Opscode, Inc.
 #
@@ -18,12 +18,4 @@
 # limitations under the License.
 #
 
-module Windows
-  class Helper
-
-    def self.win_friendly_path(path)
-      path.gsub(::File::SEPARATOR, ::File::ALT_SEPARATOR) if path
-    end
-
-  end
-end
+include_recipe 'sql_server::client'

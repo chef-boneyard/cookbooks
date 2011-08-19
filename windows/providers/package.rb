@@ -17,16 +17,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-begin
+
+if RUBY_PLATFORM =~ /mswin|mingw32|windows/
   require 'win32/registry'
-rescue LoadError
-  Chef::Log.warn("Could not load win32/registry")
 end
 
 require 'chef/mixin/shell_out'
 require 'chef/mixin/language'
+
 include Chef::Mixin::ShellOut
-include Windows::Helpers
+include Windows::PackageHelper
 
 # the logic in all action methods mirror that of 
 # the Chef::Provider::Package which will make
@@ -118,7 +118,8 @@ end
 
 def install_package(name,version)
   Chef::Log.debug("Processing #{@new_resource} as a #{installer_type} installer.")
-  install_args = [cached_file(@new_resource.source),"#{expand_options(unattended_installation_flags)}#{expand_options(@new_resource.options)}"]
+  install_args = [cached_file(@new_resource.source, @new_resource.checksum), expand_options(unattended_installation_flags), expand_options(@new_resource.options)]
+  Chef::Log.info("Starting installation...this could take awhile.")
   shell_out!(sprintf(install_command_template, *install_args), {:returns => [0,42]})
 end
 
@@ -142,9 +143,9 @@ private
 def install_command_template
   case installer_type
   when :msi
-    "msiexec %2$s %1$s"
+    "msiexec%2$s %1$s%3$s"
   else
-    "start /wait %1$s %2$s"
+    "start /wait %1$s%2$s%3$s"
   end
 end
 
@@ -172,7 +173,6 @@ def unattended_installation_flags
   when :wise
     "/s"
   else
-    "/s"
   end
 end
 
@@ -180,15 +180,17 @@ def installed_packages
   @installed_packages || begin
     installed_packages = {}
     # Computer\HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall
-    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE)) rescue nil
+    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE)) #rescue nil
     # 64-bit registry view
     # Computer\HKEY_LOCAL_MACHINE\Software\Wow6464Node\Microsoft\Windows\CurrentVersion\Uninstall
-    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE, (Win32::Registry::Constants::KEY_READ | 0x0100))) rescue nil
+    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE, (Win32::Registry::Constants::KEY_READ | 0x0100))) #rescue nil
     # 32-bit registry view
     # Computer\HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall
-    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE, (Win32::Registry::Constants::KEY_READ | 0x0200))) rescue nil
+    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_LOCAL_MACHINE, (Win32::Registry::Constants::KEY_READ | 0x0200))) #rescue nil
     # Computer\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall
-    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_CURRENT_USER)) rescue nil
+    installed_packages.merge!(extract_installed_packages_from_key(Win32::Registry::HKEY_CURRENT_USER)) #rescue nil
+    # require 'pp'
+    # pp installed_packages
     installed_packages
   end
 end
@@ -197,13 +199,16 @@ def extract_installed_packages_from_key(hkey = Win32::Registry::HKEY_LOCAL_MACHI
   uninstall_subkey = 'Software\Microsoft\Windows\CurrentVersion\Uninstall'
   packages = {}
   Win32::Registry.open(hkey, uninstall_subkey, desired) do |reg|
-    reg.each_key do |key,wtime|
+    reg.each_key do |key, wtime|
       k = reg.open(key)
-      begin
-        packages[k["DisplayName"]] = {:name => k["DisplayName"], 
-                                      :version => k["DisplayVersion"],
-                                      :uninstall_string => k["UninstallString"]}
-      rescue
+      display_name = k["DisplayName"] rescue nil
+      version = k["DisplayVersion"] rescue "NO VERSION"
+      uninstall_string = k["UninstallString"] rescue nil
+
+      if display_name
+        packages[display_name] = {:name => display_name,
+                                  :version => version,
+                                  :uninstall_string => uninstall_string}
       end
     end
   end

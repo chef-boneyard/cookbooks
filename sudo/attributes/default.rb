@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: sudo
-# Attribute File:: sudoers
+# Attribute File:: default
 #
 # Copyright 2008-2011, Opscode, Inc.
 #

@@ -20,7 +20,7 @@
 # limitations under the License.
 #
 
-actions :modify, :create
+actions :create, :modify, :force_modify, :remove
 
 attribute :key_name, :kind_of => String, :name_attribute => true
 attribute :values, :kind_of => Hash

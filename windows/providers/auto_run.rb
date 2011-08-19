@@ -1,9 +1,9 @@
 #
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Author:: Paul Morotn (<pmorton@biaprotect.com>)
 # Cookbook Name:: windows
-# Library:: helper
+# Provider:: auto_run
 #
-# Copyright:: 2011, Opscode, Inc.
+# Copyright:: 2011, Business Intelligence Associates, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,12 +18,15 @@
 # limitations under the License.
 #
 
-module Windows
-  class Helper
+action :create do
+  windows_registry 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' do
+    values new_resource.name => "\"#{new_resource.program}\" #{new_resource.args}"
+  end
+end
 
-    def self.win_friendly_path(path)
-      path.gsub(::File::SEPARATOR, ::File::ALT_SEPARATOR) if path
-    end
-
+action :remove do 
+  windows_registry 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run' do
+    values new_resource.name => ''
+    action :remove
   end
 end

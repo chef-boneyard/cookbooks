@@ -1,9 +1,9 @@
 #
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Author:: Paul Morotn (<pmorton@biaprotect.com>)
 # Cookbook Name:: windows
-# Library:: helper
+# Library:: key_helper
 #
-# Copyright:: 2011, Opscode, Inc.
+# Copyright:: 2011, Business Intelligence Associates, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,11 +19,8 @@
 #
 
 module Windows
-  class Helper
-
-    def self.win_friendly_path(path)
-      path.gsub(::File::SEPARATOR, ::File::ALT_SEPARATOR) if path
-    end
-
+  module KeyHelper
+    AUTO_RUN_KEY = 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
+    ENV_KEY = 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment'
   end
 end

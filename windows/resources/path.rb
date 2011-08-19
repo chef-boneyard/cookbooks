@@ -1,9 +1,9 @@
 #
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Author:: Paul Morotn (<pmorton@biaprotect.com>)
 # Cookbook Name:: windows
-# Library:: helper
+# Resource:: path
 #
-# Copyright:: 2011, Opscode, Inc.
+# Copyright:: 2011, Business Intelligence Associates, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,12 +18,11 @@
 # limitations under the License.
 #
 
-module Windows
-  class Helper
-
-    def self.win_friendly_path(path)
-      path.gsub(::File::SEPARATOR, ::File::ALT_SEPARATOR) if path
-    end
-
-  end
+def initianize(name,run_context=nil)
+  super
+  @action = :add
 end
+
+actions :add, :remove
+
+attribute :path, :kind_of => String, :name_attribute => true

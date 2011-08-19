@@ -33,7 +33,7 @@ The following application installers are currently supported:
 
 If the proper installer type is not passed into the resource's installer_type attribute, the provider will do it's best to identify the type by introspecting the installation package.  If the installation type cannot be properly identified the `:custom` value can be passed into the installer_type attribute along with the proper flags for silent/quiet installation (using the `options` attribute..see example below).
 
-__PLEASE NOTE__ - the resource's `package_name` should be the same as the 'DisplayName' registry value in the uninstallation data that is created during package installation.  The easiest way to definitively find the proper 'DisplayName' value is to install the package on a machine and search for the uninstall information under the following registry keys:
+__PLEASE NOTE__ - For proper idempotence the resource's `package_name` should be the same as the 'DisplayName' registry value in the uninstallation data that is created during package installation.  The easiest way to definitively find the proper 'DisplayName' value is to install the package on a machine and search for the uninstall information under the following registry keys:
 
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall`
 * `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Uninstall`
@@ -51,6 +51,7 @@ For maximum flexibility the `source` attribute supports both remote and local in
 - package_name: name attribute. The 'DisplayName' of the application installation package.
 - source: The source of the windows installer.  This can either be a URI or a local path.
 - installer_type: They type of windows installation package. valid values are: :msi, :inno, :nsis, :wise, :installshield, :custom.  If this value is not provided, the provider will do it's best to identify the installer type through introspection of the file.
+- checksum: useful if source is remote, the SHA-256 checksum of the file--if the local file matches the checksum, Chef will not download it
 - options: Additional options to pass the underlying installation command
 
 ### Examples
@@ -82,7 +83,7 @@ For maximum flexibility the `source` attribute supports both remote and local in
     
     # install Firefox as custom installer and manually set the silent install flags
     windows_package "Mozilla Firefox 5.0 (x86 en-US)" do
-      source "http://3347-mozilla.voxcdn.com/pub/mozilla.org/firefox/releases/5.0/win32/en-US/Firefox%20Setup%205.0.exe"
+      source "http://archive.mozilla.org/pub/mozilla.org/mozilla.org/firefox/releases/5.0/win32/en-US/Firefox%20Setup%205.0.exe"
       options "-ms"
       installer_type :custom
       action :install
@@ -114,6 +115,8 @@ Creates and modifies Windows registry keys.
 
 - :create: create a new registry key with the provided values.
 - :modify: modify an existing registry key with the provided values.
+- :force_modify: modify an existing registry key with the provided values.  ensures the value is actually set by checking multiple times. useful for fighting race conditions where two processes are trying to set the same registry key.  This will be updated in the near future to use 'RegNotifyChangeKeyValue' which is exposed by the WinAPI and allows a process to register for notification on a registry key change.
+- :remove: removes a value from an existing registry key
 
 ### Attribute Parameters
 
@@ -121,16 +124,73 @@ Creates and modifies Windows registry keys.
 - values: hash of the values to set under the registry key. The individual hash items will become respective 'Value name' => 'Value data' items in the registry key.
 
 ### Examples
-
+  
     # make the local windows proxy match the one set for Chef
     proxy = URI.parse(Chef::Config[:http_proxy])
     windows_registry 'HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings' do
       values 'ProxyEnable' => 1, 'ProxyServer' => "#{proxy.host}:#{proxy.port}", 'ProxyOverride' => '<local>'
     end
-
+    
     # enable Remote Desktop and poke the firewall hole
     windows_registry 'HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server' do
       values 'FdenyTSConnections' => 0
+    end
+    
+    # Delete an item from the registry
+    windows_registry 'HKCU\Software\Test' do
+      #Key is the name of the value that you want to delete the value is always empty
+      values 'ValueToDelete' => ''
+      action :remove
+    end
+    
+### Library Methods
+
+    Registry::value_exists?('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
+    Registry::key_exists?('HKLM\SOFTWARE\Microsoft')
+    BgInfo = Registry::get_value('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
+
+'windows_auto_run'
+------------------
+
+### Actions
+- :create: Create an item to be run at login
+- :remove: Remove an item that was previously setup to run at login
+
+### Attribute Parameters
+- :name: Name attribute. The name of the value to be stored in the registry
+- :program: The program to be run at login
+- :args: The arguments for the program
+
+### Examples
+
+  # Run BGInfo at login
+  windows_auto_run 'BGINFO' do
+    program "C:/Sysinternals/bginfo.exe"
+    args "\"C:/Sysinternals/Config.bgi\" /NOLICPROMPT /TIMER:0"
+    not_if { Registry.value_exists?(Windows::KeyHelper::AUTO_RUN_KEY, 'BGINFO') }
+    action :create
+  end
+
+'windows_path'
+--------------
+
+### Actions
+- :add: Add an item to the system path
+- :remove: Remove an item from the system path
+
+### Attribute Parameters
+- :path: Name attribute. The name of the value to add to the system path
+
+### Examples
+
+    #Add Sysinternals to the system path
+    windows_path 'C:\Sysinternals' do
+      action :add
+    end
+    
+    #Remove Sysinternals from the system path
+    windows_path 'C:\Sysinternals' do
+      action :remove
     end
 
 `windows_zipfile`
@@ -163,11 +223,15 @@ Most version of Windows do not ship with native cli utility for managing compres
       action :unzip
     end
 
-
 Usage
 =====
 
 Just place an explicit dependency on this cookbook (using depends in the cookbook's metadata.rb) from any cookbook where you would like to use these Windows-specific resources.
+
+default
+-------
+
+Convenience recipe that installs many useful supporting Windows gems.
 
 Changes/Roadmap
 ===============
@@ -177,6 +241,25 @@ Changes/Roadmap
 * package preseeding/response_file support
 * package installation location via a `target_dir` attribute.
 * [COOK-666] windows_package should support CoApp packages
+* windows_registry :force_modify action should use RegNotifyChangeKeyValue from WinAPI
+
+## v1.0.6
+
+* added force_modify action to windows_registry resource
+* add win_friendly_path helper
+* re-purpose default recipe to install useful supporting windows related gems
+
+## v1.0.4
+
+* [COOK-700] new resources and improvements to the windows_registry provider (thanks Paul Morton!)
+  * Open the registry in the bitednes of the OS
+  * Provide convenience methods to check if keys and values exit
+  * Provide convenience method for reading registry values
+  * NEW - `windows_auto_run` resource/provider
+  * NEW - `windows_env_vars` resource/provider
+  * NEW - `windows_path` resource/provider
+* re-write of the windows_package logic for determining current installed packages
+* new checksum attribute for windows_package resource...useful for remote packages
 
 ## v1.0.2:
 
@@ -192,8 +275,12 @@ License and Author
 
 Author:: Seth Chisamore (<schisamo@opscode.com>)
 Author:: Doug MacEachern (<dougm@vmware.com>)
+Author:: Paul Morton (<pmorton@biaprotect.com>)
 
 Copyright:: 2011, Opscode, Inc.
+Copyright:: 2010, VMware, Inc.
+Copyright:: 2011, Business Intelligence Associates, Inc
+
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

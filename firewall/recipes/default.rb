@@ -1,9 +1,8 @@
 #
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: windows
-# Library:: helper
+# Cookbook Name:: firewall
+# Recipe:: default
 #
-# Copyright:: 2011, Opscode, Inc.
+# Copyright 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,13 +16,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-module Windows
-  class Helper
-
-    def self.win_friendly_path(path)
-      path.gsub(::File::SEPARATOR, ::File::ALT_SEPARATOR) if path
-    end
-
-  end
-end
