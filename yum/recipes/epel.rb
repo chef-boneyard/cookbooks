@@ -1,9 +1,9 @@
 #
+# Author:: Joshua Timberman (<joshua@opscode.com>)
 # Cookbook Name:: yum
-# Attributes:: default 
+# Recipe:: epel
 #
-# Copyright 2011, Eric G. Wolfe 
-# Copyright 2011, Opscode, Inc.
+# Copyright:: Copyright (c) 2011 Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,18 +16,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-# Example: override.yum.exclude = "kernel* compat-glibc*"
-default[:yum][:exclude]
-default[:yum][:installonlypkgs]
+major = node['platform_version'].to_i
+epel  = node['yum']['epel_release']
 
-
-default['yum']['epel_release'] = case node['platform_version'].to_i
-                                  when "6"
-                                    "6-5"
-                                  when "5"
-                                    "5-4"
-                                  when "4"
-                                    "4-10"
-                                  end
+rpm_package "epel-release" do
+  source "http://download.fedoraproject.org/pub/epel/#{major}/i386/epel-release-#{epel}.noarch.rpm"
+end
