@@ -31,6 +31,7 @@ Resources/Providers
 
 - :enable: enable the firewall.  this will make any rules that have been defined 'active'.
 - :disable: disable the firewall. drop any rules and put the node in an unprotected state.
+- :reset: reset the firewall. drop any rules and puts the node in the default state. Does not enable or disable the firewall.
 
 ### Attribute Parameters
 
@@ -101,6 +102,14 @@ Changes/Roadmap
 * [COOK-689] create windows firewall providers for all resources
 * [COOK-690] create firewall_chain resource
 * [COOK-693] create pf firewall providers for all resources
+* [COOK-694] Firewall cookbook firewall_rule LWRP needs to support :reject
+* [COOK-695] Firewall cookbook firewall_rule LWRP needs to support destination port
+* [COOK-696] Firewall cookbook firewall_rule LWRP needs to support interface
+* [COOK-697] Firewall cookbook firewall_rule LWRP needs to support the direction for the rules
+
+## 0.5.3
+
+* [COOK-698] added :reset action to the 'firewall' resource.
 
 ## 0.5.2
 

@@ -25,7 +25,7 @@ class Chef
       def initialize(name, run_context=nil)
         super
         @resource_name = :firewall
-        @allowed_actions.push(:enable, :disable)
+        @allowed_actions.push(:enable, :disable, :reset)
       end
 
     end
