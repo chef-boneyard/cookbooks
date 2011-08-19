@@ -42,7 +42,7 @@ These attributes are set by the cookbook by default.
 * `node["openvpn"]["key_dir"]` - Location to store keys, certificates and related files. Default `/etc/openvpn/keys`.
 * `node["openvpn"]["signing_ca_cert"]` - CA certificate for signing, default `/etc/openvpn/keys/ca.crt`
 * `node["openvpn"]["signing_ca_key"]` - CA key for signing, default `/etc/openvpn/keys/ca.key`
-* `node["openvpn"]["push"]` - Array of routes to add as `push` statements in the server.conf. Default is empty.
+* `node["openvpn"]["routes"]` - Array of routes to add as `push` statements in the server.conf. Default is empty.
 
 The following attributes are used to populate the `easy-rsa` vars file. Defaults are the same as the vars file that ships with OpenVPN.
 
@@ -96,11 +96,11 @@ Create a role for the OpenVPN server. See above for attributes that can be enter
       }
     )
 
-To push routes to clients, add `node['openvpn']['push']` as an array attribute, e.g. if the internal network is 192.168.100.0/24:
+To push routes to clients, add `node['openvpn']['routes']` as an array attribute, e.g. if the internal network is 192.168.100.0/24:
 
     override_attributes(
       "openvpn" => {
-        "push" => [
+        "routes" => [
           "push 'route 192.168.100.0 255.255.255.0'"
         ]
       }
