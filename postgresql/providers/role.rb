@@ -54,13 +54,13 @@ def load_current_resource
   begin
     query_result = connection.exec("select * from pg_roles where rolname = '#{@new_resource.role}';")
     if query_result.ntuples > 0
-      existing_role_values = query_result.values[0]
-      @current_resource.role(existing_role_values[0])
-      @current_resource.superuser(bool_convert existing_role_values[1])
-      @current_resource.inherit(bool_convert existing_role_values[2])
-      @current_resource.createrole(bool_convert existing_role_values[3])
-      @current_resource.createdb(bool_convert existing_role_values[4])
-      @current_resource.login(bool_convert existing_role_values[6])
+      #TODO: rewrite to fieldnames/check compatibility between postgres versions
+      @current_resource.role(query_result.getvalue(0, 0))
+      @current_resource.superuser(bool_convert query_result.getvalue(0, 1))
+      @current_resource.inherit(bool_convert query_result.getvalue(0, 2))
+      @current_resource.createrole(bool_convert query_result.getvalue(0, 3))
+      @current_resource.createdb(bool_convert query_result.getvalue(0, 4))
+      @current_resource.login(bool_convert query_result.getvalue(0, 6))
     end
   ensure
     close

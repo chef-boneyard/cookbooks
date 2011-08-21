@@ -23,15 +23,35 @@ include Opscode::PostgreSQL::Connection
 action :create do
   unless exists?
     begin
-      connection.exec("create database #{new_resource.database}")
+      create_sql = "CREATE DATABASE #{new_resource.database} WITH
+      TEMPLATE = #{new_resource.template} ENCODING = #{new_resource.encoding}
+      TABLESPACE = #{new_resource.tablespace} CONNECTION LIMIT = #{new_resource.connection_limit}"
+      create_sql += " OWNER = #{new_resource.owner}" if new_resource.owner
+      
+      connection.exec(create_sql)
       Chef::Log.info "postgresql_database: Created database #{new_resource.database}"
       new_resource.updated_by_last_action(true)
     ensure
       close
     end
   end
-
 end
+
+action :drop do
+    if exists? then
+        begin
+            drop_sql = "DROP DATABASE #{new_resource.database}"
+            connection.exec(drop_sql)
+            Chef::Log.info "postgresql_database: Dropped database #{new_resource.database}"
+            new_resource.updated_by_last_action(true)
+        ensure
+            close
+        end
+    else
+        Chef::Log.info "postgresql_database: Database #{new_resource.database} not exist, drop omitted"
+    end
+end
+
 
 def load_current_resource
   Gem.clear_paths
@@ -42,11 +62,11 @@ def load_current_resource
   begin
     query_result = connection.exec("select * from pg_database where datname = '#{@new_resource.database}';")
     if query_result.ntuples > 0
-      existing_role_values = query_result.values[0]
-      @current_resource.database(existing_role_values[0])
+      @current_resource.database(query_result.getvalue(0, 0))
     end
   ensure
     close
+    
   end
 
   @current_resource

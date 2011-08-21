@@ -10,8 +10,14 @@ module Opscode
     module Connection
       def connection
         unless @connection
-          Chef::Log.debug("Connecting to 127.0.0.1:5432, user 'postgres'")
-          @connection ||= ::PGconn.connect('127.0.0.1', 5432, nil, nil, nil, 'postgres', node[:postgresql][:password][:postgres])
+          Chef::Log.debug("Connecting to #{new_resource.db_host}:#{new_resource.db_port}, user '#{new_resource.db_username}'")
+          password = (new_resource.db_password or node[:postgresql][:password][:postgres])
+          @connection ||= ::PGconn.connect(
+                                           :host => new_resource.db_host,
+                                           :port => new_resource.db_port,
+                                           :user => new_resource.db_username,
+                                           :password => password
+                                          )
           Chef::Log.debug("Created postgresql connection: #{@connection} - status: #{@connection.status}")
         end
         @connection
@@ -22,13 +28,5 @@ module Opscode
         @connection = nil
       end
     end
-
-    module ConnectionUtils
-      def load_role
-
-      end
-    end
   end
 end
-
-#::PGconn.send(:include, Opscode::PostgreSQL::ConnectionUtils)

@@ -18,8 +18,8 @@
 # limitations under the License.
 #
 
-actions :create
 
+actions :create
 attribute :role, :kind_of => String
 attribute :superuser, :default => false
 attribute :createdb, :default => false
@@ -27,3 +27,8 @@ attribute :createrole, :default => false
 attribute :inherit, :default => false
 attribute :login, :default => false
 attribute :exists, :default => false
+
+attribute :db_host, :kind_of => String, :default => '127.0.0.1'
+attribute :db_port, :default => 5432
+attribute :db_username, :kind_of => String, :default => 'postgres'
+attribute :db_password, :kind_of => String, :default => nil
