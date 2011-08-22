@@ -86,6 +86,10 @@ For more infromation on the compile vs execution phase of a Chef run:
 Changes/Roadmap
 ===============
 
+## v1.2.0
+
+* [COOK-684] remove mysql_database LWRP
+
 ### v1.0.8:
 
 * [COOK-633] ensure "cloud" attribute is available
