@@ -5,13 +5,6 @@ The main highlight of this cookbook is the `database` and `database_user` resour
 
 This cookbook also contains recipes to configure mysql database masters and slaves and uses EBS for storage, integrating together with the application cookbook utilizing data bags for application related information. These recipes are written primarily to use MySQL and the Opscode mysql cookbook. Other RDBMS may be supported at a later date.  This cookbook does not automatically restore database dumps, but does install tools to help with that.
 
-Changes
-=======
-
-## v0.99.1
-
-* Use Chef 0.10's `node.chef_environment` instead of `node['app_environment']`.
-
 Requirements
 ============
 
@@ -325,6 +318,24 @@ Create a `production` environment. This is also used in the `application` cookbo
     
 
 The cookbook `my_app_database` is recommended to set up any application specific database resources such as configuration templates, trending monitors, etc. It is not required, but you would need to create it separately in `site-cookbooks`. Add it to the `my_app_database_master` role.
+
+Changes/Roadmap
+===============
+
+## Future
+
+* update `database::master` to work with any RDBMS provider (most likely keying off database adapter)
+
+## v1.0.0
+
+* [COOK-683] added `database` and `database_user` resources
+* [COOK-684] MySQL providers
+* [COOK-685] SQL Server providers
+* refactored `database::master` and `database::snapshot` recipes to leverage new resources
+
+## v0.99.1
+
+* Use Chef 0.10's `node.chef_environment` instead of `node['app_environment']`.
 
 License and Author
 ==================
