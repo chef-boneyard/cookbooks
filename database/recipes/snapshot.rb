@@ -24,12 +24,12 @@ include_recipe "xfs"
   Chef::Application.fatal!("Required db_snapshot configuration #{key} not found.", -47) unless node.db_snapshot.has_key? key
 end
 
+connection_info = {:host => localhost, :username => node.db_snapshot.username, :password => node.db_snapshot.password}
+
 mysql_database "locking tables for #{node.db_snapshot.app_environment}" do
-  provider "mysql_database"
-  action :flush_tables_with_read_lock
-  host "localhost"
-  username node.db_snapshot.username
-  password node.db_snapshot.password
+  connection connection_info
+  sql "flush tables with read lock"
+  action :query
 end
 
 execute "xfs freeze" do
@@ -52,7 +52,9 @@ execute "xfs unfreeze" do
 end
 
 mysql_database "unflushing tables for #{node.db_snapshot.app_environment}" do
-  action :unflush_tables
+  connection connection_info
+  sql "unlock tables"
+  action :query
 end
 
 aws_ebs_volume "#{node.db_snapshot.db_role.first}_#{node.db_snapshot.app_environment}" do
