@@ -30,7 +30,7 @@ end
 
 action :remove do
   env "PATH" do
-  	action :remove
+  	action :delete
   	delim ";"
   	value new_resource.path
   end
