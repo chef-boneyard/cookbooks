@@ -18,39 +18,20 @@
 # limitations under the License.
 #
 
-action :add do
-  path = Registry::get_value(Windows::KeyHelper::ENV_KEY,'Path').split(";")
-  if !path.include?(new_resource.path)
-    path << new_resource.path
-  end
 
-  windows_registry "RegPathAdd #{new_resource.path}" do
-  	key_name Windows::KeyHelper::ENV_KEY
-    values 'Path' => path.join(';')
+action :add do
+  env "PATH" do
+  	action :create
+  	delim ";"
+  	value new_resource.path
   end
-  timeoutVars
+  
 end
 
 action :remove do
-  path = Registry::get_value(Windows::KeyHelper::ENV_KEY,'Path').split(';')
-  path.delete(new_resource.path)
-  windows_registry "RegPathRemove #{new_resource.path}" do
-  	key_name Windows::KeyHelper::ENV_KEY
-    values 'Path' => path.join(';')
+  env "PATH" do
+  	action :remove
+  	delim ";"
+  	value new_resource.path
   end
-  timeoutVars
-end
-
-private 
-# Notify all processes that the environmental variables have been updated.
-def timeoutVars
-  # Dosent seem to work... You may need to re-login
-  Chef::Log.debug("Telling other processes that the env vars have been updated")
-  require 'Win32API'
-  sendMessageTimeout = Win32API.new('user32', 'SendMessageTimeout', 'LLLPLLP', 'L') 
-  hwnd_broadcast = 0xffff
-  wm_settingchange = 0x001A
-  smto_abortifhung = 2
-  result = 0
-  sendMessageTimeout.call(hwnd_broadcast, wm_settingchange, 0, 'Environment', smto_abortifhung, 5000, result)
 end
