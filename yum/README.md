@@ -10,12 +10,16 @@ Changes
 
 ## v.0.1.2:
 
-* Remove yum update in default recipe, that doesn't update caches, it
-  updates packages installed.
+* Remove yum update in default recipe, that doesn't update caches, it updates packages installed.
 
 Requirements
 ============
 RHEL, CentOS or Scientific Linux 5.x or newer. It has not been tested on other platforms or earlier versions. RHEL 6 support is untested (testing and patches are welcome).
+
+Attributes
+==========
+
+* `node['yum']['epel_release']` - Set the epel release version based on `node['platform_version']`.
 
 Recipes
 =======
@@ -27,6 +31,11 @@ The default recipe runs `yum update` during the Compile Phase of the Chef run to
 yum
 ---
 Manages the configuration of the `/etc/yum.conf` via attributes.
+
+epel
+----
+
+Installs the EPEL repository via RPM. Uses the `node['yum']['epel_release']` attribute to select the right version of the repository package to install. Also uses the node's platform version (as an integer) for the major release of EL.
 
 Resources/Providers
 ===================
@@ -75,6 +84,7 @@ This LWRP provides an easy way to manage additional YUM repositories. GPG keys c
 - url: The URL providing the packages
 - mirrorlist: Default is `false`,  if `true` the `url` is considered a list of mirrors
 - key: Optional, the name of the GPG key file installed by the `key` LWRP.
+
 - enabled: Default is `1`, set to `0` if the repository is disabled.
 - type: Optional, alternate type of repository
 - failovermethod: Optional, failovermethod
@@ -124,4 +134,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-

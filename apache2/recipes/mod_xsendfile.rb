@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: mysql
-# Resource:: database
+# Cookbook Name:: apache2
+# Recipe:: mod_xsendfile 
 #
-# Copyright:: 2008-2011, Opscode, Inc <legal@opscode.com>
+# Copyright 2011, CustomInk, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@
 # limitations under the License.
 #
 
-actions :flush_tables_with_read_lock, :unflush_tables, :create_db, :query
+case node['platform']
+when "debian","ubuntu"
+  package "libapache2-mod-xsendfile"
+when "centos","redhat","scientific","fedora"
+  package "mod_xsendfile"
+end
 
-attribute :host, :kind_of => String
-attribute :username, :kind_of => String
-attribute :password, :kind_of => String
-attribute :database, :kind_of => String
-attribute :sql, :kind_of => String
-attribute :exists, :default => false
+apache_module "xsendfile"
