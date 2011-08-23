@@ -17,4 +17,11 @@
 # limitations under the License.
 #
 
+case node['platform']
+when "debian","ubuntu"
+  package "libapache2-mod-xsendfile"
+when "centos","redhat","scientific","fedora"
+  package "mod_xsendfile"
+end
+
 apache_module "xsendfile"
