@@ -55,7 +55,8 @@ Resources/Providers
 ### Actions
 
 - :allow: the rule should allow incoming traffic.
-- :deny: the rule should deny incoming traffic
+- :deny: the rule should deny incoming traffic.
+- :reject: the rule should reject incoming traffic.
 
 ### Attribute Parameters
 
@@ -102,10 +103,12 @@ Changes/Roadmap
 * [COOK-689] create windows firewall providers for all resources
 * [COOK-690] create firewall_chain resource
 * [COOK-693] create pf firewall providers for all resources
-* [COOK-694] Firewall cookbook firewall_rule LWRP needs to support :reject
 * [COOK-695] Firewall cookbook firewall_rule LWRP needs to support destination port
 * [COOK-696] Firewall cookbook firewall_rule LWRP needs to support interface
 * [COOK-697] Firewall cookbook firewall_rule LWRP needs to support the direction for the rules
+
+## 0.5.4
+* [COOK-694] added :reject action to the 'firewall_rule' resource.
 
 ## 0.5.3
 

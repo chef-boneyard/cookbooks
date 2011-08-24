@@ -28,7 +28,7 @@ class Chef
         super
         @resource_name = :firewall_rule
         @source = "0.0.0.0/0"
-        @allowed_actions.push(:allow, :deny)
+        @allowed_actions.push(:allow, :deny, :reject)
       end
 
       def port(arg=nil)

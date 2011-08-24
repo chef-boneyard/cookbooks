@@ -38,6 +38,10 @@ class Chef
           apply_rule(@new_resource.action)
         end
 
+        def action_reject
+          apply_rule(@new_resource.action)
+        end
+
         private
         # ufw allow from 192.168.0.4 to any port 22
         # ufw deny proto tcp from 10.0.0.0/8 to 192.168.0.1 port 25
