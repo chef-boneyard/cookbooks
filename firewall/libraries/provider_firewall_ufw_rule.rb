@@ -31,15 +31,15 @@ class Chef
         end
 
         def action_allow
-          apply_rule(@new_resource.action)
+          apply_rule('allow')
         end
 
         def action_deny
-          apply_rule(@new_resource.action)
+          apply_rule('deny')
         end
 
         def action_reject
-          apply_rule(@new_resource.action)
+          apply_rule('reject')
         end
 
         private
