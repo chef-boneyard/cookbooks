@@ -3,22 +3,18 @@ Description
 
 Provides recipes for manipulating selinux policy enforcement
 
----
 Requirements
 ============
 Selinux enabled RHEL derived linux distro
 
----
 Platform
 ========
 redhat centos scientific fedora
 
----
 Attributes
 ==========
 none
 
----
 Usage
 =====
 
@@ -32,7 +28,6 @@ run_list(
   "recipe[selinux::disabled]",
 )
 
----
 License and Author
 ==================
 
