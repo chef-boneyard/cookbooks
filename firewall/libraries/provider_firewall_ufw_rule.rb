@@ -48,7 +48,25 @@ class Chef
         # ufw insert 1 allow proto tcp from 0.0.0.0/0 to 192.168.0.1 port 25
         def apply_rule(type=nil)
           unless rule_exists?
-            shell_out!("ufw #{"insert #{@new_resource.position} " if @new_resource.position }#{type} proto #{proto} from #{@new_resource.source || 'any'} to #{@new_resource.destination || 'any'} port #{@new_resource.port}")
+            ufw_command = "ufw "
+            ufw_command += "insert #{@new_resource.position} " if @new_resource.position
+            ufw_command += "#{type} proto #{proto} "
+            if @new_resource.source
+              ufw_command += "from #{@new_resource.source} "
+            else
+              ufw_command += "from any "
+            end
+            ufw_command += "port #{@new_resource.dest_port} " if @new_resource.dest_port
+            if @new_resource.destination
+              ufw_command += "to #{@new_resource.destination} "
+            else
+              ufw_command += "to any "
+            end
+            ufw_command += "port #{@new_resource.port} " if @new_resource.port
+
+            Chef::Log.debug("ufw: #{ufw_command}")
+            shell_out!(ufw_command)
+
             Chef::Log.info("#{@new_resource} #{type} rule added")
             shell_out!("ufw status") # purely for the Chef::Log.debug output
             @new_resource.updated_by_last_action(true)
