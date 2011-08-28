@@ -48,6 +48,22 @@ class Chef
           )
       end
 
+      def direction(arg=nil)
+        set_or_return(
+          :direction,
+          arg,
+          :equal_to => [ 'in', 'out' ]
+          )
+      end
+
+      def interface(arg=nil)
+        set_or_return(
+          :interface,
+          arg,
+          :kind_of => [ String ]
+          )
+      end
+
       def source(arg=nil)
         set_or_return(
           :source,

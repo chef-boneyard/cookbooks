@@ -50,7 +50,16 @@ class Chef
           unless rule_exists?
             ufw_command = "ufw "
             ufw_command += "insert #{@new_resource.position} " if @new_resource.position
-            ufw_command += "#{type} proto #{proto} "
+            ufw_command += "#{type} "
+            ufw_command += "#{@new_resource.direction} " if @new_resource.direction
+            if @new_resource.interface
+              if @new_resource.direction
+                ufw_command += "on #{@new_resource.interface} "
+              else
+                ufw_command += "in on #{@new_resource.interface} "
+              end
+            end
+            ufw_command += "proto #{proto} "
             if @new_resource.source
               ufw_command += "from #{@new_resource.source} "
             else

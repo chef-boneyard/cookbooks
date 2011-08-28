@@ -67,6 +67,8 @@ Resources/Providers
 - destination: ip address or subnet to filter on outgoing traffic. 
 - dest_port: outgoing port number.
 - position: position to insert rule at. if not provided rule is inserted at the end of the rule list.
+- direction: direction of the rule. 'in' or 'out' are supported, 'in' is default.
+- interface: interface to apply rule (ie. 'eth0').
 
 ### Providers
 
@@ -85,11 +87,20 @@ Resources/Providers
     # open standard http port to tcp traffic only; insert as first rule
     firewall_rule "http" do
       port 80
-      protocol :tcp
+      protocol 'tcp'
       position 1
       action :allow
     end
     
+    # restrict port 13579 to 10.0.111.0/24 on eth0
+    firewall_rule "myapplication" do
+      port 13579
+      source '10.0.111.0/24'
+      direction 'in'
+      interface 'eth0'
+      action :allow
+    end
+
     firewall "ufw" do
       action :nothing
     end
@@ -103,6 +114,8 @@ Changes/Roadmap
 * [COOK-689] create windows firewall providers for all resources
 * [COOK-690] create firewall_chain resource
 * [COOK-693] create pf firewall providers for all resources
+
+## 0.5.7
 * [COOK-696] Firewall cookbook firewall_rule LWRP needs to support interface
 * [COOK-697] Firewall cookbook firewall_rule LWRP needs to support the direction for the rules
 
