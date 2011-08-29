@@ -106,6 +106,7 @@ This cookbook includes LWRPs for managing:
 - preferred_state: PEAR by default installs stable packages only, this allows you to install pear packages in a devel, alpha or beta state
 - directives: extra extension directives (settings) for a pecl. on most platforms these usually get rendered into the extension's .ini file
 - options: Add additional options to the underlying pear package command
+- is_pecl: If true, fetch package from pecl. If not given, an educated guess will be made by searching PEAR and PECL for the package name.
 
 
 # Example
