@@ -91,7 +91,7 @@ def move_and_clean_up
 end
 
 def cached_torrent
-  @@torrent_file_path ||= begin
+  @torrent_file_path ||= begin
     cache_file_path = "#{Chef::Config[:file_cache_path]}/#{::File.basename(new_resource.torrent)}"
     Chef::Log.debug("Caching a copy of torrent file #{new_resource.torrent} at #{cache_file_path}")
     if(new_resource.torrent =~ /^(https?:\/\/)(.*\/)(.*\.torrent)$/)
@@ -114,7 +114,7 @@ end
 
 def torrent_hash
   require 'bencode'
-  @@torrent_hash ||= begin
+  @torrent_hash ||= begin
     Digest::SHA1.hexdigest((IO.read(cached_torrent).bdecode["info"]).bencode) # thx bakins!
   end
 end
