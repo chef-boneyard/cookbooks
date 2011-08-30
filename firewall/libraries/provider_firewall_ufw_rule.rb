@@ -59,6 +59,7 @@ class Chef
                 ufw_command += "in on #{@new_resource.interface} "
               end
             end
+            ufw_command += "#{@new_resource.logging} " if @new_resource.logging
             ufw_command += "proto #{proto} "
             if @new_resource.source
               ufw_command += "from #{@new_resource.source} "
@@ -77,7 +78,7 @@ class Chef
             shell_out!(ufw_command)
 
             Chef::Log.info("#{@new_resource} #{type} rule added")
-            shell_out!("ufw status") # purely for the Chef::Log.debug output
+            shell_out!("ufw status verbose") # purely for the Chef::Log.debug output
             @new_resource.updated_by_last_action(true)
           else
             Chef::Log.debug("#{@new_resource} #{type} rule exists..skipping.")

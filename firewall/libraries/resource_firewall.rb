@@ -25,7 +25,15 @@ class Chef
       def initialize(name, run_context=nil)
         super
         @resource_name = :firewall
-        @allowed_actions.push(:enable, :disable, :reset)
+        @allowed_actions.push(:enable, :disable, :reset, :logging)
+      end
+
+      def level(arg=nil)
+        set_or_return(
+          :level,
+          arg,
+          :equal_to => [ 'on', 'off', 'low', 'medium', 'high', 'full' ]
+          )
       end
 
     end

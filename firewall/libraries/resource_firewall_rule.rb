@@ -64,6 +64,14 @@ class Chef
           )
       end
 
+      def logging(arg=nil)
+        set_or_return(
+          :logging,
+          arg,
+          :equal_to => [ 'log', 'log-all' ]
+          )
+      end
+
       def source(arg=nil)
         set_or_return(
           :source,

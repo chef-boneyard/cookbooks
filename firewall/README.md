@@ -32,10 +32,12 @@ Resources/Providers
 - :enable: enable the firewall.  this will make any rules that have been defined 'active'.
 - :disable: disable the firewall. drop any rules and put the node in an unprotected state.
 - :reset: reset the firewall. drop any rules and puts the node in the default state. Does not enable or disable the firewall.
+- :logging: set the logging level for the firewall. Requires the 'level' attribute parameter. Default if unset if 'low'.
 
 ### Attribute Parameters
 
 - name: name attribute. arbitrary name to uniquely identify this resource
+- level: used by the `logging` action, options are 'on', 'off', 'low', 'medium', 'high' and 'full'.
 
 ### Providers
 
@@ -49,6 +51,12 @@ Resources/Providers
       action :enable
     end
 
+    # increase logging past default of 'low'
+    firewall "debug firewalls" do
+      level 'high'
+      action :logging
+    end
+
 `firewall_rule`
 ---------------
 
@@ -56,6 +64,7 @@ Resources/Providers
 
 - :allow: the rule should allow incoming traffic.
 - :deny: the rule should deny incoming traffic.
+- :logging: the rule should reject incoming traffic.
 - :reject: the rule should reject incoming traffic.
 
 ### Attribute Parameters
@@ -69,6 +78,7 @@ Resources/Providers
 - position: position to insert rule at. if not provided rule is inserted at the end of the rule list.
 - direction: direction of the rule. 'in' or 'out' are supported, 'in' is default.
 - interface: interface to apply rule (ie. 'eth0').
+- logging: may be added to enable logging for a particular rule. 'log' and 'log-all' are supported options. In the ufw provider, 'log' logs new connections while 'log-all' logs all packets.
 
 ### Providers
 
@@ -114,6 +124,10 @@ Changes/Roadmap
 * [COOK-689] create windows firewall providers for all resources
 * [COOK-690] create firewall_chain resource
 * [COOK-693] create pf firewall providers for all resources
+
+## 0.6
+* [COOK-725] Firewall cookbook firewall_rule LWRP needs to support logging attribute.
+* Firewall cookbook firewall LWRP needs to support :logging
 
 ## 0.5.7
 * [COOK-696] Firewall cookbook firewall_rule LWRP needs to support interface
