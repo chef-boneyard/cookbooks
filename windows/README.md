@@ -10,13 +10,85 @@ Platform
 --------
 
 * Windows XP
-* Windows Server 2003
 * Windows Vista
+* Windows Server 2003 R2
 * Windows 7
 * Windows Server 2008 (R1, R2)
 
 Resource/Provider
 =================
+
+`windows_auto_run`
+------------------
+
+### Actions
+- :create: Create an item to be run at login
+- :remove: Remove an item that was previously setup to run at login
+
+### Attribute Parameters
+- :name: Name attribute. The name of the value to be stored in the registry
+- :program: The program to be run at login
+- :args: The arguments for the program
+
+### Examples
+
+  # Run BGInfo at login
+  windows_auto_run 'BGINFO' do
+    program "C:/Sysinternals/bginfo.exe"
+    args "\"C:/Sysinternals/Config.bgi\" /NOLICPROMPT /TIMER:0"
+    not_if { Registry.value_exists?(Windows::KeyHelper::AUTO_RUN_KEY, 'BGINFO') }
+    action :create
+  end
+
+
+`windows_feature`
+-----------------
+
+Windows Roles and Features can be thought of as built-in operating system packages that ship with the OS.  A server role is a set of software programs that, when they are installed and properly configured, lets a computer perform a specific function for multiple users or other computers within a network.  A Role can have multiple Role Services that provide functionality to the Role.  Role services are software programs that provide the functionality of a role. Features are software programs that, although they are not directly parts of roles, can support or augment the functionality of one or more roles, or improve the functionality of the server, regardless of which roles are installed.  Collectively we refer to all of these attributes as 'features'.
+
+This resource allows you to manage these 'features' in an unattended, idempotent way.
+
+There are two providers for the `windows_features` which map into Microsoft's two major tools for managing roles/features: [Deployment Image Servicing and Management (DISM)](http://msdn.microsoft.com/en-us/library/dd371719(v=vs.85).aspx) and [Servermanagercmd](http://technet.microsoft.com/en-us/library/ee344834(WS.10).aspx) (The CLI for Server Manager).  As Servermanagercmd is deprecated, Chef will set the default provider to `Chef::Provider::WindowsFeature::DISM` if DISM is present on the system being configured.  The default provider will fall back to `Chef::Provider::WindowsFeature::ServerManagerCmd`.
+
+For more information on Roles, Role Services and Features see the [Microsoft TechNet article on the topic](http://technet.microsoft.com/en-us/library/cc754923.aspx).  For a complete list of all features that are available on a node type either of the following commands at a command prompt:
+
+    dism /online /Get-Features
+    servermanagercmd -query
+
+### Actions
+
+- :install: install a Windows role/feature
+- :remove: remove a Windows role/feature
+
+### Attribute Parameters
+
+- feature_name: name of the feature/role to install.  The same feature may have different names depending on the provider used (ie DHCPServer vs DHCP; DNS-Server-Full-Role vs DNS).
+
+### Providers
+
+- **Chef::Provider::WindowsFeature::DISM**: Uses Deployment Image Servicing and Management (DISM) to manage roles/features.
+- **Chef::Provider::WindowsFeature::ServerManagerCmd**: Uses Server Manager to manage roles/features.
+
+### Examples
+
+    # enable the node as a DHCP Server
+    windows_feature "DHCPServer" do
+      action :install
+    end
+    
+    # enable TFTP
+    windows_feature "TFTP" do
+      action :install
+    end
+    
+    # disable Telnet client/server
+    %w{ TelnetServer TelnetClient }.each do |feature|
+      windows_feature feature do
+        action :remove
+      end
+    end
+    
+    # 
 
 `windows_package`
 -----------------
@@ -149,27 +221,6 @@ Creates and modifies Windows registry keys.
     Registry::key_exists?('HKLM\SOFTWARE\Microsoft')
     BgInfo = Registry::get_value('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
 
-'windows_auto_run'
-------------------
-
-### Actions
-- :create: Create an item to be run at login
-- :remove: Remove an item that was previously setup to run at login
-
-### Attribute Parameters
-- :name: Name attribute. The name of the value to be stored in the registry
-- :program: The program to be run at login
-- :args: The arguments for the program
-
-### Examples
-
-  # Run BGInfo at login
-  windows_auto_run 'BGINFO' do
-    program "C:/Sysinternals/bginfo.exe"
-    args "\"C:/Sysinternals/Config.bgi\" /NOLICPROMPT /TIMER:0"
-    not_if { Registry.value_exists?(Windows::KeyHelper::AUTO_RUN_KEY, 'BGINFO') }
-    action :create
-  end
 
 'windows_path'
 --------------
@@ -192,6 +243,7 @@ Creates and modifies Windows registry keys.
     windows_path 'C:\Sysinternals' do
       action :remove
     end
+
 
 `windows_zipfile`
 -----------------
@@ -222,6 +274,7 @@ Most version of Windows do not ship with native cli utility for managing compres
       source "c:/foo/baz/the_codez.zip"
       action :unzip
     end
+
 
 Usage
 =====
