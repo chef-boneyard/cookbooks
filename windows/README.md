@@ -296,6 +296,13 @@ Changes/Roadmap
 * [COOK-666] windows_package should support CoApp packages
 * windows_registry :force_modify action should use RegNotifyChangeKeyValue from WinAPI
 
+## v1.0.8
+
+* [COOK-719] resource/provider for managing windows features
+* [COOK-717] remove windows_env_vars resource as env resource exists in core chef
+* new `Windows::Version` helper class
+* refactored `Windows::Helper` mixin
+
 ## v1.0.6
 
 * added force_modify action to windows_registry resource
