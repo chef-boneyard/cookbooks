@@ -21,17 +21,16 @@
 
 action :add do
   env "PATH" do
-  	action :create
-  	delim ";"
-  	value new_resource.path
+    action :create
+    delim ";"
+    value new_resource.path
   end
-  
 end
 
 action :remove do
   env "PATH" do
-  	action :delete
-  	delim ";"
-  	value new_resource.path
+    action :delete
+    delim ";"
+    value new_resource.path
   end
 end
