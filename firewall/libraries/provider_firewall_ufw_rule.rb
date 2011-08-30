@@ -31,11 +31,15 @@ class Chef
         end
 
         def action_allow
-          apply_rule(@new_resource.action)
+          apply_rule('allow')
         end
 
         def action_deny
-          apply_rule(@new_resource.action)
+          apply_rule('deny')
+        end
+
+        def action_reject
+          apply_rule('reject')
         end
 
         private
@@ -44,25 +48,45 @@ class Chef
         # ufw insert 1 allow proto tcp from 0.0.0.0/0 to 192.168.0.1 port 25
         def apply_rule(type=nil)
           unless rule_exists?
-            shell_out!("ufw #{"insert #{@new_resource.position} " if @new_resource.position }#{type} proto #{proto} from #{@new_resource.source || 'any'} to #{@new_resource.destination || 'any'} port #{@new_resource.port}")
+            ufw_command = "ufw "
+            ufw_command += "insert #{@new_resource.position} " if @new_resource.position
+            ufw_command += "#{type} "
+            ufw_command += "#{@new_resource.direction} " if @new_resource.direction
+            if @new_resource.interface
+              if @new_resource.direction
+                ufw_command += "on #{@new_resource.interface} "
+              else
+                ufw_command += "in on #{@new_resource.interface} "
+              end
+            end
+            ufw_command += "#{@new_resource.logging} " if @new_resource.logging
+            ufw_command += "proto #{@new_resource.protocol} " if @new_resource.protocol
+            if @new_resource.source
+              ufw_command += "from #{@new_resource.source} "
+            else
+              ufw_command += "from any "
+            end
+            ufw_command += "port #{@new_resource.dest_port} " if @new_resource.dest_port
+            if @new_resource.destination
+              ufw_command += "to #{@new_resource.destination} "
+            else
+              ufw_command += "to any "
+            end
+            ufw_command += "port #{@new_resource.port} " if @new_resource.port
+
+            Chef::Log.debug("ufw: #{ufw_command}")
+            shell_out!(ufw_command)
+
             Chef::Log.info("#{@new_resource} #{type} rule added")
-            shell_out!("ufw status") # purely for the Chef::Log.debug output
+            shell_out!("ufw status verbose") # purely for the Chef::Log.debug output
             @new_resource.updated_by_last_action(true)
           else
             Chef::Log.debug("#{@new_resource} #{type} rule exists..skipping.")
           end
         end
 
-        def proto
-          if @new_resource.protocol && @new_resource.protocol == 1
-            @new_resource.protocol[0].to_s
-          else
-            'any'
-          end
-        end
-
         def port_and_proto
-          (proto && proto != 'any') ? "#{@new_resource.port}/#{proto}" : @new_resource.port
+          (@new_resource.protocol) ? "#{@new_resource.port}/#{@new_resource.protocol}" : @new_resource.port
         end
 
         # TODO currently only works when firewall is enabled
@@ -71,7 +95,8 @@ class Chef
           # --                         ------      ----
           # 22                         ALLOW       Anywhere
           # 192.168.0.1 25/tcp         DENY        10.0.0.0/8
-          shell_out!("ufw status").stdout =~ /^(#{@new_resource.destination}\s)?#{port_and_proto}\s.*(#{@new_resource.action.to_s})\s.*#{@new_resource.source || 'Anywhere'}$/i
+          shell_out!("ufw status").stdout =~ 
+/^(#{@new_resource.destination}\s)?#{port_and_proto}\s.*(#{@new_resource.action.to_s})\s.*#{@new_resource.source || 'Anywhere'}$/i
         end
       end
     end

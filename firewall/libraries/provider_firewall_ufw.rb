@@ -50,6 +50,22 @@ class Chef
           end
         end
 
+        def action_reset
+          shell_out!("ufw --force reset")
+          Chef::Log.info("#{@new_resource} reset")
+          @new_resource.updated_by_last_action(true)
+        end
+
+        def action_logging
+          if @new_resource.level
+            shell_out!("ufw logging #{@new_resource.level}")
+            Chef::Log.info("ufw logging #{@new_resource.level} set")
+            @new_resource.updated_by_last_action(true)
+          else
+            raise Chef::Exception::UnsupportedAction, "firewall :logging action failed without level!"
+          end
+        end
+          
         private
         def active?
           @active ||= begin

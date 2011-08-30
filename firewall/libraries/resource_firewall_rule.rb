@@ -6,9 +6,9 @@
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,24 +28,51 @@ class Chef
         super
         @resource_name = :firewall_rule
         @source = "0.0.0.0/0"
-        @allowed_actions.push(:allow, :deny)
+        @allowed_actions.push(:allow, :deny, :reject)
       end
 
       def port(arg=nil)
         set_or_return(
           :port,
           arg,
-          :required => true
-        )
+          :kind_of => Integer
+          )
       end
 
       def protocol(arg=nil)
-        real_arg = arg.kind_of?(String) ? arg.to_sym : arg
+        arg.downcase! if arg
         set_or_return(
           :protocol,
-          real_arg,
-          :equal_to => [ :udp, :tcp ]
-        )
+          arg,
+          :equal_to => [ 'udp', 'tcp' ]
+          )
+      end
+
+      def direction(arg=nil)
+        arg.downcase! if arg
+        set_or_return(
+          :direction,
+          arg,
+          :equal_to => [ 'in', 'out' ]
+          )
+      end
+
+      def interface(arg=nil)
+        arg.downcase! if arg
+        set_or_return(
+          :interface,
+          arg,
+          :kind_of => [ String ]
+          )
+      end
+
+      def logging(arg=nil)
+        arg.downcase! if arg
+        set_or_return(
+          :logging,
+          arg,
+          :equal_to => [ 'log', 'log-all' ]
+          )
       end
 
       def source(arg=nil)
@@ -53,7 +80,7 @@ class Chef
           :source,
           arg,
           :regex => IP_CIDR_VALID_REGEX
-        )
+          )
       end
 
       def destination(arg=nil)
@@ -61,7 +88,15 @@ class Chef
           :destination,
           arg,
           :regex => IP_CIDR_VALID_REGEX
-        )
+          )
+      end
+
+      def dest_port(arg=nil)
+        set_or_return(
+          :dest_port,
+          arg,
+          :kind_of => Integer
+          )
       end
 
       def position(arg=nil)
@@ -69,7 +104,7 @@ class Chef
           :position,
           arg,
           :kind_of => Integer
-        )
+          )
       end
     end
   end
