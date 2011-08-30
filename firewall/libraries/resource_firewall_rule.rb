@@ -40,15 +40,16 @@ class Chef
       end
 
       def protocol(arg=nil)
-        real_arg = arg.kind_of?(String) ? arg.to_sym : arg
+        arg.downcase! if arg
         set_or_return(
           :protocol,
-          real_arg,
-          :equal_to => [ :udp, :tcp ]
+          arg,
+          :equal_to => [ 'udp', 'tcp' ]
           )
       end
 
       def direction(arg=nil)
+        arg.downcase! if arg
         set_or_return(
           :direction,
           arg,
@@ -57,6 +58,7 @@ class Chef
       end
 
       def interface(arg=nil)
+        arg.downcase! if arg
         set_or_return(
           :interface,
           arg,
@@ -65,6 +67,7 @@ class Chef
       end
 
       def logging(arg=nil)
+        arg.downcase! if arg
         set_or_return(
           :logging,
           arg,

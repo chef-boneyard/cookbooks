@@ -60,7 +60,7 @@ class Chef
               end
             end
             ufw_command += "#{@new_resource.logging} " if @new_resource.logging
-            ufw_command += "proto #{proto} "
+            ufw_command += "proto #{@new_resource.protocol} " if @new_resource.protocol
             if @new_resource.source
               ufw_command += "from #{@new_resource.source} "
             else
@@ -85,16 +85,8 @@ class Chef
           end
         end
 
-        def proto
-          if @new_resource.protocol && @new_resource.protocol == 1
-            @new_resource.protocol[0].to_s
-          else
-            'any'
-          end
-        end
-
         def port_and_proto
-          (proto && proto != 'any') ? "#{@new_resource.port}/#{proto}" : @new_resource.port
+          (@new_resource.protocol) ? "#{@new_resource.port}/#{@new_resource.protocol}" : @new_resource.port
         end
 
         # TODO currently only works when firewall is enabled
@@ -103,7 +95,8 @@ class Chef
           # --                         ------      ----
           # 22                         ALLOW       Anywhere
           # 192.168.0.1 25/tcp         DENY        10.0.0.0/8
-          shell_out!("ufw status").stdout =~ /^(#{@new_resource.destination}\s)?#{port_and_proto}\s.*(#{@new_resource.action.to_s})\s.*#{@new_resource.source || 'Anywhere'}$/i
+          shell_out!("ufw status").stdout =~ 
+/^(#{@new_resource.destination}\s)?#{port_and_proto}\s.*(#{@new_resource.action.to_s})\s.*#{@new_resource.source || 'Anywhere'}$/i
         end
       end
     end
