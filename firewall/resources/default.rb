@@ -1,14 +1,16 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Copyright:: Copyright (c) 2011 Opscode, Inc.
-# License:: Apache License, Version 2.0
+# Cookbook Name:: firwall
+# Resource:: default
+#
+# Copyright:: 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,19 +18,20 @@
 # limitations under the License.
 #
 
-require 'chef/resource'
-require File.join(File.dirname(__FILE__), 'resource_firewall')
+actions :enable, :disable
 
-class Chef
-  class Resource
-    class UfwFirewall < Chef::Resource::Firewall
+attribute :log_level, :kind_of => Symbol, :equal_to => [:low, :medium, :high, :full], :default => :low
 
-      def initialize(name, run_context=nil)
-        super
-        @resource_name = :ufw_firewall
-        @provider = Chef::Provider::Firewall::Ufw
-      end
+def initialize(name, run_context=nil)
+  super
+  set_platform_default_providers
+end
 
-    end
-  end
+private
+def set_platform_default_providers
+  Chef::Platform.set(
+    :platform => :ubuntu,
+    :resource => :firewall,
+    :provider => Chef::Provider::FirewallUfw
+  )
 end

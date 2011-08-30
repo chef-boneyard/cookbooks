@@ -30,12 +30,12 @@ end
 #helpers for Windows API calls that require privilege adjustments
 class Chef
   class WindowsPrivileged
-
-    include Windows::Error
-    include Windows::Registry
-    include Windows::Process
-    include Windows::Security
-
+    if RUBY_PLATFORM =~ /mswin|mingw32|windows/
+      include Windows::Error
+      include Windows::Registry
+      include Windows::Process
+      include Windows::Security
+    end
     #File -> Load Hive... in regedit.exe
     def reg_load_key(name, file)
       run(SE_BACKUP_NAME, SE_RESTORE_NAME) do
