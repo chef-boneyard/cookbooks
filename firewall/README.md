@@ -31,17 +31,15 @@ Resources/Providers
 
 - :enable: enable the firewall.  this will make any rules that have been defined 'active'.
 - :disable: disable the firewall. drop any rules and put the node in an unprotected state.
-- :reset: reset the firewall. drop any rules and puts the node in the default state. Does not enable or disable the firewall.
-- :logging: set the logging level for the firewall. Requires the 'level' attribute parameter. Default if unset if 'low'.
 
 ### Attribute Parameters
 
 - name: name attribute. arbitrary name to uniquely identify this resource
-- level: used by the `logging` action, options are 'on', 'off', 'low', 'medium', 'high' and 'full'.
+- log_level: level of verbosity the firewall should log at. valid values are: :low, :medium, :high, :full. default is :low.
 
 ### Providers
 
-- `Chef::Provider::Firewall::Ufw`
+- `Chef::Provider::FirewallUfw`
     - platform default: Ubuntu
 
 ### Examples
@@ -53,8 +51,8 @@ Resources/Providers
 
     # increase logging past default of 'low'
     firewall "debug firewalls" do
-      level 'high'
-      action :logging
+      log_level :high
+      action :enable
     end
 
 `firewall_rule`
@@ -64,7 +62,6 @@ Resources/Providers
 
 - :allow: the rule should allow incoming traffic.
 - :deny: the rule should deny incoming traffic.
-- :logging: the rule should reject incoming traffic.
 - :reject: the rule should reject incoming traffic.
 
 ### Attribute Parameters
@@ -76,13 +73,13 @@ Resources/Providers
 - destination: ip address or subnet to filter on outgoing traffic. 
 - dest_port: outgoing port number.
 - position: position to insert rule at. if not provided rule is inserted at the end of the rule list.
-- direction: direction of the rule. 'in' or 'out' are supported, 'in' is default.
+- direction: direction of the rule. valid values are: :in, :out, default is :in
 - interface: interface to apply rule (ie. 'eth0').
-- logging: may be added to enable logging for a particular rule. 'log' and 'log-all' are supported options. In the ufw provider, 'log' logs new connections while 'log-all' logs all packets.
+- logging: may be added to enable logging for a particular rule. valid values are: :connections, :packets. In the ufw provider, :connections logs new connections while :packets logs all packets.
 
 ### Providers
 
-- `Chef::Provider::FirewallRule::Ufw`
+- `Chef::Provider::FirewallRuleUfw`
     - platform default: Ubuntu
 
 ### Examples
