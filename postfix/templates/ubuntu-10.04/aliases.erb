@@ -1,0 +1,7 @@
+# See man 5 aliases for format
+postmaster:    root
+
+<% @node[:postfix][:aliases].each do |name, value| %>
+<%= name %>:  "<%= value %>"
+<% end unless @node[:postfix][:aliases].nil? %>
+
