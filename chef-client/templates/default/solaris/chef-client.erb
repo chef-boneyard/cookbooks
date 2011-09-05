@@ -40,7 +40,7 @@ DAEMON=/usr/bin/chef-client
 NAME=chef-client
 DESC=chef-client
 PIDFILE=<%= node["chef_client"]["run_path"] %>/client.pid
-LOGFILE=<%= node["chef_client"]["log_dir"] %>client.log
+LOGFILE=<%= node["chef_client"]["log_dir"] %>/client.log
 CONFIG=<%= node["chef_client"]["conf_dir"] %>client.rb
 INTERVAL=<%= node["chef_client"]["interval"] %>
 SPLAY=<%= node["chef_client"]["splay"] %>
