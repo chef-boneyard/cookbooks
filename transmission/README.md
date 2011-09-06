@@ -20,6 +20,7 @@ Cookbooks
 Attributes
 ==========
 
+* `node["transmission"]["peer_port"]` - The port Transmission listens on for peering, default `51413`.
 * `node["transmission"]["rpc_bind_address"]` - Where to listen for RPC connections, default `0.0.0.0`.
 * `node["transmission"]["rpc_port"]` - The port Transmission listens on for remote services, default `9091`.
 * `node["transmission"]["rpc_username"]` - The username required to access remote services, default `transmission`.
@@ -28,6 +29,11 @@ Attributes
 * `node["transmission"]["config_dir"]` - Transmission's config directory, default `/var/lib/transmission-daemon/info`.
 * `node["transmission"]["download_dir"]` - Directory to move complete files to, default `/var/lib/transmission-daemon/downloads`.
 * `node["transmission"]["incomplete_dir"]` - Directory to keep incomplete files in, default `/var/lib/transmission-daemon/incomplete`.
+* `node["transmission"]["incomplete_dir_enabled"]` - Whether the incomplete file directory is used, default `false`.
+* `node["transmission"]["speed_limit_down"]` - The KB/s limit for downloading files, default `100`.
+* `node["transmission"]["speed_limit_down_enabled"]` - Whether the download limit is used, default `false`.
+* `node["transmission"]["speed_limit_up"]` - The KB/s limit for uploading files, default `100`.
+* `node["transmission"]["speed_limit_up_enabled"]` - Whether the upload limit is used, default `false`.
 
 The file also contains the following attribute types:
 
