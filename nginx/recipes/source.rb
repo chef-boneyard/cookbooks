@@ -39,7 +39,7 @@ nginx_version = node[:nginx][:version]
 
 node.set[:nginx][:install_path]    = "/opt/nginx-#{nginx_version}"
 node.set[:nginx][:src_binary]      = "#{node[:nginx][:install_path]}/sbin/nginx"
-node.set[:nginx][:daemon_disable]  = true
+node.set[:nginx][:daemon_disable]  = false
 node.set[:nginx][:configure_flags] = [
   "--prefix=#{node[:nginx][:install_path]}",
   "--conf-path=#{node[:nginx][:dir]}/nginx.conf",
