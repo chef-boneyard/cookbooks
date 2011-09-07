@@ -1,9 +1,9 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: gecode
-# Recipe:: default
+# Cookbook Name:: iis
+# Resource:: site
 #
-# Copyright:: Copyright (c) 2011 Opscode, Inc.
+# Copyright:: 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,5 +16,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-include_recipe "gecode::#{node['gecode']['install_method']}"
+actions :add, :delete, :start, :stop, :restart
+
+attribute :site_name, :kind_of => String, :name_attribute => true
+attribute :site_id, :kind_of => Integer
+attribute :port, :kind_of => Integer
+attribute :path, :kind_of => String
+attribute :protocol, :kind_of => Symbol, :default => :http, :equal_to => [:http, :https]
+attribute :host_header, :kind_of => String, :default => nil
+
+attr_accessor :exists, :running

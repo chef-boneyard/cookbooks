@@ -1,7 +1,7 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: gecode
-# Recipe:: default
+# Cookbook Name:: iis
+# Recipe:: mod_auth_basic
 #
 # Copyright:: Copyright (c) 2011 Opscode, Inc.
 #
@@ -16,5 +16,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-include_recipe "gecode::#{node['gecode']['install_method']}"
+include_recipe "iis"
+
+webpi_product "BasicAuthentication" do
+  accept_eula node['iis']['accept_eula']
+  action :install
+end

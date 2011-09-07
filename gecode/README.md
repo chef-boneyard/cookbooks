@@ -6,39 +6,56 @@ Installs Gecode 3.5.0+ development package.
 Requirements
 ============
 
-Tested on Ubuntu and Debian with Opscode APT repository and build from source.
+Platform
+--------
 
-Tested on CentOS for build from source. See USAGE for information on installing RPMs.
+* Debian, Ubuntu
+* Red Hat, CentOS, Fedora
+* Mac OS X 10.6+
 
-Requires the following cookbooks:
+Cookbooks
+---------
 
 * apt - for installing packages from apt.opscode.com
 * build-essential - for compiling from source
 
+Attributes
+==========
+
+* `node['gecode']['install_method']` - Specifies the recipe to use for installing gecode.
+* `node['gecode']['url']` - base url to download from. Default is the Gecode distribution server.
+* `node['gecode']['version']` - version of gecode to install.
+* `node['gecode']['checksum']` - checksum of the source tarball.
+* `node['gecode']['configure_options']` - array of options to pass to ./configure for compiling gecode.
+
 Usage
 =====
 
-The recipe is primarily used to install gecode's development package or from source in order to install the `dep_selector` gem, which needs to compile native extensions.
+default
+-------
 
-Note that compiling gecode takes a long time, up to ~30 minutes on a 4 core Macbook Pro.
+Include default recipe in a run list, to get some Gecode installed. Installs Gecode by package or source depending on the platform. The recipe is primarily used to install gecode's development package or from source in order to install the `dep_selector` gem, which needs to compile native extensions.
 
-On Debian and Ubuntu systems, the recipe will attempt to install packages from apt.opscode.com. It uses the apt repository LWRP in Opscode's apt cookbook to enable the repository.  For releases after Debian 7.0 (Wheezy) and Ubuntu 11.04 (Natty), Gecode 3.5.0+ exists in the main repositories.
+package
+-------
 
-On Red Hat family distros, the recipe will attempt to install gecode from source. To install using a package the recipe needs to be updated to account for a package repository. Implementation varies depending on the package repository. For example, to retrieve the /etc/yum.repos.d/somewhere.repo that has the package available, add a condition to the main 'if' block:
+Installs Gecode from packages.  On Debian and Ubuntu systems, the recipe will attempt to install packages from apt.opscode.com. It uses the apt repository LWRP in Opscode's apt cookbook to enable the repository.  For releases after Debian 7.0 (Wheezy) and Ubuntu 11.04 (Natty), Gecode 3.5.0+ exists in the main repositories.
 
-    remote_file "/etc/yum.repos.d/somewhere.repo" do
-      source "http://somewhere.example.com/yum/el5/somewhere.repo"
-      owner "root"
-      group "root"
-      mode 0644
-    end
+source
+------
 
-    package "gecode-devel"
+Installs Gecode from source.  Note that compiling gecode takes a long time, up to ~30 minutes on a 4 core Macbook Pro.
 
 Changes/Roadmap
 ===============
 
-## 1.0.0:
+## 1.0.2
+
+* split default recipe into source and package recipe (follows pattern of other cookbooks)
+* externalize source installation metadata into attributes
+* verify mac os x platform support
+
+## 1.0.0
 
 * [COOK-538] fix gecode install on newer ubuntu and debian releases
 * [COOK-680] don't rebuild gecode if it is already installed

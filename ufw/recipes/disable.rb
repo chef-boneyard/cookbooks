@@ -1,9 +1,9 @@
 #
-# Author:: Paul Morotn (<pmorton@biaprotect.com>)
-# Cookbook Name:: windows
-# Resource:: env_vars
+# Author:: Matt Ray <matt@opscode.com>
+# Cookbook Name:: ufw
+# Recipe:: disable
 #
-# Copyright:: 2011, Business Intelligence Associates, Inc
+# Copyright 2011, Opscode, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,12 +18,6 @@
 # limitations under the License.
 #
 
-def initianize(name,run_context=nil)
-  super
-  @action = :create
+firewall "ufw" do
+  action :disable
 end
-
-actions :create, :remove
-
-attribute :value, :kind_of => String
-attribute :name, :kind_of => String, :name_attribute => true

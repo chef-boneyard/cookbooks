@@ -1,9 +1,9 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: gecode
-# Recipe:: default
+# Cookbook Name:: iis
+# Recipe:: mod_management
 #
-# Copyright:: Copyright (c) 2011 Opscode, Inc.
+# Copyright 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,5 +16,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-include_recipe "gecode::#{node['gecode']['install_method']}"
+include_recipe "iis"
+
+%w{ IISManagementConsole 
+    IISManagementScriptsAndTools 
+    ManagementService }.each do |product|
+
+  webpi_product product do
+    accept_eula node['iis']['accept_eula']
+    action :install
+  end
+
+end

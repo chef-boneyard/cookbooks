@@ -1,14 +1,16 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Cookbook Name:: iis
+# Attribute:: default
+#
 # Copyright:: Copyright (c) 2011 Opscode, Inc.
-# License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,19 +18,11 @@
 # limitations under the License.
 #
 
-require 'chef/resource'
-require File.join(File.dirname(__FILE__), 'resource_firewall_rule')
+default['iis']['accept_eula'] = false
 
-class Chef
-  class Resource
-    class UfwFirewallRule < Chef::Resource::FirewallRule
-
-      def initialize(name, run_context=nil)
-        super
-        @resource_name = :ufw_firewall_rule
-        @provider = Chef::Provider::Firewall::UfwRule
-      end
-
-    end
-  end
-end
+default['iis']['home']      = "#{ENV['WINDIR']}\\System32\\inetsrv"
+default['iis']['conf_dir']  = "#{iis['home']}\\config"
+default['iis']['pubroot']   = "#{ENV['SYSTEMDRIVE']}\\inetpub"
+default['iis']['docroot']   = "#{iis['pubroot']}\\wwwroot"
+default['iis']['log_dir']   = "#{iis['pubroot']}\\logs\\LogFiles"
+default['iis']['cache_dir'] = "#{iis['pubroot']}\\temp"

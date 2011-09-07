@@ -1,9 +1,9 @@
 #
-# Author:: Paul Morotn (<pmorton@biaprotect.com>)
-# Cookbook Name:: windows
-# Provider:: env_vars
+# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Cookbook Name:: webpi
+# Recipe:: default
 #
-# Copyright:: 2011, Business Intelligence Associates, Inc
+# Copyright 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,16 +18,16 @@
 # limitations under the License.
 #
 
-action :create do
-  windows_registry Windows::KeyHelper::ENV_KEY do
-    values new_resource.name => new_resource.value
-    action :create
-  end
+file_name = ::File.basename(node['webpi']['url'])
+
+remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
+  source node['webpi']['url']
+  checksum node['webpi']['checksum']
+  notifies :unzip, "windows_zipfile[webpicmdline]", :immediately
 end
 
-action :remove do 
-  windows_registry Windows::KeyHelper::ENV_KEY do
-    values new_resource.name => ''
-    action :remove
-  end
+windows_zipfile "webpicmdline" do
+  path node['webpi']['home']
+  source "#{Chef::Config[:file_cache_path]}/#{file_name}"
+  action :nothing
 end

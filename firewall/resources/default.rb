@@ -1,9 +1,9 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: gecode
-# Recipe:: default
+# Cookbook Name:: firwall
+# Resource:: default
 #
-# Copyright:: Copyright (c) 2011 Opscode, Inc.
+# Copyright:: 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,5 +16,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-include_recipe "gecode::#{node['gecode']['install_method']}"
+actions :enable, :disable
+
+attribute :log_level, :kind_of => Symbol, :equal_to => [:low, :medium, :high, :full], :default => :low
+
+def initialize(name, run_context=nil)
+  super
+  set_platform_default_providers
+end
+
+private
+def set_platform_default_providers
+  Chef::Platform.set(
+    :platform => :ubuntu,
+    :resource => :firewall,
+    :provider => Chef::Provider::FirewallUfw
+  )
+end
