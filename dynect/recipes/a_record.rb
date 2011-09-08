@@ -20,7 +20,7 @@
 include_recipe 'dynect'
 
 dynect_rr node[:hostname] do
-  record_type "A"
+  record_type "ARecord"
   rdata({ "address" => node[:ipaddress] })
   fqdn "#{node[:hostname]}.#{node[:dynect][:domain]}"
   customer node[:dynect][:customer]
