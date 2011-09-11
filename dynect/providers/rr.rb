@@ -69,6 +69,7 @@ def action_update
       changed = true
     end
     if changed
+      @rr.record_type << "Record"
       @rr.save
       @dyn.publish
       Chef::Log.info("Updated #{@new_resource} at dynect")
