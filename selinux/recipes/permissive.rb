@@ -18,14 +18,16 @@
 # limitations under the License.
 #
 
-execute "enable selinux enforcement" do
-  not_if "selinuxenabled"
-  command "setenforce 1"
+execute "enable selinux as permissive" do
+  not_if "getenforce | egrep -qx 'Permissive|Disabled'"
+  command "setenforce 0"
+  ignore_failure true
   action :run
 end
 
 template "/etc/sysconfig/selinux" do
   source "sysconfig/selinux.erb"
+  not_if "getenforce | grep -qx 'Disabled'"
   variables(
     :selinux => "permissive",
     :selinuxtype => "targeted",
