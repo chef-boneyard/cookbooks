@@ -365,6 +365,16 @@ Changes/Roadmap
 * package installation location via a `target_dir` attribute.
 * [COOK-666] windows_package should support CoApp packages
 * windows_registry :force_modify action should use RegNotifyChangeKeyValue from WinAPI
+* WindowsRebootHandler/windows_reboot LWRP should support kicking off subsequent chef run on reboot.
+
+## v1.2.0
+
+* [COOK-745] gracefully handle required server restarts on Windows platform
+  * WindowsRebootHandler for requested and pending reboots
+  * windows_reboot LWRP for requesting (receiving notifies) reboots
+  * reboot_handler recipe for enabling WindowsRebootHandler as a report handler
+* [COOK-714] Correct initialize misspelling
+* RegistryHelper - new get_values method which returns all values for a particular key.
 
 ## v1.0.8
 
