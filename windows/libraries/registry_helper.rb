@@ -106,10 +106,7 @@ module Windows
             Chef::Log.debug("setting #{key}=#{val}")
             reg[key] = val
 
-            if(hive_loaded)
-              Chef::Log.debug("Hive was loaded, we really should unload it")
-              unload_hive(path)
-            end
+            ensure_hive_unloaded(hive_loaded)
 
             return true
           end
@@ -128,14 +125,26 @@ module Windows
         rescue
           return nil
         ensure
-          if(hive_loaded)
-            Chef::Log.debug("Hive was loaded, we really should unload it")
-            unload_hive(path)
-          end
+          ensure_hive_unloaded(hive_loaded)
         end
       end
+    end
 
-
+    def get_values(path)
+      hive, reg_path, hive_name, root_key, hive_loaded = get_reg_path_info(path)
+      key = reg_path.join("\\")
+      hive.open(key, Win32::Registry::KEY_ALL_ACCESS | @@native_registry_constant) do | reg |
+        values = []
+        begin
+        reg.each_value do |name, type, data|
+          values << [name, type, data]
+        end
+        rescue
+        ensure
+          ensure_hive_unloaded(hive_loaded)
+        end
+        values
+      end
     end
 
     def delete_value(path,values)
@@ -176,10 +185,7 @@ module Windows
           rescue
             return false
           ensure 
-            if(hive_loaded)
-              Chef::Log.debug("Hive was loaded, we really should unload it")
-              unload_hive(path)
-            end
+            ensure_hive_unloaded(hive_loaded)
           end
         end
 
@@ -207,10 +213,7 @@ module Windows
       rescue
         return false
       ensure 
-        if(hive_loaded)
-          Chef::Log.debug("Hive was loaded, we really should unload it")
-          unload_hive(path)
-        end
+        ensure_hive_unloaded(hive_loaded)
       end
     end
 
@@ -315,9 +318,18 @@ module Windows
       return reg_path, load_reg
 
     end
+
+    private
+    def ensure_hive_unloaded(hive_loaded=false)
+      if(hive_loaded)
+        Chef::Log.debug("Hive was loaded, we really should unload it")
+        unload_hive(path)
+      end
+    end
   end
 end
 
-class Registry
+module Registry
+  module_function
   extend Windows::RegistryHelper
 end
