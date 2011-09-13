@@ -90,7 +90,9 @@ template "#{node[:apache][:dir]}/mods-available/authopenid.load" do
   mode 0644
 end
 
-apache_module "authopenid"
+apache_module "authopenid" do
+  filename "mod_auth_openid.so"
+end
 
 template "/usr/local/bin/mod_auth_openid.rb" do
   source "mod_auth_openid.rb.erb"

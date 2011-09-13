@@ -20,19 +20,16 @@
 define :apache_module, :enable => true, :conf => false do
   include_recipe "apache2"
 
+  params[:filename] = params[:filename] || "mod_#{params[:name]}.so"
+
   if params[:conf]
     apache_conf params[:name]
   end
 
   if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
-    execute "generate-module-list" do
-      if node[:kernel][:machine] == "x86_64"
-        libdir = value_for_platform("arch" => { "default" => "lib" }, "default" => "lib64")
-      else
-        libdir = "lib"
-      end
-      command "/usr/local/bin/apache2_module_conf_generate.pl /usr/#{libdir}/httpd/modules /etc/httpd/mods-available"
-      action :run
+    file "#{node['apache']['dir']}/mods-available/#{params[:name]}.load" do
+      content "LoadModule #{params[:name]}_module #{node['apache']['lib_dir']}/modules/#{params[:filename]}\n"
+      mode 0644
     end
   end
 
