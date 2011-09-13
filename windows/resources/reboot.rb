@@ -20,7 +20,7 @@
 
 actions :request, :cancel
 
-attribute :timeout, :kind_of => Integer, :default => 60
+attribute :timeout, :kind_of => Integer, :default => 60, :name_attribute => true
 attribute :reason, :kind_of => String, :default => ''
 
 def initialize(name,run_context=nil)
