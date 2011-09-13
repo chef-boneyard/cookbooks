@@ -1,9 +1,9 @@
 #
-# Author:: Paul Morotn (<pmorton@biaprotect.com>)
+# Author:: Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: windows
-# Resource:: auto_run
+# Resource:: reboot
 #
-# Copyright:: 2011, Business Intelligence Associates, Inc
+# Copyright:: 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,13 +18,12 @@
 # limitations under the License.
 #
 
+actions :request, :cancel
+
+attribute :timeout, :kind_of => Integer, :default => 60
+attribute :reason, :kind_of => String, :default => ''
+
 def initialize(name,run_context=nil)
   super
-  @action = :create
+  @action = :request
 end
-
-actions :create, :remove
-
-attribute :program, :kind_of => String
-attribute :name, :kind_of => String, :name_attribute => true
-attribute :args, :kind_of => String, :default => ''

@@ -1,9 +1,9 @@
 #
-# Author:: Paul Morotn (<pmorton@biaprotect.com>)
+# Author:: Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: windows
-# Resource:: auto_run
+# Resource:: feature
 #
-# Copyright:: 2011, Business Intelligence Associates, Inc
+# Copyright:: 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,13 +18,23 @@
 # limitations under the License.
 #
 
-def initialize(name,run_context=nil)
+include Windows::Helper
+
+actions :install, :remove
+
+attribute :feature_name, :kind_of => String, :name_attribute => true
+
+def initialize(name, run_context=nil)
   super
-  @action = :create
+  @action = :install
+  @provider = lookup_provider_constant(locate_default_provider)
 end
 
-actions :create, :remove
-
-attribute :program, :kind_of => String
-attribute :name, :kind_of => String, :name_attribute => true
-attribute :args, :kind_of => String, :default => ''
+private
+def locate_default_provider
+  if ::File.exists?(locate_sysnative_cmd('dism.exe'))
+    :windows_feature_dism
+  elsif ::File.exists?(locate_sysnative_cmd('servermanagercmd.exe'))
+    :windows_feature_servermanagercmd
+  end
+end

@@ -1,9 +1,9 @@
 #
-# Author:: Paul Morotn (<pmorton@biaprotect.com>)
+# Author:: Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: windows
-# Resource:: auto_run
+# Provider:: reboot
 #
-# Copyright:: 2011, Business Intelligence Associates, Inc
+# Copyright:: 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,13 +18,14 @@
 # limitations under the License.
 #
 
-def initialize(name,run_context=nil)
-  super
-  @action = :create
+action :request do
+  node.run_state[:reboot_requested] = true
+  node.run_state[:reboot_timeout] = @new_resource.timeout
+  node.run_state[:reboot_reason] = @new_resource.reason
 end
 
-actions :create, :remove
-
-attribute :program, :kind_of => String
-attribute :name, :kind_of => String, :name_attribute => true
-attribute :args, :kind_of => String, :default => ''
+action :cancel do
+  node.run_state.delete(:reboot_requested)
+  node.run_state.delete(:reboot_timeout)
+  node.run_state.delete(:reboot_reason)
+end
