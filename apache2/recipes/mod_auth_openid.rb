@@ -20,12 +20,9 @@
 openid_dev_pkgs = value_for_platform(
   "ubuntu" => { "default" => %w{ g++ apache2-prefork-dev libopkele-dev libopkele3 } },
   "debian" => { "default" => %w{ apache2-prefork-dev libopkele-dev libopkele3 } },
-  # libtidy and libtidy-devel are in EPEL repository
-  "redhat" => { "default" => %w{ gcc-c++ httpd-devel curl-devel libtidy libtidy-devel } },
-  # libtidy and libtidy-devel are in EPEL repository
-  "centos" => { "default" => %w{ gcc-c++ httpd-devel curl-devel libtidy libtidy-devel } },
-  "scientific" => { "default" => %w{ gcc-c++ httpd-devel curl-devel libtidy libtidy-devel } },
-  "fedora" => { "default" => %w{ gcc-c++ httpd-devel curl-devel libtidy libtidy-devel } },
+  ["centos","redhat","scientific","fedora"] => {
+    "default" => %w{ gcc-c++ httpd-devel curl-devel libtidy libtidy-devel sqlite-devel pcre-devel openssl-devel make }
+  },
   "arch" => { "default" => ["libopkele"] }
 )
 
@@ -59,7 +56,7 @@ when "redhat", "centos", "scientific", "fedora"
     syslibdir = node[:apache][:lib_dir][0..node[:apache][:lib_dir].rindex("/")]
     code <<-EOH
     tar zxvf libopkele-2.0.4.tar.gz
-    cd libopkele-2.0.4.tar && ./configure --prefix=/usr --libdir=#{syslibdir}
+    cd libopkele-2.0.4 && ./configure --prefix=/usr --libdir=#{syslibdir}
     make && make install
     EOH
     not_if { File.exists?("#{syslibdir}/libopkele.a") }
