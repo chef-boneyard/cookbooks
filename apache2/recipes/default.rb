@@ -65,6 +65,8 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
     action :create
   end
 
+  package "perl"
+
   cookbook_file "/usr/local/bin/apache2_module_conf_generate.pl" do
     source "apache2_module_conf_generate.pl"
     mode 0755
@@ -82,9 +84,9 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
   end
 
   execute "generate-module-list" do
-    if node[:kernel][:machine] == "x86_64" 
+    if node[:kernel][:machine] == "x86_64"
       libdir = value_for_platform("arch" => { "default" => "lib" }, "default" => "lib64")
-    else 
+    else
       libdir = "lib"
     end
     command "/usr/local/bin/apache2_module_conf_generate.pl /usr/#{libdir}/httpd/modules /etc/httpd/mods-available"
@@ -97,7 +99,7 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
       mode 0755
       owner node[:apache][:user]
       group node[:apache][:group]
-    end  
+    end
   end
 
   # installed by default on centos/rhel, remove in favour of mods-enabled

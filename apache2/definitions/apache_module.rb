@@ -19,11 +19,23 @@
 
 define :apache_module, :enable => true, :conf => false do
   include_recipe "apache2"
- 
+
   if params[:conf]
     apache_conf params[:name]
   end
- 
+
+  if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
+    execute "generate-module-list" do
+      if node[:kernel][:machine] == "x86_64"
+        libdir = value_for_platform("arch" => { "default" => "lib" }, "default" => "lib64")
+      else
+        libdir = "lib"
+      end
+      command "/usr/local/bin/apache2_module_conf_generate.pl /usr/#{libdir}/httpd/modules /etc/httpd/mods-available"
+      action :run
+    end
+  end
+
   if params[:enable]
     execute "a2enmod #{params[:name]}" do
       command "/usr/sbin/a2enmod #{params[:name]}"
@@ -32,7 +44,7 @@ define :apache_module, :enable => true, :conf => false do
             ((File.exists?("#{node[:apache][:dir]}/mods-available/#{params[:name]}.conf"))?
               (File.symlink?("#{node[:apache][:dir]}/mods-enabled/#{params[:name]}.conf")):(true)))
       end
-    end    
+    end
   else
     execute "a2dismod #{params[:name]}" do
       command "/usr/sbin/a2dismod #{params[:name]}"
