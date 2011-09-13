@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-def initianize(name,run_context=nil)
+def initialize(name,run_context=nil)
   super
   @action = :create
 end
