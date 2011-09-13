@@ -18,8 +18,7 @@
 #
 
 openid_dev_pkgs = value_for_platform(
-  "ubuntu" => { "default" => %w{ g++ apache2-prefork-dev libopkele-dev libopkele3 } },
-  "debian" => { "default" => %w{ apache2-prefork-dev libopkele-dev libopkele3 } },
+  ["ubuntu","debian"] => { "default" => %w{ g++ apache2-prefork-dev libopkele-dev libopkele3 } },
   ["centos","redhat","scientific","fedora"] => {
     "default" => %w{ gcc-c++ httpd-devel curl-devel libtidy libtidy-devel sqlite-devel pcre-devel openssl-devel make }
   },
