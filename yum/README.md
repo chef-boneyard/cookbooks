@@ -8,6 +8,11 @@ Based on the work done by Eric Wolfe and Charles Duffy on the yumrepo cookbook. 
 Changes
 =======
 
+## v0.5.0:
+
+* COOK-675: add recipe for handling EPEL repository
+* COOK-722: add recipe for handling IUS repository
+
 ## v.0.1.2:
 
 * Remove yum update in default recipe, that doesn't update caches, it updates packages installed.
@@ -124,11 +129,11 @@ License and Author
 ==================
 
 Author:: Eric G. Wolfe
-
-Copyright:: 2010-2011
-
 Author:: Matt Ray (<matt@opscode.com>)
+Author:: Joshua Timberman (<joshua@opscode.com>)
 
+Copyright:: 2010 Tippr Inc.
+Copyright:: 2011 Eric G. Wolfe
 Copyright:: 2011 Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
