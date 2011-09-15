@@ -20,6 +20,7 @@ Attributes
 ==========
 
 * `node['yum']['epel_release']` - Set the epel release version based on `node['platform_version']`.
+* `node['yum']['ius_release']` - Set the IUS release to install.
 
 Recipes
 =======
@@ -36,6 +37,13 @@ epel
 ----
 
 Installs the EPEL repository via RPM. Uses the `node['yum']['epel_release']` attribute to select the right version of the repository package to install. Also uses the node's platform version (as an integer) for the major release of EL.
+
+ius
+----
+
+Installs the [IUS Community repositories](http://iuscommunity.org/Repos) via RPM. Uses the `node['yum']['ius_release']` attribute to select the right versino of the package to install.
+
+The IUS repository requires EPEL, and the recipe includes `yum::epel` to install this.
 
 Resources/Providers
 ===================

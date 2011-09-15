@@ -1,7 +1,7 @@
 #
 # Author:: Joshua Timberman (<joshua@opscode.com>)
 # Cookbook Name:: yum
-# Recipe:: epel
+# Recipe:: ius
 #
 # Copyright:: Copyright (c) 2011 Opscode, Inc.
 #
@@ -17,18 +17,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+include_recipe "yum::epel"
+
 major = node['platform_version'].to_i
-epel  = node['yum']['epel_release']
+ius   = node['yum']['ius_release']
 
-# If rpm installation from a URL supported 302's, we'd just use that.
-# Instead, we get to remote_file then rpm_package.
-
-remote_file "#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm" do
-  source "http://download.fedoraproject.org/pub/epel/#{major}/i386/epel-release-#{epel}.noarch.rpm"
-  not_if "rpm -qa | grep -qx '^epel-release-#{epel}.noarch$'"
+remote_file "#{Chef::Config[:file_cache_path]}/ius-release-#{ius}.ius.el#{major}.noarch.rpm" do
+  source "http://dl.iuscommunity.org/pub/ius/stable/Redhat/#{major}/i386/ius-release-#{ius}.ius.el#{major}.noarch.rpm"
+  not_if "rpm -qa | grep -qx 'ius-release-#{ius}'"
 end
 
-
-rpm_package "epel-release" do
-  source "#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm"
+rpm_package "ius-release" do
+  source "#{Chef::Config[:file_cache_path]}/ius-release-#{ius}.ius.el#{major}.noarch.rpm"
 end
