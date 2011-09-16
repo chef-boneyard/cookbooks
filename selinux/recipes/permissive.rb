@@ -25,7 +25,7 @@ execute "enable selinux as permissive" do
   action :run
 end
 
-template "/etc/sysconfig/selinux" do
+template "/etc/selinux/config" do
   source "sysconfig/selinux.erb"
   not_if "getenforce | grep -qx 'Disabled'"
   variables(
@@ -33,4 +33,3 @@ template "/etc/sysconfig/selinux" do
     :selinuxtype => "targeted",
   )
 end
-
