@@ -5,33 +5,45 @@ Provides recipes for manipulating selinux policy enforcement
 
 Requirements
 ============
-Selinux enabled RHEL derived linux distro
 
-Platform
-========
-redhat centos scientific fedora
+RHEL family distribution or other Linux system that uses SELinux.
 
-Attributes
-==========
-none
+## Platform:
+
+Tested on RHEL 5.6, 6.0 and 6.1.
 
 Usage
 =====
 
-Include early on in a nodes run list:
+SELinux is enforcing by default on RHEL family distributions, however the use of SELinux has complicated considerations when using configuration management. Often, users are recommended to set SELinux to permissive mode, or disabled completely. To ensure that SELinux is permissive or disabled, choose the appropriate recipe (`selinux::permissive`, `selinux::disabled`) and apply it to the node early in the run list. For example in a `base` role used by all RHEL systems:
 
-computron:~/myinfrastructure$ cat roles/base.rb 
+    name "base"
+    description "Base role applied to all nodes."
+    run_list(
+      "recipe[selinux::permissive]",
+    )
 
-name "base"
-description "Base role applied to all nodes."
-run_list(
-  "recipe[selinux::disabled]",
-)
+Changes
+=======
+
+## v0.5.0:
+
+* COOK-678 - add the selinux cookbook to the repository
+* Use main selinux config file (/etc/selinux/config)
+* Use getenforce instead of selinuxenabled for enforcing and permissive
+
+Roadmap
+=======
+
+Use a node attribute to determine which recipe to load automatically from selinux::default.
+
+Add LWRP/Libraries for manipulating security contexts for files and services managed by Chef.
 
 License and Author
 ==================
 
 Author:: Sean OMeara (<someara@opscode.com>)
+Author:: Joshua Timberman (<joshua@opscode.com>)
 
 Copyright:: 2011, Opscode, Inc
 
@@ -46,4 +58,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
