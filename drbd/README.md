@@ -2,11 +2,13 @@ Description
 ===========
 Installs and configures the Distributed Replicated Block Device (DRBD) service for mirroring block devices between a pair of hosts. Right now it simply works in pairs, multiple hosts could be supported with a few small changes.
 
+The `drbd` cookbook does not partition drives. It will format partitions given a filesystem type, but it does not explicitly depend on the `xfs` cookbook if you want that type of filesystem, but you can put it in your run list and set the node['drbd']['fs_type'] to 'xfs'.
+
 Requirements
 ============
 Platform
 --------
-Tested with Ubuntu 10.04 and 10.10.
+Tested with Ubuntu 10.04 - 11.04. You must be running the 'linux-image-server' kernel because it contains the drbd module. 
 
 Recipes
 =======

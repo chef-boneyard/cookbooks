@@ -23,10 +23,12 @@ package "drbd8-utils" do
   action :install
 end
 
+#install the kernel-module
+
 service "drbd" do
   supports(
     :restart => true,
     :status => true
   )
-  action :enable
+  action :nothing
 end
