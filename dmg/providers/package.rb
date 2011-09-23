@@ -40,7 +40,7 @@ action :install do
       mode 0775
       action :create
       recursive true
-      not_if { File.exists(Chef::Config[:file_cache_path]) }
+      not_if { ::File.exists?(Chef::Config[:file_cache_path]) }
     end
 
     if new_resource.source
