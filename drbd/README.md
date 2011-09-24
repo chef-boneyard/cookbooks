@@ -8,7 +8,7 @@ Requirements
 ============
 Platform
 --------
-Tested with Ubuntu 10.04 - 11.04. You must be running the 'linux-image-server' kernel because it contains the drbd module. 
+Tested with Ubuntu 10.04 - 11.04. You must have the 'linux-server' package and 'linux-headers-server' kernel installed to support the drbd module. 
 
 Recipes
 =======

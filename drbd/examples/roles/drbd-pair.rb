@@ -3,7 +3,7 @@ description "DRBD pair role."
 
 override_attributes(
   "drbd" => {
-    "disk" => "/dev/sdb",
+    "disk" => "/dev/sdb1",
     "fs_type" => "xfs",
     "mount" => "/drbd"
   }

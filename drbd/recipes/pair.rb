@@ -39,13 +39,15 @@ template "/etc/drbd.d/pair.res" do
   owner "root"
   group "root"
   not_if { node['drbd']['remote_host'].nil? }
-  #notifies :restart, resources(:service => "drbd"), :immediate
+  notifies :restart, resources(:service => "drbd"), :immediate
 end
 
 #first pass only, initialize drbd
-#drbdadm create-md resource
+#echo 'yes' | drbdadm create-md pair
 
 #drbdadm up resource
+# oot@ubuntu3-1004:~# drbd-overview 
+#   1:pair  Unconfigured . . . . 
 
 #cat /proc/drbd to see state
 #drbd-overview
