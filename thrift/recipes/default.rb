@@ -27,7 +27,7 @@ include_recipe "python"
   package pkg
 end
 
-remote_file "#{Chef::Config[:file_cache_path]}/thrift-0.6.0.tar.gz" do
+remote_file "#{Chef::Config[:file_cache_path]}/thrift-#{version}.tar.gz" do
   source "#{node['thrift']['mirror']}/thrift/#{version}/thrift-#{version}.tar.gz"
   checksum node['thrift']['checksum']
 end
