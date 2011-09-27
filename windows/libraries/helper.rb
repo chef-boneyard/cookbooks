@@ -21,6 +21,9 @@
 module Windows
   module Helper
 
+    AUTO_RUN_KEY = 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
+    ENV_KEY = 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment'
+
     # returns windows friendly version of the provided path, 
     # ensures backslashes are used everywhere
     def win_friendly_path(path)
@@ -54,6 +57,28 @@ module Windows
     # singleton instance of the Windows Version checker
     def win_version
       @win_version ||= Windows::Version.new
+    end
+
+    # if a file is local it returns a windows friendly path version
+    # if a file is remote it caches it locally
+    def cached_file(source, checksum=nil, windows_path=true)
+      @installer_file_path ||= begin
+
+        if(source =~ /^(https?:\/\/)(.*\/)(.*)$/)
+          cache_file_path = "#{Chef::Config[:file_cache_path]}/#{::File.basename(source)}"
+          Chef::Log.debug("Caching a copy of file #{source} at #{cache_file_path}")
+          r = Chef::Resource::RemoteFile.new(cache_file_path, run_context)
+          r.source(source)
+          r.backup(false)
+          r.mode("0755")
+          r.checksum(checksum) if checksum
+          r.run_action(:create)
+        else
+          cache_file_path = source
+        end
+
+        windows_path ? win_friendly_path(cache_file_path) : cache_file_path
+      end
     end
 
   end
