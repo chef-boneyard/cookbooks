@@ -51,6 +51,43 @@ Resource/Provider
   end
 
 
+`windows_batch`
+------------
+Execute a batch script using the cmd.exe interpreter (much like the script resources for bash, csh, powershell, perl, python and ruby). A temporary file is created and executed like other script resources, rather than run inline. By their nature, Script resources are not idempotent, as they are completely up to the user's imagination. Use the `not_if` or `only_if` meta parameters to guard the resource for idempotence.
+
+### Actions
+
+- :run: run the batch file
+
+### Attribute Parameters
+
+- command: name attribute. Name of the command to execute.
+- code: quoted string of code to execute.
+- creates: a file this command creates - if the file exists, the command will not be run.
+- cwd: current working directory to run the command from.
+- flags: command line flags to pass to the interpreter when invoking.
+- user: A user name or user ID that we should change to before running this command.
+- group: A group name or group ID that we should change to before running this command.
+
+### Examples
+
+    windows_batch "unzip_and_move_ruby" do
+      code <<-EOH
+      7z.exe x #{Chef::Config[:file_cache_path]}/ruby-1.8.7-p352-i386-mingw32.7z  -oC:\\source -r -y
+      xcopy C:\\source\\ruby-1.8.7-p352-i386-mingw32 C:\\ruby /e /y
+      EOH
+    end
+    
+    windows_batch "echo some env vars" do
+      code <<-EOH
+      echo %TEMP%
+      echo %SYSTEMDRIVE%
+      echo %PATH%
+      echo %WINDIR%
+      EOH
+    end
+
+
 `windows_feature`
 -----------------
 
