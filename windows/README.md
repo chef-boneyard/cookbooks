@@ -398,6 +398,15 @@ Changes/Roadmap
 * windows_registry :force_modify action should use RegNotifyChangeKeyValue from WinAPI
 * WindowsRebootHandler/windows_reboot LWRP should support kicking off subsequent chef run on reboot.
 
+## v1.2.2
+
+* combined numerous helper libarires for easier sharing across libaries/LWRPs
+* renamed Chef::Provider::WindowsFeature::Base file to the more descriptive feature_base.rb
+* refactored windows_path LWRP
+  * :add action should MODIFY the the underlying ENV variable (vs CREATE)
+  * deleted greedy :remove action until it could be made more idempotent
+* added a windows_batch resource/provider for running batch scripts remotely
+
 ## v1.2.0
 
 * [COOK-745] gracefully handle required server restarts on Windows platform
