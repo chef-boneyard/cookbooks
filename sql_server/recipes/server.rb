@@ -19,6 +19,7 @@
 #
 
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+::Chef::Recipe.send(:include, Windows::Helper)
 
 service_name = "MSSQL$#{node['sql_server']['instance_name']}"
 
@@ -27,6 +28,7 @@ node.set_unless['sql_server']['server_sa_password'] = secure_password
 node.save # force a save so we don't lose our generated password on a failed chef run
 
 config_file_path = File.join(Chef::Config[:file_cache_path], "ConfigurationFile.ini")
+win_friendly_config_file_path = win_friendly_path(config_file_path)
 
 template config_file_path do
   source "ConfigurationFile.ini.erb"
@@ -36,7 +38,7 @@ windows_package node['sql_server']['server']['package_name'] do
   source node['sql_server']['server']['url']
   checksum node['sql_server']['server']['checksum']
   installer_type :custom
-  options "/q /ConfigurationFile=#{Windows::Helper.win_friendly_path(config_file_path)}"
+  options "/q /ConfigurationFile=#{win_friendly_config_file_path}"
   action :install
 end
 
