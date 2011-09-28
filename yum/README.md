@@ -8,14 +8,24 @@ Based on the work done by Eric Wolfe and Charles Duffy on the yumrepo cookbook. 
 Changes
 =======
 
+## v0.5.0:
+
+* COOK-675: add recipe for handling EPEL repository
+* COOK-722: add recipe for handling IUS repository
+
 ## v.0.1.2:
 
-* Remove yum update in default recipe, that doesn't update caches, it
-  updates packages installed.
+* Remove yum update in default recipe, that doesn't update caches, it updates packages installed.
 
 Requirements
 ============
 RHEL, CentOS or Scientific Linux 5.x or newer. It has not been tested on other platforms or earlier versions. RHEL 6 support is untested (testing and patches are welcome).
+
+Attributes
+==========
+
+* `node['yum']['epel_release']` - Set the epel release version based on `node['platform_version']`.
+* `node['yum']['ius_release']` - Set the IUS release to install.
 
 Recipes
 =======
@@ -27,6 +37,18 @@ The default recipe runs `yum update` during the Compile Phase of the Chef run to
 yum
 ---
 Manages the configuration of the `/etc/yum.conf` via attributes.
+
+epel
+----
+
+Installs the EPEL repository via RPM. Uses the `node['yum']['epel_release']` attribute to select the right version of the repository package to install. Also uses the node's platform version (as an integer) for the major release of EL.
+
+ius
+----
+
+Installs the [IUS Community repositories](http://iuscommunity.org/Repos) via RPM. Uses the `node['yum']['ius_release']` attribute to select the right versino of the package to install.
+
+The IUS repository requires EPEL, and the recipe includes `yum::epel` to install this.
 
 Resources/Providers
 ===================
@@ -75,6 +97,7 @@ This LWRP provides an easy way to manage additional YUM repositories. GPG keys c
 - url: The URL providing the packages
 - mirrorlist: Default is `false`,  if `true` the `url` is considered a list of mirrors
 - key: Optional, the name of the GPG key file installed by the `key` LWRP.
+
 - enabled: Default is `1`, set to `0` if the repository is disabled.
 - type: Optional, alternate type of repository
 - failovermethod: Optional, failovermethod
@@ -106,11 +129,11 @@ License and Author
 ==================
 
 Author:: Eric G. Wolfe
-
-Copyright:: 2010-2011
-
 Author:: Matt Ray (<matt@opscode.com>)
+Author:: Joshua Timberman (<joshua@opscode.com>)
 
+Copyright:: 2010 Tippr Inc.
+Copyright:: 2011 Eric G. Wolfe
 Copyright:: 2011 Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -124,4 +147,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-

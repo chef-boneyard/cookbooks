@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: mysql
-# Resource:: database
+# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Cookbook Name:: iis
+# Attribute:: webpi
 #
-# Copyright:: 2008-2011, Opscode, Inc <legal@opscode.com>
+# Copyright:: Copyright (c) 2011 Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,11 +18,7 @@
 # limitations under the License.
 #
 
-actions :flush_tables_with_read_lock, :unflush_tables, :create_db, :query
+default['webpi']['url']       = 'http://www.iis.net/community/files/webpi/webpicmd_x86.zip'
+default['webpi']['checksum']  = '8d0f901fa699b7deef138f3f8876d40ac8ee112c3aa2d39812a27953f3f3f528'
 
-attribute :host, :kind_of => String
-attribute :username, :kind_of => String
-attribute :password, :kind_of => String
-attribute :database, :kind_of => String
-attribute :sql, :kind_of => String
-attribute :exists, :default => false
+default['webpi']['home'] = "#{ENV['SYSTEMDRIVE']}\\webpi"

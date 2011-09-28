@@ -6,7 +6,7 @@ Recipes
 =======
 default
 -------
-Installs `rabbitmq-server` from RabbitMQ.com's APT repository. The distribution-provided version was quite old and newer features were needed.
+Installs `rabbitmq-server` from RabbitMQ.com's APT repository or the RPM directly (there is no yum repo). The distribution-provided versions were quite old and newer features were needed.
 
 cluster
 -------

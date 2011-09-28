@@ -19,9 +19,49 @@
 #
 
 module Windows
-  module Helpers
+  module Helper
 
-    def cached_file(source, windows_path=true)
+    AUTO_RUN_KEY = 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run'
+    ENV_KEY = 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment'
+
+    # returns windows friendly version of the provided path, 
+    # ensures backslashes are used everywhere
+    def win_friendly_path(path)
+      path.gsub(::File::SEPARATOR, ::File::ALT_SEPARATOR) if path
+    end
+
+    # account for Window's wacky File System Redirector
+    # http://msdn.microsoft.com/en-us/library/aa384187(v=vs.85).aspx
+    # especially important for 32-bit processes (like Ruby) on a 
+    # 64-bit instance of Windows.
+    def locate_sysnative_cmd(cmd)
+      if ::File.exists?("#{ENV['WINDIR']}\\sysnative\\#{cmd}")
+        "#{ENV['WINDIR']}\\sysnative\\#{cmd}"
+      elsif ::File.exists?("#{ENV['WINDIR']}\\system32\\#{cmd}")
+        "#{ENV['WINDIR']}\\system32\\#{cmd}"
+      else
+        cmd
+      end
+    end
+
+    # Create a feature provider dependent value object.
+    # mainly created becasue Windows Feature names are 
+    # different based on whether dism.exe or servicemanagercmd.exe 
+    # is used for installation
+    def value_for_feature_provider(provider_hash)
+      p = Chef::Platform.find_provider_for_node(node, :windows_feature)
+      key = p.to_s.downcase.split('::').last
+      provider_hash[key] || provider_hash[key.to_sym]
+    end
+
+    # singleton instance of the Windows Version checker
+    def win_version
+      @win_version ||= Windows::Version.new
+    end
+
+    # if a file is local it returns a windows friendly path version
+    # if a file is remote it caches it locally
+    def cached_file(source, checksum=nil, windows_path=true)
       @installer_file_path ||= begin
 
         if(source =~ /^(https?:\/\/)(.*\/)(.*)$/)
@@ -31,15 +71,17 @@ module Windows
           r.source(source)
           r.backup(false)
           r.mode("0755")
+          r.checksum(checksum) if checksum
           r.run_action(:create)
         else
           cache_file_path = source
         end
 
-        cache_file_path.gsub!(::File::SEPARATOR, ::File::ALT_SEPARATOR) if windows_path
-        cache_file_path
+        windows_path ? win_friendly_path(cache_file_path) : cache_file_path
       end
     end
 
   end
 end
+
+Chef::Recipe.send(:include, Windows::Helper)

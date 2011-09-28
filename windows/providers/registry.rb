@@ -1,11 +1,13 @@
 #
 # Author:: Doug MacEachern (<dougm@vmware.com>)
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Author:: Paul Morton (<pmorton@biaprotect.com>)
 # Cookbook Name:: windows
 # Provider:: registry
 #
 # Copyright:: 2010, VMware, Inc.
 # Copyright:: 2011, Opscode, Inc.
+# Copyright:: 2011, Business Intelligence Associates, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,6 +22,8 @@
 # limitations under the License.
 #
 
+include Windows::RegistryHelper
+
 action :create do
   registry_update(:create)
 end
@@ -28,93 +32,39 @@ action :modify do
   registry_update(:open)
 end
 
-private
-def registry_key_exists?(hive, key)
-  begin
-    hive.open(key)
-    return true
-  rescue
-    return false
-  end
-end
-
-def registry_update(mode)
-  require 'win32/registry'
-  require 'ruby-wmi'
-
-  path = @new_resource.key_name.split("\\")
-  hive_name = path.shift
-
-  #support standard abbreviations
-  hkey = {
-    "HKLM" => "HKEY_LOCAL_MACHINE",
-    "HKCU" => "HKEY_CURRENT_USER",
-    "HKU"  => "HKEY_USERS"
-  }[hive_name] || hive_name
-
-  hive = {
-    "HKEY_LOCAL_MACHINE" => Win32::Registry::HKEY_LOCAL_MACHINE,
-    "HKEY_USERS" => Win32::Registry::HKEY_USERS,
-    "HKEY_CURRENT_USER" => Win32::Registry::HKEY_CURRENT_USER
-  }[hkey]
-
-  unless hive
-    Chef::Application.fatal!("Unsupported registry hive '#{hive_name}'")
-  end
-
-  if hive == Win32::Registry::HKEY_USERS && !registry_key_exists?(hive, path[0])
-    name = path[0]
-    sid = nil
-
-    begin
-      sid = WMI::Win32_UserAccount.find(:first, :conditions => {:name => name}).sid
-      if registry_key_exists?(hive, sid)
-        path[0] = sid #use the active profile (user is logged on)
-        Chef::Log.debug("HKEY_USERS: #{name} -> #{sid}")
-      else
-        sid = nil
-      end
-    rescue
-    end
-
-    if sid == nil
-      #use the backup profile on disk (user is not logged on)
-      #XXX lookup user profile dir; this is the default
-      file = "C:\\Documents and Settings\\#{name}\\NTUSER.DAT"
-      if ::File.exists?(file)
-        @priv = Chef::WindowsPrivileged.new
-        if @priv.reg_load_key(name, file)
-          Chef::Log.debug("RegLoadKey(#{hkey}, #{name}, #{file})")
+action :force_modify do
+  require 'timeout'
+  Timeout.timeout(120) do
+    @new_resource.values.each do |value_name, value_data|
+      5.times do |x|
+        desired_value_data = value_data
+        current_value_data = get_value(@new_resource.key_name.dup, value_name.dup)
+        if current_value_data.to_s == desired_value_data.to_s
+          Chef::Log.debug("#{@new_resource} value [#{value_name}] desired [#{desired_value_data}] data already set. Check #{x+1}/5.")
         else
-          @priv = nil
+          Chef::Log.debug("#{@new_resource} value [#{value_name}] current [#{current_value_data}] data not equal to desired [#{desired_value_data}] data. Setting value and restarting check loop.")
+          begin
+            registry_update(:open)
+          rescue Exception
+            registry_update(:create)
+          end
+          retry # start count loop over
         end
       end
     end
+    break
   end
+end
 
-  key_name = path.join("\\")
-  Chef::Log.debug("#{hkey}.#{mode}(#{key_name})")
-  hive.send(mode, key_name, Win32::Registry::KEY_ALL_ACCESS) do |reg|
-    @new_resource.values.each do |k,val|
-      key = "#{k}" #wtf. avoid "can't modify frozen string" in win32/registry.rb
-      cur_val = nil
-      begin
-        cur_val = reg[key]
-      rescue
-        #subkey does not exist (ok)
-      end
-      if cur_val != val
-        Chef::Log.debug("#{@new_resource}: setting #{key}=#{val}")
-        reg[key] = val
-        @new_resource.updated_by_last_action(true)
-      end
-    end
-  end
+action :remove do
+  delete_value(@new_resource.key_name,@new_resource.values)
+end
 
-  if @priv
-    begin
-      @priv.reg_unload_key(path[0])
-    rescue
-    end
-  end
+private
+def registry_update(mode)
+
+  Chef::Log.debug("Registry Mode (#{mode})")
+  updated = set_value(mode,@new_resource.key_name,@new_resource.values)
+  @new_resource.updated_by_last_action(updated)
+
 end

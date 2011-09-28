@@ -5,3 +5,5 @@
 auth       sufficient   pam_unix.so likeauth nullok_secure
 auth       sufficient   pam_ldap.so use_first_pass
 
+auth       required     pam_deny.so
+auth       required     pam_warn.so

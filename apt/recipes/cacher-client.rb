@@ -17,10 +17,17 @@
 # limitations under the License.
 #
 
+#remove Acquire::http::Proxy lines from /etc/apt/apt.conf since we use 01proxy
+#these are leftover from preseed installs
+execute "Remove proxy from /etc/apt/apt.conf" do
+  command "sed --in-place '/^Acquire::http::Proxy/d' /etc/apt/apt.conf"
+  only_if "grep Acquire::http::Proxy /etc/apt/apt.conf"
+end
+
 servers = search(:node, 'recipes:apt\:\:cacher') || []
 if servers.length > 0
   Chef::Log.info("apt-cacher server found on #{servers[0]}.")
-  proxy = "Acquire::http::Proxy \"http://#{servers[0].ipaddress}:3142\";"
+  proxy = "Acquire::http::Proxy \"http://#{servers[0].ipaddress}:3142\";\n"
   file "/etc/apt/apt.conf.d/01proxy" do
     owner "root"
     group "root"
