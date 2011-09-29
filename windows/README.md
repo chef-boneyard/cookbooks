@@ -398,6 +398,10 @@ Changes/Roadmap
 * windows_registry :force_modify action should use RegNotifyChangeKeyValue from WinAPI
 * WindowsRebootHandler/windows_reboot LWRP should support kicking off subsequent chef run on reboot.
 
+## v1.2.4
+
+* windows_package - catch Win32::Registry::Error that pops up when searching certain keys
+
 ## v1.2.2
 
 * combined numerous helper libarires for easier sharing across libaries/LWRPs
