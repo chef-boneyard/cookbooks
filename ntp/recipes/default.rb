@@ -28,6 +28,14 @@ package "ntp" do
   action :install
 end
 
+# Rackspace sepcific work around for incorrect wallclock time
+bash "Disabling Rackspace wall clock" do
+  only_if node[:cloud][:provider] == "rackspace"
+  code <<-EOH
+    echo 1 > /proc/sys/xen/independent_wallclock
+  EOH
+end
+
 service node[:ntp][:service] do
   action :start
 end
