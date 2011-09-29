@@ -18,18 +18,26 @@
 # limitations under the License.
 #
 
+require 'chef/shell_out'
+
 include_recipe "drbd"
 
 #if remote host is blank, search for partner
 if node['drbd']['remote_host'].nil?
   remotes = search(:node, 'drbd:*') || []
+  masters = 0
   remotes.each do |remote|
     Chef::Log.info "drbd::pair remotes #{remote.name}"
+    masters += 1 if remote['drbd']['master']
+#THIS IS BROKEN    
     unless remote.name.equal?(node.name)
       Chef::Log.info "drbd::pair found #{remote.name}"
       node['drbd']['remote_host'] = remote.name
       node['drbd']['remote_ip'] = remote.ipaddress
     end
+  end
+  if (masters > 1)
+    Chef::Application.fatal! "You may not have more than 1 master nodes for drbd."
   end
 end
 
@@ -39,31 +47,48 @@ template "/etc/drbd.d/pair.res" do
   owner "root"
   group "root"
   not_if { node['drbd']['remote_host'].nil? }
-  notifies :restart, resources(:service => "drbd"), :immediate
+  action :create
 end
 
 #first pass only, initialize drbd
-#echo 'yes' | drbdadm create-md pair
+execute "drbdadm create-md pair" do
+  subscribes :run, resources(:template => "/etc/drbd.d/pair.res")
+  notifies :restart, resources(:service => "drbd"), :immediate
+  only_if do 
+    cmd = Chef::ShellOut.new("drbd-overview")
+    overview = cmd.run_command
+    Chef::Log.info overview
+    overview.stdout.include?("drbd not loaded")
+  end
+  action :nothing
+end
 
-#drbdadm up resource
-# oot@ubuntu3-1004:~# drbd-overview 
-#   1:pair  Unconfigured . . . . 
+#claim primary based off of node['drbd']['master']
+execute "drbdadm -- --overwrite-data-of-peer primary all" do
+  subscribes :run, resources(:execute => "drbdadm create-md pair")
+  only_if { node['drbd']['master'] }
+  action :nothing
+end
 
-#cat /proc/drbd to see state
-#drbd-overview
+#You may now create a filesystem on the device, use it as a raw block device
+execute "mkfs -t #{node['drbd']['fs_type']} #{node['drbd']['dev']}" do
+  subscribes :run, resources(:execute => "drbdadm -- --overwrite-data-of-peer primary all")
+  only_if { node['drbd']['master'] }
+  action :nothing
+end
 
-#select the initial sync source, key off of node['drbd']['master']
-#if not master, wait for search to return a master
+directory node['drbd']['mount'] do
+  only_if { node['drbd']['master'] }
+  not_if { node['drbd']['remote_host'].nil? }
+  action :create
+end
 
-#if you are the master
-#drbdadm primary --force resource
-
-#You may now create a filesystem on the device, use it as a raw block device, mount it, and perform any other operation you would with an accessible block device.
-#package xfsprogs
-#mkfs -t node['drbd']['fs_type'] node['drbd']['dev']
-
-# mount node['drbd']['mount'] do
-#   device node['drbd']['dev']
-#   fstype node['drbd']['fs_type']
-#   options "rw"
-# end
+#mount it
+mount node['drbd']['mount'] do
+  device node['drbd']['dev']
+  fstype node['drbd']['fs_type']
+  options "rw"
+  only_if { node['drbd']['master'] }
+  not_if { node['drbd']['remote_host'].nil? }
+  action :mount
+end

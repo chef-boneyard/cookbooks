@@ -17,13 +17,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#include_recipe "lvm"
+#prime the search to avoid 2 masters
+node.save
 
 package "drbd8-utils" do
   action :install
 end
-
-#install the kernel-module
 
 service "drbd" do
   supports(

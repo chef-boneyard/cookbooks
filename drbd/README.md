@@ -8,7 +8,7 @@ Requirements
 ============
 Platform
 --------
-Tested with Ubuntu 10.04 - 11.04. You must have the 'linux-server' package and 'linux-headers-server' kernel installed to support the drbd module. 
+Tested with Ubuntu 10.04 - 11.04. You must have the 'linux-server' package and 'linux-headers-server' kernel installed to properly support the drbd module. 
 
 Recipes
 =======
@@ -18,13 +18,18 @@ Installs drbd but does no configuration.
 
 default
 -------
-Given a filesystem and a partner host, configures block replication between the hosts.
+Given a filesystem and a partner host, configures block replication between the hosts. The master will claim the primary, format the filesystem and mount the partition. The slave will simply mirror without mounting.
 
 Attributes
 ==========
-* `node['drbd]['host']` - Partner to mirror with.
+* `node['drbd]['remote_host']` - Partner to mirror with.
+* `node['drbd]['remote_ip']` - Partner IP to mirror with.
+* `node['drbd]['disk']` - Disk partition to mirror.
+* `node['drbd]['fs_type']` - Disk format for the mirrored disk.
 * `node['drbd]['mount']` - Mount point to mirror.
-* `node['drbd]['master']` - Whether this node is master between the pair, defaults to `true`.
+* `node['drbd]['dev']` - Device name for the drbd device, defaults to `/dev/drbd1`.
+* `node['drbd]['master']` - Whether this node is master between the pair, defaults to `false`.
+* `node['drbd]['port']` - Port to use for TCP connections, defaults to `7789`.
 
 License and Author
 ==================

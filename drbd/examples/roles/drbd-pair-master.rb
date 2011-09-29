@@ -1,11 +1,12 @@
-name "drbd-pair"
+name "drbd-pair-master"
 description "DRBD pair role."
 
 override_attributes(
   "drbd" => {
     "disk" => "/dev/sdb1",
     "fs_type" => "xfs",
-    "mount" => "/shared"
+    "mount" => "/shared",
+    "master" => true
   }
   )
 
