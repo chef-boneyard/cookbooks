@@ -129,6 +129,11 @@ Changes/Roadmap
 * multi instance support (via an LWRP)
 * clustering support
 
+## 1.0.2:
+
+* [COOK-773] win_friendly_path is no longer a module_function
+* rename accept_license_terms attribute to accept_eula for consistency with other cookbooks like iis
+
 ## 1.0.0:
 
 * [COOK-681] initial release
