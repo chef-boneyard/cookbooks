@@ -52,10 +52,10 @@ end
 execute "drbdadm create-md pair" do
   subscribes :run, resources(:template => "/etc/drbd.d/pair.res")
   notifies :restart, resources(:service => "drbd"), :immediate
-  only_if do 
+  only_if do
     cmd = Chef::ShellOut.new("drbd-overview")
     overview = cmd.run_command
-    Chef::Log.info overview
+    Chef::Log.info overview.stdout
     overview.stdout.include?("drbd not loaded")
   end
   not_if { node['drbd']['remote_host'].nil? }
@@ -65,27 +65,33 @@ end
 #claim primary based off of node['drbd']['master']
 execute "drbdadm -- --overwrite-data-of-peer primary all" do
   subscribes :run, resources(:execute => "drbdadm create-md pair")
-  only_if { node['drbd']['master'] &&  !node['drbd']['remote_host'].nil? }
+  only_if { node['drbd']['master'] && !node['drbd']['remote_host'].nil? }
   action :nothing
 end
 
 #You may now create a filesystem on the device, use it as a raw block device
 execute "mkfs -t #{node['drbd']['fs_type']} #{node['drbd']['dev']}" do
   subscribes :run, resources(:execute => "drbdadm -- --overwrite-data-of-peer primary all")
-  only_if { node['drbd']['master'] &&  !node['drbd']['remote_host'].nil? }
+  only_if { node['drbd']['master'] && !node['drbd']['remote_host'].nil? }
   action :nothing
 end
 
 directory node['drbd']['mount'] do
-  only_if { node['drbd']['master'] &&  !node['drbd']['remote_host'].nil? }
+  only_if { node['drbd']['master'] && !node['drbd']['remote_host'].nil? }
   action :create
 end
 
-#mount it
-mount node['drbd']['mount'] do
-  device node['drbd']['dev']
-  fstype node['drbd']['fs_type']
-  options "rw"
-  only_if { node['drbd']['master'] &&  !node['drbd']['remote_host'].nil? }
-  action :mount
-end
+#mount /dev/drbd0 /shared
+# execute "mount -t #{node['drbd']['fs_type']} -o rw #{node['drbd']['dev']} #{node['drbd']['mount']}" do
+#   only_if { node['drbd']['master'] && !node['drbd']['remote_host'].nil? }
+#   action :run
+# end
+
+#mount -t xfs -o rw /dev/drbd0 /shared
+# mount node['drbd']['mount'] do
+#   device node['drbd']['dev']
+#   fstype node['drbd']['fs_type']
+#   options "rw"
+#   only_if { node['drbd']['master'] && !node['drbd']['remote_host'].nil? }
+#   action :mount
+# end
