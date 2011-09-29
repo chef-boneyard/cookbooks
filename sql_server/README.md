@@ -23,7 +23,7 @@ default
 
 The following attributes are used by both client and server recipes.
 
-* `node['sql_server']['accept_license_terms']` - indicate that you accept the terms of the end user license, default is 'false'
+* `node['sql_server']['accept_eula']` - indicate that you accept the terms of the end user license, default is 'false'
 * `node['sql_server']['product_key']` - Specifies the product key for the edition of SQL Server, default is `nil` (not needed for SQL Server 2008 R2 Express installs)
 
 client
@@ -83,7 +83,7 @@ Installing any of the SQL Server server or client packages in an unattended/auto
     )
     default_attributes(
       "sql_server" => {
-        "accept_license_terms" => true
+        "accept_eula" => true
       }
     )
 
@@ -99,7 +99,7 @@ Out of the box this recipe installs the Express edition of SQL Server 2008 R2.  
       "sql_server" => {
         "instance_name" => "MSSQLSERVER",
         "product_key" => "YOUR_PRODUCT_KEY_HERE",
-        "accept_license_terms" => true,
+        "accept_eula" => true,
         "server" => {
           "url" => "DOWNLOAD_LOCATION_OF_INSTALLATION_PACKAGE",
           "checksum" => "SHA256_OF_INSTALLATION_PACKAGE"
