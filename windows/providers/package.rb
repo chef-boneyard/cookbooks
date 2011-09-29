@@ -198,19 +198,22 @@ end
 def extract_installed_packages_from_key(hkey = Win32::Registry::HKEY_LOCAL_MACHINE, desired = Win32::Registry::Constants::KEY_READ)
   uninstall_subkey = 'Software\Microsoft\Windows\CurrentVersion\Uninstall'
   packages = {}
-  Win32::Registry.open(hkey, uninstall_subkey, desired) do |reg|
-    reg.each_key do |key, wtime|
-      k = reg.open(key)
-      display_name = k["DisplayName"] rescue nil
-      version = k["DisplayVersion"] rescue "NO VERSION"
-      uninstall_string = k["UninstallString"] rescue nil
+  begin
+    Win32::Registry.open(hkey, uninstall_subkey, desired) do |reg|
+      reg.each_key do |key, wtime|
+        k = reg.open(key)
+        display_name = k["DisplayName"] rescue nil
+        version = k["DisplayVersion"] rescue "NO VERSION"
+        uninstall_string = k["UninstallString"] rescue nil
 
-      if display_name
-        packages[display_name] = {:name => display_name,
-                                  :version => version,
-                                  :uninstall_string => uninstall_string}
+        if display_name
+          packages[display_name] = {:name => display_name,
+                                    :version => version,
+                                    :uninstall_string => uninstall_string}
+        end
       end
     end
+  rescue Win32::Registry::Error
   end
   packages
 end
