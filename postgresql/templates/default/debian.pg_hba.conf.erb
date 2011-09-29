@@ -71,7 +71,7 @@
 # (autovacuum, daily cronjob, replication, and similar tasks).
 #
 # Database administrative login by UNIX sockets
-local   all         postgres                          ident
+local   all         postgres                          <%= node[:postgresql][:auth][:local] %> 
 
 # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
 
