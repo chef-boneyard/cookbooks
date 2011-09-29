@@ -48,6 +48,8 @@ template "/etc/drbd.d/pair.res" do
   action :create
 end
 
+first_pass = false
+
 #first pass only, initialize drbd
 execute "drbdadm create-md pair" do
   subscribes :run, resources(:template => "/etc/drbd.d/pair.res")
@@ -57,6 +59,7 @@ execute "drbdadm create-md pair" do
     overview = cmd.run_command
     Chef::Log.info overview.stdout
     overview.stdout.include?("drbd not loaded")
+    first_pass = true
   end
   not_if { node['drbd']['remote_host'].nil? }
   action :nothing
@@ -81,17 +84,10 @@ directory node['drbd']['mount'] do
   action :create
 end
 
-#mount /dev/drbd0 /shared
-# execute "mount -t #{node['drbd']['fs_type']} -o rw #{node['drbd']['dev']} #{node['drbd']['mount']}" do
-#   only_if { node['drbd']['master'] && !node['drbd']['remote_host'].nil? }
-#   action :run
-# end
-
 #mount -t xfs -o rw /dev/drbd0 /shared
-# mount node['drbd']['mount'] do
-#   device node['drbd']['dev']
-#   fstype node['drbd']['fs_type']
-#   options "rw"
-#   only_if { node['drbd']['master'] && !node['drbd']['remote_host'].nil? }
-#   action :mount
-# end
+mount node['drbd']['mount'] do
+  device node['drbd']['dev']
+  fstype node['drbd']['fs_type']
+  only_if { node['drbd']['master'] && !node['drbd']['remote_host'].nil? && !first_pass}
+  action :mount
+end
