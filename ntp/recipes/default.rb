@@ -29,10 +29,13 @@ package "ntp" do
 end
 
 # Rackspace sepcific work around for incorrect wallclock time
-bash "Disabling Rackspace wall clock" do
+bash "Disabling Rackspace wall clock and fixing time with ntpdate" do
   only_if node[:cloud][:provider] == "rackspace"
   code <<-EOH
+    service ntpd stop
     echo 1 > /proc/sys/xen/independent_wallclock
+    ntpdate pool.ntp.org
+    service ntpd stop
   EOH
 end
 
