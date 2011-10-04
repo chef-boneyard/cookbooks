@@ -176,7 +176,7 @@ template "#{node[:apache][:dir]}/ports.conf" do
   source "ports.conf.erb"
   owner node[:apache][:user]
   group node[:apache][:group]
-  variables :apache_listen_ports => node[:apache][:listen_ports]
+  variables :apache_listen_ports => node[:apache][:listen_ports].map{|p| p.to_i}.uniq
   mode 0644
   notifies :restart, resources(:service => "apache2")
 end
