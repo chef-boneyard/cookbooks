@@ -3,7 +3,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures mysql for client or server"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           "1.0.6"
+version           "1.2.0"
 recipe            "mysql", "Includes the client recipe to configure a client"
 recipe            "mysql::client", "Installs packages required for mysql clients using run_action magic"
 recipe            "mysql::server", "Installs packages required for mysql servers w/o manual intervention"
@@ -80,3 +80,11 @@ attribute "mysql/tunable/table_open_cache",
 attribute "mysql/tunable/max_heap_table_size",
   :display_name => "MySQL Tunable Max Heap Table Size",
   :default => "32M"
+
+attribute "mysql/tunable/expire_logs_days",
+  :display_name => "MySQL Exipre Log Days",
+  :default => "10"
+
+attribute "mysql/tunable/max_binlog_size",
+  :display_name => "MySQL Max Binlog Size",
+  :default => "100M"

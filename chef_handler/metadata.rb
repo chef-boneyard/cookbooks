@@ -3,4 +3,4 @@ maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
 description      "Distribute and enable Chef Exception and Report handlers"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "1.0.0"
+version          "1.0.4"

@@ -5,7 +5,7 @@ SYSCONFDIR='<%= node[:apache][:dir] %>'
 if [ -z $1 ]; then
         echo "Which site would you like to disable?"
         echo -n "Your choices are: "
-        ls $node[:apache][:dir]/sites-enabled/* | \
+        ls $SYSCONFDIR/sites-enabled/* | \
         sed -e "s,$SYSCONFDIR/sites-enabled/,,g" | xargs echo
         echo -n "Site name? "
         read SITENAME

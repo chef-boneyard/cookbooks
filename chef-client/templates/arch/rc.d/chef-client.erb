@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-daemon_bin="/usr/bin/chef-client"
+daemon_bin="<%= @client_bin %>"
 daemon_name=$(basename $daemon_bin)
 PIDF="<%= node["chef_client"]["run_path"] %>/$daemon_name.pid"
 

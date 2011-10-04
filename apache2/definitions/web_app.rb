@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :web_app, :template => "web_app.conf.erb" do
+define :web_app, :template => "web_app.conf.erb", :enable => true do
   
   application_name = params[:name]
 
@@ -44,6 +44,6 @@ define :web_app, :template => "web_app.conf.erb" do
   end
   
   apache_site "#{params[:name]}.conf" do
-    enable enable_setting
+    enable params[:enable]
   end
 end

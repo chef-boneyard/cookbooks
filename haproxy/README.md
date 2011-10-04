@@ -6,6 +6,10 @@ Installs haproxy and prepares the configuration location.
 Changes
 =======
 
+## v1.0.3:
+
+* [COOK-620] haproxy::app_lb's template should use the member cloud private IP by default
+
 ## v1.0.2:
 
 * fix regression introduced in v1.0.1

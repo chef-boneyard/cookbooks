@@ -3,27 +3,6 @@ Description
 
 Installs and configures MySQL client or server.
 
-Changes
-=======
-
-### v1.0.6:
-
-* [COOK-605] install mysql-client package on ubuntu/debian
-
-### v1.0.5:
-
-* [COOK-465] allow optional remote root connections to mysql
-* [COOK-455] improve platform version handling
-* externalize conf_dir attribute for easier cross platform support
-* change datadir attribute to data_dir for consistency
-
-### v1.0.4:
-
-* fix regressions on debian platform
-* [COOK-578] wrap root password in quotes
-* [COOK-562] expose all tunables in my.cnf
-
-
 Requirements
 ============
 
@@ -49,14 +28,7 @@ Requires a C compiler and Ruby development package in order to build mysql gem w
 Resources and Providers
 =======================
 
-The cookbook contains a LWRP, `mysql_database` which can be used to manage databases through calls to the MySQL API. The mysql gem is installed to make this usable. The provider currently supports three actions:
-
-* `flush_tables_with_read_lock` - sends the sql command "flush tables with read lock", used for setting up mysql master/slave replication.
-* `unflush_tables` - sends the sql command "unflush tables", used for setting up master/slave replication.
-* `create_db` - specify a database to be created.
-* `query` - send an arbitrary query to the database, this should be used with care. Pass the SQL statement to use with the `sql` resource attribute.
-
-For example see the USAGE section below.
+The LWRP that used to ship as part of this cookbook has been refactored into the [database](https://github.com/opscode/cookbooks/tree/master/database) cookbook.  Please see the README for details on updated usage.
 
 Attributes
 ==========
@@ -79,6 +51,8 @@ Performance tuning attributes, each corresponds to the same-named parameter in m
 * `mysql['tunable']['back_log']`            = "128"
 * `mysql['tunable']['table_cache']`         = "128"
 * `mysql['tunable']['max_heap_table_size']` = "32M"
+* `mysql['tunable']['expire_logs_days']`    = "10"
+* `mysql['tunable']['max_binlog_size']`     = "100M"
 
 Usage
 =====
@@ -89,17 +63,7 @@ On client nodes,
 
 This will install the MySQL client libraries and development headers on the system. It will also install the Ruby Gem `mysql`, so that the cookbook's LWRP (above) can be used. This is done during the compile-phase of the Chef run. On platforms that are known to have a native package (currently Debian, Ubuntu, Red hat, Centos, Fedora and SUSE), the package will be installed. Other platforms will use the RubyGem.
 
-This creates a resource object for the package and does the installation before other recipes are parsed. You'll need to have the C compiler and such (ie, build-essential on Ubuntu) before running the recipes, but we already do that when installing Chef :-). If you want to be able to access a MySQL database via Ruby within another recipe, you could do so, like so:
-
-    mysql_database "create application_production database" do
-      host "localhost"
-      username "root"
-      password node[:mysql][:server_root_password]
-      database "application_production"
-      action :create_db
-    end
-
-This will connect to the MySQL server running on localhost as "root" and password as `mysql[:server_root_password]` attribute (see below) and create the database specified with the `database` parameter. The provider will attempt to determine whether the database exists first.
+This creates a resource object for the package and does the installation before other recipes are parsed. You'll need to have the C compiler and such (ie, build-essential on Ubuntu) before running the recipes, but we already do that when installing Chef :-). 
 
 On server nodes,
 
@@ -118,6 +82,40 @@ The client recipe is already included by server and 'default' recipes.
 For more infromation on the compile vs execution phase of a Chef run:
 
 * http://wiki.opscode.com/display/chef/Anatomy+of+a+Chef+Run
+
+Changes/Roadmap
+===============
+
+## v1.2.0
+
+* [COOK-684] remove mysql_database LWRP
+
+### v1.0.8:
+
+* [COOK-633] ensure "cloud" attribute is available
+
+### v1.0.7:
+
+* [COOK-614] expose all mysql tunable settings in config
+* [COOK-617] bind to private IP if available
+
+### v1.0.6:
+
+* [COOK-605] install mysql-client package on ubuntu/debian
+
+### v1.0.5:
+
+* [COOK-465] allow optional remote root connections to mysql
+* [COOK-455] improve platform version handling
+* externalize conf_dir attribute for easier cross platform support
+* change datadir attribute to data_dir for consistency
+
+### v1.0.4:
+
+* fix regressions on debian platform
+* [COOK-578] wrap root password in quotes
+* [COOK-562] expose all tunables in my.cnf
+
 
 License and Author
 ==================
