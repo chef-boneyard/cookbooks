@@ -1,2 +1,6 @@
 # Dropped off by Chef, thanks!
+<% if @ssh_keys.is_a?(Array) %>
+<%= @ssh_keys.join("\n") %>
+<% else %>
 <%= @ssh_keys %>
+<% end %>
