@@ -37,6 +37,16 @@ directory "/var/log/ntpstats" do
   group "ntp"
   mode "0755"
   action :create
+  notifies :restart, resources(:service => node[:ntp][:service])
+end
+
+wallclock="/proc/sys/xen/independent_wallclock"
+bash "Disabling wall clock for xen hypervisors" do
+  only_if { ::File.directory?("/proc/xen") && ( !::File.exists?(wallclock) || ::File.open(wallclock,"r"){|f| f.read} !~ /^1/ ) }
+  code <<-EOH
+    echo 1 > #{wallclock}
+  EOH
+  notifies :restart, resources(:service => node[:ntp][:service])
 end
 
 template "/etc/ntp.conf" do
