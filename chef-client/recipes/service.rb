@@ -29,7 +29,7 @@ root_group = value_for_platform(
 if ::File.executable?(node["chef_client"]["bin"])
   client_bin = node["chef_client"]["bin"]
 # search for the bin in some sane paths
-elsif (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.executable?(p)}.compact.first) && chef_in_sane_path
+elsif Chef::Client.const_defined?('SANE_PATHS') && (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.executable?(p)}.compact.first) && chef_in_sane_path
   client_bin = chef_in_sane_path
 # last ditch search for a bin in PATH
 elsif (chef_in_path=%x{which chef-client}.chomp) && ::File.executable?(chef_in_path)
