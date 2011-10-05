@@ -25,7 +25,7 @@ nodes << node
 
 template "/etc/ssh/ssh_known_hosts" do
   source "known_hosts.erb"
-  mode 0440
+  mode 0444
   owner "root"
   group "root"
   backup false
