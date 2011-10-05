@@ -32,6 +32,13 @@ service node[:ntp][:service] do
   action :start
 end
 
+directory "/var/log/ntpstats" do
+  owner "ntp"
+  group "ntp"
+  mode "0755"
+  action :create
+end
+
 template "/etc/ntp.conf" do
   source "ntp.conf.erb"
   owner "root"
