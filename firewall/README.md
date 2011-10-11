@@ -4,8 +4,8 @@ Description
 Provides a set of primitives for managing firewalls and associated rules.
 
 PLEASE NOTE - The resource/providers in this cookbook are under heavy development.
-An attempt is being made to keep the resource simple/stupid by starting with less 
-sophisticated firewall implementations first and refactor/vet the resource definition 
+An attempt is being made to keep the resource simple/stupid by starting with less
+sophisticated firewall implementations first and refactor/vet the resource definition
 with each successive provider.
 
 Requirements
@@ -43,7 +43,7 @@ Resources/Providers
     - platform default: Ubuntu
 
 ### Examples
-    
+
     # enable platform default firewall
     firewall "ufw" do
       action :enable
@@ -70,7 +70,7 @@ Resources/Providers
 - protocol: valid values are: :udp, :tcp. default is all protocols
 - port: incoming port number (ie. 22 to allow inbound SSH)
 - source: ip address or subnet to filter on incoming traffic. default is `0.0.0.0/0` (ie Anywhere)
-- destination: ip address or subnet to filter on outgoing traffic. 
+- destination: ip address or subnet to filter on outgoing traffic.
 - dest_port: outgoing port number.
 - position: position to insert rule at. if not provided rule is inserted at the end of the rule list.
 - direction: direction of the rule. valid values are: :in, :out, default is :in
@@ -90,15 +90,15 @@ Resources/Providers
       action :allow
       notifies :enable, "firewall[ufw]"
     end
-    
+
     # open standard http port to tcp traffic only; insert as first rule
     firewall_rule "http" do
       port 80
-      protocol 'tcp'
+      protocol :tcp
       position 1
       action :allow
     end
-    
+
     # restrict port 13579 to 10.0.111.0/24 on eth0
     firewall_rule "myapplication" do
       port 13579
@@ -156,7 +156,7 @@ Changes/Roadmap
 
 ## 0.5.2
 
-* add missing 'requires' statements. fixes 'NameError: uninitialized constant' error.  
+* add missing 'requires' statements. fixes 'NameError: uninitialized constant' error.
 thanks to Ernad Husremović for the fix.
 
 ## 0.5.0
