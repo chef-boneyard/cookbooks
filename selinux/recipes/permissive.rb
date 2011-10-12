@@ -29,7 +29,9 @@ template "/etc/selinux/config" do
   source "sysconfig/selinux.erb"
   not_if "getenforce | grep -qx 'Disabled'"
   variables(
-    :selinux => "permissive",
-    :selinuxtype => "targeted",
+		{
+			:selinux => "permissive",
+			:selinuxtype => "targeted",
+		}
   )
 end
