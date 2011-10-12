@@ -79,13 +79,13 @@ bash "install mod_auth_openid" do
 end
 
 file "#{node[:apache][:cache_dir]}/mod_auth_openid.db" do
-  owner node[:apache][:user]
+  owner "root"
   mode 0640
 end
 
 template "#{node[:apache][:dir]}/mods-available/authopenid.load" do
   source "mods/authopenid.load.erb"
-  owner node[:apache][:user]
+  owner "root"
   group node[:apache][:group]
   mode 0644
 end
@@ -96,7 +96,7 @@ end
 
 template "/usr/local/bin/mod_auth_openid.rb" do
   source "mod_auth_openid.rb.erb"
-  owner node[:apache][:user]
+  owner "root"
   group node[:apache][:user]
   mode 0750
 end
