@@ -1,0 +1,16 @@
+= DESCRIPTION:
+Recipes for installing paravirtualization tools within a guest system. Currently only support vmware-tools.
+
+Currently supports vmware-tools
+
+= REQUIREMENTS:
+
+Currently only tested on Centos/RHEL 5.x but should work on 6.x as well
+
+
+= ATTRIBUTES:
+none
+
+= USAGE:
+
+

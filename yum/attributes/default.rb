@@ -31,4 +31,4 @@ default['yum']['epel_release'] = case node['platform_version'].to_i
                                     "4-10"
                                   end
 default['yum']['ius_release'] = '1.0-8'
-default['esx_version'] = '4.1'
+default['esx_version'] = '4.1latest'
