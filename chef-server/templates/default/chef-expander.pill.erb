@@ -1,0 +1,13 @@
+Bluepill.application("chef-expander") do |app|
+
+  app.process("chef-expander") do |process|
+    process.pid_file = "<%= node['chef_server']['run_path'] %>/chef-expander.pid"
+    process.working_dir = "<%= node['chef_server']['path'] %>"
+    process.start_command = "env PATH=/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin<% if node['languages']['ruby']['gems_dir'] %>:<%= node['languages']['ruby']['gems_dir'] %>/bin<% end -%> chef-expander"
+    process.stdout = process.stderr = "<%= node['chef_server']['log_dir'] %>/expander.log"
+    process.start_grace_time = 5.seconds
+    process.stop_grace_time = 5.seconds
+    process.restart_grace_time = 30.seconds
+  end
+
+end

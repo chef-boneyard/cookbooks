@@ -1,0 +1,33 @@
+global
+        log 127.0.0.1   local0
+        log 127.0.0.1   local1 notice
+        #log loghost    local0 info
+        maxconn 4096
+        #debug
+        #quiet
+        user haproxy
+        group haproxy
+
+defaults
+        log     global
+        mode    http
+        option  httplog
+        option  dontlognull
+        retries 3
+        redispatch
+        maxconn 2000
+        contimeout      5000
+        clitimeout      50000
+        srvtimeout      50000
+        
+# Set up application listeners here.
+listen application 0.0.0.0:80
+  balance roundrobin
+  <% @pool_members.each do |member| -%>
+  server <%= member[:hostname] %> <%= member[:ipaddress] %>:<%= node["haproxy"]["member_port"] %> weight 1 maxconn 1 check 
+  <% end -%>
+<% if node["haproxy"]["enable_admin"] -%>
+listen admin 0.0.0.0:22002
+  mode http
+  stats uri /
+<% end -%>

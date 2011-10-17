@@ -17,9 +17,11 @@
 # limitations under the License.
 #
 
-case node[:platform] 
+case node.platform
 when "ubuntu","debian"
   package "postgresql-client"
-when "redhat","centos","fedora"
+when "fedora","suse"
   package "postgresql-devel"
+when "redhat","centos"
+  package "postgresql#{node.postgresql.version.split('.').join}-devel"
 end

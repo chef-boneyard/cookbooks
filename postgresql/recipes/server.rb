@@ -2,7 +2,7 @@
 # Cookbook Name:: postgresql
 # Recipe:: server
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2009-2010, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,31 +17,20 @@
 # limitations under the License.
 #
 
-include_recipe "postgresql::client" 
+include_recipe "postgresql::client"
 
-package "postgresql"
-
-service "postgresql" do
-  case node[:platform]
-  when "debian","ubuntu"
-    service_name "postgresql-8.3"
-  end
-  supports :restart => true, :status => true, :reload => true
-  action :nothing
+case node[:postgresql][:version]
+when "8.3"
+  node.default[:postgresql][:ssl] = "off"
+when "8.4"
+  node.default[:postgresql][:ssl] = "true"
 end
 
-template "#{node[:postgresql][:dir]}/pg_hba.conf" do
-  source "pg_hba.conf.erb"
-  owner "postgres"
-  group "postgres"
-  mode 0600
-  notifies :reload, resources(:service => "postgresql")
-end
-
-template "#{node[:postgresql][:dir]}/postgresql.conf" do
-  source "postgresql.conf.erb"
-  owner "postgres"
-  group "postgres"
-  mode 0600
-  notifies :restart, resources(:service => "postgresql")
+# Include the right "family" recipe for installing the server
+# since they do things slightly differently.
+case node.platform
+when "redhat", "centos", "fedora", "suse"
+  include_recipe "postgresql::server_redhat"
+when "debian", "ubuntu"
+  include_recipe "postgresql::server_debian"
 end

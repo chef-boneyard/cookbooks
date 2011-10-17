@@ -18,11 +18,16 @@
 #
 include_recipe "imagemagick"
 
-case node[:platform]
-when "redhat", "centos", "fedora"
-  package "ImageMagick-devel"
-when "debian", "ubuntu"
-  package "libmagickwand-dev"
-end
+dev_pkg = value_for_platform(
+  ["redhat", "centos", "fedora"] => { "default" => "ImageMagick-devel" },
+  "debian" => { "default" => "libmagickwand-dev" },
+  "ubuntu" => {
+    "8.04" => "libmagick9-dev",
+    "8.10" => "libmagick9-dev",
+    "default" => "libmagickwand-dev"
+  }
+)
+
+package dev_pkg
 
 gem_package "rmagick"

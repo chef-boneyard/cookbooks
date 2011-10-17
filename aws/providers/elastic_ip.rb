@@ -9,7 +9,7 @@ action :associate do
     Chef::Log.debug("Elastic IP #{new_resource.ip} is already attached to the instance")
   else
     attach(new_resource.ip, new_resource.timeout)
-    new_resource.updated = true
+    new_resource.updated_by_last_action(true)
     Chef::Log.info("Attaching Elastic IP #{new_resource.ip} to the instance")
   end
 end
@@ -24,7 +24,7 @@ action :disassociate do
   else
     Chef::Log.info("Detaching Elastic IP #{new_resource.ip} from the instance")
     detach(new_resource.ip, new_resource.timeout)
-    new_resource.updated = true
+    new_resource.updated_by_last_action(true)
   end
 end
 

@@ -2,9 +2,12 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures ntp as a client or server"
-version           "0.7"
+long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version           "1.0.1"
 
-%w{ ubuntu debian redhat centos fedora }.each do |os|
+recipe "ntp", "Installs and configures ntp either as a server or client"
+
+%w{ ubuntu debian redhat centos fedora scientific }.each do |os|
   supports os
 end
 
@@ -27,5 +30,5 @@ attribute "ntp/servers",
   :display_name => "NTP Servers",
   :description => "Array of servers we should talk to",
   :type => "array",
-  :default => ["0.us.pool.ntp.org", "1.us.pool.ntp.org"]
+  :default => ["0.pool.ntp.org", "1.pool.ntp.org"]
 

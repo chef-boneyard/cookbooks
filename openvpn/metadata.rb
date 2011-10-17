@@ -1,9 +1,12 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Installs and configures openvpn"
-long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.7"
+description       "Installs and configures openvpn and includes rake tasks for managing certs"
+long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version           "0.99.1"
+
+recipe "openvpn", "Installs and configures openvpn"
+recipe "openvpn::users", "Sets up openvpn cert/configs for users data bag items"
 
 %w{ redhat centos fedora ubuntu debian }.each do |os|
   supports os

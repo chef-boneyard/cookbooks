@@ -1,0 +1,36 @@
+log_level        :info
+log_location     STDOUT
+
+<% if Chef::Config.has_key?(:chef_server_url) -%>
+chef_server_url  "<%= Chef::Config[:chef_server_url] %>"
+<% else -%>
+chef_server_url  "<%= node["chef_client"]["server_url"] %>"
+<% end -%>
+validation_client_name "<%= node["chef_client"]["validation_client_name"] %>"
+<% if @chef_node_name -%>
+node_name "<%= @chef_node_name %>"
+<% else -%>
+# Using default node name
+<% end -%>
+
+file_backup_path   "<%= node["chef_client"]["backup_path"] %>"
+file_cache_path    "<%= node["chef_client"]["cache_path"] %>"
+<% unless %w{ runit bluepill daemontools }.include?(node["chef_client"]["init_style"]) -%>
+
+pid_file           "<%= node["chef_client"]["run_path"] %>/client.pid"
+<% end -%>
+<%= "http_proxy         \"#{node["chef_client"]["http_proxy"]}\"\n" unless node["chef_client"]["http_proxy"].nil? -%>
+<%= "https_proxy        \"#{node["chef_client"]["https_proxy"]}\"\n" unless node["chef_client"]["https_proxy"].nil? -%>
+<%= "http_proxy_user    \"#{node["chef_client"]["http_proxy_user"]}\"\n" unless node["chef_client"]["http_proxy_user"].nil? -%>
+<%= "http_proxy_pass    \"#{node["chef_client"]["http_proxy_pass"]}\"\n" unless node["chef_client"]["http_proxy_pass"].nil? -%>
+<%= "no_proxy           \"#{node["chef_client"]["no_proxy"]}\"\n" unless node["chef_client"]["no_proxy"].nil? -%>
+<% unless node["chef_client"]["http_proxy"].nil? -%>
+
+# set the proxy env variable so rubygems works correctly
+ENV['http_proxy'] = "<%= node["chef_client"]["http_proxy"] %>"
+ENV['HTTP_PROXY'] = "<%= node["chef_client"]["http_proxy"] %>"
+<% end -%>
+<% if node.attribute?("ohai") && node["ohai"].attribute?("plugin_path") -%>
+
+Ohai::Config[:plugin_path] << "<%= node["ohai"]["plugin_path"] %>"
+<% end -%>

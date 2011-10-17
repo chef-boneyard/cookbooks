@@ -27,6 +27,7 @@ end
 
 service "memcached" do
   action :nothing
+  supports :status => true, :start => true, :stop => true, :restart => true
 end
 
 template "/etc/memcached.conf" do
@@ -35,7 +36,7 @@ template "/etc/memcached.conf" do
   group "root"
   mode "0644"
   variables(
-    :ipaddress => node[:ipaddress],
+    :listen => node[:memcached][:listen],
     :user => node[:memcached][:user],
     :port => node[:memcached][:port],
     :memory => node[:memcached][:memory]

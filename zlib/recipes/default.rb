@@ -19,7 +19,7 @@
 
 package "zlib-devel" do
   package_name value_for_platform(
-    [ "centos", "redhat", "suse", "fedora" ] => { "default" => "zlib-devel" },
+    [ "centos", "redhat", "scientific", "suse", "fedora" ] => { "default" => "zlib-devel" },
     "default" => 'zlib1g-dev'
   )
 end

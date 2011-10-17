@@ -1,22 +1,27 @@
 maintainer       "Barry Steinglass"
-maintainer_email "barry@opscode.com"
+maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
 description      "Installs/Configures wordpress"
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.5"
-depends          "php"
-depends          "apache2"
-depends          "mysql"
-depends          "openssl"
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version          "0.8.2"
 
-%w{ debian ubuntu }.each do |os|
+recipe "wordpress", "Installs and configures wordpress LAMP stack on a single system"
+
+%w{ php openssl }.each do |cb|
+  depends cb
+end
+
+depends "apache2", ">= 0.99.4"
+depends "mysql", ">= 1.0.5"
+
+%w{ debian ubuntu redhat centos fedora }.each do |os|
   supports os
 end
 
 attribute "wordpress/version",
   :display_name => "Wordpress download version",
   :description => "Version of Wordpress to download from the Wordpress site.",
-  :default => "2.9.2"
+  :default => "3.0.4"
   
 attribute "wordpress/checksum",
   :display_name => "Wordpress tarball checksum",

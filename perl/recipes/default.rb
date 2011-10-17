@@ -24,14 +24,16 @@ end
 package "libwww-perl" do
   case node[:platform]
   when "centos"
-    name "perl-libwww-perl"
+    package_name "perl-libwww-perl"
+  when "arch"
+    package_name "perl-libwww"
   end
   action :upgrade
 end
 
 package "libperl-dev" do
   case node[:platform]
-  when "centos"
+  when "centos","arch"
     action :nothing
   else
     action :upgrade
@@ -44,10 +46,12 @@ directory "/root/.cpan" do
   mode 0750
 end
 
-remote_file "CPAN-Config.pm" do
+cookbook_file "CPAN-Config.pm" do
   case node[:platform]
   when "centos","redhat"
     path "/usr/lib/perl5/5.8.8/CPAN/Config.pm"
+  when "arch"
+    path "/usr/share/perl5/core_perl/CPAN/Config.pm"
   else
     path "/etc/perl/CPAN/Config.pm"
   end
@@ -57,7 +61,7 @@ remote_file "CPAN-Config.pm" do
   mode 0644
 end
 
-remote_file "/usr/local/bin/cpan_install" do
+cookbook_file "/usr/local/bin/cpan_install" do
   source "cpan_install"
   owner "root"
   group "root"

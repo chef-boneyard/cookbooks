@@ -1,13 +1,11 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Installs stompserver and sets up a runit_service"
-version           "0.7"
+description       "Installs stompserver and sets up a service"
+version           "1.0.0"
 
-%w{ packages runit }.each do |cb|
-  depends cb
-end
+recipe "stompserver", "Installs stompserver and starts the service"
 
-%w{ ubuntu debian }.each do |os|
+%w{ ubuntu debian centos fedora redhat }.each do |os|
   supports os
 end

@@ -4,7 +4,7 @@
 # Cookbook Name:: chef
 # Recipe:: client
 #
-# Copyright 2008-2009, Opscode, Inc
+# Copyright 2008-2010, Opscode, Inc
 # Copyright 2009, 37signals
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,41 +19,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-root_group = value_for_platform(
-  "openbsd" => { "default" => "wheel" },
-  "freebsd" => { "default" => "wheel" },
-  "default" => "root"
-)
+Chef::Log.warn("The chef::client recipe is deprecated. It is replaced by the chef-client::config recipe.")
+Chef::Log.warn("Including the chef-client::config recipe now.")
 
-if node[:chef][:client_log] == "STDOUT"
-  client_log = node[:chef][:client_log]
-  show_time  = "false"
-else
-  client_log = "\"#{node[:chef][:client_log]}\""
-  show_time  = "true"
-end
+node.set['chef_client']['init_style'] = node['chef']['init_style']
+node.set['chef_client']['path'] = node['chef']['path']
+node.set['chef_client']['run_path'] = node['chef']['run_path']
+node.set['chef_client']['cache_path'] = node['chef']['cache_path']
+node.set['chef_client']['backup_path'] = node['chef']['backup_path']
+node.set['chef_client']['umask'] = node['chef']['umask']
+node.set['chef_client']['server_url'] = node['chef']['server_url']
+node.set['chef_client']['log_dir'] = node['chef']['log_dir']
+node.set['chef_client']['validation_client_name'] = node['chef']['validation_client_name']
+node.set['chef_client']['interval'] = node['chef']['interval']
+node.set['chef_client']['splay'] = node['chef']['splay']
 
-ruby_block "reload_client_config" do
-  block do
-    Chef::Config.from_file("/etc/chef/client.rb")
-  end
-  action :nothing
-end
-
-template "/etc/chef/client.rb" do
-  source "client.rb.erb"
-  owner "root"
-  group root_group
-  mode "644"
-  variables(
-    :client_log => client_log,
-    :show_time  => show_time
-  )
-  notifies :create, resources(:ruby_block => "reload_client_config")
-end
-
-file "/etc/chef/validation.pem" do
-  action :delete
-  backup false
-  only_if { File.size?("/etc/chef/client.pem") }
-end
+include_recipe "chef-client::config"

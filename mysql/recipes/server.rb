@@ -2,7 +2,7 @@
 # Cookbook Name:: mysql
 # Recipe:: default
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2008-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,10 +17,16 @@
 # limitations under the License.
 #
 
+::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+
 include_recipe "mysql::client"
 
-case node[:platform]
-when "debian","ubuntu"
+# generate all passwords
+node.set_unless['mysql']['server_debian_password'] = secure_password
+node.set_unless['mysql']['server_root_password']   = secure_password
+node.set_unless['mysql']['server_repl_password']   = secure_password
+
+if platform?(%w{debian ubuntu})
 
   directory "/var/cache/local/preseeding" do
     owner "root"
@@ -41,6 +47,14 @@ when "debian","ubuntu"
     mode "0600"
     notifies :run, resources(:execute => "preseed mysql-server"), :immediately
   end
+
+  template "#{node['mysql']['conf_dir']}/debian.cnf" do
+    source "debian.cnf.erb"
+    owner "root"
+    group "root"
+    mode "0600"
+  end
+
 end
 
 package "mysql-server" do
@@ -48,13 +62,17 @@ package "mysql-server" do
 end
 
 service "mysql" do
-  service_name value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "mysqld"}, "default" => "mysql")
-
+  service_name value_for_platform([ "centos", "redhat", "suse", "fedora" ] => {"default" => "mysqld"}, "default" => "mysql")
+  if (platform?("ubuntu") && node.platform_version.to_f >= 10.04)
+    restart_command "restart mysql"
+    stop_command "stop mysql"
+    start_command "start mysql"
+  end
   supports :status => true, :restart => true, :reload => true
-  action :enable
+  action :nothing
 end
 
-template value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "/etc/my.cnf"}, "default" => "/etc/mysql/my.cnf") do
+template "#{node['mysql']['conf_dir']}/my.cnf" do
   source "my.cnf.erb"
   owner "root"
   group "root"
@@ -62,11 +80,34 @@ template value_for_platform([ "centos", "redhat", "suse" ] => {"default" => "/et
   notifies :restart, resources(:service => "mysql"), :immediately
 end
 
+unless Chef::Config[:solo]
+  ruby_block "save node data" do
+    block do
+      node.save
+    end
+    action :create
+  end
+end
+
+# set the root password on platforms 
+# that don't support pre-seeding
+unless platform?(%w{debian ubuntu})
+
+  execute "assign-root-password" do
+    command "/usr/bin/mysqladmin -u root password \"#{node['mysql']['server_root_password']}\""
+    action :run
+    only_if "/usr/bin/mysql -u root -e 'show databases;'"
+  end
+
+end
+
+grants_path = "#{node['mysql']['conf_dir']}/mysql_grants.sql"
+
 begin
-  t = resources(:template => "/etc/mysql/grants.sql")
+  t = resources("template[#{grants_path}]")
 rescue
-  Chef::Log.warn("Could not find previously defined grants.sql resource")
-  t = template "/etc/mysql/grants.sql" do
+  Chef::Log.info("Could not find previously defined grants.sql resource")
+  t = template grants_path do
     source "grants.sql.erb"
     owner "root"
     group "root"
@@ -76,7 +117,7 @@ rescue
 end
 
 execute "mysql-install-privileges" do
-  command "/usr/bin/mysql -u root -p#{node[:mysql][:server_root_password]} < /etc/mysql/grants.sql"
+  command "/usr/bin/mysql -u root #{node['mysql']['server_root_password'].empty? ? '' : '-p' }#{node['mysql']['server_root_password']} < #{grants_path}"
   action :nothing
-  subscribes :run, resources(:template => "/etc/mysql/grants.sql")
+  subscribes :run, resources("template[#{grants_path}]"), :immediately
 end

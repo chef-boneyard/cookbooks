@@ -1,0 +1,54 @@
+### Mirror settings
+d-i mirror/http/countries select US
+d-i mirror/http/hostname string us.archive.ubuntu.com
+d-i mirror/http/directory string /ubuntu/
+d-i mirror/http/mirror select us.archive.ubuntu.com
+d-i mirror/protocol selecthttp
+d-i mirror/country string US
+<%= @proxy %>
+
+### Clock and time zone setup
+d-i clock-setup/utc boolean true
+d-i time/zone string US/Central
+d-i clock-setup/ntp boolean true
+#d-i clock-setup/ntp-server string ntp.example.com
+
+### Partitioning
+d-i partman-auto/disk string /dev/sda
+d-i partman-auto/method string regular
+d-i partman/default_filesystem string ext4
+d-i partman-auto/choose_recipe select atomic
+d-i partman/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+
+### Boot loader installation
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
+d-i	debian-installer/splash	boolean false
+
+## Package installation
+d-i	pkgsel/install-language-support	boolean false
+d-i base-installer/kernel/override-image string linux-server
+d-i pkgsel/update-policy select unattended-upgrades
+d-i pkgsel/upgrade select safe-upgrade
+tasksel tasksel/first multiselect none
+popularity-contest popularity-contest/participate boolean true
+d-i pkgsel/include string openssh-server ruby ruby1.8-dev build-essential wget libruby-extras libruby1.8-extras
+
+### Account setup
+# configure users
+# Generate the PASSWORDHASH with:
+# mkpasswd -m sha-512
+d-i passwd/user-fullname string <%= node[:pxe_dust][:user][:fullname] %>
+d-i passwd/username string <%= node[:pxe_dust][:user][:username] %>
+d-i passwd/user-password-crypted password <%= node[:pxe_dust][:user][:crypted_password] %>
+d-i user-setup/encrypt-home boolean false
+
+### Finishing up the installation
+#d-i finish-install/reboot_in_progress note
+# This is how to make the installer shutdown when finished, but not
+# reboot into the installed system.
+#d-i debian-installer/exit/halt boolean true
+# This will power off the machine instead of just halting it.
+#d-i debian-installer/exit/poweroff boolean true

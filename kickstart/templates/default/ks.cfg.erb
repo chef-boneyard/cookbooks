@@ -3,11 +3,11 @@
 install
 text
 reboot
-url --url http://mirrors.kernel.org/centos/5.3/os/i386
+url --url <%= node[:kickstart][:mirror_url] %>
 lang en_US.UTF-8
 keyboard us
-network --device eth0 --bootproto dhcp --hostname centos5test.<%= @node[:domain] %>
-rootpw --iscrypted <%= @node[:kickstart][:rootpw] %>
+network --device eth0 --bootproto dhcp --hostname centos5test.<%= node[:domain] %>
+rootpw --iscrypted <%= node[:kickstart][:rootpw] %>
 firewall --enabled --port=22:tcp
 authconfig --enableshadow --enablemd5
 selinux --permissive
@@ -245,6 +245,7 @@ zlib
 %pre
 
 %post
-rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-3.noarch.rpm
-rpm -Uvh http://download.elff.bravenet.com/5/i386/elff-release-5-3.noarch.rpm
-yum install -y rubygem-chef
+# Install Chef on new systems by uncommenting these lines.
+#rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-3.noarch.rpm
+#rpm -Uvh http://download.elff.bravenet.com/5/i386/elff-release-5-3.noarch.rpm
+#yum install -y rubygem-chef

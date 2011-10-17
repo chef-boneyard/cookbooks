@@ -6,6 +6,7 @@ our $ID = q$Id: rebuild-iptables 344 2006-10-04 02:48:30Z digant $;
 #
 # Written by Russ Allbery <rra@stanford.edu>
 # Adapted by Digant C Kasundra <digant@stanford.edu>
+# Adapted by Joe Williams (2011) <joe@joetify.com>
 # Copyright 2005, 2006 Board of Trustees, Leland Stanford Jr. University
 #
 # Constructs an iptables rules file from the prefix, standard, and suffix
@@ -130,7 +131,8 @@ sub install_debian {
       or die "$0: cannot mkdir /etc/iptables: $!\n";
   }
   write_iptables( "/etc/iptables/general", @data );
-  system("/sbin/iptables-restore < /etc/iptables/general");
+  system("/sbin/iptables-restore < /etc/iptables/general") == 0
+    or die "rebuild-iptables: iptables-restore failed! - $?"
 }
 
 ##############################################################################

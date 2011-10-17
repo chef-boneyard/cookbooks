@@ -43,17 +43,17 @@ template "/etc/ldap/ldap.conf" do
   group "root"
 end
 
-remote_file "/etc/nsswitch.conf" do
+cookbook_file "/etc/nsswitch.conf" do
   source "nsswitch.conf"
   mode 0644
   owner "root"
   group "root"
   notifies :restart, resources(:service => "nscd"), :immediately
-  notifies :run, resources(:execute => "nscd-clear-passwd", :execute => "nscd-clear-group"), :immediately
+  notifies :run, resources(:execute => [ "nscd-clear-passwd", "nscd-clear-group" ]), :immediately
 end
 
 %w{ account auth password session }.each do |pam|
-  remote_file "/etc/pam.d/common-#{pam}" do
+  cookbook_file "/etc/pam.d/common-#{pam}" do
     source "common-#{pam}"
     mode 0644
     owner "root"

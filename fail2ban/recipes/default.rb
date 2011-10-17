@@ -2,7 +2,7 @@
 # Cookbook Name:: fail2ban
 # Recipe:: default
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,16 +20,17 @@ package "fail2ban" do
   action :upgrade
 end
 
-service "fail2ban" do
-  action :enable
-end
-
 %w{ fail2ban jail }.each do |cfg|
   template "/etc/fail2ban/#{cfg}.conf" do
     source "#{cfg}.conf.erb"
     owner "root"
     group "root"
     mode 0644
-    notifies :restart, resources(:service => "fail2ban")
+    notifies :restart, "service[fail2ban]"
   end
+end
+
+service "fail2ban" do
+  supports [ :status => true, :restart => true ]
+  action [ :enable, :start ]
 end

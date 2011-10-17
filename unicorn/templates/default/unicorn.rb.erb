@@ -8,6 +8,10 @@
 listen <%= port %>, <%= options %>
 <%- end %>
 
+<%- if @working_directory %>
+working_directory '<%= @working_directory %>'
+<%- end %>
+
 # What the timeout for killing busy workers is, in seconds
 timeout <%= @worker_timeout %>
 
@@ -26,8 +30,8 @@ end
 <%- end %>
 <%- if @after_fork %>
 # What to do after we fork a worker
-before_fork do |server, worker|
-  <%= @before_fork %>
+after_fork do |server, worker|
+  <%= @after_fork %>
 end
 
 <%- end %>

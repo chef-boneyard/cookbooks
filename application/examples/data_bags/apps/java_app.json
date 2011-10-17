@@ -1,0 +1,61 @@
+{
+  "id": "my_app",
+  "server_roles": [
+    "application specific role(s), typically the name of the app, e.g., my_app",
+    "my_app"
+  ],
+  "type": {
+    "my_app": [
+      "recipes in this application cookbook to run for this role",
+      "java_webapp",
+      "tomcat"
+    ]
+  },
+  "database_slave_role": [
+    "name of the role used by database slaves, typically named after the app, 'my_app_database_slave'",
+    "my_app_database_slave"
+  ],
+  "database_master_role": [
+    "name of the role used by database master, typically named after the app 'my_app_database_master'",
+    "my_app_database_master"
+  ],
+  "repository": "git@github.com:company/my_app.git",
+  "revision": {
+    "production": "commit hash, branch or tag to deploy"
+  },
+  "force": {
+    "production": "true or false w/o quotes to force deployment, see the rails.rb recipe"
+  },
+  "databases": {
+    "production": {
+      "max_active": "100",
+      "max_idle": "30",
+      "max_wait": "10000",
+      "username": "db_user",
+      "adapter": "mysql",
+      "driver": "com.mysql.jdbc.Driver",
+      "port": "3306",
+      "password": "awesome_password",
+      "database": "db_name_production"
+    }
+  },
+  "mysql_root_password": {
+    "production": "password for the root user in mysql"
+  },
+  "mysql_debian_password": {
+    "production": "password for the debian-sys-maint user on ubuntu/debian"
+  },
+  "mysql_repl_password": {
+    "production": "password for the 'repl' user for replication."
+  },
+  "snapshots_to_keep": {
+    "production": "if using EBS, integer of the number of snapshots we're going to keep for this environment."
+  },
+  "deploy_to": "path to deploy, e.g. /srv/my_app",
+  "owner": "owner for the application files when deployed",
+  "group": "group for the application files when deployed",
+  "packages": {
+    "package_name": "specific packages required for installation at the OS level to run the app like libraries and specific version, e.g.",
+    "curl": "7.19.5-1ubuntu2"
+  }
+}

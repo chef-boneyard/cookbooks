@@ -2,7 +2,7 @@
 # Cookbook Name:: mysql
 # Recipe:: client
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2008-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,34 +17,44 @@
 # limitations under the License.
 #
 
-p = package "mysql-devel" do
-  package_name value_for_platform(
-    [ "centos", "redhat", "suse" ] => { "default" => "mysql-devel" },
-    "default" => 'libmysqlclient15-dev'
-  )
-  action :nothing
-end
-
-p.run_action(:install)
+::Chef::Resource::Package.send(:include, Opscode::Mysql::Helpers)
 
 package "mysql-client" do
   package_name value_for_platform(
-    [ "centos", "redhat", "suse" ] => { "default" => "mysql" },
+    [ "centos", "redhat", "suse", "fedora"] => { "default" => "mysql" },
     "default" => "mysql-client"
   )
   action :install
 end
 
-case node[:platform]
-when "centos","redhat", "suse"
-  package "ruby-mysql" do
+package "mysql-devel" do
+  package_name begin
+    if platform?(%w{ centos redhat suse fedora })
+      "mysql-devel"
+    elsif debian_before_squeeze? || ubuntu_before_lucid?
+      "libmysqlclient15-dev"
+    else
+      "libmysqlclient-dev"
+    end
+  end
+  action :install
+end
+
+if platform?(%w{ debian ubuntu redhat centos fedora suse })
+
+  package "mysql-ruby" do
+    package_name value_for_platform(
+      [ "centos", "redhat", "suse", "fedora"] => { "default" => "ruby-mysql" },
+      ["debian", "ubuntu"] => { "default" => 'libmysql-ruby' },
+      "default" => 'libmysql-ruby'
+    )
     action :install
   end
 
 else
-  r = gem_package "mysql" do
-    action :nothing
+
+  gem_package "mysql" do
+    action :install
   end
 
-  r.run_action(:install)
 end

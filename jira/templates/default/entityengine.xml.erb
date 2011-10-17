@@ -97,7 +97,7 @@ If you not using the 12 preconfigured DBs, you may also need to add your own fie
 
         PLEASE DO NOT set the use-foreign-key* values to "true" as JIRA does not currently support this.
      -->
-    <datasource name="defaultDS" field-type-name="<%= @node[:jira][:database] %>"
+    <datasource name="defaultDS" field-type-name="<%= node[:jira][:database] %>"
       helper-class="org.ofbiz.core.entity.GenericHelperDAO"
       check-on-start="true"
       use-foreign-keys="false"
