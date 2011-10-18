@@ -80,6 +80,7 @@ end
 
 file "#{node[:apache][:cache_dir]}/mod_auth_openid.db" do
   owner "root"
+  group node[:apache][:group]
   mode 0640
 end
 
@@ -97,6 +98,6 @@ end
 template "/usr/local/bin/mod_auth_openid.rb" do
   source "mod_auth_openid.rb.erb"
   owner "root"
-  group node[:apache][:user]
+  group node[:apache][:group]
   mode 0750
 end
