@@ -34,6 +34,14 @@ if (node.attribute?('ec2') && ! FileTest.directory?(node['mysql']['ec2_path']))
     group "mysql"
   end
 
+ # This is required because the move statement above removed node['mysql']['datadir'] and now it will throw errors.
+ # You can do this and then recreate the folder or just copy it but I like this better.
+  ruby_block "create_mysql_mount" do
+  block do
+    FileUtils.mkdir_p("#{node['mysql']['datadir']}")
+    end
+	end
+
   mount node['mysql']['data_dir'] do
     device node['mysql']['ec2_path']
     fstype "none"
