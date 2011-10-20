@@ -17,6 +17,13 @@
 # limitations under the License.
 #
 
-package "libapache2-svn"
+package "libapache2-svn" do
+  case node['platform']
+  when "centos","redhat","scientific","fedora","suse"
+    package_name "mod_dav_svn"
+  else
+    package_name "libapache2-svn"
+  end
+end
 
 apache_module "dav_svn"

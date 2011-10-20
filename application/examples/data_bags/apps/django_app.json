@@ -63,5 +63,5 @@
     "pip_name": "specific gems required for installation to run the application, and if a specific version is required, e.g.",
     "django": "1.2"
   },
-  "local_settings_file_name":"local_settings.py"
+  "local_settings_file":"local_settings.py"
 }

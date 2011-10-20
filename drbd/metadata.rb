@@ -1,11 +1,11 @@
 maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
-description       "Installs but does not configure drbd"
-version           "0.7.1"
-depends           "lvm"
-recipe "drbd", "Installs drbd"
+description       "Installs/Configures drbd."
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version           "0.8.0"
+#depends           "lvm"
 
-%w{ ubuntu debian}.each do |os|
+%w{ debian ubuntu }.each do |os|
   supports os
 end

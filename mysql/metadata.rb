@@ -2,14 +2,14 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures mysql for client or server"
-long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version           "0.24.4"
+long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version           "1.2.0"
 recipe            "mysql", "Includes the client recipe to configure a client"
 recipe            "mysql::client", "Installs packages required for mysql clients using run_action magic"
 recipe            "mysql::server", "Installs packages required for mysql servers w/o manual intervention"
 recipe            "mysql::server_ec2", "Performs EC2-specific mountpoint manipulation"
 
-%w{ debian ubuntu centos suse fedora redhat}.each do |os|
+%w{ debian ubuntu centos suse fedora redhat }.each do |os|
   supports os
 end
 
@@ -25,10 +25,15 @@ attribute "mysql/bind_address",
   :description => "Address that mysqld should listen on",
   :default => "ipaddress"
 
-attribute "mysql/datadir",
+attribute "mysql/data_dir",
   :display_name => "MySQL Data Directory",
   :description => "Location of mysql databases",
   :default => "/var/lib/mysql"
+
+attribute "mysql/conf_dir",
+  :display_name => "MySQL Conf Directory",
+  :description => "Location of mysql conf files",
+  :default => "/etc/mysql"
 
 attribute "mysql/ec2_path",
   :display_name => "MySQL EC2 Path",
@@ -76,3 +81,10 @@ attribute "mysql/tunable/max_heap_table_size",
   :display_name => "MySQL Tunable Max Heap Table Size",
   :default => "32M"
 
+attribute "mysql/tunable/expire_logs_days",
+  :display_name => "MySQL Exipre Log Days",
+  :default => "10"
+
+attribute "mysql/tunable/max_binlog_size",
+  :display_name => "MySQL Max Binlog Size",
+  :default => "100M"

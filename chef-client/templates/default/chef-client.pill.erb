@@ -8,6 +8,7 @@ Bluepill.application("chef-client") do |app|
     process.start_grace_time = 5.seconds
     process.stop_grace_time = 5.seconds
     process.restart_grace_time = 30.seconds
+    process.daemonize = true
   end
 
 end

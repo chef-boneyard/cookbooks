@@ -41,12 +41,16 @@ end
 runit_service app['id'] do
   template_name 'unicorn'
   cookbook 'application'
-  options(:app => app)
+  options(
+    :app => app,
+    :rails_env => node.run_state[:rails_env] || node.chef_environment,
+    :smells_like_rack => ::File.exists?(::File.join(app['deploy_to'], "current", "config.ru"))
+  )
   run_restart false
 end
 
 if ::File.exists?(::File.join(app['deploy_to'], "current"))
-  d = resources(:deploy => app['id'])
+  d = resources(:deploy_revision => app['id'])
   d.restart_command do
     execute "/etc/init.d/#{app['id']} hup"
   end

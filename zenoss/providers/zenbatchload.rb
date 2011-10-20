@@ -4,6 +4,9 @@ action :run do
   locations = new_resource.locations
   groups = new_resource.groups
   batch = ""
+  Chef::Log.debug "zenbatchload devices:#{devices}"
+  Chef::Log.debug "zenbatchload locations:#{locations}"
+  Chef::Log.debug "zenbatchload groups:#{groups}"
   #sort the hash and construct the batchload file
   devices.keys.sort!.each do |dclass|
     batch += "#{dclass}\n"
@@ -35,7 +38,7 @@ action :run do
       batch += "#{devlocation}#{devgroups}"
       #set the Systems 
       devsystems = "setSystems=[["
-      systems = device.run_list.expand.recipes
+      systems = device.expand!.recipes
       systems.collect! {|sys| sys.gsub('::', '/')}
       systems.each {|sys| devsystems += "'#{sys}',"}
       devsystems += "]], "
@@ -68,6 +71,11 @@ action :run do
   #run the command as the zenoss user
   execute "zenbatchload" do
     user "zenoss"
+    environment ({
+                   'LD_LIBRARY_PATH' => "#{node[:zenoss][:server][:zenhome]}/lib",
+                   'PYTHONPATH' => "#{node[:zenoss][:server][:zenhome]}/lib/python",
+                   'ZENHOME' => node[:zenoss][:server][:zenhome]
+                 })
     command "#{node[:zenoss][:server][:zenhome]}/bin/zenbatchload /tmp/chefzenbatch.batch"
     action :run
   end

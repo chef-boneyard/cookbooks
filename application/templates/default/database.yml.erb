@@ -1,5 +1,5 @@
 <%- @databases.each do |env, db| %>
-<%= env %>:
+<%= (env =~ /_default/ ? "production" : env) %>:
   adapter: <%= db['adapter'] %>
   host: <%= @host %>
   database: <%= db['database'] %>

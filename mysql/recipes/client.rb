@@ -2,7 +2,7 @@
 # Cookbook Name:: mysql
 # Recipe:: client
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2008-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,57 +17,44 @@
 # limitations under the License.
 #
 
-p = package "mysql-devel" do
-  package_name value_for_platform(
-    [ "centos", "redhat", "suse", "fedora"] => { "default" => "mysql-devel" },
-    "debian" => {
-      "5.0" => "libmysqlclient15-dev",
-      "5.0.1" => "libmysqlclient15-dev",
-      "5.0.2" => "libmysqlclient15-dev",
-      "5.0.3" => "libmysqlclient15-dev",
-      "5.0.4" => "libmysqlclient15-dev",
-      "5.0.5" => "libmysqlclient15-dev"
-    },
-    "ubuntu" => {
-      "8.04" => "libmysqlclient15-dev",
-      "8.10" => "libmysqlclient15-dev",
-      "9.04" => "libmysqlclient15-dev"
-    },
-    "default" => 'libmysqlclient-dev'
-  )
-  action :nothing
-end
+::Chef::Resource::Package.send(:include, Opscode::Mysql::Helpers)
 
-p.run_action(:install)
-
-o = package "mysql-client" do
+package "mysql-client" do
   package_name value_for_platform(
     [ "centos", "redhat", "suse", "fedora"] => { "default" => "mysql" },
     "default" => "mysql-client"
   )
-  action :nothing
+  action :install
 end
 
-o.run_action(:install)
-
-r = gem_package "mysql" do
-  action :nothing
-end
-
-case node[:node]
-when "centos",
-  if node[:platform_version].to_f >= 5.0
-    r.run_action(:install)
-  else
-    package "ruby-mysql" do
-      action :install
+package "mysql-devel" do
+  package_name begin
+    if platform?(%w{ centos redhat suse fedora })
+      "mysql-devel"
+    elsif debian_before_squeeze? || ubuntu_before_lucid?
+      "libmysqlclient15-dev"
+    else
+      "libmysqlclient-dev"
     end
   end
-when "redhat", "suse", "fedora"
-  package "ruby-mysql" do
+  action :install
+end
+
+if platform?(%w{ debian ubuntu redhat centos fedora suse })
+
+  package "mysql-ruby" do
+    package_name value_for_platform(
+      [ "centos", "redhat", "suse", "fedora"] => { "default" => "ruby-mysql" },
+      ["debian", "ubuntu"] => { "default" => 'libmysql-ruby' },
+      "default" => 'libmysql-ruby'
+    )
     action :install
   end
 
 else
-  r.run_action(:install)
+
+  gem_package "mysql" do
+    action :install
+  end
+
 end

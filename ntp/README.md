@@ -3,6 +3,14 @@ DESCRIPTION
 
 Installs and configures ntp, optionally set up a local NTP server.
 
+CHANGES
+=======
+
+## v1.0.1:
+
+* Support scientific linux
+* Use service name attribute in resource (fixes EL derivatives)
+
 REQUIREMENTS
 ============
 

@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: application
-# Recipe:: java
+# Recipe:: java_webapp
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2010-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ app = node.run_state[:current_app]
 # default application recipe work it's mojo for you.
 ###
 
-node.default[:apps][app['id']][node.app_environment][:run_migrations] = false
+node.default[:apps][app['id']][node.chef_environment][:run_migrations] = false
 
 ## First, install any application specific packages
 if app['packages']
@@ -75,13 +75,13 @@ if app["database_master_role"]
     dbm = node
   else
   # Find the database master
-    results = search(:node, "run_list:role\\[#{app["database_master_role"][0]}\\] AND app_environment:#{node[:app_environment]}", nil, 0, 1)
+    results = search(:node, "role:#{app["database_master_role"][0]} AND chef_environment:#{node.chef_environment}", nil, 0, 1)
     rows = results[0]
     if rows.length == 1
       dbm = rows[0]
     end
   end
-  
+
   # Assuming we have one...
   if dbm
     template "#{app['deploy_to']}/shared/#{app['id']}.xml" do
@@ -90,10 +90,10 @@ if app["database_master_role"]
       group app["group"]
       mode "644"
       variables(
-        :host => dbm['fqdn'],
+        :host => (dbm.attribute?('cloud') ? dbm['cloud']['local_ipv4'] : dbm['ipaddress']),
         :app => app['id'],
-        :database => app['databases'][node.app_environment],
-        :war => "#{app['deploy_to']}/releases/#{app['war'][node.app_environment]['checksum']}.war"
+        :database => app['databases'][node.chef_environment],
+        :war => "#{app['deploy_to']}/releases/#{app['war'][node.chef_environment]['checksum']}.war"
       )
     end
   end
@@ -101,8 +101,8 @@ end
 
 ## Then, deploy
 remote_file app['id'] do
-  path "#{app['deploy_to']}/releases/#{app['war'][node.app_environment]['checksum']}.war"
-  source app['war'][node.app_environment]['source']
+  path "#{app['deploy_to']}/releases/#{app['war'][node.chef_environment]['checksum']}.war"
+  source app['war'][node.chef_environment]['source']
   mode "0644"
-  checksum app['war'][node.app_environment]['checksum']
+  checksum app['war'][node.chef_environment]['checksum']
 end

@@ -17,7 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "ruby"
 include_recipe "runit"
 
 gem_package "god" do

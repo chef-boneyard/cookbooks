@@ -19,16 +19,8 @@
 #
 
 # General settings
-default[:wordpress][:version] = "3.0.4"
-default[:wordpress][:checksum] = "c68588ca831b76ac8342d783b7e3128c9f4f75aad39c43a7f2b33351634b74de"
-default[:wordpress][:dir] = "/var/www/wordpress"
-default[:wordpress][:db][:database] = "wordpressdb"
-default[:wordpress][:db][:user] = "wordpressuser"
-
-::Chef::Node.send(:include, Opscode::OpenSSL::Password)
-
-default[:wordpress][:db][:password] = secure_password
-default[:wordpress][:keys][:auth] = secure_password
-default[:wordpress][:keys][:secure_auth] = secure_password
-default[:wordpress][:keys][:logged_in] = secure_password
-default[:wordpress][:keys][:nonce] = secure_password
+default['wordpress']['version'] = "3.1.2"
+default['wordpress']['checksum'] = "1006a1bb97b42381ad82490d00d9b7fb9f7a1c9d83ee2ed36935a9eb99c81064"
+default['wordpress']['dir'] = "/var/www/wordpress"
+default['wordpress']['db']['database'] = "wordpressdb"
+default['wordpress']['db']['user'] = "wordpressuser"

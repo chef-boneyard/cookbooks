@@ -19,11 +19,12 @@
     "name of the role used by database master, typically named after the app 'my_app_database_master'",
     "my_app_database_master"
   ],
-  "wars": {
-    "production": {
-      "source": "source url of WAR file to deploy",
-      "checksum": "SHA256 (or portion thereof) of the WAR file to deploy"
-    }
+  "repository": "git@github.com:company/my_app.git",
+  "revision": {
+    "production": "commit hash, branch or tag to deploy"
+  },
+  "force": {
+    "production": "true or false w/o quotes to force deployment, see the rails.rb recipe"
   },
   "databases": {
     "production": {

@@ -36,6 +36,11 @@ action :install do
     execute "zenpack --install" do
       user "zenoss"
       cwd "/tmp"
+      environment ({
+                     'LD_LIBRARY_PATH' => "#{node[:zenoss][:server][:zenhome]}/lib",
+                     'PYTHONPATH' => "#{node[:zenoss][:server][:zenhome]}/lib/python",
+                     'ZENHOME' => node[:zenoss][:server][:zenhome]
+                   })
       command "#{node[:zenoss][:server][:zenhome]}/bin/zenpack --install=#{zpfile}"
       action :run
     end
@@ -48,6 +53,11 @@ action :remove do
     Chef::Log.info "Removing the #{new_resource.package} ZenPack."
     execute "zenpack --remove" do
       user "zenoss"
+      environment ({
+                     'LD_LIBRARY_PATH' => "#{node[:zenoss][:server][:zenhome]}/lib",
+                     'PYTHONPATH' => "#{node[:zenoss][:server][:zenhome]}/lib/python",
+                     'ZENHOME' => node[:zenoss][:server][:zenhome]
+                   })
       command "#{node[:zenoss][:server][:zenhome]}/bin/zenpack --remove=#{new_resource.package}"
       action :run
     end
@@ -59,7 +69,7 @@ end
 def load_current_resource
   @zenpack = Chef::Resource::ZenossZenpack.new(new_resource.package)
   Chef::Log.debug("Checking for ZenPack #{new_resource.name}")
-  zp = shell_out("sudo -u zenoss #{node[:zenoss][:server][:zenhome]}/bin/zenpack --list")
+  zp = shell_out("sudo -u zenoss -i #{node[:zenoss][:server][:zenhome]}/bin/zenpack --list")
   exists = zp.stdout.include?(new_resource.package)
   @zenpack.exists(exists)
 end

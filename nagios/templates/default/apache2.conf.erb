@@ -1,10 +1,10 @@
 <VirtualHost *:80>
-  ServerAdmin     <%= node[:nagios][:sysadmin_email] %>
+  ServerAdmin     <%= node['nagios']['sysadmin_email'] %>
   ServerName      <%= node[:fqdn] %>
-	ServerAlias     nagios nagios.<%= node[:app_environment]%>.<%= @public_domain %>
-  DocumentRoot    <%= node[:nagios][:docroot] %>
-  CustomLog       /var/log/nagios3/apache_access.log combined
-  ErrorLog        /var/log/nagios3/apache_error.log
+  ServerAlias     nagios nagios.<%= node.chef_environment =~ /^_default$/ ? "default" : node.chef_environment%>.<%= @public_domain %>
+  DocumentRoot    <%= node['nagios']['docroot'] %>
+  CustomLog       <%= node['nagios']['log_dir'] %>/apache_access.log combined
+  ErrorLog        <%= node['nagios']['log_dir'] %>/apache_error.log
 
   ScriptAlias /cgi-bin/nagios3 /usr/lib/cgi-bin/nagios3
   ScriptAlias /nagios3/cgi-bin /usr/lib/cgi-bin/nagios3
@@ -12,7 +12,7 @@
   Alias /nagios3/stylesheets /etc/nagios3/stylesheets
   Alias /nagios3 <%= node[:nagios][:docroot] %>
 
-<% case node[:nagios][:server_auth_method] -%>
+<% case node['nagios']['server_auth_method'] -%>
 <% when "openid" -%>
   <Location />
     AuthName "Nagios Server"
@@ -24,7 +24,7 @@
   <Location />
     AuthName "Nagios Server"
     AuthType Basic
-    AuthUserFile "<%= node[:nagios][:dir] %>/htpasswd.users"
+    AuthUserFile "<%= node['nagios']['conf_dir'] %>/htpasswd.users"
     require valid-user
   </Location>
 <% end -%>

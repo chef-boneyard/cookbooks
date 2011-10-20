@@ -17,6 +17,19 @@
 # limitations under the License.
 #
 
+munin_servers = search(:node, "munin:[* TO *] AND chef_environment:#{node.chef_environment}")
+
+if node[:public_domain]
+  case node.chef_environment
+  when "production"
+    public_domain = node[:public_domain]
+  else
+    public_domain = "#{node.chef_environment}.#{node[:public_domain]}"
+  end
+else
+  public_domain = node[:domain]
+end
+
 include_recipe "apache2"
 include_recipe "apache2::mod_auth_openid"
 include_recipe "apache2::mod_rewrite"
@@ -39,19 +52,6 @@ else
     group "root"
     backup 0
   end
-end
-
-munin_servers = search(:node, "munin:[* TO *] AND role:#{node[:app_environment]}")
-
-if node[:public_domain]
-  case node[:app_environment]
-  when "production"
-    public_domain = node[:public_domain]
-  else
-    public_domain = "#{node[:app_environment]}.#{node[:public_domain]}"
-  end
-else
-  public_domain = node[:domain]
 end
 
 template "/etc/munin/munin.conf" do

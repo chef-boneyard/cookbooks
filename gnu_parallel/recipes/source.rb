@@ -34,4 +34,5 @@ bash "build gnu parallel" do
   (cd parallel-#{version} && ./configure #{node['gnu_parallel']['configure_options'].join(" ")})
   (cd parallel-#{version} && make && make install)
   EOF
+  not_if "parallel --version | grep -x 'GNU parallel #{version}'"
 end

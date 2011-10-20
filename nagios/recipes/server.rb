@@ -2,11 +2,12 @@
 # Author:: Joshua Sierles <joshua@37signals.com>
 # Author:: Joshua Timberman <joshua@opscode.com>
 # Author:: Nathan Haneysmith <nathan@opscode.com>
+# Author:: Seth Chisamore <schisamo@opscode.com>
 # Cookbook Name:: nagios
 # Recipe:: server
 #
 # Copyright 2009, 37signals
-# Copyright 2009-2010, Opscode, Inc
+# Copyright 2009-2011, Opscode, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,7 +27,7 @@ include_recipe "apache2::mod_rewrite"
 include_recipe "nagios::client"
 
 sysadmins = search(:users, 'groups:sysadmin')
-nodes = search(:node, "hostname:[* TO *] AND app_environment:#{node[:app_environment]}")
+nodes = search(:node, "hostname:[* TO *] AND chef_environment:#{node.chef_environment}")
 
 if nodes.empty?
   Chef::Log.info("No nodes returned from search, using this node so hosts.cfg has data")
@@ -43,65 +44,64 @@ role_list = Array.new
 service_hosts= Hash.new
 search(:role, "*:*") do |r|
   role_list << r.name
-  search(:node, "role:#{r.name} AND app_environment:#{node[:app_environment]}") do |n|
+  search(:node, "role:#{r.name} AND chef_environment:#{node.chef_environment}") do |n|
     service_hosts[r.name] = n['hostname']
   end
 end
 
-if node[:public_domain]
-  public_domain = node[:public_domain]
+if node['public_domain']
+  public_domain = node['public_domain']
 else
-  public_domain = node[:domain]
+  public_domain = node['domain']
 end
 
-%w{ nagios3 nagios-nrpe-plugin nagios-images }.each do |pkg|
-  package pkg
-end
+include_recipe "nagios::server_#{node['nagios']['server']['install_method']}"
 
-service "nagios3" do
+service "nagios" do
+  service_name node['nagios']['server']['service_name']
   supports :status => true, :restart => true, :reload => true
-  action [ :enable ]
+  action [ :enable, :start ]
 end
 
 nagios_conf "nagios" do
   config_subdir false
 end
 
-directory "#{node[:nagios][:dir]}/dist" do
-  owner "nagios"
-  group "nagios"
+directory "#{node['nagios']['conf_dir']}/dist" do
+  owner node['nagios']['user']
+  group node['nagios']['group']
   mode "0755"
 end
 
-directory node[:nagios][:state_dir] do
-  owner "nagios"
-  group "nagios"
+directory node['nagios']['state_dir'] do
+  owner node['nagios']['user']
+  group node['nagios']['group']
   mode "0751"
 end
 
-directory "#{node[:nagios][:state_dir]}/rw" do
-  owner "nagios"
-  group node[:apache][:user]
+directory "#{node['nagios']['state_dir']}/rw" do
+  owner node['nagios']['user']
+  group node['apache']['user']
   mode "2710"
 end
 
-execute "archive default nagios object definitions" do
-  command "mv #{node[:nagios][:dir]}/conf.d/*_nagios*.cfg #{node[:nagios][:dir]}/dist"
-  not_if { Dir.glob(node[:nagios][:dir] + "/conf.d/*_nagios*.cfg").empty? }
+execute "archive-default-nagios-object-definitions" do
+  command "mv #{node['nagios']['config_dir']}/*_nagios*.cfg #{node['nagios']['conf_dir']}/dist"
+  not_if { Dir.glob("#{node['nagios']['config_dir']}/*_nagios*.cfg").empty? }
 end
 
-file "#{node[:apache][:dir]}/conf.d/nagios3.conf" do
+file "#{node['apache']['dir']}/conf.d/nagios3.conf" do
   action :delete
 end
 
-case node[:nagios][:server_auth_method]
+case node['nagios']['server_auth_method']
 when "openid"
   include_recipe "apache2::mod_auth_openid"
 else
-  template "#{node[:nagios][:dir]}/htpasswd.users" do
+  template "#{node['nagios']['conf_dir']}/htpasswd.users" do
     source "htpasswd.users.erb"
-    owner "nagios"
-    group node[:apache][:user]
+    owner node['nagios']['user']
+    group node['apache']['user']
     mode 0640
     variables(
       :sysadmins => sysadmins
@@ -113,12 +113,12 @@ apache_site "000-default" do
   enable false
 end
 
-template "#{node[:apache][:dir]}/sites-available/nagios3.conf" do
+template "#{node['apache']['dir']}/sites-available/nagios3.conf" do
   source "apache2.conf.erb"
   mode 0644
   variables :public_domain => public_domain
-  if ::File.symlink?("#{node[:apache][:dir]}/sites-enabled/nagios3.conf")
-    notifies :reload, resources(:service => "apache2")
+  if ::File.symlink?("#{node['apache']['dir']}/sites-enabled/nagios3.conf")
+    notifies :reload, "service[apache2]"
   end
 end
 

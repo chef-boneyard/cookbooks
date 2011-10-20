@@ -2,7 +2,8 @@
 # Cookbook Name:: apt
 # Recipe:: default
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2008-2011, Opscode, Inc.
+# Copyright 2009, Bryan McLellan <btm@loftninjas.org>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,17 +18,33 @@
 # limitations under the License.
 #
 
-e = execute "apt-get update" do
+# Run apt-get update to create the stamp file
+execute "apt-get-update" do
+  command "apt-get update"
+  ignore_failure true
+  not_if do ::File.exists?('/var/lib/apt/periodic/update-success-stamp') end
   action :nothing
 end
 
-e.run_action(:run)
+# provides /var/lib/apt/periodic/update-success-stamp on apt-get update
+package "update-notifier-common" do
+  notifies :run, resources(:execute => "apt-get-update"), :immediately
+end
+
+execute "apt-get-update-periodic" do
+  command "apt-get update"
+  ignore_failure true
+  only_if do
+    File.exists?('/var/lib/apt/periodic/update-success-stamp') &&
+    File.mtime('/var/lib/apt/periodic/update-success-stamp') < Time.now - 86400
+  end
+end
 
 %w{/var/cache/local /var/cache/local/preseeding}.each do |dirname|
   directory dirname do
     owner "root"
     group "root"
-    mode  0755
+    mode  0644
     action :create
   end
 end

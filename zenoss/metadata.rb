@@ -1,18 +1,18 @@
 maintainer       "Opscode, Inc."
-maintainer_email "matt@opscode.com"
+maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
 description      "Installs and configures Zenoss and registers nodes as devices"
-version          "0.6.2"
-depends          "apt", ">> 0.9"
+version          "0.7.1"
+depends          "apt"
 depends          "openssh"
 depends          "openssl"
+depends          "yum"
 recipe           "zenoss", "Defaults to the client recipe."
 recipe           "zenoss::client", "Includes the `openssh` recipe and adds the device to the Zenoss server for monitoring."
 recipe           "zenoss::server", "Installs Zenoss, handling and configuring all the dependencies while adding Device Classes, Groups, Systems and Locations.  All nodes using the `zenoss::client` recipe are added for monitoring."
 
-
 #start with just the .deb, perhaps switch to stack installer and/or .rpm
-%w{ debian ubuntu }.each do |os|
+%w{ debian ubuntu redhat centos scientific }.each do |os|
   supports os
 end
 

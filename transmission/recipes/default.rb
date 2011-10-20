@@ -47,7 +47,7 @@ template "transmission-default" do
   source "transmission-daemon.default.erb"
   owner "root"
   group "root"
-  mode "0755"
+  mode "0644"
 end
 
 template "/etc/init.d/transmission-daemon" do
