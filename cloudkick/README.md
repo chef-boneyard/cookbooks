@@ -89,6 +89,33 @@ We automatically add a tag for each Role applied to your node.  For example, if 
 
 The node will automatically have the 'webserver' and 'database_master' tags within Cloudkick.
 
+Resources & Providers
+=====================
+
+This cookbook provides two Resource Providers:
+
+cloudkick_check - For creating & manipulating Cloudkick Checks.
+cloudkick_monitor - For creating & manipulating Cloudkick Monitors.
+
+Usage::
+* Create a Cloudkick Monitor for all of our appservers:
+  cloudkick_monitor "appserver monitor" do
+    oauth_key 'xxx'
+    oauth_secret 'yyy'
+    query 'tag:appserver'
+    action :create
+  end
+
+* Create a Cloudkick Check for the root partition on our appservers:
+  cloudkick_check "root check" do
+    oauth_key 'xxx'
+    oauth_secret 'yyy'
+    code 51 # 'DISK'
+    details({:path => '/', :fs_critical => 99, :fs_warn => 95})
+    monitor_id 'q1234'
+    action :create
+  end
+
 License and Author
 ==================
 
