@@ -47,7 +47,7 @@ Resource/Provider
       accept_eula true
       action :install
     end
-    
+
     # install Windows PowerShell 2.0
     webpi_product "PowerShell2" do
       accept_eula true
@@ -69,6 +69,11 @@ Changes/Roadmap
 
 * resource/provider for managing WebPI Applications
 * support for alternate custom feeds across all WebPI resources (product and application)
+
+## 1.0.2:
+
+* Ruby 1.9 compat fixes
+* don't unzip if files already exist
 
 ## 1.0.0:
 
