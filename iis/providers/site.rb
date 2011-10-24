@@ -83,7 +83,10 @@ def load_current_resource
   cmd = shell_out("#{appcmd} list site")
   # 'SITE "Default Web Site" (id:1,bindings:http/*:80:,state:Started)'
   Chef::Log.debug("#{@new_resource} list site command output: #{cmd.stdout}")
-  result = cmd.stdout.match(/^SITE\s\"(#{@new_resource.site_name})\"\s\(id:(.*),bindings:(.*),state:(.*)\)$/) if cmd.stderr.empty?
+  if cmd.stderr.empty?
+    result = cmd.stdout.gsub(/\r\n?/, "\n") # ensure we have no carriage returns
+    result = result.match(/^SITE\s\"(#{new_resource.site_name})\"\s\(id:(.*),bindings:(.*),state:(.*)\)$/)
+  end
   Chef::Log.debug("#{@new_resource} current_resource match output: #{result}")
   if result
     @current_resource.site_id(result[2].to_i)
