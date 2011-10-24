@@ -85,7 +85,63 @@ Allows easy management of IIS virtual sites (ie vhosts).
       host_header "testfu.opscode.com"
       action [:add,:start]
     end
+	
 
+'iis_config'
+
+Runs a config command on your IIS instance.
+
+### Actions
+
+- :config: - Runs the configuration command
+
+### Attribute Parameters
+
+- cfg_cmd: name attribute. What ever command you would pass in after "appcmd.exe set config"
+
+### Example
+	
+	#Sets up logging
+	iis_site "/section:system.applicationHost/sites /siteDefaults.logfile.directory:"D:\\logs"" do
+		action :config
+	end
+	
+	#Loads an array of commands from the node
+	cfg_cmds = node['iis']['cfg_cmd']
+	cfg_cmds.each do |cmd|	
+		iis_config "#{cmd}" do
+			action :config
+		end
+	end
+
+'iis_pool'
+
+Creates an application pool in IIS. 
+
+### Actions
+
+- :add: - add a new application pool
+- :delete: - delete an existing application pool
+- :start: - start a application pool
+- :stop: - stop a application pool
+- :restart: - restart a application pool
+
+### Attribute Parameters
+
+- pool_name: name attribute. Specifies the name of the pool to create.
+- runtime_version: specifies what .NET version of the runtime to use.
+- pipeline_mode: specifies what pipeline mode to create the pool with
+
+### Example
+	
+	#creates a new app pool
+	iis_pool 'Webtrends_WebServices_v1_1' do
+		runtime_version "2.0"	
+		pipeline_mode "Classic"
+		action :add
+	end
+	
+	
 Usage
 =====
 
