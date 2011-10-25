@@ -86,28 +86,7 @@ Execute a batch script using the cmd.exe interpreter (much like the script resou
       echo %WINDIR%
       EOH
     end
-	
-`windows_firewall`
 
-Gives control to the netsh utility provided by windows to manipulate the firewall settings. 
-
-### Actions
-
-- :open_port: Opens a firewall port
-
-### Attributes
-
-- rule_name: name attribute. Name of the firewall rule.
-- port: port to open
-- protocol: protocol of port
-
-### Example
-
-windows_firewall 'TheInternet' do
-	protocol "TCP"
-	port 80
-	action [:open_port]
-end
 
 windows\_feature
 ----------------
