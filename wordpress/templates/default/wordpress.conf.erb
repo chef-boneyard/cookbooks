@@ -5,7 +5,7 @@
 
   <Directory <%= @params[:docroot] %>>
     Options FollowSymLinks
-    AllowOverride None
+    AllowOverride FileInfo Options
     Order allow,deny
     Allow from all
   </Directory>
