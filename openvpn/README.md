@@ -42,6 +42,7 @@ These attributes are set by the cookbook by default.
 * `node["openvpn"]["signing_ca_cert"]` - CA certificate for signing, default `/etc/openvpn/keys/ca.crt`
 * `node["openvpn"]["signing_ca_key"]` - CA key for signing, default `/etc/openvpn/keys/ca.key`
 * `node["openvpn"]["push"]` - Array of routes to add as `push` statements in the server.conf. Default is empty.
+* `node["openvpn"]["optatrs"]` - Array of option to add in the /etc/defaults/openvpn. Default is empty.
 
 The following attributes are used to populate the `easy-rsa` vars file. Defaults are the same as the vars file that ships with OpenVPN.
 

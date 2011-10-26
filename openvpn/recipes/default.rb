@@ -72,6 +72,15 @@ file "#{key_dir}/serial" do
   not_if { ::File.exists?("#{key_dir}/serial") }
 end
 
+if !node[:openvpn][:optargs].empty?
+  args = node[:openvpn][:optargs].collect{|x| x + " " }.to_s.chomp(" ")
+  Chef::Log.info("Add start options: |#{args}|")
+  execute "add_params" do
+    command "sed -i -e '/OPTARGS=\"*\"/d' /etc/default/openvpn && echo 'OPTARGS=\"#{args}\"' >> /etc/default/openvpn"
+    action :run
+  end
+end
+
 # Use unless instead of not_if otherwise OpenSSL::PKey::DH runs every time.
 unless ::File.exists?("#{key_dir}/dh#{key_size}.pem")
   require 'openssl'
