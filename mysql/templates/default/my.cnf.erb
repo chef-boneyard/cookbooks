@@ -113,8 +113,8 @@ max_binlog_size         = <%= node['mysql']['tunable']['max_binlog_size'] %>
 #skip-innodb
 innodb_buffer_pool_size = <%= node['mysql']['tunable']['innodb_buffer_pool_size'] %>
 
-<% if( node['platform'] == 'ubuntu' || node['platform'] == 'fedora' ||
-      ( ( node['platform'] == 'redhat' || node['platform'] == 'centos' ) && node['platform_version'].to_f < 6) ) -%>
+<% case node['platform'] -%>
+<% when "centos", "redhat", "fedora", "ubuntu" -%>
 #
 # * Federated
 #
