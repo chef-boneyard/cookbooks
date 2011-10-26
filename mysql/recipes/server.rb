@@ -72,12 +72,22 @@ service "mysql" do
   action :nothing
 end
 
+skip_federated = case node['platform']
+                 when 'fedora', 'ubuntu'
+                   true
+                 when 'centos', 'redhat'
+                   node['platform_version'].to_f < 6.0
+                 else
+                   false
+                 end
+
 template "#{node['mysql']['conf_dir']}/my.cnf" do
   source "my.cnf.erb"
   owner "root"
   group "root"
   mode "0644"
   notifies :restart, resources(:service => "mysql"), :immediately
+  variables :skip_federated => skip_federated
 end
 
 unless Chef::Config[:solo]
