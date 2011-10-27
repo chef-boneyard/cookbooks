@@ -28,7 +28,7 @@ end
 directory node['tftp']['directory'] do
   owner "root"
   group "root"
-  mode 0744
+  mode 0755
   recursive true
   action :create
 end
