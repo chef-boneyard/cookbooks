@@ -18,6 +18,7 @@
 
 require 'chef/resource/execute'
 require 'chef/resource/script'
+require 'erubis'
 
 # PLEASE NOTE - This is not a good example of shipping a Resource/Provider 
 # with a cookbook.  Please check the Chef Wiki for more traditional DSL driven 
@@ -33,6 +34,31 @@ class Chef
         @provider = Chef::Provider::PowershellScript
         @interpreter = locate_powershell_interperter
         @returns = [0,42] # successful commands return exit code 42
+      end
+
+      def code(arg=nil)
+        set_or_return(
+          :code,
+          arg,
+          :kind_of => [ String ]
+        )
+      end
+
+      def source(arg=nil)
+        set_or_return(
+          :source,
+          arg,
+          :kind_of => [ String ]
+        )
+      end
+
+      def variables(args=nil)
+        set_or_return(
+          :varibles,
+          args,
+          :kind_of => [ Hash ],
+          :default => {}
+        )
       end
 
       private
@@ -51,9 +77,10 @@ class Chef
 
   class Provider
     class PowershellScript < Chef::Provider::Execute
+      include Chef::Mixin::Template
 
       def action_run
-        script_file.puts(@new_resource.code)
+        script_file.puts(load_code)
         script_file.close
         set_owner_and_group
         
@@ -86,6 +113,19 @@ class Chef
       end
 
       private
+      def load_code
+        return @new_resource.code if @new_resource.code
+
+        cookbook = run_context.cookbook_collection[resource_cookbook]
+        template_location = cookbook.preferred_filename_on_disk_location(node, :templates, @new_resource.source)
+
+        context = {}
+        context.merge!(@new_resource.variables)
+        context[:node] = node
+
+        render_template(::File.read(template_location), context, &block)
+      end
+
       # take advantage of PowerShell scriptblocks
       # to pass scoped environment variables to the 
       # command

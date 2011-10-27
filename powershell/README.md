@@ -50,8 +50,16 @@ Execute a script using the powershell interpreter (much like the script resource
 - environment: A hash of environment variables to set before running this command.
 - user: A user name or user ID that we should change to before running this command.
 - group: A group name or group ID that we should change to before running this command.
+- source: The source template file to use if not using the 'code' attribute
+- variables: Variables to pass to the 'source' attribute template.
 
 ### Examples
+
+    # write out a file from a erb file living under templates/
+    powershell "write-chef-ps1-template" do
+      source "Check-IIS-Installed.ps1.erb"
+      variables :dotnet => "4.0"
+    end
 
     # write out to an interpolated path
     powershell "write-to-interpolated-path" do
