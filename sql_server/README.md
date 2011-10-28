@@ -9,7 +9,7 @@ Requirements
 Platform
 --------
 
-Tested on 
+Tested on
 
 * Windows Server 2008 R2
 
@@ -110,13 +110,13 @@ Out of the box this recipe installs the Express edition of SQL Server 2008 R2.  
 Depending on your base Windows installation you may also need to open the configured static port in the Windows Firewall.  In the name of security we do not do this by default but the follow code should get the job done:
 
     # unlock port in firewall
-    # this should leverage firewall_rule resource 
+    # this should leverage firewall_rule resource
     # once COOK-689 is completed
     firewall_rule_name = "#{node['sql_server']['instance_name']} Static Port"
 
     execute "open-static-port" do
       command "netsh advfirewall firewall add rule name=\"#{firewall_rule_name}\" dir=in action=allow protocol=TCP localport=#{node['sql_server']['port']}"
-      returns [0,1] # *sigh* cmd.exe return codes are wonky
+      returns [0,1,42] # *sigh* cmd.exe return codes are wonky
       not_if { SqlServer::Helper.firewall_rule_enabled?(firewall_rule_name) }
     end
 
@@ -128,6 +128,10 @@ Changes/Roadmap
 * license distribution and management
 * multi instance support (via an LWRP)
 * clustering support
+
+## 1.0.4:
+
+* bump windows cookbook dependency version to pick up Ruby 1.9 compat fixes
 
 ## 1.0.2:
 

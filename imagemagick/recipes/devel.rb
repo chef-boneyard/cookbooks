@@ -1,9 +1,8 @@
 #
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: webpi
+# Cookbook Name:: imagemagick
 # Recipe:: default
 #
-# Copyright 2011, Opscode, Inc.
+# Copyright 2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,17 +17,16 @@
 # limitations under the License.
 #
 
-file_name = ::File.basename(node['webpi']['url'])
+include_recipe "imagemagick"
 
-remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
-  source node['webpi']['url']
-  checksum node['webpi']['checksum']
-  notifies :unzip, "windows_zipfile[webpicmdline]", :immediately
-end
+dev_pkg = value_for_platform(
+  ["redhat", "centos", "fedora"] => { "default" => "ImageMagick-devel" },
+  "debian" => { "default" => "libmagickwand-dev" },
+  "ubuntu" => {
+    "8.04" => "libmagick9-dev",
+    "8.10" => "libmagick9-dev",
+    "default" => "libmagickwand-dev"
+  }
+)
 
-windows_zipfile "webpicmdline" do
-  path node['webpi']['home']
-  source "#{Chef::Config[:file_cache_path]}/#{file_name}"
-  action :nothing
-  not_if { ::File.exists?("#{node['webpi']['home']}/WebpiCmdLine.exe") }
-end
+package dev_pkg

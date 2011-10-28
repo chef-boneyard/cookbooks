@@ -77,7 +77,7 @@ Execute a batch script using the cmd.exe interpreter (much like the script resou
       xcopy C:\\source\\ruby-1.8.7-p352-i386-mingw32 C:\\ruby /e /y
       EOH
     end
-    
+
     windows_batch "echo some env vars" do
       code <<-EOH
       echo %TEMP%
@@ -122,20 +122,20 @@ For more information on Roles, Role Services and Features see the [Microsoft Tec
     windows_feature "DHCPServer" do
       action :install
     end
-    
+
     # enable TFTP
     windows_feature "TFTP" do
       action :install
     end
-    
+
     # disable Telnet client/server
     %w{ TelnetServer TelnetClient }.each do |feature|
       windows_feature feature do
         action :remove
       end
     end
-    
-    # 
+
+    #
 
 `windows_package`
 -----------------
@@ -181,25 +181,25 @@ For maximum flexibility the `source` attribute supports both remote and local in
       installer_type :inno
       action :install
     end
-    
+
     # install 7-Zip (MSI installer)
     windows_package "7-Zip 9.20 (x64 edition)" do
       source "http://downloads.sourceforge.net/sevenzip/7z920-x64.msi"
       action :install
     end
-    
+
     # install Notepad++ (Y U No Emacs?) using a local installer
     windows_package "Notepad++" do
       source "c:/installation_files/npp.5.9.2.Installer.exe"
       action :install
     end
-    
+
     # install VLC for that Xvid (NSIS installer)
     windows_package "VLC media player 1.1.10" do
       source "http://superb-sea2.dl.sourceforge.net/project/vlc/1.1.10/win32/vlc-1.1.10-win32.exe"
       action :install
     end
-    
+
     # install Firefox as custom installer and manually set the silent install flags
     windows_package "Mozilla Firefox 5.0 (x86 en-US)" do
       source "http://archive.mozilla.org/pub/mozilla.org/mozilla.org/firefox/releases/5.0/win32/en-US/Firefox%20Setup%205.0.exe"
@@ -207,18 +207,18 @@ For maximum flexibility the `source` attribute supports both remote and local in
       installer_type :custom
       action :install
     end
-    
+
     # Google Chrome FTW (MSI installer)
     windows_package "Google Chrome" do
       source "https://dl-ssl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B806F36C0-CB54-4A84-A3F3-0CF8A86575E0%7D%26lang%3Den%26browser%3D3%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dfalse/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi"
       action :install
     end
-    
+
     # remove Google Chrome (but why??)
     windows_package "Google Chrome" do
       action :remove
     end
-    
+
     # remove 7-Zip
     windows_package "7-Zip 9.20 (x64 edition)" do
       action :remove
@@ -273,25 +273,25 @@ Creates and modifies Windows registry keys.
 - values: hash of the values to set under the registry key. The individual hash items will become respective 'Value name' => 'Value data' items in the registry key.
 
 ### Examples
-  
+
     # make the local windows proxy match the one set for Chef
     proxy = URI.parse(Chef::Config[:http_proxy])
     windows_registry 'HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings' do
       values 'ProxyEnable' => 1, 'ProxyServer' => "#{proxy.host}:#{proxy.port}", 'ProxyOverride' => '<local>'
     end
-    
+
     # enable Remote Desktop and poke the firewall hole
     windows_registry 'HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server' do
       values 'FdenyTSConnections' => 0
     end
-    
+
     # Delete an item from the registry
     windows_registry 'HKCU\Software\Test' do
       #Key is the name of the value that you want to delete the value is always empty
       values 'ValueToDelete' => ''
       action :remove
     end
-    
+
 ### Library Methods
 
     Registry.value_exists?('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
@@ -339,7 +339,7 @@ Most version of Windows do not ship with native cli utility for managing compres
       action :unzip
       not_if {::File.exists?("c:/bin/PsExec.exe")}
     end
-    
+
     # unzip a local zipfile
     windows_zipfile "c:/the_codez" do
       source "c:/foo/baz/the_codez.zip"
@@ -397,6 +397,12 @@ Changes/Roadmap
 * [COOK-666] windows_package should support CoApp packages
 * windows_registry :force_modify action should use RegNotifyChangeKeyValue from WinAPI
 * WindowsRebootHandler/windows_reboot LWRP should support kicking off subsequent chef run on reboot.
+
+## v1.2.4
+
+* patch to fix [CHEF-2684], Open4 is named Open3 in Ruby 1.9
+* Ruby 1.9's Open3 returns 0 and 42 for successful commands
+* retry keyword can only be used in a rescue block in Ruby 1.9
 
 ## v1.2.4
 

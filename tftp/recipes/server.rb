@@ -25,6 +25,14 @@ service "tftpd-hpa" do
   action [ :enable ]
 end
 
+directory node['tftp']['directory'] do
+  owner "root"
+  group "root"
+  mode 0755
+  recursive true
+  action :create
+end
+
 template "/etc/default/tftpd-hpa" do
   owner "root"
   group "root"
