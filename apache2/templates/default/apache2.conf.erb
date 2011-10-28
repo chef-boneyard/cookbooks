@@ -80,7 +80,7 @@ KeepAliveTimeout <%= node[:apache][:keepalivetimeout] %>
 </IfModule>
 
 User <%= node[:apache][:user] %>
-Group <%= node[:apache][:user] %>
+Group <%= node[:apache][:group] %>
 
 #
 # AccessFileName: The name of the file to look for in each directory
