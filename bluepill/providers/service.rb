@@ -38,7 +38,7 @@ end
 
 action :start do
   unless @bp.running
-    execute "#{node['bluepill']['bin']} start #{new_resource.service_name}"
+    execute "#{node['bluepill']['bin']} #{new_resource.service_name} start"
   end
 end
 
@@ -55,13 +55,13 @@ end
 
 action :stop do
   if @bp.running
-    execute "#{node['bluepill']['bin']} stop #{new_resource.service_name}"
+    execute "#{node['bluepill']['bin']} #{new_resource.service_name} stop"
   end
 end
 
 action :restart do
   if @bp.running
-    execute "#{node['bluepill']['bin']} restart #{new_resource.service_name}"
+    execute "#{node['bluepill']['bin']} #{new_resource.service_name} restart"
   end
 end
 
@@ -72,7 +72,7 @@ def load_current_resource
   Chef::Log.debug("Checking status of service #{new_resource.service_name}")
 
   begin
-    if run_command_with_systems_locale(:command => "#{node['bluepill']['bin']} status #{new_resource.service_name}") == 0
+    if run_command_with_systems_locale(:command => "#{node['bluepill']['bin']} #{new_resource.service_name} status") == 0
       @bp.running(true)
     end
   rescue Chef::Exceptions::Exec
