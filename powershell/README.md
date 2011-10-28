@@ -3,17 +3,6 @@ Description
 
 Installs and configures PowerShell 2.0.  Also includes a resource/provider for executing scripts using the PowerShell interpreter.
 
-Changes
-=======
-
-## v1.0.1:
-
-* [COOK-581] force 64-bit powershell process from 32-bit ruby processes
-
-## v1.0.0:
-
-* initial release
-
 Requirements
 ============
 
@@ -131,6 +120,24 @@ On the following versions of Windows, PowerShell 2.0 is present and must just be
 * Windows Server 2008 R2 Core
 
 **PLEASE NOTE** - The installation may require a restart of the node being configured before PowerShell (or the powershell script resource) can be used (yeah Windows!).
+
+Changes
+=======
+
+## v1.0.2:
+
+* always reference powershell.exe in a fully qualified way in case PATH
+* move download url and checksums to attribute file
+* massive refactor of default recipe...leverages windows_package and version helper
+provided by recent windows cookbook updates
+
+## v1.0.1:
+
+* [COOK-581] force 64-bit powershell process from 32-bit ruby processes
+
+## v1.0.0:
+
+* initial release
 
 License and Author
 ==================
