@@ -18,6 +18,7 @@
 #
 
 munin_servers = search(:node, "munin:[* TO *] AND chef_environment:#{node.chef_environment}")
+munin_servers.sort! { |a,b| a[:fqdn] <=> b[:fqdn] }
 
 if node[:public_domain]
   case node.chef_environment
