@@ -23,16 +23,16 @@ include Chef::Mixin::ShellOut
 include Windows::Helper
 
 def install_feature(name)
-  shell_out!("#{dism} /online /enable-feature /featurename:#{@new_resource.feature_name} /norestart", {:returns => [0,42]})
+  shell_out!("#{dism} /online /enable-feature /featurename:#{@new_resource.feature_name} /norestart", {:returns => [0,42,127]})
 end
 
 def remove_feature(name)
-  shell_out!("#{dism} /online /disable-feature /featurename:#{@new_resource.feature_name} /norestart", {:returns => [0,42]})
+  shell_out!("#{dism} /online /disable-feature /featurename:#{@new_resource.feature_name} /norestart", {:returns => [0,42,127]})
 end
 
 def installed?
   @installed ||= begin
-    cmd = shell_out("#{dism} /online /Get-Features", {:returns => [0,42]})
+    cmd = shell_out("#{dism} /online /Get-Features", {:returns => [0,42,127]})
     cmd.stderr.empty? && (cmd.stdout =~  /^Feature Name : #{@new_resource.feature_name}$\n^State : Enabled$/i)
   end
 end

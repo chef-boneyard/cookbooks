@@ -24,10 +24,24 @@ module Powershell
   module Helper
     include Chef::Mixin::ShellOut
 
-    def installed?
-      cmd = shell_out('powershell.exe -Command "& {Get-Host}"')
-      cmd.stderr.empty? && (cmd.stdout =~ /Version\s*:\s*2.0/i)
+    def powershell_installed?
+      begin
+        cmd = shell_out("#{interpreter} -Command \"& {Get-Host}\"")
+        cmd.stderr.empty? && (cmd.stdout =~ /Version\s*:\s*2.0/i)
+      rescue Errno::ENOENT
+        false
+      end
     end
 
+    def interpreter
+      # force 64-bit powershell from 32-bit ruby process
+      if ::File.exist?("#{ENV['WINDIR']}\\sysnative\\WindowsPowershell\\v1.0\\powershell.exe")
+        "#{ENV['WINDIR']}\\sysnative\\WindowsPowershell\\v1.0\\powershell.exe"
+      elsif ::File.exist?("#{ENV['WINDIR']}\\system32\\WindowsPowershell\\v1.0\\powershell.exe")
+        "#{ENV['WINDIR']}\\system32\\WindowsPowershell\\v1.0\\powershell.exe"
+      else
+        "powershell.exe"
+      end
+    end
   end
 end

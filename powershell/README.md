@@ -21,7 +21,7 @@ Platform
 --------
 
 * Windows XP
-* Windows Server 2003
+* Windows Server 2003 (R1, R2)
 * Windows Vista
 * Windows 7
 * Windows Server 2008 (R1, R2)
@@ -53,6 +53,17 @@ Execute a script using the powershell interpreter (much like the script resource
 
 ### Examples
 
+    # change the computer's hostname
+    powershell "rename hostname" do
+      code <<-EOH
+      $computer_name = Get-Content env:computername
+      $new_name = 'test-hostname'
+      $sysInfo = Get-WmiObject -Class Win32_ComputerSystem
+      $sysInfo.Rename($new_name)
+      EOH
+    end
+
+
     # write out to an interpolated path
     powershell "write-to-interpolated-path" do
       code <<-EOH
@@ -61,7 +72,7 @@ Execute a script using the powershell interpreter (much like the script resource
       $stream.close()
       EOH
     end
-    
+
     # use the change working directory attribute
     powershell "cwd-then-write" do
       cwd Chef::Config[:file_cache_path]
@@ -76,7 +87,7 @@ Execute a script using the powershell interpreter (much like the script resource
       $stream.close()
       EOH
     end
-    
+
     # cwd to a winodws env variable
     powershell "cwd-to-win-env-var" do
       cwd "%TEMP%"
@@ -86,7 +97,7 @@ Execute a script using the powershell interpreter (much like the script resource
       $stream.close()
       EOH
     end
-    
+
     # pass an env var to script
     powershell "read-env-var" do
       cwd Chef::Config[:file_cache_path]
@@ -104,14 +115,14 @@ Usage
 default
 -------
 
-Include the default recipe in a run list, to ensure PowerShell 2.0 is installed. 
+Include the default recipe in a run list, to ensure PowerShell 2.0 is installed.
 
 On the following versions of Windows the PowerShell 2.0 package will be downloaded from Microsoft and installed:
 
 * Windows XP
 * Windows Server 2003
 * Windows Server 2008 R1
-* Windows Vista 
+* Windows Vista
 
 On the following versions of Windows, PowerShell 2.0 is present and must just be enabled:
 
