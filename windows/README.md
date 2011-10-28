@@ -398,7 +398,12 @@ Changes/Roadmap
 * windows_registry :force_modify action should use RegNotifyChangeKeyValue from WinAPI
 * WindowsRebootHandler/windows_reboot LWRP should support kicking off subsequent chef run on reboot.
 
-## v1.2.4
+## v1.2.8
+
+* FIX: Older Windows (Windows Server 2003) sometimes return 127 on successful forked commands
+* FIX: windows_package, ensure we pass the WOW* registry redirection flags into reg.open
+
+## v1.2.6
 
 * patch to fix [CHEF-2684], Open4 is named Open3 in Ruby 1.9
 * Ruby 1.9's Open3 returns 0 and 42 for successful commands
