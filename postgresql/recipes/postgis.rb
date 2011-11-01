@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: postgresql
-# Recipe:: server
+# Recipe:: postgis
 #
-# Copyright 2009-2010, Opscode, Inc.
+# Copyright 2010, FindsYou Limited
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,13 +17,7 @@
 # limitations under the License.
 #
 
-include_recipe "postgresql::client"
+include_recipe "postgresql::server"
 
-# Include the right "family" recipe for installing the server
-# since they do things slightly differently.
-case node.platform
-when "redhat", "centos", "fedora", "suse"
-  include_recipe "postgresql::server_redhat"
-when "debian", "ubuntu"
-  include_recipe "postgresql::server_debian"
-end
+package "postgis"
+package "postgresql-#{node.postgresql.version}-postgis" if %w( debian ubuntu ).include?(node.platform)

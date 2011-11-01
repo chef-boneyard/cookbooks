@@ -35,16 +35,16 @@
 # The default values of these variables are driven from the -D command-line
 # option or PGDATA environment variable, represented here as ConfigDir.
 
-data_directory = '/var/lib/postgresql/<%= node.postgresql.version -%>/main'		# use data in another directory
-					# (change requires restart)
-hba_file = '/etc/postgresql/<%= node.postgresql.version -%>/main/pg_hba.conf'	# host-based authentication file
-					# (change requires restart)
-ident_file = '/etc/postgresql/<%= node.postgresql.version -%>/main/pg_ident.conf'	# ident configuration file
-					# (change requires restart)
+data_directory = '/var/lib/postgresql/<%= @version %>/main'		# use data in another directory
+									# (change requires restart)
+hba_file = '/etc/postgresql/<%= @version %>/main/pg_hba.conf'		# host-based authentication file
+									# (change requires restart)
+ident_file = '/etc/postgresql/<%= @version %>/main/pg_ident.conf'	# ident configuration file
+									# (change requires restart)
 
 # If external_pid_file is not explicitly set, no extra PID file is written.
-external_pid_file = '/var/run/postgresql/<%= node.postgresql.version -%>-main.pid'		# write an extra PID file
-					# (change requires restart)
+external_pid_file = '/var/run/postgresql/<%= @version %>-main.pid'	# write an extra PID file
+									# (change requires restart)
 
 
 #------------------------------------------------------------------------------
@@ -53,11 +53,11 @@ external_pid_file = '/var/run/postgresql/<%= node.postgresql.version -%>-main.pi
 
 # - Connection Settings -
 
-#listen_addresses = 'localhost'		# what IP address(es) to listen on;
+listen_addresses = '<%= @listen %>'	# what IP address(es) to listen on;
 					# comma-separated list of addresses;
 					# defaults to 'localhost', '*' = all
 					# (change requires restart)
-port = 5432				# (change requires restart)
+port = <%= @port %>			# (change requires restart)
 max_connections = 100			# (change requires restart)
 # Note:  Increasing max_connections costs ~400 bytes of shared memory per 
 # connection slot, plus lock space (see max_locks_per_transaction).  You might
@@ -73,11 +73,7 @@ unix_socket_directory = '/var/run/postgresql'		# (change requires restart)
 # - Security and Authentication -
 
 #authentication_timeout = 1min		# 1s-600s
-<% if node.postgresql.ssl -%>
-ssl = true				# (change requires restart)
-<% else -%>
-#ssl = off				# (change requires restart)
-<% end -%>
+ssl = <%= @ssl ? true : false %>	# (change requires restart)
 #ssl_ciphers = 'ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH'	# allowed SSL ciphers
 					# (change requires restart)
 #password_encryption = on
@@ -121,11 +117,7 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 
 # - Free Space Map -
 
-<% if node.postgresql.version == "8.4" %>
-<% # max_fsm_pages doesn't exist on 8.4 %>
-#max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
-					# (change requires restart)
-<% else %>
+<% if @version.to_f < 8.4 # max_fsm_pages doesn't exist on 8.4 %>
 max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
 					# (change requires restart)
 <% end %>

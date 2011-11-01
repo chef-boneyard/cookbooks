@@ -1,4 +1,4 @@
-#/postgresql.conf.
+#
 # Cookbook Name:: postgresql
 # Recipe:: server
 #
@@ -62,17 +62,12 @@ execute "/sbin/service postgresql initdb" do
   not_if { ::FileTest.exist?(File.join(node.postgresql.dir, "PG_VERSION")) }
 end
 
-service "postgresql" do
-  supports :restart => true, :status => true, :reload => true
-  action [:enable, :start]
-end
-
 template "#{node[:postgresql][:dir]}/pg_hba.conf" do
   source "redhat.pg_hba.conf.erb"
   owner "postgres"
   group "postgres"
   mode 0600
-  notifies :reload, resources(:service => "postgresql")
+  notifies :reload, "service[postgresql]"
 end
 
 template "#{node[:postgresql][:dir]}/postgresql.conf" do
@@ -80,5 +75,11 @@ template "#{node[:postgresql][:dir]}/postgresql.conf" do
   owner "postgres"
   group "postgres"
   mode 0600
-  notifies :restart, resources(:service => "postgresql")
+  variables node[:postgresql]
+  notifies :restart, "service[postgresql]"
+end
+
+service "postgresql" do
+  supports :restart => true, :status => true, :reload => true
+  action [:enable, :start]
 end
