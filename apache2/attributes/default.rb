@@ -32,7 +32,7 @@ when "redhat","centos","scientific","fedora","suse"
   else
     set[:apache][:pid_file] = "/var/run/httpd.pid"
   end
-  set[:apache][:lib_dir] = node[:kernel][:machine] == "i386" ? "/usr/lib/httpd" : "/usr/lib64/httpd"
+  set[:apache][:lib_dir] = node[:kernel][:machine] =~ /^i[36]86$/ ? "/usr/lib/httpd" : "/usr/lib64/httpd"
 when "debian","ubuntu"
   set[:apache][:dir]     = "/etc/apache2"
   set[:apache][:log_dir] = "/var/log/apache2"
