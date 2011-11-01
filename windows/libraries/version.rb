@@ -195,7 +195,7 @@ module Windows
       cols.map do |c|
         begin
           os_info.send(c)
-        rescue NoMethodError # OperatingSystemSKU doesn't exist in all versions of Windows
+        rescue # OperatingSystemSKU doesn't exist in all versions of Windows
           nil
         end
       end
