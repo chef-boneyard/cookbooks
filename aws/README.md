@@ -165,7 +165,7 @@ Then to set up the Elastic IP on a system:
     aws_elastic_ip "eip_load_balancer_production" do
       aws_access_key aws['aws_access_key_id']
       aws_secret_access_key aws['aws_secret_access_key']
-      lb ip_info['public_ip']
+      ip ip_info['public_ip']
       action :associate
     end
 
