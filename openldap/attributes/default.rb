@@ -16,6 +16,12 @@
 # limitations under the License.
 #
 
+#http://help.opscode.com/discussions/problems/290-openldap-fatal-attribute-domain-is-not-defined
+#https://gist.github.com/749226
+
+openldap = openldap || {}
+domain = node['domain'] || []
+
 if domain.length > 0
   default[:openldap][:basedn] = "dc=#{domain.split('.').join(",dc=")}"
   default[:openldap][:server] = "ldap.#{domain}"
