@@ -1,0 +1,28 @@
+#nodes
+<% @ha_conf['nodes'].each do |node| -%>
+node <%= node %>
+<% end -%>
+
+# Logging
+crm                            yes
+debug                          1
+use_logd                       true
+#logfacility                   daemon
+
+# Misc Options
+traditional_compression        off
+compression                    bz2
+coredumps                      true
+
+# Communications
+udpport                        693
+
+<% @ha_conf['nodes'].each do |node| -%>
+ucast eth1 <%= node %>
+<% end -%>
+
+# Thresholds (in seconds)
+keepalive                      1
+warntime                       6
+deadtime                       10
+initdead                       15
