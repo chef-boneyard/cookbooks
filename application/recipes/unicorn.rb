@@ -49,7 +49,8 @@ runit_service app['id'] do
   run_restart false
 end
 
-if ::File.exists?(::File.join(app['deploy_to'], "current"))
+# to restart the service we have a deployment directory and have a service to restart
+if ::File.exists?(::File.join(app['deploy_to'], "current")) && ::File.exists?("/etc/init.d/#{app['id']}")
   d = resources(:deploy_revision => app['id'])
   d.restart_command do
     execute "/etc/init.d/#{app['id']} hup"
