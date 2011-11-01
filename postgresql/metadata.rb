@@ -13,3 +13,7 @@ recipe            "postgresql::server", "Installs postgresql server packages, de
 %w{rhel centos fedora ubuntu debian suse}.each do |os|
   supports os
 end
+
+%w{openssl}.each do |cb|
+  depends cb
+end
