@@ -32,6 +32,7 @@ ATTRIBUTES
 These attributes are set by the cookbook by default.
 
 * `node["openvpn"]["local"]` - IP to listen on, defaults to node[:ipaddress]
+* `node["openvpn"]["port"]` - Server port, defaults to '1194'.
 * `node["openvpn"]["proto"]` - Valid values are 'udp' or 'tcp', defaults to 'udp'.
 * `node["openvpn"]["type"]` - Valid values are 'server' or 'server-bridge'. Default is 'server' and it will create a routed IP tunnel, and use the 'tun' device. 'server-bridge' will create an ethernet bridge and requires a tap0 device bridged with the ethernet interface, and is beyond the scope of this cookbook.
 * `node["openvpn"]["subnet"]` - Used for server mode to configure a VPN subnet to draw client addresses. Default is 10.8.0.0, which is what the sample OpenVPN config package uses.
@@ -41,7 +42,7 @@ These attributes are set by the cookbook by default.
 * `node["openvpn"]["key_dir"]` - Location to store keys, certificates and related files. Default `/etc/openvpn/keys`.
 * `node["openvpn"]["signing_ca_cert"]` - CA certificate for signing, default `/etc/openvpn/keys/ca.crt`
 * `node["openvpn"]["signing_ca_key"]` - CA key for signing, default `/etc/openvpn/keys/ca.key`
-* `node["openvpn"]["push"]` - Array of routes to add as `push` statements in the server.conf. Default is empty.
+* `node["openvpn"]["routes"]` - Array of routes to add as `push` statements in the server.conf. Default is empty.
 
 The following attributes are used to populate the `easy-rsa` vars file. Defaults are the same as the vars file that ships with OpenVPN.
 
@@ -95,11 +96,11 @@ Create a role for the OpenVPN server. See above for attributes that can be enter
       }
     )
 
-To push routes to clients, add `node['openvpn']['push']` as an array attribute, e.g. if the internal network is 192.168.100.0/24:
+To push routes to clients, add `node['openvpn']['routes']` as an array attribute, e.g. if the internal network is 192.168.100.0/24:
 
     override_attributes(
       "openvpn" => {
-        "push" => [
+        "routes" => [
           "push 'route 192.168.100.0 255.255.255.0'"
         ]
       }

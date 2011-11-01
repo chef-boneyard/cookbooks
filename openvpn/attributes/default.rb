@@ -18,6 +18,7 @@
 #
 
 default["openvpn"]["local"]   = node["ipaddress"]
+default["openvpn"]["port"]    = "1194"
 default["openvpn"]["proto"]   = "udp"
 default["openvpn"]["type"]    = "server"
 default["openvpn"]["subnet"]  = "10.8.0.0"
@@ -27,7 +28,7 @@ default["openvpn"]["log"]     = "/var/log/openvpn.log"
 default["openvpn"]["key_dir"] = "/etc/openvpn/keys"
 default["openvpn"]["signing_ca_key"]  = "#{node["openvpn"]["key_dir"]}/ca.key"
 default["openvpn"]["signing_ca_cert"] = "#{node["openvpn"]["key_dir"]}/ca.crt"
-default["openvpn"]["push"] = []
+default["openvpn"]["routes"] = []
 
 # Used by helper library to generate certificates/keys
 default["openvpn"]["key"]["ca_expire"] = 3650
