@@ -17,7 +17,15 @@
 # limitations under the License.
 #
 
-package "vim"
+package "vim" do
+  case node[:platform]
+  when "centos","redhat"
+    package_name "vim-enhanced"
+  when "debian","ubuntu"
+    package_name "vim"
+  action :install
+  end
+end
 
 node[:vim][:extra_packages].each do |vimpkg|
   package vimpkg
