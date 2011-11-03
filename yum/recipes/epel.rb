@@ -25,7 +25,7 @@ epel  = node['yum']['epel_release']
 
 remote_file "#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm" do
   source "http://download.fedoraproject.org/pub/epel/#{major}/i386/epel-release-#{epel}.noarch.rpm"
-  not_if "rpm -qa | grep -qx '^epel-release-#{epel}.noarch$'"
+  not_if "rpm -qa | grep -qx '^epel-release-#{epel}$'"
 end
 
 
