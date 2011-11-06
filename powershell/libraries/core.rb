@@ -6,9 +6,9 @@
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,8 +19,8 @@
 require 'chef/resource/execute'
 require 'chef/resource/script'
 
-# PLEASE NOTE - This is not a good example of shipping a Resource/Provider 
-# with a cookbook.  Please check the Chef Wiki for more traditional DSL driven 
+# PLEASE NOTE - This is not a good example of shipping a Resource/Provider
+# with a cookbook.  Please check the Chef Wiki for more traditional DSL driven
 # LWRPs.  This 'heavyweight' resource will eventually be moved into Core Chef.
 
 class Chef
@@ -31,22 +31,20 @@ class Chef
         super
         @resource_name = :powershell
         @provider = Chef::Provider::PowershellScript
-        @interpreter = locate_powershell_interperter
         @returns = [0,42] # successful commands return exit code 42
       end
 
-      private
-        def locate_powershell_interperter
-          # force 64-bit powershell from 32-bit ruby process
-          if ::File.exist?("c:/windows/sysnative/WindowsPowershell/v1.0/powershell.exe") 
-            "c:/windows/sysnative/WindowsPowershell/v1.0/powershell.exe"
-          elsif ::File.exist?("c:/windows/system32/WindowsPowershell/v1.0/powershell.exe")
-            "c:/windows/system32/WindowsPowershell/v1.0/powershell.exe"
-          else
-            "powershell.exe"
-          end
+      def interpreter
+        # force 64-bit powershell from 32-bit ruby process
+        if ::File.exist?("#{ENV['WINDIR']}\\sysnative\\WindowsPowershell\\v1.0\\powershell.exe")
+          "#{ENV['WINDIR']}\\sysnative\\WindowsPowershell\\v1.0\\powershell.exe"
+        elsif ::File.exist?("#{ENV['WINDIR']}\\system32\\WindowsPowershell\\v1.0\\powershell.exe")
+          "#{ENV['WINDIR']}\\system32\\WindowsPowershell\\v1.0\\powershell.exe"
+        else
+          "powershell.exe"
         end
-    end 
+      end
+    end
   end
 
   class Provider
@@ -56,11 +54,10 @@ class Chef
         script_file.puts(@new_resource.code)
         script_file.close
         set_owner_and_group
-        
+
         # always set the ExecutionPolicy flag
         # see http://technet.microsoft.com/en-us/library/ee176961.aspx
         @new_resource.flags("#{@new_resource.flags} -ExecutionPolicy RemoteSigned -Command".strip)
-        
         # cwd hax...shell_out on windows needs to support proper 'cwd'
         # follow CHEF-2357 for more
         cwd = @new_resource.cwd ? "cd #{@new_resource.cwd} & " : ""
@@ -87,7 +84,7 @@ class Chef
 
       private
       # take advantage of PowerShell scriptblocks
-      # to pass scoped environment variables to the 
+      # to pass scoped environment variables to the
       # command
       def build_powershell_scriptblock
         # environment var hax...shell_out on windows needs to support proper 'environment'
@@ -99,9 +96,9 @@ class Chef
         end
         "& { #{env_string}#{ensure_windows_friendly_path(script_file.path)} }"
       end
-    end 
+    end
   end
-  
+
   module Mixin
     module Language
       def ensure_windows_friendly_path(path)

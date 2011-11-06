@@ -4,7 +4,7 @@
 
 ; Auto accept the license terms
 
-IACCEPTSQLSERVERLICENSETERMS="<%= node['sql_server']['accept_license_terms'] ? "True" : "False" %>"
+IACCEPTSQLSERVERLICENSETERMS="<%= node['sql_server']['accept_eula'] ? "True" : "False" %>"
 
 <% unless (node['sql_server']['product_key'].nil? || node['sql_server']['product_key'].empty?)  -%>
 ; Product Key

@@ -30,4 +30,5 @@ windows_zipfile "webpicmdline" do
   path node['webpi']['home']
   source "#{Chef::Config[:file_cache_path]}/#{file_name}"
   action :nothing
+  not_if { ::File.exists?("#{node['webpi']['home']}/WebpiCmdLine.exe") }
 end

@@ -1,4 +1,5 @@
 #
+# Author:: Matt Ray <matt@opscode.com>
 # Cookbook Name:: drbd
 # Recipe:: default
 #
@@ -15,12 +16,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-# = Requirements
-# Templates::
-# * /etc/drbd.conf
 
-include_recipe "lvm"
+#prime the search to avoid 2 masters
+node.save
 
 package "drbd8-utils" do
   action :install
@@ -31,5 +29,5 @@ service "drbd" do
     :restart => true,
     :status => true
   )
-  action :enable
+  action :nothing
 end

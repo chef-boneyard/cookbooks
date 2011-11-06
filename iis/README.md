@@ -54,7 +54,7 @@ Allows easy management of IIS virtual sites (ie vhosts).
 - product_id: name attribute. Specifies the ID of a product to install.
 - accept_eula: specifies that WebpiCmdline should Auto-Accept Eula’s. default is false.
 
-- site_name: name attribute. 
+- site_name: name attribute.
 - site_id: . if not given IIS generates a unique ID for the site
 - path: IIS will create a root application and a root virtual directory mapped to this specified local path
 - protocol: http protocol type the site should respond to. valid values are :http, :https. default is :http
@@ -67,8 +67,8 @@ Allows easy management of IIS virtual sites (ie vhosts).
     iis_site 'Default Web Site' do
       action [:stop, :delete]
     end
-    
-    # create and start a new site that maps to 
+
+    # create and start a new site that maps to
     # the physical location C:\inetpub\wwwroot\testfu
     iis_site 'Testfu Site' do
       protocol :http
@@ -76,7 +76,7 @@ Allows easy management of IIS virtual sites (ie vhosts).
       path "#{node['iis']['docroot']}/testfu"
       action [:add,:start]
     end
-    
+
     # do the same but map to testfu.opscode.com domain
     iis_site 'Testfu Site' do
       protocol :http
@@ -154,6 +154,11 @@ Changes/Roadmap
 * resource/provider for managing IIS applications and application pools
 * resource/provider for managing IIS virtual directories
 * IIS 6.0 support
+
+## 1.0.2:
+
+* Ruby 1.9 compat fixes
+* ensure carriage returns are removed before applying regex
 
 ## 1.0.0:
 

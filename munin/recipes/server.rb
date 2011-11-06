@@ -18,6 +18,7 @@
 #
 
 munin_servers = search(:node, "munin:[* TO *] AND chef_environment:#{node.chef_environment}")
+munin_servers.sort! { |a,b| a[:fqdn] <=> b[:fqdn] }
 
 if node[:public_domain]
   case node.chef_environment
@@ -57,7 +58,7 @@ end
 template "/etc/munin/munin.conf" do
   source "munin.conf.erb"
   mode 0644
-  variables(:munin_nodes => munin_servers)
+  variables(:munin_nodes => munin_servers, :docroot => node['munin']['docroot'])
 end
 
 apache_site "000-default" do
@@ -67,7 +68,7 @@ end
 template "#{node[:apache][:dir]}/sites-available/munin.conf" do
   source "apache2.conf.erb"
   mode 0644
-  variables :public_domain => public_domain
+  variables(:public_domain => public_domain, :docroot => node['munin']['docroot'])
   if ::File.symlink?("#{node[:apache][:dir]}/sites-enabled/munin.conf")
     notifies :reload, resources(:service => "apache2")
   end

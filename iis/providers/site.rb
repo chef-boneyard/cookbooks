@@ -31,7 +31,7 @@ action :add do
     cmd << " /bindings:#{@new_resource.protocol}/*"
     cmd << ":#{@new_resource.port}:" if @new_resource.port
     cmd << "#{@new_resource.host_header}" if @new_resource.host_header
-    shell_out!(cmd)
+    shell_out!(cmd, {:returns => [0,42]})
     @new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} added new site '#{@new_resource.site_name}'")
   else
@@ -41,7 +41,7 @@ end
 
 action :delete do
   if @current_resource.exists
-    shell_out!("#{appcmd} delete site /site.name:\"#{site_identifier}\"")
+    shell_out!("#{appcmd} delete site /site.name:\"#{site_identifier}\"", {:returns => [0,42]})
     @new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} deleted")
   else
@@ -51,7 +51,7 @@ end
 
 action :start do
   unless @current_resource.running
-    shell_out!("#{appcmd} start site /site.name:\"#{site_identifier}\"")
+    shell_out!("#{appcmd} start site /site.name:\"#{site_identifier}\"", {:returns => [0,42]})
     @new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} started")
   else
@@ -61,7 +61,7 @@ end
 
 action :stop do
   if @current_resource.running
-    shell_out!("#{appcmd} stop site /site.name:\"#{site_identifier}\"")
+    shell_out!("#{appcmd} stop site /site.name:\"#{site_identifier}\"", {:returns => [0,42]})
     @new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} stopped")
   else
@@ -70,9 +70,9 @@ action :stop do
 end
 
 action :restart do
-  shell_out!("#{appcmd} stop site /site.name:\"#{site_identifier}\"")
+  shell_out!("#{appcmd} stop site /site.name:\"#{site_identifier}\"", {:returns => [0,42]})
   sleep 2
-  shell_out!("#{appcmd} start site /site.name:\"#{site_identifier}\"")
+  shell_out!("#{appcmd} start site /site.name:\"#{site_identifier}\"", {:returns => [0,42]})
   @new_resource.updated_by_last_action(true)
   Chef::Log.info("#{@new_resource} restarted")
 end
@@ -83,7 +83,10 @@ def load_current_resource
   cmd = shell_out("#{appcmd} list site")
   # 'SITE "Default Web Site" (id:1,bindings:http/*:80:,state:Started)'
   Chef::Log.debug("#{@new_resource} list site command output: #{cmd.stdout}")
-  result = cmd.stdout.match(/^SITE\s\"(#{@new_resource.site_name})\"\s\(id:(.*),bindings:(.*),state:(.*)\)$/) if cmd.stderr.empty?
+  if cmd.stderr.empty?
+    result = cmd.stdout.gsub(/\r\n?/, "\n") # ensure we have no carriage returns
+    result = result.match(/^SITE\s\"(#{new_resource.site_name})\"\s\(id:(.*),bindings:(.*),state:(.*)\)$/)
+  end
   Chef::Log.debug("#{@new_resource} current_resource match output: #{result}")
   if result
     @current_resource.site_id(result[2].to_i)
@@ -104,5 +107,5 @@ def appcmd
 end
 
 def site_identifier
-  @new_resource.host_header || @new_resource.site_name 
+  @new_resource.host_header || @new_resource.site_name
 end

@@ -27,7 +27,7 @@ unless node.recipe?("sql_server::server")
       source node['sql_server'][pkg]['url']
       checksum node['sql_server'][pkg]['checksum']
       installer_type :msi
-      options "IACCEPTSQLNCLILICENSETERMS=#{node['sql_server']['accept_license_terms'] ? 'YES' : 'NO'}"
+      options "IACCEPTSQLNCLILICENSETERMS=#{node['sql_server']['accept_eula'] ? 'YES' : 'NO'}"
       action :install
     end
 

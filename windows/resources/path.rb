@@ -23,6 +23,6 @@ def initialize(name,run_context=nil)
   @action = :add
 end
 
-actions :add, :remove
+actions :add
 
 attribute :path, :kind_of => String, :name_attribute => true
