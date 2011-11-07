@@ -60,6 +60,12 @@ Example pill template resource and .erb file:
 
 See bluepill's documentation for more information on creating pill templates.
     
+Changes
+=======
+
+## v0.2.2:
+
+* Fixes COOK-524, COOK-632
 
 License and Author
 ==================
