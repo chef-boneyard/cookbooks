@@ -295,6 +295,10 @@ For examples of using the definitions in your own recipes, see their respective 
 Changes
 =======
 
+## v1.0.2
+
+* Tickets resolved in this release: COOK-788, COOK-782, COOK-780
+
 ## v1.0.0
 
 * Red Hat family support is greatly improved, all recipes except `god_monitor` converge.
