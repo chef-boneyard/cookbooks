@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: apache2
-# Recipe:: log_config 
+# Recipe:: mod_xsendfile 
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2011, CustomInk, LLC.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,8 +17,11 @@
 # limitations under the License.
 #
 
-if platform?("redhat", "centos", "scientific", "fedora", "suse", "arch")
-  apache_module "log_config"
-else
-  include_recipe "apache2"
+case node['platform']
+when "debian","ubuntu"
+  package "libapache2-mod-xsendfile"
+when "centos","redhat","scientific","fedora"
+  package "mod_xsendfile"
 end
+
+apache_module "xsendfile"

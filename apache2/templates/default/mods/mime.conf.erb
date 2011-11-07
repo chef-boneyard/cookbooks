@@ -4,7 +4,12 @@
 # TypesConfig points to the file containing the list of mappings from
 # filename extension to MIME-type.
 #
+<% case node[:platform] -%>
+<% when "arch" -%>
+TypesConfig <%= node['apache']['dir'] %>/conf/mime.types
+<% else -%>
 TypesConfig /etc/mime.types
+<% end -%>
 
 #
 # AddType allows you to add to or override the MIME configuration
