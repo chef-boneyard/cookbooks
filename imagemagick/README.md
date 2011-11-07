@@ -1,12 +1,20 @@
-= DESCRIPTION:
+Description
+===========
 
 Installs ImageMagick and optionally Rmagick (RubyGem).
 
-= REQUIREMENTS:
+Requirements
+============
 
-Should work on RHEL and Debian plus derivatives.
+## Platform:
 
-= USAGE:
+Tested on:
+
+* Ubuntu (10.04)
+* RHEL (6.1, 5.7)
+
+Usage
+=====
 
 To install just ImageMagick,
 
@@ -22,7 +30,15 @@ To install the RubyGem rmagick,
 
 Which will install imagemagick, as well as the development libraries for imagemagick (so rmagick can be built).
 
-= LICENSE:
+Changes
+=======
+
+## v0.2.2:
+
+* Fixes COOK-662
+
+License and Author
+==================
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
 
