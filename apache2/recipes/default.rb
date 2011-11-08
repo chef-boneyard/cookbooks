@@ -85,7 +85,7 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
 
   execute "generate-module-list" do
     if node[:kernel][:machine] == "x86_64"
-      libdir = value_for_platform("arch" => { "default" => "lib" }, "default" => "lib64")
+      libdir = value_for_platform( [ "arch","centos", "redhat" ] => { "default" => "lib" }, "default" => "lib64")
     else
       libdir = "lib"
     end
