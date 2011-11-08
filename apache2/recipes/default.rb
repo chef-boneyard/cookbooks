@@ -84,12 +84,9 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
   end
 
   execute "generate-module-list" do
-    if node[:kernel][:machine] == "x86_64"
-      libdir = value_for_platform( [ "arch","centos", "redhat" ] => { "default" => "lib" }, "default" => "lib64")
-    else
-      libdir = "lib"
-    end
-    command "/usr/local/bin/apache2_module_conf_generate.pl /usr/#{libdir}/httpd/modules /etc/httpd/mods-available"
+    libdir = node[:apache][:lib_dir]
+    Chef::Log.info "Using apahce libdir for #{node[:kernel][:machine]}: #{libdir}"
+    command "/usr/local/bin/apache2_module_conf_generate.pl #{libdir}/modules /etc/httpd/mods-available"
     action :run
   end
 

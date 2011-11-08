@@ -27,8 +27,10 @@ define :apache_module, :enable => true, :conf => false do
   end
 
   if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
+    content_file = "LoadModule #{params[:name]}_module #{node['apache']['lib_dir']}/modules/#{params[:filename]}\n"
+    Chef::Log.info "Setting up load mondule: #{content_file}"
     file "#{node['apache']['dir']}/mods-available/#{params[:name]}.load" do
-      content "LoadModule #{params[:name]}_module #{node['apache']['lib_dir']}/modules/#{params[:filename]}\n"
+      content content_file
       mode 0644
     end
   end
