@@ -1,0 +1,10 @@
+{
+    "id": "ubuntu-natty-amd64",
+    "arch": "amd64",
+    "version": "natty",
+    "netboot_url": "http://archive.ubuntu.com/ubuntu/dists/natty/main/installer-amd64/current/images/netboot/netboot.tar.gz",
+    "addresses": {
+        "10:78:d2:c8:b4:65": "walt",
+        "10:78:d2:c8:b2:07": "larry"
+    }
+}
