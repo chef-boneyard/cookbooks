@@ -36,7 +36,8 @@ define :logrotate_app, :enable => true, :frequency => "weekly", :template => "lo
         :path => path,
         :create => create,
         :frequency => params[:frequency],
-        :rotate => params[:rotate]
+        :rotate => params[:rotate],
+        :size => params[:size]
       )
     end
 

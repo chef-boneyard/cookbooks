@@ -20,6 +20,7 @@ The definition takes the following params:
 * path: specifies a single path (string) or multiple paths (array) that should have logrotation stanzas created in the config file. No default, this must be specified.
 * enable: true/false, if true it will create the template in /etc/logrotate.d.
 * frequency: sets the frequency for rotation. Default value is 'weekly'. Valid values are: daily, weekly, monthly, yearly, see the logrotate man page for more information.
+* size: sets the size of the log file for rotation. Only configured if value is passed. Values can be passed in kilobytes (100k), megabytes (50M), or gigabytes (2GB)
 * template: sets the template source, default is "logrotate.erb".
 * cookbook: select the template source from the specified cookbook. By default it will use the cookbook where the definition is used.
 * create: creation parameters for the logrotate "create" config, follows the form "mode owner group".
@@ -37,6 +38,7 @@ To create application specific logrotate configs, use the `logrotate_app` defini
       cookbook "logrotate"
       path "/var/log/tomcat/myapp.log"
       frequency "daily"
+      size 50M
       rotate 30
       create "644 root adm"
     end
@@ -47,6 +49,7 @@ To rotate multiple logfile paths, specify the path as an array:
       cookbook "logrotate"
       path [ "/var/log/tomcat/myapp.log", "/opt/local/tomcat/catalina.out" ]
       frequency "daily"
+      size 50M
       create "644 root adm"
       rotate 7
     end
