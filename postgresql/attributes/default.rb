@@ -16,6 +16,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+::Chef::Node::Attribute.send(:include, Opscode::OpenSSL::Password)
+
 case platform
 when "debian"
 
@@ -47,7 +50,7 @@ when "fedora"
 
   set[:postgresql][:dir] = "/var/lib/pgsql/data"
 
-when "redhat","centos"
+when "redhat","centos","scientific","amazon"
 
   default[:postgresql][:version] = "8.4"
   set[:postgresql][:dir] = "/var/lib/pgsql/data"
@@ -66,3 +69,7 @@ else
   default[:postgresql][:version] = "8.4"
   set[:postgresql][:dir]            = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 end
+
+# generate all passwords
+default[:postgresql][:password][:postgres] = secure_password
+

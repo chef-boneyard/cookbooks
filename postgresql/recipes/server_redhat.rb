@@ -23,37 +23,41 @@ include_recipe "postgresql::client"
 # Otherwise the templates fail.
 
 group "postgres" do
-  # Workaround lack of option for -r and -o...
-  group_name "-r -o postgres"
-  not_if { Etc.getgrnam("postgres") }
   gid 26
 end
 
 user "postgres" do
-  # Workaround lack of option for -M and -n...
-  username "-M -n postgres"
-  not_if { Etc.getpwnam("postgres") }
   shell "/bin/bash"
   comment "PostgreSQL Server"
   home "/var/lib/pgsql"
   gid "postgres"
   system true
   uid 26
-  supports :non_unique => true
+  supports :manage_home => false
 end
 
 package "postgresql" do
   case node.platform
-  when "redhat","centos"
-    package_name "postgresql#{node.postgresql.version.split('.').join}"
+  when "redhat","centos","scientific"
+    case 
+    when node.platform_version.to_f >= 6.0
+      package_name "postgresql"
+    else
+      package_name "postgresql#{node.postgresql.version.split('.').join}"
+    end
   else
     package_name "postgresql"
   end
 end
 
 case node.platform
-when "redhat","centos"
-  package "postgresql#{node.postgresql.version.split('.').join}-server"
+when "redhat","centos","scientific"
+  case
+  when node.platform_version.to_f >= 6.0
+    package "postgresql-server"
+  else
+    package "postgresql#{node.postgresql.version.split('.').join}-server"
+  end
 when "fedora","suse"
   package "postgresql-server"
 end

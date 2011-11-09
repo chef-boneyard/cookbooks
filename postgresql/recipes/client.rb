@@ -17,11 +17,35 @@
 # limitations under the License.
 #
 
-case node.platform
+pg_packages = case node.platform
 when "ubuntu","debian"
-  package "postgresql-client"
-when "fedora","suse"
-  package "postgresql-devel"
-when "redhat","centos"
-  package "postgresql#{node.postgresql.version.split('.').join}-devel"
+  %w{postgresql-client libpq-dev}
+when "fedora","suse","amazon"
+  %w{postgresql-devel}
+when "redhat","centos","scientific"
+  case
+  when node.platform_version.to_f >= 6.0
+    %w{postgresql-devel}
+  else
+    [ "postgresql#{node.postgresql.version.split('.').join}-devel" ]
+  end
 end
+
+pg_packages.each do |pg_pack|
+   p = package pg_pack do
+     action :nothing
+   end
+   p.run_action(:install)
+end
+
+# Install postgresql gem both in Omnibus (for the cookbooks to use) and in the system
+r = gem_package "pg" do
+  action :nothing
+end
+r.run_action(:install)
+r = gem_package "pg" do
+  gem_binary "gem"
+  action :nothing
+end
+r.run_action(:install)
+

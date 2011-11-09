@@ -10,6 +10,9 @@ recipe            "postgresql::server", "Installs postgresql server packages, te
 recipe            "postgresql::redhat", "Installs postgresql server packages, redhat family style"
 recipe            "postgresql::server", "Installs postgresql server packages, debian family style"
 
-%w{rhel centos fedora ubuntu debian suse}.each do |os|
+%w{rhel centos fedora ubuntu debian suse scientific}.each do |os|
   supports os
 end
+
+depends "openssl"
+
