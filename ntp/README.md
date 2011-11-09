@@ -1,22 +1,26 @@
-DESCRIPTION
+Description
 ===========
 
 Installs and configures ntp, optionally set up a local NTP server.
 
-CHANGES
+Changes
 =======
+
+## v1.1.0:
+
+* Fixes COOK-376 (use LAN peers, iburst option, LAN restriction attribute)
 
 ## v1.0.1:
 
 * Support scientific linux
 * Use service name attribute in resource (fixes EL derivatives)
 
-REQUIREMENTS
+Requirements
 ============
 
 Should work on any Red Hat-family or Debian-family Linux distribution.
 
-ATTRIBUTES
+Attributes
 ==========
 
 * ntp[:is_server]
@@ -46,18 +50,24 @@ USAGE
 
 Set up the ntp attributes in a role. For example in a base.rb role applied to all nodes:
 
+    name "base"
+    default_attributes(
       "ntp" => {
         "servers" => ["time0.int.example.org", "time1.int.example.org"]
       }
+    )
 
 Then in an ntpserver.rb role that is applied to NTP servers (e.g., time.int.example.org):
 
+    name "base"
+    default_attributes(
       "ntp" => {
         "is_server" => "true",
         "servers" => ["0.pool.ntp.org", "1.pool.ntp.org"]
         "peers" => ["time0.int.example.org", "time1.int.example.org"]
         "restrictions" => ["10.0.0.0 mask 255.0.0.0 nomodify notrap"]
       }
+    )
 
 The timeX.int.example.org used in these roles should be the names or IP addresses of internal NTP servers.
 
