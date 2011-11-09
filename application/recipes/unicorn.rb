@@ -46,6 +46,7 @@ runit_service app['id'] do
     :rails_env => node.run_state[:rails_env] || node.chef_environment,
     :smells_like_rack => ::File.exists?(::File.join(app['deploy_to'], "current", "config.ru"))
   )
+  env app['env_vars'].nil? ? [] : app['env_vars'][node.chef_environment]
   run_restart false
 end
 
