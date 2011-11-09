@@ -21,12 +21,10 @@ Platform
 --------
 
 * Debian, Ubuntu
-* RHEL, CentOS, Fedora
 
 Tested on:
 
 * Ubuntu 9.04, 9.10, 10.04
-* Centos 5.5
 
 Cookbooks
 ---------
@@ -69,6 +67,14 @@ The mysql::server recipe needs to come first, and contain an execute resource to
 ## Note about MySQL
 
 This cookbook will decouple the mysql::server and be smart about detecting whether to use a local database or find a database server in the environment in a later version.
+
+Changes
+=======
+
+## v0.8.4:
+
+* Fixes COOK-406
+* Dropping explicit support for Red Hat platforms due to issues in php and mysql cookbooks (COOK-603, COOK-672, COOK-816, COOK-679)
 
 License and Author
 ==================
