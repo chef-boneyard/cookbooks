@@ -1,7 +1,7 @@
 Database Cookbook
 =================
 
-The main highlight of this cookbook is the `database` and `database_user` resources for managing databases and database users in a RDBMS.  Providers for MySQL and SQL Server are also provided, see usage documentation below.
+The main highlight of this cookbook is the `database` and `database_user` resources for managing databases and database users in a RDBMS.  Providers for MySQL, PostgreSQL and SQL Server are also provided, see usage documentation below.
 
 This cookbook also contains recipes to configure mysql database masters and slaves and uses EBS for storage, integrating together with the application cookbook utilizing data bags for application related information. These recipes are written primarily to use MySQL and the Opscode mysql cookbook. Other RDBMS may be supported at a later date.  This cookbook does not automatically restore database dumps, but does install tools to help with that.
 
@@ -14,7 +14,7 @@ Platform
 --------
 
 * Debian, Ubuntu
-* Red Hat, CentOS Fedora
+* Red Hat, CentOS, Scientific, Fedora
 
 Cookbooks
 ---------
@@ -22,21 +22,23 @@ Cookbooks
 The following Opscode cookbooks are dependencies:
 
 * mysql
+* postgresql
 * xfs
 * aws
 
 Resources/Providers
 ===================
 
-These resources aim to expose an abstraction layer for interacting with different RDBMS in a general way.  Currently the cookbook ships with providers for MySQL and SQL Server.  Please see specific usage in the __Example__ sections below.  The providers use specific Ruby gems to execute commands and carry out actions.  These gems will need to be installed before the providers can operate correctly.  Specific notes for each RDBS flavor:
+These resources aim to expose an abstraction layer for interacting with different RDBMS in a general way.  Currently the cookbook ships with providers for MySQL, PostgreSQL and SQL Server.  Please see specific usage in the __Example__ sections below.  The providers use specific Ruby gems to execute commands and carry out actions.  These gems will need to be installed before the providers can operate correctly.  Specific notes for each RDBS flavor:
 
 - MySQL: leverages the `mysql` gem which is installed as part of the `mysql::client` recipe.
+- PostgreSQL: leverages the `pg` gem which is installed as part of the `postgresql::client` recipe.
 - SQL Server: leverages the `tiny_tds` gem which is installed as part of the `sql_server::client` recipe.
 
 `database`
 ----------
 
-Manage databases in a RDBMS.  Use the proper shortcut resource depending on your RDBMS: `mysql_database` or `sql_server_database`.
+Manage databases in a RDBMS.  Use the proper shortcut resource depending on your RDBMS: `mysql_database`, `postgresql_database` or `sql_server_database`.
 
 ### Actions
 
@@ -53,6 +55,7 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
 ### Providers
 
 - **Chef::Provider::Database::Mysql**: shortcut resource `mysql_database`
+- **Chef::Provider::Database::Postgresql**: shortcut resource `postgresql_database`
 - **Chef::Provider::Database::SqlServer**: shortcut resource `sql_server_database`
 
 ### Examples
@@ -68,10 +71,16 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
       connection {:host => "127.0.0.1", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']}
       action :create
     end
+
+    sql_server_database 'mr_softie' do
+      connection {:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']}
+      action :create
+    end
     
     # externalize conection info in a ruby hash
     mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
     sql_server_connection_info = {:host => "localhost", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']}
+    postgresql_connection_info = {:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']}
     
     # same create commands, connection info as an external hash
     mysql_database 'foo' do
@@ -82,6 +91,10 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
       connection sql_server_connection_info
       action :create
     end
+    postgresql_database 'foo' do
+      connection postgresql_connection_info
+      action :create
+    end
     
     # create database, set provider in resource parameter
     database 'bar' do
@@ -90,8 +103,13 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
        action :create
     end
     database 'bar' do
-      connection connection_info
+      connection sql_server_connection_info
       provider Chef::Provider::Database::SqlServer
+      action :create
+    end
+    database 'bar' do
+      connection postgresql_connection_info
+      provider Chef::Provider::Database::Postgresql
       action :create
     end
     
@@ -105,6 +123,14 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
     mysql_database "flush the privileges" do
       connection mysql_connection_info
       sql "flush privileges"
+      action :query
+    end
+
+    # vacuum a postgres database
+    postgres_database "vacuum databases" do
+      connection postgresql_connection_info
+      database_table "template1"
+      sql "VACUUM FULL VERBOSE ANALYZE"
       action :query
     end
 
@@ -325,6 +351,10 @@ Changes/Roadmap
 ## Future
 
 * update `database::master` to work with any RDBMS provider (most likely keying off database adapter)
+
+## v1.1.0
+
+* [COOK-716] providers for PostgreSQL
 
 ## v1.0.0
 
