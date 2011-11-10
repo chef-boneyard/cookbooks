@@ -11,8 +11,8 @@ recipe "database::ebs_volume", "Sets up an EBS volume in EC2 for the database"
 recipe "database::master", "Creates application specific user and database"
 recipe "database::snapshot", "Locks tables and freezes XFS filesystem for replication, assumes EC2 + EBS"
 
-#depends "mysql", ">= 1.2.0"
-depends "mysql"
+depends "mysql", ">= 1.2.0"
+depends "postgresql"
 depends "aws"
 depends "xfs"
 
