@@ -6,7 +6,6 @@ This cookbook provides libraries, resources and providers to configure and manag
 * EBS Volumes (`ebs_volume`)
 * Elastic IPs (`elastic_ip`)
 
----
 Requirements
 ============
 
@@ -14,7 +13,6 @@ Requires Chef 0.7.10 or higher for Lightweight Resource and Provider support. Ch
 
 An Amazon Web Services account is required. The Access Key and Secret Access Key are used to authenticate with EC2.
 
----
 AWS Credentials
 ===============
 
@@ -40,7 +38,6 @@ And to access the values:
 
 We'll look at specific usage below.
 
----
 Recipes
 =======
 
@@ -55,7 +52,6 @@ The default recipe installs the `right_aws` RubyGem, which this cookbook require
 
 The `gem_package` is created as a Ruby Object and thus installed during the Compile Phase of the Chef run.
 
----
 Libraries
 =========
 
@@ -65,7 +61,6 @@ The cookbook has a library module, `Opscode::AWS::Ec2`, which can be included wh
 
 This is needed in any providers in the cookbook. Along with some helper methods used in the providers, it sets up a class variable, `ec2` that is used along with the access and secret access keys
 
----
 Resources and Providers
 =======================
 
@@ -110,7 +105,6 @@ Attribute Parameters:
 * `timeout` - connection timeout for EC2 API.
 
 
----
 Usage
 =====
 
@@ -165,7 +159,7 @@ Then to set up the Elastic IP on a system:
     aws_elastic_ip "eip_load_balancer_production" do
       aws_access_key aws['aws_access_key_id']
       aws_secret_access_key aws['aws_secret_access_key']
-      lb ip_info['public_ip']
+      ip ip_info['public_ip']
       action :associate
     end
 
@@ -173,7 +167,6 @@ This will use the loaded `aws` and `ip_info` databags to pass the required value
 
 You can also store this in a role as an attribute or assign to the node directly, if preferred.
 
----
 License and Author
 ==================
 
