@@ -90,7 +90,7 @@ class Chef
             @db = ::PGconn.new(
               :host => @new_resource.connection[:host],
               :port => @new_resource.connection[:port] || 5432,
-              :dbname => dbname || @new_resource.connection[:database] || "template1",
+              :dbname => dbname || @new_resource.connection[:database] || "postgres",
               :user => @new_resource.connection[:username] || "postgres",
               :password => @new_resource.connection[:password] || node[:postgresql][:password][:postgres]
             )
