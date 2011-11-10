@@ -60,7 +60,7 @@ class Chef
           if exists?
             begin
               # FIXME: this needs to be s/mysql/postgresql/ still
-              db.select_db(@new_resource.database_name) if @new_resource.database_name
+              db(@new_resource.database_name) if @new_resource.database_name
               Chef::Log.debug("#{@new_resource}: Performing query [#{new_resource.sql}]")
               db.query(@new_resource.sql)
               @new_resource.updated_by_last_action(true)
@@ -76,15 +76,26 @@ class Chef
           db.query("select * from pg_database where datname = '#{@new_resource.database_name}'").num_tuples != 0
         end
 
-        def db
-          @db ||= begin
-            ::PGconn.new(
+        #
+        # This is a little strange, but most of the time you're going to want to not specify a database name
+        # in your connection attribute and connect to the default "template1" database -- then you can run
+        # add/drop database or vacuums or whatever while attatched to that database.  When you want to run a query
+        # against a specific database, call this again with the dbname argument not nil.  There is no
+        # db.select_db() kind of functionality in postgres, you have to completely reattach to a different database
+        # with your connection string. 
+        #
+        def db(dbname = nil)
+          Chef::Log.info("#{@new_resource}: switching database to #{@new_resource.database_name}") if dbname
+          if @db.nil? || dbname
+            @db = ::PGconn.new(
               :host => @new_resource.connection[:host],
               :port => @new_resource.connection[:port] || 5432,
-              :dbname => @new_resource.connection[:database],
+              :dbname => dbname || @new_resource.connection[:database] || "template1",
               :user => @new_resource.connection[:username] || "postgres",
               :password => @new_resource.connection[:password] || node[:postgresql][:password][:postgres]
             )
+          else
+            @db
           end
         end
 
