@@ -36,7 +36,7 @@ class Chef
           unless exists?
             begin
               Chef::Log.debug("#{@new_resource}: Creating database #{new_resource.database_name}")
-              db.query("create database #{new_resource.database_name}")
+              db("template1").query("create database #{new_resource.database_name}")
               @new_resource.updated_by_last_action(true)
             ensure
               close
@@ -48,7 +48,7 @@ class Chef
           if exists?
             begin
               Chef::Log.debug("#{@new_resource}: Dropping database #{new_resource.database_name}")
-              db.query("drop database #{new_resource.database_name}")
+              db("template1").query("drop database #{new_resource.database_name}")
               @new_resource.updated_by_last_action(true)
             ensure
               close
@@ -59,10 +59,9 @@ class Chef
         def action_query
           if exists?
             begin
-              # FIXME: this needs to be s/mysql/postgresql/ still
-              db(@new_resource.database_name) if @new_resource.database_name
               Chef::Log.debug("#{@new_resource}: Performing query [#{new_resource.sql}]")
-              db.query(@new_resource.sql)
+              db(@new_resource.database_name).query(@new_resource.sql)
+              Chef::Log.debug("#{@new_resource}: query [#{new_resource.sql}] succeeded")
               @new_resource.updated_by_last_action(true)
             ensure
               close
@@ -73,30 +72,35 @@ class Chef
         private
 
         def exists?
-          db.query("select * from pg_database where datname = '#{@new_resource.database_name}'").num_tuples != 0
+          Chef::Log.debug("#{@new_resource}: checking if database #{@new_resource.database_name} exists")
+          ret = db("template1").query("select * from pg_database where datname = '#{@new_resource.database_name}'").num_tuples != 0
+          ret ? Chef::Log.debug("#{@new_resource}: database #{@new_resource.database_name} exists") :
+                Chef::Log.debug("#{@new_resource}: database #{@new_resource.database_name} does not exist")
+          ret
         end
 
         #
-        # This is a little strange, but most of the time you're going to want to not specify a database name
-        # in your connection attribute and connect to the default "template1" database -- then you can run
-        # add/drop database or vacuums or whatever while attatched to that database.  When you want to run a query
-        # against a specific database, call this again with the dbname argument not nil.  There is no
-        # db.select_db() kind of functionality in postgres, you have to completely reattach to a different database
-        # with your connection string. 
+        # Specifying the database in the connection parameter for the postgres resource is not recommended.
+        #
+        # - action_create/drop/exists will use the "template1" database to do work by default.
+        # - action_query will use the resource database_name.
+        # - specifying a database in the connection will override this behavior
         #
         def db(dbname = nil)
-          Chef::Log.info("#{@new_resource}: switching database to #{@new_resource.database_name}") if dbname
-          if @db.nil? || dbname
-            @db = ::PGconn.new(
-              :host => @new_resource.connection[:host],
-              :port => @new_resource.connection[:port] || 5432,
-              :dbname => dbname || @new_resource.connection[:database] || "postgres",
-              :user => @new_resource.connection[:username] || "postgres",
-              :password => @new_resource.connection[:password] || node[:postgresql][:password][:postgres]
-            )
-          else
-            @db
-          end
+          close if @db
+          dbname = @new_resource.connection[:database] if @new_resource.connection[:database]
+          host = @new_resource.connection[:host]
+          port = @new_resource.connection[:port] || 5432
+          user = @new_resource.connection[:username] || "postgres"
+          Chef::Log.debug("#{@new_resource}: connecting to database #{dbname} on #{host}:#{port} as #{user}")
+          password = @new_resource.connection[:password] || node[:postgresql][:password][:postgres]
+          @db = ::PGconn.new(
+            :host => host,
+            :port => port,
+            :dbname => dbname,
+            :user => user,
+            :password => password
+          )
         end
 
         def close
