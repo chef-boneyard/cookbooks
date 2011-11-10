@@ -22,7 +22,7 @@
 
 actions :unzip # TODO , :zip
 
-attribute :path, :kind_of => String, :default => ".", :name_attribute => true
+attribute :path, :kind_of => String, :name_attribute => true
 attribute :source, :kind_of => String
 attribute :overwrite, :kind_of => [ TrueClass, FalseClass ], :default => false
 
