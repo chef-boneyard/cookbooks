@@ -68,3 +68,7 @@ attribute "wordpress/keys/nonce",
   :description => "Wordpress nonce key.",
   :default => "randomly generated"
   
+attribute "wordpress/server_aliases",
+  :display_name => "Wordpress Server Aliases",
+  :description => "Wordpress Server Aliases"
+  :default => "FQDN"
