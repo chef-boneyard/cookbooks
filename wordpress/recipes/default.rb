@@ -122,5 +122,5 @@ web_app "wordpress" do
   template "wordpress.conf.erb"
   docroot "#{node['wordpress']['dir']}"
   server_name server_fqdn
-  server_aliases node['fqdn']
+  server_aliases node['wordpress']['server_aliases']
 end
