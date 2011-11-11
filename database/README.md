@@ -72,11 +72,23 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
       action :create
     end
 
-    sql_server_database 'mr_softie' do
+    # create a postgresql database
+    postgresql_database 'mr_softie' do
       connection {:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']}
       action :create
     end
     
+    # create a postgresql database with additional parameters
+    postgresql_database 'mr_softie' do
+      connection {:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']}
+      template 'DEFAULT'
+      encoding 'DEFAULT'
+      tablespace 'DEFAULT'
+      connection_limit '-1'
+      owner 'postgres'
+      action :create
+    end
+
     # externalize conection info in a ruby hash
     mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
     sql_server_connection_info = {:host => "localhost", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']}
