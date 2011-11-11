@@ -6,6 +6,12 @@ Installs and configures Wordpress according to the instructions at http://codex.
 Changes
 =======
 
+## v0.8.4:
+
+* Fixes COOK-406
+* Dropping explicit support for Red Hat platforms due to issues in php
+  and mysql cookbooks (COOK-603, COOK-672, COOK-816, COOK-679)
+  
 ### v0.8.2:
 
 * [COOK-435] Don't set the mysql root user password in wordpress cookbook
@@ -43,6 +49,7 @@ Attributes
 * `node['wordpress']['db']['database']` - Wordpress will use this MySQL database to store its data.
 * `node['wordpress']['db']['user']` - Wordpress will connect to MySQL using this user.
 * `node['wordpress']['db']['password']` - Password for the Wordpress MySQL user. The default is a randomly generated string.
+* `node['wordpress']['server_aliases']` - Array of ServerAliases used in apache vhost. Default is `node['fqdn']`.
 
 Attributes will probably never need to change (these all default to randomly generated strings):
 
@@ -67,14 +74,6 @@ The mysql::server recipe needs to come first, and contain an execute resource to
 ## Note about MySQL
 
 This cookbook will decouple the mysql::server and be smart about detecting whether to use a local database or find a database server in the environment in a later version.
-
-Changes
-=======
-
-## v0.8.4:
-
-* Fixes COOK-406
-* Dropping explicit support for Red Hat platforms due to issues in php and mysql cookbooks (COOK-603, COOK-672, COOK-816, COOK-679)
 
 License and Author
 ==================
