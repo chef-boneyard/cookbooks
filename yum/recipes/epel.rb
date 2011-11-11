@@ -28,8 +28,12 @@ remote_file "#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm" 
   not_if "rpm -qa | grep -qx '^epel-release-#{epel}.noarch$'"
 end
 
-
 rpm_package "epel-release" do
   source "#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm"
   only_if {::File.exists?("#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm")}
 end
+
+file "#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm" do
+  action :delete
+end
+
