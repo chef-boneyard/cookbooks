@@ -31,4 +31,5 @@ end
 
 rpm_package "epel-release" do
   source "#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm"
+  only_if {::File.exists?("#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm")}
 end
