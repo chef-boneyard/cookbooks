@@ -70,5 +70,5 @@ attribute "wordpress/keys/nonce",
   
 attribute "wordpress/server_aliases",
   :display_name => "Wordpress Server Aliases",
-  :description => "Wordpress Server Aliases"
+  :description => "Wordpress Server Aliases",
   :default => "FQDN"
