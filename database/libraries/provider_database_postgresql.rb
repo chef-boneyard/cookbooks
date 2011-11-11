@@ -36,7 +36,14 @@ class Chef
           unless exists?
             begin
               Chef::Log.debug("#{@new_resource}: Creating database #{new_resource.database_name}")
-              db("template1").query("create database #{new_resource.database_name}")
+              create_sql = "CREATE DATABASE #{new_resource.database_name}"
+              create_sql += " TEMPLATE = #{new_resource.template}" if new_resource.template
+              create_sql += " ENCODING = #{new_resource.encoding}" if new_resource.encoding
+              create_sql += " TABLESPACE = #{new_resource.tablespace}" if new_resource.tablespace
+              create_sql += " CONNECTION LIMIT = #{new_resource.connection_limit}" if new_resource.connection_limit
+              create_sql += " OWNER = #{new_resource.owner}" if new_resource.owner
+              Chef::Log.debug("#{@new_resource}: Performing query [#{create_sql}]")
+              db("template1").query(create_sql)
               @new_resource.updated_by_last_action(true)
             ensure
               close
