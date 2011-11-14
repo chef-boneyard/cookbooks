@@ -32,10 +32,13 @@ when "debian"
 
 when "ubuntu"
 
-  if platform_version.to_f <= 9.04
+  case
+  when platform_version.to_f <= 9.04
     default[:postgresql][:version] = "8.3"
-  else
+  when platform_version_to_f <= 11.04
     default[:postgresql][:version] = "8.4"
+  else
+    default[:postgresql][:version] = "9.1"
   end
 
   set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
