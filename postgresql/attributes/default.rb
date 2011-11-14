@@ -24,7 +24,7 @@ when "debian"
 
   if platform_version.to_f == 5.0
     default[:postgresql][:version] = "8.3"
-  elsif platform_version =~ /.*sid/
+  elsif platform_version =~ /squeeze/
     default[:postgresql][:version] = "8.4"
   end
 
