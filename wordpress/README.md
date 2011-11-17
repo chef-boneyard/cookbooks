@@ -6,9 +6,15 @@ Installs and configures Wordpress according to the instructions at http://codex.
 Changes
 =======
 
+## v0.8.6:
+
+* [COOK-534] - allow server_aliases to overridden by an attribute
+* [COOK-799] - fixed disables .htaccess breaking permalink feature
+* [COOK-820] - guard node.save with check for chef-solo in our cookbooks
+
 ## v0.8.4:
 
-* Fixes COOK-406
+* [COOK-406] - wp-config.php.erb has wrong CRLF encoding
 * Dropping explicit support for Red Hat platforms due to issues in php
   and mysql cookbooks (COOK-603, COOK-672, COOK-816, COOK-679)
   
