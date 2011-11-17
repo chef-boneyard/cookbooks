@@ -40,7 +40,7 @@ package "mysql-devel" do
   action :install
 end
 
-if platform?(%w{ redhat centos fedora suse })
+if platform?(%w{ redhat centos fedora suse scientific amazon })
   package 'ruby-mysql'
 elsif platform?(%w{ debian ubuntu })
   package "libmysql-ruby"

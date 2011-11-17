@@ -21,7 +21,7 @@ default['mysql']['bind_address']               = attribute?('cloud') ? cloud['lo
 default['mysql']['data_dir']                   = "/var/lib/mysql"
 
 case node["platform"]
-when "centos", "redhat", "fedora", "suse"
+when "centos", "redhat", "fedora", "suse", "scientific", "amazon"
   set['mysql']['conf_dir']                    = '/etc'
   set['mysql']['socket']                      = "/var/lib/mysql/mysql.sock"
   set['mysql']['pid_file']                    = "/var/run/mysqld/mysqld.pid"

@@ -62,7 +62,7 @@ package "mysql-server" do
 end
 
 service "mysql" do
-  service_name value_for_platform([ "centos", "redhat", "suse", "fedora" ] => {"default" => "mysqld"}, "default" => "mysql")
+  service_name value_for_platform([ "centos", "redhat", "suse", "fedora", "scientific", "amazon" ] => {"default" => "mysqld"}, "default" => "mysql")
   if (platform?("ubuntu") && node.platform_version.to_f >= 10.04)
     restart_command "restart mysql"
     stop_command "stop mysql"
@@ -73,9 +73,9 @@ service "mysql" do
 end
 
 skip_federated = case node['platform']
-                 when 'fedora', 'ubuntu'
+                 when 'fedora', 'ubuntu', 'amazon'
                    true
-                 when 'centos', 'redhat'
+                 when 'centos', 'redhat', 'scientific'
                    node['platform_version'].to_f < 6.0
                  else
                    false
