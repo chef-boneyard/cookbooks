@@ -26,7 +26,6 @@ remote_file "#{Chef::Config[:file_cache_path]}/ius-release-#{ius}.ius.el#{major}
   source "http://dl.iuscommunity.org/pub/ius/stable/Redhat/#{major}/i386/ius-release-#{ius}.ius.el#{major}.noarch.rpm"
   not_if "rpm -qa | grep -q '^ius-release-#{ius}'"
   notifies :install, "rpm_package[ius-release]", :immediately
-  notifies :delete, "file[ius-release-cleanup]"
 end
 
 rpm_package "ius-release" do
@@ -37,6 +36,5 @@ end
 
 file "ius-release-cleanup" do
   path "#{Chef::Config[:file_cache_path]}/ius-release-#{ius}.ius.el#{major}.noarch.rpm"
-  action :nothing
+  action :delete
 end
-

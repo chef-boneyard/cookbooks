@@ -27,7 +27,6 @@ remote_file "#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm" 
   source "http://download.fedoraproject.org/pub/epel/#{major}/i386/epel-release-#{epel}.noarch.rpm"
   not_if "rpm -qa | egrep -qx 'epel-release-#{epel}(|.noarch)'"
   notifies :install, "rpm_package[epel-release]", :immediately
-  notifies :delete, "file[epel-release-cleanup]"
 end
 
 rpm_package "epel-release" do
@@ -38,6 +37,5 @@ end
 
 file "epel-release-cleanup" do
   path "#{Chef::Config[:file_cache_path]}/epel-release-#{epel}.noarch.rpm"
-  action :nothing
+  action :delete
 end
-
