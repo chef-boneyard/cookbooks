@@ -19,7 +19,12 @@
 # limitations under the License.
 #
 
+::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
+
 include_recipe "postgresql::client"
+
+# randomly generate postgres password
+default[:postgresql][:password][:postgres] = secure_password
 
 case node[:postgresql][:version]
 when "8.3"
