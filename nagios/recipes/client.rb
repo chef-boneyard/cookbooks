@@ -34,11 +34,6 @@ end
 
 include_recipe "nagios::client_#{node['nagios']['client']['install_method']}"
 
-service "nagios-nrpe-server" do
-  action :enable
-  supports :restart => true, :reload => true
-end
-
 remote_directory node['nagios']['plugin_dir'] do
   source "plugins"
   owner "root"
@@ -54,4 +49,9 @@ template "#{node['nagios']['nrpe']['conf_dir']}/nrpe.cfg" do
   mode "0644"
   variables :mon_host => mon_host
   notifies :restart, "service[nagios-nrpe-server]"
+end
+
+service "nagios-nrpe-server" do
+  action [:start, :enable]
+  supports :restart => true, :reload => true
 end
