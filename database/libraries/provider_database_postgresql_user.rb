@@ -35,7 +35,7 @@ class Chef
         def action_create
           unless exists?
             begin
-              db.query("CREATE USER #{@new_resource.username} WITH PASSWORD '#{@new_resource.password}'")
+              db("template1").query("CREATE USER #{@new_resource.username} WITH PASSWORD '#{@new_resource.password}'")
               @new_resource.updated_by_last_action(true)
             ensure
               close
@@ -46,7 +46,7 @@ class Chef
         def action_drop
           if exists?
             begin
-              db.query("DROP USER #{@new_resource.username}")
+              db("template1").query("DROP USER #{@new_resource.username}")
               @new_resource.updated_by_last_action(true)
             ensure
               close
@@ -59,7 +59,7 @@ class Chef
             # FIXME: grants on individual tables
             grant_statement = "GRANT #{@new_resource.privileges.join(', ')} ON DATABASE #{@new_resource.database_name} TO #{@new_resource.username}"
             Chef::Log.info("#{@new_resource}: granting access with statement [#{grant_statement}]")
-            db.query(grant_statement)
+            db(@new_resource.database_name).query(grant_statement)
             @new_resource.updated_by_last_action(true)
           ensure
             close
@@ -68,7 +68,7 @@ class Chef
 
         private
         def exists?
-          db.query("select * from pg_user where usename='#{@new_resource.username}'").num_tuples != 0
+          db("template1").query("select * from pg_user where usename='#{@new_resource.username}'").num_tuples != 0
         end
 
       end
