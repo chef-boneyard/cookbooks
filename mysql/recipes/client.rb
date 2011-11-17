@@ -21,7 +21,7 @@
 
 package "mysql-client" do
   package_name value_for_platform(
-    [ "centos", "redhat", "suse", "fedora"] => { "default" => "mysql" },
+    [ "centos", "redhat", "suse", "fedora", "scientific", "amazon"] => { "default" => "mysql" },
     "default" => "mysql-client"
   )
   action :install
@@ -29,7 +29,7 @@ end
 
 package "mysql-devel" do
   package_name begin
-    if platform?(%w{ centos redhat suse fedora })
+    if platform?(%w{ centos redhat suse fedora scientific amazon })
       "mysql-devel"
     elsif debian_before_squeeze? || ubuntu_before_lucid?
       "libmysqlclient15-dev"
