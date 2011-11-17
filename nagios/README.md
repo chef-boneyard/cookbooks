@@ -6,6 +6,11 @@ Installs and configures Nagios 3 for a server and for clients using Chef search 
 Changes
 =======
 
+## v1.0.2:
+
+* [COOK-636] - Nagios server recipe attempts to start too soon
+* [COOK-815] - Nagios Config Changes Kill Nagios If Config Goes Bad
+
 ## v1.0.0:
 
 * Use Chef 0.10's `node.chef_environment` instead of `node['app_environment']`.
