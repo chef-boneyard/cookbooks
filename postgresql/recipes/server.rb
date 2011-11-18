@@ -25,6 +25,7 @@ include_recipe "postgresql::client"
 
 # randomly generate postgres password
 node.set_unless[:postgresql][:password][:postgres] = secure_password
+node.save unless Chef::Config[:solo]
 
 case node[:postgresql][:version]
 when "8.3"
@@ -54,14 +55,20 @@ end
 # and 'md5' password checking with connections from 'localhost'. This script
 # runs as user 'postgres', so we can execute the 'role' and 'database' resources
 # as 'root' later on, passing the below credentials in the PG client.
-ruby "assign-postgres-password" do
+bash "assign-postgres-password" do
   user 'postgres'
   code <<-EOH
-require 'rubygems'
-require 'pg'
-conn = PGconn.connect(nil, 5432, nil, nil, nil, nil, nil)
-conn.exec("ALTER ROLE postgres ENCRYPTED PASSWORD '#{node[:postgresql][:password][:postgres]}';")
-conn.finish
+echo "ALTER ROLE postgres ENCRYPTED PASSWORD '#{node[:postgresql][:password][:postgres]}';" | psql
   EOH
+  not_if do
+    begin
+      require 'rubygems'
+      Gem.clear_paths
+      require 'pg'
+      conn = PGconn.connect("localhost", 5432, nil, nil, nil, "postgres", node['postgresql']['password']['postgres'])
+    rescue PGError
+      false
+    end
+  end
   action :run
 end
