@@ -89,6 +89,7 @@ Attribute Parameters:
 * `volume_id` - specify an ID to attach, cannot be used with action `:create` because AWS assigns new volume IDs
 * `timeout` - connection timeout for EC2 API.
 * `snapshots_to_keep` - used with action `:prune` for number of snapshots to maintain.
+* `description` - used to set the description of an EBS snapshot
 
 `elastic_ip.rb`
 -------------
@@ -186,3 +187,15 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+Changes
+=======
+
+## v0.99.1
+
+* [COOK-530] - aws cookbook doesn't save attributes with chef 0.10.RC.0
+* [COOK-600] - In AWS Cookbook specifying just the device doesn't work
+* [COOK-601] - in aws cookbook :prune action keeps 1 less snapshot than snapshots_to_keep
+* [COOK-610] - Create Snapshot action in aws cookbook should allow description attribute
+* [COOK-819] - fix documentation bug in aws readme
+* [COOK-829] - AWS cookbook does not work with most recent right_aws gem but no version is locked in the recipe
