@@ -38,6 +38,7 @@ when "debian", "ubuntu"
     "ubuntu" => {
       "9.04" => "libmozjs-dev",
       "9.10" => "libmozjs-dev",
+      "11.04" => "xulrunner-1.9.2-dev",
       "default" => "xulrunner-dev"
     }
   )
@@ -46,8 +47,27 @@ when "debian", "ubuntu"
     package pkg
   end
 
+
+  
   if node['platform_version'].to_f >= 10.04
     compile_flags = "--with-js-lib=/usr/lib/xulrunner-devel-1.9.2.8/lib --with-js-include=/usr/lib/xulrunner-devel-1.9.2.8/include"
+  end
+
+  if node['platform_version'].to_f >= 11.04
+    xulrunner_version = "1.9.2.17"
+    compile_flags = "--with-js-lib=/usr/lib/xulrunner-devel-#{xulrunner_version}/lib --with-js-include=/usr/lib/xulrunner-devel-#{xulrunner_version}/include"
+    template "/etc/ld.so.conf.d/xulrunner.conf" do
+      source "xulrunner.conf.erb"
+      variables({
+        :xulrunner_version => xulrunner_version
+      })
+    end
+    
+    bash "configure xulrunner libs" do
+      code <<-EOH
+        sudo ldconfig
+      EOH
+    end
   end
 end
 
