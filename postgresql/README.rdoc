@@ -33,6 +33,7 @@ The templates provided by this cookbook will probably need to be tweaked for the
 = LICENSE and AUTHOR:
       
 Author:: Joshua Timberman (<joshua@opscode.com>)
+Author:: Lamont Granquist (<lamont@opscode.com>)
 
 Copyright:: 2009-2010, Opscode, Inc
 

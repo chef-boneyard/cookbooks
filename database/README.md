@@ -386,6 +386,7 @@ Author:: Adam Jacob (<adam@opscode.com>)
 Author:: Joshua Timberman (<joshua@opscode.com>)
 Author:: AJ Christensen (<aj@opscode.com>)
 Author:: Seth Chisamore (<schisamo@opscode.com>)
+Author:: Lamont Granquist (<lamont@opscode.com>)
 
 Copyright 2009-2011, Opscode, Inc.
 
