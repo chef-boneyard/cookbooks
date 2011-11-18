@@ -99,7 +99,7 @@ Default directory locations are based on FHS. Change to suit your preferences.
 * `node['nagios']['https']` - boolean for whether nagios web server should be https, default false
 * `node['nagios']['http_port']` - port that the apache server should listen on, default 80
 * `node['nagios']['server_name']` - common name to use in a server cert, default "nagios"
-* `node['nagios']['ssl_req']` - info to use in a cert, default "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=#{node.nagios.server_name}/emailAddress=ops@#{node.nagios.server_name}"
+* `node['nagios']['ssl_req']` - info to use in a cert, default `/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=#{node.nagios.server_name}/emailAddress=ops@#{node.nagios.server_name}`
 
 * `node['nagios']['notifications_enabled']` - set to 1 to enable notification.
 * `node['nagios']['check_external_commands']`
