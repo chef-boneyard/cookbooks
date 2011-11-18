@@ -33,7 +33,7 @@ when "ubuntu"
   case
   when platform_version.to_f <= 9.04
     default[:postgresql][:version] = "8.3"
-  when platform_version_to_f <= 11.04
+  when platform_version.to_f <= 11.04
     default[:postgresql][:version] = "8.4"
   else
     default[:postgresql][:version] = "9.1"
@@ -68,5 +68,5 @@ when "suse"
 
 else
   default[:postgresql][:version] = "8.4"
-  set[:postgresql][:dir]            = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  set[:postgresql][:dir]         = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 end

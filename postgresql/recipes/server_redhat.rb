@@ -45,7 +45,7 @@ package "postgresql" do
     when node.platform_version.to_f >= 6.0
       package_name "postgresql"
     else
-      package_name "postgresql#{node.postgresql.version.split('.').join}"
+      package_name "postgresql#{node['postgresql']['version'].split('.').join}"
     end
   else
     package_name "postgresql"
@@ -58,7 +58,7 @@ when "redhat","centos","scientific"
   when node.platform_version.to_f >= 6.0
     package "postgresql-server"
   else
-    package "postgresql#{node.postgresql.version.split('.').join}-server"
+    package "postgresql#{node['postgresql']['version'].split('.').join}-server"
   end
 when "fedora","suse"
   package "postgresql-server"
