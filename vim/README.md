@@ -6,7 +6,11 @@ Installs vim.
 Requirements
 ============
 
-`vim` must be a valid package name that installs VIM - Vi IMproved.
+## Platform:
+
+* Ubuntu/Debian
+* Red Hat/CentOS/Fedora/Scientific
+* ArchLinux
 
 Attributes
 ==========
@@ -19,6 +23,13 @@ Usage
 Put `recipe[vim]` in a run list, or `include_recipe 'vim'` to ensure that vim is installed on your systems.
 
 If you would like to install additional vim plugin packages, include their package names in the `node[:vim][:extra_packages]` attribute. Verify that your operating sytem has the package available.
+
+Changes
+=======
+
+## v1.0.2:
+
+* Fixes COOK-598 (RHEL platforms support).
 
 License and Author
 ==================

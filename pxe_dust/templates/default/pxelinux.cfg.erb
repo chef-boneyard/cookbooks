@@ -1,0 +1,9 @@
+prompt 0
+timeout 0
+localboot 0
+default install
+label install
+	menu label Chef pxe_dust <%= @id %>
+	menu default
+	kernel <%= @id %>/ubuntu-installer/<%= @arch %>/linux
+	append auto=true priority=critical interface=eth0 vga16fb.modeset=0 initrd=<%= @id %>/ubuntu-installer/<%= @arch %>/initrd.gz netcfg/disabledhcp=false locale=en_US console-setup/ask_detect=false console-setup/layoutcode=us netcfg/get_hostname=dummy netcfg/get_domain=<%= @domain %> netcfg/chooseinterface=eth0 url=http://<%= node[:ipaddress] %>/<%= @id %>-preseed.cfg DEBCONF_INTERFACE=noninteractive

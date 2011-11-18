@@ -18,7 +18,7 @@
 # limitations under the License.
 
 #prime the search to avoid 2 masters
-node.save
+node.save unless Chef::Config[:solo]
 
 package "drbd8-utils" do
   action :install

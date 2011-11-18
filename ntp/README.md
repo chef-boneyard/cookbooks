@@ -1,20 +1,49 @@
-DESCRIPTION
+Description
 ===========
 
 Installs and configures ntp, optionally set up a local NTP server.
 
-CHANGES
+Changes
 =======
+
+## v1.1.0:
+
+* Fixes COOK-376 (use LAN peers, iburst option, LAN restriction attribute)
 
 ## v1.0.1:
 
 * Support scientific linux
 * Use service name attribute in resource (fixes EL derivatives)
 
-REQUIREMENTS
+Requirements
 ============
 
 Should work on any Red Hat-family or Debian-family Linux distribution.
+
+Attributes
+==========
+
+* ntp[:is_server]
+
+  - Boolean, should be true or false, defaults to false
+
+* ntp[:servers] (applies to NTP Servers and Clients)
+
+  - Array, should be a list of upstream NTP public servers.  The NTP protocol
+    works best with at least 3 servers.  The NTPD maximum is 7 upstream
+    servers, any more than that and some of them will be ignored by the daemon.
+
+* ntp[:peers] (applies to NTP Servers ONLY)
+
+  - Array, should be a list of local NTP private servers.  Configuring peer
+    servers on your LAN will reduce traffic to upstream time sources, and
+    provide higher availability of NTP on your LAN.  Again the maximum is 7
+    peers
+
+* ntp[:restrictions] (applies to NTP Servers only)
+
+  - Array, should be a list of restrict lines to restrict access to NTP
+    clients on your LAN.
 
 USAGE
 =====
@@ -22,23 +51,25 @@ USAGE
 Set up the ntp attributes in a role. For example in a base.rb role applied to all nodes:
 
     name "base"
-    description "Role applied to all systems"
     default_attributes(
       "ntp" => {
-        "servers" => ["time.int.example.org"]
+        "servers" => ["time0.int.example.org", "time1.int.example.org"]
       }
     )
 
 Then in an ntpserver.rb role that is applied to NTP servers (e.g., time.int.example.org):
 
-    name "ntp_server"
-    description "Role applied to the system that should be an NTP server."
+    name "base"
     default_attributes(
       "ntp" => {
         "is_server" => "true",
         "servers" => ["0.pool.ntp.org", "1.pool.ntp.org"]
+        "peers" => ["time0.int.example.org", "time1.int.example.org"]
+        "restrictions" => ["10.0.0.0 mask 255.0.0.0 nomodify notrap"]
       }
     )
+
+The timeX.int.example.org used in these roles should be the names or IP addresses of internal NTP servers.
 
 LICENSE AND AUTHOR
 ==================

@@ -1,9 +1,8 @@
 #
-# Author:: Matt Ray <matt@opscode.com>
-# Cookbook Name:: pxe_dust
+# Cookbook Name:: aws
 # Attributes:: default
 #
-# Copyright 2011 Opscode, Inc
+# Copyright 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,8 +17,4 @@
 # limitations under the License.
 #
 
-default[:pxe_dust][:arch] = "amd64"
-default[:pxe_dust][:version] = "maverick"
-default[:pxe_dust][:user][:fullname] = "Ubuntu"
-default[:pxe_dust][:user][:username] = "ubuntu"
-default[:pxe_dust][:user][:crypted_password] = nil
+default['aws']['right_aws_version'] = "2.1.0"
