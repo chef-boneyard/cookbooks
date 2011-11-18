@@ -194,6 +194,13 @@ server\_source
 
 Installs the Nagios server libraries from source. Default for Red Hat / CentOS / Fedora systems as native packages of Nagios 3 are not available in the default repositories.
 
+pagerduty
+--------------
+
+Installs and configures pagerduty plugin for nagios.  You need to set a `node['nagios']['pagerduty_key']` attribute on your server for this to work.  This can be set through environments so that you can use different API keys for servers in production vs staging for instance.
+
+This recipe was written based on the [Nagios Integration Guide](http://www.pagerduty.com/docs/guides/nagios-integration-guide) from PagerDuty which explains how to get an API key for your nagios server.
+
 Data Bags
 =========
 
