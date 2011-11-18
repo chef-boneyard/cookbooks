@@ -18,6 +18,7 @@
 #
 
 r = gem_package "right_aws" do
+  version node['aws']['right_aws_version']
   action :nothing
 end
 

@@ -3,7 +3,18 @@ Opscode Public Cookbooks for Chef
 
 This repository is the primary project source of Opscode's published, public cookbooks for Chef. This repository is considered "in development." Published cookbooks are shared by Opscode on the Chef Community Site.
 
-Cookbooks in this repository are only ones maintained and supportable by Opscode. We do provide bug fixes
+* http://community.opscode.com/users/opscode
+
+Cookbooks in this repository are only ones maintained and supported by Opscode.
+
+Contributing
+============
+
+While this repository is hosted on GitHub, we do not use pull requests as the primary mechanism or workflow for contributions.
+
+For information on how to contribute, see the CONTRIBUTING file in this repository.
+
+Opscode cookbooks are distributed under the Apache 2 Software License. See LICENSE.
 
 Using this Repository
 =====================
@@ -24,16 +35,9 @@ Like any software, there may be bugs in our cookbooks. You can open a ticket in 
 
 * http://tickets.opscode.com
 
-If you know the fix for the bug, you can contribute it. See __Contributing__ below.
+If you know the fix for the bug, you can contribute it. See the CONTRIBUTING file in this repository.
 
 Do note that if you downloaded a cookbook from the community site that is not maintained by Opscode, you'll need to contact the maintainer of that cookbook for contributing fixes.
-
-Contributing
-============
-
-For information on how to contribute, see CONTRIBUTING.
-
-Opscode cookbooks are distributed under the Apache 2 Software License. See LICENSE.
 
 Links
 =====

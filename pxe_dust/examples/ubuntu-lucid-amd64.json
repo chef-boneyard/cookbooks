@@ -1,0 +1,9 @@
+{
+    "id": "ubuntu-lucid-amd64",
+    "arch": "amd64",
+    "version": "lucid",
+    "netboot_url": "http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-amd64/current/images/netboot/netboot.tar.gz",
+    "addresses": {
+        "10:78:d2:c8:b2:51": "ignar"
+    }
+}

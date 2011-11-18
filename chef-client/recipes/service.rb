@@ -29,7 +29,7 @@ root_group = value_for_platform(
 if ::File.executable?(node["chef_client"]["bin"])
   client_bin = node["chef_client"]["bin"]
 # search for the bin in some sane paths
-elsif (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.executable?(p)}.compact.first) && chef_in_sane_path
+elsif Chef::Client.const_defined?('SANE_PATHS') && (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.executable?(p)}.compact.first) && chef_in_sane_path
   client_bin = chef_in_sane_path
 # last ditch search for a bin in PATH
 elsif (chef_in_path=%x{which chef-client}.chomp) && ::File.executable?(chef_in_path)
@@ -73,6 +73,35 @@ when "init"
   service "chef-client" do
     supports :status => true, :restart => true
     action :enable
+  end
+
+when "smf"
+  local_path = ::File.join(Chef::Config[:file_cache_path], "/")
+  template "/lib/svc/method/chef-client" do
+    source "solaris/chef-client.erb"
+    owner "root"
+    group "root"
+    mode "0777"
+    notifies :restart, "service[chef-client]"
+  end
+  
+  template (local_path + "chef-client.xml") do
+    source "solaris/manifest.xml.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+    notifies :run, "execute[load chef-client manifest]", :immediately
+  end
+  
+  execute "load chef-client manifest" do
+    action :nothing
+    command "svccfg import #{local_path}chef-client.xml"
+    notifies :restart, "service[chef-client]"
+  end
+  
+  service "chef-client" do
+    action [:enable, :start]
+    provider Chef::Provider::Service::Solaris
   end
 
 when "upstart"
