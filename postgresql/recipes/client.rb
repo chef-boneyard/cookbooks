@@ -25,3 +25,16 @@ when "fedora","suse"
 when "redhat","centos"
   package "postgresql#{node.postgresql.version.split('.').join}-devel"
 end
+
+package "postgresql-devel" do
+  package_name value_for_platform(
+    #[ "centos", "redhat", "suse", "fedora"] => { "default" => "postgresql-devel" },
+    ["debian", "ubuntu"] => { "default" => 'libpq-dev' }#,
+    #"default" => 'libpgsqlclient-dev'
+  )
+  action :install
+end
+
+gem_package "pg" do
+  action :install
+end
