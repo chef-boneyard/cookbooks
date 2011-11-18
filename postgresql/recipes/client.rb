@@ -34,20 +34,12 @@ when "redhat","centos","scientific"
 end
 
 pg_packages.each do |pg_pack|
-   p = package pg_pack do
-     action :nothing
-   end
-   p.run_action(:install)
+  package pg_pack do
+    action :nothing
+  end.run_action(:install)
 end
 
-# Install postgresql gem both in Omnibus (for the cookbooks to use) and in the system
-r = gem_package "pg" do
+gem_package "pg" do
   action :nothing
-end
-r.run_action(:install)
-r = gem_package "pg" do
-  gem_binary "gem"
-  action :nothing
-end
-r.run_action(:install)
+end.run_action(:install)
 
