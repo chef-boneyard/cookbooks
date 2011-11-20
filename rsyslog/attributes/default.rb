@@ -17,6 +17,8 @@
 # limitations under the License.
 #
 
-default[:rsyslog][:log_dir] = "/srv/rsyslog"
-default[:rsyslog][:server] = false
-default[:rsyslog][:protocol] = "tcp"
+default["rsyslog"]["log_dir"]     = "/srv/rsyslog"
+default["rsyslog"]["server"]      = false
+default["rsyslog"]["protocol"]    = "tcp"
+default["rsyslog"]["port"]        = "514"
+default["rsyslog"]["server_role"] = "loghost"

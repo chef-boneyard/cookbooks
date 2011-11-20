@@ -20,15 +20,13 @@
 include_recipe "cron"
 include_recipe "rsyslog"
 
-node.set[:rsyslog][:server] = true
+node.set['rsyslog']['server'] = true
+node.save unless Chef::Config[:solo]
 
-unless Chef::Config[:solo]
-  node.save
-end
-
-directory node[:rsyslog][:log_dir] do
+directory node['rsyslog']['log_dir'] do
   owner "root"
   group "root"
+  recursive true
   mode 0755
 end
 
@@ -36,24 +34,24 @@ template "/etc/rsyslog.d/server.conf" do
   source "server.conf.erb"
   backup false
   variables(
-    :log_dir => node[:rsyslog][:log_dir],
-    :protocol => node[:rsyslog][:protocol]
+    :log_dir => node['rsyslog']['log_dir'],
+    :protocol => node['rsyslog']['protocol']
   )
   owner "root"
   group "root"
   mode 0644
-  notifies :restart, resources(:service => "rsyslog"), :delayed
+  notifies :restart, "service[rsyslog]"
 end
 
 file "/etc/rsyslog.d/remote.conf" do
   action :delete
   backup false
-  notifies :reload, resources(:service => "rsyslog"), :delayed
+  notifies :reload, "service[rsyslog]"
   only_if do ::File.exists?("/etc/rsyslog.d/remote.conf") end
 end
 
 cron "rsyslog_gz" do
-  command "find #{node[:rsyslog][:log_dir]}/$(date +\\%Y) -type f -mtime +1 -exec gzip -q {} \\;"
+  command "find #{node['rsyslog']['log_dir']}/$(date +\\%Y) -type f -mtime +1 -exec gzip -q {} \\;"
   minute "0"
   hour "4"
 end

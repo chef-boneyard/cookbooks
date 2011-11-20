@@ -3,7 +3,7 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures rsyslog"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           "0.99.2"
+version           "1.0.0"
 
 recipe            "rsyslog", "Installs rsyslog"
 recipe            "rsyslog::client", "Sets up a client to log to a remote rsyslog server"
@@ -34,3 +34,7 @@ attribute "rsyslog/protocol",
   :description => "Set which network protocol to use for rsyslog",
   :default => "tcp"
 
+attribute "rsyslog/port",
+  :display_name => "Rsyslog Port",
+  :description => "Port that Rsyslog listens for incoming connections",
+  :default => "514"
