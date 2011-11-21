@@ -139,17 +139,26 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
     not_if { FileTest.pipe?("#{sv_dir_name}/supervise/ok") }
   end
 
+
   service params[:name] do
     control_cmd = node[:runit][:sv_bin]
+    status_cmd  = "service"
     if params[:owner]
       control_cmd = "#{node[:runit][:chpst_bin]} -u #{params[:owner]} #{control_cmd}"
+      status_cmd  = "#{node[:runit][:chpst_bin]} -u #{params[:owner]} #{status_cmd}"
     end
     provider Chef::Provider::Service::Init
     supports :restart => true, :status => true
     start_command "#{control_cmd} #{params[:start_command]} #{service_dir_name}"
     stop_command "#{control_cmd} #{params[:stop_command]} #{service_dir_name}"
     restart_command "#{control_cmd} #{params[:restart_command]} #{service_dir_name}"
-    status_command "#{control_cmd} #{params[:status_command]} #{service_dir_name}"
+    #
+    # exit code of sv(8) is 0 when invoked directly and the *command* was successful.
+    # we must invoke it as 'service' (or somehow with "a base name other than sv")
+    # to get the desired exit code behavior
+    #
+    status_command "#{status_cmd} #{params[:name]} #{params[:status_command]}"
+    # status_command "#{control_cmd} #{params[:status_command]} #{service_dir_name}"
     if params[:run_restart]
       subscribes :restart, resources(:template => "#{sv_dir_name}/run"), :delayed
     end
