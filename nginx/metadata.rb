@@ -84,3 +84,6 @@ attribute "nginx/server_names_hash_bucket_size",
   :display_name => "Nginx Server Names Hash Bucket Size",
   :default => "64"
 
+attribute "nginx/disable_access_log",
+  :display_name => "Disable Access Log",
+  :default => "false"
