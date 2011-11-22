@@ -6,10 +6,6 @@ Installs haproxy and prepares the configuration location.
 Changes
 =======
 
-## v1.0.4:
-
-* [COOK-805] Fundamental haproxy load balancer options should be configurable
-
 ## v1.0.3:
 
 * [COOK-620] haproxy::app_lb's template should use the member cloud private IP by default
@@ -45,6 +41,9 @@ Attributes
 * `node['haproxy']['incoming_port']` - sets the port on which haproxy listens
 * `node['haproxy']['max_connections_per_server']` - the maxconn value to be set for each app server
 * `node['haproxy']['add_x_forwarded_for']` - if true, creates an X-Forwarded-For header containing the original client's IP address. This option disables KeepAlive.
+* `node['haproxy']['ssl_enabled']` - whether or not to create listeners for ssl, default false
+* `node['haproxy']['ssl_member_port']` - the port that member systems will be listening on for ssl, default 8443
+* `node['haproxy']['ssl_incoming_port']` - sets the port on which haproxy listens for ssl, default 443
 
 Usage
 =====
@@ -53,7 +52,7 @@ Use either the default recipe or the `app_lb` recipe.
 
 When using the default recipe, modify the haproxy.cfg.erb file with listener(s) for your sites/servers.
 
-The app_lb recipe is designed to be used with the application cookbook, and provides search mechanism to find the appropriate application servers. Set this in a role that includes the haproxy::app_lb recipe. For example,
+The `app_lb` recipe is designed to be used with the application cookbook, and provides search mechanism to find the appropriate application servers. Set this in a role that includes the haproxy::app_lb recipe. For example,
 
     name "load_balancer"
     description "haproxy load balancer"
