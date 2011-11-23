@@ -17,6 +17,11 @@
 # limitations under the License.
 #
 
+ohai "reload_users" do
+  action :nothing
+	plugin "passwd"
+end
+
 package "apache2" do
   case node[:platform]
   when "redhat","centos","scientific","fedora","suse"
@@ -27,6 +32,9 @@ package "apache2" do
     package_name "apache"
   end
   action :install
+
+  # If new install, new user will be created, so ohai needs to reload users
+  notifies :reload, resources(:ohai => "reload_users"), :immediately
 end
 
 service "apache2" do
