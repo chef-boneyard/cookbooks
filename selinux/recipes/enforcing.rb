@@ -18,16 +18,17 @@
 # limitations under the License.
 #
 
-execute "enable selinux enforcement" do
-  not_if "getenforce | grep -qx 'Enforcing'"
-  command "setenforce 1"
-  action :run
-end
 
 template "/etc/selinux/config" do
   source "sysconfig/selinux.erb"
   variables(
-    :selinux => "enforcing",
-    :selinuxtype => "targeted",
+	:selinux => "enforcing",
+	:selinuxtype => "targeted"
   )
+end
+
+execute "enable selinux enforcement" do
+  not_if "getenforce | grep -qx 'Enforcing'"
+  command "setenforce 1"
+  action :run
 end
