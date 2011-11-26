@@ -48,6 +48,8 @@ action :install do
       execute "cp -r '/Volumes/#{volumes_dir}/#{new_resource.app}.app' '#{new_resource.destination}'"
     when "mpkg"
       execute "sudo installer -pkg /Volumes/#{volumes_dir}/#{new_resource.app}.mpkg -target /"
+    when "pkg"
+      execute "sudo installer -pkg /Volumes/#{volumes_dir}/#{new_resource.app}.pkg -target /"
     end
 
     execute "hdiutil detach '/Volumes/#{volumes_dir}'"
