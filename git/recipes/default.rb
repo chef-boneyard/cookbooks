@@ -19,6 +19,10 @@
 case node[:platform]
 when "debian", "ubuntu"
   package "git-core"
+when "centos"
+  register_rpmforge_repo
+  
+  package "git"
 else 
   package "git"
 end
