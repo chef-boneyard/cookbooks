@@ -9,7 +9,7 @@ recipe            "mysql::client", "Installs packages required for mysql clients
 recipe            "mysql::server", "Installs packages required for mysql servers w/o manual intervention"
 recipe            "mysql::server_ec2", "Performs EC2-specific mountpoint manipulation"
 
-%w{ debian ubuntu centos suse fedora redhat }.each do |os|
+%w{ debian ubuntu centos suse fedora redhat scientific amazon }.each do |os|
   supports os
 end
 
