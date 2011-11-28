@@ -1,0 +1,11 @@
+http://apt.sw.be/redhat/el5/en/$ARCH/extras
+http://archive.cs.uu.nl/mirror/dag.wieers/redhat/el5/en/$ARCH/extras
+http://ftp2.lcpe.uni-sofia.bg/freshrpms/pub/dag/redhat/el5/en/$ARCH/extras
+#http://ftp.heanet.ie/pub/freshrpms/pub/dag/redhat/el5/en/$ARCH/extras
+http://ftp-stud.fht-esslingen.de/dag/redhat/el5/en/$ARCH/extras
+http://mirror.cpsc.ucalgary.ca/mirror/dag/redhat/el5/en/$ARCH/extras
+http://mirrors.ircam.fr/pub/dag/redhat/el5/en/$ARCH/extras
+http://rh-mirror.linux.iastate.edu/pub/dag/redhat/el5/en/$ARCH/extras
+http://rpmfind.net/linux/dag/redhat/el5/en/$ARCH/extras
+http://wftp.tu-chemnitz.de/pub/linux/dag/redhat/el5/en/$ARCH/extras
+http://www.mirrorservice.org/sites/apt.sw.be/redhat/el5/en/$ARCH/extras
