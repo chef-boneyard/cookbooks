@@ -1,6 +1,7 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Cookbook Name:: java
+# Author:: Bryan W. Berry (<bryan.berry@gmail.com>)
+# Cookbook Name:: oracle
 # Recipe:: sun
 #
 # Copyright 2010-2011, Opscode, Inc.
@@ -17,9 +18,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+case node['platform']
+when "ubuntu", "debian"
+  update_alternatives_cmd = "update-java-alternatives -s java-6-sun"
+when "centos", "redhat", "fedora"
+  java_home = node['java']["java_home"]
+  update_alternatives_cmd =  "update-alternatives --install /usr/bin/java java #{java_home}/bin/java 1;" +
+    "update-alternatives --set java #{java_home}/bin/java"
+end
+
 pkgs = value_for_platform(
   ["centos","redhat","fedora"] => {
-    "default" => ["jdk-#{node['java']['version']}-ea-linux-#{node['java']['arch']}.rpm"]
+    "default" => ["jdk-#{node['java']['version']}-linux-#{node['java']['arch']}.rpm"]
   },
   ["debian","ubuntu"] => {
     "default" => ["sun-java6-jdk"]
@@ -58,6 +69,7 @@ when "centos", "redhat", "fedora"
         checksum node['java']['rpm_checksum']
         mode "0644"
       end
+     
     else
       cookbook_file "#{Chef::Config[:file_cache_path]}/#{pkg}" do
         source pkg
@@ -72,10 +84,9 @@ else
 end
 
 execute "update-java-alternatives" do
-  command "update-java-alternatives -s java-6-sun"
+  command update_alternatives_cmd
   returns [0,2]
   action :nothing
-  only_if { platform?("ubuntu", "debian") }
 end
 
 pkgs.each do |pkg|
@@ -84,10 +95,12 @@ pkgs.each do |pkg|
     when "ubuntu", "debian"
       response_file "java.seed"
     when "centos", "redhat", "fedora"
-      source "#{Chef::Config[:file_cache_path]}/#{pkg}" 
-      options "--nogpgcheck" # sun/oracle doesn't sign their RPMs o_O
+      source "#{Chef::Config[:file_cache_path]}/#{pkg}"
+      options "--nogpgcheck" # sun/oracle doesn't sign their
+      # RPMs o_O
     end
     action :install
     notifies :run, "execute[update-java-alternatives]"
   end
 end
+

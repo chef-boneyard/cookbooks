@@ -22,7 +22,7 @@ Cookbooks
 Attributes
 ==========
 
-* `node["java"]["install_flavor"]` - Flavor of JVM you would like installed (`sun` or `openjdk`), default `openjdk`.
+* `node["java"]["install_flavor"]` - Flavor of JVM you would like installed (`oracle` or `openjdk`), default `openjdk`.
 
 ---
 Recipes
@@ -38,14 +38,23 @@ openjdk
 
 This recipe installs the `openjdk` flavor of Java.
 
-sun
+oracle
 ---
 
-This recipe installs the `sun` flavor of Java.  
+This recipe installs the `oracle` flavor of Java.  
 
 On Debian and Ubuntu systems the recipe will add the correct apt repository (`non-free` on Debian or `partner` on Ubuntu), pre-seed the package and update java alternatives.
 
-On Red Hat flavored Linux (RHEL, CentOS, Fedora), the installation of the Sun flavor of Java is slightly more complicated as the `rpm` package is not readily available in any public Yum repository.  The Sun JDK `rpm` package can be downloaded directly from Sun but comes wrapped as a compressed bin file.  After the file has been downloaded, decompressed and license accepted the `rpm` package (names something like `jdk-6u25-ea-linux-amd64.rpm`) can be retrieved by this recipe using the `remote_file` or `cookbook_file` resources.  The recipe will choose the correct resource based on the existence (or non-existence) of the `node['sun']['rpm_url']` attribute.  See below for an example role using this attribute in the proper way.  If you would like to deliver the `rpm` package file as part of this cookbook place the `rpm` package file in the `files/default` directory and the cookbook will retrieve the file during installation.
+On Red Hat flavored Linux (RHEL, CentOS, Fedora), the installation of the Oracle flavor of Java is slightly more complicated as the `rpm` package is not readily available in any public Yum repository.  The Oracle JDK `rpm` package can be downloaded directly from Oracle but comes wrapped as a compressed bin file.  After the file has been downloaded, decompressed and license accepted the `rpm` package (names something like `jdk-6u25-ea-linux-amd64.rpm`) can be retrieved by this recipe using the `remote_file` or `cookbook_file` resources.  The recipe will choose the correct resource based on the existence (or non-existence) of the `node['oracle']['rpm_url']` attribute.  See below for an example role using this attribute in the proper way.  If you would like to deliver the `rpm` package file as part of this cookbook place the `rpm` package file in the `files/default` directory and the cookbook will retrieve the file during installation.
+
+To obtain the jdk rpms for Enterprise Linux go to http://www.oracle.com/technetwork/java/javase/downloads/index.html and download the jdk...-rpm.bin for your desired version of the jdk. To extract the rpms from binary file do the following.
+
+BEWARE, it also installs the jdk on your system if your don't already have it
+
+$ chmod +x jdk...-rpm.bin
+$ ./jdk...-rpm.bin -noregister
+
+All the rpms from the jdk should be in your current working directory
 
 ---
 Usage
@@ -53,13 +62,13 @@ Usage
 
 Simply include the `java` recipe where ever you would like Java installed.  
 
-To install Sun flavored Java on Debian or Ubuntu override the `node['java']['install_flavor']` attribute with in role:
+To install Oracle flavored Java on Debian or Ubuntu override the `node['java']['install_flavor']` attribute with in role:
 
     name "java"
-    description "Install Sun Java on Ubuntu"
+    description "Install Oracle Java on Ubuntu"
     override_attributes(
       "java" => {
-        "install_flavor" => "sun"
+        "install_flavor" => "oracle"
       }
     )
     run_list(
@@ -69,12 +78,12 @@ To install Sun flavored Java on Debian or Ubuntu override the `node['java']['ins
 On RedHat flavored Linux be sure to set the `rpm_url` and `rpm_checksum` attributes if you placed the `rpm` file on a remote server:
 
     name "java"
-    description "Install Sun Java on CentOS"
+    description "Install Oracle Java on CentOS"
     override_attributes(
       "java" => {
-        "install_flavor" => "sun",
+        "install_flavor" => "oracle",
         "version" => "6u25",
-        "rpm_url" => "https://mycompany.s3.amazonaws.com/sun_jdk",
+        "rpm_url" => "https://mycompany.s3.amazonaws.com/oracle_jdk",
         "rpm_checksum" => "c473e3026f991e617710bad98f926435959303fe084a5a31140ad5ad75d7bf13"
       }
     )
