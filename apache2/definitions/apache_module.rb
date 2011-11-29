@@ -19,11 +19,22 @@
 
 define :apache_module, :enable => true, :conf => false do
   include_recipe "apache2"
- 
+
+  params[:filename] = params[:filename] || "mod_#{params[:name]}.so"
+
   if params[:conf]
     apache_conf params[:name]
   end
- 
+
+  if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
+    content_file = "LoadModule #{params[:name]}_module #{node['apache']['lib_dir']}/modules/#{params[:filename]}\n"
+    Chef::Log.info "Setting up load mondule: #{content_file}"
+    file "#{node['apache']['dir']}/mods-available/#{params[:name]}.load" do
+      content content_file
+      mode 0644
+    end
+  end
+
   if params[:enable]
     execute "a2enmod #{params[:name]}" do
       command "/usr/sbin/a2enmod #{params[:name]}"
@@ -32,12 +43,12 @@ define :apache_module, :enable => true, :conf => false do
             ((File.exists?("#{node[:apache][:dir]}/mods-available/#{params[:name]}.conf"))?
               (File.symlink?("#{node[:apache][:dir]}/mods-enabled/#{params[:name]}.conf")):(true)))
       end
-    end    
+    end
   else
     execute "a2dismod #{params[:name]}" do
       command "/usr/sbin/a2dismod #{params[:name]}"
       notifies :restart, resources(:service => "apache2")
-      only_if do File.symlink?("#{node[:apache][:dir]}/mods-enabled/#{params[:name]}.load") end
+      only_if do ::File.symlink?("#{node[:apache][:dir]}/mods-enabled/#{params[:name]}.load") end
     end
   end
 end

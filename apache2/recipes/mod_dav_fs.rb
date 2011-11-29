@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: apache2
-# Recipe:: log_config 
+# Recipe:: dav_fs
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2011, Atriso
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,8 +17,4 @@
 # limitations under the License.
 #
 
-if platform?("redhat", "centos", "scientific", "fedora", "suse", "arch")
-  apache_module "log_config"
-else
-  include_recipe "apache2"
-end
+apache_module "dav_fs"
