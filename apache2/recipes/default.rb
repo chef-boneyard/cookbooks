@@ -25,6 +25,8 @@ package "apache2" do
     package_name "apache2"
   when "arch"
     package_name "apache"
+  when "freebsd"
+    package_name "apache22"
   end
   action :install
 end
@@ -44,6 +46,8 @@ service "apache2" do
     reload_command "/usr/sbin/invoke-rc.d apache2 reload && sleep 1"
   when "arch"
     service_name "httpd"
+  when "freebsd"
+    service_name "apache22"
   end
   supports value_for_platform(
     "debian" => { "4.0" => [ :restart, :reload ], "default" => [ :restart, :reload, :status ] },
@@ -54,12 +58,13 @@ service "apache2" do
     "fedora" => { "default" => [ :restart, :reload, :status ] },
     "arch" => { "default" => [ :restart, :reload, :status ] },
     "suse" => { "default" => [ :restart, :reload, :status ] },
+    "freebsd" => { "default" => [ :restart, :reload, :status ] },
     "default" => { "default" => [:restart, :reload ] }
   )
   action :enable
 end
 
-if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
+if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse", "freebsd")
   directory node[:apache][:log_dir] do
     mode 0755
     action :create
@@ -144,6 +149,8 @@ template "apache2.conf" do
     path "#{node[:apache][:dir]}/conf/httpd.conf"
   when "debian","ubuntu"
     path "#{node[:apache][:dir]}/apache2.conf"
+  when "freebsd"
+    path "#{node[:apache][:dir]}/httpd.conf"
   end
   source "apache2.conf.erb"
   owner "root"
@@ -203,7 +210,7 @@ include_recipe "apache2::mod_env"
 include_recipe "apache2::mod_mime"
 include_recipe "apache2::mod_negotiation"
 include_recipe "apache2::mod_setenvif"
-include_recipe "apache2::mod_log_config" if platform?("redhat", "centos", "scientific", "fedora", "suse", "arch")
+include_recipe "apache2::mod_log_config" if platform?("redhat", "centos", "scientific", "fedora", "suse", "arch", "freebsd")
 
 apache_site "default" if platform?("redhat", "centos", "scientific", "fedora")
 

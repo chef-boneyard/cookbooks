@@ -10,6 +10,8 @@ ServerRoot "<%= node[:apache][:dir] %>"
 #
 <% if node[:platform] == "debian" || node[:platform] == "ubuntu" -%>
 LockFile /var/lock/apache2/accept.lock
+<% elsif node[:platform] == "freebsd" -%>
+LockFile /var/log/accept.lock
 <% else %>
 LockFile logs/accept.lock
 <% end -%>
