@@ -19,7 +19,7 @@ defaults
         contimeout      5000
         clitimeout      50000
         srvtimeout      50000
-        <% if node["haproxy"]["apply_x_forwarded_for"] -%>
+        <% if node["haproxy"]["x_forwarded_for"] -%>
         option httpclose
         option forwardfor
         <% end -%>
@@ -28,15 +28,15 @@ defaults
 listen application 0.0.0.0:<%= node["haproxy"]["incoming_port"] %>
   balance <%= node["haproxy"]["balance_algorithm"] %>
   <% @pool_members.each do |member| -%>
-  server <%= member[:hostname] %> <%= member[:ipaddress] %>:<%= node["haproxy"]["member_port"] %> weight 1 maxconn <%= node["haproxy"]["max_connections_per_server"] %> check
+  server <%= member[:hostname] %> <%= member[:ipaddress] %>:<%= node["haproxy"]["member_port"] %> weight 1 maxconn <%= node["haproxy"]["member_max_connections"] %> check
   <% end -%>
 
-<% if node["haproxy"]["ssl_enabled"] -%>
+<% if node["haproxy"]["enable_ssl"] -%>
 listen ssl_application 0.0.0.0:<%= node["haproxy"]["ssl_incoming_port"] %>
   balance <%= node["haproxy"]["balance_algorithm"] %>
   mode tcp
   <% @pool_members.each do |member| -%>
-  server <%= member[:hostname] %> <%= member[:ipaddress] %>:<%= node["haproxy"]["ssl_member_port"] %> weight 1 maxconn <%= node["haproxy"]["max_connections_per_server"] %> check
+  server <%= member[:hostname] %> <%= member[:ipaddress] %>:<%= node["haproxy"]["ssl_member_port"] %> weight 1 maxconn <%= node["haproxy"]["member_max_connections"] %> check
   <% end -%>
 <% end -%>
 
