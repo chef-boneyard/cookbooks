@@ -18,16 +18,7 @@
 #
 
 package "apache2" do
-  case node[:platform]
-  when "redhat","centos","scientific","fedora","suse"
-    package_name "httpd"
-  when "debian","ubuntu"
-    package_name "apache2"
-  when "arch"
-    package_name "apache"
-  when "freebsd"
-    package_name "apache22"
-  end
+  package_name node[:apache][:package]
   action :install
 end
 
