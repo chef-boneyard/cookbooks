@@ -135,7 +135,7 @@ directory node[:apache][:cache_dir] do
   action :create
   mode 0755
   owner "root"
-  group "root"
+  group node[:apache][:root_group]
 end
 
 template "apache2.conf" do
