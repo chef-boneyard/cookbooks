@@ -6,6 +6,11 @@ Installs haproxy and prepares the configuration location.
 Changes
 =======
 
+## v1.0.4:
+
+* [COOK-806] - load balancer should include an SSL option 
+* [COOK-805] - Fundamental haproxy load balancer options should be configurable
+
 ## v1.0.3:
 
 * [COOK-620] haproxy::app_lb's template should use the member cloud private IP by default
