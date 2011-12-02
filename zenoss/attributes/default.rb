@@ -23,7 +23,7 @@
 
 set_unless[:zenoss][:server][:admin_password] = secure_password
 
-default[:zenoss][:device][:device_class]    = "/Discovered" #overwritten by roles or on nodes
+default[:zenoss][:device][:device_class]    = "/Devices/Discovered" #overwritten by roles or on nodes
 default[:zenoss][:device][:location]        = "" #overwritten by roles or on nodes
 default[:zenoss][:device][:modeler_plugins] = [] #overwritten by roles or on nodes
 default[:zenoss][:device][:properties]      = {} #overwritten by roles or on nodes

@@ -62,6 +62,9 @@ add support for Zenoss 3.1.0
 yum cookbook dependency
 CentOS 5.6 and Scientific Linux 5.5 support via yum_repository LWRP
 
+0.7.2
+=====
+add support for Zenoss 3.2.1
 
 0.8
 mysql::server dependency for rpm installs

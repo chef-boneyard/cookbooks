@@ -24,12 +24,12 @@ include_recipe "zenoss::client"
 case node[:platform]
 when "centos","redhat","scientific"
   include_recipe "yum"
-  
+
   yum_key "RPM-GPG-KEY-zenoss" do
     url "http://dev.zenoss.com/yum/RPM-GPG-KEY-zenoss"
     action :add
   end
-  
+
   yum_repository "zenoss" do
     description "Zenoss Stable repo"
     key "RPM-GPG-KEY-zenoss"
@@ -37,7 +37,7 @@ when "centos","redhat","scientific"
     failovermethod "priority"
     action :add
   end
-  
+
   packages = %w{mysql-server net-snmp net-snmp-utils gmp libgomp libgcj liberation-fonts}
   packages.each do |pkg|
     yum_package pkg do
@@ -65,21 +65,21 @@ when "centos","redhat","scientific"
   #end redhat/centos/scientific block
 when "debian","ubuntu"
   include_recipe "apt"
-  
+
   apt_repository "zenoss" do
     uri "http://dev.zenoss.org/deb"
     distribution "main"
     components ["stable"]
     action :add
   end
-  
+
   packages = %w{ttf-liberation ttf-linux-libertine}
   packages.each do |pkg|
     apt_package pkg do
       action :install
     end
   end
-  
+
   #Zenoss hasn't signed their repository http://dev.zenoss.org/trac/ticket/7421
   apt_package "zenoss-stack" do
     version node["zenoss"]["server"]["version"]
@@ -91,7 +91,7 @@ end
 
 
 #apply post 3.1.0 patches from http://dev.zenoss.com/trac/report/6 marked 'closed'
-node["zenoss"]["server"]["zenpatches"].each do |patch, url| 
+node["zenoss"]["server"]["zenpatches"].each do |patch, url|
   zenoss_zenpatch patch do
     ticket url
     action :install
@@ -155,7 +155,7 @@ execute "ssh-keygen -q -t dsa -f /home/zenoss/.ssh/id_dsa -N \"\" " do
 end
 
 #this list should get appended by other recipes
-node["zenoss"]["server"]["installed_zenpacks"].each do |package, zpversion| 
+node["zenoss"]["server"]["installed_zenpacks"].each do |package, zpversion|
   zenoss_zenpack "#{package}" do
     version zpversion
     action :install
@@ -168,7 +168,7 @@ deviceclasslist = []
 locationlist = []
 grouplist = []
 search(:role, "*:*").each do |role|
-  if role.override_attributes["zenoss"] and role.override_attributes["zenoss"]["device"] 
+  if role.override_attributes["zenoss"] and role.override_attributes["zenoss"]["device"]
     if role.override_attributes["zenoss"]["device"]["device_class"]
       #add the role as a Device Class
       deviceclasslist.push(role.name)
@@ -212,7 +212,7 @@ zenoss_zendmd "move Zenoss server" do
   batch = "dev = dmd.Devices.findDevice('#{node[:fqdn]}')\n"
   batch += "if not dev:\n"
   batch += "    dev = dmd.Devices.findDevice('localhost*')\n\n"
-  batch += "dev.changeDeviceClass('/Server/SSH/Linux/MySQL')\n"
+  batch += "dev.changeDeviceClass('/Server/SSH/Linux')\n"
   batch += "dev.setManageIp('#{node[:ipaddress]}')"
   command batch
   action :run
@@ -233,12 +233,14 @@ systems.each do |system|
     action :system
   end
 end
-#using the nodes list, write out a zenbatchload 
+#using the nodes list, write out a zenbatchload
 #find all the device classes and the devices each one has.
 devices = {}
 nodes.each do |node|
-  if node.attribute["zenoss"] and node.attribute["zenoss"]["device"]
-    dclass = node.attribute["zenoss"]["device"]["device_class"]
+  #drop out the server, but it still needs to be added properly
+  #also now complaining about /Discovered vs. /Devices/Discovered
+  if node['zenoss'] and node['zenoss']['device']
+    dclass = "/Devices/#{node['zenoss']['device']['device_class']}"
     if devices.has_key?(dclass)
       devices[dclass].push(node)
     else
