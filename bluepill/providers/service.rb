@@ -23,9 +23,34 @@ include Chef::Mixin::Command
 
 action :enable do
   unless @bp.enabled
-    link "#{node['bluepill']['init_dir']}/#{new_resource.service_name}" do
-      to node['bluepill']['bin']
-      only_if { ::File.exists?("#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill") }
+    pill = "#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill"
+    
+    case node['platform']
+    when 'centos', 'redhat', 'fedora'
+      chkconfig_init = "#{node['bluepill']['init_dir']}/#{new_resource.service_name}"
+
+      template chkconfig_init do
+        source "chkconfig_init.erb"
+        owner "root"
+        group "root"
+        mode "0755"
+        cookbook "bluepill"
+        variables(
+          :service_name => new_resource.service_name,
+          :bluepill_bin => node['bluepill']['bin'],
+          :pill => pill
+        )
+        only_if { ::File.exists?(pill) }
+      end
+
+      execute "chkconfig --add #{new_resource.service_name}" do
+        only_if { ::File.exists?(chkconfig_init) }
+      end
+    else
+      link "#{node['bluepill']['init_dir']}/#{new_resource.service_name}" do
+        to node['bluepill']['bin']
+        only_if { ::File.exists?(pill) }
+      end
     end
   end
 end

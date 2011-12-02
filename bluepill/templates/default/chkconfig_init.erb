@@ -1,0 +1,40 @@
+#!/bin/sh
+# Author: Jamie Winsor (<jwinsor@riotgames.com>)
+
+### BEGIN INIT INFO
+# Provides: <%= @service_name %>
+# Required-Start:
+# Required-Stop:
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: bluepill daemon for <%= @service_name %>.
+# Description: bluepill daemon to control start, stop, status, and restart functions of <%= @service_name %>. More info at http://github.com/arya/bluepill.
+### END INIT INFO
+
+# Check for missing binaries
+BLUEPILL_BIN=<%= @bluepill_bin %>
+BLUEPILL_PILL=<%= @pill %>
+
+case "$1" in
+    start)
+        echo -n "Starting <%= @service_name %> "
+        $BLUEPILL_BIN load $BLUEPILL_PILL
+        ;;
+    stop)
+        echo -n "Stopping <%= @service_name %> "
+        $BLUEPILL_BIN quit
+        ;;
+    status)
+        $BLUEPILL_BIN <%= @service_name %> status
+        ;;
+    restart)
+        ## Stop the service and regardless of whether it was
+        ## running or not, start it again.
+        $0 stop
+        $0 start
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
+esac
