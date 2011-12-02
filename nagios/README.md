@@ -6,6 +6,10 @@ Installs and configures Nagios 3 for a server and for clients using Chef search 
 Changes
 =======
 
+## v1.0.4:
+
+* [COOK-838] - Add HTTPS Option to Nagios Cookbook
+
 ## v1.0.2:
 
 * [COOK-636] - Nagios server recipe attempts to start too soon
