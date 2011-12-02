@@ -22,10 +22,6 @@
 
 include_recipe "build-essential"
 
-unless platform?("centos","redhat","fedora")
-  include_recipe "runit"
-end
-
 packages = value_for_platform(
     ["centos","redhat","fedora"] => {'default' => ['pcre-devel', 'openssl-devel']},
     "default" => ['libpcre3', 'libpcre3-dev', 'libssl-dev']
@@ -82,8 +78,10 @@ directory node[:nginx][:dir] do
   mode "0755"
 end
 
-unless platform?("centos","redhat","fedora")
-  runit_service "nginx"
+
+case node[:nginx][:init_style]
+when "runit"
+  include_recipe "runit"
 
   service "nginx" do
     subscribes :restart, resources(:bash => "compile_nginx_source")
@@ -112,7 +110,6 @@ else
     subscribes :restart, resources(:bash => "compile_nginx_source")
   end
 end
-
 
 %w{ sites-available sites-enabled conf.d }.each do |dir|
   directory "#{node[:nginx][:dir]}/#{dir}" do
