@@ -24,15 +24,17 @@ default[:nginx][:version]      = "0.8.54"
 
 case platform
 when "debian","ubuntu"
-  set[:nginx][:dir]     = "/etc/nginx"
-  set[:nginx][:log_dir] = "/var/log/nginx"
-  set[:nginx][:user]    = "www-data"
-  set[:nginx][:binary]  = "/usr/sbin/nginx"
+  set[:nginx][:dir]        = "/etc/nginx"
+  set[:nginx][:log_dir]    = "/var/log/nginx"
+  set[:nginx][:user]       = "www-data"
+  set[:nginx][:binary]     = "/usr/sbin/nginx"
+  set[:nginx][:init_style] = "runit"
 else
-  set[:nginx][:dir]     = "/etc/nginx"
-  set[:nginx][:log_dir] = "/var/log/nginx"
-  set[:nginx][:user]    = "www-data"
-  set[:nginx][:binary]  = "/usr/sbin/nginx"
+  set[:nginx][:dir]        = "/etc/nginx"
+  set[:nginx][:log_dir]    = "/var/log/nginx"
+  set[:nginx][:user]       = "www-data"
+  set[:nginx][:binary]     = "/usr/sbin/nginx"
+  set[:nginx][:init_style] = "init"
 end
 
 default[:nginx][:gzip] = "on"
