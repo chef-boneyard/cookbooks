@@ -17,13 +17,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-default['java']['install_flavor'] = "openjdk"
+default['java']['install_flavor'] = "oracle"
 
 case platform
 when "centos","redhat","fedora"
-  default['java']['version'] = "6u25"
+  default['java']['version'] = "6u29"
   default['java']['arch'] = kernel['machine'] =~ /x86_64/ ? "amd64" : "i586"
-  set['java']['java_home'] = "/usr/lib/jvm/java"
+  default['java']['rpm_checksum'] = kernel['machine'] =~ /x86_64/ ? 
+    "69f6428a9383876aa4dddcfd52dcf4d1d7b75f422639fdd49218dc9a52948159" :
+    "4a38c6a394565ea5f7f784b6940ef209eceea4920050aa501a6ba43038fb6de9"
+  set['java']['java_home'] = "/usr/java/default"
 else
   set['java']['java_home'] = "/usr/lib/jvm/default-java"
 end

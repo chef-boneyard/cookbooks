@@ -1,0 +1,50 @@
+{
+  "name": "java",
+  "description": "Installs Java runtime.",
+  "long_description": "Description\n===========\n\nInstalls a Java. Uses OpenJDK by default but supports installation of the Sun's Java.\n\n---\nRequirements\n============\n\nPlatform\n--------\n\n* Debian, Ubuntu\n* CentOS, Red Hat, Fedora\n\nCookbooks\n---------\n\n* apt\n\n---\nAttributes\n==========\n\n* `node[\"java\"][\"install_flavor\"]` - Flavor of JVM you would like installed (`sun` or `openjdk`), default `openjdk`.\n\n---\nRecipes\n=======\n\ndefault\n-------\n\nInclude the default recipe in a run list, to get `java`.  By default the `openjdk` flavor of Java is installed, but this can be changed by using the `install_flavor` attribute.\n\nopenjdk\n-------\n\nThis recipe installs the `openjdk` flavor of Java.\n\nsun\n---\n\nThis recipe installs the `sun` flavor of Java.  \n\nOn Debian and Ubuntu systems the recipe will add the correct apt repository (`non-free` on Debian or `partner` on Ubuntu), pre-seed the package and update java alternatives.\n\nOn Red Hat flavored Linux (RHEL, CentOS, Fedora), the installation of the Sun flavor of Java is slightly more complicated as the `rpm` package is not readily available in any public Yum repository.  The Sun JDK `rpm` package can be downloaded directly from Sun but comes wrapped as a compressed bin file.  After the file has been downloaded, decompressed and license accepted the `rpm` package (names something like `jdk-6u25-ea-linux-amd64.rpm`) can be retrieved by this recipe using the `remote_file` or `cookbook_file` resources.  The recipe will choose the correct resource based on the existence (or non-existence) of the `node['sun']['rpm_url']` attribute.  See below for an example role using this attribute in the proper way.  If you would like to deliver the `rpm` package file as part of this cookbook place the `rpm` package file in the `files/default` directory and the cookbook will retrieve the file during installation.\n\n---\nUsage\n=====\n\nSimply include the `java` recipe where ever you would like Java installed.  \n\nTo install Sun flavored Java on Debian or Ubuntu override the `node['java']['install_flavor']` attribute with in role:\n\n    name \"java\"\n    description \"Install Sun Java on Ubuntu\"\n    override_attributes(\n      \"java\" => {\n        \"install_flavor\" => \"sun\"\n      }\n    )\n    run_list(\n      \"recipe[java]\"\n    )\n\nOn RedHat flavored Linux be sure to set the `rpm_url` and `rpm_checksum` attributes if you placed the `rpm` file on a remote server:\n\n    name \"java\"\n    description \"Install Sun Java on CentOS\"\n    override_attributes(\n      \"java\" => {\n        \"install_flavor\" => \"sun\",\n        \"version\" => \"6u25\",\n        \"rpm_url\" => \"https://mycompany.s3.amazonaws.com/sun_jdk\",\n        \"rpm_checksum\" => \"c473e3026f991e617710bad98f926435959303fe084a5a31140ad5ad75d7bf13\"\n      }\n    )\n    run_list(\n      \"recipe[java]\"\n    )\n\nLicense and Author\n==================\n\nAuthor:: Seth Chisamore (<schisamo@opscode.com>)\n\nCopyright:: 2008-2011, Opscode, Inc\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
+  "maintainer": "Opscode, Inc.",
+  "maintainer_email": "cookbooks@opscode.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "debian": [
+
+    ],
+    "ubuntu": [
+
+    ],
+    "centos": [
+
+    ],
+    "redhat": [
+
+    ],
+    "fedora": [
+
+    ]
+  },
+  "dependencies": {
+    "apt": [
+
+    ]
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "java": "Installs Java runtime",
+    "java::openjdk": "Installs the OpenJDK flavor of Java",
+    "java::sun": "Installs the Sun flavor of Java"
+  },
+  "version": "1.1.0"
+}
