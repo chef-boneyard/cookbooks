@@ -16,12 +16,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
 case platform
 when "debian"
 
   if platform_version.to_f == 5.0
     default[:postgresql][:version] = "8.3"
-  elsif platform_version =~ /.*sid/
+  elsif platform_version =~ /squeeze/
     default[:postgresql][:version] = "8.4"
   end
 
@@ -29,10 +30,13 @@ when "debian"
 
 when "ubuntu"
 
-  if platform_version.to_f <= 9.04
+  case
+  when platform_version.to_f <= 9.04
     default[:postgresql][:version] = "8.3"
-  else
+  when platform_version.to_f <= 11.04
     default[:postgresql][:version] = "8.4"
+  else
+    default[:postgresql][:version] = "9.1"
   end
 
   set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
@@ -47,7 +51,7 @@ when "fedora"
 
   set[:postgresql][:dir] = "/var/lib/pgsql/data"
 
-when "redhat","centos"
+when "redhat","centos","scientific","amazon"
 
   default[:postgresql][:version] = "8.4"
   set[:postgresql][:dir] = "/var/lib/pgsql/data"
@@ -64,5 +68,5 @@ when "suse"
 
 else
   default[:postgresql][:version] = "8.4"
-  set[:postgresql][:dir]            = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  set[:postgresql][:dir]         = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 end

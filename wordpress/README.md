@@ -6,6 +6,10 @@ Installs and configures Wordpress according to the instructions at http://codex.
 Changes
 =======
 
+## v0.8.8:
+
+* [COOK-826] -  recipe doesn't quote password string
+
 ## v0.8.6:
 
 * [COOK-534] - allow server_aliases to overridden by an attribute
