@@ -1,8 +1,0 @@
-{
-    "id": "apache2__mod_ssl",
-    "rules": [
-        {"http": {
-            "port": "443"
-        }}
-    ]
-}
