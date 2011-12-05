@@ -35,7 +35,7 @@ unless File.exists?("#{activemq_home}/bin/activemq")
   end
 
   execute "tar zxf #{tmp}/apache-activemq-#{version}-bin.tar.gz" do
-    cwd "/opt"
+    cwd node['activemq']['home']
   end
 end
 
