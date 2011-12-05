@@ -7,11 +7,12 @@ version           "0.99.11"
 recipe            "chef-server", "Compacts the Chef Server CouchDB."
 recipe            "chef-server::rubygems-install", "Set up rubygem installed chef server."
 recipe            "chef-server::apache-proxy", "Configures Apache2 proxy for API and WebUI"
+recipe            "chef-server::nginx-proxy", "Configures NGINX proxy for API and WebUI"
 
 %w{ ubuntu debian redhat centos fedora freebsd openbsd }.each do |os|
   supports os
 end
 
-%w{ runit bluepill daemontools couchdb  apache2 openssl zlib xml java gecode }.each do |cb|
+%w{ runit bluepill daemontools couchdb apache2 nginx openssl zlib xml java gecode }.each do |cb|
   depends cb
 end
