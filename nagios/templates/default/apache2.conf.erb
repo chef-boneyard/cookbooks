@@ -1,6 +1,6 @@
-<VirtualHost *:80>
+<VirtualHost *:<%= node['nagios']['http_port'] %>>
   ServerAdmin     <%= node['nagios']['sysadmin_email'] %>
-  ServerName      <%= node[:fqdn] %>
+  ServerName      <%= node['fqdn'] %>
   ServerAlias     nagios nagios.<%= node.chef_environment =~ /^_default$/ ? "default" : node.chef_environment%>.<%= @public_domain %>
   DocumentRoot    <%= node['nagios']['docroot'] %>
   CustomLog       <%= node['nagios']['log_dir'] %>/apache_access.log combined
@@ -10,7 +10,14 @@
   ScriptAlias /nagios3/cgi-bin /usr/lib/cgi-bin/nagios3
 
   Alias /nagios3/stylesheets /etc/nagios3/stylesheets
-  Alias /nagios3 <%= node[:nagios][:docroot] %>
+  Alias /nagios3 <%= node['nagios']['docroot'] %>
+
+  <% if @node['nagios']['https'] -%>
+  SSLEngine On
+  SSLCertificateFile <%= node['nagios']['conf_dir'] %>/certificates/nagios-server.pem
+  SSLCertificateKeyFile <%= node['nagios']['conf_dir'] %>/certificates/nagios-server.pem
+  <% end -%>
+
 
 <% case node['nagios']['server_auth_method'] -%>
 <% when "openid" -%>

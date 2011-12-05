@@ -19,13 +19,27 @@ defaults
         contimeout      5000
         clitimeout      50000
         srvtimeout      50000
+        <% if node["haproxy"]["x_forwarded_for"] -%>
+        option httpclose
+        option forwardfor
+        <% end -%>
         
 # Set up application listeners here.
-listen application 0.0.0.0:80
-  balance roundrobin
+listen application 0.0.0.0:<%= node["haproxy"]["incoming_port"] %>
+  balance <%= node["haproxy"]["balance_algorithm"] %>
   <% @pool_members.each do |member| -%>
-  server <%= member[:hostname] %> <%= member[:ipaddress] %>:<%= node["haproxy"]["member_port"] %> weight 1 maxconn 1 check 
+  server <%= member[:hostname] %> <%= member[:ipaddress] %>:<%= node["haproxy"]["member_port"] %> weight 1 maxconn <%= node["haproxy"]["member_max_connections"] %> check
   <% end -%>
+
+<% if node["haproxy"]["enable_ssl"] -%>
+listen ssl_application 0.0.0.0:<%= node["haproxy"]["ssl_incoming_port"] %>
+  balance <%= node["haproxy"]["balance_algorithm"] %>
+  mode tcp
+  <% @pool_members.each do |member| -%>
+  server <%= member[:hostname] %> <%= member[:ipaddress] %>:<%= node["haproxy"]["ssl_member_port"] %> weight 1 maxconn <%= node["haproxy"]["member_max_connections"] %> check
+  <% end -%>
+<% end -%>
+
 <% if node["haproxy"]["enable_admin"] -%>
 listen admin 0.0.0.0:22002
   mode http
