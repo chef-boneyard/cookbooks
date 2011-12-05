@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: maven
-# Recipe:: default
+# Recipe:: maven2
 #
 # Copyright 2011, Bryan W. Berry (<bryan.berry@gmail.com>)
 #
@@ -18,5 +18,18 @@
 #
 
 include_recipe "java"
+maven_home = node['maven']["maven_home"]
+maven_root = maven_home.split('/')[0..-2].join('/')
 
-include_recipe "maven::maven2"
+java_cpr "maven2" do
+  url node['maven']['2']['url']
+  checksum node['maven']['2']['checksum']
+  app_root maven_root
+  bin_cmds ["mvn"]
+  action :install
+end
+
+template "/etc/mavenrc" do
+  source "mavenrc.erb"
+  mode "0755"
+end

@@ -1,7 +1,7 @@
 Description
 ===========
 
-Installs and configures Apache Maven
+Install and configure maven2 and maven3 from the binaries provided by the maven project
 
 Requirements
 ============
@@ -13,10 +13,19 @@ Platform:
 The following Opscode cookbooks are dependencies:
 
 * java
-* jpackage
 
 Attributes
 ==========
+
+* default['maven']['version']  defaults to 2
+* default['maven']['m2_home']  defaults to  '/usr/local/maven/'
+* default['maven']['m2_download_url']  the download url for maven2
+* default['maven']['m2_checksum']  the checksum, which you will have
+ to recalculate if you change the download url
+* default['maven']['m3_download_url'] download url for maven3
+* default['maven']['m3_checksum'] the checksum, which you will have
+ to recalculate if you change the download url
+
 
 Usage
 =====
@@ -26,15 +35,13 @@ Simply include the recipe where you want Apache Maven installed.
 TODO
 ====
 
-* plugin support
-* global config template - %M2_HOME%/conf/settings.xml
 
 License and Author
 ==================
 
-Author:: Seth Chisamore (<schisamo@opscode.com>)
+Author:: Bryan W. Berry (<bryan.berry@gmail.com>)
 
-Copyright 2010, Opscode, Inc.
+Copyright 2010, Bryan W. Berry
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
