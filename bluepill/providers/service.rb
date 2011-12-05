@@ -40,13 +40,14 @@ action :enable do
       group "root"
       mode "0755"
       variables(
-        :service_name => "bluepill-#{new_resource.service_name}",
+        :service_name => "#{new_resource.service_name}",
         :config_file => config_file
       )
     end
 
-    execute "chkconfig --add bluepill-#{new_resource.service_name}"
-    execute "chkconfig bluepill-#{new_resource.service_name} on"
+    service "bluepill-#{new_resource.service_name}" do
+      action [ :enable, :start ]
+    end
   end
 end
 
