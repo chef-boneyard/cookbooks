@@ -1,9 +1,9 @@
 #
 # Author:: Bryan W. Berry (<bryan.berry@gmail.com>)
 # Cookbook Name:: java
-# Recipe:: oracle
+# Recipe:: oracle_i386
 #
-# Copyright 2011, Bryan w. Berry
+# Copyright 2010-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,36 +17,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 java_home = node['java']["java_home"]
 java_root = java_home.split('/')[0..-2].join('/')
   
-arch = node[:kernel][:machine] == 'x86_64' ? 'x86_64' : 'i586'
-
-jdk_version = node['java']['jdk_version']
-
-#convert version number to a string if it isn't already
-if jdk_version.instance_of? Fixnum
-  jdk_version = jdk_version.to_s
+case node['java']['jdk_version']
+when "jdk6"
+  tarball_url = node[:java][:jdk]['6'][:i586][:url]
+  tarball_checksum = node[:java][:jdk]['6'][:i586][:checksum]
+when "jdk7"
+  tarball_url = node[:java][:jdk]['7'][:i586][:url]
+  tarball_checksum = node[:java][:jdk]['7'][:i586][:checksum]
 end
 
-case jdk_version
-when "6"
-  tarball_url = node[:java][:jdk]['6'][arch][:url]
-  tarball_checksum = node[:java][:jdk]['6'][arch][:checksum]
-when "7"
-  tarball_url = node[:java][:jdk]['7'][arch][:url]
-  tarball_checksum = node[:java][:jdk]['7'][arch][:checksum]
-end
-
-puts "the arch is #{arch}"
-puts "here is the tarball url #{tarball_url} "
-
-java_cpr "jdk" do
+java_cpr "jdk-alt" do
   url tarball_url
   checksum tarball_checksum
   app_root java_root
-  bin_cmds ["java"]
+  default false
   action :install
 end
-

@@ -1,7 +1,11 @@
 Description
 ===========
 
-Installs a Java. Uses OpenJDK by default but supports installation of the Sun's Java.
+Installs a Java. Uses Oracle's JDK by default but supports installation of the OpenJDK.
+
+This cookbook also provides the java_cpr LWRP which other java
+cookbooks can use to install java-related applications from binary
+packages.
 
 ---
 Requirements
@@ -16,13 +20,16 @@ Platform
 Cookbooks
 ---------
 
-* apt
+* java
 
 ---
 Attributes
 ==========
 
-* `node["java"]["install_flavor"]` - Flavor of JVM you would like installed (`oracle` or `openjdk`), default `openjdk`.
+* `node["java"]["install_flavor"]` - Flavor of JVM you would like installed (`oracle` or `openjdk`), default `oracle`.
+* `node['java']['java_home']`
+* `node['java']['tarball']` - name of the tarball to retrieve from your corporate repository default `jdk1.6.0_29_i386.tar.gz`
+* `node['java']['tarball_checksum']` - checksum for the tarball, if you use a different tarball, you also need to create a new sha256 checksum
 
 ---
 Recipes
@@ -31,7 +38,7 @@ Recipes
 default
 -------
 
-Include the default recipe in a run list, to get `java`.  By default the `openjdk` flavor of Java is installed, but this can be changed by using the `install_flavor` attribute.
+Include the default recipe in a run list, to get `java`.  By default the `oracle` flavor of Java is installed, but this can be changed by using the `install_flavor` attribute.
 
 openjdk
 -------
@@ -41,20 +48,83 @@ This recipe installs the `openjdk` flavor of Java.
 oracle
 ---
 
-This recipe installs the `oracle` flavor of Java.  
+This recipe installs the `oracle` flavor of Java. This recipe does not
+use distribution packages as Oracle changed the licensing terms with
+JDK 1.6u27 and prohibited the practice for both the debian and EL worlds.
 
-On Debian and Ubuntu systems the recipe will add the correct apt repository (`non-free` on Debian or `partner` on Ubuntu), pre-seed the package and update java alternatives.
+For both debian and centos/rhel, this recipe pulls the binary
+distribution from the Oracle website, and installs it in the default
+JAVA_HOME for each distribution. For debian/ubuntu, this is
+/usr/local/java/default. For Centos/RHEL, this is /usr/java/default
 
-On Red Hat flavored Linux (RHEL, CentOS, Fedora), the installation of the Oracle flavor of Java is slightly more complicated as the `rpm` package is not readily available in any public Yum repository.  The Oracle JDK `rpm` package can be downloaded directly from Oracle but comes wrapped as a compressed bin file.  After the file has been downloaded, decompressed and license accepted the `rpm` package (names something like `jdk-6u25-ea-linux-amd64.rpm`) can be retrieved by this recipe using the `remote_file` or `cookbook_file` resources.  The recipe will choose the correct resource based on the existence (or non-existence) of the `node['oracle']['rpm_url']` attribute.  See below for an example role using this attribute in the proper way.  If you would like to deliver the `rpm` package file as part of this cookbook place the `rpm` package file in the `files/default` directory and the cookbook will retrieve the file during installation.
+After putting the binaries in place, the oracle recipe updates
+/usr/bin/java to point to the installed JDK using the update-alternatives script
 
-To obtain the jdk rpms for Enterprise Linux go to http://www.oracle.com/technetwork/java/javase/downloads/index.html and download the jdk...-rpm.bin for your desired version of the jdk. To extract the rpms from binary file do the following.
+oracle_i386
+-----------
 
-BEWARE, it also installs the jdk on your system if your don't already have it
+This recipe installs the 32-bit Java virtual machine without setting it as the default. This can be useful if you have applications on the same machine that require different versions of the JVM.
 
-$ chmod +x jdk...-rpm.bin
-$ ./jdk...-rpm.bin -noregister
+Resources/Providers
+===================
 
-All the rpms from the jdk should be in your current working directory
+This LWRP provides an easy way to manage java applications. It uses
+the LWRP CPR (crappy package resource). It is "crappy" because it is
+very simple and barely deserves being called a package resource.
+Essentially, you provide the java_cpr with the URL to a tarball and
+the commands within the extracted result that you want symlinked to /usr/bin/
+
+By default, the extracted directory is extracted to
+#{app_root}/extracted_dir_name and symlinked to #{app_root}/default
+
+# Actions
+
+- :install: extracts the tarball and makes necessary symlinks
+- :remove: removes the tarball and run update-alternatives for all
+  symlinked bin_cmds
+
+# Attribute Parameters
+
+- url: path to tarball, .tar.gz, .bin (oracle-specific), and .zip
+  currently supported
+- checksum: sha256 checksum, not used for security but avoid
+  redownloading the archive on each chef-client run
+- app_root: the root for all installations of this type of
+  application, for example /usr/java/, /usr/local/tomcat where there
+  may be multiple installations of different versions of tomcat and
+  the jvm on a single machine (esp. in legacy setups).
+  #{app_root}/default will point to the default installation
+- app_root_mode: file mode for app_root, is an integer
+- bin_cmds: array of binary commands that should be symlinked to
+  /usr/bin, examples are mvn, java, javac, etc. These cmds must be in
+  the bin/ subdirectory of the extracted folder. Will be ignored if this
+  java_cpr is not the default
+- owner: owner of extracted directory, set to "root" by default
+- default: whether this the default installation of this package,
+  boolean true or false
+
+
+# Examples
+
+  # install jdk6 from Oracle
+  java_cpr "jdk" do
+    url 'http://download.oracle.com/otn-pub/java/jdk/6u29-b11/jdk-6u29-linux-x64.bin'
+    checksum  'a8603fa62045ce2164b26f7c04859cd548ffe0e33bfc979d9fa73df42e3b3365'
+    app_root '/usr/local/java'
+    bin_cmds ["java", "javac"]
+    action :install
+  end
+
+  # installs maven2
+  java_cpr "maven2" do
+    url "http://www.apache.org/dist/maven/binaries/apache-maven-2.2.1-bin.tar.gz"
+    checksum  "b9a36559486a862abfc7fb2064fd1429f20333caae95ac51215d06d72c02d376"
+    app_root "/usr/local/maven"
+    bin_cmds ["mvn"]
+    action :install
+  end
+    
+    
 
 ---
 Usage
@@ -75,26 +145,13 @@ To install Oracle flavored Java on Debian or Ubuntu override the `node['java']['
       "recipe[java]"
     )
 
-On RedHat flavored Linux be sure to set the `rpm_url` and `rpm_checksum` attributes if you placed the `rpm` file on a remote server:
 
-    name "java"
-    description "Install Oracle Java on CentOS"
-    override_attributes(
-      "java" => {
-        "install_flavor" => "oracle",
-        "version" => "6u25",
-        "rpm_url" => "https://mycompany.s3.amazonaws.com/oracle_jdk",
-        "rpm_checksum" => "c473e3026f991e617710bad98f926435959303fe084a5a31140ad5ad75d7bf13"
-      }
-    )
-    run_list(
-      "recipe[java]"
-    )
 
 License and Author
 ==================
 
 Author:: Seth Chisamore (<schisamo@opscode.com>)
+Author:: Bryan W. Berry (<bryan.berry@gmail.com>)
 
 Copyright:: 2008-2011, Opscode, Inc
 
