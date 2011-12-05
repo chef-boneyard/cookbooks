@@ -86,6 +86,28 @@ when "runit"
   service "nginx" do
     subscribes :restart, resources(:bash => "compile_nginx_source")
   end
+when "bluepill"
+  include_recipe "bluepill"
+
+  template "#{node['bluepill']['conf_dir']}/nginx.pill" do
+    source "nginx.pill.erb"
+    mode 0644
+    variables(
+      :working_dir => node[:nginx][:install_path],
+      :src_binary => node[:nginx][:src_binary],
+      :nginx_dir => node[:nginx][:dir],
+      :log_dir => node[:nginx][:log_dir]
+    )
+  end
+
+  bluepill_service "nginx" do
+    action [ :enable, :load, :start ]
+    subscribes :restart, resources(:bash => "compile_nginx_source")
+  end
+
+  service "nginx" do
+    action :nothing
+  end
 else
   #install init db script
   template "/etc/init.d/nginx" do
