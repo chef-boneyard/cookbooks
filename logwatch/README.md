@@ -1,20 +1,39 @@
-= DESCRIPTION:
+Description
+===========
 
-Installs trac software and creates an environment with an Apache2 virtual host.
+Installs logwatch.
 
-= USAGE:
+Changes
+=======
 
-Include the recipe 'trac' in the run list.
+## v0.1.1:
 
-This cookbook does not:
+* Current released version.
 
-- Set up the subversion repository
+Requirements
+============
 
-You may also need to enable the authentication mechanism of your preference in the trac.conf.erb template.
+## Platform:
 
-= LICENSE AND AUTHOR:
+* Debian/Ubuntu
+* RHEL/CentOS
 
-Copyright 2009, Peter Crossley <peterc@xley.com>
+## Cookbooks:
+
+* perl
+
+Usage
+=====
+
+Ensures that perl is installed to be used with logwatch and then
+installs logwatch.
+
+License and Author
+==================
+
+Author:: Joshua Timberman <joshua@opscode.com>
+
+Copyright:: 2009, Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

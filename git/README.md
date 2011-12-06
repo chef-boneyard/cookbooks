@@ -1,21 +1,42 @@
-= DESCRIPTION:
+Description
+===========
 
-Installs keepalived and pushes the configuration file out.
+Installs git and optionally sets up a git server as a daemon under runit.
 
-= REQUIREMENTS:
+Changes
+=======
 
-== Platform:
+## v0.9.0:
 
-Tested on Ubuntu 8.10.
+* Current public release.
 
-= ATTRIBUTES: 
+Requirements
+============
 
-= USAGE: 
+## Platform:
 
-Modify the sample template to suit your environment and configuration requirements.
+* Debian/Ubuntu
+* ArchLinux
 
-= LICENSE and AUTHOR:
-      
+## Cookbooks:
+
+* runit
+
+Usage
+=====
+
+This cookbook primarily installs git core packages. It can also be
+used to serve git repositories.
+
+    include_recipe "git::server"
+
+This creates the directory /srv/git and starts a git daemon, exporting
+all repositories found. Repositories need to be added manually, but
+will be available once they are created.
+
+License and Author
+==================
+
 Author:: Joshua Timberman (<joshua@opscode.com>)
 
 Copyright:: 2009, Opscode, Inc

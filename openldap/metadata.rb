@@ -2,7 +2,7 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Configures a server to be an OpenLDAP master, replication slave or client for auth"
-long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
+long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version           "0.9.4"
 recipe            "openldap", "Empty, use one of the other recipes"
 recipe            "openldap::auth", "Set up openldap for user authentication"

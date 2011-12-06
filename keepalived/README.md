@@ -1,25 +1,24 @@
-= DESCRIPTION:
+Description
+===========
 
-Installs git.
+Installs keepalived and pushes the configuration file out.
 
-= REQUIREMENTS:
+Changes
+=======
 
-== Cookbooks:
+## v0.7.1:
 
-Opscode Cookbooks (http://github.com/opscode/cookbooks/tree/master)
+* Current public release.
 
-* runit
+Usage
+=====
 
-= USAGE:
+Modify the sample template to suit your environment and configuration
+requirements.
 
-This cookbook primarily installs git core packages. It can also be used to serve git repositories.
+License and Author
+==================
 
-  include_recipe "git::server"
-
-This creates the directory /srv/git and starts a git daemon, exporting all repositories found. Repositories need to be added manually, but will be available once they are created.
-
-= LICENSE and AUTHOR:
-      
 Author:: Joshua Timberman (<joshua@opscode.com>)
 
 Copyright:: 2009, Opscode, Inc
