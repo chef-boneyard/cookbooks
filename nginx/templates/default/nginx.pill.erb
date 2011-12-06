@@ -3,8 +3,8 @@ Bluepill.application("nginx") do |app|
     process.pid_file           = "/var/run/nginx.pid"
     process.working_dir        = "<%= @working_dir %>"
     process.start_command      = "<%= @src_binary %> -c <%= @nginx_dir %>/nginx.conf"
-    process.stop_command       = "<%= @src_binary %> -s stop"
-    process.restart_command    = "<%= @src_binary %> -s reload"
+    process.stop_command       = "kill -QUIT {{PID}}"
+    process.restart_command    = "kill -HUP {{PID}}"
     process.daemonize          = true
     process.stdout             = process.stderr = "<%= @log_dir %>/nginx.log"
 
