@@ -1,24 +1,32 @@
-= DESCRIPTION:
+Description
+===========
 
-Installs boost, mainly to support Thrift.
+Installs trac software and creates an environment with an Apache2
+virtual host.
 
-= REQUIREMENTS:
+Changes
+=======
 
-Platform: Ubuntu 9.04. Not tested on any others at this time.
+## v0.1.1:
 
-= USAGE:
+* Current public release.
 
-Include this recipe to install boost development packages.
+Usage
+=====
 
-  include_recipe "boost"
+Include the recipe 'trac' in the run list.
 
-Merely installs the libboost-dev package which should grab a bunch of dependencies and get the right thing.
+This cookbook does not:
 
-= LICENSE and AUTHOR:
+- Set up the subversion repository
 
+You may also need to enable the authentication mechanism of your
+preference in the trac.conf.erb template.
 
-Author:: Joshua Timberman (<joshua@opscode.com>)
-Copyright:: 2009, Opscode, Inc.
+License and Author
+==================
+
+Copyright 2009, Peter Crossley <peterc@xley.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -1,8 +1,39 @@
-= LICENSE AND AUTHOR:
+Description
+===========
 
-Author:: Adam Jacob <adam@opscode.com>
+Installs logwatch.
 
-Copyright 2009-2010, Opscode, Inc.
+Changes
+=======
+
+## v0.1.1:
+
+* Current released version.
+
+Requirements
+============
+
+## Platform:
+
+* Debian/Ubuntu
+* RHEL/CentOS
+
+## Cookbooks:
+
+* perl
+
+Usage
+=====
+
+Ensures that perl is installed to be used with logwatch and then
+installs logwatch.
+
+License and Author
+==================
+
+Author:: Joshua Timberman <joshua@opscode.com>
+
+Copyright:: 2009, Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
