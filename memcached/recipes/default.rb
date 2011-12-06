@@ -21,7 +21,7 @@ package "memcached" do
   action :upgrade
 end
 
-package "libmemcache-dev" do
+package "libmemcached-dev" do
   action :upgrade
 end
 
