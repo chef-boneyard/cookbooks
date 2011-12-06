@@ -87,6 +87,8 @@ when "runit"
     subscribes :restart, resources(:bash => "compile_nginx_source")
   end
 when "bluepill"
+  node.set[:nginx][:daemon_disable] = false
+
   include_recipe "bluepill"
 
   template "#{node['bluepill']['conf_dir']}/nginx.pill" do
