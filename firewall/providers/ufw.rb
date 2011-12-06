@@ -58,7 +58,7 @@ def default_policy?(policy)
   @default_policy ||= begin
     cmd = shell_out!("ufw status verbose")
     cmd.stdout =~ /^Default:\s(.*?)\s/
-    $1.to_s.gsub('"', '').strip
+    $1.to_s.strip
   end
   @default_policy == policy.to_s
 end
