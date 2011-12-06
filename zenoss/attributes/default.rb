@@ -23,7 +23,7 @@
 
 set_unless[:zenoss][:server][:admin_password] = secure_password
 
-default[:zenoss][:device][:device_class]    = "/Devices/Discovered" #overwritten by roles or on nodes
+default[:zenoss][:device][:device_class]    = "/Discovered" #overwritten by roles or on nodes
 default[:zenoss][:device][:location]        = "" #overwritten by roles or on nodes
 default[:zenoss][:device][:modeler_plugins] = [] #overwritten by roles or on nodes
 default[:zenoss][:device][:properties]      = {} #overwritten by roles or on nodes
@@ -44,6 +44,7 @@ default[:zenoss][:server][:installed_zenpacks] = {
   "ZenPacks.community.MySQLSSH"  => "0.4",
 }
 
+#patches from http://dev.zenoss.com/trac/report/6 marked 'closed'
 #it might matter that these get ordered eventually as well
 default[:zenoss][:server][:zenpatches] = {
 

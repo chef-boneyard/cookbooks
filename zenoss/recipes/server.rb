@@ -90,7 +90,7 @@ when "debian","ubuntu"
 end
 
 
-#apply post 3.1.0 patches from http://dev.zenoss.com/trac/report/6 marked 'closed'
+#apply post 3.2.0 patches from http://dev.zenoss.com/trac/report/6 marked 'closed'
 node["zenoss"]["server"]["zenpatches"].each do |patch, url|
   zenoss_zenpatch patch do
     ticket url
@@ -163,51 +163,7 @@ node["zenoss"]["server"]["installed_zenpacks"].each do |package, zpversion|
   end
 end
 
-#find the roles and push their settings in via zendmd
-deviceclasslist = []
-locationlist = []
-grouplist = []
-search(:role, "*:*").each do |role|
-  if role.override_attributes["zenoss"] and role.override_attributes["zenoss"]["device"]
-    if role.override_attributes["zenoss"]["device"]["device_class"]
-      #add the role as a Device Class
-      deviceclasslist.push(role.name)
-      zenoss_zendmd role.override_attributes["zenoss"]["device"]["device_class"] do
-        description role.description
-        modeler_plugins role.default_attributes["zenoss"]["device"]["modeler_plugins"]
-        templates role.default_attributes["zenoss"]["device"]["templates"]
-        properties role.default_attributes["zenoss"]["device"]["properties"]
-        action :deviceclass
-      end
-    elsif role.override_attributes["zenoss"]["device"]["location"]
-      #add the role as a Location
-      locationlist.push(role.name)
-      zenoss_zendmd role.name do
-        location role.override_attributes["zenoss"]["device"]["location"]
-        description role.description
-        address role.override_attributes["zenoss"]["device"]["address"]
-        action :location
-      end
-    end
-  else
-    #create Groups for the rest of the roles
-    grouplist.push(role.name)
-    zenoss_zendmd role.name do
-      description role.description
-      action :group
-    end
-  end
-end
-
 #move the localhost to SSH monitoring since we're not using SNMP
-#zenoss_zendmd "move Zenoss server" do
-#  batch = "dmd.Devices.moveDevices('/Server/SSH/Linux/MySQL', '#{node[:fqdn]}')\n"
-#  batch += "dev = dmd.Devices.findDevice('#{node[:fqdn]}')\n"
-#  batch += "dev.setManageIp('#{node[:ipaddress]}')"
-#  command batch
-#  action :run
-#end
-
 zenoss_zendmd "move Zenoss server" do
   batch = "dev = dmd.Devices.findDevice('#{node[:fqdn]}')\n"
   batch += "if not dev:\n"
@@ -218,8 +174,38 @@ zenoss_zendmd "move Zenoss server" do
   action :run
 end
 
+#find the roles and push their settings in via zenbatchload
+devices = {}
+locations = {}
+groups = {}
+search(:role, "*:*").each do |role|
+  if role.override_attributes['zenoss'] and role.override_attributes['zenoss']['device']
+    if role.override_attributes['zenoss']['device']['device_class']
+      #add the role as a Device Class
+      Chef::Log.debug "server DEVICE AS ROLE:#{role.name}:#{role.override_attributes['zenoss']['device']['device_class']}"
+      devices[role.name] = {
+        'deviceclass' => role.override_attributes['zenoss']['device']['device_class'],
+        'description' => role.description,
+        'modeler_plugins' => role.default_attributes['zenoss']['device']['modeler_plugins'],
+        'templates' => role.default_attributes['zenoss']['device']['templates'],
+        'properties' => role.default_attributes['zenoss']['device']['properties'],
+        'nodes' => []
+      }
+    elsif role.override_attributes['zenoss']['device']['location']
+      #add the role as a Location
+      locations[role.name] = {
+        'location' => role.override_attributes['zenoss']['device']['location'],
+        'description' => role.description,
+        'address' => role.override_attributes['zenoss']['device']['address']
+      }
+    end
+  else
+    #create Groups for the rest of the roles
+    groups[role.name] = {'description' => role.description}
+  end
+end
 
-#all nodes (for now, until pick a role or other flag to standardize on)
+#all nodes with zenoss:device
 nodes = search(:node, 'zenoss:device*') || []
 #find the recipes and create Systems for them
 systems = []
@@ -228,30 +214,32 @@ systems.flatten!
 systems.uniq!
 #make suborganizers with recipes
 systems.collect! {|sys| sys.gsub('::', '/')}
-systems.each do |system|
-  zenoss_zendmd system do
-    action :system
-  end
-end
+
+#now that we have Device Classes, Systems, Groups and Locations zenbatchload
 #using the nodes list, write out a zenbatchload
 #find all the device classes and the devices each one has.
-devices = {}
 nodes.each do |node|
-  #drop out the server, but it still needs to be added properly
-  #also now complaining about /Discovered vs. /Devices/Discovered
   if node['zenoss'] and node['zenoss']['device']
-    dclass = "/Devices/#{node['zenoss']['device']['device_class']}"
+    dclass = node['zenoss']['device']['device_class']
     if devices.has_key?(dclass)
-      devices[dclass].push(node)
+      devices[dclass]['nodes'].push(node)
     else
-      devices[dclass] = [node]
+      Chef::Log.debug "server DEVICE FROM NODE:#{dclass}"
+      devices[dclass] = {
+        'deviceclass' => dclass,
+        'nodes' => [node]
+      }
     end
   end
 end
+
+Chef::Log.debug "server DEVICES FROM DEVICES:#{devices.keys}"
+
 zenoss_zenbatchload "zenbatchloading devices" do
   devices devices
-  locations locationlist
-  groups grouplist
+  systems systems
+  groups groups
+  locations locations
   action :run
 end
 
