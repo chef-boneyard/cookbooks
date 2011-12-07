@@ -29,6 +29,12 @@ when "arch"
     notifies :run, resources(:execute => "generate-module-list"), :immediately
   end
 
+  # replace with debian style config
+  template "#{node[:apache][:dir]}/mods-available/php5.conf" do
+    source "mods/php5.conf.erb"
+    notifies :restart, "service[apache2]"
+  end
+  
 when "redhat", "centos", "scientific"
   package "php package" do
     if node.platform_version.to_f < 6.0
