@@ -27,8 +27,9 @@ action :run do
 
   #sort the hash and construct the batchload file
   devices.keys.sort!.each do |dclass|
-    Chef::Log.debug "zenbatchload DEVICE:#{dclass}"
-    batch += "\"/Devices#{dclass}\"\n" if devices[dclass]['nodes']
+    Chef::Log.debug "zenbatchload deviceclass:#{dclass}"
+    batch += "\"/Devices#{dclass}\"\n"
+    #write out any settings for the device class as well?
     devices[dclass]['nodes'].sort_by {|n| n.ipaddress}.each do |device|
       #set for hybrid clouds
       if device['cloud'] and device['cloud']['public_ips']
@@ -58,9 +59,9 @@ action :run do
       batch += devgroups
       #set the Systems
       devsystems = "setSystems=["
-      systems = device.expand!.recipes.sort!
-      systems.collect! {|sys| sys.gsub('::', '/')}
-      systems.each {|sys| devsystems += "\"/#{sys}\","}
+      dsystems = device.expand!.recipes.sort!
+      dsystems.collect! {|sys| sys.gsub('::', '/')}
+      dsystems.each {|sys| devsystems += "\"/#{sys}\","}
       devsystems += "], "
       batch += devsystems
       #only use device['zenoss']['device'].current_normal for node-specific  templates, modeler_plugins and properties

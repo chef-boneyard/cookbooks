@@ -59,6 +59,7 @@ when "centos","redhat","scientific"
   end
 
   yum_package "zenoss" do
+    arch node['kernel']['machine']
     action :install
   end
 
@@ -106,7 +107,7 @@ service "zenoss" do
   when "redhat", "centos", "scientific"
     service_name "zenoss"
   end
-    action [:enable, :start ]
+  action [:enable, :start ]
 end
 
 #skip the new install Wizard.
@@ -182,9 +183,8 @@ search(:role, "*:*").each do |role|
   if role.override_attributes['zenoss'] and role.override_attributes['zenoss']['device']
     if role.override_attributes['zenoss']['device']['device_class']
       #add the role as a Device Class
-      Chef::Log.debug "server DEVICE AS ROLE:#{role.name}:#{role.override_attributes['zenoss']['device']['device_class']}"
-      devices[role.name] = {
-        'deviceclass' => role.override_attributes['zenoss']['device']['device_class'],
+      Chef::Log.debug "deviceclass from role:#{role.name}:#{role.override_attributes['zenoss']['device']['device_class']}"
+      devices[role.override_attributes['zenoss']['device']['device_class']] = {
         'description' => role.description,
         'modeler_plugins' => role.default_attributes['zenoss']['device']['modeler_plugins'],
         'templates' => role.default_attributes['zenoss']['device']['templates'],
@@ -224,16 +224,13 @@ nodes.each do |node|
     if devices.has_key?(dclass)
       devices[dclass]['nodes'].push(node)
     else
-      Chef::Log.debug "server DEVICE FROM NODE:#{dclass}"
+      Chef::Log.debug "deviceclass from node:#{dclass}"
       devices[dclass] = {
-        'deviceclass' => dclass,
         'nodes' => [node]
       }
     end
   end
 end
-
-Chef::Log.debug "server DEVICES FROM DEVICES:#{devices.keys}"
 
 zenoss_zenbatchload "zenbatchloading devices" do
   devices devices
