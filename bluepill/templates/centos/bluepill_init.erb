@@ -17,6 +17,7 @@ case "$1" in
     $BLUEPILL_BIN load $BLUEPILL_CONFIG
     ;;
   stop)
+    $BLUEPILL_BIN $SERVICE_NAME stop
     $BLUEPILL_BIN $SERVICE_NAME quit
     ;;
   restart)
