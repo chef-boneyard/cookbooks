@@ -43,6 +43,7 @@ Optionally, the LWRP can install an "mpkg" package using installer(8).
 * `type` - type of package, "app" or "mpkg". Default is "app". When using "mpkg", the destination must be /Applications.
 * `volumes_dir` - Directory under /Volumes where the dmg is mounted. Not all dmgs are mounted into a /Volumes location matching the name of the dmg. If not specified, this will use the name attribute.
 * `dmg_name` - Specify the name of the dmg if it is not the same as `app`, or if the name has spaces.
+* `package_id` - Specify the name of the package, retrieved by typing `pkgutil --pkgs`.  No action will be taken if the package_id is found in the list of installed packages.  Packages will be reinstalled each chef run if this is not provided.
 
 Usage Examples
 ==============
@@ -85,8 +86,18 @@ Install MacIrssi to `~/Applications` from the local file downloaded to the cache
 Install Virtualbox to `/Applications` from the .mpkg:
 
     dmg_package "Virtualbox" do
-      source "http://dlc.sun.com.edgesuite.net/virtualbox/4.0.8/VirtualBox-4.0.8-71778-OSX.dmg"
+      source "http://download.virtualbox.org/virtualbox/4.1.2/VirtualBox-4.1.2-73507-OSX.dmg"
+      checksum "6fd7b3ed2596cd76004e6d1a8d5ddbfb4193d6508132bfa447304c9cff5703d7"
+      action :install
       type "mpkg"
+      package_id "org.virtualbox.pkg.virtualbox"
+    end
+
+Install pgAdmin, automatically accepting license agreement:
+
+    dmg_package "pgAdmin3" do
+      source "http://wwwmaster.postgresql.org/redir/198/h/pgadmin3/release/v1.12.3/osx/pgadmin3-1.12.3.dmg"
+      checksum "9435f79d5b52d0febeddfad392adf82db9df159196f496c1ab139a6957242ce9"
     end
 
 To do
