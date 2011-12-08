@@ -83,6 +83,8 @@ case node[:nginx][:init_style]
 when "runit"
   include_recipe "runit"
 
+  runit_service "nginx"
+
   service "nginx" do
     subscribes :restart, resources(:bash => "compile_nginx_source")
   end
