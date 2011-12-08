@@ -46,7 +46,7 @@ action :enable do
     end
 
     service "bluepill-#{new_resource.service_name}" do
-      action [ :enable, :start ]
+      action [ :enable ]
     end
   end
 end
