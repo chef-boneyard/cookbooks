@@ -30,8 +30,8 @@ action :enable do
       only_if { ::File.exists?(config_file) }
     end
   end
-  
-  case node[:platform]
+
+  case node['platform']
   when "centos", "redhat"
     template "/etc/init.d/bluepill-#{new_resource.service_name}" do
       source "bluepill_init.erb"
@@ -46,7 +46,7 @@ action :enable do
     end
 
     service "bluepill-#{new_resource.service_name}" do
-      action [ :enable, :start ]
+      action [ :enable ]
     end
   end
 end
