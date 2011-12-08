@@ -17,6 +17,10 @@
 # limitations under the License.
 #
 
+routes = node['openvpn']['routes']
+routes << node['openvpn'] if node['openvpn'].attribute?('push')
+node.default['openvpn']['routes'] << routes.flatten!
+
 key_dir = node["openvpn"]["key_dir"]
 key_size = node["openvpn"]["key"]["size"]
 

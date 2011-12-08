@@ -28,7 +28,7 @@ default["openvpn"]["log"]     = "/var/log/openvpn.log"
 default["openvpn"]["key_dir"] = "/etc/openvpn/keys"
 default["openvpn"]["signing_ca_key"]  = "#{node["openvpn"]["key_dir"]}/ca.key"
 default["openvpn"]["signing_ca_cert"] = "#{node["openvpn"]["key_dir"]}/ca.crt"
-default["openvpn"]["push"] = []
+default["openvpn"]["routes"] = []
 
 # Used by helper library to generate certificates/keys
 default["openvpn"]["key"]["ca_expire"] = 3650
