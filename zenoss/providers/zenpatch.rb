@@ -2,6 +2,8 @@ action :install do
   patch = new_resource.svnpatch
   #check if the patch is already applied
   unless ::File.exists?("#{node[:zenoss][:server][:zenhome]}/Products/r#{patch}.patch")
+    package("patch") { action :nothing }.run_action(:install)
+    package("wget") { action :nothing }.run_action(:install)
     Chef::Log.info "Applying patch #{patch} from ticket #{new_resource.ticket}."
     #apply the patch
     execute "#{node[:zenoss][:server][:zenhome]}/bin/zenpatch #{patch}" do
