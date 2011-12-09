@@ -5,6 +5,7 @@ This cookbook provides libraries, resources and providers to configure and manag
 
 * EBS Volumes (`ebs_volume`)
 * Elastic IPs (`elastic_ip`)
+* Elastic Load Balancer (`elastic_lb`)
 
 Requirements
 ============
@@ -105,6 +106,18 @@ Attribute Parameters:
 * `ip` - the IP address.
 * `timeout` - connection timeout for EC2 API.
 
+`elastic_lb.rb`
+-------------
+
+Actions:
+
+* `register` - Add this instance to the LB
+* `deregister` - Remove this instance from the LB
+
+Attribute Parameters:
+
+* `aws_secret_access_key`, `aws_access_key` - passed to `Opscode::AWS:Ec2` to authenticate, required.
+* `name` - the name of the LB, required.
 
 Usage
 =====
@@ -168,11 +181,26 @@ This will use the loaded `aws` and `ip_info` databags to pass the required value
 
 You can also store this in a role as an attribute or assign to the node directly, if preferred.
 
+aws_elastic_lb
+---------
+
+`elastic_lb` opererates similar to `elastic_ip'.  Make sure that you've created the ELB and enabled your instances' availability zones prior to using this provider.
+
+For example, to register the node in the 'QA' ELB:
+    aws_elastic_lb "elb_qa" do
+      aws_access_key aws['aws_access_key_id']
+      aws_secret_access_key aws['aws_secret_access_key']
+      name "QA"
+      action :register
+    end
+
+
 License and Author
 ==================
 
 Author:: Chris Walters (<cw@opscode.com>)
 Author:: AJ Christensen (<aj@opscode.com>)
+Author:: Justin Huff (<jjhuff@mspin.net>)
 
 Copyright 2009-2010, Opscode, Inc.
 
