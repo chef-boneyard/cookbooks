@@ -27,7 +27,13 @@ include_recipe "build-essential"
 
 if platform?("centos","redhat")
   package "httpd-devel"
-  package "curl-devel"
+  if node['platform_version'].to_f < 6.0
+    package 'curl-devel'
+  else
+    package 'libcurl-devel'
+    package 'openssl-devel'
+    package 'zlib-devel'
+  end
 else
   %w{ apache2-prefork-dev libapr1-dev libcurl4-gnutls-dev }.each do |pkg|
     package pkg do
