@@ -18,13 +18,14 @@
 #
 
 action :add do
-  unless ::File.exists?("/etc/apt/sources.list.d/#{new_resource.repo_name}-source.list")
-    Chef::Log.info "Adding #{new_resource.repo_name} repository to /etc/apt/sources.list.d/#{new_resource.repo_name}-source.list"
+    new_resource.updated_by_last_action(false)
+
     # add key
     if new_resource.keyserver && new_resource.key
       execute "install-key #{new_resource.key}" do
         command "apt-key adv --keyserver #{new_resource.keyserver} --recv #{new_resource.key}"
         action :nothing
+        not_if "apt-key list | grep #{new_resource.key}"
       end.run_action(:run)
     elsif new_resource.key && (new_resource.key =~ /http/)
       key_name = new_resource.key.split(/\//).last
@@ -38,25 +39,32 @@ action :add do
         action :nothing
       end.run_action(:run)
     end
+
     # build our listing
     repo_info = "#{new_resource.uri} #{new_resource.distribution} #{new_resource.components.join(" ")}"
     repository = "deb #{repo_info}\n"
     repository += "deb-src #{repo_info}\n" if new_resource.deb_src
-    # write out the file, replace it if it already exists
-    file "/etc/apt/sources.list.d/#{new_resource.repo_name}-source.list" do
+
+    repo_file = file "/etc/apt/sources.list.d/#{new_resource.repo_name}-source.list" do
       owner "root"
       group "root"
       mode 0644
-      content repository + "\n"
+      content repository
       action :nothing
-    end.run_action(:create)
-    execute "update package index" do
-      command "apt-get update"
+    end
+
+    # write out the repo file, replace it if it already exists
+    repo_file.run_action(:create)
+
+    apt_get_update = execute "apt-get update" do
       ignore_failure true
       action :nothing
-    end.run_action(:run)
-    new_resource.updated_by_last_action(true)
-  end
+    end
+
+    if repo_file.updated_by_last_action?
+      new_resource.updated_by_last_action(true)
+      apt_get_update.run_action(:run)
+    end
 end
 
 action :remove do
