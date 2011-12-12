@@ -6,29 +6,28 @@ CHANGELOG.md covers history and planned features
 
 Requirements
 ============
-Written with Chef 0.10.0.rc.0 and uses fairly recent search capabilities of roles.
+Written with Chef 0.10 and uses recent search capabilities of roles.
 
 The example roles in the `zenoss/roles` directory should be loaded for use, refer to the Roles subsection.
 
 Testing
 -------
-Tested on Ubuntu 10.04 and 10.10 and tested with Chef 0.9.12.
-Tested on CentOS 5.6 and Scientific Linux 5.5 and tested with Chef 0.10.0.rc.0.
+Tested on Ubuntu 10.04 and CentOS 5.7 and tested with Chef 0.10.
 
 Attributes
 ==========
 Attributes under the `zenoss` namespace.
 
-* `["zenoss"]["device"]["device_class"]` - Device Class for the device, "/Discovered" is the default and may be overwritten at the Role or Node.
-* `["zenoss"]["device"]["location"]` - Location for the device, may be set at the Role or Node.
-* `["zenoss"]["device"]["modeler_plugins"]` - Modeler Plugins used by the device, may be set at the Role or Node.
-* `["zenoss"]["device"]["properties"]` - Configuration Properties used by the device, may be set at the Role or Node.
-* `["zenoss"]["device"]["templates"]` - Monitoring Templates used by the device, may be set at the Role or Node.
-* `["zenoss"]["server"]["admin_password"]` - Password for the `admin` account, default is `chefzenoss`
-* `["zenoss"]["server"]["installed_zenpacks"]` - Hash of ZenPacks and their versions, defaults are `"ZenPacks.zenoss.LinuxMonitor" => "1.1.5", "ZenPacks.community.MySQLSSH" => "0.4"`
-* `["zenoss"]["server"]["zenhome"]` - Directory of the Zenoss server installation, default is `/usr/local/zenoss/zenoss` for Debian/Ubuntu and `/opt/zenoss` for CentOS/RHEL/Scientific Linux.
-* `["zenoss"]["server"]["zenoss_pubkey"]` - Public key for the `zenoss` user used for monitoring. Set on the server automatically if it does not exist.
-* `["zenoss"]["server"]["zenpatches"]` - Hash of patches and the tickets providing the patches, defaults are `"23716" => "http://dev.zenoss.com/trac/ticket/7485", "23833" => "http://dev.zenoss.com/trac/ticket/6959"`
+* `['zenoss']['device']['device_class']` - Device Class for the device, "/Discovered" is the default and may be overwritten at the Role or Node.
+* `['zenoss']['device']['location']` - Location for the device, may be set at the Role or Node.
+* `['zenoss']['device']['modeler_plugins']` - Modeler Plugins used by the device, may be set at the Role or Node.
+* `['zenoss']['device']['properties']` - Configuration Properties used by the device, may be set at the Role or Node.
+* `['zenoss']['device']['templates']` - Monitoring Templates used by the device, may be set at the Role or Node.
+* `['zenoss']['server']['admin_password']` - Password for the `admin` account, default is `chefzenoss`
+* `['zenoss']['server']['installed_zenpacks']` - Hash of ZenPacks and their versions, defaults are `"ZenPacks.zenoss.LinuxMonitor" => "1.1.5", "ZenPacks.community.MySQLSSH" => "0.4"`
+* `['zenoss']['server']['zenhome']` - Directory of the Zenoss server installation, default is `/usr/local/zenoss/zenoss` for Debian/Ubuntu and `/opt/zenoss` for CentOS/RHEL/Scientific Linux.
+* `['zenoss']['server']['zenoss_pubkey']` - Public key for the `zenoss` user used for monitoring. Set on the server automatically if it does not exist.
+* `['zenoss']['server']['zenpatches']` - Hash of patches and the tickets providing the patches, defaults are `"23716" => "http://dev.zenoss.com/trac/ticket/7485", "23833" => "http://dev.zenoss.com/trac/ticket/6959"`
 
 Resources/Providers
 ===================

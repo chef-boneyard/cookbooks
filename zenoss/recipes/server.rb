@@ -19,8 +19,6 @@
 # limitations under the License.
 #
 
-include_recipe "zenoss::client"
-
 case node[:platform]
 when "centos","redhat","scientific"
   include_recipe "yum"
@@ -133,7 +131,9 @@ zenoss_zendmd "add users" do
   action :users
 end
 
-#put public key in an attribute
+include_recipe "zenoss::client"
+
+#store the public key on the server as an attribute
 ruby_block "zenoss public key" do
   block do
     pubkey = IO.read("/home/zenoss/.ssh/id_dsa.pub")

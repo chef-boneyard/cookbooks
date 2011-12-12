@@ -25,11 +25,28 @@ action :run do
     batch += ", setAddress=\"#{locations[location]['address']}\"\n"
   end
 
-  #sort the hash and construct the batchload file
+  #load the devices by device class
   devices.keys.sort!.each do |dclass|
     Chef::Log.debug "zenbatchload deviceclass:#{dclass}"
-    batch += "\"/Devices#{dclass}\"\n"
-    #write out any settings for the device class as well?
+    batch += "\"/Devices#{dclass}\""
+    #write out any settings for the device class
+    #individual node settings aren't supported
+    if devices[dclass]['modeler_plugins']
+      batch += " zCollectorPlugins=("
+      devices[dclass]['modeler_plugins'].each {|k| batch += "'#{k}'," }
+      batch += "),"
+    end
+    if devices[dclass]['templates']
+      batch += " zDeviceTemplates=["
+      devices[dclass]['templates'].each {|k| batch += "'#{k}'," }
+      batch += "],"
+    end
+    if devices[dclass]['properties']
+      devices[dclass]['properties'].each {|k, v| batch += " #{k}='#{v}'," }
+    end
+    batch += "\n"
+
+    #add the individual nodes
     devices[dclass]['nodes'].sort_by {|n| n.ipaddress}.each do |device|
       #set for hybrid clouds
       if device['cloud'] and device['cloud']['public_ips']
@@ -64,20 +81,7 @@ action :run do
       dsystems.each {|sys| devsystems += "\"/#{sys}\","}
       devsystems += "], "
       batch += devsystems
-      #only use device['zenoss']['device'].current_normal for node-specific  templates, modeler_plugins and properties
-      if node['zenoss'] and node['zenoss']['device'] and node['zenoss']['device'].current_normal
-        if node['zenoss']['device'].current_normal['modeler_plugins']
-          plugins = node['zenoss']['device'].current_normal['modeler_plugins']
-          batch += "zCollectorPlugins=#{plugins}, "
-        end
-        if node['zenoss']['device'].current_normal['templates']
-          templates = node['zenoss']['device'].current_normal['templates']
-          batch += "zDeviceTemplates=#{templates}, "
-        end
-        if node['zenoss']['device'].current_normal['properties']
-          node['zenoss']['device'].current_normal['properties'].each {|k, v| batch += "#{k}='#{v}', " }
-        end
-      end
+
       batch += "\n"
     end
   end
