@@ -62,7 +62,8 @@ This LWRP provides an easy way to manage additional APT repositories. Adding a n
     # add the Zenoss repo
     apt_repository "zenoss" do
       uri "http://dev.zenoss.org/deb"
-      components ["main","stable"]
+      distribution "main"
+      components ["stable"]
       action :add
     end
     
