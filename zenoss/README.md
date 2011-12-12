@@ -59,22 +59,21 @@ The client includes the `openssh` recipe and adds the device to the Zenoss serve
 
 Server
 ------
-The server includes the `openssh` and `apt` recipes. The server recipe installs Zenoss from the .deb stack installer via the `apt` cookbook, handling and configuring all the dependencies.
+The server includes the `openssh` and `apt` recipes. The server recipe installs Zenoss from either the .deb stack installer or the .rpm, handling and configuring all the dependencies.
 
 The recipe does the following:
 
 1. Installs Zenoss per the Zenoss Installation Guide.
-2. Applies post-3.1.0 patches from closed tickets.
-3. Starts server.
+2. Applies any patches that you have specified with the `['zenoss']['server']['zenpatches']` attribute.
+3. Starts server (skipping the setup wizard).
 4. Sets the `admin` password.
-5. Adds any other users to the proper Zenoss roles.
+5. Searches for members of the `sysadmins` group by searching through `users` data bag and adds them to the server.
 6. Creates a `zenoss` user for running Zenoss and monitoring clients via SSH.
 7. Installs ZenPacks required for monitoring.
-8. Creates Device Classes, Groups and Locations based on Chef roles containing custom settings.
-9. Adds Systems to the server based on which recipes are used within Chef.
-10. Adds itself to be monitored.
-11. Searches for members of the `sysadmins` group by searching through `users` data bag and adds them to the server.
-12. Finds all nodes implementing `zenoss::client` and adds them for monitoring and places them in the proper Device Classes, Groups, Systems and Locations and any node-specific settings as well.
+8. Adds itself to be monitored.
+9. Creates Device Classes, Groups and Locations based on Chef roles containing custom settings.
+10. Adds Systems to the server based on which recipes are used within Chef.
+11. Finds all nodes implementing `zenoss::client` and adds them for monitoring and places them in the proper Device Classes, Groups, Systems and Locations and any node-specific settings as well via `zenbatchload`.
 
 Data Bags
 =========
@@ -140,6 +139,8 @@ Any Properties that need to be set are exposed as attributes on the node and the
 Zenoss has the concept of Devices, which belong to a single Device Class and Location. Chef nodes implementing the `zenoss::client` recipe become Zenoss Devices and the Device Class and Location roles may be used for placing in the proper organizers. Zenoss also has Groups and Systems which are essentially ways of tagging and organizing devices (and devices may belong to multiple Groups and Systems). Searches for nodes that belong to other roles will populate the Groups. Searches for nodes applying recipes are used to populate the Systems.
 
 If you are monitoring devices running on Amazon's EC2 with Zenoss, you will need to allow ICMP ping from your Zenoss server.
+
+Because of limitations in zenbatchload, changing settings after initial configuration may not persist. This will be revisited with the upcoming Zenoss 4.x release (COO-895).
 
 License and Author
 ==================

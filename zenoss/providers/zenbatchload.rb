@@ -33,16 +33,16 @@ action :run do
     #individual node settings aren't supported
     if devices[dclass]['modeler_plugins']
       batch += " zCollectorPlugins=("
-      devices[dclass]['modeler_plugins'].each {|k| batch += "'#{k}'," }
+      devices[dclass]['modeler_plugins'].each {|k| batch += "\"#{k}\"," }
       batch += "),"
     end
     if devices[dclass]['templates']
       batch += " zDeviceTemplates=["
-      devices[dclass]['templates'].each {|k| batch += "'#{k}'," }
+      devices[dclass]['templates'].each {|k| batch += "\"#{k}\"," }
       batch += "],"
     end
     if devices[dclass]['properties']
-      devices[dclass]['properties'].each {|k, v| batch += " #{k}='#{v}'," }
+      devices[dclass]['properties'].each {|k, v| batch += " #{k}=\"#{v}\"," }
     end
     batch += "\n"
 
