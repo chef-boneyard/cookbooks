@@ -90,10 +90,12 @@ end
 
 
 #apply post 3.2.0 patches from http://dev.zenoss.com/trac/report/6 marked 'closed'
-node["zenoss"]["server"]["zenpatches"].each do |patch, url|
-  zenoss_zenpatch patch do
-    ticket url
-    action :install
+if node['zenoss'] and node['zenoss']['server'] and node['zenoss']['server']['zenpatches']
+  node['zenoss']['server']['zenpatches'].each do |patch, url|
+    zenoss_zenpatch patch do
+      ticket url
+      action :install
+    end
   end
 end
 
