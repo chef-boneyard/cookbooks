@@ -29,7 +29,7 @@ execute "build-tinydns-data" do
   action :nothing
 end
 
-template "#{node[:runit][:sv_dir]}/tinydns/root/data" do
+template "#{node[:djbdns][:tinydns_dir]}/root/data" do
   source "tinydns-data.erb"
   mode 0644
   notifies :run, resources("execute[build-tinydns-data]")
