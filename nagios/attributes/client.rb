@@ -31,8 +31,8 @@ else
   set['nagios']['client']['install_method'] = 'source'
 end
 
-set['nagios']['nrpe']['home']       = "/usr/lib/nagios"
-set['nagios']['nrpe']['conf_dir']   = "/etc/nagios"
+default['nagios']['nrpe']['home']       = "/usr/lib/nagios"
+default['nagios']['nrpe']['conf_dir']   = "/etc/nagios"
 
 # for plugin from source installation
 default['nagios']['plugins']['url']      = 'http://prdownloads.sourceforge.net/sourceforge/nagiosplug'
@@ -49,5 +49,6 @@ default['nagios']['checks']['memory']['warning']  = 250
 default['nagios']['checks']['load']['critical']   = "30,20,10"
 default['nagios']['checks']['load']['warning']    = "15,10,5"
 default['nagios']['checks']['smtp_host'] = String.new
+default['nagios']['dont_blame_nrpe'] = '0'
 
 default['nagios']['server_role'] = "monitoring"

@@ -85,6 +85,35 @@ The following attributes are used for the client NRPE checks for warning and cri
 * `node['nagios']['checks']['smtp_host']` - default relayhost to check for connectivity. Default is an empty string, set via an attribute in a role.
 * `node['nagios']['server_role']` - the role that the nagios server will have in its run list that the clients can search for.
 
+client_xinetd
+-------------
+
+This recipe runs the nagios nrpe client under the xinetd service
+rather than as an independent daemon. 
+
+Like nagios::client recipe, this recipe uses the nagios::client_source
+recipe to the do heavy lifting of compiling the nrpe binary and
+installing the plugins. 
+
+If your nagios user uses sudo to run privileged commands like `service
+<service_name> status' you need to create a users data bag for your
+node['nagios']['user'] that looks like this
+
+{ 
+  "id":"nagios"
+  "sudo_cmds": ["check_init_service", "check_hpasm"]
+}
+
+This recipe will create entries in the /etc/sudoers.d/nagios file for
+each command with the :NOPASSWD option.
+
+If do use sudo_cmds for the nagios user, this recipe will cause an
+error if the /etc/sudoers.d directory does not exist.
+
+Further, it will have no effect if the #includedir directive is not
+included in you /etc/sudoers file,
+
+
 server
 ------
 
