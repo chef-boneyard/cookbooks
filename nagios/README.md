@@ -264,12 +264,12 @@ The library included with the cookbook provides some helper methods used in temp
 Resources/Providers
 ===================
 
-The nrpe LWRP provides an easy way to add and remove NRPE checks from within a cookbook.
+The nrpecheck LWRP provides an easy way to add and remove NRPE checks from within a cookbook.
 
 # Actions
 
 - :add: creates a NRPE configuration file and restart the NRPE process
-- :remove: removes the configuration file
+- :remove: removes the configuration file and restart the NRPE process
 
 # Attribute Parameters
 
