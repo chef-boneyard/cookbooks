@@ -1,4 +1,4 @@
-pid_file=/var/run/nagios/nrpe.pid
+pid_file=<%= node['nagios']['nrpe']['pidfile'] %>
 server_port=5666
 nrpe_user=nagios
 nrpe_group=nagios
