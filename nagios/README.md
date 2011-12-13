@@ -261,6 +261,39 @@ The library included with the cookbook provides some helper methods used in temp
 * nagios_interval - calculates interval based on interval length and a given number of seconds.
 * nagios_attr - retrieves a nagios attribute from the node.
 
+Resources/Providers
+===================
+
+The nrpe LWRP provides an easy way to add and remove NRPE checks from within a cookbook.
+
+# Actions
+
+- :add: creates a NRPE configuration file and restart the NRPE process
+- :remove: removes the configuration file
+
+# Attribute Parameters
+
+- command_name: name attribute.  The name of the check.  You'll need to reference this in your commands.cfg template
+- warning_condition: String that you will pass to the command with the -w flag
+- critical_condition: String that you will pass to the command with the -c flag
+- command: The actual command to execute (including the path).
+- parameters: Any additional parameters you wish to pass
+
+# Examples
+
+    # Use LWRP to define check_load
+    nagios_nrpecheck "check_load" do
+      command "#{node['nagios']['plugin_dir']}/check_load"
+      warning_condition node['nagios']['checks']['load']['warning']
+      critical_condition node['nagios']['checks']['load']['critical']
+      action :add
+    end
+    
+    # Remove the check_load definition
+    nagios_nrpecheck "check_load" do
+      action :remove
+    end
+
 Usage
 =====
 
