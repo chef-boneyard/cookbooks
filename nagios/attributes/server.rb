@@ -26,12 +26,14 @@ case node['platform']
 when "ubuntu","debian"
   set['nagios']['server']['install_method'] = 'package'
   set['nagios']['server']['service_name']   = 'nagios3'
+  set['nagios']['server']['mail_command']   = '/usr/bin/mail'
 when "redhat","centos","fedora","scientific"
   set['nagios']['server']['install_method'] = 'source'
   set['nagios']['server']['service_name']   = 'nagios'
 else
   set['nagios']['server']['install_method'] = 'source'
   set['nagios']['server']['service_name']   = 'nagios'
+  set['nagios']['server']['mail_command']   = '/bin/mail'
 end
 
 set['nagios']['home']       = "/usr/lib/nagios3"
