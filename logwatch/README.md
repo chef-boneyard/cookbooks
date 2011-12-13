@@ -1,22 +1,37 @@
-= DESCRIPTION:
+Description
+===========
 
-Installs keepalived and pushes the configuration file out.
+Installs logwatch.
 
-= REQUIREMENTS:
+Changes
+=======
 
-== Platform:
+## v0.1.1:
 
-Tested on Ubuntu 8.10.
+* Current released version.
 
-= ATTRIBUTES: 
+Requirements
+============
 
-= USAGE: 
+## Platform:
 
-Modify the sample template to suit your environment and configuration requirements.
+* Debian/Ubuntu
+* RHEL/CentOS
 
-= LICENSE and AUTHOR:
-      
-Author:: Joshua Timberman (<joshua@opscode.com>)
+## Cookbooks:
+
+* perl
+
+Usage
+=====
+
+Ensures that perl is installed to be used with logwatch and then
+installs logwatch.
+
+License and Author
+==================
+
+Author:: Joshua Timberman <joshua@opscode.com>
 
 Copyright:: 2009, Opscode, Inc
 

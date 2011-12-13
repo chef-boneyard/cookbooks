@@ -1,36 +1,36 @@
-= DESCRIPTION:
+Description
+===========
 
-Manages Perl installation and provides cpan_module, to install modules 
-from... CPAN.
+Installs boost, mainly to support Thrift.
 
-= REQUIREMENTS:
+Changes
+=======
 
-This cookbook requires at least Ohai 0.3.0 to get the Perl language data:
+## v0.1.0:
 
-{
-  "perl": {
-    "version": "5.10.0",
-    "archname": "x86_64-linux-gnu-thread-multi"
-  }
-}
+* Current public release.
 
-Tested with Perl 5.8.8 and 5.10.0.
+Requirements
+============
 
-= USAGE:
+## Platform:
 
-To install a module from CPAN:
+* Ubuntu 10.04
 
-  cpan_module "App::Munchies"
+Usage
+=====
 
-Optionally, installation can forced with the 'force' parameter.
+Include this recipe to install boost development packages.
 
-  cpan_module "App::Munchies"
-    force true
-  end
+    include_recipe "boost"
 
-= LICENSE and AUTHOR:
+Merely installs the libboost-dev package which should grab a bunch of dependencies and get the right thing.
+
+License and Author
+==================
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
+
 Copyright:: 2009, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,4 +44,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-

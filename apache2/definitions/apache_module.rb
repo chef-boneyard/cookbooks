@@ -21,6 +21,7 @@ define :apache_module, :enable => true, :conf => false do
   include_recipe "apache2"
 
   params[:filename] = params[:filename] || "mod_#{params[:name]}.so"
+  params[:module_path] = params[:module_path] || "#{node['apache']['lib_dir']}/modules/#{params[:filename]}"
 
   if params[:conf]
     apache_conf params[:name]
@@ -28,7 +29,7 @@ define :apache_module, :enable => true, :conf => false do
 
   if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
     file "#{node['apache']['dir']}/mods-available/#{params[:name]}.load" do
-      content "LoadModule #{params[:name]}_module #{node['apache']['lib_dir']}/modules/#{params[:filename]}\n"
+      content "LoadModule #{params[:name]}_module #{params[:module_path]}\n"
       mode 0644
     end
   end

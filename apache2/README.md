@@ -295,6 +295,10 @@ For examples of using the definitions in your own recipes, see their respective 
 Changes
 =======
 
+## v1.0.4:
+
+* [COOK-859] - don't hardcode module paths
+
 ## v1.0.2
 
 * Tickets resolved in this release: COOK-788, COOK-782, COOK-780
