@@ -16,6 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-package "emacs" do
-  action :upgrade
+
+case node['platform']
+when "freebsd"
+  package "emacs" do
+    package_name "editors/emacs-nox11"
+    source "ports"
+    action :install
+  end
+else
+  package "emacs" do
+    action :upgrade
+  end
 end
