@@ -17,13 +17,20 @@
 
 default["bluepill"]["bin"] = "#{languages[:ruby][:bin_dir]}/bluepill"
 default["bluepill"]["logfile"] = "/var/log/bluepill.log"
-default["bluepill"]["conf_dir"] = "/etc/bluepill"
 default["bluepill"]["pid_dir"] = "/var/run/bluepill"
 default["bluepill"]["state_dir"] = "/var/lib/bluepill"
 
 case platform
 when "arch"
   default["bluepill"]["init_dir"] = "/etc/rc.d"
+  default["bluepill"]["conf_dir"] = "/etc/bluepill"
+  default["bluepill"]["group"] = "root"
+when "freebsd"
+  default["bluepill"]["init_dir"] = "/usr/local/etc/rc.d"
+  default["bluepill"]["conf_dir"] = "/usr/local/etc/bluepill"
+  default["bluepill"]["group"] = "wheel"
 else
   default["bluepill"]["init_dir"] = "/etc/init.d"
+  default["bluepill"]["conf_dir"] = "/etc/bluepill"
+  default["bluepill"]["group"] = "root"
 end
