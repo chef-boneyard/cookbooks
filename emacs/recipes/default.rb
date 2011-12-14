@@ -17,15 +17,16 @@
 # limitations under the License.
 #
 
-case node['platform']
-when "freebsd"
-  package "emacs" do
-    package_name "editors/emacs-nox11"
-    source "ports"
-    action :install
+node['emacs']['packages'].each do |pkg|
+
+  package pkg do
+    case node['platform']
+    when "freebsd"
+      source "ports"
+      action :install
+    else
+      action :upgrade
+    end
   end
-else
-  package "emacs" do
-    action :upgrade
-  end
+
 end
