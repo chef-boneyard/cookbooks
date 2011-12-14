@@ -27,7 +27,9 @@ end
 template "/etc/selinux/config" do
   source "sysconfig/selinux.erb"
   variables(
-    :selinux => "enforcing",
-    :selinuxtype => "targeted",
+		{
+			:selinux => "enforcing",
+			:selinuxtype => "targeted",
+		}
   )
 end
