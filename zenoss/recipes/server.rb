@@ -21,7 +21,7 @@
 
 case node[:platform]
 when "centos","redhat","scientific"
-  package "libgcj" #moved here to make CentOS 5.6 happy
+  package "libgcj" #moved here to make CentOS 5.6 happy (COOK-908)
 
   yum_key "RPM-GPG-KEY-zenoss" do
     url "http://dev.zenoss.com/yum/RPM-GPG-KEY-zenoss"
