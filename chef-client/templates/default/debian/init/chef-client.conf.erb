@@ -4,7 +4,7 @@
 
 description "Chef Client"
 
-start on filesystem
+start on net-device-up
 stop on runlevel [!2345]
 
 respawn
