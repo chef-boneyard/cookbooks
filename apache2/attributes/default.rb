@@ -68,7 +68,7 @@ when "freebsd"
   set[:apache][:binary]  = "/usr/local/sbin/httpd"
   set[:apache][:icondir] = "/usr/local/www/apache22/icons"
   set[:apache][:cache_dir] = "/var/run/apache22"
-  set[:apache][:pid_file]  = "/var/run/httpd/httpd.pid"
+  set[:apache][:pid_file]  = "/var/run/httpd.pid"
   set[:apache][:lib_dir] = "/usr/local/libexec/apache22"
 else
   set[:apache][:dir]     = "/etc/apache2"
