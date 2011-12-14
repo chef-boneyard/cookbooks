@@ -2,7 +2,7 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs emacs"
-version           "0.8.0"
+version           "0.8.2"
 
 recipe "emacs", "Installs Emacs"
 

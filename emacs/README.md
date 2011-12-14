@@ -6,7 +6,7 @@ Installs the "emacs" package to install the worlds most flexible, customizable t
 Changes
 =======
 
-### v0.8.0:
+### v0.8.2:
 
 * [COOK-551] - FreeBSD Support
 * [COOK-839] - install non-X11 package by setting an attribute
