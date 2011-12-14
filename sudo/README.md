@@ -54,6 +54,29 @@ In JSON (role.json or on the node object):
 
 Note that the template for the sudoers file has the group "sysadmin" with ALL:ALL permission, though the group by default does not exist.
 
+SUDOERS_D Recipe
+==================
+
+The sudoers_d.rb recipe creates a very basic sudoers file 
+that includes all sudoers files in /etc/sudoers.d/ directory.
+
+This may be useful to you if you have different cookbooks that
+add sudoers with specific commands, such as users or nagios
+cookbooks.
+
+This recipe does not depend on any data bags and does not 
+grant sudo privileges to any sudoers users besides root.
+
+Recipes adding commands to /etc/sudoers.d/ should look like this
+
+template "/etc/sudoers.d/foo" do
+	source "foo.sudoers"
+	mode 0440
+  owner "root"
+  group "root"
+end
+
+
 LICENSE AND AUTHOR
 ==================
 
