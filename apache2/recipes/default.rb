@@ -108,6 +108,31 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse", "freebs
   end
 end
 
+if platform?("freebsd")
+  file "#{node[:apache][:dir]}/Includes/no-accf.conf" do
+    action :delete
+    backup false
+  end
+  directory "#{node[:apache][:dir]}/Includes" do
+    action :delete
+    backup false
+  end
+
+  %w{httpd-autoindex.conf httpd-dav.conf httpd-default.conf httpd-info.conf
+     httpd-languages.conf httpd-manual.conf httpd-mpm.conf
+     httpd-multilang-errordoc.conf httpd-ssl.conf httpd-userdir.conf
+     httpd-vhosts.conf}.each do |f|
+    file "#{node[:apache][:dir]}/extra/#{f}" do
+      action :delete
+      backup false
+    end
+  end
+  directory "#{node[:apache][:dir]}/extra" do
+    action :delete
+    backup false
+  end
+end
+
 directory "#{node[:apache][:dir]}/ssl" do
   action :create
   mode 0755
