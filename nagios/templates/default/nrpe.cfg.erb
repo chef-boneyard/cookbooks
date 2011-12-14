@@ -2,7 +2,7 @@ pid_file=/var/run/nrpe.pid
 server_port=5666
 nrpe_user=nagios
 nrpe_group=nagios
-dont_blame_nrpe=0
+dont_blame_nrpe=<%= node['nagios']['dont_blame_nrpe'] %>
 debug=0
 command_timeout=60
 allowed_hosts=<%= @mon_host.join(',') %>

@@ -1,0 +1,16 @@
+service nrpe
+{
+   flags           = REUSE
+   socket_type     = stream    
+   port            = 5666    
+   wait            = no
+   user            = nagios
+   group           = nagios
+   server          = /usr/bin/nrpe
+   server_args     = -c /etc/nagios/nrpe.cfg --inetd
+   log_type        = FILE /var/log/nrpe.log
+	 log_on_failure  = USERID HOST ATTEMPT
+   disable         = no
+   only_from       = <%= @mon_host.join(' ') %> 
+}
+

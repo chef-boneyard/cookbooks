@@ -1,0 +1,51 @@
+#!/bin/sh
+
+PROGNAME=`basename $0`
+
+print_usage() {
+        echo "Usage: $PROGNAME"
+}
+
+print_help() {
+        echo ""
+        print_usage
+        echo ""
+        echo "This plugin checks the status of services normally started by the init process."
+        echo ""
+        support
+        exit 0
+}
+
+
+case "$1" in
+        --help)
+                print_help
+                exit 0
+                ;;
+        -h)
+                print_help
+                exit 0
+                ;;
+        *)
+
+		if [ $# -eq 1 ]; then 
+			/sbin/service $1 status
+			ret=$?
+			case "$ret" in
+			     0)
+				exit $ret
+				;;
+			     *)
+				exit 2
+				;;
+			esac
+		else
+			echo "ERROR: No service name specified on command line"
+			exit 3
+		fi
+                ;;
+esac
+
+
+
+
