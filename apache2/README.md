@@ -12,6 +12,38 @@ Debian-style Apache configuration uses scripts to manage modules and sites (vhos
 
 This cookbook ships with templates of these scripts for non Debian/Ubuntu platforms. The scripts are used in the __Definitions__ below.
 
+Changes/Roadmap
+===============
+
+* COOK-915 - update to `mod_auth_openid` version 0.6, see __Recipes/mod_auth_openid__ below.
+
+## v1.0.4:
+
+* [COOK-859] - don't hardcode module paths
+
+## v1.0.2
+
+* Tickets resolved in this release: COOK-788, COOK-782, COOK-780
+
+## v1.0.0
+
+* Red Hat family support is greatly improved, all recipes except `god_monitor` converge.
+* Recipe `mod_auth_openid` now works on RHEL family distros
+* Recipe `mod_php5` will now remove config from package on RHEL family so it doesn't conflict with the cookbook's.
+* Added `php5.conf.erb` template for `mod_php5` recipe.
+* Create the run state directory for `mod_fcgid` to prevent a startup error on RHEL version 6.
+* New attribute `node['apache']['lib_dir']` to handle lib vs lib64 on RHEL family distributions.
+* New attribute `node['apache']['group']`.
+* Scientific Linux support added.
+* Use a file resource instead of the generate-module-list executed perl script on RHEL family.
+* "default" site can now be disabled.
+* web_app now has an "enable" parameter.
+* Support for dav_fs apache module.
+* Tickets resolved in this release: COOK-754, COOK-753, COOK-665, COOK-624, COOK-579, COOK-519, COOK-518
+* Fix node references in template for a2dissite
+* Use proper user and group attributes on files and templates.
+* Replace the anemic README.rdoc with this new and improved superpowered README.md :).
+
 Requirements
 ============
 
@@ -99,6 +131,17 @@ Worker attributes are used for tuning the Apache HTTPD worker MPM configuration.
 * `node['apache']['worker']['maxsparethreads]` - Maximum number of spare worker threads. Default 192.
 * `node['apache']['worker']['maxrequestsperchild']` - Maximum number of requests a child process will handle.
 
+mod\_auth\_openid attributes
+----------------------------
+
+The following attributes are in the `attributes/mod_auth_openid.rb` file. Like all Chef attributes files, they are loaded as well, but they're logistically unrelated to the others, being specific to the `mod_auth_openid` recipe.
+
+* `node['apache']['mod_auth_openid']['checksum']` - sha256sum of the tarball containing the source.
+* `node['apache']['mod_auth_openid']['version']` - version of the `mod_auth_openid` to download.
+* `node['apache']['mod_auth_openid']['cache_dir']` - the cache directory is where the sqlite3 database is stored. It is separate so it can be managed as a directory resource.
+* `node['apache']['mod_auth_openid']['dblocation']` - filename of the sqlite3 database used for directive `AuthOpenIDDBLocation`, stored in the `cache_dir` by default.
+* `node['apache']['mod_auth_openid']['configure_flags']` - optional array of configure flags passed to the `./configure` step in the compilation of the module.
+
 Recipes
 =======
 
@@ -116,15 +159,23 @@ The default recipe does a number of things to set up Apache HTTPd.
 mod\_auth\_openid
 -----------------
 
+**Changed via COOK-915**
+
 This recipe compiles the module from source. In addition to `build-essential`, some other packages are included for installation like the GNU C++ compiler and development headers.
 
 To use the module in your own cookbooks to authenticate systems using OpenIDs, specify an array of OpenIDs that are allowed to authenticate with the attribute `node['apache']['allowed_openids']`. Use the following in a vhost to protect with OpenID authentication:
 
-    AuthOpenIDEnabled On
-    AuthOpenIDDBLocation /var/cache/apache2/mod_auth_openid.db
-    AuthOpenIDUserProgram /usr/local/bin/mod_auth_openid.rb
+    AuthType OpenID
+    require user <%= node['apache']['allowed_openids'].join(' ') %>
+    AuthOpenIDDBLocation <%= node['apache']['mod_auth_openid']['dblocation'] %>
 
-Change the DBLocation as appropriate for your platform. You'll need to change the file in the recipe to match. The UserProgram is optional if you don't want to limit access by certain OpenIDs.
+Change the DBLocation with the attribute as required; this file is in a different location than previous versions, see below. It should be a sane default for most platforms, though, see `attributes/mod_auth_openid.rb`.
+
+### Changes from COOK-915:
+
+* `AuthType OpenID` instead of `AuthOpenIDEnabled On`.
+* `require user` instead of `AuthOpenIDUserProgram`.
+* A bug(?) in `mod_auth_openid` causes it to segfault when attempting to update the database file if the containing directory is not writable by the HTTPD process owner (e.g., www-data), even if the file is writable. In order to not interfere with other settings from the default recipe in this cookbook, the db file is moved.
 
 mod\_fcgid
 ----------
@@ -291,36 +342,6 @@ Using this cookbook is relatively straightforward. Add the desired recipes to th
     )
 
 For examples of using the definitions in your own recipes, see their respective sections above.
-
-Changes
-=======
-
-## v1.0.4:
-
-* [COOK-859] - don't hardcode module paths
-
-## v1.0.2
-
-* Tickets resolved in this release: COOK-788, COOK-782, COOK-780
-
-## v1.0.0
-
-* Red Hat family support is greatly improved, all recipes except `god_monitor` converge.
-* Recipe `mod_auth_openid` now works on RHEL family distros
-* Recipe `mod_php5` will now remove config from package on RHEL family so it doesn't conflict with the cookbook's.
-* Added `php5.conf.erb` template for `mod_php5` recipe.
-* Create the run state directory for `mod_fcgid` to prevent a startup error on RHEL version 6.
-* New attribute `node['apache']['lib_dir']` to handle lib vs lib64 on RHEL family distributions.
-* New attribute `node['apache']['group']`.
-* Scientific Linux support added.
-* Use a file resource instead of the generate-module-list executed perl script on RHEL family.
-* "default" site can now be disabled.
-* web_app now has an "enable" parameter.
-* Support for dav_fs apache module.
-* Tickets resolved in this release: COOK-754, COOK-753, COOK-665, COOK-624, COOK-579, COOK-519, COOK-518
-* Fix node references in template for a2dissite
-* Use proper user and group attributes on files and templates.
-* Replace the anemic README.rdoc with this new and improved superpowered README.md :).
 
 License and Authors
 ===================
