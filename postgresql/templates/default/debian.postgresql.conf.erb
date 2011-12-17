@@ -53,12 +53,15 @@ external_pid_file = '/var/run/postgresql/<%= node.postgresql.version -%>-main.pi
 
 # - Connection Settings -
 
-#listen_addresses = 'localhost'		# what IP address(es) to listen on;
+listen_addresses = <%= node[:postgresql][:listen_address] %>
+					# what IP address(es) to listen on;
 					# comma-separated list of addresses;
 					# defaults to 'localhost', '*' = all
 					# (change requires restart)
-port = 5432				# (change requires restart)
-max_connections = 100			# (change requires restart)
+port = <%= node[:postgresql][:port] %>	
+					# (change requires restart)
+max_connections = <%= node[:postgresql][:tunable][:max_connections] %>
+					# (change requires restart)
 # Note:  Increasing max_connections costs ~400 bytes of shared memory per 
 # connection slot, plus lock space (see max_locks_per_transaction).  You might
 # also need to raise shared_buffers to support more connections.
@@ -108,14 +111,16 @@ ssl = true				# (change requires restart)
 
 # - Memory -
 
-shared_buffers = 24MB			# min 128kB or max_connections*16kB
+shared_buffers = <%= node[:postgresql][:tunable][:shared_buffers] %>
+					# min 128kB or max_connections*16kB
 					# (change requires restart)
 #temp_buffers = 8MB			# min 800kB
 #max_prepared_transactions = 5		# can be 0 or more
 					# (change requires restart)
 # Note:  Increasing max_prepared_transactions costs ~600 bytes of shared memory
 # per transaction slot, plus lock space (see max_locks_per_transaction).
-#work_mem = 1MB				# min 64kB
+work_mem = <%= node[:postgresql][:tunable][:work_mem] %>
+					# min 64kB
 #maintenance_work_mem = 16MB		# min 1MB
 #max_stack_depth = 2MB			# min 100kB
 
@@ -154,9 +159,12 @@ max_fms_pages = 153600
 
 # - Settings -
 
-#fsync = on				# turns forced synchronization on or off
-#synchronous_commit = on		# immediate fsync at commit
-#wal_sync_method = fsync		# the default is the first option 
+#fsync = on
+					# turns forced synchronization on or off
+synchronous_commit = <%= node[:postgresql][:tunable][:synchronous_commit] %>
+					# immediate fsync at commit
+wal_sync_method = <%= node[:postgresql][:tunable][:wal_sync_method] %>
+					# the default is the first option 
 					# supported by the operating system:
 					#   open_datasync
 					#   fdatasync
@@ -164,7 +172,8 @@ max_fms_pages = 153600
 					#   fsync_writethrough
 					#   open_sync
 #full_page_writes = on			# recover from partial page writes
-#wal_buffers = 64kB			# min 32kB
+wal_buffers = <%= node[:postgresql][:tunable][:wal_buffer] %>
+					# min 32kB
 					# (change requires restart)
 #wal_writer_delay = 200ms		# 1-10000 milliseconds
 
@@ -173,9 +182,12 @@ max_fms_pages = 153600
 
 # - Checkpoints -
 
-#checkpoint_segments = 3		# in logfile segments, min 1, 16MB each
-#checkpoint_timeout = 5min		# range 30s-1h
-#checkpoint_completion_target = 0.5	# checkpoint target duration, 0.0 - 1.0
+checkpoint_segments = <%= node[:postgresql][:tunable][:checkpoint_segments] %>
+					# in logfile segments, min 1, 16MB each
+checkpoint_timeout = <%= node[:postgresql][:tunable][:checkpoint_timeout] %>
+					# range 30s-1h
+checkpoint_completion_target = <%= node[:postgresql][:tunable][:checkpoint_completion_target] %>
+					# checkpoint target duration, 0.0 - 1.0
 #checkpoint_warning = 30s		# 0 is off
 
 # - Archiving -
@@ -210,7 +222,7 @@ max_fms_pages = 153600
 #cpu_tuple_cost = 0.01			# same scale as above
 #cpu_index_tuple_cost = 0.005		# same scale as above
 #cpu_operator_cost = 0.0025		# same scale as above
-#effective_cache_size = 128MB
+effective_cache_size = <%= node[:postgresql][:tunable][:effective_cache_size] %>
 
 # - Genetic Query Optimizer -
 

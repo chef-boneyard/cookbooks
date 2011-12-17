@@ -70,3 +70,23 @@ else
   default[:postgresql][:version] = "8.4"
   set[:postgresql][:dir]         = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 end
+
+# basic configuration
+default[:postgresql][:listen_address] = 'localhost'
+default[:postgresql][:port] = 5432
+
+# tunable
+default[:postgresql][:tunable][:max_connections] = 100
+default[:postgresql][:tunable][:shared_buffers] = '24MB'
+default[:postgresql][:tunable][:effective_cache_size] = '128MB'
+default[:postgresql][:tunable][:work_mem] = '1MB'
+
+default[:postgresql][:tunable][:synchronous_commit] = 'on'
+default[:postgresql][:tunable][:wal_buffer] = '64kB'
+default[:postgresql][:tunable][:wal_sync_method] = 'fsync'
+
+default[:postgresql][:tunable][:checkpoint_segments] = 3
+default[:postgresql][:tunable][:checkpoint_timeout] = '5min'
+default[:postgresql][:tunable][:checkpoint_completion_target] = 0.5
+
+

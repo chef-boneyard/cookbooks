@@ -31,26 +31,18 @@ end
 package "postgresql"
 
 service "postgresql" do
-  case node['platform']
   when "ubuntu"
     case
-    when node['platform_version'].to_f <= 10.04
-      service_name "postgresql-#{node['postgresql']['version']}"
     else
       service_name "postgresql"
     end
   when "debian"
     case
-    when platform_version.to_f <= 5.0
-      service_name "postgresql-#{node['postgresql']['version']}"
-    when platform_version =~ /squeeze/
-      service_name "postgresql"
     else
       service_name "postgresql"
     end
   end
   supports :restart => true, :status => true, :reload => true
-  action :nothing
 end
 
 template "#{node[:postgresql][:dir]}/postgresql.conf" do
