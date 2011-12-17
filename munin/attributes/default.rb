@@ -17,7 +17,9 @@
 # limitations under the License.
 #
 
+default['munin']['sysadmin_email'] = "ops@example.com"
 default['munin']['server_role'] = 'monitoring'
+default['munin']['server_auth_method'] = 'openid'
 
 case node[:platform]
 when "arch"
