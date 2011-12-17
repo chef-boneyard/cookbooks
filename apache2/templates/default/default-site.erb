@@ -1,4 +1,4 @@
-<VirtualHost *:80>
+<VirtualHost *:<%= node[:apache][:listen_ports].map {|p| p.to_i}.uniq.first || 80 %>>
         ServerAdmin <%= node[:apache][:contact] %>
 
         DocumentRoot /var/www/
