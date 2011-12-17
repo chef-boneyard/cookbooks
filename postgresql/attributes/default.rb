@@ -19,10 +19,9 @@
 
 case platform
 when "debian"
-
   if platform_version.to_f == 5.0
     default[:postgresql][:version] = "8.3"
-  elsif platform_version =~ /squeeze/
+	elsif platform_version.to_f == 6.0
     default[:postgresql][:version] = "8.4"
   end
 
