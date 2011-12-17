@@ -17,6 +17,11 @@
 # limitations under the License.
 #
 
+include_recipe "apache2"
+include_recipe "apache2::mod_rewrite"
+include_recipe "munin::client"
+
+sysadmins = search(:users, 'groups:sysadmin')
 munin_servers = search(:node, "munin:[* TO *] AND chef_environment:#{node.chef_environment}")
 munin_servers.sort! { |a,b| a[:fqdn] <=> b[:fqdn] }
 
@@ -30,11 +35,6 @@ if node[:public_domain]
 else
   public_domain = node[:domain]
 end
-
-include_recipe "apache2"
-include_recipe "apache2::mod_auth_openid"
-include_recipe "apache2::mod_rewrite"
-include_recipe "munin::client"
 
 package "munin"
 
@@ -59,6 +59,21 @@ template "/etc/munin/munin.conf" do
   source "munin.conf.erb"
   mode 0644
   variables(:munin_nodes => munin_servers, :docroot => node['munin']['docroot'])
+end
+
+case node['munin']['server_auth_method']
+when "openid"
+  include_recipe "apache2::mod_auth_openid"
+else
+  template "/etc/munin/htpasswd.users" do
+    source "htpasswd.users.erb"
+    owner "munin"
+    group "munin"
+    mode 0640
+    variables(
+      :sysadmins => sysadmins
+    )
+  end
 end
 
 apache_site "000-default" do
