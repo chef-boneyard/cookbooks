@@ -1,17 +1,22 @@
 Description
-====
+===========
 
 Installs and configures Munin for a server and for clients using Chef 0.8 search capabilities.
 
-Changes
-=======
+Changes/Roadmap
+===============
+
+* COOK-500
+* COOK-501
+* COOK-915
+* COOK-918
 
 ## v0.99.0
 
 * Use Chef 0.10's `node.chef_environment` instead of `node['app_environment']`.
 
 Requirements
-====
+============
 
 Requires Chef 0.10 for Chef environments.
 
@@ -20,42 +25,75 @@ The monitoring server that uses this recipe should have a role named 'monitoring
 Because of the heavy use of search, this recipe will not work with Chef Solo, as it cannot do any searches without a server.
 
 Platform
-----
+--------
 
-Tested on Ubuntu, Debian, and ArchLinux.
+* Debian/Ubuntu
+* Red Hat 5.7, 6.1
+* ArchLinux
 
 Cookbooks
-----
+---------
 
 Opscode cookbooks
 
 * apache2
 
-To install perl cpan modules for munin plugins
+Not required (users can simply be in a data bag and the recipe will search), but useful for setting the openid list (see __OpenID Authentication__, below).
+
+* users (see __Data Bags__)
+
+Not required, but recommended to install perl cpan modules for munin plugins
 
 * perl
 
 Attributes
-====
+==========
 
-* `['munin']['server_role']` - role of the munin server. Default is monitoring.
-* `['munin']['docroot']` - document root for the server apache vhost. on archlinux, the default is `/srv/http/munin`, or `/var/www/munin` on other platforms.
+* `node['munin']['sysadmin_email']` - default email address for serveradmin in vhost.
+* `node['munin']['server_auth_method']` - the authentication method to use, default is openid. Any other value will use htauth basic with an htpasswd file.
+* `node['munin']['server_role']` - role of the munin server. Default is monitoring.
+* `node['munin']['docroot']` - document root for the server apache vhost. on archlinux, the default is `/srv/http/munin`, or `/var/www/munin` on other platforms.
 
 Recipes
-====
+=======
 
 client
-----
+------
 
 The client recipe installs munin-node package and starts the service. It also searches for a node with the role for the munin server, by default `node['munin']['server_role']`. On Archlinux, it builds the list of plugins to enable.
 
 server
-----
+------
 
 The server recipe will set up the munin server with Apache. It will create a cron job for generating the munin graphs, search for any nodes that have munin attributes (`node['munin']`), and use those nodes to connect for the graphs.
 
+Data Bags
+=========
+
+Create a `users` data bag that will contain the users that will be able to log into the Munin webui. Each user can use htauth with a specified password, or an openid. Users that should be able to log in should be in the sysadmin group. Example user data bag item:
+
+    {
+      "id": "munin,
+      "groups": "sysadmin",
+      "htpasswd": "hashed_htpassword",
+      "openid": "http://munin.myopenid.com/"
+    }
+
+When using server_auth_method 'openid', use the openid in the data bag item. Any other value for this attribute (e.g., "htauth", "htpasswd", etc) will use the htpasswd value as the password in `/etc/munin/htpasswd.users`.
+
+*The openid must have the http:// and trailing /*. See __OpenID Authentication__ below for more information.
+
+The htpasswd must be the hashed value. Get this value with htpasswd:
+
+    % htpasswd -n -s munin
+    New password:
+    Re-type new password:
+    nagiosadmin:{SHA}oCagzV4lMZyS7jl2Z0WlmLxEkt4=
+
+For example use the `{SHA}oCagzV4lMZyS7jl2Z0WlmLxEkt4=` value in the data bag.
+
 Usage
-====
+=====
 
 Create a role named `monitoring` that includes the munin::server recipe in the run list. Adjust the docroot to suit your environment.
 
@@ -77,8 +115,13 @@ Use Chef 0.10's environments. For example, create a "production" environment Rub
 
 Clients will automatically search for the server based on the value of the `node['munin']['server_role']` attribute in the same environment. If you don't use `monitoring` as the role name, change it in a role that is applied to any nodes that get the `munin::client` recipe.
 
+OpenID Authentication
+---------------------
+
+The recipe `apache2::mod_auth_openid` is updated to a version of the module that apparently does not support the `AuthOpenIDUserProgram` directive anymore. The virtual host file has been updated to use the Apache HTTPD `require user` directive, with a concatenated list from `node['apache']['allowed_openids']`. This value must be an array of OpenIDs. Use of the `users::sysadmins` recipe will set this up based on data bag search results.
+
 Custom Plugins
-----
+--------------
 
 This section describes how to add custom munin plugins.
 
@@ -129,7 +172,7 @@ Then for example in your memcache recipe
     end
 
 License and Author
-====
+==================
 
 Author:: Nathan Haneysmith <nathan@opscode.com>
 Author:: Joshua Timberman <joshua@opscode.com>
