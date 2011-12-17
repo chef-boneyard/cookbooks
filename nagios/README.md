@@ -3,8 +3,10 @@ Description
 
 Installs and configures Nagios 3 for a server and for clients using Chef search capabilities.
 
-Changes
-=======
+Changes/Roadmap
+===============
+
+* COOK-917
 
 ## v1.0.4:
 
