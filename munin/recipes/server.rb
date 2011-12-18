@@ -68,7 +68,7 @@ else
   template "/etc/munin/htpasswd.users" do
     source "htpasswd.users.erb"
     owner "munin"
-    group "munin"
+    group node['apache']['group']
     mode 0640
     variables(
       :sysadmins => sysadmins
