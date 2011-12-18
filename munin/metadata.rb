@@ -7,7 +7,7 @@ version           "1.0.0"
 
 depends "apache2", ">= 1.0.6"
 
-%w{arch debian ubuntu redhat centos scientific fedora}.each do |os|
+%w{arch debian ubuntu redhat centos scientific fedora freebsd}.each do |os|
   supports os
 end
 

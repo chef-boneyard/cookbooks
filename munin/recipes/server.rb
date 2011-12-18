@@ -43,7 +43,12 @@ else
   public_domain = node[:domain]
 end
 
-package "munin"
+case node[:platform]
+when "freebsd"
+  package "munin-master"
+else
+  package "munin"
+end
 
 case node[:platform]
 when "arch"
@@ -52,17 +57,24 @@ when "arch"
     user "munin"
     minute "*/5"
   end
+when "freebsd"
+  cron "munin-graph-html" do
+    command "/usr/local/bin/munin-cron"
+    user "munin"
+    minute "*/5"
+    ignore_failure true
+  end
 else
   cookbook_file "/etc/cron.d/munin" do
     source "munin-cron"
     mode "0644"
     owner "root"
-    group "root"
+    group node['munin']['root']['group']
     backup 0
   end
 end
 
-template "/etc/munin/munin.conf" do
+template "#{node['munin']['basedir']}/munin.conf" do
   source "munin.conf.erb"
   mode 0644
   variables(:munin_nodes => munin_servers, :docroot => node['munin']['docroot'])
@@ -72,7 +84,7 @@ case node['munin']['server_auth_method']
 when "openid"
   include_recipe "apache2::mod_auth_openid"
 else
-  template "/etc/munin/htpasswd.users" do
+  template "#{node['munin']['basedir']}/htpasswd.users" do
     source "htpasswd.users.erb"
     owner "munin"
     group node['apache']['group']

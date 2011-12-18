@@ -12,7 +12,7 @@ setseid 1
 # Which port to bind to;
 host *
 user root
-group root
+group <%= node['munin']['root']['group'] %>
 setsid yes
 
 # Regexps for files to ignore
