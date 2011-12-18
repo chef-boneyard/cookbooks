@@ -41,6 +41,8 @@ SSLPassPhraseDialog  builtin
 #SSLSessionCache         dbm:/var/run/apache2/ssl_scache
 <% if %w{ redhat centos scientific fedora }.include?(node[:platform]) -%>
 SSLSessionCache        shmcb:/var/cache/mod_ssl/scache(512000)
+<% elsif node[:platform] == "freebsd" -%>
+SSLSessionCache        shmcb:/var/run/ssl_scache(512000)
 <% else -%>
 SSLSessionCache        shmcb:/var/run/apache2/ssl_scache
 <% end -%> 
@@ -51,6 +53,8 @@ SSLSessionCacheTimeout  300
 #   SSL engine uses internally for inter-process synchronization. 
 <% if %w{ redhat centos scientific fedora }.include?(node[:platform]) -%>
 SSLMutex  default
+<% elsif node[:platform] == "freebsd" -%>
+SSLMutex  file:/var/run/ssl_mutex
 <% else -%>
 SSLMutex  file:/var/run/apache2/ssl_mutex
 <% end -%>
