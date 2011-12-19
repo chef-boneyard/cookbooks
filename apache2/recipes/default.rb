@@ -115,7 +115,6 @@ if platform?("freebsd")
   end
   directory "#{node[:apache][:dir]}/Includes" do
     action :delete
-    backup false
   end
 
   %w{httpd-autoindex.conf httpd-dav.conf httpd-default.conf httpd-info.conf
@@ -129,7 +128,6 @@ if platform?("freebsd")
   end
   directory "#{node[:apache][:dir]}/extra" do
     action :delete
-    backup false
   end
 end
 
