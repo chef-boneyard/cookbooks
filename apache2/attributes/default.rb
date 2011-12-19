@@ -118,3 +118,12 @@ default[:apache][:worker][:minsparethreads] = 64
 default[:apache][:worker][:maxsparethreads] = 192
 default[:apache][:worker][:threadsperchild] = 64
 default[:apache][:worker][:maxrequestsperchild] = 0
+
+# Default modules to enable via include_recipe
+
+default['apache']['default_modules'] = %w{
+  status alias auth_basic authn_file authz_default authz_groupfile authz_host authz_user autoindex
+  dir env mime negotiation setenvif
+}
+
+default['apache']['default_modules'] << "log_config" if node.platform?("redhat", "centos", "scientific", "fedora", "suse", "arch", "freebsd")

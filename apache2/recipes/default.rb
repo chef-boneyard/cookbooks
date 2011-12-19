@@ -207,21 +207,10 @@ template "#{node[:apache][:dir]}/sites-available/default" do
   notifies :restart, resources(:service => "apache2")
 end
 
-include_recipe "apache2::mod_status"
-include_recipe "apache2::mod_alias"
-include_recipe "apache2::mod_auth_basic"
-include_recipe "apache2::mod_authn_file"
-include_recipe "apache2::mod_authz_default"
-include_recipe "apache2::mod_authz_groupfile"
-include_recipe "apache2::mod_authz_host"
-include_recipe "apache2::mod_authz_user"
-include_recipe "apache2::mod_autoindex"
-include_recipe "apache2::mod_dir"
-include_recipe "apache2::mod_env"
-include_recipe "apache2::mod_mime"
-include_recipe "apache2::mod_negotiation"
-include_recipe "apache2::mod_setenvif"
-include_recipe "apache2::mod_log_config" if platform?("redhat", "centos", "scientific", "fedora", "suse", "arch", "freebsd")
+node['apache']['default_modules'].each do |mod|
+  recipe_name = mod =~ /^mod_/ ? mod : "mod_#{mod}"
+  include_recipe "apache2::#{recipe_name}"
+end
 
 apache_site "default" if platform?("redhat", "centos", "scientific", "fedora")
 
