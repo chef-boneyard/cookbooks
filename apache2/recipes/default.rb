@@ -220,6 +220,8 @@ include_recipe "apache2::mod_dir"
 include_recipe "apache2::mod_env"
 include_recipe "apache2::mod_mime"
 include_recipe "apache2::mod_negotiation"
+include_recipe "apache2::mod_perl"
+include_recipe "apache2::mod_apreq2"
 include_recipe "apache2::mod_setenvif"
 include_recipe "apache2::mod_log_config" if platform?("redhat", "centos", "scientific", "fedora", "suse", "arch", "freebsd")
 
