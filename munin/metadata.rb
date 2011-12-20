@@ -3,9 +3,9 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures munin"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           "0.99.0"
+version           "1.0.0"
 
-depends "apache2"
+depends "apache2", ">= 1.0.6"
 
 %w{arch debian ubuntu redhat centos scientific fedora}.each do |os|
   supports os

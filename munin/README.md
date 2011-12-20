@@ -6,12 +6,13 @@ Installs and configures Munin for a server and for clients using Chef 0.8 search
 Changes/Roadmap
 ===============
 
-* COOK-500
-* COOK-501
-* COOK-915
-* COOK-918
+### v1.0.0:
 
-## v0.99.0
+* COOK-500 - sort server list from search
+* COOK-501 - add support for RHEL platforms
+* COOK-918 - updates required for latest `mod_auth_openid` and add htauth basic option.
+
+### v0.99.0:
 
 * Use Chef 0.10's `node.chef_environment` instead of `node['app_environment']`.
 
