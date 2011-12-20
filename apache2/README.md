@@ -15,17 +15,20 @@ This cookbook ships with templates of these scripts for non Debian/Ubuntu platfo
 Changes/Roadmap
 ===============
 
+### v1.0.6:
+
 * COOK-915 - update to `mod_auth_openid` version 0.6, see __Recipes/mod_auth_openid__ below.
+* COOK-548 - Add support for FreeBSD.
 
-## v1.0.4:
+### v1.0.4:
 
-* [COOK-859] - don't hardcode module paths
+* COOK-859 - don't hardcode module paths
 
-## v1.0.2
+### v1.0.2
 
 * Tickets resolved in this release: COOK-788, COOK-782, COOK-780
 
-## v1.0.0
+### v1.0.0
 
 * Red Hat family support is greatly improved, all recipes except `god_monitor` converge.
 * Recipe `mod_auth_openid` now works on RHEL family distros
