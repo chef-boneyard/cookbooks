@@ -13,6 +13,7 @@
 
   <Proxy balancer://chef_server>
     BalancerMember http://127.0.0.1:<%= node['chef_server'][port] %>
+    ProxySet maxattempts=2
     Order deny,allow
     Allow from all
   </Proxy>
@@ -48,6 +49,7 @@
 
   <Proxy balancer://chef_server>
     BalancerMember http://127.0.0.1:<%= node['chef_server']['webui_port'] %>
+    ProxySet maxattempts=2
     Order deny,allow
     Allow from all
   </Proxy>
