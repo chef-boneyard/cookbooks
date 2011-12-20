@@ -268,7 +268,7 @@ The nrpecheck LWRP provides an easy way to add and remove NRPE checks from withi
 
 # Actions
 
-- :add: creates a NRPE configuration file and restart the NRPE process
+- :add: creates a NRPE configuration file and restart the NRPE process. Default action.
 - :remove: removes the configuration file and restart the NRPE process
 
 # Attribute Parameters
@@ -276,8 +276,8 @@ The nrpecheck LWRP provides an easy way to add and remove NRPE checks from withi
 - command_name: name attribute.  The name of the check.  You'll need to reference this in your commands.cfg template
 - warning_condition: String that you will pass to the command with the -w flag
 - critical_condition: String that you will pass to the command with the -c flag
-- command: The actual command to execute (including the path).
-- parameters: Any additional parameters you wish to pass
+- command: The actual command to execute (including the path). If this is not specified, this will use `node['nagios']['plugin_dir']/command_name` as the path to the command.
+- parameters: Any additional parameters you wish to pass to the plugin.
 
 # Examples
 
@@ -288,7 +288,7 @@ The nrpecheck LWRP provides an easy way to add and remove NRPE checks from withi
       critical_condition node['nagios']['checks']['load']['critical']
       action :add
     end
-    
+
     # Remove the check_load definition
     nagios_nrpecheck "check_load" do
       action :remove

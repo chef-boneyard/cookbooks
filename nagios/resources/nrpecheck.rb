@@ -26,3 +26,8 @@ attribute :warning_condition, :kind_of => String
 attribute :critical_condition, :kind_of => String
 attribute :command, :kind_of => String
 attribute :parameters, :kind_of => String, :default => nil
+
+def initialize(*args)
+  super
+  @action = :add
+end

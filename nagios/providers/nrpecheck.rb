@@ -19,6 +19,7 @@
 
 action :add do
   Chef::Log.info "Adding #{new_resource.command_name} to #{node['nagios']['nrpe']['conf_dir']}/nrpe.d/"
+  command = new_resource.command || "#{node['nagios']['plugin_dir']}/#{new_resource.command_name}"
   template "#{node['nagios']['nrpe']['conf_dir']}/nrpe.d/#{new_resource.command_name}.cfg" do
     source "nrpe_command.cfg.erb"
     owner "root"
@@ -26,12 +27,12 @@ action :add do
     mode 0644
     variables(
       :command_name => new_resource.command_name,
-      :command => new_resource.command,
+      :command => command,
       :warning_condition => new_resource.warning_condition,
       :critical_condition => new_resource.critical_condition,
       :parameters => new_resource.parameters
     )
-    notifies :restart, resources(:service => "nagios-nrpe-server")
+    notifies :restart, "service[nagios-nrpe-server]"
   end
 end
 
@@ -40,7 +41,7 @@ action :remove do
     Chef::Log.info "Removing #{new_resource.command_name} from #{node['nagios']['nrpe']['conf_dir']}/nrpe.d/"
     file "#{node['nagios']['nrpe']['conf_dir']}/nrpe.d/#{new_resource.command_name}.cfg" do
       action :delete
-      notifies :restart, resources(:service => "nagios-nrpe-server")
+      notifies :restart, "service[nagios-nrpe-server]"
     end
   end
 end
