@@ -8,6 +8,7 @@ Changes/Roadmap
 
 ### v1.0.0:
 
+* COOK-923 - account for empty node search results
 * COOK-500 - sort server list from search
 * COOK-501 - add support for RHEL platforms
 * COOK-918 - updates required for latest `mod_auth_openid` and add htauth basic option.
