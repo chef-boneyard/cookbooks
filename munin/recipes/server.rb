@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+node['apache']['default_modules'] << 'expires' if platform?("redhat", "centos", "scientific", "fedora")
 
 include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
