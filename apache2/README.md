@@ -15,6 +15,10 @@ This cookbook ships with templates of these scripts for non Debian/Ubuntu platfo
 Changes/Roadmap
 ===============
 
+### v1.0.8:
+
+* COOK-548 - directory resource doesn't have backup parameter
+
 ### v1.0.6:
 
 * COOK-915 - update to `mod_auth_openid` version 0.6, see __Recipes/mod_auth_openid__ below.
