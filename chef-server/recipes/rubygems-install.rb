@@ -213,7 +213,7 @@ when "init"
       mode 0644
     end
 
-    link "/usr/sbin/#{svc}" do
+    link "/usr/bin/#{svc}" do
       to "#{node['languages']['ruby']['bin_dir']}/#{svc}"
     end
 
