@@ -24,6 +24,12 @@ include_recipe "munin::client"
 
 sysadmins = search(:users, 'groups:sysadmin')
 munin_servers = search(:node, "munin:[* TO *] AND chef_environment:#{node.chef_environment}")
+if munin_servers.empty?
+  Chef::Log.info("No nodes returned from search, using this node so munin configuration has data")
+  munin_servers = Array.new
+  munin_servers << node
+end
+
 munin_servers.sort! { |a,b| a[:fqdn] <=> b[:fqdn] }
 
 if node[:public_domain]
