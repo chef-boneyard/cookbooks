@@ -17,6 +17,9 @@
 # limitations under the License.
 #
 
+set[:postgresql][:port] = "5434"
+set[:postgresql][:maxconns] = "101"
+
 case platform
 when "debian"
 
@@ -39,8 +42,6 @@ when "ubuntu"
     default[:postgresql][:version] = "9.1"
   end
 
-  set[:postgresql][:port] = "5432"
-  set[:postgresql][:maxconns] = "100"
   set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 
 when "fedora"
