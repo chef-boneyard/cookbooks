@@ -8,7 +8,12 @@ general firewall cookbook, see __Roadmap__.
 Changes
 =======
 
-## v0.9.3:
+### v0.10.0:
+
+* [COOK-641] - be able to save output on rhel-family
+* [COOK-655] - use a template from other cookbooks
+
+### v0.9.3:
 
 * Current public release.
 
@@ -34,7 +39,7 @@ default
 
 The default recipe will install iptables and provides a perl script
 (installed in `/usr/sbin/rebuild-iptables`) to manage rebuilding
-firewall rules from files dropped off in `/etc/iptables.d`. 
+firewall rules from files dropped off in `/etc/iptables.d`.
 
 Definitions
 ===========
@@ -70,7 +75,7 @@ This would go in the cookbook,
 `recipe[httpd]`:
 
     iptables_rule "http"
-    
+
 License and Author
 ==================
 
