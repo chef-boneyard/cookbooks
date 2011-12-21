@@ -57,8 +57,8 @@ external_pid_file = '/var/run/postgresql/<%= node.postgresql.version -%>-main.pi
 					# comma-separated list of addresses;
 					# defaults to 'localhost', '*' = all
 					# (change requires restart)
-port = <%= node.postgresql.port -%>				# (change requires restart)
-max_connections = <%= node.postgresql.maxconns -%> 			# (change requires restart)
+port = 5432				# (change requires restart)
+max_connections = 100			# (change requires restart)
 # Note:  Increasing max_connections costs ~400 bytes of shared memory per 
 # connection slot, plus lock space (see max_locks_per_transaction).  You might
 # also need to raise shared_buffers to support more connections.
