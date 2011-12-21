@@ -38,7 +38,6 @@ web_app app['id'] do
   template 'php.conf.erb'
   server_name "#{app['id']}.#{node['domain']}"
   server_aliases server_aliases
-  log_dir node['apache']['log_dir']
 end
 
 if ::File.exists?(::File.join(app['deploy_to'], "current"))
