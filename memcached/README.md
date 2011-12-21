@@ -42,6 +42,8 @@ Use the define, memcached_instance, to set up a runit service for the named memc
 
   memcached_instance "myproj" 
 
+The recipe also reads in whether to start up memcached from a /etc/default/memcached "ENABLE_MEMCACHED" setting, which is "yes" by default.
+
 License and Author
 ==================
 
