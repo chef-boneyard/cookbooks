@@ -3,6 +3,9 @@
   <%= @frequency %>
   missingok
   rotate <%= @rotate %>
+  <% if @size -%>
+  size <%= @size %>
+  <% end -%>
   compress
   delaycompress
   copytruncate
