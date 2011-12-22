@@ -59,7 +59,9 @@ end
 
 Limitations
 ===========
-Changing the :erlang_cookie or turning :cluster from true to false will require manual intervention
+For an already running cluster, these actions still require manual intervention:
+- changing the :erlang_cookie 
+- turning :cluster from true to false
 
 The rabbitmq::chef recipe was only used for the chef-server cookbook and has been moved to chef-server::rabbitmq.
 
