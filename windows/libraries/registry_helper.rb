@@ -87,20 +87,18 @@ module Windows
       hive, reg_path, hive_name, root_key, hive_loaded = get_reg_path_info(path)
       key_name = reg_path.join("\\")
 
-      Chef::Log.debug("Creating #{path})")
+      Chef::Log.debug("Creating #{path}")
 
       if !key_exists?(path,true)
         create_key(path)
       end
 
       hive.send(mode, key_name, Win32::Registry::KEY_ALL_ACCESS | @@native_registry_constant) do |reg|
-        Chef::Log.debug("Values!: #{values}")
         changed_something = false
         values.each do |k,val|
           key = "#{k}" #wtf. avoid "can't modify frozen string" in win32/registry.rb
           cur_val = nil
           begin
-            Chef::Log.debug("Registry key is: #{reg[key]}, value is: #{val}")
             cur_val = reg[key]
           rescue
             #subkey does not exist (ok)

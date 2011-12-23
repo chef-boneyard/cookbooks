@@ -28,7 +28,7 @@ Attributes
 Resource/Provider
 =================
 
-`windows_auto_run`
+windows\_auto\_run
 ------------------
 
 ### Actions
@@ -51,8 +51,8 @@ Resource/Provider
   end
 
 
-`windows_batch`
-------------
+windows\_batch
+--------------
 Execute a batch script using the cmd.exe interpreter (much like the script resources for bash, csh, powershell, perl, python and ruby). A temporary file is created and executed like other script resources, rather than run inline. By their nature, Script resources are not idempotent, as they are completely up to the user's imagination. Use the `not_if` or `only_if` meta parameters to guard the resource for idempotence.
 
 ### Actions
@@ -88,8 +88,8 @@ Execute a batch script using the cmd.exe interpreter (much like the script resou
     end
 
 
-`windows_feature`
------------------
+windows\_feature
+----------------
 
 Windows Roles and Features can be thought of as built-in operating system packages that ship with the OS.  A server role is a set of software programs that, when they are installed and properly configured, lets a computer perform a specific function for multiple users or other computers within a network.  A Role can have multiple Role Services that provide functionality to the Role.  Role services are software programs that provide the functionality of a role. Features are software programs that, although they are not directly parts of roles, can support or augment the functionality of one or more roles, or improve the functionality of the server, regardless of which roles are installed.  Collectively we refer to all of these attributes as 'features'.
 
@@ -137,8 +137,8 @@ For more information on Roles, Role Services and Features see the [Microsoft Tec
 
     #
 
-`windows_package`
------------------
+windows\_package
+----------------
 
 Manage Windows application packages in an unattended, idempotent way.
 
@@ -225,8 +225,8 @@ For maximum flexibility the `source` attribute supports both remote and local in
     end
 
 
-`windows_reboot`
-------------------
+windows\_reboot
+---------------
 
 Sets required data in the node's run_state to notify `WindowsRebootHandler` a reboot is requested.  If Chef run completes successfully a reboot will occur if the `WindowsRebootHandler` is properly registered as a report handler.  As an action of `:request` will cause a node to reboot every Chef run, this resource is usually notified by other resources...ie restart node after a package is installed (see example below).
 
@@ -255,7 +255,7 @@ Sets required data in the node's run_state to notify `WindowsRebootHandler` a re
       action :cancel
     end
 
-`windows_registry`
+windows\_registry
 -----------------
 
 Creates and modifies Windows registry keys.
@@ -271,6 +271,7 @@ Creates and modifies Windows registry keys.
 
 - key_name: name attribute. The registry key to create/modify.
 - values: hash of the values to set under the registry key. The individual hash items will become respective 'Value name' => 'Value data' items in the registry key.
+- type: Type of key to create, currently only used for :binary to create `REG_BINARY` registry keys. Must be a symbol. See __Roadmap__ for future plans.
 
 ### Examples
 
@@ -299,8 +300,8 @@ Creates and modifies Windows registry keys.
     BgInfo = Registry.get_value('HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run','BGINFO')
 
 
-'windows_path'
---------------
+windows\_path
+-------------
 
 ### Actions
 - :add: Add an item to the system path
@@ -316,8 +317,8 @@ Creates and modifies Windows registry keys.
     end
 
 
-`windows_zipfile`
------------------
+windows\_zipfile
+----------------
 
 Most version of Windows do not ship with native cli utility for managing compressed files.  This resource provides a pure-ruby implementation for managing zip files. Be sure to use the `not_if` or `only_if` meta parameters to guard the resource for idempotence or action will be taken on the zip file every Chef run.
 
@@ -350,16 +351,16 @@ Most version of Windows do not ship with native cli utility for managing compres
 Exception/Report Handlers
 =========================
 
-`WindowsRebootHandler`
-----------------------
+WindowsRebootHandler
+--------------------
 
 Required reboots are a necessary evil of configuring and managing Windows nodes.  This report handler (ie fires at the end of successful Chef runs) acts on requested (Chef initiated) or pending (as determined by the OS per configuration action we performed) reboots.  The `allow_pending_reboots` initialization argument should be set to false if you do not want the handler to automatically reboot a node if it has been determined a reboot is pending.  Reboots can still be requested explicitly via the `windows_reboot` LWRP.
 
 ## Initialization Arguments
 
-- allow_pending_reboots: indicator on whether the handler should act on a the Window's 'pending reboot' state. default is true
-- timeout: timeout delay in seconds to wait before proceeding with the reboot. default is 60 seconds
-- reason:  comment on the reason for the reboot. default is 'Opscode Chef initiated reboot'
+- `allow_pending_reboots`: indicator on whether the handler should act on a the Window's 'pending reboot' state. default is true
+- `timeout`: timeout delay in seconds to wait before proceeding with the reboot. default is 60 seconds
+- `reason`:  comment on the reason for the reboot. default is 'Opscode Chef initiated reboot'
 
 Usage
 =====
@@ -371,7 +372,7 @@ default
 
 Convenience recipe that installs supporting gems for many of the resources/providers that ship with this cookbook.
 
-reboot_handler
+reboot\_handler
 --------------
 
 Leverages the `chef_handler` LWRP to register the `WindowsRebootHandler` report handler that ships as part of this cookbook. By default this handler is set to automatically act on pending reboots.  If you would like to change this behavior override `node['windows']['allow_pending_reboots']` and set the value to false.  For example:
@@ -394,59 +395,62 @@ Changes/Roadmap
 
 * package preseeding/response_file support
 * package installation location via a `target_dir` attribute.
-* [COOK-666] windows_package should support CoApp packages
+* [COOK-666] `windows_package` should support CoApp packages
 * windows_registry :force_modify action should use RegNotifyChangeKeyValue from WinAPI
-* WindowsRebootHandler/windows_reboot LWRP should support kicking off subsequent chef run on reboot.
+* WindowsRebootHandler/`windows_reboot` LWRP should support kicking off subsequent chef run on reboot.
+* Support all types of registry keys with `type` parameter in `windows_registry`.
+* (1.2.10): [COOK-939] - add `type` parameter to `windows_registry` to allow binary registry keys.
+* (1.2.10): [COOK-940] - refactor logic so multiple values get created.
 
-## v1.2.8
+### v1.2.8
 
 * FIX: Older Windows (Windows Server 2003) sometimes return 127 on successful forked commands
-* FIX: windows_package, ensure we pass the WOW* registry redirection flags into reg.open
+* FIX: `windows_package`, ensure we pass the WOW* registry redirection flags into reg.open
 
-## v1.2.6
+### v1.2.6
 
 * patch to fix [CHEF-2684], Open4 is named Open3 in Ruby 1.9
 * Ruby 1.9's Open3 returns 0 and 42 for successful commands
 * retry keyword can only be used in a rescue block in Ruby 1.9
 
-## v1.2.4
+### v1.2.4
 
 * windows_package - catch Win32::Registry::Error that pops up when searching certain keys
 
-## v1.2.2
+### v1.2.2
 
 * combined numerous helper libarires for easier sharing across libaries/LWRPs
-* renamed Chef::Provider::WindowsFeature::Base file to the more descriptive feature_base.rb
+* renamed Chef::Provider::WindowsFeature::Base file to the more descriptive `feature_base.rb`
 * refactored windows_path LWRP
   * :add action should MODIFY the the underlying ENV variable (vs CREATE)
   * deleted greedy :remove action until it could be made more idempotent
 * added a windows_batch resource/provider for running batch scripts remotely
 
-## v1.2.0
+### v1.2.0
 
 * [COOK-745] gracefully handle required server restarts on Windows platform
   * WindowsRebootHandler for requested and pending reboots
   * windows_reboot LWRP for requesting (receiving notifies) reboots
   * reboot_handler recipe for enabling WindowsRebootHandler as a report handler
 * [COOK-714] Correct initialize misspelling
-* RegistryHelper - new get_values method which returns all values for a particular key.
+* RegistryHelper - new `get_values` method which returns all values for a particular key.
 
-## v1.0.8
+### v1.0.8
 
 * [COOK-719] resource/provider for managing windows features
-* [COOK-717] remove windows_env_vars resource as env resource exists in core chef
+* [COOK-717] remove `windows_env_vars` resource as env resource exists in core chef
 * new `Windows::Version` helper class
 * refactored `Windows::Helper` mixin
 
-## v1.0.6
+### v1.0.6
 
-* added force_modify action to windows_registry resource
-* add win_friendly_path helper
+* added `force_modify` action to `windows_registry` resource
+* add `win_friendly_path` helper
 * re-purpose default recipe to install useful supporting windows related gems
 
-## v1.0.4
+### v1.0.4
 
-* [COOK-700] new resources and improvements to the windows_registry provider (thanks Paul Morton!)
+* [COOK-700] new resources and improvements to the `windows_registry` provider (thanks Paul Morton!)
   * Open the registry in the bitednes of the OS
   * Provide convenience methods to check if keys and values exit
   * Provide convenience method for reading registry values
@@ -456,12 +460,12 @@ Changes/Roadmap
 * re-write of the windows_package logic for determining current installed packages
 * new checksum attribute for windows_package resource...useful for remote packages
 
-## v1.0.2:
+### v1.0.2:
 
 * [COOK-647] account for Wow6432Node registry redirecter
 * [COOK-656] begin/rescue on win32/registry
 
-## 1.0.0:
+### 1.0.0:
 
 * [COOK-612] initial release
 
