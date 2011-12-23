@@ -46,7 +46,7 @@ nice            = 0
 user            = mysql
 pid-file        = <%= node['mysql']['pid_file'] %>
 socket          = <%= node['mysql']['socket'] %>
-port            = 3306
+port            = <%= node['mysql']['port'] %>
 basedir         = /usr
 datadir         = <%= node['mysql']['data_dir'] %>
 tmpdir          = /tmp
