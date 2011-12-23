@@ -66,7 +66,7 @@ private
 def registry_update(mode)
 
   Chef::Log.debug("Registry Mode (#{mode})")
-  updated = set_value(mode,@new_resource.key_name,@new_resource.values)
+  updated = set_value(mode,@new_resource.key_name,@new_resource.values,@new_resource.type)
   @new_resource.updated_by_last_action(updated)
 
 end
