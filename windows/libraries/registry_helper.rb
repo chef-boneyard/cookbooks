@@ -83,7 +83,7 @@ module Windows
       end
     end
 
-    def set_value(mode,path,values)
+    def set_value(mode,path,values,type=nil)
       hive, reg_path, hive_name, root_key, hive_loaded = get_reg_path_info(path)
       key_name = reg_path.join("\\")
 
@@ -104,7 +104,11 @@ module Windows
           end
           if cur_val != val
             Chef::Log.debug("setting #{key}=#{val}")
-            reg[key] = val
+            if type.nil?
+              reg[key] = val
+            else
+              reg[key, REG_BINARY] = val
+            end
 
             ensure_hive_unloaded(hive_loaded)
 
