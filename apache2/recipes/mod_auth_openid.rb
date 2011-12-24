@@ -86,7 +86,7 @@ bash "install mod_auth_openid" do
   perl -pi -e "s/-i -a -n 'authopenid'/-i -n 'authopenid'/g" Makefile
   #{make_cmd} && #{make_cmd} install
   EOH
-  not_if { ::File.exists?("#{node[:apache][:lib_dir]}/modules/mod_auth_openid.so") }
+  not_if { ::File.exists?("#{node['apache']['libexecdir']}/mod_auth_openid.so") }
 end
 
 directory node[:apache][:mod_auth_openid][:cache_dir] do
