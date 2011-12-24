@@ -22,7 +22,13 @@ openid_dev_pkgs = value_for_platform(
   ["centos","redhat","scientific","fedora"] => {
     "default" => %w{ gcc-c++ httpd-devel curl-devel libtidy libtidy-devel sqlite-devel pcre-devel openssl-devel make }
   },
-  "arch" => { "default" => ["libopkele"] }
+  "arch" => { "default" => ["libopkele"] },
+  "freebsd" => { "default" => %w{libopkele pcre sqlite3} }
+)
+
+make_cmd = value_for_platform(
+  "freebsd" => { "default" => %w{gmake} },
+  "default" => { "default" => %w{make} }
 )
 
 case node[:platform]
@@ -56,7 +62,7 @@ when "redhat", "centos", "scientific", "fedora"
     code <<-EOH
     tar zxvf libopkele-2.0.4.tar.gz
     cd libopkele-2.0.4 && ./configure --prefix=/usr --libdir=#{syslibdir}
-    make && make install
+    #{make_cmd} && #{make_cmd} install
     EOH
     not_if { File.exists?("#{syslibdir}/libopkele.a") }
   end
@@ -78,7 +84,7 @@ bash "install mod_auth_openid" do
   tar zxvf mod_auth_openid-#{version}.tar.gz
   cd mod_auth_openid-#{version} && ./configure #{configure_flags.join(' ')}
   perl -pi -e "s/-i -a -n 'authopenid'/-i -n 'authopenid'/g" Makefile
-  make && make install
+  #{make_cmd} && #{make_cmd} install
   EOH
   not_if { ::File.exists?("#{node[:apache][:lib_dir]}/modules/mod_auth_openid.so") }
 end
