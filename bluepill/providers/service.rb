@@ -32,12 +32,12 @@ action :enable do
   end
 
   case node['platform']
-  when "centos", "redhat"
-    template "/etc/init.d/bluepill-#{new_resource.service_name}" do
+  when "centos", "redhat", "freebsd"
+    template "#{node["bluepill"]["init_dir"]}/bluepill-#{new_resource.service_name}" do
       source "bluepill_init.erb"
       cookbook "bluepill"
       owner "root"
-      group "root"
+      group node["bluepill"]["group"]
       mode "0755"
       variables(
         :service_name => "#{new_resource.service_name}",
