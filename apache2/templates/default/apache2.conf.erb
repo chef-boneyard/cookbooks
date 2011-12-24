@@ -142,6 +142,13 @@ LogLevel warn
 Include <%= node[:apache][:dir] %>/mods-enabled/*.load
 Include <%= node[:apache][:dir] %>/mods-enabled/*.conf
 
+<% if node[:platform] == "freebsd" -%>
+<IfDefine NOHTTPACCEPT>
+   AcceptFilter http none
+   AcceptFilter https none
+</IfDefine>
+<% end %>
+
 # Include ports listing
 Include <%= node[:apache][:dir] %>/ports.conf
 
