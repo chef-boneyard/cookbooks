@@ -24,7 +24,16 @@ execute "Remove proxy from /etc/apt/apt.conf" do
   only_if "grep Acquire::http::Proxy /etc/apt/apt.conf"
 end
 
-servers = search(:node, 'recipes:apt\:\:cacher') || []
+servers = []
+if Chef::Config['solo'] && node['apt']['cacher_ipaddress']
+  cacher = Chef::Node.new
+  cacher.name(node['apt']['cacher_ipaddress'])
+  cacher.ipaddress(node['apt']['cacher_ipaddress'])
+  servers << cacher
+else
+  servers += search(:node, 'recipes:apt\:\:cacher')
+end
+
 if servers.length > 0
   Chef::Log.info("apt-cacher server found on #{servers[0]}.")
   proxy = "Acquire::http::Proxy \"http://#{servers[0].ipaddress}:3142\";\n"
