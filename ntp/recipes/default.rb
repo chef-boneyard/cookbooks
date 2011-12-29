@@ -47,7 +47,7 @@ end
 template "/etc/ntp.conf" do
   source "ntp.conf.erb"
   owner "root"
-  group "root"
+  group node[:ntp][:root_group]
   mode 0644
   notifies :restart, "service[ntp]"
 end

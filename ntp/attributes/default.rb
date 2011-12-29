@@ -1,8 +1,16 @@
 case platform 
 when "ubuntu","debian"
   default[:ntp][:service] = "ntp"
-when "redhat","centos","fedora","scientific","freebsd"
+  default[:ntp][:root_group] = "root"
+when "redhat","centos","fedora","scientific"
   default[:ntp][:service] = "ntpd"
+  default[:ntp][:root_group] = "root"
+when "freebsd"
+  default[:ntp][:service] = "ntpd"
+  default[:ntp][:root_group] = "wheel"
+else
+  default[:ntp][:service] = "ntpd"
+  default[:ntp][:root_group] = "root"
 end
 
 default[:ntp][:is_server] = false
