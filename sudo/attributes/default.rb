@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: sudo
-# Attribute File:: default
+# Attribute File:: sudoers
 #
 # Copyright 2008-2011, Opscode, Inc.
 #
@@ -20,3 +20,6 @@
 default['authorization']['sudo']['groups'] = Array.new 
 default['authorization']['sudo']['users'] = Array.new
 default['authorization']['sudo']['passwordless'] = false
+
+node.set_unless['sudo']['users'] = nil
+node.set_unless['sudo']['testing'] = false
