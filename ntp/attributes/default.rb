@@ -1,7 +1,7 @@
 case platform 
 when "ubuntu","debian"
   default[:ntp][:service] = "ntp"
-when "redhat","centos","fedora","scientific"
+when "redhat","centos","fedora","scientific","freebsd"
   default[:ntp][:service] = "ntpd"
 end
 
