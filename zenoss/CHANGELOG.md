@@ -57,20 +57,27 @@ provide example data_bag files for loading users
 ===
 add support for Zenoss 3.1.0
 
-0.7 *CURRENT*
+0.7
 ===
 yum cookbook dependency
 CentOS 5.6 and Scientific Linux 5.5 support via yum_repository LWRP
 
+0.7.2
+=====
+add support for Zenoss 3.2.1
+
+0.7.4 *CURRENT*
+=====
+added wget and patch for zenpatch provider per COOK-770
+assign device class zProperties, modeling plugins and templates properly per COOK-887
 
 0.8
+Zenoss 4.x release
 mysql::server dependency for rpm installs
 notify zendmd at end of run to load everything (before zenbatchload)
-optimize creation of device classes, systems and groups by using hashes instead of individual calls or by comparing against previous values
 diff previous zenbatchload run
 clients request specific ZenPacks (or Device Class roles?)
 AWS ZenPack and Role for Device Class
-
 
 BACKLOG:
 Chef Client ZenPack
@@ -101,4 +108,3 @@ any reports
 AMQP message queue event listener
 anything worth pushing to the Chef Server with Knife?
 is there any additional monitoring data available from Chef Server worth exposing
-

@@ -39,12 +39,9 @@ action :add do
       end.run_action(:run)
     end
     # build our listing
-    repository = "deb"
-    repository = "deb-src" if new_resource.deb_src
-    repository = "# Created by the Chef apt_repository LWRP\n" + repository
-    repository += " #{new_resource.uri}"
-    repository += " #{new_resource.distribution}"
-    new_resource.components.each {|component| repository += " #{component}"}
+    repo_info = "#{new_resource.uri} #{new_resource.distribution} #{new_resource.components.join(" ")}"
+    repository = "deb #{repo_info}\n"
+    repository += "deb-src #{repo_info}\n" if new_resource.deb_src
     # write out the file, replace it if it already exists
     file "/etc/apt/sources.list.d/#{new_resource.repo_name}-source.list" do
       owner "root"

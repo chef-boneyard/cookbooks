@@ -21,7 +21,13 @@ defaults
         srvtimeout      50000
         
 # Set up application listeners here.
-listen application 0.0.0.0:8400
-  balance roundrobin
-  server localhost 127.0.0.1:4000 weight 1 maxconn 5 check 
-  server localhost 127.0.0.1:4001 weight 1 maxconn 5 check 
+listen application 0.0.0.0:<%= node["haproxy"]["incoming_port"] %>
+  balance  <%= node["haproxy"]["balance_algorithm"] %>
+  server localhost 127.0.0.1:4000 weight 1 maxconn <%= node["haproxy"]["member_max_connections"] %> check 
+  server localhost 127.0.0.1:4001 weight 1 maxconn <%= node["haproxy"]["member_max_connections"] %> check 
+
+<% if node["haproxy"]["enable_admin"] -%>
+listen admin 0.0.0.0:22002
+  mode http
+  stats uri /
+<% end -%>

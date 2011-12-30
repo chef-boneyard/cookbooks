@@ -2,7 +2,7 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs memcached and provides a define to set up an instance of memcache via runit"
-long_description  IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
+long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version           "0.10.4"
 depends           "runit"
 

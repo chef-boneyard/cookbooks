@@ -49,4 +49,4 @@ template "/etc/maradns/db.#{node[:domain]}" do
   owner "root"
   group "root"
   notifies :restart, resources(:service => "maradns")
-end  
+end

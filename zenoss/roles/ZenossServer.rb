@@ -4,7 +4,7 @@ description "Role to use as basis for configuring Zenoss Server"
 #you may want to set the [:zenoss][:server][:admin_password]
 default_attributes(
                    "zenoss" => {
-                     "device" => {                   
+                     "device" => {
                        "properties" => {
                          "zCommandUsername" => "zenoss",
                          "zKeyPath" => "/home/zenoss/.ssh/id_dsa",
@@ -17,8 +17,8 @@ default_attributes(
 
 override_attributes(
                     "zenoss" => {
-                      "device" => {                   
-                        "device_class" => "/Server/SSH/Linux/MySQL"
+                      "device" => {
+                        "device_class" => "/Server/SSH/Linux"
                       }
                     }
                     )

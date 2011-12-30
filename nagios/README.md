@@ -3,8 +3,14 @@ Description
 
 Installs and configures Nagios 3 for a server and for clients using Chef search capabilities.
 
-Changes
-=======
+Changes/Roadmap
+===============
+
+* COOK-917
+
+## v1.0.4:
+
+* [COOK-838] - Add HTTPS Option to Nagios Cookbook
 
 ## v1.0.2:
 
@@ -96,6 +102,10 @@ Default directory locations are based on FHS. Change to suit your preferences.
 * `node['nagios']['state_dir']` - nagios runtime state information, default "/var/lib/nagios3"
 * `node['nagios']['run_dir']` - where pidfiles are stored, default "/var/run/nagios3"
 * `node['nagios']['docroot']` - nagios webui docroot, default "/usr/share/nagios3/htdocs"
+* `node['nagios']['enable_ssl]` - boolean for whether nagios web server should be https, default false
+* `node['nagios']['http_port']` - port that the apache server should listen on, determined whether ssl is enabled (443 if so, otherwise 80)
+* `node['nagios']['server_name']` - common name to use in a server cert, default "nagios"
+* `node['nagios']['ssl_req']` - info to use in a cert, default `/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=#{node['nagios']['server_name']}/emailAddress=ops@#{node['nagios']['server_name']}`
 
 * `node['nagios']['notifications_enabled']` - set to 1 to enable notification.
 * `node['nagios']['check_external_commands']`
@@ -257,6 +267,39 @@ The library included with the cookbook provides some helper methods used in temp
 * nagios_boolean
 * nagios_interval - calculates interval based on interval length and a given number of seconds.
 * nagios_attr - retrieves a nagios attribute from the node.
+
+Resources/Providers
+===================
+
+The nrpecheck LWRP provides an easy way to add and remove NRPE checks from within a cookbook.
+
+# Actions
+
+- :add: creates a NRPE configuration file and restart the NRPE process. Default action.
+- :remove: removes the configuration file and restart the NRPE process
+
+# Attribute Parameters
+
+- command_name: name attribute.  The name of the check.  You'll need to reference this in your commands.cfg template
+- warning_condition: String that you will pass to the command with the -w flag
+- critical_condition: String that you will pass to the command with the -c flag
+- command: The actual command to execute (including the path). If this is not specified, this will use `node['nagios']['plugin_dir']/command_name` as the path to the command.
+- parameters: Any additional parameters you wish to pass to the plugin.
+
+# Examples
+
+    # Use LWRP to define check_load
+    nagios_nrpecheck "check_load" do
+      command "#{node['nagios']['plugin_dir']}/check_load"
+      warning_condition node['nagios']['checks']['load']['warning']
+      critical_condition node['nagios']['checks']['load']['critical']
+      action :add
+    end
+
+    # Remove the check_load definition
+    nagios_nrpecheck "check_load" do
+      action :remove
+    end
 
 Usage
 =====

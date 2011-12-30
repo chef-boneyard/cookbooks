@@ -24,6 +24,10 @@ version = node['activemq']['version']
 mirror = node['activemq']['mirror']
 activemq_home = "#{node['activemq']['home']}/apache-activemq-#{version}"
 
+directory node['activemq']['home'] do
+  recursive true
+end
+
 unless File.exists?("#{activemq_home}/bin/activemq")
   remote_file "#{tmp}/apache-activemq-#{version}-bin.tar.gz" do
     source "#{mirror}/activemq/apache-activemq/#{version}/apache-activemq-#{version}-bin.tar.gz"
@@ -31,7 +35,7 @@ unless File.exists?("#{activemq_home}/bin/activemq")
   end
 
   execute "tar zxf #{tmp}/apache-activemq-#{version}-bin.tar.gz" do
-    cwd "/opt"
+    cwd node['activemq']['home']
   end
 end
 

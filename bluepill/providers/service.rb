@@ -22,10 +22,31 @@ require 'chef/mixin/language'
 include Chef::Mixin::Command
 
 action :enable do
+  config_file = "#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill"
+
   unless @bp.enabled
     link "#{node['bluepill']['init_dir']}/#{new_resource.service_name}" do
       to node['bluepill']['bin']
-      only_if { ::File.exists?("#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill") }
+      only_if { ::File.exists?(config_file) }
+    end
+  end
+
+  case node['platform']
+  when "centos", "redhat"
+    template "/etc/init.d/bluepill-#{new_resource.service_name}" do
+      source "bluepill_init.erb"
+      cookbook "bluepill"
+      owner "root"
+      group "root"
+      mode "0755"
+      variables(
+        :service_name => "#{new_resource.service_name}",
+        :config_file => config_file
+      )
+    end
+
+    service "bluepill-#{new_resource.service_name}" do
+      action [ :enable ]
     end
   end
 end
