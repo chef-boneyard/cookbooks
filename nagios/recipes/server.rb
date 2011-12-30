@@ -27,6 +27,7 @@ include_recipe "apache2::mod_rewrite"
 include_recipe "nagios::client"
 
 sysadmins = search(:users, 'groups:sysadmin')
+services = search(:nagios_services, 'id:*')
 nodes = search(:node, "hostname:[* TO *] AND chef_environment:#{node.chef_environment}")
 
 if nodes.empty?
@@ -141,12 +142,19 @@ apache_site "nagios3.conf"
   end
 end
 
-%w{ commands templates timeperiods}.each do |conf|
+%w{ templates timeperiods}.each do |conf|
   nagios_conf conf
 end
 
+nagios_conf "commands" do
+  variables :services => services
+end
+
 nagios_conf "services" do
-  variables :service_hosts => service_hosts
+  variables(
+    :service_hosts => service_hosts,
+    :services => services
+  )
 end
 
 nagios_conf "contacts" do

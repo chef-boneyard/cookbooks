@@ -193,11 +193,6 @@ define command {
 }
 
 define command {
-	command_name	check_ssh
-	command_line	$USER1$/check_ssh $HOSTADDRESS$
-}
-
-define command {
   command_name    check_telnet
   command_line    $USER1$/check_tcp -H $HOSTADDRESS$ -p 23
 }
@@ -333,3 +328,11 @@ define command {
 #        command_name process-host-perfdata
 #        command_line /usr/lib/nagios/plugins/process_perfdata.pl -d HOSTPERFDATA
 #}
+
+# Commands added through nagios_services data bags
+<% @services.each do |service| -%>
+define command {
+  command_name check_<%= service['id'] %>
+  command_line <%= service ['command_line'] %>
+}
+<% end -%>
