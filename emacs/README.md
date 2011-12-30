@@ -6,25 +6,32 @@ Installs the "emacs" package to install the worlds most flexible, customizable t
 Changes
 =======
 
-## v0.7.0:
-
-* Initial public release
-
-Roadmap
--------
+### v0.8.2:
 
 * [COOK-551] - FreeBSD Support
 * [COOK-839] - install non-X11 package by setting an attribute
 
+### v0.7.0:
+
+* Initial public release
+
 Requirements
 ============
 
-A package named "emacs" must be available via the native package manager for the Platform.
+## Platform
+
+* Debian/Ubuntu
+* Red Hat/CentOS/Scientific/Fedora
+* FreeBSD
+
+Should work on any platform that has a default provider for the `package` resource and a package named `emacs` avaialble in the default package manager repository.
+
+On FreeBSD, Chef version 0.10.6 is required for fixes to the ports package provider.
 
 Attributes
 ==========
 
-Does not use any attributes yet. See __Roadmap__.
+* `node['emacs']['packages']` - An array of Emacs package names to install. Defaults to the "No X11" name based on platform and falls back to "emacs".
 
 Recipes
 =======
@@ -37,7 +44,18 @@ Installs the emacs package.
 Usage
 =====
 
-Simply add `recipe[emacs]` to the run list of a base role that gets applied to all systems.
+Simply add `recipe[emacs]` to the run list of a base role that gets applied to all systems. Modify the `node['emacs']['packages']` attribute if the default package name for your platform is unavailable or incorrect (see `attributes/default.rb`). You should modify this with an attribute in a role applied to the node. For example:
+
+    name "base"
+    description "base role is applied to all nodes"
+    run_list("recipe[emacs]")
+    default_attributes(
+      "emacs" => {
+        "packages" => ["emacs-nox"]
+      }
+    )
+
+As this is an array you can append other emacs-related packages, such as to make configuration modes available.
 
 License and Author
 ==================

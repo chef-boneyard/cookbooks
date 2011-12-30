@@ -144,7 +144,7 @@ access to SMTP.
         "myorigin" => "example.com",
         "relayhost" => "[smtp.comcast.net]:587",
         "smtp_sasl_auth_enable" => "yes",
-        "smtp_sasl_passwd" => "your_password,
+        "smtp_sasl_passwd" => "your_password",
         "smtp_sasl_user_name" => "your_username"
       }
     )

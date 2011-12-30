@@ -34,17 +34,16 @@ cookbook_file "/usr/sbin/rebuild-iptables" do
 end
 
 case node[:platform]
-when "redhat", "centos"
-  iptables_save_file = "/etc/sysconfig/iptables"
 when "ubuntu", "debian"
   iptables_save_file = "/etc/iptables/general"
+
+  template "/etc/network/if-pre-up.d/iptables_load" do
+    source "iptables_load.erb"
+    mode 0755
+    variables :iptables_save_file => iptables_save_file
+  end
 end
 
-template "/etc/network/if-pre-up.d/iptables_load" do
-  source "iptables_load.erb"
-  mode 0755
-  variables :iptables_save_file => iptables_save_file
-end
 
 iptables_rule "all_established"
 iptables_rule "all_icmp"

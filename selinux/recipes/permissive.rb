@@ -30,6 +30,6 @@ template "/etc/selinux/config" do
   not_if "getenforce | grep -qx 'Disabled'"
   variables(
     :selinux => "permissive",
-    :selinuxtype => "targeted",
+    :selinuxtype => "targeted"
   )
 end

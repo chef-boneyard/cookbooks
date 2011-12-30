@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: apache2
-# Recipe:: log_config 
+# Author:: Jake Vanderdray <jvanderdray@customink.com>
+# Cookbook Name:: nagios
+# Resource:: nrpecheck
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2011, CustomInk LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,10 +16,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-if platform?("redhat", "centos", "scientific", "fedora", "suse", "arch", "freebsd")
-  apache_module "log_config"
-else
-  include_recipe "apache2"
+actions :add, :remove
+
+# Name of the nrpe check, used for the filename and the command name
+attribute :command_name, :kind_of => String, :name_attribute => true
+
+attribute :warning_condition, :kind_of => String
+attribute :critical_condition, :kind_of => String
+attribute :command, :kind_of => String
+attribute :parameters, :kind_of => String, :default => nil
+
+def initialize(*args)
+  super
+  @action = :add
 end

@@ -21,7 +21,7 @@
 
 case node[:platform]
 when "centos","redhat","scientific"
-  include_recipe "yum"
+  package "libgcj" #moved here to make CentOS 5.6 happy (COOK-908)
 
   yum_key "RPM-GPG-KEY-zenoss" do
     url "http://dev.zenoss.com/yum/RPM-GPG-KEY-zenoss"
@@ -36,9 +36,11 @@ when "centos","redhat","scientific"
     action :add
   end
 
-  packages = %w{mysql-server net-snmp net-snmp-utils gmp libgomp libgcj liberation-fonts}
+  include_recipe "yum"
+
+  packages = %w{mysql-server net-snmp net-snmp-utils gmp libgomp liberation-fonts}
   packages.each do |pkg|
-    yum_package pkg do
+    package pkg do
       action :install
     end
   end
@@ -90,10 +92,12 @@ end
 
 
 #apply post 3.2.0 patches from http://dev.zenoss.com/trac/report/6 marked 'closed'
-node["zenoss"]["server"]["zenpatches"].each do |patch, url|
-  zenoss_zenpatch patch do
-    ticket url
-    action :install
+if node['zenoss'] and node['zenoss']['server'] and node['zenoss']['server']['zenpatches']
+  node['zenoss']['server']['zenpatches'].each do |patch, url|
+    zenoss_zenpatch patch do
+      ticket url
+      action :install
+    end
   end
 end
 
