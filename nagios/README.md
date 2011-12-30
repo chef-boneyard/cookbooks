@@ -183,6 +183,9 @@ This recipe was written based on the [Nagios Integration Guide](http://www.pager
 Data Bags
 =========
 
+Users
+-------------
+
 Create a `users` data bag that will contain the users that will be able to log into the Nagios webui. Each user can use htauth with a specified password, or an openid. Users that should be able to log in should be in the sysadmin group. Example user data bag item:
 
     {
@@ -206,6 +209,19 @@ The openid must have the http:// and trailing /. The htpasswd must be the hashed
     nagiosadmin:{SHA}oCagzV4lMZyS7jl2Z0WlmLxEkt4=
 
 For example use the `{SHA}oCagzV4lMZyS7jl2Z0WlmLxEkt4=` value in the data bag.
+
+Services
+-------------
+
+Create a nagios_services data bag that will contain definitions for services to be monitored.  This allows you to add monitoring rules without mucking about in the services and commands templates.  Each service will be named based on the id of the data bag and the command will be named withe the same id prepended with "check_".
+
+Here's an example of a service check for sshd that you could apply to all hostgroups:
+
+    {
+    "id": "ssh",
+    "hostgroup_name": "all",
+    "command_line": "$USER1$/check_ssh $HOSTADDRESS$"
+    }
 
 Roles
 =====
