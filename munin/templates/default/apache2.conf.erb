@@ -19,7 +19,7 @@
   <Location />
     AuthName "Munin Server"
     AuthType Basic
-    AuthUserFile "/etc/munin/htpasswd.users"
+    AuthUserFile "<%= node['munin']['basedir'] %>/htpasswd.users"
     require valid-user
   </Location>
 <% end -%>
