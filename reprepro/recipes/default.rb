@@ -28,6 +28,8 @@ node.set_unless.reprepro.description = apt_repo['description']
 node.set_unless.reprepro.pgp_email = apt_repo['pgp']['email']
 node.set_unless.reprepro.pgp_fingerprint = apt_repo['pgp']['fingerprint']
 
+apt_repo_allow = apt_repo["allow"] || []
+
 ruby_block "save node data" do
   block do
     node.save
@@ -62,6 +64,7 @@ end
     owner "nobody"
     group "nogroup"
     variables(
+      :allow => apt_repo_allow,
       :codenames => apt_repo["codenames"],
       :architectures => apt_repo["architectures"],
       :incoming => apt_repo["incoming"],
