@@ -44,6 +44,7 @@ runit_service app['id'] do
   options(
     :app => app,
     :rails_env => node.run_state[:rails_env] || node.chef_environment,
+    :use_bundler => app['gems'].has_key?('bundler'), 
     :smells_like_rack => ::File.exists?(::File.join(app['deploy_to'], "current", "config.ru"))
   )
   run_restart false
