@@ -62,25 +62,25 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
 
     # create a mysql database
     mysql_database 'oracle_rules' do
-      connection {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
+      connection ({:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']})
       action :create
     end
     
     # create a sql server database
     sql_server_database 'mr_softie' do
-      connection {:host => "127.0.0.1", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']}
+      connection ({:host => "127.0.0.1", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']})
       action :create
     end
 
     # create a postgresql database
     postgresql_database 'mr_softie' do
-      connection {:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']}
+      connection ({:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']})
       action :create
     end
     
     # create a postgresql database with additional parameters
     postgresql_database 'mr_softie' do
-      connection {:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']}
+      connection ({:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']})
       template 'DEFAULT'
       encoding 'DEFAULT'
       tablespace 'DEFAULT'
