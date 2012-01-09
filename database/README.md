@@ -62,25 +62,25 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
 
     # create a mysql database
     mysql_database 'oracle_rules' do
-      connection {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
+      connection ({:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']})
       action :create
     end
     
     # create a sql server database
     sql_server_database 'mr_softie' do
-      connection {:host => "127.0.0.1", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']}
+      connection ({:host => "127.0.0.1", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']})
       action :create
     end
 
     # create a postgresql database
     postgresql_database 'mr_softie' do
-      connection {:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']}
+      connection ({:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']})
       action :create
     end
     
     # create a postgresql database with additional parameters
     postgresql_database 'mr_softie' do
-      connection {:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']}
+      connection ({:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']})
       template 'DEFAULT'
       encoding 'DEFAULT'
       tablespace 'DEFAULT'
@@ -90,9 +90,9 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
     end
 
     # externalize conection info in a ruby hash
-    mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
-    sql_server_connection_info = {:host => "localhost", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']}
-    postgresql_connection_info = {:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']}
+    mysql_connection_info = ({:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']})
+    sql_server_connection_info = ({:host => "localhost", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']})
+    postgresql_connection_info = ({:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']})
     
     # same create commands, connection info as an external hash
     mysql_database 'foo' do
@@ -175,8 +175,8 @@ Manage users and user privileges in a RDBMS. Use the proper shortcut resource de
 ### Examples
 
     # create connection info as an external ruby hash
-    mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
-    sql_server_connection_info = {:host => "localhost", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']}
+    mysql_connection_info = ({:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']})
+    sql_server_connection_info = ({:host => "localhost", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']})
     
     # create a mysql user but grant no priveleges
     mysql_database_user 'disenfranchised' do
