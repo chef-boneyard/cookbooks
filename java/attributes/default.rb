@@ -1,8 +1,7 @@
 #
 # Author:: Seth Chisamore (<schisamo@opscode.com>)
-# Author:: Bryan W. Berry (<bryan.berry@opscode.com>)
 # Cookbook Name:: java
-# Attributes:: default
+# Attributes:: ark
 #
 # Copyright 2010, Opscode, Inc.
 #
@@ -32,18 +31,18 @@ end
 
 # jdk6 attributes
 # x86_64
-default['java']['jdk']['6']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/6u29-b11/jdk-6u29-linux-x64.bin'
-default['java']['jdk']['6']['x86_64']['checksum'] =  'a8603fa62045ce2164b26f7c04859cd548ffe0e33bfc979d9fa73df42e3b3365'
+default['java']['jdk']['6']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/6u30-b12/jdk-6u30-linux-x64.bin'
+default['java']['jdk']['6']['x86_64']['checksum'] = '928220f4e46c5dabef0440791c48023945629d8a23998e072157e04960d8a759'
 
 # i586
-default['java']['jdk']['6']['i586']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/6u29-b11/jdk-6u29-linux-i586.bin'
-default['java']['jdk']['6']['i586']['checksum'] = '1117f4dfc45632b68ec0f4d5e61e5cafc1d85dc655ee3df5fa6f50128b8c3faf'
+default['java']['jdk']['6']['i586']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/6u30-b12/jdk-6u30-linux-i586.bin'
+default['java']['jdk']['6']['i586']['checksum'] = 'b551be83a690bc9fec0107d9aa4f828cd47e150fa54cbedbfa8f80c99e2f18b5'
 
 # jdk7 attributes
 # x86_64
-default['java']['jdk']['7']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/7u1-b08/jdk-7u1-linux-x64.tar.gz'
-default['java']['jdk']['7']['x86_64']['checksum'] = 'f88070cfe7fe5ed60dfda7729cf9dd110b77840e2ca8cd14a86d5d2274b09c9c'
+default['java']['jdk']['7']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/7u2-b13/jdk-7u2-linux-x64.tar.gz'
+default['java']['jdk']['7']['x86_64']['checksum'] = '411a204122c5e45876d6edae1a031b718c01e6175833740b406e8aafc37bc82d'
 
 # i586
-default['java']['jdk']['7']['i586']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/7u1-b08/jdk-7u1-linux-i586.tar.gz'
-default['java']['jdk']['7']['i586']['checksum'] = 'acbfb8912a287facbee02ff138d94457aabab409b2f1d15855714ec9608a6cd4'
+default['java']['jdk']['7']['i586']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/7u2-b13/jdk-7u2-linux-i586.tar.gz'
+default['java']['jdk']['7']['i586']['checksum'] = '74faad48fef2c368276dbd1fd6c02520b0e9ebdcb1621916c1af345fc3ba65d1'

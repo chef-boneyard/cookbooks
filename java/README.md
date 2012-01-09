@@ -1,8 +1,7 @@
 Description
 ===========
 
-Installs a Java. Uses OpenJDK by default but supports installation of
-the Oracle's JDK.
+Installs a Java. Uses Oracle's JDK by default but supports installation of the OpenJDK.
 
 This cookbook also provides the java_ark LWRP which other java
 cookbooks can use to install java-related applications from binary
@@ -27,7 +26,7 @@ Cookbooks
 Attributes
 ==========
 
-* `node["java"]["install_flavor"]` - Flavor of JVM you would like installed (`oracle` or `openjdk`), default `openjdk`.
+* `node["java"]["install_flavor"]` - Flavor of JVM you would like installed (`oracle` or `openjdk`), default `oracle`.
 * `node['java']['java_home']`
 * `node['java']['tarball']` - name of the tarball to retrieve from your corporate repository default `jdk1.6.0_29_i386.tar.gz`
 * `node['java']['tarball_checksum']` - checksum for the tarball, if you use a different tarball, you also need to create a new sha256 checksum
@@ -39,7 +38,7 @@ Recipes
 default
 -------
 
-Include the default recipe in a run list, to get `java`.  By default the `openjdk` flavor of Java is installed, but this can be changed by using the `install_flavor` attribute.
+Include the default recipe in a run list, to get `java`.  By default the `oracle` flavor of Java is installed, but this can be changed by using the `install_flavor` attribute.
 
 openjdk
 -------
