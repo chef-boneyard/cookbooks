@@ -44,7 +44,10 @@ when 'ubuntu','debian'
   apt_package 'libgecode-dev' do
     action :install
   end
-
+when 'redhat', 'centos','fedora'
+  # this assumes that you already have access to either the aegisco or
+  # rbel repository
+  package "gecode"
 else
   raise "This recipe does not yet support installing Gecode 3.5.0+ from packages on your platform"
 end
