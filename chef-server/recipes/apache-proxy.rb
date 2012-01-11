@@ -57,7 +57,7 @@ end
 
 web_app "chef-server-proxy" do
   template "chef_server.conf.erb"
-  server_name "localhost"
-  server_aliases [ node['hostname'], node['fqdn'], 'chef-server-proxy', "chef.#{node['domain']}" ]
+  server_name node['chef_server']['proxy']['server_name']
+  server_aliases node['chef_server']['proxy']['aliases']
   log_dir node['apache']['log_dir']
 end
