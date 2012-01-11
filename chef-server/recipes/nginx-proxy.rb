@@ -49,8 +49,8 @@ template "#{node[:nginx][:dir]}/sites-available/chef_server_proxy.conf" do
   mode "0644"
   notifies :restart, "service[nginx]"
   variables(
-    :server_name => "localhost",
-    :aliases => [ node['hostname'], node['fqdn'], 'chef-server-proxy', "chef.#{node['domain']}" ]
+    :server_name => node['chef_server']['proxy']['server_name'],
+    :aliases => node['chef_server']['proxy']['aliases']
   )
 end
 
