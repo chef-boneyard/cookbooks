@@ -63,35 +63,39 @@ class Chef
       end
 
       # 
-      def template(arg='DEFAULT')
+      def template(arg=nil)
         set_or_return(
           :template,
           arg,
-          :kind_of => String
+          :kind_of => String,
+          :default => 'DEFAULT'
         )
       end
 
-      def encoding(arg='DEFAULT')
+      def encoding(arg=nil)
         set_or_return(
           :encoding,
           arg,
-          :kind_of => String
+          :kind_of => String,
+          :default => 'DEFAULT'
         )
       end
 
-      def tablespace(arg='DEFAULT')
+      def tablespace(arg=nil)
         set_or_return(
           :tablespace,
           arg,
-          :kind_of => String
+          :kind_of => String,
+          :default => 'DEFAULT'
         )
       end
 
-      def connection_limit(arg='-1')
+      def connection_limit(arg=nil)
         set_or_return(
           :connection_limit,
           arg,
-          :kind_of => String
+          :kind_of => String,
+          :default => '-1'
         )
       end
 
