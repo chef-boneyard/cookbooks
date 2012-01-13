@@ -1,7 +1,7 @@
 # Server Proxy for API
-<VirtualHost *:443>
-  ServerName <%= @params[:server_name] %>
-  ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
+<VirtualHost *:<%= @params[:api_port] %>>
+  ServerName <%= @params[:api_server_name] %>
+  ServerAlias <% @params[:api_server_aliases].each do |a| %><%= "#{a}" %> <% end %>
 
   DocumentRoot <%= node['chef_server']['doc_root'] %>
 
@@ -35,9 +35,9 @@
 
 <% if node['chef_server']['webui_enabled'] -%>
 # Server Proxy for WebUI
-<VirtualHost *:444>
-  ServerName <%= @params[:server_name] %>
-  ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
+<VirtualHost *:<%= @params[:webui_port] %>>
+  ServerName <%= @params[:webui_server_name] %>
+  ServerAlias <% @params[:webui_server_aliases].each do |a| %><%= "#{a}" %> <% end %>
 
   DocumentRoot <%= node['chef_server']['doc_root'] %>
 
