@@ -7,10 +7,10 @@ upstream chef_server_webui {
 }
 
 server {
-  listen 443 ssl;
+  listen <%= @api_port %> ssl;
   ssl_certificate /etc/chef/certificates/chef-server-proxy.pem;
   ssl_certificate_key /etc/chef/certificates/chef-server-proxy.pem;
-  server_name <%= @server_name %>;
+  server_name <%= @api_server_name %>;
   access_log <%= node[:nginx][:log_dir] %>/chef-server.access.log;
   error_log <%= node[:nginx][:log_dir] %>/chef-server.error.log warn;
 
@@ -28,22 +28,22 @@ server {
   }
 }
 
-<% if @aliases && @aliases.length > 0 %>
+<% if @api_aliases && @api_aliases.length > 0 %>
 server {
-  server_name <%= @aliases.join(' ') %>;
+  server_name <%= @api_aliases.join(' ') %>;
   access_log <%= node[:nginx][:log_dir] %>/chef-server.access.log;
   error_log <%= node[:nginx][:log_dir] %>/chef-server.error.log warn;
   
-  rewrite ^(.+)$ https://<%= @server_name %>$1 permanent;
+  rewrite ^(.+)$ https://<%= @api_server_name %>$1 permanent;
 }
 
 <% end %>
 <% if node['chef_server']['webui_enabled'] -%>
 server {
-  listen 444 ssl;
+  listen <%= @webui_port %> ssl;
   ssl_certificate /etc/chef/certificates/chef-server-proxy.pem;
   ssl_certificate_key /etc/chef/certificates/chef-server-proxy.pem;
-  server_name <%= @server_name %>;
+  server_name <%= @webui_server_name %>;
   access_log <%= node[:nginx][:log_dir] %>/chef-server.access.log;
   error_log <%= node[:nginx][:log_dir] %>/chef-server.error.log warn;
 
