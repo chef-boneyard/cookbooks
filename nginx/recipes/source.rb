@@ -86,6 +86,8 @@ when "runit"
   runit_service "nginx"
 
   service "nginx" do
+    supports :status => true, :restart => true, :reload => true
+    reload_command "if [ -f /var/run/nginx.pid ]; then kill -HUP `cat /var/run/nginx.pid`; fi"
     subscribes :restart, resources(:bash => "compile_nginx_source")
   end
 when "bluepill"
@@ -110,6 +112,8 @@ when "bluepill"
   end
 
   service "nginx" do
+    supports :status => true, :restart => true, :reload => true
+    reload_command "if [ -f /var/run/nginx.pid ]; then kill -HUP `cat /var/run/nginx.pid`; fi"
     action :nothing
   end
 else
@@ -160,7 +164,7 @@ template "nginx.conf" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :restart, resources(:service => "nginx"), :immediately
+  notifies :reload, resources(:service => "nginx"), :immediately
 end
 
 cookbook_file "#{node[:nginx][:dir]}/mime.types" do
@@ -168,5 +172,5 @@ cookbook_file "#{node[:nginx][:dir]}/mime.types" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :restart, resources(:service => "nginx"), :immediately
+  notifies :reload, resources(:service => "nginx"), :immediately
 end
