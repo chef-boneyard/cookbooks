@@ -63,12 +63,16 @@ It is quite useful as is, but clustering configuration does not currently do the
 
 The rabbitmq::chef recipe was only used for the chef-server cookbook and has been moved to chef-server::rabbitmq.
 
+Changes
+=======
+
+* [COOK-585] - manage rabbitmq-server service
+
 License and Author
 ==================
+
 Author:: Benjamin Black <b@b3k.us>
-
 Author:: Daniel DeLeo <dan@kallistec.com>
-
 Author:: Matt Ray <matt@opscode.com>
 
 Copyright:: 2009-2011 Opscode, Inc
