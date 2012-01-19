@@ -8,6 +8,14 @@ Requirements
 
 Debian, Ubuntu, CentOS, Red Hat, Scientific, Fedora, SUSE.
 
+Changes
+====
+
+## v1.0.2:
+
+* [COOK-953] - Add FreeBSD support
+* [COOK-775] - Add Amazon Linux support
+
 License and Author
 ====
 
