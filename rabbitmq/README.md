@@ -66,6 +66,7 @@ The rabbitmq::chef recipe was only used for the chef-server cookbook and has bee
 Changes
 =======
 
+## v1.3.2:
 * [COOK-585] - manage rabbitmq-server service
 
 License and Author
