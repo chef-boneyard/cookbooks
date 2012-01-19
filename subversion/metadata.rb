@@ -9,6 +9,7 @@ version           "0.8.3"
 end
 
 depends "apache2"
+depends "windows"
 
 recipe "subversion", "Includes the client recipe."
 recipe "subversion::client", "Subversion Client installs subversion and some extra svn libs"
