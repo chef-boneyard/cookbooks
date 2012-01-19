@@ -18,7 +18,7 @@
 #
 
 pkg_name = value_for_platform(
-  [ "centos", "redhat", "scientific", "suse", "fedora" ] => { "default" => "libxml2-devel" },
+  [ "centos", "redhat", "scientific", "suse", "fedora", "amazon" ] => { "default" => "libxml2-devel" },
   [ "freebsd" ] => { "default" => "libxml2" },
   "default" => 'libxml2-dev'
 )
