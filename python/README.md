@@ -20,9 +20,12 @@ Cookbooks
 Attributes
 ==========
 
-* `node["python"]["install_method"]` = method to install python with, default `package`.
+See `attributes/default.rb` for default values.
 
-The file also contains the following attribute types:
+* `node["python"]["install_method"]` - method to install python with, default `package`.
+* `node["python"]["distribute_install_py_version"]` - version of python to use when installing distribute. default '', specify version like '2.6' (uses python2.6 binary).
+
+The file also contains the following attributes:
 
 * platform specific locations and settings.
 * source installation settings

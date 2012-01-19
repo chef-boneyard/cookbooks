@@ -18,9 +18,6 @@
 # limitations under the License.
 #
 
-# Version of python to use when installing distribute
-# default is '', which uses the 'python' binary.
-# example value = '2.6' which will use the python2.6 binary
 default['python']['distribute_install_py_version'] = ''
 
 default['python']['install_method'] = 'package'
