@@ -3,13 +3,6 @@ Description
 
 Installs subversion for clients or sets up a server under Apache HTTPD.
 
-Changes
-=======
-
-## v0.8.3:
-
-* Current public release
-
 Requirements
 ============
 
@@ -18,10 +11,12 @@ Requirements
 * Debian/Ubuntu
 * RHEL/CentOS
 * Fedora
+* Windows
 
 ## Cookbooks:
 
 * apache2
+* windows
 
 Attributes
 ==========
@@ -67,6 +62,13 @@ servers that will check out a repository, use `recipe[subversion]`. If
 you would like a subversion server, use `recipe[subversion::server]`.
 You should override `node['subversion']['password']` in the role that
 applies the server recipe.
+
+Changes
+=======
+
+## v0.8.3:
+
+* Current public release
 
 License and Author
 ==================
