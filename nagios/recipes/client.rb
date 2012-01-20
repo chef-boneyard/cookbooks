@@ -34,11 +34,6 @@ end
 
 include_recipe "nagios::client_#{node['nagios']['client']['install_method']}"
 
-service "nagios-nrpe-server" do
-  action :enable
-  supports :restart => true, :reload => true
-end
-
 remote_directory node['nagios']['plugin_dir'] do
   source "plugins"
   owner "root"
@@ -47,11 +42,33 @@ remote_directory node['nagios']['plugin_dir'] do
   files_mode 0755
 end
 
+directory "#{node['nagios']['nrpe']['conf_dir']}/nrpe.d" do
+  owner "root"
+  group "root"
+  mode 0755
+end
+
 template "#{node['nagios']['nrpe']['conf_dir']}/nrpe.cfg" do
   source "nrpe.cfg.erb"
   owner "root"
   group "root"
   mode "0644"
-  variables :mon_host => mon_host
+  variables(
+    :mon_host => mon_host,
+    :nrpe_directory => "#{node['nagios']['nrpe']['conf_dir']}/nrpe.d"
+  )
   notifies :restart, "service[nagios-nrpe-server]"
+end
+
+service "nagios-nrpe-server" do
+  action [:start, :enable]
+  supports :restart => true, :reload => true
+end
+
+# Use NRPE LWRP to define a check
+nagios_nrpecheck "check_load" do
+  command "#{node['nagios']['plugin_dir']}/check_load"
+  warning_condition node['nagios']['checks']['load']['warning']
+  critical_condition node['nagios']['checks']['load']['critical']
+  action :add
 end

@@ -28,7 +28,7 @@ default[:zenoss][:device][:location]        = "" #overwritten by roles or on nod
 default[:zenoss][:device][:modeler_plugins] = [] #overwritten by roles or on nodes
 default[:zenoss][:device][:properties]      = {} #overwritten by roles or on nodes
 default[:zenoss][:device][:templates]       = [] #overwritten by roles or on nodes
-default[:zenoss][:server][:version]         = "3.1.0-0"
+default[:zenoss][:server][:version]         = "3.2.1-0"
 default[:zenoss][:server][:zenoss_pubkey]   = "" #gets set in the server recipe, read by clients
 case node['platform']
 when "ubuntu","debian"
@@ -44,13 +44,8 @@ default[:zenoss][:server][:installed_zenpacks] = {
   "ZenPacks.community.MySQLSSH"  => "0.4",
 }
 
+#patches from http://dev.zenoss.com/trac/report/6 marked 'closed'
 #it might matter that these get ordered eventually as well
 default[:zenoss][:server][:zenpatches] = {
-  "25711" => "http://dev.zenoss.com/trac/ticket/7497",
-  "25814" => "http://dev.zenoss.com/trac/ticket/7772",
-  "25902" => "http://dev.zenoss.com/trac/ticket/7591",
-  "25926" => "http://dev.zenoss.com/trac/ticket/7802",
-  "25963" => "http://dev.zenoss.com/trac/ticket/7114",
-  "26025" => "http://dev.zenoss.com/trac/ticket/7813",
-  "26059" => "http://dev.zenoss.com/trac/ticket/7820",
+
 }

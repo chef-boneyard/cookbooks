@@ -1,0 +1,13 @@
+{
+    "id": "default",
+    "arch": "amd64",
+    "version": "lucid",
+    "domain": "localdomain",
+    "run_list": "role[base]",
+    "netboot_url": "http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-amd64/current/images/netboot/netboot.tar.gz",
+    "user": {
+        "fullname": "Ubuntu",
+        "username": "ubuntu",
+        "crypted_password": "$6$Trby4Y5R$bi90k7uYY5ImXe5MWGFW9kel2BnMCcYO9EnwngTFIXKG2/nWcLKTJZ3verMFnpFbITI9.eHwZ.HR1UPeKbCAV1"
+    }
+}

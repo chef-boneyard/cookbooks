@@ -1,29 +1,28 @@
 <VirtualHost *:80>
-  ServerAdmin     ops@example.com
-  ServerName      <%= node[:fqdn] %>
+  ServerAdmin     <%= node['munin']['sysadmin_email'] %>
+  ServerName      <%= node['fqdn'] %>
   ServerAlias     munin munin.<%= node.chef_environment =~ /_default/ ? "default" : node.chef_environment %>.<%= @public_domain %>
-<% case node[:platform] -%>
-<% when "arch" -%>
-  Alias /munin /srv/http/munin
-  DocumentRoot /srv/http/munin
-<% else -%>
-  DocumentRoot /var/www/munin
-  Alias /munin /var/www/munin
-<% end -%>
-  CustomLog       <%= node[:apache][:log_dir] %>/munin_access.log combined
-  ErrorLog        <%= node[:apache][:log_dir] %>/munin_error.log
+  Alias /munin <%= @docroot %>
+  DocumentRoot <%= @docroot %>
+  CustomLog       <%= node['apache']['log_dir'] %>/munin_access.log combined
+  ErrorLog        <%= node['apache']['log_dir'] %>/munin_error.log
 
+<% case node['munin']['server_auth_method'] -%>
+<% when "openid" -%>
   <Location />
     AuthName "Munin Server"
-    AuthOpenIDEnabled On
-<% case node[:platform] -%>
-<% when "arch" -%>
-    AuthOpenIDDBLocation /var/cache/httpd/mod_auth_openid.db
-<% else -%>
-    AuthOpenIDDBLocation /var/cache/apache2/mod_auth_openid.db
-<% end -%>
-    AuthOpenIDUserProgram /usr/local/bin/mod_auth_openid.rb
+    AuthType OpenID
+    require user <%= node['apache']['allowed_openids'].join(' ') %>
+    AuthOpenIDDBLocation <%= node['apache']['mod_auth_openid']['dblocation'] %>
   </Location>
+<% else -%>
+  <Location />
+    AuthName "Munin Server"
+    AuthType Basic
+    AuthUserFile "<%= node['munin']['basedir'] %>/htpasswd.users"
+    require valid-user
+  </Location>
+<% end -%>
 
   RewriteEngine On
   RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /.*index\.html\ HTTP/

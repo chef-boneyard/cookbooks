@@ -2,7 +2,9 @@
 # Cookbook Name:: postgresql
 # Recipe:: client
 #
-# Copyright 2009, Opscode, Inc.
+# Author:: Joshua Timberman (<joshua@opscode.com>)
+# Author:: Lamont Granquist (<lamont@opscode.com>)
+# Copyright 2009-2011 Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,11 +19,26 @@
 # limitations under the License.
 #
 
-case node.platform
+pg_packages = case node['platform']
 when "ubuntu","debian"
-  package "postgresql-client"
-when "fedora","suse"
-  package "postgresql-devel"
-when "redhat","centos"
-  package "postgresql#{node.postgresql.version.split('.').join}-devel"
+  %w{postgresql-client libpq-dev}
+when "fedora","suse","amazon"
+  %w{postgresql-devel}
+when "redhat","centos","scientific"
+  case
+  when node['platform_version'].to_f >= 6.0
+    %w{postgresql-devel}
+  else
+    [ "postgresql#{node['postgresql']['version'].split('.').join}-devel" ]
+  end
 end
+
+pg_packages.each do |pg_pack|
+  package pg_pack do
+    action :nothing
+  end.run_action(:install)
+end
+
+gem_package "pg" do
+  action :nothing
+end.run_action(:install)

@@ -3,6 +3,18 @@ Description
 
 Installs bluepill RubyGem and configures it to manage services. Also includes a LWRP.
 
+Changes
+=======
+
+### v0.3.0:
+
+* [COOK-867] - enable bluepill service on RHEL family
+* [COOK-550] - add freebsd support
+
+### v0.2.2:
+
+* Fixes COOK-524, COOK-632
+
 Requirements
 ============
 
@@ -60,7 +72,6 @@ Example pill template resource and .erb file:
 
 See bluepill's documentation for more information on creating pill templates.
     
-
 License and Author
 ==================
 

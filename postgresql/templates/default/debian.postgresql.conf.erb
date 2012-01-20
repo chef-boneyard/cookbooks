@@ -121,16 +121,12 @@ shared_buffers = 24MB			# min 128kB or max_connections*16kB
 
 # - Free Space Map -
 
-<% if node.postgresql.version == "8.4" %>
-<% # max_fsm_pages doesn't exist on 8.4 %>
-#max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
-					# (change requires restart)
-<% else %>
+<% if node['postgresql']['version'].to_f < 8.4 -%>
 max_fsm_pages = 153600			# min max_fsm_relations*16, 6 bytes each
 					# (change requires restart)
-<% end %>
 #max_fsm_relations = 1000		# min 100, ~70 bytes each
 					# (change requires restart)
+<% end -%>
 
 # - Kernel Resource Usage -
 

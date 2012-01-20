@@ -21,7 +21,11 @@ def load_current_resource
   @dmgpkg = Chef::Resource::DmgPackage.new(new_resource.name)
   @dmgpkg.app(new_resource.app)
   Chef::Log.debug("Checking for application #{new_resource.app}")
-  installed = ::File.directory?("#{new_resource.destination}/#{new_resource.app}.app")
+  if new_resource.installed_resource
+    installed = ::File.exist?(new_resource.installed_resource)
+  else
+    installed = ::File.directory?("#{new_resource.destination}/#{new_resource.app}.app")
+  end
   @dmgpkg.installed(installed)
 end
 
@@ -45,16 +49,18 @@ action :install do
 
     case new_resource.type
     when "app"
-      execute "cp -r '/Volumes/#{volumes_dir}/#{new_resource.app}.app' '#{new_resource.destination}'"
+      execute "cp -R '/Volumes/#{volumes_dir}/#{new_resource.app}.app' '#{new_resource.destination}'"
     when "mpkg"
       execute "sudo installer -pkg /Volumes/#{volumes_dir}/#{new_resource.app}.mpkg -target /"
     end
 
     execute "hdiutil detach '/Volumes/#{volumes_dir}'"
 
-    file "#{new_resource.destination}/#{new_resource.app}.app/Contents/MacOS/#{new_resource.app}" do
-      mode 0755
-      ignore_failure true
+    if ::File.directory?("#{new_resource.destination}/#{new_resource.app}.app")
+      file "#{new_resource.destination}/#{new_resource.app}.app/Contents/MacOS/#{new_resource.app}" do
+        mode 0755
+        ignore_failure true
+      end
     end
 
   end

@@ -54,6 +54,54 @@ class Chef
         )
       end
 
+      def sql(arg=nil)
+        set_or_return(
+          :sql,
+          arg,
+          :kind_of => String
+        )
+      end
+
+      # 
+      def template(arg='DEFAULT')
+        set_or_return(
+          :template,
+          arg,
+          :kind_of => String
+        )
+      end
+
+      def encoding(arg='DEFAULT')
+        set_or_return(
+          :encoding,
+          arg,
+          :kind_of => String
+        )
+      end
+
+      def tablespace(arg='DEFAULT')
+        set_or_return(
+          :tablespace,
+          arg,
+          :kind_of => String
+        )
+      end
+
+      def connection_limit(arg='-1')
+        set_or_return(
+          :connection_limit,
+          arg,
+          :kind_of => String
+        )
+      end
+
+      def owner(arg=nil)
+        set_or_return(
+          :owner,
+          arg,
+          :kind_of => String
+        )
+      end
     end
   end
 end

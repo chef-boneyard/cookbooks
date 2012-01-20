@@ -17,9 +17,12 @@
 # limitations under the License.
 #
 
+set[:apache][:root_group]  = "root"
+
 # Where the various parts of apache are
 case platform
 when "redhat","centos","scientific","fedora","suse"
+  set[:apache][:package] = "httpd"
   set[:apache][:dir]     = "/etc/httpd"
   set[:apache][:log_dir] = "/var/log/httpd"
   set[:apache][:user]    = "apache"
@@ -32,8 +35,10 @@ when "redhat","centos","scientific","fedora","suse"
   else
     set[:apache][:pid_file] = "/var/run/httpd.pid"
   end
-  set[:apache][:lib_dir] = node[:kernel][:machine] == "i386" ? "/usr/lib/httpd" : "/usr/lib64/httpd"
+  set[:apache][:lib_dir] = node[:kernel][:machine] =~ /^i[36]86$/ ? "/usr/lib/httpd" : "/usr/lib64/httpd"
+  set[:apache][:libexecdir] = "#{set[:apache][:lib_dir]}/modules"
 when "debian","ubuntu"
+  set[:apache][:package] = "apache2"
   set[:apache][:dir]     = "/etc/apache2"
   set[:apache][:log_dir] = "/var/log/apache2"
   set[:apache][:user]    = "www-data"
@@ -43,7 +48,9 @@ when "debian","ubuntu"
   set[:apache][:cache_dir] = "/var/cache/apache2"
   set[:apache][:pid_file]  = "/var/run/apache2.pid"
   set[:apache][:lib_dir] = "/usr/lib/apache2"
+  set[:apache][:libexecdir] = "#{set[:apache][:lib_dir]}/modules"
 when "arch"
+  set[:apache][:package] = "apache"
   set[:apache][:dir]     = "/etc/httpd"
   set[:apache][:log_dir] = "/var/log/httpd"
   set[:apache][:user]    = "http"
@@ -53,6 +60,20 @@ when "arch"
   set[:apache][:cache_dir] = "/var/cache/httpd"
   set[:apache][:pid_file]  = "/var/run/httpd/httpd.pid"
   set[:apache][:lib_dir] = "/usr/lib/httpd"
+  set[:apache][:libexecdir] = "#{set[:apache][:lib_dir]}/modules"
+when "freebsd"
+  set[:apache][:package] = "apache22"
+  set[:apache][:dir]     = "/usr/local/etc/apache22"
+  set[:apache][:log_dir] = "/var/log"
+  set[:apache][:root_group] = "wheel"
+  set[:apache][:user]    = "www"
+  set[:apache][:group]    = "www"
+  set[:apache][:binary]  = "/usr/local/sbin/httpd"
+  set[:apache][:icondir] = "/usr/local/www/apache22/icons"
+  set[:apache][:cache_dir] = "/var/run/apache22"
+  set[:apache][:pid_file]  = "/var/run/httpd.pid"
+  set[:apache][:lib_dir] = "/usr/local/libexec/apache22"
+  set[:apache][:libexecdir] = set[:apache][:lib_dir]
 else
   set[:apache][:dir]     = "/etc/apache2"
   set[:apache][:log_dir] = "/var/log/apache2"
@@ -63,6 +84,7 @@ else
   set[:apache][:cache_dir] = "/var/cache/apache2"
   set[:apache][:pid_file]  = "logs/httpd.pid"
   set[:apache][:lib_dir] = "/usr/lib/apache2"
+  set[:apache][:libexecdir] = "#{set[:apache][:lib_dir]}/modules"
 end
 
 ###
@@ -101,3 +123,12 @@ default[:apache][:worker][:minsparethreads] = 64
 default[:apache][:worker][:maxsparethreads] = 192
 default[:apache][:worker][:threadsperchild] = 64
 default[:apache][:worker][:maxrequestsperchild] = 0
+
+# Default modules to enable via include_recipe
+
+default['apache']['default_modules'] = %w{
+  status alias auth_basic authn_file authz_default authz_groupfile authz_host authz_user autoindex
+  dir env mime negotiation setenvif
+}
+
+default['apache']['default_modules'] << "log_config" if node.platform?("redhat", "centos", "scientific", "fedora", "suse", "arch", "freebsd")

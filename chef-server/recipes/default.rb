@@ -34,7 +34,7 @@ http_request "compact chef couchDB" do
   end
 end
 
-%w(nodes roles registrations clients data_bags data_bag_items users).each do |view|
+%w(nodes roles registrations clients data_bags data_bag_items users checksums cookbooks sandboxes environments id_map).each do |view|
 
   http_request "compact chef couchDB view #{view}" do
     action :post

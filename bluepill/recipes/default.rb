@@ -26,7 +26,8 @@ gem_package "bluepill"
   node["bluepill"]["state_dir"]
 ].each do |dir|
   directory dir do
+    recursive true
     owner "root"
-    group "root"
+    group node["bluepill"]["group"]
   end
 end

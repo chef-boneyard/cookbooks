@@ -3,7 +3,7 @@ d-i mirror/http/countries select US
 d-i mirror/http/hostname string us.archive.ubuntu.com
 d-i mirror/http/directory string /ubuntu/
 d-i mirror/http/mirror select us.archive.ubuntu.com
-d-i mirror/protocol selecthttp
+d-i mirror/protocol select http
 d-i mirror/country string US
 <%= @proxy %>
 
@@ -25,10 +25,10 @@ d-i partman/confirm boolean true
 ### Boot loader installation
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
-d-i	debian-installer/splash	boolean false
+d-i debian-installer/splash	boolean false
 
 ## Package installation
-d-i	pkgsel/install-language-support	boolean false
+d-i pkgsel/install-language-support	boolean false
 d-i base-installer/kernel/override-image string linux-server
 d-i pkgsel/update-policy select unattended-upgrades
 d-i pkgsel/upgrade select safe-upgrade
@@ -40,9 +40,9 @@ d-i pkgsel/include string openssh-server ruby ruby1.8-dev build-essential wget l
 # configure users
 # Generate the PASSWORDHASH with:
 # mkpasswd -m sha-512
-d-i passwd/user-fullname string <%= node[:pxe_dust][:user][:fullname] %>
-d-i passwd/username string <%= node[:pxe_dust][:user][:username] %>
-d-i passwd/user-password-crypted password <%= node[:pxe_dust][:user][:crypted_password] %>
+d-i passwd/user-fullname string <%= @user_fullname %>
+d-i passwd/username string <%= @user_username %>
+d-i passwd/user-password-crypted password <%= @user_crypted_password %>
 d-i user-setup/encrypt-home boolean false
 
 ### Finishing up the installation
@@ -52,3 +52,6 @@ d-i user-setup/encrypt-home boolean false
 #d-i debian-installer/exit/halt boolean true
 # This will power off the machine instead of just halting it.
 #d-i debian-installer/exit/poweroff boolean true
+d-i preseed/late_command string in-target wget --no-proxy -O /tmp/chef-bootstrap \
+  http://<%= node[:ipaddress] %>/<%= @id %>-chef-bootstrap ;\
+  chroot /target /bin/bash /tmp/chef-bootstrap

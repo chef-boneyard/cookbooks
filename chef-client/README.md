@@ -235,6 +235,11 @@ Changes/Roadmap
 
 * windows platform support
 
+## 1.0.4:
+
+* [COOK-670] - Added Solaris service-installation support for chef-client cookbook.
+* [COOK-781] - chef-client service recipe fails with chef 0.9.x
+
 ## 1.0.2:
 
 * [CHEF-2491] init scripts should implement reload

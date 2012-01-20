@@ -26,6 +26,13 @@ execute "apt-get-update" do
   action :nothing
 end
 
+# For other recipes to call to force an update
+execute "apt-get update" do
+  command "apt-get update"
+  ignore_failure true
+  action :nothing
+end
+
 # provides /var/lib/apt/periodic/update-success-stamp on apt-get update
 package "update-notifier-common" do
   notifies :run, resources(:execute => "apt-get-update"), :immediately

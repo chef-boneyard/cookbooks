@@ -1,0 +1,36 @@
+. /etc/profile
+if [ ! -f /usr/bin/chef-client ]; then
+  cd /tmp
+  wget http://production.cf.rubygems.org/rubygems/rubygems-1.3.7.tgz
+  tar zxf rubygems-1.3.7.tgz
+  cd rubygems-1.3.7
+  ruby setup.rb --no-format-executable
+fi
+
+gem install ohai --no-rdoc --no-ri --verbose
+gem install chef --no-rdoc --no-ri --verbose <% if @bootstrap_version_string %><%= @bootstrap_version_string %><% end %>
+
+mkdir -p /etc/chef
+
+cat > /etc/chef/client.rb <<EOF
+log_level        :info
+log_location     STDOUT
+
+chef_server_url  '<%= Chef::Config[:chef_server_url] %>'
+validation_client_name '<%= Chef::Config[:validation_client_name] %>'
+
+<% if @http_proxy %>http_proxy 'http://<%= @http_proxy %>'<% end %>
+<% if @https_proxy %>http_proxy 'https://<%= @https_proxy %>'<% end %>
+<% if @http_proxy_user %>http_proxy_user 'http://<%= @http_proxy_user %>'<% end %>
+<% if @http_proxy_pass %>http_proxy_pass 'http://<%= @http_proxy_pass %>'<% end %>
+EOF
+
+cat > /etc/chef/first-boot.json <<EOF
+{
+<% if @run_list %>"run_list": [ "<%= @run_list %>" ]<% end %>
+}
+EOF
+
+wget -O /etc/chef/validation.pem http://<%= node[:ipaddress] %>/validation.pem
+
+/usr/bin/chef-client -j /etc/chef/first-boot.json

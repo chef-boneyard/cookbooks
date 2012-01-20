@@ -23,6 +23,9 @@ pkgs = value_for_platform(
   },
   ["debian","ubuntu"] => {
     "default" => ["sun-java6-jdk"]
+  },
+  "arch" => {
+    "default" => ["jre"]
   }
 )
 
@@ -66,6 +69,8 @@ when "centos", "redhat", "fedora"
       end
     end
   end
+
+when "arch"
 
 else
   Chef::Log.error("Installation of Sun Java packages not supported on this platform.")

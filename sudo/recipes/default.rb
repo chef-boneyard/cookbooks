@@ -18,14 +18,15 @@
 #
 
 package "sudo" do
-  action :upgrade
+  action platform?("freebsd") ? :install : :upgrade
 end
 
 template "/etc/sudoers" do
+  path "/usr/local/etc/sudoers" if platform?("freebsd")
   source "sudoers.erb"
   mode 0440
   owner "root"
-  group "root"
+  group platform?("freebsd") ? "wheel" : "root"
   variables(
     :sudoers_groups => node['authorization']['sudo']['groups'],
     :sudoers_users => node['authorization']['sudo']['users'],
