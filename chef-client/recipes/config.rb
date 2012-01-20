@@ -43,6 +43,7 @@ template "#{node["chef_client"]["conf_dir"]}/client.rb" do
   mode 0644
   variables :chef_node_name => chef_node_name
   notifies :create, "ruby_block[reload_client_config]"
+  notifies :restart, "service[chef-client]"
 end
 
 ruby_block "reload_client_config" do
