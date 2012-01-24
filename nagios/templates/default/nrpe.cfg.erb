@@ -8,8 +8,6 @@ command_timeout=60
 allowed_hosts=<%= @mon_host.join(',') %>
 include_dir=<%= @nrpe_directory %>
 
-command[check_users]=<%= node['nagios']['plugin_dir'] %>/check_users -w 20 -c 30
-command[check_all_disks]=<%= node['nagios']['plugin_dir'] %>/check_disk -w 8% -c 5% -A -x /dev/shm -X nfs -i /boot
 command[check_zombie_procs]=<%= node['nagios']['plugin_dir'] %>/check_procs -w 5 -c 10 -s Z
 command[check_total_procs]=<%= node['nagios']['plugin_dir'] %>/check_procs -w 500 -c 800
 command[check_swap]=<%= node['nagios']['plugin_dir'] %>/check_swap -w '50%' -c '25%'
