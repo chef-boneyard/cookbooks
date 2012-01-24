@@ -11,7 +11,7 @@ recipe "nginx::source", "Installs nginx from source and sets up configuration wi
   supports os
 end
 
-%w{ build-essential runit }.each do |cb|
+%w{ build-essential runit bluepill }.each do |cb|
   depends cb
 end
 

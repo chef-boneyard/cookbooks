@@ -19,25 +19,25 @@
 
 ::Chef::Resource::Package.send(:include, Opscode::Mysql::Helpers)
 
-package "mysql-client" do
-  package_name value_for_platform(
-    [ "centos", "redhat", "suse", "fedora", "scientific", "amazon"] => { "default" => "mysql" },
-    "default" => "mysql-client"
-  )
-  action :install
+mysql_packages = case node['platform']
+when "centos", "redhat", "suse", "fedora", "scientific", "amazon"
+  %w{mysql mysql-devel}
+when "ubuntu","debian"
+  if debian_before_squeeze? || ubuntu_before_lucid?
+    %w{mysql-client libmysqlclient15-dev}
+  else
+    %w{mysql-client libmysqlclient-dev}
+  end
+when "freebsd"
+  %w{mysql55-client}
+else
+  %w{mysql-client libmysqlclient-dev}
 end
 
-package "mysql-devel" do
-  package_name begin
-    if platform?(%w{ centos redhat suse fedora scientific amazon })
-      "mysql-devel"
-    elsif debian_before_squeeze? || ubuntu_before_lucid?
-      "libmysqlclient15-dev"
-    else
-      "libmysqlclient-dev"
-    end
+mysql_packages.each do |mysql_pack|
+  package mysql_pack do
+    action :install
   end
-  action :install
 end
 
 if platform?(%w{ redhat centos fedora suse scientific amazon })

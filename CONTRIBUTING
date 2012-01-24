@@ -1,18 +1,33 @@
-How to contribute to Opscode Open Source Projects:
-
-* http://wiki.opscode.com/display/chef/How+to+Contribute
-
-Opscode Open Source Ticket Tracking System:
+While this repository is hosted on GitHub, we do not use pull requests
+as the primary mechanism or workflow for contributions. We track
+issues in cookbooks in our JIRA based Open Source ticket tracking
+system.
 
 * http://tickets.opscode.com
 
 Cookbooks (this repository) use the COOK project.
 
+When contributing changes to individual cookbooks, please do not
+modify the version number in the metadata.rb. Also please do not
+update the Changes section for a new version. Not all changes to a
+cookbook may be merged and released in the same versions. Opscode will
+handle the version updates during the release process. You are welcome
+to correct typos or otherwise make updates documentation in the
+README.
+
+If a contribution adds new platforms or platform versions, indicate
+such in the body of the commit message(s), and update the relevant
+COOK ticket. Also include in the COOK ticket as a comment the log
+output of a successful Chef run, and the end state of the resources as
+they are configured on the target system, so we know that they work on
+the indicated platform.
+
+Read more about our process for how you can contribute to Opscode Open
+Source Projects:
+
+* http://wiki.opscode.com/display/chef/How+to+Contribute
+
 Chef Project home pages:
 
 * Wiki: http://wiki.opscode.com/display/chef
 * Product page: http://www.opscode.com/chef
-
-Opscode Cookbook Source code repository:
-
-* http://github.com/opscode/cookbooks
