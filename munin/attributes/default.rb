@@ -23,9 +23,30 @@ default['munin']['server_auth_method'] = 'openid'
 
 case node[:platform]
 when "arch"
+  default['munin']['basedir'] = "/etc/munin"
+  default['munin']['plugin_dir'] = "/usr/share/munin/plugins"
   default['munin']['docroot'] = "/srv/http/munin"
+  default['munin']['dbdir'] = "/var/lib/munin"
+  default['munin']['root']['group'] = "root"
 when "centos","redhat"
+  default['munin']['basedir'] = "/etc/munin"
+  default['munin']['plugin_dir'] = "/usr/share/munin/plugins"
   default['munin']['docroot'] = "/var/www/html/munin"
+  default['munin']['dbdir'] = "/var/lib/munin"
+  default['munin']['root']['group'] = "root"
+when "freebsd"
+  default['munin']['basedir'] = "/usr/local/etc/munin"
+  default['munin']['plugin_dir'] = "/usr/local/share/munin/plugins"
+  default['munin']['docroot'] = "/usr/local/www/munin"
+  default['munin']['dbdir'] = "/usr/local/var/munin"
+  default['munin']['root']['group'] = "wheel"
 else
+  default['munin']['basedir'] = "/etc/munin"
+  default['munin']['plugin_dir'] = "/usr/share/munin/plugins"
   default['munin']['docroot'] = "/var/www/munin"
+  default['munin']['dbdir'] = "/var/lib/munin"
+  default['munin']['root']['group'] = "root"
 end
+
+default['munin']['plugins'] = "#{default['munin']['basedir']}/plugins"
+default['munin']['tmpldir'] = "#{default['munin']['basedir']}/templates"

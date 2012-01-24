@@ -22,10 +22,6 @@
 
 include_recipe "build-essential"
 
-unless platform?("centos","redhat","fedora")
-  include_recipe "runit"
-end
-
 packages = value_for_platform(
     ["centos","redhat","fedora"] => {'default' => ['pcre-devel', 'openssl-devel']},
     "default" => ['libpcre3', 'libpcre3-dev', 'libssl-dev']
@@ -64,6 +60,12 @@ bash "compile_nginx_source" do
   creates node[:nginx][:src_binary]
 end
 
+user node[:nginx][:user] do
+  system true
+  shell "/bin/false"
+  home "/var/www"
+end
+
 directory node[:nginx][:log_dir] do
   mode 0755
   owner node[:nginx][:user]
@@ -76,11 +78,39 @@ directory node[:nginx][:dir] do
   mode "0755"
 end
 
-unless platform?("centos","redhat","fedora")
+
+case node[:nginx][:init_style]
+when "runit"
+  include_recipe "runit"
+
   runit_service "nginx"
 
   service "nginx" do
     subscribes :restart, resources(:bash => "compile_nginx_source")
+  end
+when "bluepill"
+  node.set[:nginx][:daemon_disable] = false
+
+  include_recipe "bluepill"
+
+  template "#{node['bluepill']['conf_dir']}/nginx.pill" do
+    source "nginx.pill.erb"
+    mode 0644
+    variables(
+      :working_dir => node[:nginx][:install_path],
+      :src_binary => node[:nginx][:src_binary],
+      :nginx_dir => node[:nginx][:dir],
+      :log_dir => node[:nginx][:log_dir]
+    )
+  end
+
+  bluepill_service "nginx" do
+    action [ :enable, :load, :start ]
+    subscribes :restart, resources(:bash => "compile_nginx_source")
+  end
+
+  service "nginx" do
+    action :nothing
   end
 else
   #install init db script
@@ -106,7 +136,6 @@ else
     subscribes :restart, resources(:bash => "compile_nginx_source")
   end
 end
-
 
 %w{ sites-available sites-enabled conf.d }.each do |dir|
   directory "#{node[:nginx][:dir]}/#{dir}" do
