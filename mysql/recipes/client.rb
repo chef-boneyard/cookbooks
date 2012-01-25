@@ -17,7 +17,9 @@
 # limitations under the License.
 #
 
-::Chef::Resource::Package.send(:include, Opscode::Mysql::Helpers)
+# Include Opscode helper in Recipe class to get access
+# to debian_before_squeeze? and ubuntu_before_lucid?
+::Chef::Recipe.send(:include, Opscode::Mysql::Helpers)
 
 mysql_packages = case node['platform']
 when "centos", "redhat", "suse", "fedora", "scientific", "amazon"
