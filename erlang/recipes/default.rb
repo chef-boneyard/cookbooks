@@ -25,6 +25,7 @@ when "debian", "ubuntu"
   package erlpkg
   package "erlang-dev"
 when "redhat", "centos", "scientific"
+  repo_arch = node['kernel']['machine'] =~ /i[36]86/ ? "i386" : "x86_64"
   include_recipe "yum::epel"
   yum_repository "erlang" do
     name "EPELErlangrepo"
