@@ -50,13 +50,14 @@ when "redhat", "centos", "scientific", "fedora"
   end
 
   bash "install libopkele" do
+    flags "-ex"
     cwd "#{Chef::Config[:file_cache_path]}"
     # Ruby 1.8.6 does not have rpartition, unfortunately
     syslibdir = node[:apache][:lib_dir][0..node[:apache][:lib_dir].rindex("/")]
     code <<-EOH
-    tar zxvf libopkele-2.0.4.tar.gz
-    cd libopkele-2.0.4 && ./configure --prefix=/usr --libdir=#{syslibdir}
-    make && make install
+      tar zxvf libopkele-2.0.4.tar.gz
+      cd libopkele-2.0.4 && ./configure --prefix=/usr --libdir=#{syslibdir}
+      make && make install
     EOH
     not_if { File.exists?("#{syslibdir}/libopkele.a") }
   end
@@ -68,12 +69,13 @@ remote_file "#{Chef::Config[:file_cache_path]}/mod_auth_openid-0.4.tar.gz" do
 end
 
 bash "install mod_auth_openid" do
+  flags "-ex"
   cwd Chef::Config[:file_cache_path]
   code <<-EOH
-  tar zxvf mod_auth_openid-0.4.tar.gz
-  cd mod_auth_openid-0.4 && ./configure
-  perl -pi -e "s/-i -a -n 'authopenid'/-i -n 'authopenid'/g" Makefile
-  make && make install
+    tar zxvf mod_auth_openid-0.4.tar.gz
+    cd mod_auth_openid-0.4 && ./configure
+    perl -pi -e "s/-i -a -n 'authopenid'/-i -n 'authopenid'/g" Makefile
+    make && make install
   EOH
   not_if { ::File.exists?("#{node[:apache][:lib_dir]}/modules/mod_auth_openid.so") }
 end

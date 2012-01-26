@@ -40,12 +40,13 @@ elsif platform?("suse")
   package "httpd-devel"
 
   bash "install-fcgid" do
+    flags "-ex"
     code <<-EOH
-(cd #{Chef::Config[:file_cache_path]}; wget http://superb-east.dl.sourceforge.net/sourceforge/mod-fcgid/mod_fcgid.2.2.tgz)
-(cd #{Chef::Config[:file_cache_path]}; tar zxvf mod_fcgid.2.2.tgz)
-(cd #{Chef::Config[:file_cache_path]}; perl -pi -e 's!/usr/local/apache2!#{apache_lib_path}!g' ./mod_fcgid.2.2/Makefile)
-(cd #{Chef::Config[:file_cache_path]}/mod_fcgid.2.2; make install)
-EOH
+      (cd #{Chef::Config[:file_cache_path]}; wget http://superb-east.dl.sourceforge.net/sourceforge/mod-fcgid/mod_fcgid.2.2.tgz)
+      (cd #{Chef::Config[:file_cache_path]}; tar zxvf mod_fcgid.2.2.tgz)
+      (cd #{Chef::Config[:file_cache_path]}; perl -pi -e 's!/usr/local/apache2!#{apache_lib_path}!g' ./mod_fcgid.2.2/Makefile)
+      (cd #{Chef::Config[:file_cache_path]}/mod_fcgid.2.2; make install)
+    EOH
   end
 end
 
