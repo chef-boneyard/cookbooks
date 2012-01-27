@@ -105,6 +105,14 @@ in the `directory` parameter (see below).
   that group. Default is root.
 * `template_name` - specify an alternate name for the templates
   instead of basing them on the name parameter. Default is the name parameter.
+* `log_template_name` - specify an alternate name for the runit log template
+  instead of basing them on the template_name parameter. Default is the
+  template_name parameter.
+* `control_template_names` - specify alternate names for runit control signal
+  templates instead of basing them on the template_name parameter. Default
+  is the template_name parameter.
+* `finish_script_template_name` - specify an altername for the finish script
+  template. Default is the template_name parameter
 * `start_command` - The command used to start the service in
   conjunction with the `sv` command and the `service_dir` name.
   Default is `start`.
