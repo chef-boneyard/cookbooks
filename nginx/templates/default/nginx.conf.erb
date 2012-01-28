@@ -15,7 +15,9 @@ http {
   include       <%= node[:nginx][:dir] %>/mime.types;
   default_type  application/octet-stream;
 
+  <% unless node[:nginx][:disable_access_log] -%>
   access_log	<%= node[:nginx][:log_dir] %>/access.log;
+  <% end %>
 
   sendfile on;
   tcp_nopush on;

@@ -16,6 +16,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-package "emacs" do
-  action :upgrade
+
+node['emacs']['packages'].each do |pkg|
+
+  package pkg do
+    case node['platform']
+    when "freebsd"
+      source "ports"
+      action :install
+    else
+      action :upgrade
+    end
+  end
+
 end

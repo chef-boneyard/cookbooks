@@ -58,6 +58,7 @@ action :create do
         new_resource.updated_by_last_action(true)
       else
         Chef::Log.debug("Downloading #{@new_resource}...#{@torrent.percent_done * 100}% complete")
+        move_and_clean_up if new_resource.continue_seeding # needed if torrent already in swarm
       end
     end
   end

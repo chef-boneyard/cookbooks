@@ -22,10 +22,31 @@ require 'chef/mixin/language'
 include Chef::Mixin::Command
 
 action :enable do
+  config_file = "#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill"
+
   unless @bp.enabled
     link "#{node['bluepill']['init_dir']}/#{new_resource.service_name}" do
       to node['bluepill']['bin']
-      only_if { ::File.exists?("#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill") }
+      only_if { ::File.exists?(config_file) }
+    end
+  end
+
+  case node['platform']
+  when "centos", "redhat", "freebsd"
+    template "#{node["bluepill"]["init_dir"]}/bluepill-#{new_resource.service_name}" do
+      source "bluepill_init.erb"
+      cookbook "bluepill"
+      owner "root"
+      group node["bluepill"]["group"]
+      mode "0755"
+      variables(
+        :service_name => "#{new_resource.service_name}",
+        :config_file => config_file
+      )
+    end
+
+    service "bluepill-#{new_resource.service_name}" do
+      action [ :enable ]
     end
   end
 end
@@ -38,7 +59,7 @@ end
 
 action :start do
   unless @bp.running
-    execute "#{node['bluepill']['bin']} start #{new_resource.service_name}"
+    execute "#{node['bluepill']['bin']} #{new_resource.service_name} start"
   end
 end
 
@@ -55,13 +76,13 @@ end
 
 action :stop do
   if @bp.running
-    execute "#{node['bluepill']['bin']} stop #{new_resource.service_name}"
+    execute "#{node['bluepill']['bin']} #{new_resource.service_name} stop"
   end
 end
 
 action :restart do
   if @bp.running
-    execute "#{node['bluepill']['bin']} restart #{new_resource.service_name}"
+    execute "#{node['bluepill']['bin']} #{new_resource.service_name} restart"
   end
 end
 
@@ -72,7 +93,7 @@ def load_current_resource
   Chef::Log.debug("Checking status of service #{new_resource.service_name}")
 
   begin
-    if run_command_with_systems_locale(:command => "#{node['bluepill']['bin']} status #{new_resource.service_name}") == 0
+    if run_command_with_systems_locale(:command => "#{node['bluepill']['bin']} #{new_resource.service_name} status") == 0
       @bp.running(true)
     end
   rescue Chef::Exceptions::Exec

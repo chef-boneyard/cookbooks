@@ -47,7 +47,7 @@ user            = mysql
 pid-file        = <%= node['mysql']['pid_file'] %>
 socket          = <%= node['mysql']['socket'] %>
 port            = 3306
-basedir         = /usr
+basedir         = <%= node['mysql']['basedir'] %>
 datadir         = <%= node['mysql']['data_dir'] %>
 tmpdir          = /tmp
 skip-external-locking
@@ -113,8 +113,7 @@ max_binlog_size         = <%= node['mysql']['tunable']['max_binlog_size'] %>
 #skip-innodb
 innodb_buffer_pool_size = <%= node['mysql']['tunable']['innodb_buffer_pool_size'] %>
 
-<% case node['platform'] -%>
-<% when "centos", "redhat", "fedora", "ubuntu" -%>
+<% if @skip_federated %>
 #
 # * Federated
 #
@@ -158,7 +157,7 @@ key_buffer              = <%= node['mysql']['tunable']['max_allowed_packet'] %>
 # ndb-connectstring=127.0.0.1
 
 <% case node['platform'] -%>
-<% when "centos", "redhat", "fedora", "suse" -%>
+<% when "centos", "redhat", "fedora", "suse", "scientific", "amazon"-%>
 #
 # * BerkeleyDB
 #
@@ -173,5 +172,5 @@ old_passwords           = <%= node['mysql']['old_passwords'] %>
 # * IMPORTANT: Additional settings that can override those from this file!
 #   The files must end with '.cnf', otherwise they'll be ignored.
 #
-!includedir /etc/mysql/conf.d/
+!includedir <%= node['mysql']['conf_dir'] %>/mysql/conf.d/
 <% end -%>

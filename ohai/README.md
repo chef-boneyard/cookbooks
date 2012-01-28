@@ -26,13 +26,20 @@ http://wiki.opscode.com/display/chef/Writing+Ohai+Plugins
 * The "`Ohai::Config[:plugin_path]`" config setting has *NOT* been properly set in the Chef config file
 * The "`Ohai::Config[:plugin_path]`" config setting has been properly set in the Chef config file and there are updated plugins dropped off at "`node['ohai']['plugin_path']`".
 
+Changes
+=======
+
+## v1.0.2
+
+- [COOK-463] ohai cookbook default recipe should only reload plugins if there were updates
+
 License and Author
 ==================
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
 Author:: Seth Chisamore (<schisamo@opscode.com>)
 
-Copyright:: 2011, Opscode, Inc
+Copyright:: 2010-2011, Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

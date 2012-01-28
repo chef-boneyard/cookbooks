@@ -16,11 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# = Requirements
-# Templates::
-# * /etc/ha.d/ha.cf
-# * /etc/ha.d/haresources
-# * /etc/ha.d/authkeys
 
 %w{ heartbeat heartbeat-dev }.each do |pkg|
   package pkg do

@@ -36,11 +36,13 @@ action :force_modify do
   require 'timeout'
   Timeout.timeout(120) do
     @new_resource.values.each do |value_name, value_data|
-      5.times do |x|
+      i = 1
+      until i > 5 do
         desired_value_data = value_data
         current_value_data = get_value(@new_resource.key_name.dup, value_name.dup)
         if current_value_data.to_s == desired_value_data.to_s
-          Chef::Log.debug("#{@new_resource} value [#{value_name}] desired [#{desired_value_data}] data already set. Check #{x+1}/5.")
+          Chef::Log.debug("#{@new_resource} value [#{value_name}] desired [#{desired_value_data}] data already set. Check #{i}/5.")
+          i+=1
         else
           Chef::Log.debug("#{@new_resource} value [#{value_name}] current [#{current_value_data}] data not equal to desired [#{desired_value_data}] data. Setting value and restarting check loop.")
           begin
@@ -48,7 +50,7 @@ action :force_modify do
           rescue Exception
             registry_update(:create)
           end
-          retry # start count loop over
+          i=0 # start count loop over
         end
       end
     end
@@ -64,7 +66,7 @@ private
 def registry_update(mode)
 
   Chef::Log.debug("Registry Mode (#{mode})")
-  updated = set_value(mode,@new_resource.key_name,@new_resource.values)
+  updated = set_value(mode,@new_resource.key_name,@new_resource.values,@new_resource.type)
   @new_resource.updated_by_last_action(updated)
 
 end

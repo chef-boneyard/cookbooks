@@ -26,7 +26,7 @@ service "munin-node" do
   action :enable
 end
 
-template "/etc/munin/munin-node.conf" do
+template "#{node['munin']['basedir']}/munin-node.conf" do
   source "munin-node.conf.erb"
   mode 0644
   variables :munin_servers => munin_servers
@@ -36,7 +36,7 @@ end
 case node[:platform]
 when "arch"
   execute "munin-node-configure --shell | sh" do
-    not_if { Dir.entries("/etc/munin/plugins").length > 2 }
+    not_if { Dir.entries(node['munin']['plugins']).length > 2 }
     notifies :restart, "service[munin-node]"
   end
 end

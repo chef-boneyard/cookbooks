@@ -3,7 +3,7 @@ maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
 description      "Installs/Configures wordpress"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.8.2"
+version          "0.8.8"
 
 recipe "wordpress", "Installs and configures wordpress LAMP stack on a single system"
 
@@ -14,7 +14,7 @@ end
 depends "apache2", ">= 0.99.4"
 depends "mysql", ">= 1.0.5"
 
-%w{ debian ubuntu redhat centos fedora }.each do |os|
+%w{ debian ubuntu }.each do |os|
   supports os
 end
 
@@ -68,3 +68,7 @@ attribute "wordpress/keys/nonce",
   :description => "Wordpress nonce key.",
   :default => "randomly generated"
   
+attribute "wordpress/server_aliases",
+  :display_name => "Wordpress Server Aliases",
+  :description => "Wordpress Server Aliases",
+  :default => "FQDN"

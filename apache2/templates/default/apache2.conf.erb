@@ -10,6 +10,8 @@ ServerRoot "<%= node[:apache][:dir] %>"
 #
 <% if node[:platform] == "debian" || node[:platform] == "ubuntu" -%>
 LockFile /var/lock/apache2/accept.lock
+<% elsif node[:platform] == "freebsd" -%>
+LockFile /var/log/accept.lock
 <% else %>
 LockFile logs/accept.lock
 <% end -%>
@@ -80,7 +82,7 @@ KeepAliveTimeout <%= node[:apache][:keepalivetimeout] %>
 </IfModule>
 
 User <%= node[:apache][:user] %>
-Group <%= node[:apache][:user] %>
+Group <%= node[:apache][:group] %>
 
 #
 # AccessFileName: The name of the file to look for in each directory
@@ -139,6 +141,13 @@ LogLevel warn
 # Include module configuration:
 Include <%= node[:apache][:dir] %>/mods-enabled/*.load
 Include <%= node[:apache][:dir] %>/mods-enabled/*.conf
+
+<% if node[:platform] == "freebsd" -%>
+<IfDefine NOHTTPACCEPT>
+   AcceptFilter http none
+   AcceptFilter https none
+</IfDefine>
+<% end %>
 
 # Include ports listing
 Include <%= node[:apache][:dir] %>/ports.conf

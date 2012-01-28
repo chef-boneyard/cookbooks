@@ -86,7 +86,17 @@ For more infromation on the compile vs execution phase of a Chef run:
 Changes/Roadmap
 ===============
 
-## v1.2.0
+### v1.2.2
+
+* [COOK-826] mysql::server recipe doesn't quote password string
+* [COOK-834] Add 'scientific' and 'amazon' platforms to mysql cookbook
+
+### v1.2.1
+
+* [COOK-644] Mysql client cookbook 'package missing' error message is confusing
+* [COOK-645] RHEL6/CentOS6 - mysql cookbook contains 'skip-federated' directive which is unsupported on MySQL 5.1
+
+### v1.2.0
 
 * [COOK-684] remove mysql_database LWRP
 
@@ -115,7 +125,6 @@ Changes/Roadmap
 * fix regressions on debian platform
 * [COOK-578] wrap root password in quotes
 * [COOK-562] expose all tunables in my.cnf
-
 
 License and Author
 ==================

@@ -34,10 +34,16 @@ action :install do
   elsif @current_resource.version == nil
     install_version = candidate_version
   end
+
+  # Set the timeout (units in seconds)
+  timeout = 900
+  if @new_resource.timeout
+    timeout = @new_resource.timeout
+  end
   
   if install_version
     Chef::Log.info("Installing #{@new_resource} version #{install_version}")
-    status = install_package(@new_resource.package_name, install_version)
+    status = install_package(@new_resource.package_name, install_version, timeout)
     if status
       @new_resource.updated_by_last_action(true)
     end
@@ -45,10 +51,16 @@ action :install do
 end
 
 action :upgrade do
+  # Set the timeout (units in seconds)
+  timeout = 900
+  if @new_resource.timeout
+    timeout = @new_resource.timeout
+  end
+
   if @current_resource.version != candidate_version
     orig_version = @current_resource.version || "uninstalled"
     Chef::Log.info("Upgrading #{@new_resource} version from #{orig_version} to #{candidate_version}")
-    status = upgrade_package(@new_resource.package_name, candidate_version)
+    status = upgrade_package(@new_resource.package_name, candidate_version, timeout)
     if status
       @new_resource.updated_by_last_action(true)
     end
@@ -56,9 +68,15 @@ action :upgrade do
 end
 
 action :remove do
+  # Set the timeout (units in seconds)
+  timeout = 900
+  if @new_resource.timeout
+    timeout = @new_resource.timeout
+  end
+
   if removing_package?
     Chef::Log.info("Removing #{@new_resource}")
-    remove_package(@current_resource.package_name, @new_resource.version)
+    remove_package(@current_resource.package_name, @new_resource.version, timeout)
     @new_resource.updated_by_last_action(true)
   else
   end
@@ -121,18 +139,18 @@ def candidate_version
   end
 end
 
-def install_package(name,version)
+def install_package(name, version, timeout)
   v = "==#{version}" unless version.eql?('latest')
-  shell_out!("pip install#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{name}#{v}")
+  shell_out!("pip install#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{name}#{v}", :timeout => timeout)
 end
 
-def upgrade_package(name, version)
+def upgrade_package(name, version, timeout)
   v = "==#{version}" unless version.eql?('latest')
-  shell_out!("pip install --upgrade#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}#{v}")
+  shell_out!("pip install --upgrade#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}#{v}", :timeout => timeout)
 end
 
-def remove_package(name, version)
-  shell_out!("pip uninstall -y#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}")
+def remove_package(name, version, timeout)
+  shell_out!("pip uninstall -y#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}", :timeout => timeout)
 end
 
 def expand_virtualenv(virtualenv)

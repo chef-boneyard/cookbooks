@@ -1,19 +1,32 @@
-DESCRIPTION
-====
+Description
+===========
 
 Installs OpenVPN and sets up a fairly basic configuration. Since OpenVPN is very complex, we provide a baseline, but your site will need probably need to customize.
 
-REQUIREMENTS
-====
+Changes
+=======
 
-OpenSSL bindings for Ruby
+## v0.99.2:
 
-OpenSSL 0.9.7 or later
+* [COOK-564] - fix users recipe search, add port attribute
+* [COOK-621] - rename attribute "push" to "routes" - see below.
 
-Tested on Ubuntu, but should work anywhere that has a package for OpenVPN.
+Requirements
+============
 
-Not Supported
-----
+OpenSSL 0.9.7 or later and OpenSSL bindings for Ruby
+
+## Platform:
+
+* Debian 6.0
+* Ubuntu 10.04+
+* RHEL 5.x and RHEL 6.x w/ EPEL enabled.
+
+## Cookbooks:
+
+The `yum` cookbook by Opscode provides `recipe[yum::epel]` that can be used on RHEL-family systems to enable the EPEL repository containing the openvpn RPM. See __Usage__ below.
+
+## Not Supported
 
 This cookbook is designed to set up a basic installation of OpenVPN that will work for many common use cases. The following configurations are not supported by default with this cookbook:
 
@@ -22,17 +35,18 @@ This cookbook is designed to set up a basic installation of OpenVPN that will wo
 * dual-factor authentication
 * many other advanced OpenVPN configurations
 
-For further modification of the cookbook see __USAGE__ below.
+For further modification of the cookbook see __Usage__ below.
 
 For more information about OpenVPN, see the [official site](http://openvpn.net/).
 
-ATTRIBUTES
-====
+Attributes
+==========
 
 These attributes are set by the cookbook by default.
 
 * `node["openvpn"]["local"]` - IP to listen on, defaults to node[:ipaddress]
 * `node["openvpn"]["proto"]` - Valid values are 'udp' or 'tcp', defaults to 'udp'.
+* `node["openvpn"]["port"]` - Port to listen on, defaults to '1194'.
 * `node["openvpn"]["type"]` - Valid values are 'server' or 'server-bridge'. Default is 'server' and it will create a routed IP tunnel, and use the 'tun' device. 'server-bridge' will create an ethernet bridge and requires a tap0 device bridged with the ethernet interface, and is beyond the scope of this cookbook.
 * `node["openvpn"]["subnet"]` - Used for server mode to configure a VPN subnet to draw client addresses. Default is 10.8.0.0, which is what the sample OpenVPN config package uses.
 * `node["openvpn"]["netmask"]` - Netmask for the subnet, default is 255.255.0.0.
@@ -41,7 +55,8 @@ These attributes are set by the cookbook by default.
 * `node["openvpn"]["key_dir"]` - Location to store keys, certificates and related files. Default `/etc/openvpn/keys`.
 * `node["openvpn"]["signing_ca_cert"]` - CA certificate for signing, default `/etc/openvpn/keys/ca.crt`
 * `node["openvpn"]["signing_ca_key"]` - CA key for signing, default `/etc/openvpn/keys/ca.key`
-* `node["openvpn"]["push"]` - Array of routes to add as `push` statements in the server.conf. Default is empty.
+* `node["openvpn"]["routes"]` - Array of routes to add as `push` statements in the server.conf. Default is empty.
+* `node["openvpn"]["push"]` - DEPRECATED: Use `routes` above. If you're still using this in your roles, the recipe will append to `routes` attribute.
 
 The following attributes are used to populate the `easy-rsa` vars file. Defaults are the same as the vars file that ships with OpenVPN.
 
@@ -57,22 +72,21 @@ The following are for the default values for fields place in the certificate fro
 * `node["openvpn"]["key"]["org"]` - `KEY_ORG`
 * `node["openvpn"]["key"]["email"]` - `KEY_EMAIL`
 
-RECIPES
-====
+Recipes
+=======
 
 default
-----
+-------
 
 Sets up an OpenVPN server.
 
 users
-----
+-----
 
 Utilizes a data bag called `users` to generate OpenVPN keys for each user.
 
-USAGE
-====
-
+Usage
+=====
 
 Create a role for the OpenVPN server. See above for attributes that can be entered here.
 
@@ -95,11 +109,13 @@ Create a role for the OpenVPN server. See above for attributes that can be enter
       }
     )
 
-To push routes to clients, add `node['openvpn']['push']` as an array attribute, e.g. if the internal network is 192.168.100.0/24:
+**Note**: If you are using a Red Hat EL distribution, you may need the EPEL repository enabled to install the openvpn package. You can use Opscode's `recipe[yum::epel]` for this. Either add it to the run list in the openvpn role above, or add to a base role used by all your RHEL-family systems.
+
+To push routes to clients, add `node['openvpn']['routes]` as an array attribute, e.g. if the internal network is 192.168.100.0/24:
 
     override_attributes(
       "openvpn" => {
-        "push" => [
+        "routes => [
           "push 'route 192.168.100.0 255.255.255.0'"
         ]
       }
@@ -115,7 +131,7 @@ To automatically create new certificates and configurations for users, create da
 This cookbook also provides an 'up' script that runs when OpenVPN is started. This script is for setting up firewall rules and kernel networking parameters as needed for your environment. Modify to suit your needs, upload the cookbook and re-run chef on the openvpn server. For example, you'll probably want to enable IP forwarding (sample Linux setting is commented out).
 
 Customizing Server Configuration
-----
+--------------------------------
 
 To further customize the server configuration, there are two templates that can be modified in this cookbook.
 
@@ -125,7 +141,7 @@ To further customize the server configuration, there are two templates that can 
 The first is the OpenVPN server configuration file. Modify to suit your needs for more advanced features of [OpenVPN](http://openvpn.net). The second is an `up` script run when OpenVPN starts. This is where you can add firewall rules, enable IP forwarding and other OS network settings required for OpenVPN. Attributes in the cookbook are provided as defaults, you can add more via the openvpn role if you need them.
 
 SSL Certificates
-----
+----------------
 
 Some of the easy-rsa tools are copied to /etc/openvpn/easy-rsa to provide the minimum to generate the certificates using the default and users recipes. We provide a Rakefile to make it easier to generate client certificate sets if you're not using the data bags above. To generate new client certificates you will need `rake` installed (either as a gem or a package), then run:
 
@@ -135,8 +151,8 @@ Some of the easy-rsa tools are copied to /etc/openvpn/easy-rsa to provide the mi
 
 Replace `CLIENT_NAME` and `vpn.example.com` with your desired values. The rake task will generate a tar.gz file with the configuration and certificates for the client.
 
-LICENSE and AUTHOR
-====
+License and Author
+==================
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
 

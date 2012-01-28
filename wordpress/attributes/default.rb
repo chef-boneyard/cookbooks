@@ -24,3 +24,4 @@ default['wordpress']['checksum'] = "1006a1bb97b42381ad82490d00d9b7fb9f7a1c9d83ee
 default['wordpress']['dir'] = "/var/www/wordpress"
 default['wordpress']['db']['database'] = "wordpressdb"
 default['wordpress']['db']['user'] = "wordpressuser"
+default['wordpress']['server_aliases'] = [node['fqdn']]

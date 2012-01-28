@@ -2,7 +2,7 @@
 # Cookbook Name:: maven
 # Recipe:: default
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2011, Bryan W. Berry (<bryan.berry@gmail.com>)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,11 +19,4 @@
 
 include_recipe "java"
 
-case node.platform
-when "redhat", "centos", "fedora"
-  include_recipe "jpackage"
-end
-
-package "maven2" do
-  action :install
-end
+include_recipe "maven::maven2"

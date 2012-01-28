@@ -3,7 +3,22 @@ Opscode Public Cookbooks for Chef
 
 This repository is the primary project source of Opscode's published, public cookbooks for Chef. This repository is considered "in development." Published cookbooks are shared by Opscode on the Chef Community Site.
 
-Cookbooks in this repository are only ones maintained and supportable by Opscode. We do provide bug fixes
+* http://community.opscode.com/users/opscode
+
+Cookbooks in this repository are only ones maintained and supported by Opscode.
+
+Contributing
+============
+
+While this repository is hosted on GitHub, we do not use pull requests as the primary mechanism or workflow for contributions.
+
+When contributing changes to individual cookbooks, please do _not_ modify the version number in the metadata.rb. Also please do _not_ update the Changes section for a new version. Not all changes to a cookbook may be merged and released in the same versions. Opscode will handle the version updates during the release process. You are welcome to correct typos or otherwise make updates documentation in the README.
+
+If a contribution adds new platforms or platform versions, indicate such in the body of the commit message(s), and update the relevant COOK ticket. Also include in the COOK ticket as a comment the log output of a successful Chef run, and the end state of the resources as they are configured on the target system, so we know that they work on the indicated platform.
+
+For information on how to contribute, see the CONTRIBUTING file in this repository.
+
+Opscode cookbooks are distributed under the Apache 2 Software License. See LICENSE.
 
 Using this Repository
 =====================
@@ -24,16 +39,9 @@ Like any software, there may be bugs in our cookbooks. You can open a ticket in 
 
 * http://tickets.opscode.com
 
-If you know the fix for the bug, you can contribute it. See __Contributing__ below.
+If you know the fix for the bug, you can contribute it. See the CONTRIBUTING file in this repository.
 
 Do note that if you downloaded a cookbook from the community site that is not maintained by Opscode, you'll need to contact the maintainer of that cookbook for contributing fixes.
-
-Contributing
-============
-
-For information on how to contribute, see CONTRIBUTING.
-
-Opscode cookbooks are distributed under the Apache 2 Software License. See LICENSE.
 
 Links
 =====

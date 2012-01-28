@@ -17,44 +17,37 @@
 # limitations under the License.
 #
 
-::Chef::Resource::Package.send(:include, Opscode::Mysql::Helpers)
+# Include Opscode helper in Recipe class to get access
+# to debian_before_squeeze? and ubuntu_before_lucid?
+::Chef::Recipe.send(:include, Opscode::Mysql::Helpers)
 
-package "mysql-client" do
-  package_name value_for_platform(
-    [ "centos", "redhat", "suse", "fedora"] => { "default" => "mysql" },
-    "default" => "mysql-client"
-  )
-  action :install
-end
-
-package "mysql-devel" do
-  package_name begin
-    if platform?(%w{ centos redhat suse fedora })
-      "mysql-devel"
-    elsif debian_before_squeeze? || ubuntu_before_lucid?
-      "libmysqlclient15-dev"
-    else
-      "libmysqlclient-dev"
-    end
+mysql_packages = case node['platform']
+when "centos", "redhat", "suse", "fedora", "scientific", "amazon"
+  %w{mysql mysql-devel}
+when "ubuntu","debian"
+  if debian_before_squeeze? || ubuntu_before_lucid?
+    %w{mysql-client libmysqlclient15-dev}
+  else
+    %w{mysql-client libmysqlclient-dev}
   end
-  action :install
+when "freebsd"
+  %w{mysql55-client}
+else
+  %w{mysql-client libmysqlclient-dev}
 end
 
-if platform?(%w{ debian ubuntu redhat centos fedora suse })
-
-  package "mysql-ruby" do
-    package_name value_for_platform(
-      [ "centos", "redhat", "suse", "fedora"] => { "default" => "ruby-mysql" },
-      ["debian", "ubuntu"] => { "default" => 'libmysql-ruby' },
-      "default" => 'libmysql-ruby'
-    )
+mysql_packages.each do |mysql_pack|
+  package mysql_pack do
     action :install
   end
+end
 
+if platform?(%w{ redhat centos fedora suse scientific amazon })
+  package 'ruby-mysql'
+elsif platform?(%w{ debian ubuntu })
+  package "libmysql-ruby"
 else
-
   gem_package "mysql" do
     action :install
   end
-
 end

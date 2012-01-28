@@ -1,30 +1,43 @@
-# DESCRIPTION:
+Description
+===========
 
 Installs activemq and sets up a service using the init script that comes with it.
 
-# REQUIREMENTS:
+Changes
+=======
 
-Platform:
+## v1.0.2:
+
+* [COOK-800] - activemq cookbook should install 5.5.1 by default
+* [COOK-872] - activemq home directory isn't explicitly created
+
+Requirements
+============
+
+## Platform:
 
 Tested on Ubuntu 10.04 and CentOS 5.5. Should work on any Debian or Red Hat family distributions.
 
-Opscode cookbooks:
+## Cookbooks:
 
 * java
 
-# ATTRIBUTES:
+Attributes
+==========
 
-* `activemq[:mirror]` - download URL up to the activemq/apache-activemq directory.
-* `activemq[:version]` - version to install.
-* `activemq[:deploy]` - directory to deploy to (/opt by default)
+* `node['activemq']['mirror']` - download URL up to the activemq/apache-activemq directory.
+* `node['activemq']['version']` - version to install.
+* `node['activemq']['home']` - directory to deploy to (/opt by default)
+* `node['activemq']['wrapper']['max_memory']` - maximum amount of memory to use for activemq.
+* `node['activemq']['wrapper']['useDedicatedTaskRunner']` - whether to use the dedicated task runner
 
-# USAGE:
+Usage
+=====
 
 Simply add `recipe[activemq]` to a run list.
 
-This cookbook doesn't use any custom configuration for activemq.
-
-# LICENSE AND AUTHOR:
+License and Author
+==================
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
 

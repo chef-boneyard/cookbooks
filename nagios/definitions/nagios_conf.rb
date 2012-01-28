@@ -31,7 +31,7 @@ define :nagios_conf, :variables => {}, :config_subdir => true do
     source "#{params[:name]}.cfg.erb"
     mode 0644
     variables params[:variables]
-    notifies :restart, "service[nagios]"
+    notifies :reload, "service[nagios]"
     backup 0
   end
 end

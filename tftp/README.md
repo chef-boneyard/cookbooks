@@ -12,7 +12,7 @@ The default recipe passes through to the server recipe.
 server
 ------
 The node will install and use the `tftpd` application to provide files via tftp. Typically those nodes will be requesting images via PXE and configured from their BIOS as clients, so there is not a client recipe yet.
-    
+
 Usage
 =====
 Nodes using the `tftp::server` recipe will provide tftp access to whatever files are in their `[:tftp][:directory]`.

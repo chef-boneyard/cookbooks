@@ -48,7 +48,7 @@ task :client do
 client
 dev tun
 proto udp
-remote #{<%= node["fqdn"] %>} 1194
+remote <%= node["openvpn"]["gateway"] %> <%= node["openvpn"]["port"] %>
 resolv-retry infinite
 nobind
 persist-key

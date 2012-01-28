@@ -23,16 +23,16 @@ include Chef::Mixin::ShellOut
 include Windows::Helper
 
 def install_feature(name)
-  shell_out!("#{servermanagercmd} -install #{@new_resource.feature_name}")
+  shell_out!("#{servermanagercmd} -install #{@new_resource.feature_name}", {:returns => [0,42,127]})
 end
 
 def remove_feature(name)
-  shell_out!("#{servermanagercmd} -remove #{@new_resource.feature_name}")
+  shell_out!("#{servermanagercmd} -remove #{@new_resource.feature_name}", {:returns => [0,42,127]})
 end
 
 def installed?
   @installed ||= begin
-    cmd = shell_out("#{servermanagercmd} -query")
+    cmd = shell_out("#{servermanagercmd} -query", {:returns => [0,42,127]})
     cmd.stderr.empty? && (cmd.stdout =~ /^\s*?\[X\]\s.+?\s\[#{@new_resource.feature_name}\]$/i)
   end
 end

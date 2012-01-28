@@ -2,7 +2,7 @@
 # Cookbook Name:: rsyslog
 # Recipe:: client
 #
-# Copyright 2009, Opscode, Inc.
+# Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,25 +19,28 @@
 
 include_recipe "rsyslog"
 
-rsyslog_server = search(:node, "rsyslog_server:true")
+if Chef::Config[:solo]
+  Chef::Log.info("The rsyslog::client recipe uses search. Chef Solo does not support search.")
+elsif !node.run_list.roles.include?(node['rsyslog']['server_role'])
+  Chef::Log.debug("Searching for an rsyslog server with the role #{node['rsyslog']['server_role']}")
+  rsyslog_server = search(:node, "roles:#{node['rsyslog']['server_role']}")
 
-unless node[:rsyslog][:server] 
   template "/etc/rsyslog.d/remote.conf" do
     source "remote.conf.erb"
     backup false
     variables(
-      :server => rsyslog_server.first['fqdn'],
-      :protocol => node[:rsyslog][:protocol]
+      :server => rsyslog_server.first['ipaddress'] || node['rsyslog']['server'],
+      :protocol => node['rsyslog']['protocol']
     )
     owner "root"
     group "root"
     mode 0644
-    notifies :restart, resources(:service => "rsyslog"), :delayed
+    notifies :restart, "service[rsyslog]"
   end
 
   file "/etc/rsyslog.d/server.conf" do
     action :delete
-    notifies :reload, resources(:service => "rsyslog"), :delayed
+    notifies :reload, "service[rsyslog]"
     only_if do ::File.exists?("/etc/rsyslog.d/server.conf") end
   end
 end
