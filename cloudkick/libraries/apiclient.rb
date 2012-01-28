@@ -52,16 +52,18 @@ module Cloudkick
     end
 
     def to_s
-      [request.inspect, request.body] * " "
+      [request.inspect, request.body] * ' '
     end
   end
 
   class APIClient
 
     def initialize(oauth_key, oauth_secret)
-      consumer = OAuth::Consumer.new(oauth_key, oauth_secret,
-                                     :site => "https://api.cloudkick.com",
-                                     :http_method => :get)
+      consumer = OAuth::Consumer.new(
+        oauth_key,
+        oauth_secret,
+        :site => 'https://api.cloudkick.com',
+        :http_method => :get)
       @access_token = OAuth::AccessToken.new(consumer)
     end
     
@@ -76,7 +78,7 @@ module Cloudkick
       request = @access_token.post(resource_uri, monitor_parameters)
 
       case request.response.code
-      when "201"
+      when '201'
         request.response.body
       else
         raise APIClientError, request
@@ -100,7 +102,7 @@ module Cloudkick
       request = @access_token.get(resource_uri)
     
       case request.response.code
-      when "200"
+      when '200'
         JSON.parse(request.response.body, :symbolize_names => true)
       else
         raise APIClientError, request
@@ -122,7 +124,7 @@ module Cloudkick
       request = @access_token.post(resource_uri)
     
       case request.response.code
-      when "204"
+      when '204'
         request.response.body
       else
         raise APIClientError, request
@@ -152,7 +154,7 @@ module Cloudkick
       request = @access_token.post(resource_uri, check_params)
 
       case request.response.code
-      when "201"
+      when '201'
         request.response.body
       else
         raise APIClientError, request
@@ -161,16 +163,19 @@ module Cloudkick
     private :create_check
 
     def get_check(check_details, check_code, check_params)
-      check_attributes = find_check(check_details=check_details,
-                                    check_code=check_code,
-                                    check_params=check_params)
+      check_attributes = find_check(
+        check_details=check_details,
+        check_code=check_code,
+        check_params=check_params)
       if check_attributes.nil?
-        create_check(check_details=check_details,
-                     check_code=check_code,
-                     check_params=check_params)
-        find_check(check_details=check_details,
-                   check_code=check_code,
-                   check_params=check_params)
+        create_check(
+          check_details=check_details,
+          check_code=check_code,
+          check_params=check_params)
+        find_check(
+          check_details=check_details,
+          check_code=check_code,
+          check_params=check_params)
       else
         check_attributes
       end
@@ -178,13 +183,13 @@ module Cloudkick
 
     def list_checks(monitor_id=nil)
       resource_uri = '/2.0/checks'
-    
+
       check_parameters = monitor_id ? {'monitor_id' => monitor_id} : nil
-    
+
       request = @access_token.get(resource_uri, check_parameters)
-    
+
       case request.response.code
-      when "200"
+      when '200'
         JSON.parse(request.response.body, :symbolize_names => true)
       else
         raise APIClientError, request
@@ -216,11 +221,11 @@ module Cloudkick
 
     def check_types
       resource_uri = '/2.0/check_types'
-    
+
       request = @access_token.get(resource_uri)
-    
+
       case request.response.code
-      when "200"
+      when '200'
         request.response.body
       else
         raise APIClientError, request
@@ -259,8 +264,9 @@ class TestCloudkickAPIClientMonitors < Test::Unit::TestCase
   def test_list_monitors
     all_monitors = @apiclient.list_monitors
 
-    assert(test=!all_monitors[:items].empty?,
-           msg='No Monitors were found on Cloudkick.')
+    assert(
+      test=!all_monitors[:items].empty?,
+      msg='No Monitors were found on Cloudkick.')
   end
 
   def test_find_monitor
@@ -271,9 +277,10 @@ class TestCloudkickAPIClientMonitors < Test::Unit::TestCase
   end
 
   def test_get_monitor
-    monitor_attributes = @apiclient.get_monitor(@monitor_name,
-                                                @monitor_name,
-                                                @monitor_name)
+    monitor_attributes = @apiclient.get_monitor(
+      @monitor_name,
+      @monitor_name,
+      @monitor_name)
     assert(monitor_attributes[:name] == @monitor_name)
   end
 
@@ -318,8 +325,9 @@ class TestCloudkickAPIClientChecks < Test::Unit::TestCase
   def test_list_checks
     all_checks = @apiclient.list_checks
 
-    assert(!all_checks[:items].empty?,
-           msg='No Checks were found on Cloudkick.')
+    assert(
+      !all_checks[:items].empty?,
+      msg='No Checks were found on Cloudkick.')
   end
 
   # TODO(ampledata@0111017) Write this test.
@@ -328,13 +336,16 @@ class TestCloudkickAPIClientChecks < Test::Unit::TestCase
   end
 
   def test_get_check
-    check_details = {:path => '/test_get_check',
-                     :fs_critical => 95, :fs_warn => 90}
+    check_details = {
+      :path => '/test_get_check',
+      :fs_critical => 95,
+      :fs_warn => 90}
     check_code = 51
     check_params = {:monitor_id => @monitor_id}
-    check_attributes = @apiclient.get_check(check_details=check_details,
-                                            check_code=check_code,
-                                            check_params=check_params)
+    check_attributes = @apiclient.get_check(
+      check_details=check_details,
+      check_code=check_code,
+      check_params=check_params)
     assert(check_attributes[:monitor_id] == @monitor_id)
     assert(check_attributes[:details] == check_details)
     # FIXME(ampledata@20111018) This is returning false now, wtf?
