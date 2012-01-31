@@ -194,7 +194,7 @@ The following recipes are deprecated and have been removed from the cookbook. To
 Application Data Bag 
 =====================
 
-The applications data bag expects certain values in order to configure parts of the recipe. Below is a paste of the JSON, where the value is a description of the key. Use your own values, as required. Note that this data bag is also used by the `database` cookbook, so it will contain database information as well. Items that may be ambiguous have an example.
+The applications data bag expects certain values in order to configure parts of the recipe. [Here](https://github.com/opscode/cookbooks/tree/master/application/examples/data_bags/apps "Data Bags") are a few exampes of the JSON, where the value is a description of the key. Use your own values, as required. Note that this data bag is also used by the `database` cookbook, so it will contain database information as well. Items that may be ambiguous have an example.
 
 The application used in examples is named `my_app` and the environment is `production`. Most top-level keys are Arrays, and each top-level key has an entry that describes what it is for, followed by the example entries. Entries that are hashes themselves will have the description in the value. In order to use the environment `production` you must create the environment as described below under __Usage__.
 
