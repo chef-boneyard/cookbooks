@@ -41,7 +41,7 @@ ruby_block "update-java-alternatives" do
     require "fileutils"
     arch = node['kernel']['machine'] =~ /x86_64/ ? "x86_64" : "i386"
     Chef::Log.debug("glob is #{java_home_parent}/java*#{version}*openjdk*")
-    jdk_home = Dir.glob("#{java_home_parent}/java*#{version}*openjdk?{,#{arch}}")[0]
+    jdk_home = Dir.glob("#{java_home_parent}/java*#{version}*openjdk{,-#{arch}}")[0]
     Chef::Log.debug("jdk_home is #{jdk_home}")
     # delete the symlink if it already exists
     if File.exists? java_home
