@@ -1,7 +1,7 @@
 {
     "id": "default",
     "arch": "amd64",
-    "version": "lucid",
+    "version": "10.04",
     "domain": "localdomain",
     "run_list": "role[base]",
     "netboot_url": "http://archive.ubuntu.com/ubuntu/dists/lucid/main/installer-amd64/current/images/netboot/netboot.tar.gz",

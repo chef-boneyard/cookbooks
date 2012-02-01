@@ -1,0 +1,6 @@
+{
+    "id": "ubuntu-maverick-amd64",
+    "arch": "amd64",
+    "version": "10.10",
+    "netboot_url": "http://archive.ubuntu.com/ubuntu/dists/maverick/main/installer-amd64/current/images/netboot/netboot.tar.gz"
+}
