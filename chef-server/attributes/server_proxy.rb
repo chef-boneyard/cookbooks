@@ -26,17 +26,17 @@ default['chef_server']['proxy']['css_expire_hours']  = "120"
 default['chef_server']['proxy']['js_expire_hours']   = "24"
 default['chef_server']['proxy']['api_server_name']   = "localhost"
 default['chef_server']['proxy']['api_port']          = 443
-default['chef_server']['proxy']['api_aliases']       = [ 
-  node['hostname'], 
-  node['fqdn'], 
-  'chef-server-proxy', 
-  "chef.#{node['domain']}" 
+default['chef_server']['proxy']['api_aliases']       = [
+  node['hostname'],
+  node['fqdn'],
+  'chef-server-proxy',
+  "chef.#{node['domain']}"
 ]
 default['chef_server']['proxy']['webui_server_name'] = "localhost"
 default['chef_server']['proxy']['webui_port']        = 444
-default['chef_server']['proxy']['webui_aliases']     = [ 
-  node['hostname'], 
-  node['fqdn'], 
-  'chef-server-proxy', 
-  "chef.#{node['domain']}" 
+default['chef_server']['proxy']['webui_aliases']     = [
+  node['hostname'],
+  node['fqdn'],
+  'chef-server-proxy',
+  "chef.#{node['domain']}"
 ]
