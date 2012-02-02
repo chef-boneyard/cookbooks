@@ -58,6 +58,7 @@ bash "compile_nginx_source" do
     make && make install
   EOH
   creates node[:nginx][:src_binary]
+  notifies :restart, "service[nginx]"
 end
 
 user node[:nginx][:user] do
@@ -78,7 +79,6 @@ directory node[:nginx][:dir] do
   mode "0755"
 end
 
-
 case node[:nginx][:init_style]
 when "runit"
   include_recipe "runit"
@@ -88,11 +88,8 @@ when "runit"
   service "nginx" do
     supports :status => true, :restart => true, :reload => true
     reload_command "if [ -f #{node[:nginx][:pid]} ]; then kill -HUP `cat #{node[:nginx][:pid]}`; fi"
-    subscribes :restart, resources(:bash => "compile_nginx_source")
   end
 when "bluepill"
-  node.set[:nginx][:daemon_disable] = false
-
   include_recipe "bluepill"
 
   template "#{node['bluepill']['conf_dir']}/nginx.pill" do
@@ -108,8 +105,7 @@ when "bluepill"
   end
 
   bluepill_service "nginx" do
-    action [ :enable, :load, :start ]
-    subscribes :restart, resources(:bash => "compile_nginx_source")
+    action [ :enable, :load ]
   end
 
   service "nginx" do
@@ -138,7 +134,6 @@ else
   service "nginx" do
     supports :status => true, :restart => true, :reload => true
     action :enable
-    subscribes :restart, resources(:bash => "compile_nginx_source")
   end
 end
 

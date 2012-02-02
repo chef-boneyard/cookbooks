@@ -5,7 +5,7 @@ Bluepill.application("nginx", :log_file => "<%= @log_dir %>/bluepill-nginx.log")
     process.start_command      = "<%= @src_binary %> -c <%= @nginx_dir %>/nginx.conf"
     process.stop_command       = "kill -QUIT {{PID}}"
     process.restart_command    = "kill -HUP {{PID}}"
-    process.daemonize          = false
+    process.daemonize          = true
     process.stdout             = process.stderr = "<%= @log_dir %>/nginx.log"
 
     process.monitor_children do |child_process|
