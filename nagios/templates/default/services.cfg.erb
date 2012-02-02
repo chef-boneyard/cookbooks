@@ -57,6 +57,13 @@ define service {
 }
 
 define service {
+    service_description SSH
+    hostgroup_name      all
+    check_command       check_ssh
+    use                 default-service
+}
+
+define service {
     service_description Processes
     hostgroup_name      all
     check_command       check_local_procs
