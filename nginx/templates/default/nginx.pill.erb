@@ -1,6 +1,6 @@
 Bluepill.application("nginx", :log_file => "<%= @log_dir %>/bluepill-nginx.log") do |app|
   app.process("nginx") do |process|
-    process.pid_file           = "/var/run/nginx.pid"
+    process.pid_file           = "<%= @pid %>"
     process.working_dir        = "<%= @working_dir %>"
     process.start_command      = "<%= @src_binary %> -c <%= @nginx_dir %>/nginx.conf"
     process.stop_command       = "kill -QUIT {{PID}}"

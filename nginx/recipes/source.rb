@@ -87,7 +87,7 @@ when "runit"
 
   service "nginx" do
     supports :status => true, :restart => true, :reload => true
-    reload_command "if [ -f /var/run/nginx.pid ]; then kill -HUP `cat /var/run/nginx.pid`; fi"
+    reload_command "if [ -f #{node[:nginx][:pid]} ]; then kill -HUP `cat #{node[:nginx][:pid]}`; fi"
     subscribes :restart, resources(:bash => "compile_nginx_source")
   end
 when "bluepill"
@@ -102,7 +102,8 @@ when "bluepill"
       :working_dir => node[:nginx][:install_path],
       :src_binary => node[:nginx][:src_binary],
       :nginx_dir => node[:nginx][:dir],
-      :log_dir => node[:nginx][:log_dir]
+      :log_dir => node[:nginx][:log_dir],
+      :pid => node[:nginx][:pid]
     )
   end
 
@@ -113,7 +114,7 @@ when "bluepill"
 
   service "nginx" do
     supports :status => true, :restart => true, :reload => true
-    reload_command "if [ -f /var/run/nginx.pid ]; then kill -HUP `cat /var/run/nginx.pid`; fi"
+    reload_command "if [ -f #{node[:nginx][:pid]} ]; then kill -HUP `cat #{node[:nginx][:pid]}`; fi"
     action :nothing
   end
 else
