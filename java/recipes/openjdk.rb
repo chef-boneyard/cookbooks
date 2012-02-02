@@ -23,11 +23,14 @@ java_home_parent = File.dirname java_home
 jdk_home = ""
 
 pkgs = value_for_platform(
-                          ["centos","redhat","fedora"] => {
-                            "default" => ["java-1.#{version}.0-openjdk","java-1.#{version}.0-openjdk-devel"]
-                          },
-                          "default" => ["openjdk-#{version}-jdk"]
-                          )
+  ["centos","redhat","fedora"] => {
+    "default" => ["java-1.#{version}.0-openjdk","java-1.#{version}.0-openjdk-devel"]
+  },
+  ["arch","freebsd"] => {
+    "default" => ["openjdk#{version}"]
+  },
+  "default" => ["openjdk-#{version}-jdk"]
+  )
 
 # done by special request for rberger
 ruby_block  "set-env-java-home" do
