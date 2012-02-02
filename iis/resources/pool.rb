@@ -28,3 +28,4 @@ attribute :max_proc, :kind_of => Integer, :default => 2
 attribute :thirty_two_bit, :kind_of => Symbol, :default => :false, :equal_to => [:true, :false]
 
 attr_accessor :exists, :running
+
