@@ -50,13 +50,10 @@ when 'centos', 'redhat', 'fedora'
   execute "ldconfig" do
     command "ldconfig"
     action :nothing
-    not_if { ::File.exists?("/etc/ld.so.conf.d/gecode.conf") }
   end
-  execute "/etc/ld.so.conf.d/gecode.conf" do
-    command "echo '/usr/local/lib/ ' > /etc/ld.so.conf.d/gecode.conf"
-    creates "/etc/ld.so.conf.d/gecode.conf"
-    action :run
-    not_if { ::File.exists?("/etc/ld.so.conf.d/gecode.conf") }
+
+  file "/etc/ld.so.conf.d/gecode.conf" do
+    content "/usr/local/lib "
     notifies :run, "execute[ldconfig]"
   end
 end
