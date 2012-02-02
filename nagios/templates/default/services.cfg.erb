@@ -57,13 +57,6 @@ define service {
 }
 
 define service {
-    service_description SSH
-    hostgroup_name      all
-    check_command       check_ssh
-    use                 default-service
-}
-
-define service {
     service_description Processes
     hostgroup_name      all
     check_command       check_local_procs
@@ -125,4 +118,16 @@ define service {
     use                 default-service
 }
 
+<% end -%>
+
+# Services defined by data bags
+<% @services.each do |service| -%>
+  <% unless @service_hosts[service['hostgroup_name'].nil? && service['hostgroup_name'] != 'all' ] -%>
+define service {
+  service_description <%= service['id'] %>
+  hostgroup_name <%= service['hostgroup_name'] %>
+  check_command check_<%= service['id'] %>
+  use default-service
+}
+  <% end -%>
 <% end -%>

@@ -27,7 +27,19 @@ include_recipe "apache2::mod_rewrite"
 include_recipe "nagios::client"
 
 sysadmins = search(:users, 'groups:sysadmin')
+
 nodes = search(:node, "hostname:[* TO *] AND chef_environment:#{node.chef_environment}")
+
+begin
+  services = search(:nagios_services, '*:*')
+rescue Net::HTTPServerException
+  Chef::Log.info("Search for nagios_services data bag failed, so we'll just move on.")
+end
+
+if services.nil? || services.empty?
+  Chef::Log.info("No services returned from data bag search.")
+  services = Array.new
+end
 
 if nodes.empty?
   Chef::Log.info("No nodes returned from search, using this node so hosts.cfg has data")
@@ -141,12 +153,19 @@ apache_site "nagios3.conf"
   end
 end
 
-%w{ commands templates timeperiods}.each do |conf|
+%w{ templates timeperiods}.each do |conf|
   nagios_conf conf
 end
 
+nagios_conf "commands" do
+  variables :services => services
+end
+
 nagios_conf "services" do
-  variables :service_hosts => service_hosts
+  variables(
+    :service_hosts => service_hosts,
+    :services => services
+  )
 end
 
 nagios_conf "contacts" do
