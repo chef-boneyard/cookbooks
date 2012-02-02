@@ -19,6 +19,11 @@
 
 actions :add, :remove
 
+def initialize(*args)
+  super
+  @action = :add
+end
+
 #name of the repo, used for source.list filename
 attribute :repo_name, :kind_of => String, :name_attribute => true
 attribute :uri, :kind_of => String

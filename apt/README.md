@@ -62,9 +62,7 @@ This LWRP provides an easy way to manage additional APT repositories. Adding a n
     # add the Zenoss repo
     apt_repository "zenoss" do
       uri "http://dev.zenoss.org/deb"
-      distribution "main"
-      components ["stable"]
-      action :add
+      components ["main","stable"]
     end
     
     # add the Nginx PPA; grab key from keyserver
@@ -74,7 +72,6 @@ This LWRP provides an easy way to manage additional APT repositories. Adding a n
       components ["main"]
       keyserver "keyserver.ubuntu.com"
       key "C300EE8C"
-      action :add
     end
     
     # add the Cloudkick Repo
@@ -83,7 +80,6 @@ This LWRP provides an easy way to manage additional APT repositories. Adding a n
       distribution node['lsb']['codename']
       components ["main"]
       key "http://packages.cloudkick.com/cloudkick.packages.key"
-      action :add
     end
     
     # remove Zenoss repo
