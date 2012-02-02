@@ -34,7 +34,7 @@ d-i pkgsel/update-policy select unattended-upgrades
 d-i pkgsel/upgrade select safe-upgrade
 tasksel tasksel/first multiselect none
 popularity-contest popularity-contest/participate boolean true
-d-i pkgsel/include string openssh-server ruby ruby1.8-dev build-essential wget libruby-extras libruby1.8-extras
+d-i pkgsel/include string openssh-server ntp
 
 ### Account setup
 # configure users
