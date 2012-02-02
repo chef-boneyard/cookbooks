@@ -51,6 +51,16 @@ basedir         = <%= node['mysql']['basedir'] %>
 datadir         = <%= node['mysql']['data_dir'] %>
 tmpdir          = /tmp
 skip-external-locking
+
+# extra configuration settings not included in factory my.cnf (suggested by https://github.com/seamusabshere)
+character_set_server           = <%= node['mysql']['tunable']['character_set_server'] %>
+collation_server               = <%= node['mysql']['tunable']['collation_server'] %>
+default_storage_engine         = <%= node['mysql']['tunable']['default_storage_engine'] %>
+sql_mode                       = <%= node['mysql']['tunable']['sql_mode'] %>
+innodb_flush_log_at_trx_commit = <%= node['mysql']['tunable']['innodb_flush_log_at_trx_commit'] %>
+innodb_file_per_table          = <%= node['mysql']['tunable']['innodb_file_per_table'] %>
+#--
+
 #
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
