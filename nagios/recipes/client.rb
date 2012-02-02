@@ -65,10 +65,25 @@ service "nagios-nrpe-server" do
   supports :restart => true, :reload => true
 end
 
-# Use NRPE LWRP to define a check
+# Use NRPE LWRP to define a few checks
 nagios_nrpecheck "check_load" do
   command "#{node['nagios']['plugin_dir']}/check_load"
   warning_condition node['nagios']['checks']['load']['warning']
   critical_condition node['nagios']['checks']['load']['critical']
+  action :add
+end
+
+nagios_nrpecheck "check_all_disks" do
+  command "#{node['nagios']['plugin_dir']}/check_disk"
+  warning_condition "8%"
+  critical_condition "5%"
+  parameters "-A -x /dev/shm -X nfs -i /boot"
+  action :add
+end
+
+nagios_nrpecheck "check_users" do
+  command "#{node['nagios']['plugin_dir']}/check_users"
+  warning_condition "20"
+  critical_condition "30"
   action :add
 end
