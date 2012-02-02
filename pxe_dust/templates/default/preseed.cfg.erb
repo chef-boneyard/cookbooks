@@ -46,7 +46,8 @@ d-i passwd/user-password-crypted password <%= @user_crypted_password %>
 d-i user-setup/encrypt-home boolean false
 
 ### Finishing up the installation
-#d-i finish-install/reboot_in_progress note
+# Avoid that last message about the install being complete.
+d-i finish-install/reboot_in_progress note
 # This is how to make the installer shutdown when finished, but not
 # reboot into the installed system.
 #d-i debian-installer/exit/halt boolean true
