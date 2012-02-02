@@ -87,7 +87,7 @@ when "runit"
 
   service "nginx" do
     supports :status => true, :restart => true, :reload => true
-    reload_command "if [ -f #{node[:nginx][:pid]} ]; then kill -HUP `cat #{node[:nginx][:pid]}`; fi"
+    reload_command "[[ -f #{node[:nginx][:pid]} ]] && kill -HUP `cat #{node[:nginx][:pid]}` || true"
   end
 when "bluepill"
   include_recipe "bluepill"
@@ -110,7 +110,7 @@ when "bluepill"
 
   service "nginx" do
     supports :status => true, :restart => true, :reload => true
-    reload_command "if [ -f #{node[:nginx][:pid]} ]; then kill -HUP `cat #{node[:nginx][:pid]}`; fi"
+    reload_command "[[ -f #{node[:nginx][:pid]} ]] && kill -HUP `cat #{node[:nginx][:pid]}` || true"
     action :nothing
   end
 else
