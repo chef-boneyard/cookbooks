@@ -38,29 +38,26 @@ end
 
 ruby_block "update-java-alternatives" do
   block do
-    require "fileutils"
-    arch = node['kernel']['machine'] =~ /x86_64/ ? "x86_64" : "i386"
-    Chef::Log.debug("glob is #{java_home_parent}/java*#{version}*openjdk*")
-    jdk_home = Dir.glob("#{java_home_parent}/java*#{version}*openjdk{,-#{arch}}")[0]
-    Chef::Log.debug("jdk_home is #{jdk_home}")
-    # delete the symlink if it already exists
-    if File.exists? java_home
-      FileUtils.rm_f java_home
-    end
-    FileUtils.ln_sf jdk_home, java_home
-    
     if platform?("ubuntu", "debian") and version == 6
-      # specific to Ubuntu, this finds the file which specifies all
-      # the symlinks to be updated
-      java_link_name = Dir.glob("#{java_home_parent}/.java*#{version}*openjdk.jinfo")[0]
-      java_link_name = File.basename(java_link_name).split('.')[1..-2].join('.')
-      cmd = Chef::ShellOut.new(
-                               "update-java-alternatives -s #{java_link_name}"
-                               ).run_command
-      unless cmd.exitstatus == 0 or  cmd.exitstatus == 2
-        Chef::Application.fatal!("Failed to update-alternatives for openjdk!")
-      end
+      run_context = Chef::RunContext.new(node, {})
+      r = Chef::Resource::Execute.new("update-java-alternatives", run_context)
+      r.command "update-java-alternatives -s java-6-openjdk"
+      r.returns [0,2]
+      r.run_action(:create)       
     else
+      # have to do this on ubuntu for version 7 because Ubuntu does
+      # not currently set jdk 7 as the default jvm on installation
+      require "fileutils"
+      arch = node['kernel']['machine'] =~ /x86_64/ ? "x86_64" : "i386"
+      Chef::Log.debug("glob is #{java_home_parent}/java*#{version}*openjdk*")
+      jdk_home = Dir.glob("#{java_home_parent}/java*#{version}*openjdk{,-#{arch}}")[0]
+      Chef::Log.debug("jdk_home is #{jdk_home}")
+      # delete the symlink if it already exists
+      if File.exists? java_home
+        FileUtils.rm_f java_home
+      end
+      FileUtils.ln_sf jdk_home, java_home
+    
       cmd = Chef::ShellOut.new(
          %Q[ update-alternatives --install /usr/bin/java java #{java_home}/bin/java 1;
              update-alternatives --set java #{java_home}/bin/java  ]
