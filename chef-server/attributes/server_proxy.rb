@@ -22,5 +22,21 @@ include_attribute "chef-server"
 
 default['chef_server']['doc_root'] = "#{node['languages']['ruby']['gems_dir']}/gems/chef-server-webui-#{node['chef_packages']['chef']['version']}/public"
 default['chef_server']['ssl_req']  = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=chef-server-proxy/emailAddress=root@localhost"
-default['chef_server']['proxy']['css_expire_hours'] = "120"
-default['chef_server']['proxy']['js_expire_hours']  = "24"
+default['chef_server']['proxy']['css_expire_hours']  = "120"
+default['chef_server']['proxy']['js_expire_hours']   = "24"
+default['chef_server']['proxy']['api_server_name']   = "localhost"
+default['chef_server']['proxy']['api_port']          = 443
+default['chef_server']['proxy']['api_aliases']       = [
+  node['hostname'],
+  node['fqdn'],
+  'chef-server-proxy',
+  "chef.#{node['domain']}"
+]
+default['chef_server']['proxy']['webui_server_name'] = "localhost"
+default['chef_server']['proxy']['webui_port']        = 444
+default['chef_server']['proxy']['webui_aliases']     = [
+  node['hostname'],
+  node['fqdn'],
+  'chef-server-proxy',
+  "chef.#{node['domain']}"
+]
