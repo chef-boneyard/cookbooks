@@ -1,7 +1,7 @@
 Description
 ===========
 
-Installs and configures Microsoft Internet Information Services (IIS) 7.
+Installs and configures Microsoft Internet Information Services (IIS) 7.0/7.5
 
 Requirements
 ============
@@ -9,9 +9,7 @@ Requirements
 Platform
 --------
 
-* Windows XP
 * Windows Vista
-* Windows Server 2003 R2
 * Windows 7
 * Windows Server 2008 (R1, R2)
 
@@ -25,7 +23,6 @@ Attributes
 ==========
 
 * `node['iis']['accept_eula']` - indicate that you accept the terms of the end user license. default is 'false'
-
 * `node['iis']['home']` - IIS main home directory. default is `%WINDIR%\System32\inetsrv`
 * `node['iis']['conf_dir']` - location where main IIS configs lives. default is `%WINDIR%\System32\inetsrv\config`
 * `node['iis']['pubroot']` - . default is `%SYSTEMDRIVE%\inetpub`
@@ -136,7 +133,7 @@ Installing any of the IIS or any of it's modules requires you to explicitly indi
 default
 -------
 
-Installs and configures IIS 7 using the Recommended Configuration, which includes the following modules/extensions:
+Installs and configures IIS 7.0/7.5 using the recommended configuration, which includes the following modules/extensions:
 
 * Static Content
 * Default Document
