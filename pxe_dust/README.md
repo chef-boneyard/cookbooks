@@ -19,7 +19,7 @@ Tested on:
 
 Required: apache2, tftp
 
-Optional (recommended): apt (for `recipe[apt::cacher]`). If you're mixing Debian and Ubuntu there may be conflicts where they have the same filenames but different MD5s (Squeeze and Natty).
+Optional (recommended): apt (for `recipe[apt::cacher]`). If you're mixing Debian and Ubuntu there will be conflicts where they have the same filenames but different MD5s (you can mix Ubuntu versions, just not Debian & Ubuntu).
 
 pxe_dust Data Bag
 =================
@@ -52,7 +52,7 @@ Here are currently supported options available for inclusion in the `default.jso
 * `arch`: Architecture of the netboot.tar.gz to use as the source of pxeboot images, default is 'amd64'.
 * `version`: Ubuntu version of the netboot.tar.gz to use as the source of pxeboot images and full stack clients, default is '10.04'.
 * `domain`: Default domain for nodes, default is none.
-* `run_list`: Default run list for nodes, default is none.
+* `run_list`: Run list for nodes, this value is NOT set as a default and must be explicitly set for all boot types.
 * `netboot_url`: URL of the netboot image to use for OS installation.
 * `bootstrap`: Optional additional bootstrapping configuration.
     `http_proxy`: HTTP proxy, default is none.
@@ -66,7 +66,7 @@ Here are currently supported options available for inclusion in the `default.jso
 * `root`:
     `crypted_password`: SHA512 password for the root user, default 'password'. This is used on Debian since Ubuntu does not have a root.
 
-Additional data bag items may be used to support booting multiple operating systems. Examples are included in the `examples/ubuntu-natty-amd64.json`. Important to note is the use of the `addresses` option to support tftp booting by MAC address (this is currently required for not using the default).
+Additional data bag items may be used to support booting multiple operating systems. Examples of various Ubuntu and Debian installations are included in the `examples` directory. Important to note is the use of the `addresses` option to support tftp booting by MAC address (this is currently required for not using the default) and the explicit need for a `run_list` if one is to be provided.
 
 Templates
 =========
