@@ -1,8 +1,11 @@
+### from Debian
+d-i debian-installer/locale string en_US
+
 ### Mirror settings
 d-i mirror/http/countries select US
-d-i mirror/http/hostname string us.archive.ubuntu.com
-d-i mirror/http/directory string /ubuntu/
-d-i mirror/http/mirror select us.archive.ubuntu.com
+d-i mirror/http/hostname string http.us.debian.org
+d-i mirror/http/directory string /debian
+d-i mirror/http/mirror select ftp.us.debian.org
 d-i mirror/protocol select http
 d-i mirror/country string US
 <%= @proxy %>
@@ -28,13 +31,19 @@ d-i grub-installer/with_other_os boolean true
 d-i debian-installer/splash	boolean false
 
 ## Package installation
-d-i pkgsel/install-language-support	boolean false
 d-i base-installer/kernel/override-image string linux-server
+d-i pkgsel/include string openssh-server ntp
+d-i pkgsel/install-language-support	boolean false
 d-i pkgsel/update-policy select unattended-upgrades
 d-i pkgsel/upgrade select safe-upgrade
-tasksel tasksel/first multiselect none
 popularity-contest popularity-contest/participate boolean true
-d-i pkgsel/include string openssh-server ruby ruby1.8-dev build-essential wget libruby-extras libruby1.8-extras
+tasksel tasksel/first multiselect none
+# d-i apt-setup/backports boolean true
+# d-i apt-setup/contrib boolean true
+# d-i apt-setup/multiverse boolean true
+# d-i apt-setup/non-free boolean true
+# d-i apt-setup/proposed boolean true
+# d-i apt-setup/universe boolean true
 
 ### Account setup
 # configure users
@@ -43,10 +52,14 @@ d-i pkgsel/include string openssh-server ruby ruby1.8-dev build-essential wget l
 d-i passwd/user-fullname string <%= @user_fullname %>
 d-i passwd/username string <%= @user_username %>
 d-i passwd/user-password-crypted password <%= @user_crypted_password %>
-d-i user-setup/encrypt-home boolean false
+#d-i user-setup/encrypt-home boolean false
+
+# Root password must be set on Debian
+d-i passwd/root-password-crypted password <%= @root_crypted_password %>
 
 ### Finishing up the installation
-#d-i finish-install/reboot_in_progress note
+# Avoid that last message about the install being complete.
+d-i finish-install/reboot_in_progress note
 # This is how to make the installer shutdown when finished, but not
 # reboot into the installed system.
 #d-i debian-installer/exit/halt boolean true

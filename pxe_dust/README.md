@@ -19,7 +19,7 @@ Tested on:
 
 Required: apache2, tftp
 
-Optional (recommended): apt (for `recipe[apt::cacher]`)
+Optional (recommended): apt (for `recipe[apt::cacher]`). If you're mixing Debian and Ubuntu there will be conflicts where they have the same filenames but different MD5s (you can mix Ubuntu versions, just not Debian & Ubuntu).
 
 pxe_dust Data Bag
 =================
@@ -37,7 +37,7 @@ Here is an example of the default.json:
 {
     "id": "default",
     "arch": "amd64",
-    "version": "lucid",
+    "version": "10.04",
     },
     "user": {
         "fullname": "Ubuntu",
@@ -50,11 +50,11 @@ Here is an example of the default.json:
 Here are currently supported options available for inclusion in the `default.json`.:
 
 * `arch`: Architecture of the netboot.tar.gz to use as the source of pxeboot images, default is 'amd64'.
-* `version`: Ubuntu version of the netboot.tar.gz to use as the source of pxeboot images, default is 'lucid'.
+* `version`: Ubuntu version of the netboot.tar.gz to use as the source of pxeboot images and full stack clients, default is '10.04'.
 * `domain`: Default domain for nodes, default is none.
-* `run_list`: Default run list for nodes, default is none.
+* `run_list`: Run list for nodes, this value is NOT set as a default and must be explicitly set for all boot types.
+* `netboot_url`: URL of the netboot image to use for OS installation.
 * `bootstrap`: Optional additional bootstrapping configuration.
-    `bootstrap_version_string`: for building specific version of Chef, default is none.
     `http_proxy`: HTTP proxy, default is none.
     `http_proxy_user`: HTTP proxy user, default is none.
     `http_proxy_pass`: HTTP proxy pass, default is none.
@@ -63,6 +63,10 @@ Here are currently supported options available for inclusion in the `default.jso
     `crypted_password`: SHA512 password for the default user, default 'password'. This may be generated and added to the data bag.
     `fullname`: Full name of the default user, default 'Ubuntu'.
     `username`: Username of the default user, default 'ubuntu'.
+* `root`:
+    `crypted_password`: SHA512 password for the root user, default 'password'. This is used on Debian since Ubuntu does not have a root.
+
+Additional data bag items may be used to support booting multiple operating systems. Examples of various Ubuntu and Debian installations are included in the `examples` directory. Important to note is the use of the `addresses` option to support tftp booting by MAC address (this is currently required for not using the default) and the explicit need for a `run_list` if one is to be provided.
 
 Templates
 =========
@@ -85,7 +89,7 @@ The preseed file is full of opinions, you will want to update this. If there is 
 chef-bootstrap.sh.erb
 ---------------------
 
-This is the `preseed/late_command` that bootstraps the node with Chef via gems.
+This is the `preseed/late_command` that bootstraps the node with Chef via the full stack installer.
 
 Recipes
 =======
@@ -102,11 +106,12 @@ Server
 
 The recipe does the following:
 
-1. Downloads the proper netboot.tar.gz to boot from.
-2. Untars it to the `[:tftp][:directory]` directory.
+1. Downloads the proper netboot.tar.gzs to boot from.
+2. Untars them to the `[:tftp][:directory]` directory.
 3. Instructs the installer prompt to automatically install.
-4. Passes the URL of the preseed.cfg to the installer.
+4. Passes the URL of the preseed.cfgs to the installer.
 5. Uses the preseed.cfg template to pass in any `apt-cacher` proxies.
+6. Downloads the proper full stack installers for the chef-client.
 
 Usage
 =====
@@ -130,7 +135,11 @@ in the section `Additional DNSMasq Options` where the IP address is that of the 
 Changes
 =======
 
-## v1.1.2:
+## 1.2.0:
+
+* COOK-999 uses the full stack intaller for bootstrapping nodes.
+
+## 1.1.2:
 
 * Fixes COOK-481, COOK-594
 
@@ -140,7 +149,7 @@ License and Author
 Author:: Matt Ray <matt@opscode.com>
 Author:: Joshua Timberman <joshua@opscode.com>
 
-Copyright:: 2011 Opscode, Inc
+Copyright:: 2011,2012 Opscode, Inc
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
