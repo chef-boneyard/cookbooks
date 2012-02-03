@@ -1,6 +1,7 @@
 {
     "id": "default",
     "arch": "amd64",
+    "platform": "ubuntu",
     "version": "10.04",
     "domain": "localdomain",
     "run_list": "role[base]",

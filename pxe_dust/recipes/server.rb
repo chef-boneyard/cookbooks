@@ -59,7 +59,7 @@ pxe_dust.each do |id|
   domain = image['domain'] || default['domain']
   version = image['version'] || default['version']
   netboot_url = image['netboot_url'] || default['netboot_url']
-  run_list = image['run_list'] || default['run_list'] || ''
+  run_list = image['run_list']
   if image['user']
     user_fullname = image['user']['fullname']
     user_username = image['user']['username']
@@ -68,6 +68,11 @@ pxe_dust.each do |id|
     user_fullname = default['user']['fullname']
     user_username = default['user']['username']
     user_crypted_password = default['user']['crypted_password']
+  end
+  if image['root']
+    root_crypted_password = image['root']['crypted_password']
+  elsif default['root']
+    root_crypted_password = default['root']['crypted_password']
   end
   if image['bootstrap']
     http_proxy = image['bootstrap']['http_proxy']
@@ -106,49 +111,24 @@ pxe_dust.each do |id|
     mac_addresses = []
   end
 
-  mac_addresses.each do |mac_address|
-    mac = mac_address.gsub(/:/, '-')
-    mac.downcase!
-    template "#{node['tftp']['directory']}/pxelinux.cfg/01-#{mac}" do
-      source "pxelinux.cfg.erb"
-      mode "0644"
-      variables(
-        :id => id,
-        :arch => arch,
-        :domain => domain
-        )
-      action :create
-    end
-  end
-
-  template "/var/www/#{id}-preseed.cfg" do
-    source "preseed.cfg.erb"
-    mode "0644"
-    variables(
-      :id => id,
-      :proxy => proxy,
-      :user_fullname => user_fullname,
-      :user_username => user_username,
-      :user_crypted_password => user_crypted_password
-      )
-    action :create
-  end
-
   # only get the full stack installers in use
   case version
   when "10.04","10.10"
+    platform = "ubuntu"
     if arch.eql?("i386")
       release = "ubuntu-10.04-i686"
     elsif arch.eql?("amd64")
       release = "ubuntu-10.04-x86_64"
     end
   when "11.04","11.10"
+    platform = "ubuntu"
     if arch.eql?("i386")
       release = "ubuntu-11.04-i686"
     elsif arch.eql?("amd64")
       release = "ubuntu-11.04-x86_64"
     end
-  when "6.0.1"
+  when "6.0.4"
+    platform = "debian"
     if arch.eql?("i386")
       release = "debian-6.0.1-i686"
     elsif arch.eql?("amd64")
@@ -168,6 +148,39 @@ pxe_dust.each do |id|
     mode "0644"
     action :create_if_missing
   end
+
+  mac_addresses.each do |mac_address|
+    mac = mac_address.gsub(/:/, '-')
+    mac.downcase!
+    template "#{node['tftp']['directory']}/pxelinux.cfg/01-#{mac}" do
+      source "pxelinux.cfg.erb"
+      mode "0644"
+      variables(
+        :platform => platform,
+        :id => id,
+        :arch => arch,
+        :domain => domain
+        )
+      action :create
+    end
+  end
+
+
+
+  template "/var/www/#{id}-preseed.cfg" do
+    source "#{platform}-preseed.cfg.erb"
+    mode "0644"
+    variables(
+      :id => id,
+      :proxy => proxy,
+      :user_fullname => user_fullname,
+      :user_username => user_username,
+      :user_crypted_password => user_crypted_password,
+      :root_crypted_password => root_crypted_password
+      )
+    action :create
+  end
+
 
   #Chef bootstrap script run by new installs
   template "/var/www/#{id}-chef-bootstrap" do
@@ -196,6 +209,7 @@ template "#{node['tftp']['directory']}/pxelinux.cfg/default"  do
   source "pxelinux.cfg.erb"
   mode "0644"
   variables(
+    :platform => default['platform'],
     :id => 'default',
     :arch => default['arch'],
     :domain => default['domain']

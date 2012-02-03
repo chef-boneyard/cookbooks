@@ -19,7 +19,7 @@ Tested on:
 
 Required: apache2, tftp
 
-Optional (recommended): apt (for `recipe[apt::cacher]`)
+Optional (recommended): apt (for `recipe[apt::cacher]`). If you're mixing Debian and Ubuntu there may be conflicts where they have the same filenames but different MD5s (Squeeze and Natty).
 
 pxe_dust Data Bag
 =================
@@ -63,6 +63,8 @@ Here are currently supported options available for inclusion in the `default.jso
     `crypted_password`: SHA512 password for the default user, default 'password'. This may be generated and added to the data bag.
     `fullname`: Full name of the default user, default 'Ubuntu'.
     `username`: Username of the default user, default 'ubuntu'.
+* `root`:
+    `crypted_password`: SHA512 password for the root user, default 'password'. This is used on Debian since Ubuntu does not have a root.
 
 Additional data bag items may be used to support booting multiple operating systems. Examples are included in the `examples/ubuntu-natty-amd64.json`. Important to note is the use of the `addresses` option to support tftp booting by MAC address (this is currently required for not using the default).
 
