@@ -90,14 +90,15 @@ pxe_dust.each do |id|
     mode "0755"
   end
 
-  remote_file "#{image_dir}/netboot.tar.gz" do
+  #local mirror for netboots
+  remote_file "/var/www/#{id}-netboot.tar.gz" do
     source netboot_url
     action :create_if_missing
   end
 
-  execute "tar -xzf netboot.tar.gz" do
+  execute "tar -xzf /var/www/#{id}-netboot.tar.gz" do
     cwd image_dir
-    subscribes :run, resources(:remote_file => "#{image_dir}/netboot.tar.gz"), :immediately
+    subscribes :run, resources(:remote_file => "/var/www/#{id}-netboot.tar.gz"), :immediately
     action :nothing
   end
 
