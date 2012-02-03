@@ -12,8 +12,8 @@ default[:rabbitmq][:mnesiadir] = nil
 default[:rabbitmq][:config] = "/etc/rabbitmq/rabbitmq"
 
 # rabbitmq.config defaults
-default[:rabbitmq][:default_user] = 'rabbitmq'
-default[:rabbitmq][:default_pass] = 'rabbitmq321go'
+default[:rabbitmq][:default_user] = 'guest'
+default[:rabbitmq][:default_pass] = 'guest'
 
 #clustering
 default[:rabbitmq][:cluster] = false
