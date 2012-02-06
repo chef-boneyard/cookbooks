@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :run_restart => true, :active_directory => nil, :owner => "root", :group => "root", :template_name => nil, :start_command => "start", :stop_command => "stop", :restart_command => "restart", :status_command => "status", :options => Hash.new, :env => Hash.new do
+define :runit_service, :directory => nil, :only_if => false, :finish_script => false, :control => [], :run_restart => true, :active_directory => nil, :owner => "root", :group => "root", :template_name => nil, :start_command => "start", :stop_command => "stop", :restart_command => "restart", :status_command => "status", :down => false, :options => Hash.new, :env => Hash.new do
   include_recipe "runit"
 
   params[:directory] ||= node[:runit][:sv_dir]
@@ -33,6 +33,12 @@ define :runit_service, :directory => nil, :only_if => false, :finish_script => f
     group params[:group]
     mode 0755
     action :create
+  end
+
+  file "#{sv_dir_name}/down" do
+    mode "0644"
+    action :create
+    only_if { params[:down] == true }
   end
 
   directory "#{sv_dir_name}/log" do
