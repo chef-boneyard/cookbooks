@@ -2,7 +2,7 @@
 # Cookbook Name:: apt
 # Recipe:: cacher-client
 #
-# Copyright 2011, Opscode, Inc.
+# Copyright 2011, 2012 Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,11 +33,11 @@ if Chef::Config['solo']
     servers << cacher
   end
 else
-  servers += search(:node, 'recipes:apt\:\:cacher')
+  servers += search(:node, 'recipes:apt\:\:cacher-ng')
 end
 
 if servers.length > 0
-  Chef::Log.info("apt-cacher server found on #{servers[0]}.")
+  Chef::Log.info("apt-cacher-ng server found on #{servers[0]}.")
   proxy = "Acquire::http::Proxy \"http://#{servers[0].ipaddress}:3142\";\n"
   file "/etc/apt/apt.conf.d/01proxy" do
     owner "root"
@@ -47,7 +47,7 @@ if servers.length > 0
     action :create
   end
 else
-  Chef::Log.info("No apt-cacher server found.")
+  Chef::Log.info("No apt-cacher-ng server found.")
   file "/etc/apt/apt.conf.d/01proxy" do
     action :delete
     only_if {File.exists?("/etc/apt/apt.conf.d/01proxy")}
