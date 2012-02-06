@@ -19,7 +19,7 @@ Tested on:
 
 Required: apache2, tftp
 
-Optional (recommended): apt (for `recipe[apt::cacher]`). If you're mixing Debian and Ubuntu there will be conflicts where they have the same filenames but different MD5s (you can mix Ubuntu versions, just not Debian & Ubuntu).
+Optional (recommended): apt (for `recipe[apt::cacher-ng]`).
 
 pxe_dust Data Bag
 =================
@@ -84,7 +84,7 @@ Sets the URL to the preseed file, architecture, the domain and which interfaces 
 preseed.cfg.erb
 ---------------
 
-The preseed file is full of opinions, you will want to update this. If there is a node providing an apt-cacher proxy via `recipe[apt::cacher]`, it is provided in the preseed.cfg. The initial user and password is configured. The preseed finishes by calling the `chef-bootstrap` script.
+The preseed file is full of opinions, you will want to update this. If there is a node providing an apt-cacher-ng caching proxy via `recipe[apt::cacher-ng]`, it is provided in the preseed.cfg. The initial user and password is configured. The preseed finishes by calling the `chef-bootstrap` script.
 
 chef-bootstrap.sh.erb
 ---------------------
@@ -110,7 +110,7 @@ The recipe does the following:
 2. Untars them to the `[:tftp][:directory]` directory.
 3. Instructs the installer prompt to automatically install.
 4. Passes the URL of the preseed.cfgs to the installer.
-5. Uses the preseed.cfg template to pass in any `apt-cacher` proxies.
+5. Uses the preseed.cfg template to pass in any `apt-cacher-ng` caching proxies.
 6. Downloads the proper full stack installers for the chef-client.
 
 Usage
