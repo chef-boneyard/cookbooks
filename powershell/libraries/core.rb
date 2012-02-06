@@ -57,7 +57,10 @@ class Chef
 
         # always set the ExecutionPolicy flag
         # see http://technet.microsoft.com/en-us/library/ee176961.aspx
-        @new_resource.flags("#{@new_resource.flags} -ExecutionPolicy RemoteSigned -Command".strip)
+        # Powershell will hang if stdin is redirected
+        # http://connect.microsoft.com/PowerShell/feedback/details/572313/powershell-exe-can-hang-if-stdin-is-redirected
+        @new_resource.flags("#{@new_resource.flags} -ExecutionPolicy RemoteSigned -inputformat none -Command".strip)
+
         # cwd hax...shell_out on windows needs to support proper 'cwd'
         # follow CHEF-2357 for more
         cwd = @new_resource.cwd ? "cd #{@new_resource.cwd} & " : ""
