@@ -20,8 +20,8 @@
 include_recipe "apache2"
 include_recipe "tftp::server"
 
-#search for any apt-cacher proxies
-servers = search(:node, 'recipes:apt\:\:cacher') || []
+#search for any apt-cacher-ng caching proxies
+servers = search(:node, 'recipes:apt\:\:cacher-ng') || []
 if servers.length > 0
   proxy = "d-i mirror/http/proxy string http://#{servers[0].ipaddress}:3142"
 else
