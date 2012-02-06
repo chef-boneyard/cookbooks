@@ -98,7 +98,7 @@ end
 action :install do
   unless @aurpkg.exists
     get_pkg_version
-    execute "install AUR package #{new_resource.name}" do
+    execute "install AUR package #{new_resource.name}-#{new_resource.version}" do
       command "pacman -U --noconfirm  --noprogressbar #{new_resource.builddir}/#{new_resource.name}/#{new_resource.name}-#{new_resource.version}.pkg.tar.xz"
     end
     @updated = true
@@ -108,13 +108,21 @@ end
 def get_pkg_version
   v = ''
   r = ''
+  a = ''
   if ::File.exists?("#{new_resource.builddir}/#{new_resource.name}/PKGBUILD")
     ::File.open("#{new_resource.builddir}/#{new_resource.name}/PKGBUILD").each do |line|
       v = line.split("=")[1].chomp if line =~ /^pkgver/
       r = line.split("=")[1].chomp if line =~ /^pkgrel/
+      if line =~ /^arch/
+        if line.match 'any'
+          a = 'any'
+        else
+          a = node.kernel.machine
+        end
+      end
     end
-    Chef::Log.debug("Setting version of #{new_resource.name} to #{v}-#{r}")
-    new_resource.version("#{v}-#{r}-#{node.kernel.machine}")
+    Chef::Log.debug("Setting version of #{new_resource.name} to #{v}-#{r}-#{a}")
+    new_resource.version("#{v}-#{r}-#{a}")
   end
 end
 
