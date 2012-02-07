@@ -138,6 +138,9 @@ ErrorLog <%= node[:apache][:log_dir] %>/error.log
 #
 LogLevel warn
 
+# COOK-1021: Dummy LoadModule directive to aid module installations
+#LoadModule dummy_module modules/mod_dummy.so
+
 # Include module configuration:
 Include <%= node[:apache][:dir] %>/mods-enabled/*.load
 Include <%= node[:apache][:dir] %>/mods-enabled/*.conf
