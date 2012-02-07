@@ -28,7 +28,7 @@ when "redhat","centos","scientific","fedora","suse"
   set[:apache][:user]    = "apache"
   set[:apache][:group]   = "apache"
   set[:apache][:binary]  = "/usr/sbin/httpd"
-  set[:apache][:icondir] = "/var/www/icons/"
+  set[:apache][:icondir] = "/var/www/icons"
   set[:apache][:cache_dir] = "/var/cache/httpd"
   if node.platform_version.to_f >= 6 then
     set[:apache][:pid_file] = "/var/run/httpd/httpd.pid"
