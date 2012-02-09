@@ -87,3 +87,7 @@ attribute "nginx/server_names_hash_bucket_size",
 attribute "nginx/disable_access_log",
   :display_name => "Disable Access Log",
   :default => "false"
+
+attribute "nginx/additional_modules",
+  :display_name => "Additional Modules",
+  :default => "http_ssl_module, http_gzip_static_module"

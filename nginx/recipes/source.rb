@@ -38,10 +38,9 @@ node.set[:nginx][:src_binary]      = "#{node[:nginx][:install_path]}/sbin/nginx"
 node.set[:nginx][:daemon_disable]  = true
 node.set[:nginx][:configure_flags] = [
   "--prefix=#{node[:nginx][:install_path]}",
-  "--conf-path=#{node[:nginx][:dir]}/nginx.conf",
-  "--with-http_ssl_module",
-  "--with-http_gzip_static_module"
+  "--conf-path=#{node[:nginx][:dir]}/nginx.conf"
 ]
+node[:nginx][:additional_modules].uniq.each {|m| node[:nginx][:configure_flags] += ["--with-#{m}"]}
 
 configure_flags = node[:nginx][:configure_flags].join(" ")
 

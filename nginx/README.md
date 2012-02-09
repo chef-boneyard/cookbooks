@@ -41,6 +41,7 @@ All node attributes are set under the `nginx` namespace.
 * `worker_processes` - number of workers to spawn.
 * `worker_connections` - number of connections per worker.
 * `server_names_hash_bucket_size`
+* `additional_modules` - additional nginx modules to install (compatible with automatically-set configure_flags)
 
 The following attributes are set at the 'normal' node level via the `nginx::source` recipe.
 
