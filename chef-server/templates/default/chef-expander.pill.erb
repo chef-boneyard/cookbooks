@@ -2,7 +2,7 @@ Bluepill.application("chef-expander") do |app|
   app.process("chef-expander") do |process|
     process.pid_file           = "<%= node['chef_server']['run_path'] %>/chef-expander.pid"
     process.working_dir        = "<%= node['chef_server']['path'] %>"
-    process.start_command      = "chef-expander"
+    process.start_command      = "chef-expander -n <%= node['chef_server']['expander_nodes'] %>"
     process.daemonize          = true
     process.stdout             = process.stderr = "<%= node['chef_server']['log_dir'] %>/expander.log"
     process.start_grace_time   = 5.seconds
