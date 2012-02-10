@@ -1,0 +1,10 @@
+{
+    "id": "ubuntu-oneiric-amd64",
+    "arch": "amd64",
+    "version": "11.10",
+    "netboot_url": "http://archive.ubuntu.com/ubuntu/dists/oneiric/main/installer-amd64/current/images/netboot/netboot.tar.gz",
+    "run_list": "role[base]",
+    "addresses": {
+        "10:78:d2:c8:b4:65": "walt"
+    }
+}

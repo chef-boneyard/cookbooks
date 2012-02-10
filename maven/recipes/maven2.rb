@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: maven
-# Recipe:: default
+# Recipe:: maven2
 #
 # Copyright 2011, Bryan W. Berry (<bryan.berry@gmail.com>)
 #
@@ -18,5 +18,17 @@
 #
 
 include_recipe "java"
+maven_home = node['maven']["m2_home"]
 
-include_recipe "maven::maven2"
+java_ark "maven2" do
+  url node['maven']['2']['url']
+  checksum node['maven']['2']['checksum']
+  app_home maven_home
+  bin_cmds ["mvn"]
+  action :install
+end
+
+template "/etc/mavenrc" do
+  source "mavenrc.erb"
+  mode "0755"
+end

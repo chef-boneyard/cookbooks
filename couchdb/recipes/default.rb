@@ -19,6 +19,21 @@
 
 include_recipe "erlang"
 
+case node['platform']
+when "redhat","centos","fedora","amazon"
+  group "couchdb" do
+    system true
+  end
+
+  user "couchdb" do
+    comment "Couchdb Database Server"
+    gid "couchdb"
+    shell "/bin/bash"
+    home "/var/lib/couchdb"
+    system true
+  end
+end
+
 package "couchdb" do
   package_name value_for_platform(
     "openbsd" => { "default" => "apache-couchdb" },

@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: maven
-# Recipe:: default
+# Author:: Matt Ray <matt@opscode.com>
+# Cookbook Name:: pxe_dust
+# Attributes:: default
 #
-# Copyright 2011, Bryan W. Berry (<bryan.berry@gmail.com>)
+# Copyright 2011,2012 Opscode, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +18,4 @@
 # limitations under the License.
 #
 
-include_recipe "java"
-
-include_recipe "maven::maven2"
+default[:pxe_dust][:chefversion] = "0.10.8-2"

@@ -1,14 +1,8 @@
 . /etc/profile
 if [ ! -f /usr/bin/chef-client ]; then
-  cd /tmp
-  wget http://production.cf.rubygems.org/rubygems/rubygems-1.3.7.tgz
-  tar zxf rubygems-1.3.7.tgz
-  cd rubygems-1.3.7
-  ruby setup.rb --no-format-executable
+   wget -q -O /tmp/<%= @installer %> http://<%= node[:ipaddress] %>/opscode-full-stack/<%= @release %>/<%= @installer %>
+   dpkg -i /tmp/<%= @installer %>
 fi
-
-gem install ohai --no-rdoc --no-ri --verbose
-gem install chef --no-rdoc --no-ri --verbose <% if @bootstrap_version_string %><%= @bootstrap_version_string %><% end %>
 
 mkdir -p /etc/chef
 
@@ -32,5 +26,10 @@ cat > /etc/chef/first-boot.json <<EOF
 EOF
 
 wget -O /etc/chef/validation.pem http://<%= node[:ipaddress] %>/validation.pem
+
+#make chef-client a little more reliable on first run
+apt-get update
+#for use with ps
+mount /proc
 
 /usr/bin/chef-client -j /etc/chef/first-boot.json

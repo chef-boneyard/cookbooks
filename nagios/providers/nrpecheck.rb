@@ -32,7 +32,7 @@ action :add do
       :critical_condition => new_resource.critical_condition,
       :parameters => new_resource.parameters
     )
-    notifies :restart, "service[nagios-nrpe-server]"
+    notifies :restart, resources(:service => "nagios-nrpe-server")
   end
 end
 
