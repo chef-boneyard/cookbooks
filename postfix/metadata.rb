@@ -6,7 +6,7 @@ version           "0.8.4"
 recipe            "postfix", "Installs and configures postfix"
 recipe            "postfix::sasl_auth", "Set up postfix to auth to a server with sasl"
 
-%w{ubuntu debian}.each do |os|
+%w{ubuntu debian redhat centos}.each do |os|
   supports os
 end
 
