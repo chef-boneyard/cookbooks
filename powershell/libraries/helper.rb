@@ -26,7 +26,7 @@ module Powershell
 
     def powershell_installed?
       begin
-        cmd = shell_out("#{interpreter} -Command \"& {Get-Host}\"")
+        cmd = shell_out("#{interpreter} -inputformat none  -Command \"& {Get-Host}\"")
         cmd.stderr.empty? && (cmd.stdout =~ /Version\s*:\s*2.0/i)
       rescue Errno::ENOENT
         false
