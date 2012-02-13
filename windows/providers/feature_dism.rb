@@ -33,7 +33,7 @@ end
 def installed?
   @installed ||= begin
     cmd = shell_out("#{dism} /online /Get-Features", {:returns => [0,42,127]})
-    cmd.stderr.empty? && (cmd.stdout =~  /^Feature Name : #{@new_resource.feature_name}$\n^State : Enabled$/i)
+    cmd.stderr.empty? && (cmd.stdout =~  /^Feature Name : #{@new_resource.feature_name}.?$\n^State : Enabled.?$/i)
   end
 end
 
