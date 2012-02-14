@@ -40,8 +40,8 @@ end
 
 version = node['php']['version']
 
-remote_file "#{Chef::Config[:file_cache_path]}/php-#{version}.tar.bz2" do
-  source "#{node['php']['url']}/php-#{version}.tar.bz2"
+remote_file "#{Chef::Config[:file_cache_path]}/php-#{version}.tar.gz" do
+  source "#{node['php']['url']}/php-#{version}.tar.gz"
   checksum node['php']['checksum']
   mode "0644"
   not_if "which php"
@@ -50,7 +50,7 @@ end
 bash "build php" do
   cwd Chef::Config[:file_cache_path]
   code <<-EOF
-  tar -jxvf php-#{version}.tar.bz2
+  tar -zxvf php-#{version}.tar.gz
   (cd php-#{version} && ./configure #{configure_options})
   (cd php-#{version} && make && make install)
   EOF
