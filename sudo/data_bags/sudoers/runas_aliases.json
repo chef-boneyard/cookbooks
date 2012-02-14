@@ -1,0 +1,9 @@
+{
+  "id": "runas_aliases",
+  "data": {
+    "BAMBAM": "bambam",
+    "MRSLATE": "mrslate",
+    "WWW-DATA": "www-data",
+    "APP_USER": "app_user"
+  }
+}

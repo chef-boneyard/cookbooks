@@ -1,0 +1,22 @@
+{
+  "id": "users",
+  "data": {
+    "fred": {
+      "user_aliases": [
+        "ADMINS",
+        "CRANE_OPERATORS"
+      ]
+    },
+    "barney": {
+      "user_aliases": [
+        "ADMINS",
+        "FOREMEN"
+      ]
+    },
+    "wilma": {
+      "user_aliases": [
+        "ADMINS_NOPASSWD"
+      ]
+    }
+  }
+}

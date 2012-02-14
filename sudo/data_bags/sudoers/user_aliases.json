@@ -1,0 +1,34 @@
+{
+  "id": "user_aliases",
+  "data": {
+    "CRANE_OPERATORS": {
+      "command_aliases": [
+        "BLOW_THE_WHISTLE",
+        "SAY_YABBA_DABBA_DOO"
+      ],
+      "runas": "BAMBAM",
+      "nopasswd": true
+    },
+    "FOREMEN": {
+      "command_aliases": [
+        "CHECK_TIMECARDS"
+      ],
+      "runas": "MRSLATE",
+      "nopasswd": false
+    },
+    "ADMINS": {
+      "command_aliases": [
+        "ALL"
+      ],
+      "runas": "ALL",
+      "nopasswd": false
+    },
+    "ADMINS_NOPASSWD": {
+      "command_aliases": [
+        "ALL"
+      ],
+      "runas": "ALL",
+      "nopasswd": true
+    }
+  }
+}

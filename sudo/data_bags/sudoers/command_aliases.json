@@ -1,0 +1,15 @@
+{ 
+  "id": "command_aliases",
+  "data": {
+    "BLOW_THE_WHISTLE": [
+      "echo whoooooo > /tmp/chef-rocks",
+      "chmod 755 /tmp/chef-rocks"
+    ],
+    "SAY_YABBA_DABBA_DOO": [
+      "echo yabbadabbadoo > /tmp/chef-rocks"
+    ],
+    "CHECK_TIMECARDS": [
+      "last"
+    ]
+  }
+}
