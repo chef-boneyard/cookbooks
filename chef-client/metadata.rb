@@ -9,6 +9,6 @@ recipe            "chef-client::config", "Configures the client.rb from a templa
 recipe            "chef-client::service", "Sets up a client daemon to run periodically"
 recipe            "chef-client::delete_validation", "Deletes validation.pem after client registers"
 
-%w{ ubuntu debian redhat centos fedora freebsd openbsd mac_os_x }.each do |os|
+%w{ ubuntu debian redhat centos fedora freebsd openbsd mac_os_x mac_os_x_server }.each do |os|
   supports os
 end
