@@ -248,9 +248,13 @@ Logs will be located in the `node["chef_client"]["log_dir"]`.
 Changes/Roadmap
 ===============
 
-## Future
+## 1.1.0:
 
-* windows platform support
+* [COOK-909] - trigger upstart on correct event
+* [COOK-795] - add windows support with winsw
+* [COOK-798] - added recipe to run chef-client as a cron job
+* [COOK-986] - don't delete the validation.pem if chef-server recipe
+  is detected
 
 ## 1.0.4:
 
