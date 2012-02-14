@@ -31,6 +31,57 @@ packages.each do |devpkg|
   package devpkg
 end
 
+# Download custom nginx modules
+custom_nginx_module_sources = []
+
+node[:nginx][:additional_src_modules].each do |nginx_module_name, hash_contents|
+  local_filename = ""
+  local_filepath = ""
+  local_folder = ""
+  local_extension = ""
+  
+  # If using a local package, set our variables.
+  if hash_contents.has_key?("local")
+    local_filepath = hash_contents["local"]
+    # "/var/x.y/some-nginx-module.tar.gz".rpartition("/") => ["/var/x.y", "/", "some-nginx-module.tar.gz"]
+    local_filename = local_filepath.rpartition("/")[2]
+    # "some-nginx-module.tar.gz".partition(".") => ["some-nginx-module", ".", "tar.gz"]
+    local_folder = hash_contents.has_key?("module_folder") ? hash_contents["module_folder"] : local_filename.partition(".")[0]
+    local_extension = local_filename.partition(".")[1..2].join
+    
+  # If using HTTP, assign variables and grab the file
+  elsif hash_contents.has_key?("http")
+    # "http://google.com/a/b/c/d.tar".rpartition("/") => ["http://google.com/a/b/c", "/", "d.tar"]
+    local_filename = hash_contents.has_key?("save_as") ? hash_contents["save_as"] : hash_contents["http"].rpartition("/")[2]
+    local_filepath = "#{Chef::Config[:file_cache_path]}/#{local_filename}"
+    # "some-nginx-module.tar.gz".partition(".") => ["some-nginx-module", ".", "tar.gz"]
+    local_folder = hash_contents.has_key?("module_folder") ? hash_contents["module_folder"] : local_filename.partition(".")[0]
+    local_extension = local_filename.partition(".")[1..2].join
+    
+    remote_file local_filepath do
+      source hash_contents["http"]
+      action :create_if_missing
+    end
+  end
+  
+  # Extraction dependent on file type
+  if local_extension == ".tgz" || local_extension == ".tar.gz"
+    bash "extract_#{nginx_module_name}" do
+      cwd Chef::Config[:file_cache_path]
+      code "tar zxf #{local_filepath}"
+    end
+  elsif local_extension == ".tar"
+    bash "extract_#{nginx_module_name}" do
+      cwd Chef::Config[:file_cache_path]
+      code "tar xf #{local_filepath}"
+    end
+  else
+    raise "Extension: #{local_extension} not supported for custom-sourced nginx modules."
+  end
+  
+  custom_nginx_module_sources << "#{Chef::Config[:file_cache_path]}/#{local_folder}"
+end
+
 nginx_version = node[:nginx][:version]
 
 node.set[:nginx][:install_path]    = "/opt/nginx-#{nginx_version}"
@@ -41,6 +92,7 @@ node.set[:nginx][:configure_flags] = [
   "--conf-path=#{node[:nginx][:dir]}/nginx.conf"
 ]
 node[:nginx][:additional_modules].uniq.each {|m| node[:nginx][:configure_flags] += ["--with-#{m}"]}
+custom_nginx_module_sources.each {|s| node[:nginx][:configure_flags] += ["--add-module=#{s}"]}
 
 configure_flags = node[:nginx][:configure_flags].join(" ")
 

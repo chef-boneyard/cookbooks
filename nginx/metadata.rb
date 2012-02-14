@@ -91,3 +91,7 @@ attribute "nginx/disable_access_log",
 attribute "nginx/additional_modules",
   :display_name => "Additional Modules",
   :default => "http_ssl_module, http_gzip_static_module"
+
+attribute "nginx/additional_src_modules",
+  :display_name => "Additional Source Modules",
+  :default => "{}"

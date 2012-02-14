@@ -62,3 +62,4 @@ default[:nginx][:server_names_hash_bucket_size] = 64
 default[:nginx][:disable_access_log] = false
 
 default[:nginx][:additional_modules] = ["http_ssl_module", "http_gzip_static_module"]
+default[:nginx][:additional_src_modules] = {}
