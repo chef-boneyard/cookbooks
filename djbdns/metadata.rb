@@ -2,7 +2,7 @@ maintainer        "Opscode, Inc."
 maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs djbdns and configures DNS services"
-version           "0.99.1"
+version           "0.99.2"
 recipe            "djbdns", "Installs djbdns from package or source and creates users"
 recipe            "djbdns::axfr", "Sets up djbdns AXFR service"
 recipe            "djbdns::cache", "Sets up public dnscache service"
@@ -52,4 +52,3 @@ attribute "djbdns/bin_dir",
   :display_name => "DJB DNS Binaries Directory",
   :description => "Location of the djbdns binaries",
   :default => "/usr/local/bin"
-
