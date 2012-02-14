@@ -21,6 +21,7 @@ The following platforms are supported by this cookbook, meaning that the recipes
 * ArchLinux
 * FreeBSD
 * Mac OS X
+* Mac OS X Server
 
 Opscode Cookbooks
 -----------------
@@ -82,8 +83,8 @@ default
 
 Includes the `chef-client::service` recipe by default.
 
-`delete_validation`
--------------------
+delete_validation
+-----------------
 
 Use this recipe to delete the validation certificate (default `/etc/chef/validation.pem`) when using a `chef-client` after the client has been validated and authorized to connect to the server.
 
