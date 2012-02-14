@@ -3,18 +3,6 @@ Description
 
 Installs and configures ntp, optionally set up a local NTP server.
 
-Changes
-=======
-
-## v1.1.0:
-
-* Fixes COOK-376 (use LAN peers, iburst option, LAN restriction attribute)
-
-## v1.0.1:
-
-* Support scientific linux
-* Use service name attribute in resource (fixes EL derivatives)
-
 Requirements
 ============
 
@@ -70,6 +58,23 @@ Then in an ntpserver.rb role that is applied to NTP servers (e.g., time.int.exam
     )
 
 The timeX.int.example.org used in these roles should be the names or IP addresses of internal NTP servers.
+
+Changes
+=======
+
+## v1.1.2:
+
+* [COOK-952] - freebsd support
+* [COOK-949] - check for any virtual system not just vmware
+
+## v1.1.0:
+
+* Fixes COOK-376 (use LAN peers, iburst option, LAN restriction attribute)
+
+## v1.0.1:
+
+* Support scientific linux
+* Use service name attribute in resource (fixes EL derivatives)
 
 LICENSE AND AUTHOR
 ==================
