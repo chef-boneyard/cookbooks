@@ -135,6 +135,7 @@ CHANGES
 
 ## v0.99.2:
 
+* [COOK-1042] - Corrected a syntax error in axfr.
 * [COOK-740] - use correct directory for tinydns root data
 
 ## Previous versions:
