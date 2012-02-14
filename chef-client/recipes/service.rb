@@ -20,7 +20,7 @@
 #
 
 root_group = value_for_platform(
-  ["openbsd", "freebsd", "mac_os_x"] => { "default" => "wheel" },
+  ["openbsd", "freebsd", "mac_os_x", "mac_os_x_server"] => { "default" => "wheel" },
   "default" => "root"
 )
 

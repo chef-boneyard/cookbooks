@@ -10,6 +10,6 @@ recipe            "chef-client::service", "Sets up a client daemon to run period
 recipe            "chef-client::delete_validation", "Deletes validation.pem after client registers"
 recipe            "chef-client::cron", "Runs chef-client as a cron job rather than as a service"
 
-%w{ ubuntu debian redhat centos fedora freebsd openbsd mac_os_x windows }.each do |os|
+%w{ ubuntu debian redhat centos fedora freebsd openbsd mac_os_x mac_os_x_server windows }.each do |os|
   supports os
 end
