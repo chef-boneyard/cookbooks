@@ -124,6 +124,10 @@ On the following versions of Windows, PowerShell 2.0 is present and must just be
 Changes
 =======
 
+## v1.0.4:
+
+* [COOK-988] - Powershell never exists on the powershell resource
+
 ## v1.0.2:
 
 * always reference powershell.exe in a fully qualified way in case PATH
