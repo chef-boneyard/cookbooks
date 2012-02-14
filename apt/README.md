@@ -3,23 +3,6 @@ Description
 
 This cookbook includes recipes to execute apt-get update to ensure the local APT package cache is up to date. There are recipes for managing the apt-cacher-ng caching proxy and proxy clients. It also includes a LWRP for managing APT repositories in /etc/apt/sources.list.d.
 
-Changes
-=======
-
-## v1.3.0:
-
-* COOK-593: switched from apt-cacher to apt-cacher-ng to better support multiple distributions.
-
-## v1.2.2:
-
-* COOK-804: apt-get update resource in apt cookbook changed names
-
-## v1.2.0:
-
-* COOK-136: Limit apt-get update to one run per day unless notified.
-* COOK-471: ignore failure on apt-get update
-* COOK-533: add support for deb and `deb_src` repos with `apt_repository`
-
 Recipes
 =======
 
@@ -103,6 +86,31 @@ Put `recipe[apt]` first in the run list. If you have other recipes that you want
 The above will run during execution phase since it is a normal template resource, and should appear before other package resources that need the sources in the template.
 
 Put `recipe[apt::cacher-ng]` in the run_list for a server to provide APT caching and add `recipe[apt::cacher-client]` on the rest of the Debian-based nodes to take advantage of the caching server.
+
+Changes
+=======
+
+## v1.3.2:
+
+* [COOK-1040] - actually run apt-get update w/ not_if
+
+## v1.3.0:
+
+* [COOK-533] - add support for deb and deb_src repos with apt_repository provider
+* [COOK-593] - switched from apt-cacher to apt-cacher-ng to better support multiple distributions.
+* [COOK-890] - Fix distribution for zenoss repo in apt README
+* [COOK-891] -  Make add the default action for `apt_repository`
+* [COOK-947] - Add chef-solo support for recipe[apt::cacher-client].
+
+## v1.2.2:
+
+* [COOK-804] - apt-get update resource in apt cookbook changed names
+
+## v1.2.0:
+
+* [COOK-136] - Limit apt-get update to one run per day unless notified.
+* [COOK-471] - ignore failure on apt-get update
+* [COOK-533] - add support for deb and `deb_src` repos with `apt_repository`
 
 License and Author
 ==================
