@@ -124,14 +124,14 @@ By default, the extracted directory is extracted to app_root/extracted_dir_name 
         bin_cmds ["mvn"]
         action :install
     end
-    
-    
+
+
 
 ---
 Usage
 =====
 
-Simply include the `java` recipe where ever you would like Java installed.  
+Simply include the `java` recipe where ever you would like Java installed.
 
 To install Oracle flavored Java on Debian or Ubuntu override the `node['java']['install_flavor']` attribute with in role:
 
