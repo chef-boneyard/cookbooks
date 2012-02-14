@@ -97,7 +97,7 @@ def load_current_resource
   cmd = shell_out("#{appcmd} list apppool")
   # APPPOOL "DefaultAppPool" (MgdVersion:v2.0,MgdMode:Integrated,state:Started)
   Chef::Log.debug("#{@new_resource} list apppool command output: #{cmd.stdout}")
-  result = cmd.stdout.match(/^APPPOOL\s\"(#{@new_resource.pool_name})\"\s\(MgdVersion:(.*),MgdMode(.*),state:(.*)\)$/) if cmd.stderr.empty?
+  result = cmd.stdout.match(/^APPPOOL\s\"#{@new_resource.pool_name}.*/) if cmd.stderr.empty?
   Chef::Log.debug("#{@new_resource} current_resource match output: #{result}")
   if result    
     @current_resource.exists = true    
@@ -116,5 +116,5 @@ def appcmd
 end
 
 def site_identifier
-  @new_resource.host_header || @new_resource.pool_name 
+  @new_resource.pool_name 
 end

@@ -86,6 +86,33 @@ Allows easy management of IIS virtual sites (ie vhosts).
       action [:add,:start]
     end
 
+`iis_pool`
+
+Creates an application pool in IIS.
+
+###Actions
+
+- :add: - add a new application pool
+- :delete: - delete an existing application pool
+- :start: - start a application pool
+- :stop: - stop a application pool
+- :restart: - restart a application pool
+
+###Attribute Parameters
+
+- pool_name: name attribute. Specifies the name of the pool to create.
+- runtime_version: specifies what .NET version of the runtime to use.
+- pipeline_mode: specifies what pipeline mode to create the pool with
+
+###Example
+
+#creates a new app pool
+iis_pool 'myAppPool_v1_1' do
+    runtime_version "2.0"   
+    pipeline_mode "Classic"
+    action :add
+end
+
 Usage
 =====
 
