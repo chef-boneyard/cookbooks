@@ -1,7 +1,8 @@
+
 # Server Proxy for API
-<VirtualHost *:<%= @params[:api_port] %>>
-  ServerName <%= @params[:api_server_name] %>
-  ServerAlias <% @params[:api_server_aliases].each do |a| %><%= "#{a}" %> <% end %>
+<VirtualHost *:443>
+  ServerName <%= @params[:server_name] %>
+  ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
 
   DocumentRoot <%= node['chef_server']['doc_root'] %>
 
@@ -33,11 +34,29 @@
   RewriteRule ^/(.*)$ balancer://chef_server%{REQUEST_URI} [P,QSA,L]
 </VirtualHost>
 
+
+<% if node['chef_server']['webui_redirect_enabled'] -%>
+
+# Redirect from port 80 to Server Proxy for WebUI
+<VirtualHost *:80>
+    ServerName <%= @params[:server_name] %>
+    <% @params[:server_aliases].each do |a| %>      
+       ServerAlias <%= "#{a}" %> 
+       Redirect permanent / https://<%=@params[:server_name]%>:444/
+    <% end %>
+    ErrorLog <%= @params[:log_dir] %>/<%= @params[:name] %>-error.log
+    CustomLog <%= @params[:log_dir] %>/<%= @params[:name] %>-access.log combined
+</VirtualHost>
+
+<% end -%>
+
+
 <% if node['chef_server']['webui_enabled'] -%>
+
 # Server Proxy for WebUI
-<VirtualHost *:<%= @params[:webui_port] %>>
-  ServerName <%= @params[:webui_server_name] %>
-  ServerAlias <% @params[:webui_server_aliases].each do |a| %><%= "#{a}" %> <% end %>
+<VirtualHost *:444>
+  ServerName <%= @params[:server_name] %>
+  ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
 
   DocumentRoot <%= node['chef_server']['doc_root'] %>
 

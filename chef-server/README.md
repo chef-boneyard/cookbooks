@@ -227,6 +227,19 @@ This recipe sets up an Apache2 VirtualHost to proxy HTTPS for the Chef Server AP
 
 The API will be proxied on port 443. If the WebUI is enabled, it will be proxied on port 444. The recipe dynamically creates the OpenSSL certificate based on the `node['chef_server']['ssl_req']` attribute. It uses additional configuration for Apache to improve performance of the webui. The virtual host template is `chef_server.conf.erb`. The DocumentRoot setting is used for the WebUI, but not the API, and is set with the attribute `node['chef_server']['doc_root']`.
 
+You can set the server_name and server aliases for the WebUI with the
+following attributes. 
+   * node['chef_server']['proxy']['server_name']
+   * node['chef_server']['proxy']['aliases']
+
+If you enable the attribute
+`node['chef_server']['webui_redirect_enabled']`,
+http://<node['chef_server']['proxy']['server_name']>/ will be
+redirected to
+https://<node['chef_server']['proxy']['server_name']>:444
+
+WARNING: Doing this will disable the default site at site-enabled/000-default
+
 rubygems-install
 ----------------
 
