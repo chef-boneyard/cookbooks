@@ -38,3 +38,22 @@ bash "build gecode from source" do
   EOH
   not_if { ::File.exists?("/usr/local/lib/#{lib_name}") }
 end
+
+# configure the dynamic linker, redhat only
+case node['platform']
+when 'centos', 'redhat', 'fedora'
+  directory "/etc/ld.so.conf.d/" do
+    owner "root"
+    group "root"
+    mode 0755
+  end
+  execute "ldconfig" do
+    command "ldconfig"
+    action :nothing
+  end
+
+  file "/etc/ld.so.conf.d/gecode.conf" do
+    content "/usr/local/lib "
+    notifies :run, "execute[ldconfig]"
+  end
+end
