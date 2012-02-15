@@ -55,13 +55,18 @@ bash "Create SSL Certificates" do
   not_if { ::File.exists?("/etc/chef/certificates/chef-server-proxy.pem") }
 end
 
+# Disable the default site if u want http://localhost:80 redirected to
+# the chef-server-webui
+if node['chef_server']['webui_redirect_enabled']
+  Chef::Log.debug("webui_redirect_enabled, disabling default site")
+  apache_site "default" do
+    enable false
+  end
+end
+
 web_app "chef-server-proxy" do
   template "chef_server.conf.erb"
-  api_server_name node['chef_server']['proxy']['api_server_name']
-  api_aliases node['chef_server']['proxy']['api_aliases']
-  api_port node['chef_server']['proxy']['api_port']
-  webui_server_name node['chef_server']['proxy']['webui_server_name']
-  webui_aliases node['chef_server']['proxy']['webui_aliases']
-  webui_port node['chef_server']['proxy']['webui_port']
+  server_name node['chef_server']['proxy']['server_name']
+  server_aliases node['chef_server']['proxy']['aliases']
   log_dir node['apache']['log_dir']
 end
