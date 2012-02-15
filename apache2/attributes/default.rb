@@ -131,4 +131,4 @@ default['apache']['default_modules'] = %w{
   dir env mime negotiation setenvif
 }
 
-default['apache']['default_modules'] << "log_config" if node.platform?("redhat", "centos", "scientific", "fedora", "suse", "arch", "freebsd")
+default['apache']['default_modules'] << "log_config" if ["redhat", "centos", "scientific", "fedora", "suse", "arch", "freebsd"].include?(node.platform)
