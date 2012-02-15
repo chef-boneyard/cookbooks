@@ -42,7 +42,7 @@ when 'ubuntu','debian'
   end
 
   apt_package 'libgecode-dev' do
-    action :install
+    action :upgrade
   end
 
 else
