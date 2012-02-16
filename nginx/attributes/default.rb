@@ -50,7 +50,8 @@ default[:nginx][:gzip_types] = [
   "application/xml",
   "application/xml+rss",
   "text/javascript",
-  "application/javascript"
+  "application/javascript",
+  "application/json"
 ]
 
 default[:nginx][:keepalive]          = "on"
