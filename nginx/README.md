@@ -3,14 +3,6 @@ Description
 
 Installs nginx from package OR source code and sets up configuration handling similar to Debian's Apache2 scripts.
 
-Changes
-=======
-
-## v0.99.2:
-
-* [COOK-809] - attribute to disable access logging
-* [COOK-772] - update nginx download source location
-
 Requirements
 ============
 
@@ -61,6 +53,21 @@ Both recipes implement configuration handling similar to the Debian Apache2 site
 There's some redundancy in that the config handling hasn't been separated from the installation method (yet), so use only one of the recipes.
 
 Some of the attributes mentioned above are only set in the `nginx::source` recipe. They can be overridden by setting them via a role in `override_attributes`.
+
+Changes
+=======
+
+## v0.100.0:
+
+* [COOK-818] - add "application/json" per RFC.
+* [COOK-870] - bluepill init style support
+* [COOK-957] - Compress application/javascript.
+* [COOK-981] - Add reload support to NGINX service
+
+## v0.99.2:
+
+* [COOK-809] - attribute to disable access logging
+* [COOK-772] - update nginx download source location
 
 License and Author
 ==================
