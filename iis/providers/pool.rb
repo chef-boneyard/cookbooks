@@ -41,7 +41,7 @@ action :config do
 	cmd = "#{appcmd} set config /section:applicationPools "
 	cmd << "/[name='#{@new_resource.pool_name}'].recycling.logEventOnRecycle:PrivateMemory,Memory,Schedule,Requests,Time,ConfigChange,OnDemand,IsapiUnhealthy"
 	Chef::Log.debug(cmd)
-	shell_out!(cmd)	
+	shell_out!(cmd)
 	cmd = "#{appcmd} set config /section:applicationPools /[name='#{@new_resource.pool_name}'].recycling.periodicRestart.privateMemory:#{@new_resource.private_mem}"
 	Chef::Log.debug(cmd)
 	shell_out!(cmd)
@@ -97,10 +97,10 @@ def load_current_resource
   cmd = shell_out("#{appcmd} list apppool")
   # APPPOOL "DefaultAppPool" (MgdVersion:v2.0,MgdMode:Integrated,state:Started)
   Chef::Log.debug("#{@new_resource} list apppool command output: #{cmd.stdout}")
-  result = cmd.stdout.match(/^APPPOOL\s\"(#{@new_resource.pool_name})\"\s\(MgdVersion:(.*),MgdMode(.*),state:(.*)\)$/) if cmd.stderr.empty?
+  result = cmd.stdout.match(/^APPPOOL\s\"#{@new_resource.pool_name}.*/) if cmd.stderr.empty?
   Chef::Log.debug("#{@new_resource} current_resource match output: #{result}")
-  if result    
-    @current_resource.exists = true    
+  if result
+    @current_resource.exists = true
     @current_resource.running = (result[4] =~ /Started/) ? true : false
   else
     @current_resource.exists = false
@@ -116,5 +116,5 @@ def appcmd
 end
 
 def site_identifier
-  @new_resource.host_header || @new_resource.pool_name 
+  @new_resource.pool_name
 end
