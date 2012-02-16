@@ -118,14 +118,25 @@ def current_installed_version
   @current_installed_version ||= begin
     delimeter = /==/
     
-    version_check_cmd = "pip freeze#{expand_virtualenv(can_haz_virtualenv(@new_resource))} | grep -i #{@new_resource.package_name}=="
+    version_check_cmd = "pip freeze#{expand_virtualenv(can_haz_virtualenv(@new_resource))}"
     # incase you upgrade pip with pip!
     if @new_resource.package_name.eql?('pip')
       delimeter = /\s/
       version_check_cmd = "pip --version"
     end
-    p = shell_out!(version_check_cmd)
-    p.stdout.split(delimeter)[1].strip
+    # This will return a bunch of k/v pairs (hopefully) separated by our delimeter.
+    # e.g: taco==1.0
+    p_out = shell_out!(version_check_cmd)
+    # http://tickets.opscode.com/browse/COOK-671
+    pkg_match = p_out.stdout.split(/\n/).select do |f|
+      # {"grep -i".casecmp(str.casecmp) == 0}  :)
+      f.split(delimeter)[0].casecmp(@new_resource.package_name) == 0
+    end
+    if pkg_match.empty?
+      ''
+    else
+      pkg_match[0].split(delimeter)[1].strip
+    end
   rescue Chef::Exceptions::ShellCommandFailed
   end
 end
