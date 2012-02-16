@@ -5,7 +5,7 @@ daemon off;
 <% end -%>
 
 error_log  <%= node[:nginx][:log_dir] %>/error.log;
-pid        /var/run/nginx.pid;
+pid        <%= node[:nginx][:pid] %>;
 
 events {
   worker_connections  <%= node[:nginx][:worker_connections] %>;

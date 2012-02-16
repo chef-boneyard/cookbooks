@@ -37,6 +37,8 @@ else
   default[:nginx][:init_style] = "init"
 end
 
+default[:nginx][:pid] = "/var/run/nginx.pid"
+
 default[:nginx][:gzip] = "on"
 default[:nginx][:gzip_http_version] = "1.0"
 default[:nginx][:gzip_comp_level] = "2"

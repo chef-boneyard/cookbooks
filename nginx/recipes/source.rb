@@ -58,6 +58,7 @@ bash "compile_nginx_source" do
     make && make install
   EOH
   creates node[:nginx][:src_binary]
+  notifies :restart, "service[nginx]"
 end
 
 user node[:nginx][:user] do
@@ -78,7 +79,6 @@ directory node[:nginx][:dir] do
   mode "0755"
 end
 
-
 case node[:nginx][:init_style]
 when "runit"
   include_recipe "runit"
@@ -86,11 +86,10 @@ when "runit"
   runit_service "nginx"
 
   service "nginx" do
-    subscribes :restart, resources(:bash => "compile_nginx_source")
+    supports :status => true, :restart => true, :reload => true
+    reload_command "[[ -f #{node[:nginx][:pid]} ]] && kill -HUP `cat #{node[:nginx][:pid]}` || true"
   end
 when "bluepill"
-  node.set[:nginx][:daemon_disable] = false
-
   include_recipe "bluepill"
 
   template "#{node['bluepill']['conf_dir']}/nginx.pill" do
@@ -100,16 +99,18 @@ when "bluepill"
       :working_dir => node[:nginx][:install_path],
       :src_binary => node[:nginx][:src_binary],
       :nginx_dir => node[:nginx][:dir],
-      :log_dir => node[:nginx][:log_dir]
+      :log_dir => node[:nginx][:log_dir],
+      :pid => node[:nginx][:pid]
     )
   end
 
   bluepill_service "nginx" do
-    action [ :enable, :load, :start ]
-    subscribes :restart, resources(:bash => "compile_nginx_source")
+    action [ :enable, :load ]
   end
 
   service "nginx" do
+    supports :status => true, :restart => true, :reload => true
+    reload_command "[[ -f #{node[:nginx][:pid]} ]] && kill -HUP `cat #{node[:nginx][:pid]}` || true"
     action :nothing
   end
 else
@@ -133,7 +134,6 @@ else
   service "nginx" do
     supports :status => true, :restart => true, :reload => true
     action :enable
-    subscribes :restart, resources(:bash => "compile_nginx_source")
   end
 end
 
@@ -160,7 +160,7 @@ template "nginx.conf" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :restart, resources(:service => "nginx"), :immediately
+  notifies :reload, resources(:service => "nginx"), :immediately
 end
 
 cookbook_file "#{node[:nginx][:dir]}/mime.types" do
@@ -168,5 +168,5 @@ cookbook_file "#{node[:nginx][:dir]}/mime.types" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :restart, resources(:service => "nginx"), :immediately
+  notifies :reload, resources(:service => "nginx"), :immediately
 end
