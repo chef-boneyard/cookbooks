@@ -25,7 +25,8 @@ include Chef::Mixin::ShellOut
 action :create do
   unless exists?
     Chef::Log.info("Creating virtualenv #{@new_resource} at #{@new_resource.path}")
-    execute "virtualenv --python=#{@new_resource.interpreter} #{@new_resource.path}" do
+    system_site_packages = new_resource.system_site_packages ? '--system-site-packages' : ''
+    execute "virtualenv --python=#{@new_resource.interpreter} #{system_site_packages} #{@new_resource.path}" do
       user new_resource.owner if new_resource.owner
       group new_resource.group if new_resource.group
     end
