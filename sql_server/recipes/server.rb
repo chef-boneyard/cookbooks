@@ -41,26 +41,7 @@ windows_package node['sql_server']['server']['package_name'] do
   action :install
 end
 
-# Workaround for CHEF-2541
-# The restart action for the Windows
-# service provider doesn't like long stops
-# Quick fix is to create a restart bat file
-# and manually set the restart_command on the 
-# service resource
-gem_package "win32-service" do
-  options '--platform=mswin32'
-  action :install
-end
-
-restart_path = File.join(node['sql_server']['install_dir'], 'restart.rb')
-
-template restart_path do
-  source "restart.rb.erb"
-  variables :service_name => service_name
-end
-
 service service_name do
-  restart_command "ruby '#{restart_path}'"
   action :nothing
 end
 
