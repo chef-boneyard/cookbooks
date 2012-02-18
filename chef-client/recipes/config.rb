@@ -21,11 +21,29 @@
 # limitations under the License.
 
 root_group = value_for_platform(
-  ["openbsd", "freebsd", "mac_os_x", "mac_os_x_server"] => { "default" => "wheel" },
+  ["openbsd", "freebsd", "mac_os_x"] => { "default" => "wheel" },
   "default" => "root"
 )
 
 chef_node_name = Chef::Config[:node_name] == node["fqdn"] ? false : Chef::Config[:node_name]
+
+
+case node["chef_client"]["log_location"]
+when "STDOUT"
+when "syslog"
+  gem_package "syslog-logger" do
+    action :install
+  end
+else
+  directory File.dirname(node["chef_client"]["log_location"]) do
+    recursive true
+    unless node["platform"] == "windows"
+      owner "root"
+      group root_group
+    end
+    mode 0755
+  end
+end
 
 %w{run_path cache_path backup_path log_dir}.each do |key|
   directory node['chef_client'][key] do
