@@ -129,6 +129,10 @@ Changes/Roadmap
 * multi instance support (via an LWRP)
 * clustering support
 
+## 1.1.0:
+
+* [COOK-1049] - remove unneeded external restart script from sql_server::server recipe
+
 ## 1.0.4:
 
 * bump windows cookbook dependency version to pick up Ruby 1.9 compat fixes
