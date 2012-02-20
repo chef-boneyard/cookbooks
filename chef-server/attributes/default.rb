@@ -50,6 +50,7 @@ default['chef_server']['log_dir']         = "/var/log/chef"
 default['chef_server']['api_port']        = "4000"
 default['chef_server']['webui_port']      = "4040"
 default['chef_server']['webui_enabled']   = false
+default['chef_server']['webui_redirect_enabled'] = false
 default['chef_server']['solr_heap_size']  = "256M"
 default['chef_server']['validation_client_name'] = "chef-validator"
 default['chef_server']['expander_nodes'] = 1

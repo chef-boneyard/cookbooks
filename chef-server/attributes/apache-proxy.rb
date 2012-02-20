@@ -24,11 +24,3 @@ default['chef_server']['doc_root'] = "#{node['languages']['ruby']['gems_dir']}/g
 default['chef_server']['ssl_req']  = "/C=US/ST=Several/L=Locality/O=Example/OU=Operations/CN=chef-server-proxy/emailAddress=root@localhost"
 default['chef_server']['proxy']['css_expire_hours'] = "120"
 default['chef_server']['proxy']['js_expire_hours']  = "24"
-
-default['chef_server']['proxy']['server_name'] = "localhost"
-default['chef_server']['proxy']['aliases'] = [
-                                               node['hostname'],
-                                               node['fqdn'],
-                                              'chef-server-proxy',
-                                              "chef.#{node['domain']}"
-                                              ]
