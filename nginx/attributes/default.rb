@@ -20,7 +20,7 @@
 # limitations under the License.
 #
 
-default[:nginx][:version]      = "0.8.54"
+default[:nginx][:version]      = "1.0.12"
 
 case platform
 when "debian","ubuntu"
@@ -63,3 +63,19 @@ default[:nginx][:worker_connections] = 2048
 default[:nginx][:server_names_hash_bucket_size] = 64
 
 default[:nginx][:disable_access_log] = false
+
+# List of modules used to build nginx
+# FIXME: The module may requires some extra packages on the system.
+# FIXME: We have no way to check these packages?
+# Example
+# default[:nginx][:modules] = {
+#  "native" => %w{http_stub_status http_ssl http_gzip_static http_realip http_sub},
+#  "git"    => {"headers-more" => "git://github.com/agentzh/headers-more-nginx-module.git"},
+#  "svn"    => {"substitutions4nginx" => "http://substitutions4nginx.googlecode.com/svn/trunk/"}
+#}
+
+default[:nginx][:modules] = {
+  "native" => %w{http_stub_status http_ssl http_gzip_static http_realip http_sub},
+  "git"    => {},
+  "svn"    => {}
+}
