@@ -57,7 +57,7 @@ node.set[:nginx][:configure_flags] = [
 ]
 
 configure_flags = node[:nginx][:configure_flags].join(" ")
-configure_flags << node[:nginx][:modules]["native"].map {|mod| "--with-#{mod}_module"}.join(" ")
+configure_flags << " " << node[:nginx][:modules]["native"].map {|mod| "--with-#{mod}_module"}.join(" ")
 
 remote_file "#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version}.tar.gz" do
   source "http://nginx.org/download/nginx-#{nginx_version}.tar.gz"
