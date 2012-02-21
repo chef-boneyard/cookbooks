@@ -1,8 +1,7 @@
-./attributes/default.rb:68:# FIXME: The module may requires some extra packages on the system.
-./attributes/default.rb:69:# FIXME: We have no way to check these packages?
-
-./recipes/source.rb:71:  # FIXME: After a new verion nginx is installed, we can't stop the old/
-./recipes/source.rb:72:  # FIXME: current running nginx process. The problem happens on Debian
-./recipes/source.rb:73:  # FIXME: system with init style (not sure if it happends on other system.)
-./recipes/source.rb:74:  # FIXME: This means that we need to stop the running nginx before
-./recipes/source.rb:75:  # FIXME: invoking "make install" to install nginx!
+recipes/source.rb:37:# FIXME: The module may requires some extra packages on the system.
+recipes/source.rb:38:# FIXME: We have no way to check these packages?
+recipes/source.rb:86:  # FIXME: After a new verion nginx is installed, we can't stop the old/
+recipes/source.rb:87:  # FIXME: current running nginx process. The problem happens on Debian
+recipes/source.rb:88:  # FIXME: system with init style (not sure if it happends on other system.)
+recipes/source.rb:89:  # FIXME: This means that we need to stop the running nginx before
+recipes/source.rb:90:  # FIXME: invoking "make install" to install nginx!

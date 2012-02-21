@@ -33,16 +33,31 @@ end
 
 nginx_version = node[:nginx][:version]
 
+# List of modules used to build nginx
+# FIXME: The module may requires some extra packages on the system.
+# FIXME: We have no way to check these packages?
+# Example
+# node.set[:nginx][:modules] = {
+#  "native" => %w{http_stub_status http_ssl http_gzip_static http_realip http_sub},
+#  "git"    => {"headers-more" => "git://github.com/agentzh/headers-more-nginx-module.git"},
+#  "svn"    => {"substitutions4nginx" => "http://substitutions4nginx.googlecode.com/svn/trunk/"}
+#}
+node.set[:nginx][:modules] = {
+  "native" => %w{http_stub_status http_ssl http_gzip_static http_realip http_sub},
+  "git"    => {},
+  "svn"    => {}
+}
+
 node.set[:nginx][:install_path]    = "/opt/nginx-#{nginx_version}"
 node.set[:nginx][:src_binary]      = "#{node[:nginx][:install_path]}/sbin/nginx"
 node.set[:nginx][:daemon_disable]  = true
 node.set[:nginx][:configure_flags] = [
   "--prefix=#{node[:nginx][:install_path]}",
   "--conf-path=#{node[:nginx][:dir]}/nginx.conf"
-] \
-  + node[:nginx][:modules]["native"].map {|mod| "--with-#{mod}_module"}
+]
 
 configure_flags = node[:nginx][:configure_flags].join(" ")
+configure_flags << node[:nginx][:modules]["native"].map {|mod| "--with-#{mod}_module"}.join(" ")
 
 remote_file "#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version}.tar.gz" do
   source "http://nginx.org/download/nginx-#{nginx_version}.tar.gz"
