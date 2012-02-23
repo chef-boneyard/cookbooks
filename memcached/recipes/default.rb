@@ -22,6 +22,12 @@ package "memcached" do
 end
 
 package "libmemcache-dev" do
+  case node[:platform]
+  when "redhat","centos","fedora"
+    package_name "libmemcache-devel"
+  else
+    package_name "libmemcache-dev"
+  end
   action :upgrade
 end
 

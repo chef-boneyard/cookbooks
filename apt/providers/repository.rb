@@ -32,7 +32,7 @@ action :add do
         source new_resource.key
         mode "0644"
         action :nothing
-      end.run_action(:create_if_missing)
+      end.run_action(:create)
       execute "install-key #{key_name}" do
         command "apt-key add #{Chef::Config[:file_cache_path]}/#{key_name}"
         action :nothing

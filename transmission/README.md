@@ -76,7 +76,7 @@ Download a file via the [BitTorrent protocol](http://en.wikipedia.org/wiki/BitTo
       rpc_password node['transmission']['rpc_password']
       action :create
     end
-    
+
     # do the same thing but continue seeding after download
     transmission_torrent_file "/home/ubuntu/ubuntu.iso"  do
       torrent "http://releases.ubuntu.com/lucid/ubuntu-10.04.1-server-i386.iso.torrent"
@@ -105,6 +105,16 @@ source
 ------
 
 Installs Transmission from source.  This should only be loaded by the default recipe.
+
+Changes
+=======
+
+## v1.0.2:
+
+* [COOK-729] - `transmission_torrent_file` doesn't work for more than
+  a single torrent
+* [COOK-732] - link to file in swarm not created if torrent already
+  completely downloaded
 
 License and Author
 ==================

@@ -3,13 +3,6 @@ DESCRIPTION
 
 Installs and configures Dan Bernstein's DNS tinydns, aka djbdns. Services are configured to start up under runit, daemontools or bluepill.
 
-CHANGES
-=======
-
-The various recipes now support multiple service types. This is controlled with the `node[:djbdns][:service_type]` attribute, which is set by platform in the default recipe.
-
-ArchLinux support has been added, as well as naively attempting other platforms by source-compiled installation with bluepill for service management.
-
 REQUIREMENTS
 ============
 
@@ -136,6 +129,20 @@ server
 ------
 
 Sets up a server to be a public nameserver. To modify resource records in the environment, modify the tinydns-data.erb template. The recipe does not yet use the data bag per `internal_server` above, but will in a future release.
+
+CHANGES
+=======
+
+## v0.99.2:
+
+* [COOK-1042] - Corrected a syntax error in axfr.
+* [COOK-740] - use correct directory for tinydns root data
+
+## Previous versions:
+
+The various recipes now support multiple service types. This is controlled with the `node[:djbdns][:service_type]` attribute, which is set by platform in the default recipe.
+
+ArchLinux support has been added, as well as naively attempting other platforms by source-compiled installation with bluepill for service management.
 
 LICENSE AND AUTHOR
 ==================

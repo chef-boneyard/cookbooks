@@ -63,7 +63,7 @@ On client nodes,
 
 This will install the MySQL client libraries and development headers on the system. It will also install the Ruby Gem `mysql`, so that the cookbook's LWRP (above) can be used. This is done during the compile-phase of the Chef run. On platforms that are known to have a native package (currently Debian, Ubuntu, Red hat, Centos, Fedora and SUSE), the package will be installed. Other platforms will use the RubyGem.
 
-This creates a resource object for the package and does the installation before other recipes are parsed. You'll need to have the C compiler and such (ie, build-essential on Ubuntu) before running the recipes, but we already do that when installing Chef :-). 
+This creates a resource object for the package and does the installation before other recipes are parsed. You'll need to have the C compiler and such (ie, build-essential on Ubuntu) before running the recipes, but we already do that when installing Chef :-).
 
 On server nodes,
 
@@ -85,6 +85,12 @@ For more infromation on the compile vs execution phase of a Chef run:
 
 Changes/Roadmap
 ===============
+
+### v1.2.4
+
+* [COOK-992] - fix FATAL nameerror
+* [COOK-827] - `mysql:server_ec2` recipe can't mount `data_dir`
+* [COOK-945] - FreeBSD support
 
 ### v1.2.2
 

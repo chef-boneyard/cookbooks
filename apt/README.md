@@ -1,20 +1,7 @@
 Description
 ===========
 
-This cookbook includes recipes to execute apt-get update to ensure the local APT package cache is up to date or manage apt-cacher and cacher clients. It also includes a LWRP for managing APT repositories in /etc/apt/sources.list.d.
-
-Changes
-=======
-
-## v1.2.2:
-
-* COOK-804: apt-get update resource in apt cookbook changed names
-
-## v1.2.0:
-
-* COOK-136: Limit apt-get update to one run per day unless notified.
-* COOK-471: ignore failure on apt-get update
-* COOK-533: add support for deb and `deb_src` repos with `apt_repository`
+This cookbook includes recipes to execute apt-get update to ensure the local APT package cache is up to date. There are recipes for managing the apt-cacher-ng caching proxy and proxy clients. It also includes a LWRP for managing APT repositories in /etc/apt/sources.list.d.
 
 Recipes
 =======
@@ -28,14 +15,14 @@ This recipe should appear first in the run list of Debian or Ubuntu nodes to ens
 
 This recipe also sets up a local cache directory for preseeding packages.
 
-cacher
-------
+cacher-ng
+---------
 
-Installs the apt-cacher package and service so the system can provide APT caching. You can check the usage report at http://{hostname}:3142/report. The cacher recipe includes the `cacher-client` recipe, so it helps seed itself.
+Installs the `apt-cacher-ng` package and service so the system can provide APT caching. You can check the usage report at http://{hostname}:3142/acng-report.html. The `cacher-ng` recipe includes the `cacher-client` recipe, so it helps seed itself.
 
 cacher-client
 -------------
-Configures the node to use the apt-cacher server as a client.
+Configures the node to use the `apt-cacher-ng` server as a client.
 
 Resources/Providers
 ===================
@@ -62,11 +49,9 @@ This LWRP provides an easy way to manage additional APT repositories. Adding a n
     # add the Zenoss repo
     apt_repository "zenoss" do
       uri "http://dev.zenoss.org/deb"
-      distribution "main"
-      components ["stable"]
-      action :add
+      components ["main","stable"]
     end
-    
+
     # add the Nginx PPA; grab key from keyserver
     apt_repository "nginx-php" do
       uri "http://ppa.launchpad.net/nginx/php5/ubuntu"
@@ -74,23 +59,21 @@ This LWRP provides an easy way to manage additional APT repositories. Adding a n
       components ["main"]
       keyserver "keyserver.ubuntu.com"
       key "C300EE8C"
-      action :add
     end
-    
+
     # add the Cloudkick Repo
     apt_repository "cloudkick" do
       uri "http://packages.cloudkick.com/ubuntu"
       distribution node['lsb']['codename']
       components ["main"]
       key "http://packages.cloudkick.com/cloudkick.packages.key"
-      action :add
     end
-    
+
     # remove Zenoss repo
     apt_repository "zenoss" do
       action :remove
     end
-    
+
 Usage
 =====
 
@@ -102,7 +85,32 @@ Put `recipe[apt]` first in the run list. If you have other recipes that you want
 
 The above will run during execution phase since it is a normal template resource, and should appear before other package resources that need the sources in the template.
 
-Put `recipe[apt::cacher]` in the run_list for a server to provide APT caching and add `recipe[apt::cacher-client]` on the rest of the Debian-based nodes to take advantage of the caching server.
+Put `recipe[apt::cacher-ng]` in the run_list for a server to provide APT caching and add `recipe[apt::cacher-client]` on the rest of the Debian-based nodes to take advantage of the caching server.
+
+Changes
+=======
+
+## v1.3.2:
+
+* [COOK-1040] - actually run apt-get update w/ not_if
+
+## v1.3.0:
+
+* [COOK-533] - add support for deb and deb_src repos with apt_repository provider
+* [COOK-593] - switched from apt-cacher to apt-cacher-ng to better support multiple distributions.
+* [COOK-890] - Fix distribution for zenoss repo in apt README
+* [COOK-891] -  Make add the default action for `apt_repository`
+* [COOK-947] - Add chef-solo support for recipe[apt::cacher-client].
+
+## v1.2.2:
+
+* [COOK-804] - apt-get update resource in apt cookbook changed names
+
+## v1.2.0:
+
+* [COOK-136] - Limit apt-get update to one run per day unless notified.
+* [COOK-471] - ignore failure on apt-get update
+* [COOK-533] - add support for deb and `deb_src` repos with `apt_repository`
 
 License and Author
 ==================
@@ -111,7 +119,7 @@ Author:: Joshua Timberman (<joshua@opscode.com>)
 Author:: Matt Ray (<matt@opscode.com>)
 Author:: Seth Chisamore (<schisamo@opscode.com>)
 
-Copyright 2009-2011 Opscode, Inc.
+Copyright 2009-2012 Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -124,4 +132,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-

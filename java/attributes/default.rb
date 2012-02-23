@@ -25,6 +25,10 @@ default['java']['arch'] = kernel['machine'] =~ /x86_64/ ? "x86_64" : "i586"
 case platform
 when "centos","redhat","fedora"
   default['java']['java_home'] = "/usr/lib/jvm/java"
+when "freebsd"
+  default['java']['java_home'] = "/usr/local/openjdk#{java['jdk_version']}"
+when "arch"
+  default['java']['java_home'] = "//usr/lib/jvm/java-#{java['jdk_version']}-openjdk"
 else
   default['java']['java_home'] = "/usr/lib/jvm/default-java"
 end

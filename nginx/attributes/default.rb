@@ -37,6 +37,8 @@ else
   default[:nginx][:init_style] = "init"
 end
 
+default[:nginx][:pid] = "/var/run/nginx.pid"
+
 default[:nginx][:gzip] = "on"
 default[:nginx][:gzip_http_version] = "1.0"
 default[:nginx][:gzip_comp_level] = "2"
@@ -49,7 +51,9 @@ default[:nginx][:gzip_types] = [
   "text/xml",
   "application/xml",
   "application/xml+rss",
-  "text/javascript"
+  "text/javascript",
+  "application/javascript",
+  "application/json"
 ]
 
 default[:nginx][:keepalive]          = "on"

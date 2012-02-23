@@ -26,7 +26,7 @@ include_recipe "mysql::client" if configure_options =~ /mysql/
 
 pkgs = value_for_platform(
     ["centos","redhat","fedora"] =>
-        {"default" => %w{ bzip2-devel libc-client-devel curl-devel freetype-devel gmp-devel libjpeg-devel krb5-devel libmcrypt-devel libpng-devel openssl-devel t1lib-devel }},
+        {"default" => %w{ bzip2-devel libc-client-devel curl-devel freetype-devel gmp-devel libjpeg-devel krb5-devel libmcrypt-devel libpng-devel openssl-devel t1lib-devel mhash-devel }},
     [ "debian", "ubuntu" ] =>
         {"default" => %w{ libbz2-dev libc-client2007e-dev libcurl4-gnutls-dev libfreetype6-dev libgmp3-dev libjpeg62-dev libkrb5-dev libmcrypt-dev libpng12-dev libssl-dev libt1-dev }},
     "default" => %w{ libbz2-dev libc-client2007e-dev libcurl4-gnutls-dev libfreetype6-dev libgmp3-dev libjpeg62-dev libkrb5-dev libmcrypt-dev libpng12-dev libssl-dev libt1-dev }
@@ -40,8 +40,8 @@ end
 
 version = node['php']['version']
 
-remote_file "#{Chef::Config[:file_cache_path]}/php-#{version}.tar.bz2" do
-  source "#{node['php']['url']}/php-#{version}.tar.bz2"
+remote_file "#{Chef::Config[:file_cache_path]}/php-#{version}.tar.gz" do
+  source "#{node['php']['url']}/php-#{version}.tar.gz"
   checksum node['php']['checksum']
   mode "0644"
   not_if "which php"
@@ -50,7 +50,7 @@ end
 bash "build php" do
   cwd Chef::Config[:file_cache_path]
   code <<-EOF
-  tar -jxvf php-#{version}.tar.bz2
+  tar -zxvf php-#{version}.tar.gz
   (cd php-#{version} && ./configure #{configure_options})
   (cd php-#{version} && make && make install)
   EOF

@@ -1,0 +1,12 @@
+{
+    "id": "debian-squeeze-amd64",
+    "arch": "amd64",
+    "version": "6.0.4",
+    "netboot_url": "http://http.us.debian.org/debian/dists/squeeze/main/installer-amd64/current/images/netboot/netboot.tar.gz",
+    "root": {
+        "crypted_password": "$6$Trby4Y5R$bi90k7uYY5ImXe5MWGFW9kel2BnMCcYO9EnwngTFIXKG2/nWcLKTJZ3verMFnpFbITI9.eHwZ.HR1UPeKbCAV1"
+    },
+    "addresses": {
+        "10:78:d2:c8:b2:07": "larry"
+    }
+}
