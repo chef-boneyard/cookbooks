@@ -32,6 +32,7 @@ default['chef_server']['proxy']['api_aliases']       = [
   'chef-server-proxy',
   "chef.#{node['domain']}"
 ]
+default['chef_server']['proxy']['api_server_aliases'] = node['chef_server']['proxy']['api_aliases']
 default['chef_server']['proxy']['webui_server_name'] = "localhost"
 default['chef_server']['proxy']['webui_port']        = 444
 default['chef_server']['proxy']['webui_aliases']     = [
@@ -40,3 +41,4 @@ default['chef_server']['proxy']['webui_aliases']     = [
   'chef-server-proxy',
   "chef.#{node['domain']}"
 ]
+default['chef_server']['proxy']['webui_server_aliases'] = node['chef_server']['proxy']['webui_aliases']
