@@ -58,10 +58,10 @@ end
 web_app "chef-server-proxy" do
   template "chef_server.conf.erb"
   api_server_name node['chef_server']['proxy']['api_server_name']
-  api_aliases node['chef_server']['proxy']['api_aliases']
+  api_server_aliases node['chef_server']['proxy']['api_aliases']
   api_port node['chef_server']['proxy']['api_port']
   webui_server_name node['chef_server']['proxy']['webui_server_name']
-  webui_aliases node['chef_server']['proxy']['webui_aliases']
+  webui_server_aliases node['chef_server']['proxy']['webui_aliases']
   webui_port node['chef_server']['proxy']['webui_port']
   log_dir node['apache']['log_dir']
 end
