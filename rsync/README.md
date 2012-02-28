@@ -1,15 +1,6 @@
 Description
 ===========
 
-
-
-Changes
-=======
-
-
-
-## v 0.0.0
-
 Requirements
 ============
 
@@ -17,12 +8,8 @@ Requirements
 Attributes
 ==========
 
-
-
 Recipes
 =======
-
-
 
 default
 -------
@@ -30,12 +17,8 @@ default
 Resources/Providers
 ===================
 
-
-
 Usage
 =====
-
-
 
 Examples
 --------

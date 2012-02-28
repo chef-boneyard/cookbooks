@@ -3,13 +3,6 @@ Description
 
 Sets up a local gem server repository.
 
-Changes
-=======
-
-## v1.0.0:
-
-* Current public release.
-
 Requirements
 ============
 

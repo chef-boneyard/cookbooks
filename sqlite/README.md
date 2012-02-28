@@ -3,13 +3,6 @@ Description
 
 Installs sqlite.
 
-Changes
-=======
-
-## v0.7.1:
-
-* Current public release
-
 Requirements
 ============
 

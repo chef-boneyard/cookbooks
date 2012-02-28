@@ -92,14 +92,6 @@ named `reprepro`. The recipe uses the `main` data bag item.
 * `pulls`: hash used in the pulls configuration.
 * `architectures`: array of architectures to create in distributions configuration
 
-Changes
-=======
-
-## v0.2.4:
-
-* [COOK-922] - add `allow` to data bag
-* Update the readme with data bag info
-
 LICENSE AND AUTHOR
 ==================
 

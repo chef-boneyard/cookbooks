@@ -3,14 +3,6 @@ Description
 
 Installs activemq and sets up a service using the init script that comes with it.
 
-Changes
-=======
-
-## v1.0.2:
-
-* [COOK-800] - activemq cookbook should install 5.5.1 by default
-* [COOK-872] - activemq home directory isn't explicitly created
-
 Requirements
 ============
 

@@ -132,17 +132,6 @@ Side note, for DD-WRT bootp support [this forum post was followed](http://www.dd
 
 in the section `Additional DNSMasq Options` where the IP address is that of the tftpd server we're configuring here and pxelinux.0 is from the netboot tarball.
 
-Changes
-=======
-
-## 1.2.0:
-
-* COOK-999 uses the full stack intaller for bootstrapping nodes.
-
-## 1.1.2:
-
-* Fixes COOK-481, COOK-594
-
 License and Author
 ==================
 

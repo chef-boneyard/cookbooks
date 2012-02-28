@@ -4,13 +4,6 @@ Description
 Installs god gem, sets up modular configuration directory and provides
 a defininition to monitor processes.
 
-Changes
-=======
-
-## v1.0.0:
-
-* Current public release.
-
 Requirements
 ============
 

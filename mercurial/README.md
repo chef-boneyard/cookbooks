@@ -3,18 +3,6 @@ Description
 
 Installs mercurial
 
-Changes
-=======
-
-## v0.7.1:
-
-* Current public release
-
-Roadmap
--------
-
-* [COOK-879] - mercurial lwrp for scm repo management
-
 Requirements
 ============
 

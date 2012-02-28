@@ -33,13 +33,6 @@ default
 
 Downloads and installs 7-zip to the location specified by `node['7-zip']['home']`.  Also ensures `node['7-zip']['home']` is in the system path.
 
-Changes/Roadmap
-===============
-
-## 1.0.0:
-
-* initial release
-
 License and Author
 ==================
 

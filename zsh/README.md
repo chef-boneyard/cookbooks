@@ -3,13 +3,6 @@ Description
 
 Installs zsh package and documentation.
 
-Changes
-=======
-
-## v0.7.1
-
-* Current public release.
-
 Requirements
 ============
 

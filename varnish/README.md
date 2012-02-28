@@ -3,19 +3,6 @@ Description
 
 Installs and configures varnish.
 
-Changes
-=======
-
-## v 0.8.0:
-
-* Current public release.
-
-Roadmap
--------
-
-* COOK-648 - add RHEL support
-* COOK-873 - better configuration control via attributes
-
 Requirements
 ============
 

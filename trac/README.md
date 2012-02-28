@@ -4,13 +4,6 @@ Description
 Installs trac software and creates an environment with an Apache2
 virtual host.
 
-Changes
-=======
-
-## v0.1.1:
-
-* Current public release.
-
 Usage
 =====
 

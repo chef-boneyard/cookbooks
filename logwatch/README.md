@@ -3,13 +3,6 @@ Description
 
 Installs logwatch.
 
-Changes
-=======
-
-## v0.1.1:
-
-* Current released version.
-
 Requirements
 ============
 

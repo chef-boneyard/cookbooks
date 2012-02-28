@@ -3,17 +3,6 @@ Description
 
 Installs git and optionally sets up a git server as a daemon under runit.
 
-Changes
-=======
-
-## v0.10.0:
-
-* [COOK-853] - Git client installation on CentOS
-
-## v0.9.0:
-
-* Current public release.
-
 Requirements
 ============
 

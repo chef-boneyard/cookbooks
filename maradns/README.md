@@ -3,19 +3,6 @@ Description
 
 Installs and configures maradns.
 
-Changes
-=======
-
-## v0.8.1:
-
-* Current public release.
-
-Roadmap
--------
-
-* [COOK-882] - utilize a "dns entry" databag and/or lwrp for db config
-  file
-
 Requirements
 ============
 

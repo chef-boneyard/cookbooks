@@ -101,7 +101,7 @@ Using the node's `run_state` that contains the current application in the search
 The servlet container context configuration (`context.xml`) exposes the following JNDI resources which can be referenced by the webapp's deployment descriptor (web.xml):
 
 * A JDBC datasource for all databases in the node's current `chef_environment`.  The datasource uses the information (including JDBC driver) specified in the data bag item for the application.
-* An Environment entry that matches the node's current `chef_environment` attribute value.  This is useful for loading environment specific properties files in the web application. 
+* An Environment entry that matches the node's current `chef_environment` attribute value.  This is useful for loading environment specific properties files in the web application.
 
 This recipe assumes some sort of build process, such as Maven or a Continuous Integration server like Hudson, will create a deployable artifact and make it available for download via HTTP (such as S3 or artifactory).
 
@@ -191,7 +191,7 @@ The following recipes are deprecated and have been removed from the cookbook. To
 * `passenger-nginx`
 * `rails_nginx_ree_passenger`
 
-Application Data Bag 
+Application Data Bag
 =====================
 
 The applications data bag expects certain values in order to configure parts of the recipe. Below is a paste of the JSON, where the value is a description of the key. Use your own values, as required. Note that this data bag is also used by the `database` cookbook, so it will contain database information as well. Items that may be ambiguous have an example.
@@ -243,7 +243,7 @@ For applications that look for this file in the project root just supply a name:
 MediaWiki:
 
     "local_settings_file": "LocalSettings.php"
-    
+
 Wordpress:
 
     "local_settings_file": "wp-config.php"
@@ -320,26 +320,6 @@ You should also create an environment. We use `production` in the examples and t
       "override_attributes": {
       }
     }
-
-Changes/Roadmap
-===============
-
-## Future
-
-* [COOK-634] application cookbook should be updated to use LWRPs (vs clever recipe loading)
-
-## v0.99.12:
-
-* [COOK-606] application cookbook deployment recipes should use ipaddress instead of fqdn
-
-## v0.99.11:
-
-* make the _default chef_environment look like production rails env
-
-## v0.99.10:
-
-* Use Chef 0.10's `node.chef_environment` instead of `node['app_environment']`.
-
 
 License and Author
 ==================

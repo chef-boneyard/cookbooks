@@ -3,14 +3,6 @@ Description
 
 Installs OpenVPN and sets up a fairly basic configuration. Since OpenVPN is very complex, we provide a baseline, but your site will need probably need to customize.
 
-Changes
-=======
-
-## v0.99.2:
-
-* [COOK-564] - fix users recipe search, add port attribute
-* [COOK-621] - rename attribute "push" to "routes" - see below.
-
 Requirements
 ============
 

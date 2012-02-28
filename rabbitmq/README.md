@@ -65,12 +65,6 @@ For an already running cluster, these actions still require manual intervention:
 
 The rabbitmq::chef recipe was only used for the chef-server cookbook and has been moved to chef-server::rabbitmq.
 
-Changes
-=======
-
-## v1.3.2:
-* [COOK-585] - manage rabbitmq-server service
-
 License and Author
 ==================
 

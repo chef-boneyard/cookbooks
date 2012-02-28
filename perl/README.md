@@ -4,13 +4,6 @@ Description
 Manages Perl installation and provides `cpan_module`, to install modules 
 from... CPAN.
 
-Changes
-=======
-
-## v0.10.0:
-
-* Current released version
-
 Requirements
 ============
 

@@ -3,13 +3,6 @@ Description
 
 Creates an apache vhost and serves a very basic kickstart file.
 
-Changes
-=======
-
-## v0.4.0:
-
-* Current public release.
-
 Requirements
 ============
 

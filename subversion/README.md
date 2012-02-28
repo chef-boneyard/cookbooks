@@ -63,17 +63,6 @@ you would like a subversion server, use `recipe[subversion::server]`.
 You should override `node['subversion']['password']` in the role that
 applies the server recipe.
 
-Changes
-=======
-
-## v1.0.0:
-
-* [COOK-810] - add Windows platform support
-
-## v0.8.3:
-
-* Current public release
-
 License and Author
 ==================
 

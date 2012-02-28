@@ -118,19 +118,6 @@ not running in `solo` mode. If you're using `chef-solo`, you'll need
 to set the attribute `node['postgresql']['password']['postgres']` in
 your node's `json_attribs` file or in a role.
 
-Changes/Roadmap
-==============
-
-## v0.99.2:
-
-* [COOK-916] - use < (with float) for version comparison.
-
-## v0.99.0:
-
-* Better support for Red Hat-family platforms
-* Integration with database cookbook
-* Make sure the postgres role is updated with a (secure) password
-
 License and Author
 ==================
 

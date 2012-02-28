@@ -3,13 +3,6 @@ Description
 
 Installs keepalived and pushes the configuration file out.
 
-Changes
-=======
-
-## v0.7.1:
-
-* Current public release.
-
 Usage
 =====
 

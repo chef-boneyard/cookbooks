@@ -4,13 +4,6 @@ Description
 Installs Apache hadoop and sets up a basic distributed cluster per the
 quick start documentation.
 
-Changes
-=======
-
-## v0.8.1:
-
-* Current released version
-
 Requirements
 ============
 

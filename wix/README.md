@@ -31,17 +31,6 @@ default
 
 Downloads and installs WiX to the location specified by `node['wix']['home']`.  Also ensures `node['wix']['home']` is in the system path.
 
-Changes/Roadmap
-===============
-
-## Future
-
-* Resource/Provider for creating individual WiX projects.
-
-## 1.0.0:
-
-* initial release
-
 License and Author
 ==================
 

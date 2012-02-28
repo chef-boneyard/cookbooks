@@ -3,18 +3,6 @@ Description
 
 Installs stompserver and sets it up as a service.
 
-Changes
-=======
-
-## v1.0.0
-
-* Current public release
-
-Roadmap
--------
-
-* [COOK-877] - fix support for rhel family
-
 Requirements
 ============
 

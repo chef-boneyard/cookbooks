@@ -111,13 +111,6 @@ Example data bag item for a user. Note that the user must exist on the system al
 
 Unfortunately, smbpasswd does not take a hashed password as an argument - the password is echoed and piped to the smbpasswd program. This is a limitation of Samba.
 
-Changes
-=======
-
-## v0.10.4:
-
-* Fixes COOK-802, typo in nmbd service name
-
 License and Author
 ==================
 

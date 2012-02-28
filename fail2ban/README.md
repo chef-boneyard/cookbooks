@@ -3,13 +3,6 @@ Description
 
 Installs and configures `fail2ban`, a utility that watches logs for failed login attempts and blocks repeat offenders with firewall rules.
 
-Changes
-=======
-
-## v1.0.0:
-
-* Current public release.
-
 Requirements
 ============
 

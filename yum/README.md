@@ -5,22 +5,6 @@ Configures various YUM components on Red Hat-like systems.  Includes LWRP for ma
 
 Based on the work done by Eric Wolfe and Charles Duffy on the yumrepo cookbook. http://github.com/atomic-penguin/cookbooks/tree/yumrepo/yumrepo
 
-Changes
-=======
-
-## v0.5.2:
-
-* [COOK-825] - epel and ius `remote_file` should notify the `rpm_package` to install
-
-## v0.5.0:
-
-* [COOK-675] - add recipe for handling EPEL repository
-* [COOK-722] - add recipe for handling IUS repository
-
-## v.0.1.2:
-
-* Remove yum update in default recipe, that doesn't update caches, it updates packages installed.
-
 Requirements
 ============
 RHEL, CentOS or Scientific Linux 5.x or newer. It has not been tested on other platforms or earlier versions. RHEL 6 support is untested (testing and patches are welcome).

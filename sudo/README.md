@@ -54,13 +54,6 @@ In JSON (role.json or on the node object):
 
 Note that the template for the sudoers file has the group "sysadmin" with ALL:ALL permission, though the group by default does not exist.
 
-Changes
-=======
-
-## v1.0.2:
-
-* [COOK-903] - freebsd support
-
 LICENSE AND AUTHOR
 ==================
 

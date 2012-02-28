@@ -3,18 +3,6 @@ Description
 
 Sets up apt sources for Ubuntu.
 
-Changes
-=======
-
-## v0.99.0
-
-* Current public release
-
-Roadmap
--------
-
-* [COOK-874] - select repositories to enable via attribute
-
 Requirements
 ============
 

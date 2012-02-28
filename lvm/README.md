@@ -3,18 +3,6 @@ Description
 
 Installs lvm2 package and ensures it stays upgraded.
 
-Changes
-=======
-
-## v0.7.1:
-
-* Current public release
-
-Roadmap
--------
-
-* [COOK-876] - lwrps for manipulating lvm objects (pv, lv, etc)
-
 Requirements
 ============
 

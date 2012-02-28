@@ -3,13 +3,6 @@ Description
 
 Installs and configures nscd.
 
-Changes
-=======
-
-## v0.7.0:
-
-* Current public release.
-
 Requirements
 ============
 

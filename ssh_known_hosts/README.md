@@ -16,14 +16,6 @@ Usage
 Searches the Chef Server for all hosts that have SSH host keys and
 generates an `/etc/ssh/known_hosts`.
 
-Changes
-=======
-
-## v0.4.0:
-
-* COOK-493: include fqdn
-* COOK-721: corrected permissions
-
 License and Author
 ==================
 

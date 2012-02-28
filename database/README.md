@@ -65,7 +65,7 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
       connection ({:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']})
       action :create
     end
-    
+
     # create a sql server database
     sql_server_database 'mr_softie' do
       connection ({:host => "127.0.0.1", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']})
@@ -77,7 +77,7 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
       connection ({:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']})
       action :create
     end
-    
+
     # create a postgresql database with additional parameters
     postgresql_database 'mr_softie' do
       connection ({:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']})
@@ -93,7 +93,7 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
     mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
     sql_server_connection_info = {:host => "localhost", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']}
     postgresql_connection_info = {:host => "127.0.0.1", :port => 5432, :username => 'postgres', :password => node['postgresql']['password']['postgres']}
-    
+
     # same create commands, connection info as an external hash
     mysql_database 'foo' do
       connection mysql_connection_info
@@ -107,7 +107,7 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
       connection postgresql_connection_info
       action :create
     end
-    
+
     # create database, set provider in resource parameter
     database 'bar' do
        connection mysql_connection_info
@@ -124,13 +124,13 @@ Manage databases in a RDBMS.  Use the proper shortcut resource depending on your
       provider Chef::Provider::Database::Postgresql
       action :create
     end
-    
+
     # drop a database
     mysql_database "baz" do
       connection mysql_connection_info
       action :drop
     end
-    
+
     # query a database
     mysql_database "flush the privileges" do
       connection mysql_connection_info
@@ -177,14 +177,14 @@ Manage users and user privileges in a RDBMS. Use the proper shortcut resource de
     # create connection info as an external ruby hash
     mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
     sql_server_connection_info = {:host => "localhost", :port => node['sql_server']['port'], :username => 'sa', :password => node['sql_server']['server_sa_password']}
-    
+
     # create a mysql user but grant no priveleges
     mysql_database_user 'disenfranchised' do
       connection mysql_connection_info
       password 'super_secret'
       action :create
     end
-    
+
     # do the same but pass the provider to the database resource
     database_user 'disenfranchised' do
       connection mysql_connection_info
@@ -192,20 +192,20 @@ Manage users and user privileges in a RDBMS. Use the proper shortcut resource de
       provider Chef::Provider::Database::MysqlUser
       action :create
     end
-    
+
     # create a sql server user but grant no priveleges
     sql_server_database_user 'disenfranchised' do
       connection sql_server_connection_info
       password 'super_secret'
       action :create
     end
-    
+
     # drop a mysql user
     mysql_database_user "foo_user" do
       connection mysql_connection_info
       action :drop
     ends
-    
+
     # bulk drop sql server users
     %w{ disenfranchised foo_user }.each do |user|
       sql_server_database_user user do
@@ -213,7 +213,7 @@ Manage users and user privileges in a RDBMS. Use the proper shortcut resource de
         action :drop
       end
     end
-    
+
     # grant select,update,insert privileges to all tables in foo db from all hosts
     mysql_database_user 'foo_user' do
       connection mysql_connection_info
@@ -223,14 +223,14 @@ Manage users and user privileges in a RDBMS. Use the proper shortcut resource de
       privileges [:select,:update,:insert]
       action :grant
     end
-    
+
     # grant all privelages on all databases/tables from localhost
     mysql_database_user 'super_user' do
       connection mysql_connection_info
       password 'super_secret'
       action :grant
     end
-    
+
     # grant select,update,insert privileges to all tables in foo db
     sql_server_database_user 'foo_user' do
       connection sql_server_connection_info
@@ -353,31 +353,9 @@ Create a `production` environment. This is also used in the `application` cookbo
       "override_attributes": {
       }
     }
-    
+
 
 The cookbook `my_app_database` is recommended to set up any application specific database resources such as configuration templates, trending monitors, etc. It is not required, but you would need to create it separately in `site-cookbooks`. Add it to the `my_app_database_master` role.
-
-Changes/Roadmap
-===============
-
-## Future
-
-* update `database::master` to work with any RDBMS provider (most likely keying off database adapter)
-
-## v1.1.0
-
-* [COOK-716] providers for PostgreSQL
-
-## v1.0.0
-
-* [COOK-683] added `database` and `database_user` resources
-* [COOK-684] MySQL providers
-* [COOK-685] SQL Server providers
-* refactored `database::master` and `database::snapshot` recipes to leverage new resources
-
-## v0.99.1
-
-* Use Chef 0.10's `node.chef_environment` instead of `node['app_environment']`.
 
 License and Author
 ==================

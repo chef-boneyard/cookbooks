@@ -11,16 +11,6 @@ For more information about runit:
 
 * http://smarden.org/runit/
 
-Changes
-=======
-
-## v0.14.2
-
-Roadmap
--------
-
-* [CHEF-154] - implement lwrp for runit service
-
 Requirements
 ============
 

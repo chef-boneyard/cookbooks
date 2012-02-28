@@ -172,25 +172,6 @@ This cookbook also contains recipes for installing individual IIS modules (exten
 * `mod_tracing` -  installs support for tracing ASP.NET applications and failed requests.
 * `mod_urlrewrite` - installs support for url rewrite rules using rule templates, rewrite maps, .NET providers.
 
-Changes/Roadmap
-===============
-
-## Future
-
-* `:modify` action for iis_site
-* resource/provider for managing IIS applications and application pools
-* resource/provider for managing IIS virtual directories
-* IIS 6.0 support
-
-## 1.0.2:
-
-* Ruby 1.9 compat fixes
-* ensure carriage returns are removed before applying regex
-
-## 1.0.0:
-
-* [COOK-718] initial release
-
 License and Author
 ==================
 

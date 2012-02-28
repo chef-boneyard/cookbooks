@@ -30,13 +30,6 @@ To install the RubyGem rmagick,
 
 Which will install imagemagick, as well as the development libraries for imagemagick (so rmagick can be built).
 
-Changes
-=======
-
-## v0.2.2:
-
-* Fixes COOK-662
-
 License and Author
 ==================
 

@@ -4,19 +4,6 @@ Description
 Installs and configures postfix for client or outbound relayhost, or
 to do SASL authentication.
 
-Changes
-=======
-
-## v0.8.4:
-
-* Current public release.
-
-Roadmap
--------
-
-* [COOK-880] - add client/server recipes for search
-* [COOK-881] - add (encrypted) data bag support for sasl credentials
-
 Requirements
 ============
 

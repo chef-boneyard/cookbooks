@@ -3,18 +3,6 @@ Description
 
 Installs and configures Jira and starts it as a service under runit.
 
-Changes
-=======
-
-## v0.8.2
-
-* Current public release
-
-Roadmap
--------
-
-* [COOK-464] - Automate mysql portions
-
 Requirements
 ============
 
