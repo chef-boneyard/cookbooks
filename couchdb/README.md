@@ -40,6 +40,13 @@ source
 
 Downloads the CouchDB source from the Apache project site, plus development dependencies. Then builds the binaries for installation, creates a user and directories, then sets up the couchdb service. Uses the init script provided in the cookbook.
 
+Changes
+=======
+
+## v1.0.0:
+
+* create group for couchdb
+
 LICENSE AND AUTHOR
 ==================
 
