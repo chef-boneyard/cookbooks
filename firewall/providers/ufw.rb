@@ -25,13 +25,14 @@ action :enable do
     shell_out!("echo yes | ufw enable")
     Chef::Log.info("#{@new_resource} enabled")
     if @new_resource.log_level
-      shell_out!("ufw logging #{@new_resource.log_level}") 
+      shell_out!("ufw logging #{@new_resource.log_level}")
       Chef::Log.info("#{@new_resource} logging enabled at '#{@new_resource.log_level}' level")
     end
     @new_resource.updated_by_last_action(true)
   else
     Chef::Log.debug("#{@new_resource} already enabled.")
   end
+  set_policy
 end
 
 action :disable do
@@ -42,12 +43,31 @@ action :disable do
   else
     Chef::Log.debug("#{@new_resource} already disabled.")
   end
+  set_policy
 end
-  
+
 private
 def active?
   @active ||= begin
     cmd = shell_out!("ufw status")
     cmd.stdout =~ /^Status:\sactive/
+  end
+end
+
+def default_policy?(policy)
+  @default_policy ||= begin
+    cmd = shell_out!("ufw status verbose")
+    cmd.stdout =~ /^Default:\s(.*?)\s/
+    $1.to_s.strip
+  end
+  @default_policy == policy.to_s
+end
+
+def set_policy
+  if default_policy?(@new_resource.policy)
+    Chef::Log.debug("#{@new_resource} policy already set to #{@new_resource.policy}.")
+  else
+    shell_out!("ufw default #{@new_resource.policy}")
+    Chef::Log.debug("#{@new_resource} policy set to #{@new_resource.policy}.")
   end
 end

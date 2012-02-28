@@ -112,6 +112,21 @@ Resources/Providers
       action :nothing
     end
 
+    # Set the firewall to allow packets by default.
+    # When omitted, the policy is set to :allow
+    # 
+    # You can read more about this here https://help.ubuntu.com/community/UFW#Set_Default_Rule
+    firewall "ufw" do
+     policy :allow
+     action :enable
+    end
+
+    # Set the firewall to deny packets by default
+    firewall "ufw" do
+     policy :deny
+     action :enable
+    end
+
 Changes/Roadmap
 ===============
 
