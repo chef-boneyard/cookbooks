@@ -1,13 +1,18 @@
+## v1.1.2:
+
+* [COOK-975] - Change arg='DEFAULT' to arg=nil, :default => 'DEFAULT'
+* [COOK-964] - Add parentheses around connection hash in example
+
 ## v1.1.0
 
-* [COOK-716] providers for PostgreSQL
+* [COOK-716] - providers for PostgreSQL
 
 ## v1.0.0
 
-* [COOK-683] added `database` and `database_user` resources
-* [COOK-684] MySQL providers
-* [COOK-685] SQL Server providers
-* refactored `database::master` and `database::snapshot` recipes to leverage new resources
+* [COOK-683] - added `database` and `database_user` resources
+* [COOK-684] - MySQL providers
+* [COOK-685] - SQL Server providers
+* refactored - `database::master` and `database::snapshot` recipes to leverage new resources
 
 ## v0.99.1
 
