@@ -1,27 +1,53 @@
 Description
 ===========
-Manages installation of erlang packages. For Debian/Ubuntu this means the distro version of 'erlang'. For RHEL/CentOS this means following the recommendation of RabbitMQ.com and adds an updated version of erlang and access to the EPEL Yum repository.
+
+Manages installation of erlang packages. For Debian/Ubuntu this means
+the distro version of 'erlang'. For RHEL/CentOS this means following
+the recommendation of RabbitMQ.com and adds an updated version of
+erlang and access to the EPEL Yum repository.
 
 http://www.rabbitmq.com/server.html
 
 Requirements
 ============
+
 Platform
 --------
-Tested with Ubuntu 10.04 and CentOS 5.6.
+
+Tested on:
+
+* Ubuntu 10.04, 11.10
+* CentOS 5.7, 6.2
+
+May work on other Debian/RHEL derivatives w/o modification.
+
+Cookbooks
+---------
+
+* yum (for epel recipe)
+
+Attributes
+==========
+
+* `node['erlang']['gui_tools']` - whether to install the GUI tools for
+  Erlang.
 
 Recipes
 =======
+
 default
 -------
-Manages installation of erlang packages. 
+
+Manages installation of erlang packages.
 
 License and Author
 ==================
 
+Author: Joe Williams (<joe@joetify.com>)
+Author: Joshua Timberman (<joshua@opscode.com>)
 Author: Matt Ray (<matt@opscode.com>)
 
-Copyright 2011, Opscode, Inc.
+Copyright 2011-2012, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
