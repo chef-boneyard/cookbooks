@@ -75,7 +75,7 @@ end
 
 action :stop do
   if @current_resource.running
-    shell_out!("#{appcmd} stop appool \"#{site_identifier}\"")
+    shell_out!("#{appcmd} stop apppool \"#{site_identifier}\"")
     @new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} stopped")
   else
