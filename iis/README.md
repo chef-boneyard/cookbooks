@@ -103,6 +103,9 @@ Creates an application pool in IIS.
 - pool_name: name attribute. Specifies the name of the pool to create.
 - runtime_version: specifies what .NET version of the runtime to use.
 - pipeline_mode: specifies what pipeline mode to create the pool with
+- private_mem: specifies private memory that can be used before application recycle (0 is unlimited, default is 1Gb)
+- max_proc: maximum number of process to serve requests (default 2)
+- thirty_two_bit: enable 32bits application on 64bits IIS
 
 ### Example
 
