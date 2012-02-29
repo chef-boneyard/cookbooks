@@ -28,7 +28,7 @@ action :add do
     cmd = "#{appcmd} add site /name:\"#{@new_resource.site_name}\""
     cmd << " /id:#{@new_resource.site_id}" if @new_resource.site_id
     cmd << " /physicalPath:\"#{win_friendly_path(@new_resource.path)}\"" if @new_resource.path
-	if @new_ressource.bindings
+	if @new_resource.bindings
 		cmd << " /bindings:#{@new_resource.bindings}"
 	else
 		cmd << " /bindings:#{@new_resource.protocol}/*"
