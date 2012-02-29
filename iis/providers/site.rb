@@ -28,9 +28,13 @@ action :add do
     cmd = "#{appcmd} add site /name:\"#{@new_resource.site_name}\""
     cmd << " /id:#{@new_resource.site_id}" if @new_resource.site_id
     cmd << " /physicalPath:\"#{win_friendly_path(@new_resource.path)}\"" if @new_resource.path
-    cmd << " /bindings:#{@new_resource.protocol}/*"
-    cmd << ":#{@new_resource.port}:" if @new_resource.port
-    cmd << "#{@new_resource.host_header}" if @new_resource.host_header
+	if @new_ressource.bindings
+		cmd << " /bindings:#{@new_resource.bindings}"
+	else
+		cmd << " /bindings:#{@new_resource.protocol}/*"
+		cmd << ":#{@new_resource.port}:" if @new_resource.port
+		cmd << "#{@new_resource.host_header}" if @new_resource.host_header
+	end
     shell_out!(cmd, {:returns => [0,42]})
     @new_resource.updated_by_last_action(true)
     Chef::Log.info("#{@new_resource} added new site '#{@new_resource.site_name}'")
