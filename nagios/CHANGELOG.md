@@ -1,3 +1,8 @@
+## v1.2.2:
+
+* [COOK-991] - NRPE LWRP No Longer Requires a Template
+* [COOK-955] - Nagios Service Checks Defined by Data Bags
+
 ## v1.2.0:
 
 * [COOK-837] - Adding a Recipe for PagerDuty integration
