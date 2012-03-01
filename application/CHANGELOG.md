@@ -1,3 +1,7 @@
+## v0.99.14:
+
+* [COOK-1065] - use pip in virtualenv during deploy
+
 ## v0.99.12:
 
 * [COOK-606] application cookbook deployment recipes should use ipaddress instead of fqdn
