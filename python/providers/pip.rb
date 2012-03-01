@@ -118,7 +118,7 @@ def current_installed_version
   @current_installed_version ||= begin
     delimeter = /==/
     
-    version_check_cmd = "pip freeze#{expand_virtualenv(can_haz_virtualenv(@new_resource))} | grep -i '^#{@new_resource.package_name}=='"
+    version_check_cmd = "#{pip_cmd(@new_resource)} freeze | grep -i #{@new_resource.package_name}=="
     # incase you upgrade pip with pip!
     if @new_resource.package_name.eql?('pip')
       delimeter = /\s/
@@ -141,24 +141,20 @@ end
 
 def install_package(name, version, timeout)
   v = "==#{version}" unless version.eql?('latest')
-  shell_out!("pip install#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{name}#{v}", :timeout => timeout)
+  shell_out!("#{pip_cmd(@new_resource)} install#{expand_options(@new_resource.options)} #{name}#{v}", :timeout => timeout)
 end
 
 def upgrade_package(name, version, timeout)
   v = "==#{version}" unless version.eql?('latest')
-  shell_out!("pip install --upgrade#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}#{v}", :timeout => timeout)
+  shell_out!("#{pip_cmd(@new_resource)} install --upgrade#{expand_options(@new_resource.options)} #{@new_resource.name}#{v}", :timeout => timeout)
 end
 
 def remove_package(name, version, timeout)
-  shell_out!("pip uninstall -y#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}", :timeout => timeout)
-end
-
-def expand_virtualenv(virtualenv)
-  virtualenv && " --environment=#{virtualenv}"
+  shell_out!("#{pip_cmd(@new_resource)} uninstall -y#{expand_options(@new_resource.options)} #{@new_resource.name}", :timeout => timeout)
 end
 
 # TODO remove when provider is moved into Chef core
 # this allows PythonPip to work with Chef::Resource::Package
-def can_haz_virtualenv(nr)
-  nr.respond_to?("virtualenv") ? nr.virtualenv : nil
+def pip_cmd(nr)
+  (nr.respond_to?("virtualenv") && nr.virtualenv) ? ::File.join(nr.virtualenv,'/bin/pip') : 'pip'
 end
