@@ -22,7 +22,7 @@ require 'chef/mixin/shell_out'
 require 'chef/mixin/language'
 include Chef::Mixin::ShellOut
 
-# the logic in all action methods mirror that of 
+# the logic in all action methods mirror that of
 # the Chef::Provider::Package which will make
 # refactoring into core chef easy
 
@@ -40,7 +40,7 @@ action :install do
   if @new_resource.timeout
     timeout = @new_resource.timeout
   end
-  
+
   if install_version
     Chef::Log.info("Installing #{@new_resource} version #{install_version}")
     status = install_package(@new_resource.package_name, install_version, timeout)
@@ -98,31 +98,31 @@ def expand_options(options)
   options ? " #{options}" : ""
 end
 
-# these methods are the required overrides of 
-# a provider that extends from Chef::Provider::Package 
+# these methods are the required overrides of
+# a provider that extends from Chef::Provider::Package
 # so refactoring into core Chef should be easy
 
 def load_current_resource
   @current_resource = Chef::Resource::PythonPip.new(@new_resource.name)
   @current_resource.package_name(@new_resource.package_name)
   @current_resource.version(nil)
-  
+
   unless current_installed_version.nil?
     @current_resource.version(current_installed_version)
   end
-  
+
   @current_resource
 end
 
 def current_installed_version
   @current_installed_version ||= begin
     delimeter = /==/
-    
-    version_check_cmd = "pip freeze#{expand_virtualenv(can_haz_virtualenv(@new_resource))} | grep -i '^#{@new_resource.package_name}=='"
+    "#{node['python']['install_method']}" == "source" ? pip = "#{node['python']['prefix_dir']}/bin/pip" : pip ="pip"
+    version_check_cmd = "#{pip} freeze#{expand_virtualenv(can_haz_virtualenv(@new_resource))} | grep -i #{@new_resource.package_name}=="
     # incase you upgrade pip with pip!
     if @new_resource.package_name.eql?('pip')
       delimeter = /\s/
-      version_check_cmd = "pip --version"
+      version_check_cmd = "#{pip} --version"
     end
     p = shell_out!(version_check_cmd)
     p.stdout.split(delimeter)[1].strip
@@ -133,24 +133,27 @@ end
 def candidate_version
   @candidate_version ||= begin
     # `pip search` doesn't return versions yet
-    # `pip list` may be coming soon: 
+    # `pip list` may be coming soon:
     # https://bitbucket.org/ianb/pip/issue/197/option-to-show-what-version-would-be
     @new_resource.version||'latest'
   end
 end
 
 def install_package(name, version, timeout)
+  "#{node['python']['install_method']}" == "source" ? pip = "#{node['python']['prefix_dir']}/bin/pip" : pip ="pip"
   v = "==#{version}" unless version.eql?('latest')
-  shell_out!("pip install#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{name}#{v}", :timeout => timeout)
+  shell_out!("#{pip} install#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{name}#{v}", :timeout => timeout)
 end
 
 def upgrade_package(name, version, timeout)
+  "#{node['python']['install_method']}" == "source" ? pip = "#{node['python']['prefix_dir']}/bin/pip" : pip ="pip"
   v = "==#{version}" unless version.eql?('latest')
-  shell_out!("pip install --upgrade#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}#{v}", :timeout => timeout)
+  shell_out!("#{pip} install --upgrade#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}#{v}", :timeout => timeout)
 end
 
 def remove_package(name, version, timeout)
-  shell_out!("pip uninstall -y#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}", :timeout => timeout)
+  "#{node['python']['install_method']}" == "source" ? pip = "#{node['python']['prefix_dir']}/bin/pip" : pip ="pip"
+  shell_out!("#{pip} uninstall -y#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}", :timeout => timeout)
 end
 
 def expand_virtualenv(virtualenv)

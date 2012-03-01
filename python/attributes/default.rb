@@ -18,8 +18,6 @@
 # limitations under the License.
 #
 
-default['python']['distribute_install_py_version'] = ''
-
 default['python']['install_method'] = 'package'
 
 default['python']['url'] = 'http://www.python.org/ftp/python'
