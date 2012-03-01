@@ -38,6 +38,7 @@ when "redhat", "centos", "scientific"
     end
     action :install
     notifies :run, resources(:execute => "generate-module-list"), :immediately
+    not_if "which php"
   end
 
   # delete stock config
@@ -53,9 +54,10 @@ when "redhat", "centos", "scientific"
 
 when "fedora"
   package "php package" do
-     package_name "php"
-     action :install
-     notifies :run, resources(:execute => "generate-module-list"), :immediately
+    package_name "php"
+    action :install
+    notifies :run, resources(:execute => "generate-module-list"), :immediately
+    not_if "which php"
   end
 
   # delete stock config
