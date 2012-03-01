@@ -85,8 +85,8 @@ ssl = <%= node['postgresql']['ssl']	-%>		# (change requires restart)
 #ssl = off                              # (change requires restart)
 #ssl_ciphers = 'ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH'      # allowed SSL ciphers
 
-<if node['postgresql']['ssl'] == 'true' %>
-ssl = <%= node['postgresql']['ssl_renegotiation_limit']	-%> # amount of data between renegotiations
+<% if node['postgresql']['ssl'] == 'true' %>
+ssl_renegotiation_limit = <%= node['postgresql']['ssl_renegotiation_limit']	-%> # amount of data between renegotiations
 <% else %>
 #ssl_renegotiation_limit = 512MB        # amount of data between renegotiations
 <% end %>
