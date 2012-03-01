@@ -118,7 +118,7 @@ def current_installed_version
   @current_installed_version ||= begin
     delimeter = /==/
     
-    version_check_cmd = "#{pip_cmd(@new_resource)} freeze | grep -i #{@new_resource.package_name}=="
+    version_check_cmd = "#{pip_cmd(@new_resource)} freeze | grep -i '^#{@new_resource.package_name}=='"
     # incase you upgrade pip with pip!
     if @new_resource.package_name.eql?('pip')
       delimeter = /\s/
