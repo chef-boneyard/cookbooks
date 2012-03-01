@@ -73,7 +73,7 @@ service "postgresql" do
   action [:enable, :start]
 end
 
-template "#{node[:postgresql][:dir]}/postgresql.conf" do
+template "#{node[:postgresql][:conf_dir]}/postgresql.conf" do
   source "redhat.postgresql.conf.erb"
   owner "postgres"
   group "postgres"

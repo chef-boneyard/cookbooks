@@ -21,13 +21,6 @@
 
 include_recipe "postgresql::client"
 
-case node[:postgresql][:version]
-when "8.3"
-  node.default[:postgresql][:ssl] = "off"
-else # > 8.3
-  node.default[:postgresql][:ssl] = "true"
-end
-
 package "postgresql"
 
 service "postgresql" do
@@ -53,7 +46,7 @@ service "postgresql" do
   action :nothing
 end
 
-template "#{node[:postgresql][:dir]}/postgresql.conf" do
+template "#{node[:postgresql][:conf_dir]}/postgresql.conf" do
   source "debian.postgresql.conf.erb"
   owner "postgres"
   group "postgres"

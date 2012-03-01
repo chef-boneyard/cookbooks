@@ -27,13 +27,6 @@ include_recipe "postgresql::client"
 node.set_unless[:postgresql][:password][:postgres] = secure_password
 node.save unless Chef::Config[:solo]
 
-case node[:postgresql][:version]
-when "8.3"
-  node.default[:postgresql][:ssl] = "off"
-when "8.4"
-  node.default[:postgresql][:ssl] = "true"
-end
-
 # Include the right "family" recipe for installing the server
 # since they do things slightly differently.
 case node.platform
@@ -43,7 +36,7 @@ when "debian", "ubuntu"
   include_recipe "postgresql::server_debian"
 end
 
-template "#{node[:postgresql][:dir]}/pg_hba.conf" do
+template node[:postgresql][:hba_file] do
   source "pg_hba.conf.erb"
   owner "postgres"
   group "postgres"
