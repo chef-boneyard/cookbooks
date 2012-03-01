@@ -1,3 +1,8 @@
+## v1.0.6:
+
+* [COOK-1036] - correctly grep for python-module version
+* [COOK-1046] - run pip inside the virtualenv
+
 ## v1.0.4:
 
 * [COOK-960] - add timeout to python_pip
