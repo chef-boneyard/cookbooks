@@ -26,7 +26,7 @@ when "debian"
     default[:postgresql][:version] = "8.4"
   end
 
-  set[:postgresql][:data_dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  set[:postgresql][:data_dir] = "/var/lib/postgresql/#{node[:postgresql][:version]}/main"
   set[:postgresql][:conf_dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 
 when "ubuntu"
@@ -40,7 +40,7 @@ when "ubuntu"
     default[:postgresql][:version] = "9.1"
   end
 
-  set[:postgresql][:data_dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  set[:postgresql][:data_dir] = "/var/lib/postgresql/#{node[:postgresql][:version]}/main"
   set[:postgresql][:conf_dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 
 when "fedora"
