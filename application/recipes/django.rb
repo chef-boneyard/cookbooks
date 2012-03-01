@@ -163,7 +163,8 @@ deploy_revision app['id'] do
     
     if requirements_file
       Chef::Log.info("Installing pips using requirements file: #{requirements_file}")
-      execute "pip install -E #{ve.path} -r #{requirements_file}" do
+      pip_cmd = File.join(ve.path, "bin", "pip")
+      execute "#{pip_cmd} install -r #{requirements_file}" do
         ignore_failure true
         cwd release_path
       end
