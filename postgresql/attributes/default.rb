@@ -26,7 +26,8 @@ when "debian"
     default[:postgresql][:version] = "8.4"
   end
 
-  set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  set[:postgresql][:data_dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  set[:postgresql][:conf_dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 
 when "ubuntu"
 
@@ -39,7 +40,8 @@ when "ubuntu"
     default[:postgresql][:version] = "9.1"
   end
 
-  set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  set[:postgresql][:data_dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  set[:postgresql][:conf_dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
 
 when "fedora"
 
@@ -49,12 +51,14 @@ when "fedora"
     default[:postgresql][:version] = "8.4"
   end
 
-  set[:postgresql][:dir] = "/var/lib/pgsql/data"
+  set[:postgresql][:data_dir] = "/var/lib/pgsql/data"
+  set[:postgresql][:conf_dir] = "/var/lib/pgsql/data"
 
 when "redhat","centos","scientific","amazon"
 
   default[:postgresql][:version] = "8.4"
-  set[:postgresql][:dir] = "/var/lib/pgsql/data"
+  set[:postgresql][:data_dir] = "/var/lib/pgsql/data"
+  set[:postgresql][:conf_dir] = "/var/lib/pgsql/data"
 
 when "suse"
 
@@ -64,9 +68,49 @@ when "suse"
     default[:postgresql][:version] = "8.4"
   end
 
-  set[:postgresql][:dir] = "/var/lib/pgsql/data"
+  set[:postgresql][:data_dir] = "/var/lib/pgsql/data"
+  set[:postgresql][:conf_dir] = "/var/lib/pgsql/data"
 
 else
   default[:postgresql][:version] = "8.4"
-  set[:postgresql][:dir]         = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  set[:postgresql][:data_dir]         = "/var/lib/postgresql/#{node[:postgresql][:version]}/main"
+  set[:postgresql][:conf_dir]         = "/etc/postgresql/#{node[:postgresql][:version]}/main"
+  
 end
+
+# Defaults for tunable settings
+
+# file locations
+default[:postgresql][:hba_file]          = "#{node[:postgresql][:conf_dir]}/pg_hba.conf"
+default[:postgresql][:ident_file]        = "#{node[:postgresql][:conf_dir]}/pg_ident.conf"
+default[:postgresql][:external_pid_file]    = "/var/run/postgresql/#{node[:postgresql][:version]}-main.pid"
+# connections
+default[:postgresql][:listen_addresses]     = "localhost"
+default[:postgresql][:port]                 = 5432
+default[:postgresql][:max_connections]      = 100
+default[:postgresql][:unix_socket_directory]      = "/var/run/postgresql"
+# security and authentication
+case node[:postgresql][:version]
+when "8.3"
+  default[:postgresql][:ssl] = "off"
+when "8.4"
+  default[:postgresql][:ssl] = "true"
+when "9.1"
+  default[:postgresql][:ssl] = "true"
+end
+default[:postgresql][:ssl_renegotiation_limit]  = "512MB"
+# resource tuning
+default[:postgresql][:shared_buffers] = "24MB"
+default[:postgresql][:work_mem] = "1MB"
+default[:postgresql][:maintenance_work_mem] = "16MB"
+# archiving
+default[:postgresql][:wal_level] = 'minimal'
+default[:postgresql][:archive_mode] = "off"
+default[:postgresql][:archive_command] = ""
+# replication
+default[:postgresql][:max_wal_senders] = 0
+default[:postgresql][:wall_keep_segments] = 0
+# standby
+default[:postgresql][:hot_standby] = "off"
+# logs
+default[:postgresql][:log_min_duration_statement] = "-1"
