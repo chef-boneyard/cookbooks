@@ -23,7 +23,9 @@ default["pdns"]["group"] = "pdns"
 case platform
 when "redhat","centos","fedora"
   default["pdns"]["server"]["config_dir"] = "/etc/pdns"
-  default["pdns"]["recursor"]["config_dir"] = "/etc/pdns-recusor"
+  default["pdns"]["recursor"]["config_dir"] = "/etc/pdns-recursor"
+  default["pdns"]["user"] = "pdns-recursor"
+  default["pdns"]["group"] = "pdns-recursor"
 else
   default["pdns"]["server"]["config_dir"] = "/etc/powerdns"
   default["pdns"]["recursor"]["config_dir"] = "/etc/powerdns"
@@ -34,9 +36,9 @@ default["pdns"]["server_backend"] = "sqlite3"
 default["pdns"]["recursor"]["allow_from"] = [
   "127.0.0.0/8",
   "10.0.0.0/8",
-  "92.168.0.0/16",
-  "72.16.0.0/12",
-  ":1/128",
+  "192.168.0.0/16",
+  "172.16.0.0/12",
+  "::1/128",
   "e80::/10"
 ]
 
