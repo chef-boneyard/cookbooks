@@ -25,7 +25,10 @@
 include_recipe "apache2"
 include_recipe "build-essential"
 
-if platform?("centos","redhat")
+case node[:platform]
+when "arch"
+  package "apache"
+when "centos","redhat"
   package "httpd-devel"
   if node['platform_version'].to_f < 6.0
     package 'curl-devel'
