@@ -21,6 +21,7 @@
 #
 
 default[:nginx][:version]      = "0.8.54"
+default[:nginx][:src_url]      = "http://nginx.org/download/nginx-#{node[:nginx][:version]}.tar.gz"
 
 case platform
 when "debian","ubuntu"
