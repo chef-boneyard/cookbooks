@@ -1,3 +1,7 @@
+## v0.99.4:
+
+* [COOK-958] - fix regression for loadmodule on debian/ubuntu
+
 ## v0.99.2:
 
 * [COOK-859] - don't hardcode module path
