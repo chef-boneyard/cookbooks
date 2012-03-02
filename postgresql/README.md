@@ -40,16 +40,21 @@ The following attributes are set based on the platform, see the
 `attributes/default.rb` file for default values.
 
 * `node['postgresql']['version']` - version of postgresql to manage
-* `node['postgresql']['dir']` - home directory of where postgresql
-  data and configuration lives.
+* `node['postgresql']['data_dir']` - where postgresql data lives
+* `node['postgresql']['conf_dir']` - where postgresql configuration lives
+* `node['postgresql']['ssl']` - whether to enable SSL (off for version
+  8.3, true for 8.4).
 
-The following attributes are generated in
-`recipe[postgresql::server]`.
+In addition a number of other useful attributes are set according to
+recommendations for a simple installation. These are either set to
+postgresql defaults, or very close to the defaults, but can be
+overridden with node attributes.  These include settings to tune your
+postgresql installation.
+
+The following attribute is generated in `recipe[postgresql::server]`.
 
 * `node['postgresql']['password']['postgres']` - randomly generated
   password by the `openssl` cookbook's library.
-* `node['postgresql']['ssl']` - whether to enable SSL (off for version
-  8.3, true for 8.4).
 
 Recipes
 =======
@@ -117,6 +122,10 @@ password and expect to use it. It performs a node.save when Chef is
 not running in `solo` mode. If you're using `chef-solo`, you'll need
 to set the attribute `node['postgresql']['password']['postgres']` in
 your node's `json_attribs` file or in a role.
+
+If you override the configuration defaults, you may need to change system
+settings with sysctl (for example kernel.shmmax and fs.file-max) before
+running `recipe[postgresql::server]`.
 
 License and Author
 ==================
