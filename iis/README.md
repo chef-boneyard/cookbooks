@@ -110,7 +110,9 @@ Creates an application pool in IIS.
          action :add
      end
 
+
 `iis_app`
+---------------
 
 Creates an application in IIS.
 
