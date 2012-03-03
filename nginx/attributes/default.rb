@@ -20,7 +20,7 @@
 # limitations under the License.
 #
 
-default[:nginx][:version]      = "0.8.54"
+default[:nginx][:version]      = "1.0.12"
 
 case platform
 when "debian","ubuntu"
