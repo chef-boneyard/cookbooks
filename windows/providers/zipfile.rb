@@ -46,6 +46,7 @@ def ensure_rubyzip_gem_installed
   rescue LoadError
     Chef::Log.info("Missing gem 'rubyzip'...installing now.")
     gem_package "rubyzip" do
+      version "0.9.5"
       action :nothing
     end.run_action(:install)
     Gem.clear_paths
