@@ -72,8 +72,14 @@ when "fedora"
   end
 
 when "freebsd"
+  freebsd_port_options "php5" do
+    options "APACHE" => true
+    action :create
+  end
+
   package "php package" do
      package_name "php5"
+     source "ports"
      action :install
      notifies :run, resources(:execute => "generate-module-list"), :immediately
   end
