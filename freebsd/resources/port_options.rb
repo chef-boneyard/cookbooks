@@ -21,8 +21,12 @@ actions :create
 
 attribute :name, :kind_of => String, :name_attribute => true
 attribute :source, :kind_of => String
+attribute :options, :kind_of => Hash
 
 attribute :full_path, :kind_of => String
+attribute :default_options, :kind_of => Hash, :default => {}
+attribute :current_options, :kind_of => Hash, :default => {}
+attribute :file_writer, :kind_of => String
 
 def initialize(*args)
   super
