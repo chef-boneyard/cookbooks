@@ -25,13 +25,12 @@ execute "Remove proxy from /etc/apt/apt.conf" do
 end
 
 servers = []
-if Chef::Config['solo']
-  if node['apt'] && node['apt']['cacher_ipaddress']
-    cacher = Chef::Node.new
-    cacher.name(node['apt']['cacher_ipaddress'])
-    cacher.ipaddress(node['apt']['cacher_ipaddress'])
-    servers << cacher
-  end
+
+if node['apt'] && node['apt']['cacher_ipaddress']
+  cacher = Chef::Node.new
+  cacher.name(node['apt']['cacher_ipaddress'])
+  cacher.ipaddress(node['apt']['cacher_ipaddress'])
+  servers << cacher
 else
   servers += search(:node, 'recipes:apt\:\:cacher-ng')
 end
