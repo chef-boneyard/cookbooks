@@ -104,13 +104,13 @@ end
 
 #Loads an array of commands from the node
 cfg_cmds = node['iis']['cfg_cmd']
-cfg_cmds.each do |cmd|  
+cfg_cmds.each do |cmd|
     iis_config "#{cmd}" do
         action :config
     end
 end
 
-'iis_pool'
+iis\_pool
 ---------
 Creates an application pool in IIS.
 
