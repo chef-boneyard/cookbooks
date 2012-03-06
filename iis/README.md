@@ -83,6 +83,33 @@ Allows easy management of IIS virtual sites (ie vhosts).
       action [:add,:start]
     end
 
+`iis_config`
+
+Runs a config command on your IIS instance.
+
+###Actions
+
+- :config: - Runs the configuration command
+
+###Attribute Parameters
+
+- cfg_cmd: name attribute. What ever command you would pass in after "appcmd.exe set config"
+
+###Example
+
+#Sets up logging
+iis_config "/section:system.applicationHost/sites /siteDefaults.logfile.directory:"D:\\logs"" do
+    action :config
+end
+
+#Loads an array of commands from the node
+cfg_cmds = node['iis']['cfg_cmd']
+cfg_cmds.each do |cmd|
+    iis_config "#{cmd}" do
+        action :config
+    end
+end
+
 iis\_pool
 ---------
 Creates an application pool in IIS.
