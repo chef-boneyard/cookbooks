@@ -28,16 +28,29 @@ include Chef::Mixin::ShellOut
 
 action :install do
   # If we specified a version, and it's not the current version, move to the specified version
-  if @new_resource.version != nil && @new_resource.version != @current_resource.version
-    install_version = @new_resource.version
-  # If it's not installed at all, install it
-  elsif @current_resource.version == nil
-    install_version = candidate_version
-  end
-  
-  if install_version
-    Chef::Log.info("Installing #{@new_resource} version #{install_version}")
-    status = install_package(@new_resource.package_name, install_version)
+  if @new_resource.is_requirements
+    requirements_file = @new_resource.package_name
+    packages = parse_requirements(requirements_file)
+    
+    packages.each_pair |package, install_version| do 
+      Chef::Log.info("Installing #{package} version #{install_version}")
+      status = install_package(@new_resource.package_name, install_version)
+      if status
+        @new_resource.updated_by_last_action(true)
+      end
+
+    end
+  else
+    if @new_resource.version != nil && @new_resource.version != @current_resource.version
+      install_version = @new_resource.version
+      # If it's not installed at all, install it
+    elsif @current_resource.version == nil
+      install_version = candidate_version
+    end
+    
+    if install_version
+      Chef::Log.info("Installing #{@new_resource} version #{install_version}")
+      status = install_package(@new_resource.package_name, install_version)
     if status
       @new_resource.updated_by_last_action(true)
     end
@@ -137,6 +150,22 @@ end
 
 def expand_virtualenv(virtualenv)
   virtualenv && " --environment=#{virtualenv}"
+end
+
+def parse_requirements(requirements_file)
+  packages = []
+  Chef::Log.info("reading pip requirements from #{requirements_file}")
+    
+  requirements = Hash.new
+  File.open(nr.name).each do |line|
+    # supports >= and ==
+    package,ver = line.chomp.split(/[\>=]=/)
+    requirements[package] = ver
+  end
+  if requirements.length
+    packages.update(requirements)
+  end
+  packages
 end
 
 # TODO remove when provider is moved into Chef core

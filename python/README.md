@@ -78,6 +78,13 @@ Install packages using the new hotness in Python package management...[`pip`](ht
       provider Chef::Provider::PythonPip
       action :install
     end
+    
+    # install from a requirements file
+    python_pip "/path/to/requirements.txt" do
+        is_requirements :true
+        virtualenv "/path/to/virtualenv
+        action :install
+    end
 
 `python_virtualenv`
 -------------------
