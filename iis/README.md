@@ -33,8 +33,8 @@ Attributes
 Resource/Provider
 =================
 
-`iis_site`
-----------
+iis\_site
+---------
 
 Allows easy management of IIS virtual sites (ie vhosts).
 
@@ -111,24 +111,24 @@ Creates an application pool in IIS.
      end
 
 
-`iis_app`
----------------
+iis\_app
+--------
 
 Creates an application in IIS.
 
-###Actions
+### Actions
 
 - :add: - add a new application pool
 - :delete: - delete an existing application pool
 
-###Attribute Parameters
+### Attribute Parameters
 
 - app_name: name attribute. The name of the site to add this app to
 - path: The virtual path for this application
 - applicationPool: The pool this application belongs to
 - physicalPath: The physical path where this app resides.
 
-###Example
+### Example
 
 	#creates a new app
 	iis_app "myApp" do
