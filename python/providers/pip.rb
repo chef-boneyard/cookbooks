@@ -22,6 +22,8 @@ require 'chef/mixin/shell_out'
 require 'chef/mixin/language'
 include Chef::Mixin::ShellOut
 
+NO_ENV_PARAM_AT_VERSION='1.1'
+
 # the logic in all action methods mirror that of 
 # the Chef::Provider::Package which will make
 # refactoring into core chef easy
@@ -30,15 +32,10 @@ action :install do
   # If we specified a version, and it's not the current version, move to the specified version
   if @new_resource.is_requirements
     requirements_file = @new_resource.package_name
-    packages = parse_requirements(requirements_file)
-    
-    packages.each_pair |package, install_version| do 
-      Chef::Log.info("Installing #{package} version #{install_version}")
-      status = install_package(@new_resource.package_name, install_version)
-      if status
-        @new_resource.updated_by_last_action(true)
-      end
-
+    Chef::Log.info("Installing python packages from requirements file #{requirements_file}")
+    status = install_from_requirements(requirements_file)
+    if status
+      @new_resource.updated_by_last_action(true)
     end
   else
     if @new_resource.version != nil && @new_resource.version != @current_resource.version
@@ -51,8 +48,9 @@ action :install do
     if install_version
       Chef::Log.info("Installing #{@new_resource} version #{install_version}")
       status = install_package(@new_resource.package_name, install_version)
-    if status
-      @new_resource.updated_by_last_action(true)
+      if status
+        @new_resource.updated_by_last_action(true)
+      end
     end
   end
 end
@@ -136,7 +134,21 @@ end
 
 def install_package(name,version)
   v = "==#{version}" unless version.eql?('latest')
-  shell_out!("pip install#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{name}#{v}")
+  activate_virtualenv = !use_environment_param?(pip_version())
+  pip_command = "pip install#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{name}#{v}"
+  if activate_virtualenv && can_haz_virtualenv(@new_resource)
+    pip_command = 'source ' + can_haz_virtualenv(@new_resource) + '/bin/activate ; ' + pip_command + ' ; deactivate'
+  end
+  shell_out!(pip_command)
+end
+
+def install_from_requirements(file)
+  activate_virtualenv = !use_environment_param?(pip_version())
+  pip_command = "pip install#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} -r #{file}"
+  if activate_virtualenv && can_haz_virtualenv(@new_resource)
+    pip_command = 'source ' + can_haz_virtualenv(@new_resource) + '/bin/activate ; ' + pip_command + ' ; deactivate'
+  end
+  shell_out!(pip_command)
 end
 
 def upgrade_package(name, version)
@@ -148,24 +160,22 @@ def remove_package(name, version)
   shell_out!("pip uninstall -y#{expand_options(@new_resource.options)}#{expand_virtualenv(can_haz_virtualenv(@new_resource))} #{@new_resource.name}")
 end
 
-def expand_virtualenv(virtualenv)
-  virtualenv && " --environment=#{virtualenv}"
+def pip_version
+    ver = shell_out!("pip --version").stdout
+    version = ver[/^pip ([\d\.]+)/,1]
+    version # 0
 end
 
-def parse_requirements(requirements_file)
-  packages = []
-  Chef::Log.info("reading pip requirements from #{requirements_file}")
-    
-  requirements = Hash.new
-  File.open(nr.name).each do |line|
-    # supports >= and ==
-    package,ver = line.chomp.split(/[\>=]=/)
-    requirements[package] = ver
+def use_environment_param?(pip_version)
+    pip_version && Gem::Version.new(pip_version) < Gem::Version.new(NO_ENV_PARAM_AT_VERSION)
+end
+
+def expand_virtualenv(virtualenv)
+  if use_environment_param?(pip_version())
+    virtualenv && " --environment=#{virtualenv}"
+  else
+    ""
   end
-  if requirements.length
-    packages.update(requirements)
-  end
-  packages
 end
 
 # TODO remove when provider is moved into Chef core
