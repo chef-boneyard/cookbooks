@@ -23,7 +23,7 @@ require 'chef/mixin/shell_out'
 include Chef::Mixin::ShellOut
 include Windows::Helper
 
-action :add do  
+action :add do
 	unless @current_resource.exists
 	cmd = "#{appcmd} add app /site.name:\"#{@new_resource.app_name}\""
 	cmd << " /path:#{@new_resource.path}"
@@ -31,7 +31,7 @@ action :add do
 	cmd << " /physicalPath:\"#{@new_resource.physical_path}\""
 	Chef::Log.debug(cmd)
 	shell_out!(cmd)
-	Chef::Log.info("App created")  
+	Chef::Log.info("App created")
 	else
     Chef::Log.debug("#{@new_resource} app already exists - nothing to do")
   end
@@ -59,8 +59,8 @@ def load_current_resource
   result = cmd.stdout.match(/^APP\s\"#{@new_resource.app_name}#{@new_resource.path}\"\s\(applicationPool\:#{@new_resource.application_pool}\)/) if cmd.stderr.empty?
          Chef::Log.debug("Running regex")
   Chef::Log.debug("#{@new_resource} current_resource match output:#{result}")
-  if result  
-    @current_resource.exists = true    
+  if result
+    @current_resource.exists = true
   else
     @current_resource.exists = false
   end
