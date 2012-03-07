@@ -1,3 +1,8 @@
+## v1.1.2:
+
+* [COOK-1083] - return string for v_f_p and use correct value for
+  default
+
 ## v1.1.0:
 
 * [COOK-861] - Add `mod_perl` and apreq2
