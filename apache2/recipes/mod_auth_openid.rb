@@ -27,8 +27,8 @@ openid_dev_pkgs = value_for_platform(
 )
 
 make_cmd = value_for_platform(
-  "freebsd" => { "default" => %w{gmake} },
-  "default" => { "default" => %w{make} }
+  "freebsd" => { "default" => "gmake" },
+  "default" => "make"
 )
 
 case node[:platform]
