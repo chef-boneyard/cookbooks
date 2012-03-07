@@ -23,6 +23,20 @@
 nodes = search(:node, "keys_ssh:* NOT name:#{node.name}")
 nodes << node
 
+other_hosts = data_bag('ssh_known_hosts')
+require 'resolv'
+r = Resolv.new
+other_hosts.each do |h|
+  host = data_bag_item('ssh_known_hosts', h)
+  host['ipaddress'] ||= r.getaddress(host['fqdn'])
+  host['keys'] = {
+    'ssh' => {}
+  }
+  host['keys']['ssh']['host_rsa_public'] = host['rsa'] if host.has_key?('rsa')
+  host['keys']['ssh']['host_dsa_public'] = host['dsa'] if host.has_key?('dsa')
+  nodes << host
+end
+
 template "/etc/ssh/ssh_known_hosts" do
   source "known_hosts.erb"
   mode 0444
