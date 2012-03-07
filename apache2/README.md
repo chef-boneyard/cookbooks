@@ -39,10 +39,15 @@ Build/compile tools may not be installed on the system by default. Some recipes 
 * Red Hat/CentOS/Scientific Linux/Fedora (RHEL Family)
 * SUSE/OpenSUSE
 * ArchLinux
+* FreeBSD
 
 ### Notes for RHEL Family:
 
 On Red Hat Enterprise Linux and derivatives, the EPEL repository may be necessary to install packages used in certain recipes. The `apache2::default` recipe, however, does not require any additional repositories. Opscode's `yum` cookbook contains a recipe to add the EPEL repository. See __Examples__ for more information.
+
+### Notes for FreeBSD:
+
+The `apache2::mod_php5` recipe depends on the `freebsd` cookbook, which it uses to set the correct options for compiling the `php5` port from sources. You need to ensure the `freebsd` is in the expanded run list, or this recipe will fail.
 
 Attributes
 ==========
