@@ -51,7 +51,7 @@ It is best to declare `chef_handler` resources early on in the compile phase so 
     chef_handler "Chef::Handler::JsonFile" do
       source "chef/handler/json_file"
       arguments :path => '/var/chef/reports'
-      supports exception => true
+      supports :exception => true
       action :enable
     end
 
