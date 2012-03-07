@@ -1,5 +1,6 @@
 ## v1.1.2:
 
+* [COOK-996] - apache2::mod_php5 can cause PHP and module API mismatches
 * [COOK-1083] - return string for v_f_p and use correct value for
   default
 
