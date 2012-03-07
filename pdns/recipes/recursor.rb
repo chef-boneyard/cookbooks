@@ -33,7 +33,7 @@ when "arch"
   end
 end
 
-template "/etc/powerdns/recursor.conf" do
+template '#{node[:pdns][:recursor][:config_dir]}/recursor.conf" do
   source "recursor.conf.erb"
   owner "root"
   group "root"
