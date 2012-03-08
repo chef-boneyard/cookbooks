@@ -1,7 +1,10 @@
 Description
 ===========
 
-This cookbook includes recipes to execute apt-get update to ensure the local APT package cache is up to date. There are recipes for managing the apt-cacher-ng caching proxy and proxy clients. It also includes a LWRP for managing APT repositories in /etc/apt/sources.list.d.
+This cookbook includes recipes to execute apt-get update to ensure the
+local APT package cache is up to date. There are recipes for managing
+the apt-cacher-ng caching proxy and proxy clients. It also includes a
+LWRP for managing APT repositories in /etc/apt/sources.list.d.
 
 Recipes
 =======
@@ -9,16 +12,23 @@ Recipes
 default
 -------
 
-This recipe installs the `update-notifier-common` package to provide the timestamp file used to only run `apt-get update` if the cache is less than one day old.
+This recipe installs the `update-notifier-common` package to provide
+the timestamp file used to only run `apt-get update` if the cache is
+less than one day old.
 
-This recipe should appear first in the run list of Debian or Ubuntu nodes to ensure that the package cache is up to date before managing any `package` resources with Chef.
+This recipe should appear first in the run list of Debian or Ubuntu
+nodes to ensure that the package cache is up to date before managing
+any `package` resources with Chef.
 
 This recipe also sets up a local cache directory for preseeding packages.
 
 cacher-ng
 ---------
 
-Installs the `apt-cacher-ng` package and service so the system can provide APT caching. You can check the usage report at http://{hostname}:3142/acng-report.html. The `cacher-ng` recipe includes the `cacher-client` recipe, so it helps seed itself.
+Installs the `apt-cacher-ng` package and service so the system can
+provide APT caching. You can check the usage report at
+http://{hostname}:3142/acng-report.html. The `cacher-ng` recipe
+includes the `cacher-client` recipe, so it helps seed itself.
 
 cacher-client
 -------------
@@ -27,7 +37,9 @@ Configures the node to use the `apt-cacher-ng` server as a client.
 Resources/Providers
 ===================
 
-This LWRP provides an easy way to manage additional APT repositories. Adding a new repository will notify running the `execute[apt-get-update]` resource.
+This LWRP provides an easy way to manage additional APT repositories.
+Adding a new repository will notify running the
+`execute[apt-get-update]` resource.
 
 # Actions
 
@@ -38,11 +50,17 @@ This LWRP provides an easy way to manage additional APT repositories. Adding a n
 
 - repo_name: name attribute. The name of the channel to discover
 - uri: the base of the Debian distribution
-- distribution: this is usually your release's codename...ie something like `karmic`, `lucid` or `maverick`
+- distribution: this is usually your release's codename...ie something
+  like `karmic`, `lucid` or `maverick`
 - components: package groupings..when it doubt use `main`
 - deb_src: whether or not to add the repository as a source repo as well
 - key_server: the GPG keyserver where the key for the repo should be retrieved
-- key: if a `key_server` is provided, this is assumed to be the fingerprint, otherwise it is the URI to the GPG key for the repo
+- key: if a `key_server` is provided, this is assumed to be the
+  fingerprint, otherwise it can be either the URI to the GPG key for
+  the repo, or a cookbook_file.
+- cookbook: if key should be a cookbook_file, specify a cookbook where
+  the key is located for files/default. Defaults to nil, so it will
+  use the cookbook where the resource is used.
 
 # Examples
 
@@ -69,6 +87,15 @@ This LWRP provides an easy way to manage additional APT repositories. Adding a n
       key "http://packages.cloudkick.com/cloudkick.packages.key"
     end
 
+    # add the Cloudkick Repo with the key downloaded in the cookbook
+    apt_repository "cloudkick" do
+      uri "http://packages.cloudkick.com/ubuntu"
+      distribution node['lsb']['codename']
+      components ["main"]
+      key "cloudkick.packages.key"
+    end
+
+
     # remove Zenoss repo
     apt_repository "zenoss" do
       action :remove
@@ -77,40 +104,21 @@ This LWRP provides an easy way to manage additional APT repositories. Adding a n
 Usage
 =====
 
-Put `recipe[apt]` first in the run list. If you have other recipes that you want to use to configure how apt behaves, like new sources, notify the execute resource to run, e.g.:
+Put `recipe[apt]` first in the run list. If you have other recipes
+that you want to use to configure how apt behaves, like new sources,
+notify the execute resource to run, e.g.:
 
     template "/etc/apt/sources.list.d/my_apt_sources.list" do
       notifies :run, resources(:execute => "apt-get update"), :immediately
     end
 
-The above will run during execution phase since it is a normal template resource, and should appear before other package resources that need the sources in the template.
+The above will run during execution phase since it is a normal
+template resource, and should appear before other package resources
+that need the sources in the template.
 
-Put `recipe[apt::cacher-ng]` in the run_list for a server to provide APT caching and add `recipe[apt::cacher-client]` on the rest of the Debian-based nodes to take advantage of the caching server.
-
-Changes
-=======
-
-## v1.3.2:
-
-* [COOK-1040] - actually run apt-get update w/ not_if
-
-## v1.3.0:
-
-* [COOK-533] - add support for deb and deb_src repos with apt_repository provider
-* [COOK-593] - switched from apt-cacher to apt-cacher-ng to better support multiple distributions.
-* [COOK-890] - Fix distribution for zenoss repo in apt README
-* [COOK-891] -  Make add the default action for `apt_repository`
-* [COOK-947] - Add chef-solo support for recipe[apt::cacher-client].
-
-## v1.2.2:
-
-* [COOK-804] - apt-get update resource in apt cookbook changed names
-
-## v1.2.0:
-
-* [COOK-136] - Limit apt-get update to one run per day unless notified.
-* [COOK-471] - ignore failure on apt-get update
-* [COOK-533] - add support for deb and `deb_src` repos with `apt_repository`
+Put `recipe[apt::cacher-ng]` in the run_list for a server to provide
+APT caching and add `recipe[apt::cacher-client]` on the rest of the
+Debian-based nodes to take advantage of the caching server.
 
 License and Author
 ==================
