@@ -15,7 +15,7 @@ modify the version number in the metadata.rb. Also please do not
 update the CHANGELOG.md for a new version. Not all changes to a
 cookbook may be merged and released in the same versions. Opscode will
 handle the version updates during the release process. You are welcome
-to correct typos or otherwise make updates documentation in the
+to correct typos or otherwise make updates to documentation in the
 README.
 
 If a contribution adds new platforms or platform versions, indicate
