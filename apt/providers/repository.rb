@@ -41,6 +41,7 @@ def install_key_from_uri(uri)
   else
     r = cookbook_file cached_keyfile do
       source new_resource.key
+      cookbook new_resource.cookbook
       mode "0644"
       action :nothing
     end
