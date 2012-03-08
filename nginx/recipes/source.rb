@@ -32,6 +32,7 @@ packages.each do |devpkg|
 end
 
 nginx_version = node[:nginx][:version]
+src_url = node[:nginx][:url]
 
 node.set[:nginx][:install_path]    = "/opt/nginx-#{nginx_version}"
 node.set[:nginx][:src_binary]      = "#{node[:nginx][:install_path]}/sbin/nginx"
@@ -46,7 +47,7 @@ node.set[:nginx][:configure_flags] = [
 configure_flags = node[:nginx][:configure_flags].join(" ")
 
 remote_file "#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version}.tar.gz" do
-  source "http://nginx.org/download/nginx-#{nginx_version}.tar.gz"
+  source src_url
   action :create_if_missing
 end
 
