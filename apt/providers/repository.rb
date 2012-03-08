@@ -46,7 +46,7 @@ def install_key_from_uri(uri)
     end
   end
 
-  r.run_action(:create_if_missing)
+  r.run_action(:create)
 
   execute "install-key #{key_name}" do
     command "apt-key add #{cached_keyfile}"
