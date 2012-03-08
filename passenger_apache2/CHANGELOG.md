@@ -1,6 +1,7 @@
 ## v0.99.4:
 
 * [COOK-958] - fix regression for loadmodule on debian/ubuntu
+* [COOK-1003] - support archlinux
 
 ## v0.99.2:
 
