@@ -23,8 +23,8 @@
 include_recipe "build-essential"
 
 packages = value_for_platform(
-    ["centos","redhat","fedora"] => {'default' => ['pcre-devel', 'openssl-devel']},
-    "default" => ['libpcre3', 'libpcre3-dev', 'libssl-dev']
+    ["centos","redhat","fedora"] => {'default' => ['pcre-devel', 'openssl-devel', 'git', 'subversion']},
+    "default" => ['libpcre3', 'libpcre3-dev', 'libssl-dev', 'subversion', 'git-core']
   )
 
 packages.each do |devpkg|
@@ -33,31 +33,61 @@ end
 
 nginx_version = node[:nginx][:version]
 
+# List of modules used to build nginx
+# FIXME: The module may requires some extra packages on the system.
+# FIXME: We have no way to check these packages?
+# Example
+# node.set[:nginx][:modules] = {
+#  "native" => %w{http_stub_status http_ssl http_gzip_static http_realip http_sub},
+#  "git"    => {"headers-more" => "git://github.com/agentzh/headers-more-nginx-module.git"},
+#  "svn"    => {"substitutions4nginx" => "http://substitutions4nginx.googlecode.com/svn/trunk/"}
+#}
+node.set[:nginx][:modules] = {
+  "native" => %w{http_stub_status http_ssl http_gzip_static http_realip http_sub},
+  "git"    => {},
+  "svn"    => {}
+}
+
 node.set[:nginx][:install_path]    = "/opt/nginx-#{nginx_version}"
 node.set[:nginx][:src_binary]      = "#{node[:nginx][:install_path]}/sbin/nginx"
 node.set[:nginx][:daemon_disable]  = true
 node.set[:nginx][:configure_flags] = [
   "--prefix=#{node[:nginx][:install_path]}",
-  "--conf-path=#{node[:nginx][:dir]}/nginx.conf",
-  "--with-http_ssl_module",
-  "--with-http_gzip_static_module"
+  "--conf-path=#{node[:nginx][:dir]}/nginx.conf"
 ]
 
 configure_flags = node[:nginx][:configure_flags].join(" ")
+configure_flags << " " << node[:nginx][:modules]["native"].map {|mod| "--with-#{mod}_module"}.join(" ")
 
 remote_file "#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version}.tar.gz" do
   source "http://nginx.org/download/nginx-#{nginx_version}.tar.gz"
   action :create_if_missing
 end
 
+clone_commands = []
+
+%w{git svn}.each do |type|
+  type_command = {"git" => "git clone", "svn" => "svn checkout"}[type]
+  node[:nginx][:modules][type].each do |mod, repo|
+    clone_commands << "rm -rf #{mod}; #{type_command} #{repo} #{mod}"
+    configure_flags << " --add-module=../#{mod}/"
+  end
+end
+
 bash "compile_nginx_source" do
   cwd Chef::Config[:file_cache_path]
   code <<-EOH
+    #{clone_commands.join("\n")}
     tar zxf nginx-#{nginx_version}.tar.gz
     cd nginx-#{nginx_version} && ./configure #{configure_flags}
     make && make install
   EOH
   creates node[:nginx][:src_binary]
+  # FIXME: After a new verion nginx is installed, we can't stop the old/
+  # FIXME: current running nginx process. The problem happens on Debian
+  # FIXME: system with init style (not sure if it happends on other system.)
+  # FIXME: This means that we need to stop the running nginx before
+  # FIXME: invoking "make install" to install nginx!
   notifies :restart, "service[nginx]"
 end
 

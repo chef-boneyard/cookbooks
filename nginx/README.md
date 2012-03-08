@@ -39,6 +39,7 @@ The following attributes are set at the 'normal' node level via the `nginx::sour
 * `install_path` - for nginx::source, sets the --prefix installation.
 * `src_binary` - for nginx::source, sets the binary location.
 * `configure_flags` - for nginx::source, an array of flags to use for compilation.
+* `modules` - for nginx::source, handles list of modules to add to nginx. See `recipes/source.rb` for an example
 
 Usage
 =====
