@@ -1,3 +1,8 @@
+## v1.0.2:
+
+* [COOK-1043] - Bluepill cookbook fails on OS X because it tries to
+  use root group
+
 ## v1.0.0:
 
 * [COOK-943] - add init script for freebsd
