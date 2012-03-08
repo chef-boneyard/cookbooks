@@ -69,7 +69,12 @@ class Chef
 
         private
         def exists?
-          db("template1").query("select * from pg_user where usename='#{@new_resource.username}'").num_tuples != 0
+          begin
+            exists = db("template1").query("select * from pg_user where usename='#{@new_resource.username}'").num_tuples != 0
+          ensure
+            close
+          end
+          exists
         end
 
       end

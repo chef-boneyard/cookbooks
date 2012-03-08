@@ -84,10 +84,14 @@ class Chef
         private
 
         def exists?
-          Chef::Log.debug("#{@new_resource}: checking if database #{@new_resource.database_name} exists")
-          ret = db("template1").query("select * from pg_database where datname = '#{@new_resource.database_name}'").num_tuples != 0
-          ret ? Chef::Log.debug("#{@new_resource}: database #{@new_resource.database_name} exists") :
-                Chef::Log.debug("#{@new_resource}: database #{@new_resource.database_name} does not exist")
+          begin
+            Chef::Log.debug("#{@new_resource}: checking if database #{@new_resource.database_name} exists")
+            ret = db("template1").query("select * from pg_database where datname = '#{@new_resource.database_name}'").num_tuples != 0
+            ret ? Chef::Log.debug("#{@new_resource}: database #{@new_resource.database_name} exists") :
+                  Chef::Log.debug("#{@new_resource}: database #{@new_resource.database_name} does not exist")
+          ensure
+            close
+          end
           ret
         end
 
