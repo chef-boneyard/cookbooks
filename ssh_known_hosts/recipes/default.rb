@@ -23,18 +23,25 @@
 nodes = search(:node, "keys_ssh:* NOT name:#{node.name}")
 nodes << node
 
-other_hosts = data_bag('ssh_known_hosts')
-require 'resolv'
-r = Resolv.new
-other_hosts.each do |h|
-  host = data_bag_item('ssh_known_hosts', h)
-  host['ipaddress'] ||= r.getaddress(host['fqdn'])
-  host['keys'] = {
-    'ssh' => {}
-  }
-  host['keys']['ssh']['host_rsa_public'] = host['rsa'] if host.has_key?('rsa')
-  host['keys']['ssh']['host_dsa_public'] = host['dsa'] if host.has_key?('dsa')
-  nodes << host
+begin
+  other_hosts = data_bag('ssh_known_hosts')
+rescue
+  Chef::Log.info("Could not load data bag 'ssh_known_hosts', this is optional, moving on...")
+end
+
+if other_hosts
+  require 'resolv'
+  r = Resolv.new
+  other_hosts.each do |h|
+    host = data_bag_item('ssh_known_hosts', h).to_hash
+    host['ipaddress'] ||= r.getaddress(host['fqdn'])
+    host['keys'] = {
+      'ssh' => {}
+    }
+    host['keys']['ssh']['host_rsa_public'] = host['rsa'] if host.has_key?('rsa')
+    host['keys']['ssh']['host_dsa_public'] = host['dsa'] if host.has_key?('dsa')
+    nodes << host
+  end
 end
 
 template "/etc/ssh/ssh_known_hosts" do
