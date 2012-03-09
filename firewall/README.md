@@ -103,7 +103,7 @@ Resources/Providers
     firewall_rule "myapplication" do
       port 13579
       source '10.0.111.0/24'
-      direction 'in'
+      direction :in
       interface 'eth0'
       action :allow
     end
