@@ -32,6 +32,8 @@ else
 end
 
 default["pdns"]["server_backend"] = "sqlite3"
+default["pdns"]["server_launch"] = "gsqlite3"
+default["pdns"]["bind_config_path"] = "gsqlite3-database=/etc/powerdns/sqlite3/db.sqlite3"
 
 default["pdns"]["recursor"]["allow_from"] = [
   "127.0.0.0/8",
