@@ -23,7 +23,6 @@ Attributes
 See `attributes/default.rb` for default values.
 
 * `node["python"]["install_method"]` - method to install python with, default `package`.
-* `node["python"]["distribute_install_py_version"]` - version of python to use when installing distribute. default '', specify version like '2.6' (uses python2.6 binary).
 
 The file also contains the following attributes:
 
