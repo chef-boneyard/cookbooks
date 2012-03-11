@@ -18,24 +18,23 @@ INSTANCE=$(uname -n)
 # Listen on port 6081, administration on localhost:6082, and forward to
 # content server on localhost:8080.  Use a fixed-size cache file.
 #
-DAEMON_OPTS="-a :6081 \
-             -T localhost:6082 \
-             -b localhost:8080 \
-             -u varnish -g varnish \
-             -s file,/var/lib/varnish/$INSTANCE/varnish_storage.bin,1G"
-
-
+#DAEMON_OPTS="-a :6081 \
+#             -T localhost:6082 \
+#             -b localhost:8080 \
+#             -u varnish -g varnish \
+#             -s file,/var/lib/varnish/$INSTANCE/varnish_storage.bin,1G"
+#
+#
 ## Alternative 2, Configuration with VCL
 #
 # Listen on port 6081, administration on localhost:6082, and forward to
 # one content server selected by the vcl file, based on the request.  Use a
 # fixed-size cache file.
 #
-# DAEMON_OPTS="-a :6081 \
-#              -T localhost:6082 \
-#              -f /etc/varnish/default.vcl \
-#              -s file,/var/lib/varnish/$INSTANCE/varnish_storage.bin,1G"
-
+DAEMON_OPTS="-a :<%= node[:varnish][:listen_port] %> \
+             -T localhost:<%= node[:varnish][:admin_port] %> \
+             -f /etc/varnish/default.vcl \
+             -s file,/var/lib/varnish/$INSTANCE/varnish_storage.bin,1G"
 
 ## Alternative 3, Advanced configuration
 #
