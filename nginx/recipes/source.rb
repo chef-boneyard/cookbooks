@@ -24,8 +24,7 @@ nginx_version = node[:nginx][:version]
 src_filepath  = "#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version}.tar.gz"
 
 node.set[:nginx][:install_path]    = "/opt/nginx-#{nginx_version}"
-node.set[:nginx][:src_binary]      = "#{node[:nginx][:install_path]}/sbin/nginx"
-node.set[:nginx][:binary]          = node[:nginx][:src_binary]
+node.set[:nginx][:binary]          = "#{node[:nginx][:install_path]}/sbin/nginx"
 node.set[:nginx][:daemon_disable]  = true
 
 include_recipe "nginx::ohai_plugin"
@@ -109,7 +108,7 @@ when "bluepill"
     mode 0644
     variables(
       :working_dir => node[:nginx][:install_path],
-      :src_binary => node[:nginx][:src_binary],
+      :src_binary => set[:nginx][:binary],
       :nginx_dir => node[:nginx][:dir],
       :log_dir => node[:nginx][:log_dir],
       :pid => node[:nginx][:pid]
