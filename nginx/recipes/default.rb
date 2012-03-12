@@ -18,6 +18,8 @@
 # limitations under the License.
 #
 
+include_recipe "nginx::ohai_plugin"
+
 package "nginx"
 
 directory node[:nginx][:log_dir] do
