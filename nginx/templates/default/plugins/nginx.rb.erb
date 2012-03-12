@@ -1,0 +1,64 @@
+#
+# Author:: Jamie Winsor (<jamie@vialstudios.com>)
+#
+# Copyright 2012, Vial Studios
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+provides "nginx"
+provides "nginx/version"
+provides "nginx/configure_arguments"
+provides "nginx/modules"
+provides "nginx/prefix"
+provides "nginx/conf_path"
+
+nginx Mash.new unless nginx
+
+status, stdout, stderr = run_command(:no_status_check => true, :command => "<%= @nginx_bin %> -V")
+
+def parse_flags(flags)
+  prefix = nil
+  conf_path = nil
+  ngx_modules = []
+
+  flags.each do |flag|
+    case flag
+    when /^--prefix=(.+)$/
+      prefix = $1
+    when /^--conf-path=(.+)$/
+      conf_path = $1
+    when /^--with-(.+)$/
+      ngx_modules << $1
+    end
+  end
+
+  [ prefix, conf_path, ngx_modules ]
+end
+
+if status == 0
+  stderr.split("\n").each do |line|
+    case line
+    when /^configure arguments: (.+)/
+      nginx[:configure_arguments] = $1.split(" ")
+
+      prefix, conf_path, ngx_modules = parse_flags(nginx[:configure_arguments])
+
+      nginx[:prefix] = prefix
+      nginx[:conf_path] = conf_path
+      nginx[:modules] = ngx_modules
+    when /^nginx version: nginx\/(.+)/
+      nginx[:version] = $1
+    end
+  end
+end

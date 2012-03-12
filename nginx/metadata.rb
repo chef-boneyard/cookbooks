@@ -15,6 +15,8 @@ end
   depends cb
 end
 
+depends 'ohai', '~> 1.0.2'
+
 attribute "nginx/dir",
   :display_name => "Nginx Directory",
   :description => "Location of nginx configuration files",
