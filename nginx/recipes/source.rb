@@ -117,7 +117,6 @@ when "bluepill"
     action :nothing
   end
 else
-  #install init db script
   template "/etc/init.d/nginx" do
     source "nginx.init.erb"
     owner "root"
@@ -125,7 +124,6 @@ else
     mode "0755"
   end
 
-  #install sysconfig file (not really needed but standard)
   template "/etc/sysconfig/nginx" do
     source "nginx.sysconfig.erb"
     owner "root"
@@ -133,7 +131,6 @@ else
     mode "0644"
   end
 
-  #register service
   service "nginx" do
     supports :status => true, :restart => true, :reload => true
     action :enable
