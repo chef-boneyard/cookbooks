@@ -43,6 +43,32 @@ remote_file node[:nginx][:source][:url] do
   backup false
 end
 
+user node[:nginx][:user] do
+  system true
+  shell "/bin/false"
+  home "/var/www"
+end
+
+directory node[:nginx][:log_dir] do
+  mode 0755
+  owner node[:nginx][:user]
+  action :create
+end
+
+directory node[:nginx][:dir] do
+  owner "root"
+  group "root"
+  mode "0755"
+end
+
+%w{ sites-available sites-enabled conf.d }.each do |dir|
+  directory "#{node[:nginx][:dir]}/#{dir}" do
+    owner "root"
+    group "root"
+    mode "0755"
+  end
+end
+
 node.run_state[:nginx_configure_flags] = [
   "--prefix=#{node[:nginx][:source][:prefix]}",
   "--conf-path=#{node[:nginx][:dir]}/nginx.conf"
@@ -69,24 +95,6 @@ bash "compile_nginx_source" do
 end
 
 node.run_state.delete(:nginx_configure_flags)
-
-user node[:nginx][:user] do
-  system true
-  shell "/bin/false"
-  home "/var/www"
-end
-
-directory node[:nginx][:log_dir] do
-  mode 0755
-  owner node[:nginx][:user]
-  action :create
-end
-
-directory node[:nginx][:dir] do
-  owner "root"
-  group "root"
-  mode "0755"
-end
 
 case node[:nginx][:init_style]
 when "runit"
@@ -140,14 +148,6 @@ else
   service "nginx" do
     supports :status => true, :restart => true, :reload => true
     action :enable
-  end
-end
-
-%w{ sites-available sites-enabled conf.d }.each do |dir|
-  directory "#{node[:nginx][:dir]}/#{dir}" do
-    owner "root"
-    group "root"
-    mode "0755"
   end
 end
 
