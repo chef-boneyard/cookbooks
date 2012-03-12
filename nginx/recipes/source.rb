@@ -21,7 +21,6 @@
 #
 
 nginx_version = node[:nginx][:version]
-src_url       = node[:nginx][:url]
 src_filepath  = "#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version}.tar.gz"
 
 node.set[:nginx][:install_path]    = "/opt/nginx-#{nginx_version}"
@@ -41,8 +40,8 @@ packages.each do |devpkg|
   package devpkg
 end
 
-remote_file src_url do
-  source src_url
+remote_file node[:nginx][:source][:url] do
+  source node[:nginx][:source][:url]
   path src_filepath
   backup false
 end
