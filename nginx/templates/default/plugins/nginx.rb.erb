@@ -23,14 +23,10 @@ provides "nginx/modules"
 provides "nginx/prefix"
 provides "nginx/conf_path"
 
-nginx Mash.new unless nginx
-
-status, stdout, stderr = run_command(:no_status_check => true, :command => "<%= @nginx_bin %> -V")
-
 def parse_flags(flags)
   prefix = nil
   conf_path = nil
-  ngx_modules = []
+  ngx_modules = Array.new
 
   flags.each do |flag|
     case flag
@@ -45,6 +41,15 @@ def parse_flags(flags)
 
   [ prefix, conf_path, ngx_modules ]
 end
+
+nginx Mash.new unless nginx
+nginx[:version]             = nil unless nginx[:version]
+nginx[:configure_arguments] = Array.new unless nginx[:configure_arguments]
+nginx[:modules]             = Array.new unless nginx[:modules]
+nginx[:prefix]              = nil unless nginx[:prefix]
+nginx[:conf_path]           = nil unless nginx[:conf_path]
+
+status, stdout, stderr = run_command(:no_status_check => true, :command => "<%= @nginx_bin %> -V")
 
 if status == 0
   stderr.split("\n").each do |line|
