@@ -23,8 +23,8 @@
 nginx_version = node[:nginx][:version]
 src_filepath  = "#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version}.tar.gz"
 
-node.set[:nginx][:install_path]    = "/opt/nginx-#{nginx_version}"
-node.set[:nginx][:binary]          = "#{node[:nginx][:install_path]}/sbin/nginx"
+node.set[:nginx][:source][:prefix] = "/opt/nginx-#{nginx_version}"
+node.set[:nginx][:binary]          = "#{node[:nginx][:source][:prefix]}/sbin/nginx"
 node.set[:nginx][:daemon_disable]  = true
 
 include_recipe "nginx::ohai_plugin"
@@ -46,7 +46,7 @@ remote_file node[:nginx][:source][:url] do
 end
 
 node.run_state[:nginx_configure_flags] = [
-  "--prefix=#{node[:nginx][:install_path]}",
+  "--prefix=#{node[:nginx][:source][:prefix]}",
   "--conf-path=#{node[:nginx][:dir]}/nginx.conf"
 ]
 
@@ -107,7 +107,7 @@ when "bluepill"
     source "nginx.pill.erb"
     mode 0644
     variables(
-      :working_dir => node[:nginx][:install_path],
+      :working_dir => node[:nginx][:source][:prefix],
       :src_binary => set[:nginx][:binary],
       :nginx_dir => node[:nginx][:dir],
       :log_dir => node[:nginx][:log_dir],
