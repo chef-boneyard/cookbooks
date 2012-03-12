@@ -21,20 +21,13 @@
 #
 
 nginx_version = node[:nginx][:version]
-src_url = node[:nginx][:url]
+src_url       = node[:nginx][:url]
+src_filepath  = "#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version}.tar.gz"
 
 node.set[:nginx][:install_path]    = "/opt/nginx-#{nginx_version}"
 node.set[:nginx][:src_binary]      = "#{node[:nginx][:install_path]}/sbin/nginx"
 node.set[:nginx][:binary]          = node[:nginx][:src_binary]
 node.set[:nginx][:daemon_disable]  = true
-node.set[:nginx][:configure_flags] = [
-  "--prefix=#{node[:nginx][:install_path]}",
-  "--conf-path=#{node[:nginx][:dir]}/nginx.conf",
-  "--with-http_ssl_module",
-  "--with-http_gzip_static_module"
-]
-
-configure_flags = node[:nginx][:configure_flags].join(" ")
 
 include_recipe "nginx::ohai_plugin"
 include_recipe "build-essential"
@@ -48,21 +41,38 @@ packages.each do |devpkg|
   package devpkg
 end
 
-remote_file "#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version}.tar.gz" do
+remote_file src_url do
   source src_url
-  action :create_if_missing
+  path src_filepath
+  backup false
 end
 
+node.run_state[:nginx_configure_flags] = [
+  "--prefix=#{node[:nginx][:install_path]}",
+  "--conf-path=#{node[:nginx][:dir]}/nginx.conf"
+]
+
+node[:nginx][:source][:modules].each do |ngx_module|
+  include_recipe "nginx::#{ngx_module}"
+end
+
+configure_flags = node.run_state[:nginx_configure_flags]
+
 bash "compile_nginx_source" do
-  cwd Chef::Config[:file_cache_path]
+  cwd ::File.dirname(src_filepath)
   code <<-EOH
-    tar zxf nginx-#{nginx_version}.tar.gz
-    cd nginx-#{nginx_version} && ./configure #{configure_flags}
+    tar zxf #{::File.basename(src_filepath)} -C #{::File.dirname(src_filepath)}
+    cd nginx-#{nginx_version} && ./configure #{node.run_state[:nginx_configure_flags].join(" ")}
     make && make install
   EOH
-  creates node[:nginx][:src_binary]
-  notifies :restart, "service[nginx]"
+  
+  not_if do
+    node.automatic_attrs[:nginx][:version] == node[:nginx][:version] &&
+      node[:nginx][:configure_arguments].sort == configure_flags.sort
+  end
 end
+
+node.run_state.delete(:nginx_configure_flags)
 
 user node[:nginx][:user] do
   system true
