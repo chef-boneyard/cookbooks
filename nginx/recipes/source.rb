@@ -20,16 +20,14 @@
 # limitations under the License.
 #
 
-nginx_version = node[:nginx][:version]
-src_filepath  = "#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version}.tar.gz"
-
-node.set[:nginx][:source][:prefix] = "/opt/nginx-#{nginx_version}"
+node.set[:nginx][:source][:prefix] = "/opt/nginx-#{node[:nginx][:version]}"
 node.set[:nginx][:binary]          = "#{node[:nginx][:source][:prefix]}/sbin/nginx"
 node.set[:nginx][:daemon_disable]  = true
 
 include_recipe "nginx::ohai_plugin"
 include_recipe "build-essential"
 
+src_filepath  = "#{Chef::Config[:file_cache_path]}/nginx-#{node[:nginx][:version]}.tar.gz"
 packages = value_for_platform(
     ["centos","redhat","fedora"] => {'default' => ['pcre-devel', 'openssl-devel']},
     "default" => ['libpcre3', 'libpcre3-dev', 'libssl-dev']
@@ -60,7 +58,7 @@ bash "compile_nginx_source" do
   cwd ::File.dirname(src_filepath)
   code <<-EOH
     tar zxf #{::File.basename(src_filepath)} -C #{::File.dirname(src_filepath)}
-    cd nginx-#{nginx_version} && ./configure #{node.run_state[:nginx_configure_flags].join(" ")}
+    cd nginx-#{node[:nginx][:version]} && ./configure #{node.run_state[:nginx_configure_flags].join(" ")}
     make && make install
   EOH
   
