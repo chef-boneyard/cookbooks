@@ -20,6 +20,23 @@
 # limitations under the License.
 #
 
+nginx_version = node[:nginx][:version]
+src_url = node[:nginx][:url]
+
+node.set[:nginx][:install_path]    = "/opt/nginx-#{nginx_version}"
+node.set[:nginx][:src_binary]      = "#{node[:nginx][:install_path]}/sbin/nginx"
+node.set[:nginx][:binary]          = node[:nginx][:src_binary]
+node.set[:nginx][:daemon_disable]  = true
+node.set[:nginx][:configure_flags] = [
+  "--prefix=#{node[:nginx][:install_path]}",
+  "--conf-path=#{node[:nginx][:dir]}/nginx.conf",
+  "--with-http_ssl_module",
+  "--with-http_gzip_static_module"
+]
+
+configure_flags = node[:nginx][:configure_flags].join(" ")
+
+include_recipe "nginx::ohai_plugin"
 include_recipe "build-essential"
 
 packages = value_for_platform(
@@ -30,21 +47,6 @@ packages = value_for_platform(
 packages.each do |devpkg|
   package devpkg
 end
-
-nginx_version = node[:nginx][:version]
-src_url = node[:nginx][:url]
-
-node.set[:nginx][:install_path]    = "/opt/nginx-#{nginx_version}"
-node.set[:nginx][:src_binary]      = "#{node[:nginx][:install_path]}/sbin/nginx"
-node.set[:nginx][:daemon_disable]  = true
-node.set[:nginx][:configure_flags] = [
-  "--prefix=#{node[:nginx][:install_path]}",
-  "--conf-path=#{node[:nginx][:dir]}/nginx.conf",
-  "--with-http_ssl_module",
-  "--with-http_gzip_static_module"
-]
-
-configure_flags = node[:nginx][:configure_flags].join(" ")
 
 remote_file "#{Chef::Config[:file_cache_path]}/nginx-#{nginx_version}.tar.gz" do
   source src_url
