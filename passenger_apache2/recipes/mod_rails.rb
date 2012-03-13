@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: passenger_apache2
-# Recipe:: default
+# Recipe:: mod_rails
 #
 # Author:: Joshua Timberman (<joshua@opscode.com>)
 # Author:: Joshua Sierles (<joshua@37signals.com>)
