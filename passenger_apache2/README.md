@@ -25,6 +25,17 @@ Attributes
 * `passenger[:root_path]` - The location of the passenger gem.
 * `passenger[:module_path]` - The location of the compiled passenger apache module.
 
+Recipes
+=======
+
+default
+-------
+Installs the passenger gem.
+
+mod_rails
+---------
+Installs the passenger gem and enables the module in Apache2.
+
 Usage
 ====
 
