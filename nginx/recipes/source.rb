@@ -69,6 +69,7 @@ end
   end
 end
 
+node.run_state[:nginx_force_recompile] = false
 node.run_state[:nginx_configure_flags] = [
   "--prefix=#{node[:nginx][:source][:prefix]}",
   "--conf-path=#{node[:nginx][:dir]}/nginx.conf"
@@ -79,6 +80,7 @@ node[:nginx][:source][:modules].each do |ngx_module|
 end
 
 configure_flags = node.run_state[:nginx_configure_flags]
+nginx_force_recompile = node.run_state[:nginx_force_recompile]
 
 bash "compile_nginx_source" do
   cwd ::File.dirname(src_filepath)
@@ -89,12 +91,14 @@ bash "compile_nginx_source" do
   EOH
   
   not_if do
-    node.automatic_attrs[:nginx][:version] == node[:nginx][:version] &&
+    nginx_force_recompile == false &&
+      node.automatic_attrs[:nginx][:version] == node[:nginx][:version] &&
       node[:nginx][:configure_arguments].sort == configure_flags.sort
   end
 end
 
 node.run_state.delete(:nginx_configure_flags)
+node.run_state.delete(:nginx_force_recompile)
 
 case node[:nginx][:init_style]
 when "runit"
