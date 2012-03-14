@@ -4,7 +4,7 @@
 #
 # Author:: Jamie Winsor (<jamie@vialstudios.com>)
 #
-# Copyright 2012, Vial Studios
+# Copyright 2012, Riot Games
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

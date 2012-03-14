@@ -3,7 +3,7 @@
 # Attributes:: source
 #
 # Author:: Jamie Winsor (<jamie@vialstudios.com>)
-# Copyright 2012, Vial Studios
+# Copyright 2012, Riot Games
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,5 +21,6 @@
 default[:nginx][:source][:url]     = "http://nginx.org/download/nginx-#{node[:nginx][:version]}.tar.gz"
 default[:nginx][:source][:modules] = [
   "http_ssl_module",
-  "http_gzip_static_module"
+  "http_gzip_static_module",
+  "http_geoip_module"
 ]
