@@ -19,7 +19,10 @@
 #
 
 pkgs = value_for_platform(
-  [ "centos", "redhat", "fedora" ] => {
+  [ "centos" ] => {
+    "default" => %w{ php php-devel php-cli php-pear }
+  }, 
+  ["redhat", "fedora" ] => {
     "default" => %w{ php53 php53-devel php53-cli php-pear }
   },
   [ "debian", "ubuntu" ] => {
