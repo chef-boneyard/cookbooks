@@ -54,8 +54,11 @@ status, stdout, stderr = run_command(:no_status_check => true, :command => "<%= 
 if status == 0
   stderr.split("\n").each do |line|
     case line
-    when /^configure arguments: (.+)/
-      nginx[:configure_arguments] = $1.split(" ")
+    when /^configure arguments:(.+)/
+      # This could be better: I'm splitting on configure arguments which removes them and also 
+      # adds a blank string at index 0 of the array. This is why we drop index 0 and map to 
+      # add the '--' prefix back to the configure argument.
+      nginx[:configure_arguments] = $1.split(/\s--/).drop(1).map { |ca| "--#{ca}" }
 
       prefix, conf_path, ngx_modules = parse_flags(nginx[:configure_arguments])
 
