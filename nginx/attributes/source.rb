@@ -21,6 +21,5 @@
 default[:nginx][:source][:url]     = "http://nginx.org/download/nginx-#{node[:nginx][:version]}.tar.gz"
 default[:nginx][:source][:modules] = [
   "http_ssl_module",
-  "http_gzip_static_module",
-  "http_geoip_module"
+  "http_gzip_static_module"
 ]
