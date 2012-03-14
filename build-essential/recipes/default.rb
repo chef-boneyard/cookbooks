@@ -24,7 +24,7 @@ when "ubuntu","debian"
       action :install
     end
   end
-when "centos","redhat","fedora"
+when "centos","redhat","fedora","amazon"
   %w{gcc gcc-c++ kernel-devel make}.each do |pkg|
     package pkg do
       action :install
