@@ -20,3 +20,7 @@ root          ALL=(ALL) ALL
 # Members of the group '<%= group %>' may gain root privileges
 %<%= group %> ALL=(ALL) <%= "NOPASSWD:" if @passwordless %>ALL
 <% end -%>
+
+# Include the /etc/sudoers.d directory to load individual configs
+#includedir /etc/sudoers.d
+
