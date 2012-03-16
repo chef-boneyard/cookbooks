@@ -7,7 +7,7 @@ version           "0.10.0"
 recipe            "git", "Installs git"
 recipe            "git::server", "Sets up a runit_service for git daemon"
 
-%w{ ubuntu debian arch centos }.each do |os|
+%w{ ubuntu debian arch centos windows }.each do |os|
   supports os
 end
 
