@@ -33,3 +33,12 @@ template "/etc/sudoers" do
     :passwordless => node['authorization']['sudo']['passwordless']
   )
 end
+
+cookbook_file "/etc/sudoers.d/README" do
+  source "README"
+  owner "root"
+  group "root"
+  mode "0440"
+  action :create_if_missing
+end
+
