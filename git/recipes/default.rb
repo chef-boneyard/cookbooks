@@ -26,8 +26,9 @@ when "centos","redhat","scientific","fedora"
   end
   package "git"
 when "windows"
-  package "git" do
+  windows_package "git" do
     source node[:git][:url]
+    action :install
   end
 else
   package "git"
