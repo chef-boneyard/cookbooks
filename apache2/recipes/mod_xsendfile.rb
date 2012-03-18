@@ -20,7 +20,7 @@
 case node['platform']
 when "debian","ubuntu"
   package "libapache2-mod-xsendfile"
-when "centos","redhat","scientific","fedora"
+when "centos","redhat","scientific","fedora","amazon"
   package "mod_xsendfile"
 end
 

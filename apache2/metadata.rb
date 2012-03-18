@@ -44,7 +44,7 @@ recipe            "apache2::mod_ssl", "Apache module 'ssl' with config file, add
 recipe            "apache2::mod_status", "Apache module 'status' with config file"
 recipe            "apache2::mod_xsendfile", "Apache module 'xsendfile'"
 
-%w{redhat centos scientific fedora debian ubuntu arch freebsd}.each do |os|
+%w{redhat centos scientific fedora debian ubuntu arch freebsd amazon}.each do |os|
   supports os
 end
 

@@ -52,7 +52,7 @@ when "redhat", "centos", "scientific"
     notifies :restart, "service[apache2]"
   end
 
-when "fedora"
+when "fedora", "amazon"
   package "php package" do
     package_name "php"
     action :install

@@ -30,7 +30,7 @@ case node[:platform]
    package "apache2-mpm-prefork" do
       action :install
    end
-  when "centos", "redhat", "fedora"
+  when "centos", "redhat", "fedora", "amazon"
     package "mod_perl" do
       action :install
       notifies :run, resources(:execute => "generate-module-list"), :immediately

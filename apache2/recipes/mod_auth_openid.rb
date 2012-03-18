@@ -19,7 +19,7 @@
 
 openid_dev_pkgs = value_for_platform(
   ["ubuntu","debian"] => { "default" => %w{ g++ apache2-prefork-dev libopkele-dev libopkele3 } },
-  ["centos","redhat","scientific","fedora"] => {
+  ["centos","redhat","scientific","fedora","amazon"] => {
     "default" => %w{ gcc-c++ httpd-devel curl-devel libtidy libtidy-devel sqlite-devel pcre-devel openssl-devel make }
   },
   "arch" => { "default" => ["libopkele"] },
@@ -49,7 +49,7 @@ openid_dev_pkgs.each do |pkg|
 end
 
 case node[:platform]
-when "redhat", "centos", "scientific", "fedora"
+when "redhat", "centos", "scientific", "fedora", "amazon"
   remote_file "#{Chef::Config[:file_cache_path]}/libopkele-2.0.4.tar.gz" do
     source "http://kin.klever.net/dist/libopkele-2.0.4.tar.gz"
     mode 0644
