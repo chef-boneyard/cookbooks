@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-if platform?("redhat", "centos", "scientific", "fedora")
+if platform?("redhat", "centos", "scientific", "fedora", "amazon")
   package "mod_ssl" do
     action :install
     notifies :run, resources(:execute => "generate-module-list"), :immediately

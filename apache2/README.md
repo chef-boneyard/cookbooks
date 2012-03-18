@@ -39,6 +39,7 @@ Build/compile tools may not be installed on the system by default. Some recipes 
 * Red Hat/CentOS/Scientific Linux/Fedora (RHEL Family)
 * SUSE/OpenSUSE
 * ArchLinux
+* Amazon Linux AMI
 
 ### Notes for RHEL Family:
 

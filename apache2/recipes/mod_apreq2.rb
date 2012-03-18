@@ -24,7 +24,7 @@ case node[:platform]
     package "libapache2-mod-apreq2" do
       action :install
     end
-  when "centos", "redhat", "fedora"
+  when "centos", "redhat", "fedora", "amazon"
     package "libapreq2" do
       action :install
       notifies :run, resources(:execute => "generate-module-list"), :immediately

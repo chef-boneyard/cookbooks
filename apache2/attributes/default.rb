@@ -21,7 +21,7 @@ set[:apache][:root_group]  = "root"
 
 # Where the various parts of apache are
 case platform
-when "redhat","centos","scientific","fedora","suse"
+when "redhat","centos","scientific","fedora","suse","amazon"
   set[:apache][:package] = "httpd"
   set[:apache][:dir]     = "/etc/httpd"
   set[:apache][:log_dir] = "/var/log/httpd"
@@ -136,4 +136,4 @@ default['apache']['default_modules'] = %w{
   dir env mime negotiation setenvif
 }
 
-default['apache']['default_modules'] << "log_config" if ["redhat", "centos", "scientific", "fedora", "suse", "arch", "freebsd"].include?(node.platform)
+default['apache']['default_modules'] << "log_config" if ["redhat", "centos", "scientific", "fedora", "suse", "arch", "freebsd", "amazon"].include?(node.platform)
