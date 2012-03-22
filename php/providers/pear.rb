@@ -197,12 +197,12 @@ def manage_pecl_ini(name, action, directives, zend_extensions)
   files = get_extension_files(name)
 
   extensions = Hash[ files.map { |filepath|
-	rel_file = filepath.clone
-	rel_file.slice! ext_prefix if rel_file.start_with? ext_prefix
+    rel_file = filepath.clone
+    rel_file.slice! ext_prefix if rel_file.start_with? ext_prefix
 
     zend = zend_extensions.include?(rel_file)
 
-	[ (zend ? filepath : rel_file) , zend ]
+    [ (zend ? filepath : rel_file) , zend ]
   }]
 
   template "#{node['php']['ext_conf_dir']}/#{name}.ini" do

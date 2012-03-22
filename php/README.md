@@ -129,9 +129,10 @@ This cookbook includes LWRPs for managing:
       action :install
     end
 
-	# install the xdebug pecl
+    # install the xdebug pecl
     php_pear "xdebug" do
-      zend_extensions Set['xdebug.so']
+      # Specify that xdebug.so must be loaded as a zend extension
+      zend_extensions ['xdebug.so']
       action :install
     end
     
