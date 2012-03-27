@@ -20,7 +20,8 @@
 # limitations under the License.
 #
 
-default[:nginx][:version]      = "0.8.54"
+default[:nginx][:version] = "1.0.12"
+default[:nginx][:url]     = "http://nginx.org/download/nginx-#{node[:nginx][:version]}.tar.gz"
 
 case platform
 when "debian","ubuntu"
@@ -39,11 +40,11 @@ end
 
 default[:nginx][:pid] = "/var/run/nginx.pid"
 
-default[:nginx][:gzip] = "on"
+default[:nginx][:gzip]              = "on"
 default[:nginx][:gzip_http_version] = "1.0"
-default[:nginx][:gzip_comp_level] = "2"
-default[:nginx][:gzip_proxied] = "any"
-default[:nginx][:gzip_types] = [
+default[:nginx][:gzip_comp_level]   = "2"
+default[:nginx][:gzip_proxied]      = "any"
+default[:nginx][:gzip_types]        = [
   "text/plain",
   "text/html",
   "text/css",

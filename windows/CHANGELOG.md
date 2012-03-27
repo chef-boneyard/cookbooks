@@ -7,6 +7,13 @@
 * WindowsRebootHandler/`windows_reboot` LWRP should support kicking off subsequent chef run on reboot.
 * Support all types of registry keys with `type` parameter in `windows_registry`.
 
+## v1.2.12:
+
+* [COOK-1037] - specify version for rubyzip gem
+* [COOK-1007] - windows_feature does not work to remove features with
+  dism
+* [COOK-667] - shortcut resource + provider for Windows platforms
+
 ## v1.2.10
 
 * [COOK-939] - add `type` parameter to `windows_registry` to allow binary registry keys.

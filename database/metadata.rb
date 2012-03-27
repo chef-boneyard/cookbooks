@@ -3,7 +3,7 @@ maintainer_email "cookbooks@opscode.com"
 license          "Apache 2.0"
 description      "Sets up the database master or slave"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "1.1.2"
+version          "1.1.4"
 
 recipe "database", "Empty placeholder"
 recipe "database::ebs_backup", "Considered deprecated, older way of backing up EBS volumes"

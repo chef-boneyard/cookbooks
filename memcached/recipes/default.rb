@@ -36,7 +36,24 @@ service "memcached" do
   supports :status => true, :start => true, :stop => true, :restart => true
 end
 
-template "/etc/memcached.conf" do
+case node[:platform]
+when "redhat","centos","fedora"
+ template "/etc/sysconfig/memcached" do
+  source "memcached.sysconfig.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  variables(
+    :listen => node[:memcached][:listen],
+    :user => node[:memcached][:user],
+    :port => node[:memcached][:port],
+    :maxconn => node[:memcached][:maxconn],
+    :memory => node[:memcached][:memory]
+  )
+  notifies :restart, resources(:service => "memcached"), :immediately
+ end
+else
+ template "/etc/memcached.conf" do
   source "memcached.conf.erb"
   owner "root"
   group "root"
@@ -48,6 +65,7 @@ template "/etc/memcached.conf" do
     :memory => node[:memcached][:memory]
   )
   notifies :restart, resources(:service => "memcached"), :immediately
+ end
 end
 
 case node[:lsb][:codename]

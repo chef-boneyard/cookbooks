@@ -1,3 +1,7 @@
+## v0.100.2:
+
+* [COOK-1053] - Add :url attribute to nginx cookbook
+
 ## v0.100.0:
 
 * [COOK-818] - add "application/json" per RFC.

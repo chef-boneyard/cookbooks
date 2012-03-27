@@ -23,7 +23,7 @@ java_home_parent = File.dirname java_home
 jdk_home = ""
 
 pkgs = value_for_platform(
-  ["centos","redhat","fedora"] => {
+  ["centos","redhat","fedora","scientific","amazon"] => {
     "default" => ["java-1.#{version}.0-openjdk","java-1.#{version}.0-openjdk-devel"]
   },
   ["arch","freebsd"] => {

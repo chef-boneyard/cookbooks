@@ -1,3 +1,7 @@
+## v1.1.4:
+
+* [COOK-1062] - Databases: Postgres exists should close connection
+
 ## v1.1.2:
 
 * [COOK-975] - Change arg='DEFAULT' to arg=nil, :default => 'DEFAULT'

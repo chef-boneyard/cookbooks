@@ -24,6 +24,15 @@
 
 include_recipe "passenger_apache2"
 
+if platform?("ubuntu","debian")
+  template "#{node[:apache][:dir]}/mods-available/passenger.load" do
+    cookbook "passenger_apache2"
+    source "passenger.load.erb"
+    owner "root"
+    group "root"
+    mode 0755
+  end
+end
 
 template "#{node[:apache][:dir]}/mods-available/passenger.conf" do
   cookbook "passenger_apache2"

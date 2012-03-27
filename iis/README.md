@@ -33,8 +33,8 @@ Attributes
 Resource/Provider
 =================
 
-`iis_site`
-----------
+iis\_site
+---------
 
 Allows easy management of IIS virtual sites (ie vhosts).
 
@@ -83,6 +83,33 @@ Allows easy management of IIS virtual sites (ie vhosts).
       action [:add,:start]
     end
 
+`iis_config`
+
+Runs a config command on your IIS instance.
+
+###Actions
+
+- :config: - Runs the configuration command
+
+###Attribute Parameters
+
+- cfg_cmd: name attribute. What ever command you would pass in after "appcmd.exe set config"
+
+###Example
+
+#Sets up logging
+iis_config "/section:system.applicationHost/sites /siteDefaults.logfile.directory:"D:\\logs"" do
+    action :config
+end
+
+#Loads an array of commands from the node
+cfg_cmds = node['iis']['cfg_cmd']
+cfg_cmds.each do |cmd|
+    iis_config "#{cmd}" do
+        action :config
+    end
+end
+
 iis\_pool
 ---------
 Creates an application pool in IIS.
@@ -109,6 +136,34 @@ Creates an application pool in IIS.
          pipeline_mode "Classic"
          action :add
      end
+
+
+iis\_app
+--------
+
+Creates an application in IIS.
+
+### Actions
+
+- :add: - add a new application pool
+- :delete: - delete an existing application pool
+
+### Attribute Parameters
+
+- app_name: name attribute. The name of the site to add this app to
+- path: The virtual path for this application
+- applicationPool: The pool this application belongs to
+- physicalPath: The physical path where this app resides.
+
+### Example
+
+	#creates a new app
+	iis_app "myApp" do
+		path "/v1_1"
+		application_pool "myAppPool_v1_1"
+		physical_path "#{node['iis']['docroot']}/testfu/v1_1"
+		action :add
+	end
 
 Usage
 =====

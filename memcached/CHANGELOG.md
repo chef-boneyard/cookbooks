@@ -1,3 +1,7 @@
+## v1.0.2:
+
+* [COOK-1081] - support for centos/rhel
+
 ## v1.0.0:
 
 * [COOK-706] - Additional info in README
