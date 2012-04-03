@@ -30,6 +30,7 @@ when "ubuntu","debian"
 when "redhat","centos","fedora","scientific"
   set['nagios']['server']['install_method'] = 'source'
   set['nagios']['server']['service_name']   = 'nagios'
+  set['nagios']['server']['mail_command']   = '/bin/mail'
 else
   set['nagios']['server']['install_method'] = 'source'
   set['nagios']['server']['service_name']   = 'nagios'
