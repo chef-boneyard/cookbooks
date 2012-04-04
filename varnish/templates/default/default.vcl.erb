@@ -1,6 +1,6 @@
 backend default {
-        .host = "localhost";
-        .port = "8080";
+        .host = "<%= node[:varnish][:backend_host] %>";
+        .port = "<%= node[:varnish][:backend_port] %>";
 }
 
 sub vcl_fetch {
