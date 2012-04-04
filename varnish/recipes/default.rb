@@ -19,7 +19,7 @@
 
 package "varnish"
 
-template "#{node[:varnish][:dir]}default.vcl" do
+template "#{node[:varnish][:dir]}/default.vcl" do
   source "default.vcl.erb"
   owner "root"
   group "root"
