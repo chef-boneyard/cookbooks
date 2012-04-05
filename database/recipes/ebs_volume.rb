@@ -32,6 +32,10 @@ if node[:ec2]
   end
 
   ebs_vol_dev = node['mysql']['ebs_vol_dev']
+  ebs_vol_dev_mount = ebs_vol_dev
+  if (platform?(%w{debian ubuntu}) and platform_version.to_f >= 10.04)
+    ebs_vol_dev_mount = ebs_vol_dev.sub("/dev/sd", "/dev/xvd")
+  end
   ebs_vol_id = String.new
   db_type = String.new
   db_role = String.new
@@ -171,8 +175,8 @@ if node[:ec2]
     end
   end
 
-    execute "mkfs.xfs #{ebs_vol_dev}" do
-      only_if "xfs_admin -l #{ebs_vol_dev} 2>&1 | grep -qx 'xfs_admin: #{ebs_vol_dev} is not a valid XFS filesystem (unexpected SB magic number 0x00000000)'"
+    execute "mkfs.xfs #{ebs_vol_dev_mount}" do
+      only_if "xfs_admin -l #{ebs_vol_dev_mount} 2>&1 | grep -qx 'xfs_admin: #{ebs_vol_dev_mount} is not a valid XFS filesystem (unexpected SB magic number 0x00000000)'"
     end
 
   %w{ec2_path data_dir}.each do |dir|
@@ -182,7 +186,7 @@ if node[:ec2]
   end
 
   mount node['mysql']['ec2_path'] do
-    device ebs_vol_dev
+    device ebs_vol_dev_mount
     fstype "xfs"
     action :mount
   end
