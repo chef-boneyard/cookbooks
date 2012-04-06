@@ -63,6 +63,7 @@ if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
   directory node[:apache][:log_dir] do
     mode 0755
     action :create
+    only_if do !File.directory?("#{node[:apache][:log_dir]}") end
   end
 
   package "perl"
