@@ -61,7 +61,7 @@ Applies to the DNS record being managed.
 
 Attribute Parameters:
 
-* `record_type` - DNS record type (CNAME, A, etc)
+* `record_type` - DNS record type (CNAMERecord, ARecord, etc) (See: https://manage.dynect.net/help/docs/api2/rest/resources/)
 * `rdata` - record data, see the Dyn API documentation.
 * `ttl` - time to live in seconds
 * `fqdn` - fully qualified domain name
