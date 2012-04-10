@@ -115,14 +115,14 @@ end
     group root_group
     mode 0600
   end
+end
 
-  link "/etc/chef/webui.rb" do
-    to "/etc/chef/server.rb"
-  end
+link "/etc/chef/webui.rb" do
+  to "/etc/chef/server.rb"
+end
 
-  link "/etc/chef/expander.rb" do
-    to "/etc/chef/solr.rb"
-  end
+link "/etc/chef/expander.rb" do
+  to "/etc/chef/solr.rb"
 end
 
 directory node['chef_server']['path'] do
