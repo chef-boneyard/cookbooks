@@ -25,4 +25,5 @@ attribute :version, :default => nil
 attribute :channel, :kind_of => String
 attribute :options, :kind_of => String
 attribute :directives, :kind_of => Hash, :default => {}
+attribute :zend_extensions, :kind_of => Array, :default => Array.new
 attribute :preferred_state, :default => 'stable'
