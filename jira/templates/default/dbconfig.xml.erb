@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<jira-database-config>
+  <name>defaultDS</name>
+  <delegator-name>default</delegator-name>
+  <database-type>mysql</database-type>
+  <schema-name></schema-name>
+  <jdbc-datasource>
+    <url>jdbc:mysql://<%= node[:jira][:bind_address] %>:3306/jiradb?useUnicode=true&amp;characterEncoding=utf8&amp;sessionVariables=storage_engine=InnoDB</url>
+    <driver-class>com.mysql.jdbc.Driver</driver-class>
+    <username><%= node[:jira][:database_user] %></username>
+    <password><%= node[:jira][:database_password] %></password>
+    <pool-size>15</pool-size>
+    <validation-query>select 1</validation-query>
+  </jdbc-datasource>
+</jira-database-config>

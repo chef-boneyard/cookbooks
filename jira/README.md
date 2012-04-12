@@ -8,7 +8,7 @@ Requirements
 
 ## Platform:
 
-* Ubuntu 10.04
+* Ubuntu 11.10
 * Debian 6.0
 
 Requires a MySQL database server, but currently out of scope to run
@@ -20,6 +20,7 @@ __Roadmap__ and __Usage__).
 * runit
 * java
 * apache2
+* mysql
 
 Attributes
 ==========
@@ -31,12 +32,8 @@ See `attributes/default.rb` for defaults.
   the virtual host.
 * `node['jira']['version']` - version of jira to install
 * `node['jira']['install_path']` - location where jira should be installed
-* `node['jira']['run_user']` - user to run the jira service as
-* `node['jira']['database']` - the name of the database to connect to
-* `node['jira']['database_host']` - hostname of the database server
-* `node['jira']['database_user']` - user to connect to the database
-* `node['jira']['database_password']` - password to use for the
-  database connection.
+* `node[:jira']['run_user']` - user to run the jira service as
+* `node[:jira][:home]` - required to run Jira
 
 Recipes
 =======
@@ -44,25 +41,12 @@ Recipes
 default
 -------
 
-The default recipe sets up runit, java and apache2 first, then
+The default recipe sets up mysql, runit, java and apache2 first, then
 downloads jira-standalone from atlassian of the specified version. It
 also downloads and installs the mysql connector.
 
 After writing the configuration and startup.sh script, jira will start
 under runit, and an apache vhost will be set up for it.
-
-Usage
-=====
-
-Until COOK-464 is released, the following manual steps are required to
-set up the database.
-
-Mysql queries:
-
-    create database jiradb character set utf8;
-    grant all privileges on jiradb.*
-        to '$jira_user'@'localhost' identified by '$jira_password';
-    flush privileges;
 
 License and Author
 ==================

@@ -3,9 +3,9 @@ maintainer_email  "cookbooks@opscode.com"
 license           "Apache 2.0"
 description       "Installs and configures jira"
 version           "0.8.2"
-recommends        "mysql"
 
 recipe "jira", "Installs and configures Jira"
+depends "mysql", ">= 1.0.5"
 
 %w{ ubuntu debian }.each do |os|
   supports os
