@@ -17,13 +17,11 @@
 # limitations under the License.
 #
 
-default[:jira][:virtual_host_name]  = "jira.#{domain}"
-default[:jira][:virtual_host_alias] = "jira.#{domain}"
-# type-version-standalone
-default[:jira][:version]           = "enterprise-3.13.1"
-default[:jira][:install_path]      = "/srv/jira"
+default[:jira][:virtual_host_name]  = "0.0.0.0"
+default[:jira][:virtual_host_alias] = "0.0.0.0"
+default[:jira][:version]           = "5.0.1"
+default[:jira][:install_path]      = "/opt/jira"
 default[:jira][:run_user]          = "www-data"
 default[:jira][:database]          = "mysql"
-default[:jira][:database_host]     = "localhost"
 default[:jira][:database_user]     = "jira"
-default[:jira][:database_password] = "change_me"
+default[:jira][:home]               = "/var/jira/"
