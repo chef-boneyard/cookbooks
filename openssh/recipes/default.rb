@@ -25,9 +25,25 @@ packages = case node[:platform]
   else
     %w{openssh-client openssh-server}
   end
-  
+
 packages.each do |pkg|
   package pkg
+end
+c
+template "/etc/ssh/ssh_config" do
+  source "ssh_config.erb"
+  mode '0644'
+  root 'owner'
+  group 'root'
+  variables(:settings => node[:openssh][:client])
+end
+
+template "/etc/ssh/sshd_config" do
+  source "sshd_config.erb"
+  mode '0644'
+  owner 'root'
+  group 'root'
+  variables(:settings => node[:openssh][:server])
 end
 
 service "ssh" do
