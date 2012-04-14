@@ -29,11 +29,11 @@ packages = case node[:platform]
 packages.each do |pkg|
   package pkg
 end
-c
+
 template "/etc/ssh/ssh_config" do
   source "ssh_config.erb"
   mode '0644'
-  root 'owner'
+  owner 'root'
   group 'root'
   variables(:settings => node[:openssh][:client])
 end
