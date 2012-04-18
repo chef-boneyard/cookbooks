@@ -70,6 +70,25 @@ when "fedora"
     source "mods/php5.conf.erb" 
     notifies :restart, "service[apache2]"
   end
+
+when "freebsd"
+  freebsd_port_options "php5" do
+    options "APACHE" => true
+    action :create
+  end
+
+  package "php package" do
+     package_name "php5"
+     source "ports"
+     action :install
+     notifies :run, resources(:execute => "generate-module-list"), :immediately
+  end
+
+  # replace with debian style config
+  template "#{node[:apache][:dir]}/mods-available/php5.conf" do
+    source "mods/php5.conf.erb"
+    notifies :restart, "service[apache2]"
+  end
 end
 
 apache_module "php5" do
