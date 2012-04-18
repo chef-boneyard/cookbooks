@@ -71,3 +71,11 @@ ruby_block "cloudkick data load" do
   end
   action :create
 end
+
+# oauth gem for http://tickets.opscode.com/browse/COOK-797
+oauth_gem = gem_package "oauth" do
+  action :install
+end
+oauth_gem.run_action(:install)
+Gem.clear_paths
+require 'oauth'
