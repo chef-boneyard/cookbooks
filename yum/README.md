@@ -38,6 +38,11 @@ Installs the [IUS Community repositories](http://iuscommunity.org/Repos) via RPM
 
 The IUS repository requires EPEL, and the recipe includes `yum::epel` to install this.
 
+percona
+----
+
+Installs the [Percona repositories](http://www.percona.com/docs/wiki/repositories:yum) via RPM.
+
 Resources/Providers
 ===================
 
