@@ -22,8 +22,10 @@ when "debian"
 
   if platform_version.to_f == 5.0
     default[:postgresql][:version] = "8.3"
-  elsif platform_version =~ /squeeze/
+  elsif platform_version =~ /squeeze/ || platform_version.to_f.floor == 6
     default[:postgresql][:version] = "8.4"
+  else
+    raise "don't know which postgres version comes with debian #{platform_version}"
   end
 
   set[:postgresql][:dir] = "/etc/postgresql/#{node[:postgresql][:version]}/main"
