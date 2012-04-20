@@ -41,9 +41,9 @@ service "postgresql" do
     end
   when "debian"
     case
-    when platform_version.to_f <= 5.0
+    when node['platform_version'].to_f <= 5.0
       service_name "postgresql-#{node['postgresql']['version']}"
-    when platform_version =~ /squeeze/
+    when node['platform_version'] =~ /squeeze/
       service_name "postgresql"
     else
       service_name "postgresql"
