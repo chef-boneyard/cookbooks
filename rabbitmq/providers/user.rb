@@ -36,13 +36,13 @@ end
 action :set_permissions do
   if new_resource.vhost
     execute "rabbitmqctl set_permissions -p #{new_resource.vhost} #{new_resource.user} #{new_resource.permissions}" do
-      not_if "rabbitmqctl list_user_permissions | grep #{new_resource.user}"
+      not_if "test `rabbitmqctl list_user_permissions #{new_resource.user} | wc -l` -gt 2"
       Chef::Log.info "Setting RabbitMQ user permissions for '#{new_resource.user}' on vhost #{new_resource.vhost}."
       new_resource.updated_by_last_action(true)
     end
   else
     execute "rabbitmqctl set_permissions #{new_resource.user} #{new_resource.permissions}" do
-      not_if "rabbitmqctl list_user_permissions | grep #{new_resource.user}"
+      not_if "test `rabbitmqctl list_user_permissions #{new_resource.user} | wc -l` -gt 2"
       Chef::Log.info "Setting RabbitMQ user permissions for '#{new_resource.user}'."
       new_resource.updated_by_last_action(true)
     end
