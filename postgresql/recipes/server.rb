@@ -24,19 +24,19 @@
 include_recipe "postgresql::client"
 
 # randomly generate postgres password
-node.set_unless[:postgresql][:password][:postgres] = secure_password
-node.save unless Chef::Config[:solo]
+node.set_unless['postgresql']['password']['postgres'] = secure_password
+node.save unless Chef::Config['solo']
 
 # Include the right "family" recipe for installing the server
 # since they do things slightly differently.
-case node.platform
+case node['platform']
 when "redhat", "centos", "fedora", "suse", "scientific", "amazon"
   include_recipe "postgresql::server_redhat"
 when "debian", "ubuntu"
   include_recipe "postgresql::server_debian"
 end
 
-template node[:postgresql][:hba_file] do
+template node['postgresql']['hba_file'] do
   source "pg_hba.conf.erb"
   owner "postgres"
   group "postgres"
@@ -51,7 +51,7 @@ end
 bash "assign-postgres-password" do
   user 'postgres'
   code <<-EOH
-echo "ALTER ROLE postgres ENCRYPTED PASSWORD '#{node[:postgresql][:password][:postgres]}';" | psql
+echo "ALTER ROLE postgres ENCRYPTED PASSWORD '#{node['postgresql']['password']['postgres']}';" | psql
   EOH
   not_if do
     begin
