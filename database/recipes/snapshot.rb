@@ -60,3 +60,14 @@ end
 aws_ebs_volume "#{node.db_snapshot.db_role.first}_#{node.db_snapshot.app_environment}" do
   action :prune
 end
+
+aws_ebs_volume "#{node.db_snapshot.db_role.first}_#{node.db_snapshot.app_environment}" do
+  provider "aws_ebs_volume"
+  aws_access_key node.db_snapshot.aws_access_key_id
+  aws_secret_access_key node.db_snapshot.aws_secret_access_key
+  size 50
+  device node.db_snapshot.ebs_vol_dev
+  snapshots_to_keep node.db_snapshot.snapshots_to_keep
+  action :prune
+  volume_id node.db_snapshot.volume_id
+end
