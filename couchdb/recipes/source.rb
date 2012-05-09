@@ -28,17 +28,20 @@ couchdb_tar_gz = File.join(Chef::Config[:file_cache_path], "/", "apache-couchdb-
 compile_flags = String.new
 dev_pkgs = Array.new
 
-case node['platform']
-when "debian", "ubuntu"
+if %w(debian ubuntu).include?(node['platform'])
 
   dev_pkgs << "libicu-dev"
   dev_pkgs << "libcurl4-openssl-dev"
   dev_pkgs << value_for_platform(
     "debian" => { "default" => "libmozjs-dev" },
     "ubuntu" => {
+      '8.10' => 'xulrunner-dev',
       "9.04" => "libmozjs-dev",
       "9.10" => "libmozjs-dev",
-      "default" => "xulrunner-dev"
+      '10.04' => 'xulrunner-dev',
+      '10.10' => 'xulrunner-dev',
+      '11.04' => 'libmozjs-dev',
+      'default' => 'libmozjs-dev'
     }
   )
 
@@ -46,10 +49,14 @@ when "debian", "ubuntu"
     package pkg
   end
 
-  if node['platform_version'].to_f >= 10.04
+  if node['platform_version'].to_f >= 11.04
+    execute 'apt-get -y build-dep couchdb'
+  elsif node['platform_version'].to_f >= 10.04
     compile_flags = "--with-js-lib=/usr/lib/xulrunner-devel-1.9.2.8/lib --with-js-include=/usr/lib/xulrunner-devel-1.9.2.8/include"
   end
+
 end
+
 
 remote_file couchdb_tar_gz do
   checksum node['couch_db']['src_checksum']

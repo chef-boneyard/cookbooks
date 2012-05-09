@@ -17,6 +17,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set['couch_db']['src_checksum'] = "6ef82a7ba0f132d55af7cc78b30658d5b3a4f7be3f449308c8d7fa2ad473677c"
-set['couch_db']['src_version'] = "1.0.2"
-set['couch_db']['src_mirror']  = "http://archive.apache.org/dist/couchdb/#{node['couch_db']['src_version']}/apache-couchdb-#{node['couch_db']['src_version']}.tar.gz"
+set['couch_db']['src_checksum'] = '6da17af99cf3b1f9a89f0051b7d9de0cbd6fe81b6'
+set['couch_db']['src_version'] = '1.2.0'
+set['couch_db']['src_mirror'] = "http://archive.apache.org/dist/couchdb/releases/#{node['couch_db']['src_version']}/apache-couchdb-#{node['couch_db']['src_version']}.tar.gz"
