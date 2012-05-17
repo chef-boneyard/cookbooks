@@ -172,5 +172,5 @@ old_passwords           = <%= node['mysql']['old_passwords'] %>
 # * IMPORTANT: Additional settings that can override those from this file!
 #   The files must end with '.cnf', otherwise they'll be ignored.
 #
-!includedir <%= node['mysql']['conf_dir'] %>/mysql/conf.d/
+!includedir <%= node['mysql']['conf_dir'] %>/conf.d/
 <% end -%>
