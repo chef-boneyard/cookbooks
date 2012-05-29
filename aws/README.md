@@ -119,6 +119,23 @@ Attribute Parameters:
 * `aws_secret_access_key`, `aws_access_key` - passed to `Opscode::AWS:Ec2` to authenticate, required.
 * `name` - the name of the LB, required.
 
+`route53_record.rb`
+
+Actions:
+
+* `create` - Create a record in route53
+* `delete` - Delete a record in route53
+
+Attribute Parameters:
+
+* `aws_secret_access_key`, `aws_access_key` - To authenticate, required.
+* `name` - the name of the record, required. This will be concatenated with domain.
+* `domain` - the domain for the record. Required but can be set via `node[:aws][:route53][:domain]`.
+* `hosted_zone_aws_id` - Your hosted zone id, required.
+* `record_type` - The type of record to create such as 'A', 'CNAME', required
+* `ttl` - The ttl, defaults to 600
+* `resource_records` - The records to put, requires
+
 Usage
 =====
 
@@ -187,6 +204,7 @@ aws_elastic_lb
 `elastic_lb` opererates similar to `elastic_ip'.  Make sure that you've created the ELB and enabled your instances' availability zones prior to using this provider.
 
 For example, to register the node in the 'QA' ELB:
+
     aws_elastic_lb "elb_qa" do
       aws_access_key aws['aws_access_key_id']
       aws_secret_access_key aws['aws_secret_access_key']
@@ -194,6 +212,25 @@ For example, to register the node in the 'QA' ELB:
       action :register
     end
 
+route_53_record
+---------------
+
+Example:
+
+    aws_route_53_record node.name do
+      aws_access_key aws['aws_access_key_id']
+      aws_secret_access_key aws['aws_secret_access_key']
+      domain 'company.com'
+      hosted_zone_aws_id 12345
+      record_type 'CNAME'
+      resource_records %w(node[:ec2][:public_hostname])
+      action :create
+    end
+
+Notes:
+
+* You have to pass all the paramters for :delete (AWS requirements)
+* right_aws does not support Alias, weighted records, etc. Stick to A and CNAMES
 
 License and Author
 ==================
