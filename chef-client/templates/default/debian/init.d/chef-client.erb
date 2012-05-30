@@ -20,7 +20,7 @@ NAME=chef-client
 DESC=chef-client
 PIDFILE=<%= node["chef_client"]["run_path"] %>/client.pid
 
-test -x $DAEMON || exit 0
+test -x $DAEMON || exit 1
 
 . /lib/lsb/init-functions
 
