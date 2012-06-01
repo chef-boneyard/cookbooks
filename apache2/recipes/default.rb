@@ -61,6 +61,7 @@ end
 
 if platform?("redhat", "centos", "scientific", "fedora", "arch", "suse" )
   directory node[:apache][:log_dir] do
+    not_if { ::File.symlink?(node[:apache][:log_dir]) }
     mode 0755
     action :create
   end
