@@ -51,6 +51,7 @@ class Chef
     class PowershellScript < Chef::Provider::Execute
 
       def action_run
+	    script_file.puts('$global:erroractionpreference = "stop"')
         script_file.puts(@new_resource.code)
         script_file.close
         set_owner_and_group
