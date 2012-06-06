@@ -42,3 +42,5 @@ when 6.0 # Windows Server 2008 & Windows Vista
   end
 
 end
+# Possible values for erroractionpreference - SilentlyContinue,Continue,Stop and Inquire
+default['powershell']['erroractionpreference'] = "stop" 
