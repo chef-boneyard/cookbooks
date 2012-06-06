@@ -51,6 +51,10 @@ class Chef
     class PowershellScript < Chef::Provider::Execute
 
       def action_run
+	    error_action_pref = <<-EOS
+		  $global:erroractionpreference = "#{node['powershell']['erroractionpreference']}"
+		EOS
+		script_file.puts("#{error_action_pref}")
         script_file.puts(@new_resource.code)
         script_file.close
         set_owner_and_group
