@@ -97,7 +97,7 @@ action :add do
       action :nothing
     end
 
-    if repo_file.updated_by_last_action?
+    if repo_file.updated?
       new_resource.updated_by_last_action(true)
       apt_get_update.run_action(:run)
     end
