@@ -34,3 +34,4 @@ attribute :deb_src, :default => false
 attribute :keyserver, :kind_of => String, :default => nil
 attribute :key, :kind_of => String, :default => nil
 attribute :cookbook, :kind_of => String, :default => nil
+attribute :apt_update, :kind_of => [TrueClass, FalseClass], :default => true
