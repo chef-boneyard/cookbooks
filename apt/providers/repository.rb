@@ -92,15 +92,16 @@ action :add do
     # write out the repo file, replace it if it already exists
     repo_file.run_action(:create)
 
-    apt_get_update = execute "apt-get update" do
-      ignore_failure true
-      action :nothing
+    if repo_file.updated?
+      if new_resource.apt_update
+        execute "apt-get update" do
+          ignore_failure true
+          action :nothing
+        end.run_action(:run)
+      end
+      new_resource.updated_by_last_action(true)
     end
 
-    if repo_file.updated_by_last_action?
-      new_resource.updated_by_last_action(true)
-      apt_get_update.run_action(:run)
-    end
 end
 
 action :remove do
