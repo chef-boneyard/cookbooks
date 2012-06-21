@@ -25,8 +25,10 @@ actions :create, :remove
 # :group_name is the string name of the group to create, defaults to resource name
 # :group_id is the numeric id of the group to create
 # :cookbook is the name of the cookbook that the authorized_keys template should be found in
+# :always_manage_ssh_keys will create an empty authorized_keys file for users without ssh_keys if true
 attribute :data_bag, :kind_of => String, :default => "users"
 attribute :search_group, :kind_of => String, :name_attribute => true
 attribute :group_name, :kind_of => String, :name_attribute => true
 attribute :group_id, :kind_of => Integer, :required => true
 attribute :cookbook, :kind_of => String, :default => "users"
+attribute :always_manage_ssh_keys, :kind_of => [TrueClass, FalseClass], :default => false
