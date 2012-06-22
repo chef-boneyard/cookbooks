@@ -3,3 +3,6 @@ tmp/*
 *.swp
 *.swo
 *~
+.DEV_TEMP
+.DS_Store
+.idea
