@@ -1,5 +1,16 @@
 log_level        :info
+<% case node["chef_client"]["log_location"]
+   when "STDOUT" -%>
 log_location     STDOUT
+<% when "syslog" -%>
+require 'syslog-logger'
+Logger::Syslog.class_eval do
+    attr_accessor :sync, :formatter
+end
+log_location Logger::Syslog.new("chef-client")
+<% else -%>
+log_location  <%= node["chef_client"]["log_location"].inspect %>
+<% end %>
 
 <% if Chef::Config.has_key?(:chef_server_url) -%>
 chef_server_url  "<%= Chef::Config[:chef_server_url] %>"

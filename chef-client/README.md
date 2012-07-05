@@ -40,6 +40,10 @@ Attributes
 * `node["chef_client"]["interval"]` - Sets `Chef::Config[:interval]` via command-line option for number of seconds between chef-client daemon runs. Default 1800.
 * `node["chef_client"]["splay"]` - Sets `Chef::Config[:splay]` via command-line option for a random amount of seconds to add to interval. Default 20.
 * `node["chef_client"]["log_dir"]` - Sets directory used in `Chef::Config[:log_location]` via command-line option to a location where chef-client should log output. Default "/var/log/chef".
+* `node["chef_client"]["log_location"]` - Sets the location of chef-client default log. Could have the next values:
+  * `STDOUT` - All the output of chef-client will be set to stdout. This is the __default__.
+  * `syslog` - Chef client will write to the local syslog through the `syslog-logger` rubygem.
+  * `/var/log/chef/client.log` - Will send the output to syslog. Normally is easier to make all the programs to write to the node syslog, and forward to other machine through ``rsyslog``, or ``syslog-ng``.
 * `node["chef_client"]["conf_dir"]` - Sets directory used via command-line option to a location where chef-client search for the client config file . Default "/etc/chef".
 * `node["chef_client"]["bin"]` - Sets the full path to the `chef-client` binary.  Mainly used to set a specific path if multiple versions of chef-client exist on a system or the bin has been installed in a non-sane path. Default "/usr/bin/chef-client"
 * `node["chef_client"]["server_url"]` - Sets `Chef::Config[:chef_server_url]` in the config file to the Chef Server URI. Default "http://localhost:4000". See __USAGE__.
