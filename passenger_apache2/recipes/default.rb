@@ -38,7 +38,7 @@ when "centos","redhat"
     package 'zlib-devel'
   end
 else
-  %w{ apache2-prefork-dev libapr1-dev libcurl4-gnutls-dev }.each do |pkg|
+  %w{ apache2-prefork-dev libapr1-dev libcurl4-gnutls-dev ruby1.8-dev }.each do |pkg|
     package pkg do
       action :upgrade
     end
