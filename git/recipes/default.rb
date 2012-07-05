@@ -25,6 +25,11 @@ when "centos","redhat","scientific","fedora"
     include_recipe "yum::epel"
   end
   package "git"
+when "windows"
+  windows_package "git" do
+    source node[:git][:url]
+    action :install
+  end
 else
   package "git"
 end
