@@ -18,7 +18,8 @@
 # limitations under the License.
 
 def parse_app_dir_name url
-  file_name = url.split('/')[-1]
+  parsed_url = URI.parse(url)
+  file_name = parsed_url.path.split('/')[-1]
   # funky logic to parse oracle's non-standard naming convention
   # for jdk1.6
   if file_name =~ /^(jre|jdk).*$/
