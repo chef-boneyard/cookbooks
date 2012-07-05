@@ -20,6 +20,20 @@
 
 package "nginx"
 
+directory node[:nginx][:dir] do
+  mode 0644
+  owner "root"
+  group "root"
+  action :create
+end
+
+directory "#{node[:nginx][:dir]}/sites-available" do
+  mode 0644
+  owner "root"
+  group "root"
+  action :create
+end
+
 directory node[:nginx][:log_dir] do
   mode 0755
   owner node[:nginx][:user]
