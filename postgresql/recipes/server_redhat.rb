@@ -78,5 +78,6 @@ template "#{node[:postgresql][:dir]}/postgresql.conf" do
   owner "postgres"
   group "postgres"
   mode 0600
+  notifies :run, resources(:bash => "restore postgresql SELinux permissions"), :immediately
   notifies :restart, resources(:service => "postgresql")
 end

@@ -34,6 +34,14 @@ when "8.4"
   node.default[:postgresql][:ssl] = "true"
 end
 
+bash "restore postgresql SELinux permissions" do
+  action :nothing
+  only_if 'sestatus | grep -P "status:\s+enabled" -q'
+  code <<-EOH
+  restorecon -R #{node[:postgresql][:dir]}
+  EOH
+end
+
 # Include the right "family" recipe for installing the server
 # since they do things slightly differently.
 case node.platform
@@ -48,6 +56,7 @@ template "#{node[:postgresql][:dir]}/pg_hba.conf" do
   owner "postgres"
   group "postgres"
   mode 0600
+  notifies :run, resources(:bash => "restore postgresql SELinux permissions"), :immediately
   notifies :reload, resources(:service => "postgresql"), :immediately
 end
 
