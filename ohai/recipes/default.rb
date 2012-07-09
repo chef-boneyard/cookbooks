@@ -17,7 +17,9 @@
 # limitations under the License.
 #
 
-Ohai::Config[:plugin_path] << node['ohai']['plugin_path']
+if !Ohai::Config[:plugin_path].include?(node['ohai']['plugin_path'])
+  Ohai::Config[:plugin_path] << node['ohai']['plugin_path']
+end
 Chef::Log.info("ohai plugins will be at: #{node['ohai']['plugin_path']}")
 
 rd = remote_directory node['ohai']['plugin_path'] do
