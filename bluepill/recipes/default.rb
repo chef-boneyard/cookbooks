@@ -18,7 +18,9 @@
 #
 
 gem_package "i18n"
-gem_package "bluepill"
+gem_package "bluepill" do
+  version node["bluepill"]["version"] if node["bluepill"]["version"]
+end
 
 [
   node["bluepill"]["conf_dir"],
