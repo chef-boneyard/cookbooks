@@ -1,8 +1,0 @@
-{
-    "id": "readonly",
-    "groups": "sysadmin",
-    "zenoss": {
-        "password": "readonly",
-        "roles": ["ZenUser"]
-    }
-}
