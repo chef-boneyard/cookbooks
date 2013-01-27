@@ -1,7 +1,0 @@
-maintainer        "Opscode, Inc."
-maintainer_email  "cookbooks@opscode.com"
-license           "Apache 2.0"
-description       "Disables apparmor service on Ubuntu"
-version           "0.9.0"
-supports          "ubuntu"
-recipe            "default", "Disables apparmor service on Ubuntu"

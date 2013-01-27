@@ -1,6 +1,0 @@
-#!/bin/sh
-exec 2>&1
-
-trap 'kill -HUP %1' 1 2 13 15
-
-/usr/bin/god -D -c /etc/god/master.god --no-syslog & wait
