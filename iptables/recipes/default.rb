@@ -17,10 +17,17 @@
 # limitations under the License.
 #
 
-package "iptables" 
+package "iptables"
 
 execute "rebuild-iptables" do
   command "/usr/sbin/rebuild-iptables"
+  action :nothing
+end
+
+# Reload sysctl. Rebuilding iptables resets values set by sysctl on CentOS.
+# Reloading sysctl is required to load the values after rebuilding iptables.
+execute "reload-sysctl" do
+  command "/sbin/sysctl -e -p /etc/sysctl.conf"
   action :nothing
 end
 

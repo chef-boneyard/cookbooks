@@ -27,6 +27,7 @@ define :iptables_rule, :enable => true, :source => nil, :variables => {}, :cookb
     variables params[:variables]
     backup false
     notifies :run, resources(:execute => "rebuild-iptables")
+    notifies :run, resources(:execute => "reload-sysctl")
     if params[:enable]
       action :create
     else
