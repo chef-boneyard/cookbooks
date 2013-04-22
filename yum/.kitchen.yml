@@ -1,0 +1,47 @@
+---
+driver_plugin: vagrant
+platforms:
+- name: centos-6.3
+  driver_config:
+    box: opscode-centos-6.3
+    box_url: http://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.3_chef-11.2.0.box
+    require_chef_omnibus: 11.4.0
+  run_list:
+- name: centos-5.8
+  driver_config:
+    box: opscode-centos-5.8
+    box_url: http://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-5.8_chef-11.2.0.box
+    require_chef_omnibus: 11.4.0
+  run_list:
+suites:
+- name: epel
+  run_list:
+  - recipe[yum]
+  - recipe[yum_test::epel]
+  attributes: {}
+- name: ius
+  run_list:
+  - recipe[yum]
+  - recipe[yum_test::ius]
+  attributes: {}
+- name: repoforge
+  run_list:
+  - recipe[yum]
+  - recipe[yum_test::repoforge]
+  attributes: {}
+- name: yum
+  run_list:
+  - recipe[yum]
+  - recipe[yum_test::yum]
+  attributes: {}
+- name: remi
+  run_list:
+  - recipe[yum]
+  - recipe[yum_test::remi]
+  attributes: {}
+- name: cook-2121
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[yum]
+  - recipe[yum_test::cook-2121]
+  attributes: {}
