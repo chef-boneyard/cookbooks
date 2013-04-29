@@ -138,7 +138,7 @@ end
 
 # Calculate ServerLimit value from total memory available
 # ServerLimit = total memory (in MB)/512 MB
-total_mem_mb = memory[:total].to_i / 1024
+total_mem_mb = node[:memory][:total].to_i / 1024
 node[:apache][:prefork][:serverlimit] = total_mem_mb / 512
 
 # MaxClients value cannot be more than ServerLimit. Therefore, set MaxClients
