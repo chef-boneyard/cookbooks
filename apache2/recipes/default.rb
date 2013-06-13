@@ -136,15 +136,6 @@ directory node[:apache][:cache_dir] do
   group node[:apache][:group]
 end
 
-# Calculate ServerLimit value from total memory available
-# ServerLimit = total memory (in MB)/512 MB
-total_mem_mb = node[:memory][:total].to_i / 1024
-node[:apache][:prefork][:serverlimit] = total_mem_mb / 512
-
-# MaxClients value cannot be more than ServerLimit. Therefore, set MaxClients
-# same as ServerLimit value
-node[:apache][:prefork][:maxclients] = node[:apache][:prefork][:serverlimit]
-
 template "apache2.conf" do
   case node[:platform]
   when "redhat", "centos", "scientific", "fedora", "arch"
