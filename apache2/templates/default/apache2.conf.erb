@@ -77,7 +77,7 @@ KeepAliveTimeout <%= node[:apache][:keepalivetimeout] %>
     MaxSpareThreads       <%= node[:apache][:worker][:maxsparethreads] %>
     ThreadsPerChild       <%= node[:apache][:worker][:threadsperchild] %>
     MaxRequestsPerChild   <%= node[:apache][:worker][:maxrequestsperchild] %>
-    ServerLimit		  			<%= node[:apache][:worker][:serverlimit] %>
+    ServerLimit           <%= node[:apache][:worker][:serverlimit] %>
 </IfModule>
 
 User <%= node[:apache][:user] %>
