@@ -1,6 +1,0 @@
-tmp/*
-.chef
-.rake_test_cache
-*.swp
-*.swo
-*~
